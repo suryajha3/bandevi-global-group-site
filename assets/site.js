@@ -24,6 +24,13 @@ const navItems = [
   ["Contact", "contact.html", "contact"]
 ];
 
+const socialLinks = [
+  ["Facebook", "https://www.facebook.com/profile.php?id=61591222415314"],
+  ["Instagram", "https://www.instagram.com/bandeviglobalgroup/"],
+  ["LinkedIn", "https://www.linkedin.com/in/bandeviglobal-group-38584b419/"],
+  ["X", "https://x.com/BANDEVIGLOBAL"]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 
@@ -688,6 +695,10 @@ function portalPage() {
 }
 
 function footer() {
+  const socialItems = socialLinks.map(([label, href]) => (
+    `<li><a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="BANDEVI GLOBAL GROUP on ${label}">${label}</a></li>`
+  )).join("");
+
   return `
     <footer class="footer">
       <div class="footer-grid">
@@ -719,6 +730,7 @@ function footer() {
             <li><a href="contact.html">Contact</a></li>
             <li><a href="demo-request.html">Demo Request</a></li>
             <li><a href="customer-portal.html">Customer Portal</a></li>
+            ${socialItems}
           </ul>
         </div>
       </div>
