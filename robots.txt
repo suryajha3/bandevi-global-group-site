@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: sitemap.xml
+Sitemap: https://bandeviglobalgroup.com/sitemap.xml
+
