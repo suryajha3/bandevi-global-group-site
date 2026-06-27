@@ -814,14 +814,139 @@ function casesPage() {
   `;
 }
 
-const posts = [
-  ["CRM", "How travel teams can stop losing leads after the first inquiry", "A practical look at response ownership, lead stages, follow-up timing, and source visibility."],
-  ["ERP", "Why booking files should connect sales, suppliers, and finance", "The operational benefits of joining documents, service items, invoices, payments, and margin reporting."],
-  ["Portal", "Customer portals as a premium service differentiator", "How portals can reduce repetitive status questions while making the travel brand feel more organized."],
-  ["Web", "What a travel technology website must prove in the first minute", "Trust signals, product clarity, service depth, lead paths, and credible digital presentation."],
-  ["Automation", "Where automation helps travel consultants most", "Reminder flows, document requests, task routing, reporting, and customer communication patterns."],
-  ["Growth", "Using data to improve travel sales performance", "How source quality, response time, proposal speed, and lost-lead reasons shape better management decisions."]
+const blogArticles = [
+  {
+    key: "blogTravelCrm",
+    slug: "travel-crm-software-for-agencies",
+    tag: "Travel CRM",
+    title: "Travel CRM Software for Agencies",
+    description: "How travel agencies can use CRM software to capture leads, assign follow-ups, manage quotations, and improve booking conversion.",
+    intro: "Travel agencies lose growth when enquiries sit in inboxes, WhatsApp chats, spreadsheets, and personal notebooks. A travel CRM gives the sales team one controlled place to capture every lead, understand the customer, follow up on time, and measure what is working.",
+    highlights: ["Central enquiry capture from website, calls, WhatsApp, campaigns, and referrals", "Lead ownership, quotation stages, reminders, and customer history", "Visibility into source quality, response speed, lost reasons, and booking potential"],
+    sections: [
+      { title: "Why generic CRM is not enough", text: "Travel sales has its own rhythm. A customer may ask about destination, dates, budget, hotel category, visa help, flights, insurance, transfers, and payment options before confirming. A travel CRM should keep those details close to the lead record instead of forcing consultants into a generic sales pipeline.", bullets: ["Trip interest profile with destinations, dates, pax count, and budget", "Quotation stages for FIT, group, MICE, pilgrimage, and corporate requests", "Lost reason tracking for price, availability, response delay, or customer postponement"] },
+      { title: "What a strong travel CRM should include", text: "The best CRM setup protects the enquiry from the first touch to the final booking handoff. It gives consultants daily clarity and gives owners visibility into performance.", bullets: ["Lead assignment and priority queues", "Follow-up reminders and next-action tracking", "Customer profile and communication notes", "Source, campaign, and conversion dashboards"] },
+      { title: "How BANDEVI supports this", text: "BANDEVI GLOBAL GROUP builds CRM flows around the way travel teams actually work. The system can connect your website forms, WhatsApp handoff, quotation process, customer records, and reporting into one sales engine.", bullets: ["Website and demo forms connected to CRM-ready lead data", "Product modules for CRM, ERP, portal, and automation rollout", "Dashboards for leadership and daily team review"] }
+    ],
+    faqs: [
+      ["What is travel CRM software?", "Travel CRM software helps agencies manage enquiries, customers, quotations, follow-ups, campaigns, sales ownership, and conversion reporting."],
+      ["Can a small agency use travel CRM?", "Yes. A small agency can start with lead capture, follow-up tracking, customer profiles, and basic reports, then expand into ERP and portals later."],
+      ["Does travel CRM connect with a website?", "Yes. Website contact forms, demo requests, campaign pages, and WhatsApp handoffs can feed structured lead details into the sales process."]
+    ],
+    links: [["Explore Travel CRM", "/travel-crm/"], ["Request Demo", "/demo-request/"]]
+  },
+  {
+    key: "blogTravelErp",
+    slug: "travel-erp-system-for-tour-operators",
+    tag: "Travel ERP",
+    title: "Travel ERP System for Tour Operators",
+    description: "A practical guide to Travel ERP for tour operators managing bookings, suppliers, payments, documents, margins, and operations.",
+    intro: "Tour operators need more than lead tracking. Once a trip is confirmed, the business must coordinate services, suppliers, passenger details, documents, invoices, payments, approvals, and delivery status. A Travel ERP turns that operational work into a controlled system.",
+    highlights: ["Booking files for passenger, itinerary, service, and document details", "Supplier, payment, invoice, approval, and margin visibility", "Operations dashboards for confirmed work and delivery status"],
+    sections: [
+      { title: "Where tour operators lose control", text: "Operations become difficult when sales, supplier coordination, finance, and customer communication happen in separate tools. A confirmed booking should not become a scattered set of messages and spreadsheets.", bullets: ["Supplier confirmations stay outside the booking file", "Payments and invoices are checked manually", "Passenger documents are requested repeatedly", "Leadership cannot see margin and workload quickly"] },
+      { title: "Core Travel ERP modules", text: "A good ERP should keep every confirmed booking organized from quote to closure. It should make team ownership, financial status, and supplier work easy to review.", bullets: ["Booking file management", "Supplier and service inventory", "Invoices, receipts, refunds, and credit notes", "Approval paths for discounts, exceptions, and payments"] },
+      { title: "Why ERP and CRM should connect", text: "When CRM and ERP are joined, confirmed sales can move into operations without data loss. This makes the customer journey smoother and reduces repeated data entry.", bullets: ["Sales handoff from lead to booking", "Customer history carried into service delivery", "Revenue and margin reporting connected to sales source", "Better accountability from consultant to operations team"] }
+    ],
+    faqs: [
+      ["What is Travel ERP?", "Travel ERP is an operations system for managing bookings, suppliers, services, documents, finance, approvals, and reporting in travel businesses."],
+      ["Who needs Travel ERP?", "Tour operators, DMCs, travel agencies, consolidators, and corporate travel desks can use ERP when confirmed bookings need stronger control."],
+      ["Can ERP start with only one module?", "Yes. Many businesses start with booking files or supplier coordination, then add finance, approvals, and reporting."]
+    ],
+    links: [["Explore Travel ERP", "/travel-erp/"], ["CRM & ERP Solutions", "/crm-erp-solutions/"]]
+  },
+  {
+    key: "blogLeadBooking",
+    slug: "lead-booking-management-for-travel-companies",
+    tag: "Lead management",
+    title: "Lead & Booking Management for Travel Companies",
+    description: "How travel companies can connect lead capture, quotation tracking, booking files, follow-ups, and customer communication.",
+    intro: "A travel business grows when it can move smoothly from enquiry to quotation, from quotation to confirmation, and from confirmation to service delivery. Lead and booking management connects those steps so nothing important disappears between teams.",
+    highlights: ["Capture leads from website, WhatsApp, calls, campaigns, and partner channels", "Track quotation status, follow-ups, lost reasons, and sales ownership", "Convert confirmed enquiries into booking files with service and document details"],
+    sections: [
+      { title: "The gap between sales and operations", text: "Most problems happen in the handoff. Sales has the customer context, operations needs the service details, and finance needs the billing picture. A shared workflow keeps everyone aligned.", bullets: ["Lead owner and next action are clear", "Quotation stage is visible", "Confirmed booking creates an operations file", "Documents, payments, and suppliers are tracked together"] },
+      { title: "What to measure", text: "Lead and booking management is not only about storage. It should help leadership see which sources convert, where delays happen, and which bookings need attention.", bullets: ["Response time by source", "Follow-up discipline by team", "Quote-to-booking conversion", "Open booking workload", "Lost reasons and revenue pipeline"] },
+      { title: "How automation helps", text: "Automation can reduce repeated manual work. It can route enquiries, remind consultants, request documents, notify operations, and prepare reports.", bullets: ["Lead routing by service or source", "Follow-up reminders", "Document request triggers", "Booking status notifications", "Daily reporting summaries"] }
+    ],
+    faqs: [
+      ["What is lead and booking management?", "It is the process of tracking enquiries, quotations, follow-ups, confirmations, booking files, documents, suppliers, and customer communication together."],
+      ["Can WhatsApp enquiries be managed?", "Yes. WhatsApp handoffs can be structured so lead details are ready for the sales team instead of staying as loose chat messages."],
+      ["Why connect lead and booking data?", "Connected data helps teams avoid duplicate work, missed details, delayed handoffs, and unclear ownership."]
+    ],
+    links: [["Lead & Booking Management", "/lead-booking-management/"], ["Request Demo", "/demo-request/"]]
+  },
+  {
+    key: "blogCustomerPortal",
+    slug: "customer-portal-for-travel-agencies",
+    tag: "Customer portal",
+    title: "Customer Portal for Travel Agencies",
+    description: "Why travel agencies should use customer portals for trip status, invoices, documents, support requests, and premium service delivery.",
+    intro: "Customers expect clear updates after they book. A customer portal gives them a controlled place to view trip status, invoices, documents, support requests, and milestones without repeatedly asking the team for the same information.",
+    highlights: ["Trip status, invoices, receipts, vouchers, and document access", "Support requests and customer communication in one place", "A premium digital experience for leisure, corporate, and partner customers"],
+    sections: [
+      { title: "Why portals improve customer trust", text: "Travel involves many moving parts. When customers can see important updates in a portal, the agency feels more organized and premium.", bullets: ["Clear trip and service status", "Document availability in one place", "Invoice and receipt access", "Support request history", "Reduced repetitive status questions"] },
+      { title: "Portal features to start with", text: "The first portal release does not need to be complicated. It should solve the most frequent customer communication problems.", bullets: ["Secure login", "Booking or trip dashboard", "Document and voucher section", "Invoices and payment status", "Support ticket form", "Profile and traveller details"] },
+      { title: "How portals connect with CRM and ERP", text: "A customer portal becomes more useful when it reads from CRM and ERP records. Sales, operations, finance, and customers can work from the same truth.", bullets: ["CRM stores customer and enquiry history", "ERP stores booking, supplier, document, and invoice details", "Portal shows controlled customer-facing information", "Support requests flow back to the team"] }
+    ],
+    faqs: [
+      ["What is a travel customer portal?", "It is a secure online area where customers can view trip details, documents, invoices, requests, and updates."],
+      ["Can corporate clients use a portal?", "Yes. Corporate travel desks can use portals for traveller profiles, approvals, invoices, service requests, and reporting access."],
+      ["Does a portal replace support?", "No. It supports the service team by reducing repeated requests and keeping communication organized."]
+    ],
+    links: [["Customer Portal", "/customer-portal/"], ["Explore Products", "/it-products/"]]
+  },
+  {
+    key: "blogAutomation",
+    slug: "business-automation-for-travel-companies",
+    tag: "Automation",
+    title: "Why Travel Companies Need Business Automation",
+    description: "How business automation helps travel companies improve lead response, follow-ups, document requests, task routing, reports, and customer updates.",
+    intro: "Travel teams handle many repeated actions every day: assigning leads, reminding consultants, requesting documents, updating customers, checking payments, and preparing reports. Business automation reduces the manual pressure so teams can focus on selling and serving.",
+    highlights: ["Automated lead routing, reminders, task queues, and document requests", "Customer communication and booking status updates", "Reports for sales, workload, conversion, and service performance"],
+    sections: [
+      { title: "Where automation creates quick wins", text: "The best starting point is any repeated task that slows the team down or creates missed follow-ups.", bullets: ["Lead assignment from website forms", "Follow-up reminders after quotation", "Document request messages", "Payment status notifications", "Task routing to operations or support", "Daily management reports"] },
+      { title: "Automation should support people", text: "Automation is not about removing the human touch. It should make consultants and support teams faster, clearer, and more consistent.", bullets: ["Keep important reminders visible", "Reduce repeated typing", "Make ownership clear", "Give customers timely updates", "Help managers see exceptions earlier"] },
+      { title: "How to plan automation safely", text: "Automation works best when the business workflow is clear first. BANDEVI maps the current process, chooses useful triggers, and launches controlled automations that teams can understand.", bullets: ["Map current manual work", "Define trigger points", "Keep messages professional and brand-aligned", "Test with real team scenarios", "Review time saved and missed-task reduction"] }
+    ],
+    faqs: [
+      ["What is business automation in travel?", "It is the use of workflows, reminders, notifications, routing, and reports to reduce repeated manual tasks in travel sales and operations."],
+      ["Can automation work with CRM?", "Yes. CRM automation can assign leads, schedule follow-ups, track stages, and notify teams when action is needed."],
+      ["What should be automated first?", "Start with lead routing, follow-up reminders, document requests, and daily reports because they usually create fast operational value."]
+    ],
+    links: [["Business Automation", "/business-automation/"], ["Request Demo", "/demo-request/"]]
+  },
+  {
+    key: "blogCorporateWebsiteCrm",
+    slug: "corporate-website-crm-for-travel-businesses",
+    tag: "Website + CRM",
+    title: "Corporate Website + CRM for Travel Businesses",
+    description: "Why travel businesses should connect a premium corporate website with CRM to improve trust, lead capture, follow-up, and sales visibility.",
+    intro: "A premium corporate website builds trust, but it becomes much more powerful when every enquiry flows into a CRM process. The website attracts and convinces; the CRM protects the lead and turns interest into follow-up discipline.",
+    highlights: ["Premium service pages, product storytelling, trust sections, and demo paths", "Lead forms connected to structured sales follow-up", "Better visibility from website visitor to qualified enquiry"],
+    sections: [
+      { title: "What the website must prove", text: "Visitors quickly judge whether a travel technology or service brand feels credible. The website should make the offer clear, show the product ecosystem, and guide visitors toward a useful action.", bullets: ["Clear home, about, product, service, blog, contact, and demo pages", "Trust sections and office/service network", "Simple calls to action for WhatsApp, call, contact, and demo", "SEO structure for important service keywords"] },
+      { title: "Why CRM should sit behind the website", text: "Without CRM, website enquiries can become scattered messages. With CRM, every form submission becomes a lead with context, ownership, and next action.", bullets: ["Lead source and page context", "Product interest and business type", "Preferred contact method", "Timeline and budget direction", "Follow-up reminders and sales reporting"] },
+      { title: "The BANDEVI approach", text: "BANDEVI GLOBAL GROUP builds the website and the system story together. That means your pages, demo form, WhatsApp handoff, CRM fields, and reporting can all support the same sales process.", bullets: ["Premium corporate website design", "SEO pages for travel CRM, ERP, portal, automation, and IT services", "Demo and contact forms shaped for sales qualification", "Phased CRM, ERP, portal, and automation roadmap"] }
+    ],
+    faqs: [
+      ["Why connect a website with CRM?", "It helps the business capture enquiries in a structured way, assign owners, follow up faster, and measure which pages or sources generate leads."],
+      ["Can a website launch before CRM?", "Yes. A website can launch first with CRM-ready forms and WhatsApp handoffs, then connect deeper CRM workflows later."],
+      ["What pages should a travel technology website include?", "Core pages include home, about, products, travel CRM, travel ERP, IT solutions, blog, contact, demo request, and customer portal."]
+    ],
+    links: [["Website & Mobile App Development", "/website-mobile-app-development/"], ["Explore Products", "/it-products/"]]
+  }
 ];
+
+const posts = blogArticles;
+
+Object.assign(pageData, Object.fromEntries(blogArticles.map((article) => [
+  article.key,
+  {
+    title: article.title,
+    eyebrow: article.tag,
+    lede: article.description
+  }
+])));
 
 function blogPreview() {
   return `
@@ -838,12 +963,12 @@ function blogPreview() {
 }
 
 function blogCards(items) {
-  return `<div class="grid cols-3">${items.map(([tag, title, text], index) => `
+  return `<div class="grid cols-3">${items.map((article) => `
     <article class="card blog-card">
-      <time>${tag} insight</time>
-      <h3>${title}</h3>
-      <p>${text}</p>
-      <a href="/blog/#post-${index + 1}">Read more ${icons.arrow}</a>
+      <time>${article.tag} guide</time>
+      <h3>${article.title}</h3>
+      <p>${article.description}</p>
+      <a href="/blog/${article.slug}/">Read article ${icons.arrow}</a>
     </article>
   `).join("")}</div>`;
 }
@@ -857,18 +982,91 @@ function blogPage() {
           <p>Use the blog to support SEO, educate prospects, and show the market that BANDEVI GLOBAL GROUP understands travel operations.</p>
         </div>
         <div class="grid cols-3">
-          ${posts.map(([tag, title, text], index) => `
-            <article class="card blog-card" id="post-${index + 1}">
-              <time>${tag}</time>
-              <h3>${title}</h3>
-              <p>${text}</p>
-              <a href="/demo-request/">Discuss this topic ${icons.arrow}</a>
+          ${posts.map((article) => `
+            <article class="card blog-card" id="${article.slug}">
+              <time>${article.tag}</time>
+              <h3>${article.title}</h3>
+              <p>${article.description}</p>
+              <a href="/blog/${article.slug}/">Read article ${icons.arrow}</a>
             </article>
           `).join("")}
         </div>
       </div>
     </section>
     ${cta("Turn insights into qualified conversations.", "Use the blog as a sales asset linked to demo requests and product pages.")}
+  `;
+}
+
+function blogArticlePage(key) {
+  const article = blogArticles.find((item) => item.key === key) || blogArticles[0];
+  return `
+    <section class="section">
+      <div class="container article-layout">
+        <article class="article-body">
+          <span class="eyebrow">${article.tag} guide</span>
+          <h2>${article.title}</h2>
+          <p class="muted article-intro">${article.intro}</p>
+          ${list(article.highlights)}
+          ${article.sections.map((section) => `
+            <section class="article-block">
+              <h3>${section.title}</h3>
+              <p>${section.text}</p>
+              ${list(section.bullets)}
+            </section>
+          `).join("")}
+        </article>
+        <aside class="article-aside card">
+          <span class="eyebrow">Next step</span>
+          <h3>Turn this guide into a working system.</h3>
+          <p>Share your current workflow and BANDEVI GLOBAL GROUP can map the right website, CRM, ERP, portal, or automation release.</p>
+          <div class="inline-actions">
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Frequently asked questions.</h2>
+          <p>Short answers for business owners, sales leaders, operations teams, and travel technology buyers.</p>
+        </div>
+        <div class="grid cols-3">
+          ${article.faqs.map(([question, answer]) => `
+            <article class="card">
+              <h3>${question}</h3>
+              <p>${answer}</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Related BANDEVI pages.</h2>
+          <p>Continue from the article into the matching product, service, or demo path.</p>
+        </div>
+        <div class="grid cols-3">
+          ${article.links.map(([label, href]) => `
+            <article class="card blog-card">
+              <time>Related page</time>
+              <h3>${label}</h3>
+              <p>Open the matching BANDEVI GLOBAL GROUP page and continue the conversation.</p>
+              <a href="${href}">Open page ${icons.arrow}</a>
+            </article>
+          `).join("")}
+          <article class="card blog-card">
+            <time>Blog</time>
+            <h3>More travel technology guides</h3>
+            <p>Read more articles on CRM, ERP, portals, automation, websites, and travel operations.</p>
+            <a href="/blog/">Back to blog ${icons.arrow}</a>
+          </article>
+        </div>
+      </div>
+    </section>
+    ${cta("Build a stronger digital sales and operations engine.", "Use these SEO guides as the starting point for a real website, CRM, ERP, portal, or automation rollout.")}
   `;
 }
 
@@ -1267,6 +1465,10 @@ const pageRenderers = {
   demo: demoPage,
   portal: portalPage
 };
+
+blogArticles.forEach((article) => {
+  pageRenderers[article.key] = () => blogArticlePage(article.key);
+});
 
 function bindNav() {
   const toggle = document.querySelector("[data-nav-toggle]");
