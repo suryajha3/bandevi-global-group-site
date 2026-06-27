@@ -40,6 +40,19 @@ const contactInfo = {
   whatsapp: "https://wa.me/918287669022"
 };
 
+const officeLocations = [
+  ["Delhi", "Third Floor, Gulshan Park, H-30, Plot No. 6 & 7, Vijay Chowk Area, Laxmi Nagar, Delhi 110092"],
+  ["Pune", "Spacelane 15/a, 4th Floor, A Building, City Vista, Fountain Road, Ashoka Nagar, Kharadi, Pune, Maharashtra 411014"],
+  ["Gurgaon", "7th Floor, 704 Palm Court, Mehrauli Gurugram Road, Sector 16, Gurgaon, Haryana 122001"],
+  ["Mumbai", "1st Floor, Sai Dham Housing Society, B-2, Marol Naka, Andheri East, Mumbai 400059"],
+  ["Bangalore", "561, 32nd Cross Rd, 4th Block, Jayanagar, Bengaluru 560011"],
+  ["Kolkata", "2D, Bose Pukur Rd, Prantik Palli, Kasba, Kolkata 700042"],
+  ["Lucknow", "Radiant Complex, Cantonment Road, Lalbagh, Lucknow 226001"],
+  ["Dubai", "Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE"],
+  ["London", "71-75 Shelton Street, Covent Garden / Holborn, London WC2H 9JQ"],
+  ["United States", "216 W Garvey Avenue, Suite C, Monterey Park, California 91754"]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 
@@ -73,7 +86,7 @@ const pageData = {
   itProducts: {
     title: "IT Products & Software Solutions",
     eyebrow: "Software products",
-    lede: "Custom CRM, ERP, portals, e-commerce systems, web apps, mobile apps, and automation products for growing businesses."
+    lede: "A complete product suite for CRM, ERP, customer portals, booking operations, automation, websites, e-commerce, and business dashboards."
   },
   crmErp: {
     title: "CRM & ERP Solutions",
@@ -541,16 +554,19 @@ function itPage() {
 
 const landingPages = {
   itProducts: {
-    tag: "IT products",
-    title: "Build the software layer your business can grow on.",
-    intro: "BANDEVI GLOBAL GROUP designs practical software products for teams that need better visibility, faster customer response, and cleaner internal control.",
-    points: ["Custom CRM and ERP products for sales, operations, finance, and reporting", "Customer portals, admin panels, dashboards, and internal productivity systems", "Modular delivery so you can launch quickly and expand without rebuilding"],
+    tag: "Products & software",
+    title: "One product suite for sales, operations, customer service, and digital growth.",
+    intro: "BANDEVI GLOBAL GROUP builds practical software products for travel and service businesses that need stronger lead control, cleaner booking operations, premium customer experience, and better management visibility.",
+    points: ["Travel CRM and ERP products for sales, operations, finance, suppliers, and reporting", "Customer portals, admin panels, dashboards, booking desks, and internal productivity systems", "Websites, e-commerce platforms, mobile-ready experiences, automation, and analytics connected to real business workflows"],
     modules: [
-      { icon: "users", title: "CRM products", text: "Lead capture, assignment, follow-ups, customer records, quotation stages, and source reporting." },
-      { icon: "stack", title: "ERP products", text: "Operations workflows, approval paths, invoices, documents, supplier records, and dashboards." },
-      { icon: "globe", title: "Portal products", text: "Secure customer, partner, or staff portals for self-service access and controlled updates." }
+      { icon: "users", title: "Travel CRM", text: "Capture enquiries, assign sales owners, track quotation stages, manage follow-ups, and improve conversion visibility." },
+      { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, invoices, payments, approvals, documents, and operational reporting." },
+      { icon: "globe", title: "Customer Portal", text: "Give customers controlled access to trip status, invoices, documents, support requests, and project milestones." },
+      { icon: "plane", title: "Booking Desk", text: "Coordinate passenger data, packages, confirmations, vouchers, change requests, and service status." },
+      { icon: "shield", title: "Web & E-Commerce", text: "Launch premium corporate websites, landing pages, storefronts, service pages, and search-friendly lead paths." },
+      { icon: "chart", title: "Automation & Analytics", text: "Automate reminders, routing, reports, notifications, dashboards, and performance reviews." }
     ],
-    process: ["Discover the workflow", "Define the product modules", "Launch the first release", "Improve with data"]
+    process: ["Map business workflow", "Prioritize product modules", "Launch first release", "Improve with data"]
   },
   crmErp: {
     tag: "CRM & ERP",
@@ -628,6 +644,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -670,7 +687,77 @@ function landingPage(key) {
         </div>
       </div>
     </section>
+    ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function itProductUpgradeSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>A sales page for the complete BANDEVI product ecosystem.</h2>
+          <p>Each product can launch independently, then connect into a larger operating system for marketing, sales, service, finance, and leadership.</p>
+        </div>
+        <div class="grid cols-4">
+          ${[
+            ["Lead control", "Capture website, WhatsApp, phone, campaign, and partner enquiries into one structured sales flow."],
+            ["Booking control", "Move confirmed work into files, services, passengers, suppliers, documents, payments, and status tracking."],
+            ["Customer control", "Give customers and partners a premium portal experience with clean access to updates and documents."],
+            ["Management control", "Review conversion, workload, service quality, revenue, margin, and bottlenecks from dashboards."]
+          ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container split reverse">
+        <div class="media-frame"><img src="${heroImage}" alt="Global travel technology support network"></div>
+        <div>
+          <span class="eyebrow">Brand foundation</span>
+          <h2>Informed by real travel and hospitality operations.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP's product direction is shaped by the practical travel ecosystem behind The Holidays Group, a premium travel and hospitality brand serving families, honeymoon customers, corporate clients, travel agents, hotels, and global partners.</p>
+          <p class="muted">That gives the software a stronger point of view: travel systems must support trust, comfort, clear communication, documentation, faster coordination, and reliable service across locations.</p>
+          ${list(["Travel CRM and ERP workflows shaped around actual booking and service needs", "Premium website and portal design aligned with customer confidence", "Better coordination for sales, support, corporate travel, hotels, and partner teams", "Technology planning that understands travel, not only generic business software"])}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Why choose BANDEVI GLOBAL GROUP.</h2>
+          <p>Adapted from the same service principles behind The Holidays Group: premium planning, transparent communication, documentation, support, and long-term trust.</p>
+        </div>
+        ${cards([
+          { icon: "plane", title: "Travel-domain understanding", text: "Products are planned around enquiries, quotations, bookings, documents, suppliers, customers, corporate requests, and service follow-ups." },
+          { icon: "shield", title: "Professional documentation", text: "The delivery style supports clear scope, structured workflows, controlled handoffs, and cleaner records for daily teams." },
+          { icon: "users", title: "Dedicated assistance", text: "Clients get a partner for launch planning, team adoption, training, refinements, and future module expansion." },
+          { icon: "globe", title: "Multi-location thinking", text: "The product architecture can support branch teams, remote service, international customers, partner networks, and corporate desks." },
+          { icon: "chart", title: "Management visibility", text: "Dashboards and reports help leadership see response speed, conversion quality, workload, booking status, and performance." },
+          { icon: "stack", title: "Long-term product roadmap", text: "Start with the urgent workflow, then add CRM, ERP, portal, e-commerce, automation, and analytics without losing the core system." }
+        ], 3)}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Office and service network.</h2>
+          <p>The BANDEVI product story is supported by the wider travel group presence across India, Dubai, London, and the United States.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/contact-us/">Talk to Sales ${icons.arrow}</a>
+          <a class="button ghost" href="/demo-request/">Request Demo</a>
+        </div>
+      </div>
+    </section>
   `;
 }
 
