@@ -593,6 +593,13 @@ h1 {
   font-weight: 700;
 }
 
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
@@ -682,6 +689,12 @@ textarea:focus {
   margin: 12px 0 0;
 }
 
+.form-note a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .portal-panel {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.58fr);
@@ -743,6 +756,33 @@ textarea:focus {
 
 .bar.gold {
   background: rgba(198, 154, 68, 0.28);
+}
+
+.quick-contact {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 45;
+  display: flex;
+  gap: 10px;
+}
+
+.quick-contact a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #fff;
+  background: var(--teal);
+  box-shadow: 0 12px 26px rgba(4, 116, 129, 0.22);
+  font-weight: 800;
+}
+
+.quick-contact a:last-child {
+  background: var(--charcoal);
 }
 
 .blog-card {
@@ -963,6 +1003,7 @@ textarea:focus {
   }
 
   .hero-actions,
+  .inline-actions,
   .cta-inner,
   .footer-bottom {
     align-items: stretch;
@@ -996,5 +1037,17 @@ textarea:focus {
 
   .cta-inner {
     grid-template-columns: 1fr;
+  }
+
+  .quick-contact {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .quick-contact a {
+    flex: 1 1 0;
+    padding: 0 10px;
+    font-size: 0.9rem;
   }
 }

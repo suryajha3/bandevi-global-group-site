@@ -1,76 +1,105 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bandeviglobalgroup.com/</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/about.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/about-us/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/travel-crm.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/travel-crm/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/travel-erp/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/travel-erp.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/it-products/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/products.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/crm-erp-solutions/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/it-solutions.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/ecommerce-solutions/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/case-studies.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/website-mobile-app-development/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/business-automation/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/travel-technology/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/lead-booking-management/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/case-studies/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/blog.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/blog/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/support.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/support/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/contact.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/contact-us/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/demo-request.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/demo-request/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/customer-portal.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <loc>https://bandeviglobalgroup.com/customer-portal/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
 </urlset>
-

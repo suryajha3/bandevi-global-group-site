@@ -1,4 +1,4 @@
-const asset = (name) => `assets/${name}`;
+const asset = (name) => `/assets/${name}`;
 
 const icons = {
   arrow: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -10,18 +10,20 @@ const icons = {
   shield: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 6v6c0 4.3 2.8 7.4 7 9 4.2-1.6 7-4.7 7-9V6l-7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
   stack: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 8 4-8 4-8-4 8-4Zm8 8-8 4-8-4m16 4-8 4-8-4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
   users: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 19c0-2.2-1.8-4-4-4s-4 1.8-4 4m8-12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm3 12c0-1.7-.9-3.2-2.3-4m.8-11.5a3 3 0 0 1 0 5.8M5 19c0-1.7.9-3.2 2.3-4M6.5 3.5a3 3 0 0 0 0 5.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
-  mail: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16v12H4V6Zm1 1 7 6 7-6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>'
+  mail: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16v12H4V6Zm1 1 7 6 7-6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  phone: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L17 13l5 2v4c0 1.1-.9 2-2 2C10.6 21 3 13.4 3 4c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  message: '<svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
 };
 
 const navItems = [
-  ["Home", "index.html", "home"],
-  ["About", "about.html", "about"],
-  ["Travel CRM", "travel-crm.html", "crm"],
-  ["Travel ERP", "travel-erp.html", "erp"],
-  ["Products", "products.html", "products"],
-  ["IT Solutions", "it-solutions.html", "it"],
-  ["Blog", "blog.html", "blog"],
-  ["Contact", "contact.html", "contact"]
+  ["Home", "/", "home"],
+  ["About", "/about-us/", "about"],
+  ["Travel CRM", "/travel-crm/", "crm"],
+  ["Travel ERP", "/travel-erp/", "erp"],
+  ["Products", "/it-products/", "itProducts"],
+  ["IT Solutions", "/website-mobile-app-development/", "webApp"],
+  ["Blog", "/blog/", "blog"],
+  ["Contact", "/contact-us/", "contact"]
 ];
 
 const socialLinks = [
@@ -30,6 +32,13 @@ const socialLinks = [
   ["LinkedIn", "https://www.linkedin.com/in/bandeviglobal-group-38584b419/"],
   ["X", "https://x.com/BANDEVIGLOBAL"]
 ];
+
+const contactInfo = {
+  phoneDisplay: "+91 8287669022",
+  phoneHref: "tel:+918287669022",
+  email: "sales@bandeviglobalgroup.com",
+  whatsapp: "https://wa.me/918287669022"
+};
 
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
@@ -60,6 +69,41 @@ const pageData = {
     title: "Products",
     eyebrow: "Platform suite",
     lede: "Modular travel technology products that can launch together or phase in across sales, operations, finance, and customer self-service."
+  },
+  itProducts: {
+    title: "IT Products & Software Solutions",
+    eyebrow: "Software products",
+    lede: "Custom CRM, ERP, portals, e-commerce systems, web apps, mobile apps, and automation products for growing businesses."
+  },
+  crmErp: {
+    title: "CRM & ERP Solutions",
+    eyebrow: "Business systems",
+    lede: "Connected CRM and ERP systems that help teams manage sales, customers, operations, reports, approvals, and business workflows."
+  },
+  ecommerce: {
+    title: "E-Commerce Solutions",
+    eyebrow: "Digital commerce",
+    lede: "Secure e-commerce websites and platforms with product management, payment flows, customer experience, and growth-ready operations."
+  },
+  webApp: {
+    title: "Website & Mobile App Development",
+    eyebrow: "Digital delivery",
+    lede: "Professional websites, web apps, and mobile app development for brands that need polished design and reliable performance."
+  },
+  automation: {
+    title: "Business Automation",
+    eyebrow: "Workflow automation",
+    lede: "Automate leads, follow-ups, customer communication, task routing, reports, and daily business workflows."
+  },
+  travelTech: {
+    title: "Travel Technology",
+    eyebrow: "Travel systems",
+    lede: "Travel CRM, ERP, portals, booking workflows, supplier coordination, and analytics built for agencies, operators, and DMCs."
+  },
+  leadBooking: {
+    title: "Lead & Booking Management",
+    eyebrow: "Sales to operations",
+    lede: "Track travel inquiries, quotations, follow-ups, booking files, customer details, and team ownership in one controlled workflow."
   },
   it: {
     title: "IT Solutions",
@@ -110,7 +154,7 @@ function header(page) {
   return `
     <header class="topbar">
       <div class="nav-wrap">
-        <a class="brand" href="index.html" aria-label="BANDEVI GLOBAL GROUP home">
+        <a class="brand" href="/" aria-label="BANDEVI GLOBAL GROUP home">
           <span class="brand-mark">BG</span>
           <span class="brand-copy">
             <span class="brand-name">BANDEVI GLOBAL GROUP</span>
@@ -120,15 +164,17 @@ function header(page) {
         <nav class="primary-nav" aria-label="Primary navigation">
           ${links}
           <div class="mobile-nav-extra">
-            <a class="nav-link ${page === "cases" ? "is-active" : ""}" href="case-studies.html">Case Studies</a>
-            <a class="nav-link ${page === "support" ? "is-active" : ""}" href="support.html">Support</a>
-            <a class="nav-link ${page === "portal" ? "is-active" : ""}" href="customer-portal.html">Customer Portal</a>
-            <a class="nav-link ${page === "demo" ? "is-active" : ""}" href="demo-request.html">Demo Request</a>
+            <a class="nav-link ${page === "crmErp" ? "is-active" : ""}" href="/crm-erp-solutions/">CRM & ERP</a>
+            <a class="nav-link ${page === "automation" ? "is-active" : ""}" href="/business-automation/">Automation</a>
+            <a class="nav-link ${page === "cases" ? "is-active" : ""}" href="/case-studies/">Case Studies</a>
+            <a class="nav-link ${page === "support" ? "is-active" : ""}" href="/support/">Support</a>
+            <a class="nav-link ${page === "portal" ? "is-active" : ""}" href="/customer-portal/">Customer Portal</a>
+            <a class="nav-link ${page === "demo" ? "is-active" : ""}" href="/demo-request/">Demo Request</a>
           </div>
         </nav>
         <div class="nav-actions">
-          <a class="button secondary" href="customer-portal.html">Portal ${icons.shield}</a>
-          <a class="button primary" href="demo-request.html">Demo ${icons.arrow}</a>
+          <a class="button secondary" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
+          <a class="button primary" href="/demo-request/">Demo ${icons.arrow}</a>
           <button class="icon-button" type="button" aria-label="Open menu" data-nav-toggle>${icons.menu}</button>
         </div>
       </div>
@@ -139,13 +185,13 @@ function header(page) {
 function hero(page, data) {
   const actions = data.home ? `
     <div class="hero-actions">
-      <a class="button primary" href="demo-request.html">Request Demo ${icons.arrow}</a>
-      <a class="button secondary" href="products.html">Explore Products ${icons.stack}</a>
+      <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
+      <a class="button secondary" href="/it-products/">Explore Products ${icons.stack}</a>
     </div>
   ` : `
     <div class="hero-actions">
-      <a class="button primary" href="demo-request.html">Book a Demo ${icons.arrow}</a>
-      <a class="button secondary" href="contact.html">Contact Sales ${icons.mail}</a>
+      <a class="button primary" href="/demo-request/">Book a Demo ${icons.arrow}</a>
+      <a class="button secondary" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
     </div>
   `;
 
@@ -198,7 +244,7 @@ function cta(title = "Ready to modernize your travel business?", text = "Build t
           <h2>${title}</h2>
           <p>${text}</p>
         </div>
-        <a class="button primary" href="demo-request.html">Request Demo ${icons.arrow}</a>
+        <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
       </div>
     </section>
   `;
@@ -415,6 +461,141 @@ function itPage() {
   `;
 }
 
+const landingPages = {
+  itProducts: {
+    tag: "IT products",
+    title: "Build the software layer your business can grow on.",
+    intro: "BANDEVI GLOBAL GROUP designs practical software products for teams that need better visibility, faster customer response, and cleaner internal control.",
+    points: ["Custom CRM and ERP products for sales, operations, finance, and reporting", "Customer portals, admin panels, dashboards, and internal productivity systems", "Modular delivery so you can launch quickly and expand without rebuilding"],
+    modules: [
+      { icon: "users", title: "CRM products", text: "Lead capture, assignment, follow-ups, customer records, quotation stages, and source reporting." },
+      { icon: "stack", title: "ERP products", text: "Operations workflows, approval paths, invoices, documents, supplier records, and dashboards." },
+      { icon: "globe", title: "Portal products", text: "Secure customer, partner, or staff portals for self-service access and controlled updates." }
+    ],
+    process: ["Discover the workflow", "Define the product modules", "Launch the first release", "Improve with data"]
+  },
+  crmErp: {
+    tag: "CRM & ERP",
+    title: "Connect sales, operations, and reporting in one business system.",
+    intro: "A joined CRM and ERP setup helps growing companies stop losing information between lead generation, customer handling, delivery, finance, and management review.",
+    points: ["CRM for lead ownership, follow-up discipline, customer profiles, and pipeline clarity", "ERP for operations, approvals, billing, supplier coordination, and reporting", "Dashboards that help leadership see conversion, workload, revenue, and bottlenecks"],
+    modules: [
+      { icon: "users", title: "Sales control", text: "Capture every inquiry, assign ownership, track stages, and manage follow-up reminders." },
+      { icon: "shield", title: "Operational control", text: "Move confirmed work into delivery workflows with approvals, documents, and task queues." },
+      { icon: "chart", title: "Management control", text: "Use reports to measure source quality, performance, turnaround time, and profitability." }
+    ],
+    process: ["Map current work", "Design CRM stages", "Connect ERP workflows", "Train and optimize"]
+  },
+  ecommerce: {
+    tag: "E-commerce",
+    title: "Launch an online store that feels credible and easy to manage.",
+    intro: "BANDEVI GLOBAL GROUP builds e-commerce websites and platforms that combine storefront experience with product management, payments, operations, and customer communication.",
+    points: ["Responsive storefronts with product catalogs, offers, search, and checkout paths", "Payment, order, inventory, customer, and notification workflows", "Admin tools and reporting for daily management and growth campaigns"],
+    modules: [
+      { icon: "globe", title: "Storefront", text: "Modern product pages, category flows, trust sections, and conversion-focused purchase journeys." },
+      { icon: "stack", title: "Operations", text: "Order handling, product updates, payment status, customer records, and internal controls." },
+      { icon: "chart", title: "Growth", text: "Campaign landing pages, analytics, source tracking, and repeat-customer communication." }
+    ],
+    process: ["Structure catalog", "Design storefront", "Connect payments", "Launch campaigns"]
+  },
+  webApp: {
+    tag: "Web & mobile",
+    title: "Professional websites, web apps, and mobile experiences for modern businesses.",
+    intro: "From a premium corporate website to internal dashboards and mobile-first customer experiences, the delivery focuses on clarity, speed, trust, and business usefulness.",
+    points: ["Corporate websites with strong positioning, SEO structure, forms, and conversion paths", "Web applications for dashboards, portals, workflows, and admin teams", "Mobile app planning and delivery for customer access, service, and engagement"],
+    modules: [
+      { icon: "globe", title: "Corporate website", text: "Premium pages, service storytelling, lead capture, SEO metadata, analytics, and responsive layouts." },
+      { icon: "stack", title: "Web application", text: "Admin dashboards, role-based tools, portals, data views, workflows, and integrations." },
+      { icon: "phone", title: "Mobile experience", text: "Mobile app and mobile-first interface planning for customers, staff, and service workflows." }
+    ],
+    process: ["Plan content", "Design interface", "Build and test", "Launch and measure"]
+  },
+  automation: {
+    tag: "Automation",
+    title: "Automate the repetitive work that slows down sales and service.",
+    intro: "Business automation helps teams respond faster, keep follow-ups consistent, move data between tools, and reduce manual reporting pressure.",
+    points: ["Lead routing, reminders, status updates, and customer communication flows", "Task queues, approvals, document requests, and internal notifications", "Reporting automations that reduce spreadsheet work and improve visibility"],
+    modules: [
+      { icon: "users", title: "Lead automation", text: "Route inquiries by source, service, branch, or team and keep follow-up ownership visible." },
+      { icon: "shield", title: "Workflow automation", text: "Trigger tasks, approvals, reminders, and document requests at the right stage." },
+      { icon: "chart", title: "Report automation", text: "Generate management views for pipeline, workload, turnaround time, and outcomes." }
+    ],
+    process: ["Find repeat work", "Define triggers", "Build automation", "Measure time saved"]
+  },
+  travelTech: {
+    tag: "Travel technology",
+    title: "Travel systems for agencies, tour operators, DMCs, and corporate desks.",
+    intro: "BANDEVI GLOBAL GROUP brings travel CRM, ERP, booking operations, supplier workflows, portals, and analytics into a more controlled digital ecosystem.",
+    points: ["Inquiry handling, quotation stages, itinerary discussions, and sales follow-up control", "Booking files, passenger details, documents, suppliers, payments, and finance visibility", "Customer portals and reporting that make service feel premium and organized"],
+    modules: [
+      { icon: "plane", title: "Travel CRM", text: "Manage inquiries, trip interests, quotations, follow-ups, campaigns, and customer history." },
+      { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, confirmations, invoices, payments, and margins." },
+      { icon: "globe", title: "Customer portal", text: "Give travelers and corporate clients access to documents, invoices, status, and support." }
+    ],
+    process: ["Audit workflow", "Prioritize modules", "Launch travel system", "Scale with reporting"]
+  },
+  leadBooking: {
+    tag: "Lead & booking",
+    title: "Move every travel inquiry from lead to booking without losing control.",
+    intro: "Lead and booking management connects inquiry capture, sales ownership, quotation tracking, operations handoff, booking files, and follow-up visibility.",
+    points: ["Capture leads from website, calls, WhatsApp, campaigns, and partner channels", "Track proposal status, reminders, lost reasons, and customer preferences", "Convert confirmed sales into structured booking files with documents and service items"],
+    modules: [
+      { icon: "users", title: "Lead desk", text: "Centralize inquiries, assign owners, set priority, and monitor response time." },
+      { icon: "plane", title: "Booking file", text: "Record passengers, services, suppliers, dates, payments, documents, and status." },
+      { icon: "chart", title: "Conversion view", text: "See sources, win rate, proposal speed, lost reasons, and upcoming revenue." }
+    ],
+    process: ["Capture inquiry", "Build quotation", "Confirm booking", "Track delivery"]
+  }
+};
+
+function landingPage(key) {
+  const page = landingPages[key];
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">${page.tag}</span>
+          <h2>${page.title}</h2>
+          <p class="muted">${page.intro}</p>
+          ${list(page.points)}
+          <div class="inline-actions">
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="${contactInfo.phoneHref}">Call ${icons.phone}</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="${page.title}"></div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>What this includes.</h2>
+          <p>Each page focuses on a service area that can become a standalone project or part of a larger digital system.</p>
+        </div>
+        ${cards(page.modules)}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head single">
+          <span class="eyebrow">Delivery path</span>
+          <h2>A simple path from idea to working system.</h2>
+        </div>
+        <div class="process">
+          ${page.process.map((item, index) => `
+            <div class="process-step">
+              <span>0${index + 1}</span>
+              <h3>${item}</h3>
+              <p>Keep the rollout clear, controlled, and useful for the team that will use it every day.</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
 function casesPage() {
   return `
     <section class="section">
@@ -479,7 +660,7 @@ function blogCards(items) {
       <time>${tag} insight</time>
       <h3>${title}</h3>
       <p>${text}</p>
-      <a href="blog.html#post-${index + 1}">Read more ${icons.arrow}</a>
+      <a href="/blog/#post-${index + 1}">Read more ${icons.arrow}</a>
     </article>
   `).join("")}</div>`;
 }
@@ -498,7 +679,7 @@ function blogPage() {
               <time>${tag}</time>
               <h3>${title}</h3>
               <p>${text}</p>
-              <a href="demo-request.html">Discuss this topic ${icons.arrow}</a>
+              <a href="/demo-request/">Discuss this topic ${icons.arrow}</a>
             </article>
           `).join("")}
         </div>
@@ -573,6 +754,10 @@ function contactForm(kind = "contact") {
             <option>Travel CRM</option>
             <option>Travel ERP</option>
             <option>Customer portal</option>
+            <option>CRM & ERP solutions</option>
+            <option>E-commerce solutions</option>
+            <option>Website & mobile app development</option>
+            <option>Business automation</option>
             <option>IT solutions</option>
           </select>
         </div>
@@ -605,9 +790,14 @@ function contactPage() {
           <h2>Bring your corporate website and travel systems into one plan.</h2>
           <p class="muted">Use the form to begin a conversation about web presence, CRM, ERP, portal, integrations, or ongoing IT support.</p>
           ${cards([
-            { icon: "mail", title: "Sales desk", text: "sales@bandeviglobalgroup.com" },
+            { icon: "mail", title: "Sales desk", text: contactInfo.email },
+            { icon: "phone", title: "Call or WhatsApp", text: contactInfo.phoneDisplay },
             { icon: "globe", title: "Delivery model", text: "Remote-first project delivery with structured discovery, design, build, and launch phases." }
-          ], 2)}
+          ], 3)}
+          <div class="inline-actions">
+            <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
+            <a class="button light" href="${contactInfo.phoneHref}">Call ${icons.phone}</a>
+          </div>
         </div>
         ${contactForm("contact")}
       </div>
@@ -694,6 +884,15 @@ function portalPage() {
   `;
 }
 
+function quickContact() {
+  return `
+    <div class="quick-contact" aria-label="Quick contact options">
+      <a href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
+      <a href="${contactInfo.phoneHref}">Call ${icons.phone}</a>
+    </div>
+  `;
+}
+
 function footer() {
   const socialItems = socialLinks.map(([label, href]) => (
     `<li><a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="BANDEVI GLOBAL GROUP on ${label}">${label}</a></li>`
@@ -709,34 +908,34 @@ function footer() {
         <div>
           <h4>Solutions</h4>
           <ul class="footer-links">
-            <li><a href="travel-crm.html">Travel CRM</a></li>
-            <li><a href="travel-erp.html">Travel ERP</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="it-solutions.html">IT Solutions</a></li>
+            <li><a href="/travel-crm/">Travel CRM</a></li>
+            <li><a href="/travel-erp/">Travel ERP</a></li>
+            <li><a href="/it-products/">Products</a></li>
+            <li><a href="/website-mobile-app-development/">IT Solutions</a></li>
           </ul>
         </div>
         <div>
           <h4>Company</h4>
           <ul class="footer-links">
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="case-studies.html">Case Studies</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="support.html">Support</a></li>
+            <li><a href="/about-us/">About Us</a></li>
+            <li><a href="/case-studies/">Case Studies</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/support/">Support</a></li>
           </ul>
         </div>
         <div>
           <h4>Connect</h4>
           <ul class="footer-links">
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="demo-request.html">Demo Request</a></li>
-            <li><a href="customer-portal.html">Customer Portal</a></li>
+            <li><a href="/contact-us/">Contact</a></li>
+            <li><a href="/demo-request/">Demo Request</a></li>
+            <li><a href="/customer-portal/">Customer Portal</a></li>
             ${socialItems}
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <small>&copy; 2026 BANDEVI GLOBAL GROUP. All rights reserved.</small>
-        <small>Travel technology, digital presence, and business systems.</small>
+        <small><a href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a> · <a href="mailto:${contactInfo.email}">${contactInfo.email}</a></small>
       </div>
     </footer>
   `;
@@ -748,6 +947,13 @@ const pageRenderers = {
   crm: crmPage,
   erp: erpPage,
   products: productsPage,
+  itProducts: () => landingPage("itProducts"),
+  crmErp: () => landingPage("crmErp"),
+  ecommerce: () => landingPage("ecommerce"),
+  webApp: () => landingPage("webApp"),
+  automation: () => landingPage("automation"),
+  travelTech: () => landingPage("travelTech"),
+  leadBooking: () => landingPage("leadBooking"),
   it: itPage,
   cases: casesPage,
   blog: blogPage,
@@ -774,10 +980,33 @@ function bindForms() {
       event.preventDefault();
       const note = form.querySelector(".form-note");
       const type = form.dataset.form;
+      if (type === "portal") {
+        if (note) note.textContent = "Portal access preview received.";
+        form.reset();
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      const label = type === "demo" ? "Demo request" : "Website inquiry";
+      const lines = [
+        `New ${label} from BANDEVI website`,
+        `Page: ${document.title}`,
+        `Name: ${data.name || ""}`,
+        `Company: ${data.company || ""}`,
+        `Email: ${data.email || ""}`,
+        `Phone: ${data.phone || ""}`,
+        `Interest: ${data.interest || ""}`,
+        `Timeline: ${data.timeline || ""}`,
+        `Message: ${data.message || ""}`
+      ].filter((line) => !line.endsWith(": "));
+
+      const message = lines.join("\n");
+      const whatsappUrl = `${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
+      const mailUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(label)}&body=${encodeURIComponent(message)}`;
+
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       if (note) {
-        note.textContent = type === "portal"
-          ? "Portal access preview received."
-          : "Thank you. The BANDEVI team will follow up with next steps.";
+        note.innerHTML = `Your lead message is ready. <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Send on WhatsApp</a> or <a href="${mailUrl}">send by email</a>.`;
       }
       form.reset();
     });
@@ -788,7 +1017,6 @@ function render() {
   const page = activePage();
   const data = pageData[page] || pageData.home;
   const main = pageRenderers[page] || homePage;
-  document.title = `${data.title} | BANDEVI GLOBAL GROUP`;
   document.getElementById("site").innerHTML = `
     <div class="site-shell">
       ${header(page)}
@@ -796,6 +1024,7 @@ function render() {
         ${hero(page, data)}
         ${main()}
       </main>
+      ${quickContact()}
       ${footer()}
     </div>
   `;
@@ -804,3 +1033,4 @@ function render() {
 }
 
 render();
+
