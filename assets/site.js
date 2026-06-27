@@ -53,7 +53,7 @@ const pageData = {
   about: {
     title: "About BANDEVI GLOBAL GROUP",
     eyebrow: "Company",
-    lede: "We design and deliver travel technology systems for agencies, tour operators, DMCs, consolidators, and corporate travel teams."
+    lede: "We help travel and service businesses build premium websites, CRM, ERP, portals, automation, and IT systems that support sales, operations, and customer experience."
   },
   crm: {
     title: "Travel CRM",
@@ -309,23 +309,101 @@ function aboutPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Who we are</span>
-          <h2>A travel technology partner for serious growth operators.</h2>
-          <p class="muted">BANDEVI GLOBAL GROUP focuses on digital systems that connect commercial teams, operations teams, finance teams, and customers. The goal is simple: help travel brands move with the polish of a premium enterprise while staying practical enough for daily use.</p>
-          ${list(["Travel domain understanding across sales, operations, and service", "Modular rollout paths for quick wins and controlled scale", "Premium digital presence aligned with marketing and sales goals", "Long-term technology support after launch"])}
+          <h2>A digital technology partner for ambitious travel and service brands.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP designs corporate websites, travel CRM, ERP, customer portals, and business automation systems for teams that want a more professional way to sell, operate, and serve customers.</p>
+          <p class="muted">Our work connects brand presence with practical software. The website helps create trust, the CRM protects every enquiry, the ERP brings control to bookings and finance, and portals give customers cleaner self-service.</p>
+          ${list(["Premium online presence for marketing and sales credibility", "Travel-first CRM and ERP workflows for daily teams", "Customer portals, lead management, and booking visibility", "Long-term improvement support after launch"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button ghost" href="/contact-us/">Contact Us</a>
+          </div>
         </div>
         <div class="media-frame"><img src="${heroImage}" alt="Travel technology operations center"></div>
       </div>
     </section>
     <section class="section mist">
       <div class="container">
+        <div class="section-head">
+          <h2>Built around the systems a growing travel business actually needs.</h2>
+          <p>Instead of treating design, software, and support as separate pieces, BANDEVI GLOBAL GROUP brings them into one practical digital growth stack.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card">
+            <strong>CRM</strong>
+            <p>Lead capture, follow-ups, quotation tracking, customer history, and sales visibility.</p>
+          </article>
+          <article class="card metric-card">
+            <strong>ERP</strong>
+            <p>Booking files, suppliers, operations, payments, approvals, and reporting control.</p>
+          </article>
+          <article class="card metric-card">
+            <strong>Portal</strong>
+            <p>Customer access for trip status, documents, invoices, service requests, and updates.</p>
+          </article>
+          <article class="card metric-card">
+            <strong>Web</strong>
+            <p>Corporate websites, landing pages, product pages, and conversion-focused contact paths.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head single">
+          <span class="eyebrow">What we build</span>
+          <h2>Technology that feels premium outside and disciplined inside.</h2>
+        </div>
+        ${cards([
+          { icon: "plane", title: "Travel CRM", text: "A sales workspace for enquiries, campaigns, agent ownership, follow-up reminders, proposals, and conversion reporting." },
+          { icon: "stack", title: "Travel ERP", text: "An operations backbone for bookings, suppliers, finance, approvals, documents, team workload, and management reports." },
+          { icon: "globe", title: "Corporate websites", text: "Premium pages for company profile, products, services, blogs, demo requests, and search-friendly lead generation." },
+          { icon: "shield", title: "Portals and automation", text: "Customer portals, internal dashboards, WhatsApp handoffs, task routing, and repeatable workflows for service teams." }
+        ], 4)}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How we work with clients.</h2>
+          <p>Every project starts with business clarity first, then moves into design, build, launch, and measured improvement.</p>
+        </div>
+        <div class="process">
+          ${[
+            ["Discover", "Understand services, users, lead sources, operations, reporting needs, and launch priorities."],
+            ["Design", "Shape the website structure, software modules, customer journeys, and approval flows."],
+            ["Build", "Create responsive pages, CRM/ERP workflows, portal experiences, integrations, and admin controls."],
+            ["Support", "Refine content, train teams, review usage, improve conversion paths, and add new modules."]
+          ].map((item, index) => `
+            <div class="process-step">
+              <span>0${index + 1}</span>
+              <h3>${item[0]}</h3>
+              <p>${item[1]}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container split reverse">
+        <div class="media-frame"><img src="${productImage}" alt="Travel CRM and ERP dashboard screens"></div>
+        <div>
+          <span class="eyebrow">Who we serve</span>
+          <h2>For teams that want better control from first lead to final service.</h2>
+          <p class="muted">The company is built for organizations where brand trust, fast response, booking accuracy, and customer communication directly affect revenue.</p>
+          ${list(["Travel agencies and tour operators", "Destination management companies and consolidators", "Corporate travel desks and service teams", "Growing businesses that need CRM, ERP, portals, websites, and automation"])}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
         <div class="section-head single">
           <span class="eyebrow">Operating principles</span>
-          <h2>Premium outside, disciplined inside.</h2>
+          <h2>Clear systems, practical delivery, and long-term trust.</h2>
         </div>
         ${cards([
           { icon: "shield", title: "Trust by design", text: "Clear data flows, permissions, auditability, and operational controls are treated as product essentials." },
-          { icon: "chart", title: "Measurable outcomes", text: "Projects are mapped to conversion speed, margin visibility, staff productivity, and customer satisfaction." },
-          { icon: "globe", title: "Global-ready delivery", text: "Systems are structured for multi-branch teams, remote service, supplier networks, and international customers." }
+          { icon: "chart", title: "Measurable outcomes", text: "Projects are mapped to response speed, conversion visibility, staff productivity, and customer satisfaction." },
+          { icon: "users", title: "Team adoption", text: "Interfaces are designed for real daily users so sales, support, operations, and leadership can work with confidence." }
         ])}
       </div>
     </section>
