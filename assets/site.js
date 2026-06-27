@@ -141,12 +141,12 @@ const pageData = {
   contact: {
     title: "Contact",
     eyebrow: "Start a conversation",
-    lede: "Talk to BANDEVI GLOBAL GROUP about CRM, ERP, portals, website projects, and IT services for your travel business."
+    lede: "Talk to BANDEVI GLOBAL GROUP about CRM, ERP, portals, website projects, automation, IT services, and office support."
   },
   demo: {
     title: "Demo Request",
     eyebrow: "See the platform",
-    lede: "Request a guided walkthrough of the travel CRM, ERP, products, portal experience, and implementation roadmap."
+    lede: "Request a guided walkthrough of the travel CRM, ERP, products, portal experience, website strategy, and implementation roadmap."
   },
   portal: {
     title: "Customer Portal",
@@ -249,6 +249,10 @@ function list(items) {
   return `<ul class="feature-list">${items.map((item) => `<li><span class="check">&#10003;</span><span>${item}</span></li>`).join("")}</ul>`;
 }
 
+function optionList(items) {
+  return items.map((item) => `<option>${item}</option>`).join("");
+}
+
 function cta(title = "Ready to modernize your travel business?", text = "Build the website, CRM, ERP, and customer portal around one clear growth story.") {
   return `
     <section class="cta-band">
@@ -287,6 +291,20 @@ function homePage() {
           ${list(["CRM for inquiries, quotations, follow-ups, campaigns, and customer profiles", "ERP for booking files, suppliers, invoices, approvals, and reporting", "Customer portal for documents, invoices, tickets, and trip status", "IT services for websites, integrations, automation, cloud, and security"])}
         </div>
         <div class="media-frame"><img src="${productImage}" alt="Premium travel software dashboard mockup"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Why choose BANDEVI GLOBAL GROUP.</h2>
+          <p>Technology delivery shaped by real travel service needs: fast response, clear documentation, premium customer confidence, and long-term operational control.</p>
+        </div>
+        ${cards([
+          { icon: "plane", title: "Travel-domain understanding", text: "CRM, ERP, portal, and booking workflows are planned around how travel teams actually sell, confirm, serve, and report." },
+          { icon: "shield", title: "Trust and documentation", text: "Projects focus on clean records, controlled handoffs, professional communication, and a polished digital presence." },
+          { icon: "globe", title: "Multi-location support mindset", text: "The system direction can support branch teams, remote work, global customers, corporate desks, and partner coordination." },
+          { icon: "chart", title: "Growth visibility", text: "Dashboards and lead paths help leadership understand enquiry sources, conversion quality, workload, service status, and next actions." }
+        ], 4)}
       </div>
     </section>
     <section class="section">
@@ -893,6 +911,29 @@ function supportPage() {
 
 function contactForm(kind = "contact") {
   const demo = kind === "demo";
+  const interestOptions = demo ? [
+    "CRM + ERP + Portal",
+    "Travel CRM",
+    "Travel ERP",
+    "Customer Portal",
+    "Corporate Website",
+    "Website + Mobile App",
+    "E-commerce Solution",
+    "Business Automation",
+    "Not sure yet"
+  ] : [
+    "Sales inquiry",
+    "Demo request",
+    "Travel CRM",
+    "Travel ERP",
+    "Customer portal",
+    "Website or mobile app",
+    "E-commerce solution",
+    "Business automation",
+    "Support or existing project",
+    "Office or partnership"
+  ];
+
   return `
     <form class="form-panel" data-form="${kind}">
       <div class="form-grid">
@@ -910,20 +951,18 @@ function contactForm(kind = "contact") {
         </div>
         <div class="field">
           <label for="${kind}-phone">Phone</label>
-          <input id="${kind}-phone" name="phone" autocomplete="tel">
+          <input id="${kind}-phone" name="phone" autocomplete="tel" ${demo ? "required" : ""}>
         </div>
         <div class="field">
-          <label for="${kind}-interest">Interest</label>
+          <label for="${kind}-interest">${demo ? "Product needed" : "Inquiry type"}</label>
           <select id="${kind}-interest" name="interest">
-            <option>Complete corporate website</option>
-            <option>Travel CRM</option>
-            <option>Travel ERP</option>
-            <option>Customer portal</option>
-            <option>CRM & ERP solutions</option>
-            <option>E-commerce solutions</option>
-            <option>Website & mobile app development</option>
-            <option>Business automation</option>
-            <option>IT solutions</option>
+            ${optionList(interestOptions)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="${kind}-business">Business type</label>
+          <select id="${kind}-business" name="businessType">
+            ${optionList(["Travel agency", "Tour operator", "DMC", "Corporate travel desk", "Hotel or supplier partner", "E-commerce or service business", "Other business"])}
           </select>
         </div>
         <div class="field">
@@ -935,9 +974,36 @@ function contactForm(kind = "contact") {
             <option>Planning stage</option>
           </select>
         </div>
+        <div class="field">
+          <label for="${kind}-preferred">Preferred contact</label>
+          <select id="${kind}-preferred" name="preferredContact">
+            ${optionList(["WhatsApp", "Phone call", "Email", "Video meeting"])}
+          </select>
+        </div>
+        ${demo ? `
+          <div class="field">
+            <label for="${kind}-scale">Team / branch scale</label>
+            <select id="${kind}-scale" name="scale">
+              ${optionList(["Single branch", "2-5 branches", "Multi-branch team", "Remote or global team", "Early stage business"])}
+            </select>
+          </div>
+          <div class="field">
+            <label for="${kind}-budget">Budget range</label>
+            <select id="${kind}-budget" name="budget">
+              ${optionList(["Need guidance", "Under INR 1 lakh", "INR 1-3 lakh", "INR 3-10 lakh", "Enterprise / custom"])}
+            </select>
+          </div>
+        ` : `
+          <div class="field">
+            <label for="${kind}-office">Office / region</label>
+            <select id="${kind}-office" name="officeRegion">
+              ${optionList(["Delhi", "Pune", "Gurgaon", "Mumbai", "Bangalore", "Kolkata", "Lucknow", "Dubai", "London", "United States", "Remote / online"])}
+            </select>
+          </div>
+        `}
         <div class="field full">
-          <label for="${kind}-message">${demo ? "Demo goals" : "Message"}</label>
-          <textarea id="${kind}-message" name="message" required></textarea>
+          <label for="${kind}-message">${demo ? "Demo goals / current problem" : "Message"}</label>
+          <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need CRM for leads, booking tracking, portal access, and reports." : "Tell us what you want to discuss."}" required></textarea>
         </div>
       </div>
       <button class="button dark" type="submit">${demo ? "Send Demo Request" : "Send Message"} ${icons.arrow}</button>
@@ -952,12 +1018,12 @@ function contactPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Contact</span>
-          <h2>Bring your corporate website and travel systems into one plan.</h2>
-          <p class="muted">Use the form to begin a conversation about web presence, CRM, ERP, portal, integrations, or ongoing IT support.</p>
+          <h2>Bring your website, CRM, ERP, portal, and automation plan into one conversation.</h2>
+          <p class="muted">Use the form to contact the BANDEVI GLOBAL GROUP sales desk for product demos, website projects, office support, partnerships, and implementation planning.</p>
           ${cards([
             { icon: "mail", title: "Sales desk", text: contactInfo.email },
             { icon: "phone", title: "Call or WhatsApp", text: contactInfo.phoneDisplay },
-            { icon: "globe", title: "Delivery model", text: "Remote-first project delivery with structured discovery, design, build, and launch phases." }
+            { icon: "globe", title: "Office network", text: "India, Dubai, London, and United States support presence through the wider travel group ecosystem." }
           ], 3)}
           <div class="inline-actions">
             <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
@@ -965,6 +1031,44 @@ function contactPage() {
           </div>
         </div>
         ${contactForm("contact")}
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Office and service locations.</h2>
+          <p>Choose the nearest office or request remote support. The sales team can route your enquiry to the right project, product, or support desk.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head single">
+          <span class="eyebrow">Response flow</span>
+          <h2>What happens after you contact us.</h2>
+        </div>
+        <div class="process">
+          ${[
+            ["Receive", "Your enquiry is captured with product interest, business type, office region, and contact preference."],
+            ["Review", "The sales team reviews whether you need CRM, ERP, portal, website, automation, or support help."],
+            ["Connect", "A callback, WhatsApp reply, or email response is prepared with the next action."],
+            ["Plan", "If needed, the team schedules a demo or discovery conversation around your workflow."]
+          ].map((item, index) => `
+            <div class="process-step">
+              <span>0${index + 1}</span>
+              <h3>${item[0]}</h3>
+              <p>${item[1]}</p>
+            </div>
+          `).join("")}
+        </div>
       </div>
     </section>
   `;
@@ -976,11 +1080,47 @@ function demoPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Demo request</span>
-          <h2>See the travel CRM, ERP, product suite, and portal experience in context.</h2>
-          <p class="muted">A demo can be tailored for agencies, tour operators, corporate travel desks, DMCs, consolidators, and mixed-service travel companies.</p>
-          ${list(["Review your current sales and operations workflow", "Select the right modules for the first launch", "Discuss website pages, content, forms, and lead paths", "Map a phased delivery roadmap with support options"])}
+          <h2>Request a demo that is matched to your business workflow.</h2>
+          <p class="muted">Tell us your business type, product need, team scale, timeline, and preferred contact method. The request opens as a clean WhatsApp lead message so the sales team can respond faster.</p>
+          ${list(["Review your current sales, booking, service, and reporting workflow", "Select the right first modules across CRM, ERP, portal, website, automation, and analytics", "Discuss users, branches, rollout speed, and budget direction", "Map a phased delivery roadmap with launch and support options"])}
         </div>
         ${contactForm("demo")}
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>What the demo can cover.</h2>
+          <p>The walkthrough can focus on one urgent problem or show how the full product suite connects across the business.</p>
+        </div>
+        ${cards([
+          { icon: "users", title: "Lead and sales flow", text: "Website enquiries, WhatsApp leads, assignment, follow-ups, quotations, pipeline stages, and source reporting." },
+          { icon: "stack", title: "Booking and operations flow", text: "Booking files, passengers, suppliers, service items, documents, approvals, invoices, and status tracking." },
+          { icon: "globe", title: "Customer and partner portal", text: "Customer access for trip updates, invoices, documents, tickets, project milestones, and service communication." },
+          { icon: "chart", title: "Management dashboards", text: "Conversion, workload, revenue, margin, support quality, team performance, and operational bottlenecks." }
+        ], 4)}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head single">
+          <span class="eyebrow">Next steps</span>
+          <h2>A simple path after the request.</h2>
+        </div>
+        <div class="process">
+          ${[
+            ["Qualify", "Your request includes product need, business type, scale, timeline, budget range, and preferred contact."],
+            ["Prepare", "The demo focus is matched to CRM, ERP, portal, website, automation, or complete suite requirements."],
+            ["Show", "The walkthrough explains the user journey, admin controls, reporting, and rollout path."],
+            ["Plan", "You receive a practical first-release direction with launch priorities and support options."]
+          ].map((item, index) => `
+            <div class="process-step">
+              <span>0${index + 1}</span>
+              <h3>${item[0]}</h3>
+              <p>${item[1]}</p>
+            </div>
+          `).join("")}
+        </div>
       </div>
     </section>
     ${cta("A good demo should feel like your business.", "Share your workflow and the walkthrough can focus on the modules that matter most.")}
@@ -1152,18 +1292,30 @@ function bindForms() {
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
-      const label = type === "demo" ? "Demo request" : "Website inquiry";
+      const label = type === "demo" ? "Demo request" : "Contact inquiry";
+      const fieldLabels = [
+        ["name", "Name"],
+        ["company", "Company"],
+        ["email", "Email"],
+        ["phone", "Phone"],
+        ["interest", "Product / inquiry"],
+        ["businessType", "Business type"],
+        ["timeline", "Timeline"],
+        ["preferredContact", "Preferred contact"],
+        ["scale", "Team / branch scale"],
+        ["budget", "Budget range"],
+        ["officeRegion", "Office / region"],
+        ["message", type === "demo" ? "Demo goals / current problem" : "Message"]
+      ];
       const lines = [
         `New ${label} from BANDEVI website`,
         `Page: ${document.title}`,
-        `Name: ${data.name || ""}`,
-        `Company: ${data.company || ""}`,
-        `Email: ${data.email || ""}`,
-        `Phone: ${data.phone || ""}`,
-        `Interest: ${data.interest || ""}`,
-        `Timeline: ${data.timeline || ""}`,
-        `Message: ${data.message || ""}`
-      ].filter((line) => !line.endsWith(": "));
+        `URL: ${window.location.href.split("?")[0]}`,
+        ...fieldLabels
+          .map(([key, title]) => [title, (data[key] || "").trim()])
+          .filter(([, value]) => value)
+          .map(([title, value]) => `${title}: ${value}`)
+      ];
 
       const message = lines.join("\n");
       const whatsappUrl = `${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;

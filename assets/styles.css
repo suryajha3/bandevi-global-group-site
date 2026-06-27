@@ -452,6 +452,7 @@ h1 {
 .card p {
   color: var(--muted);
   margin-bottom: 0;
+  overflow-wrap: anywhere;
 }
 
 .metric-card {
@@ -618,6 +619,7 @@ td {
   text-align: left;
   padding: 16px 18px;
   border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
 }
 
 th {
