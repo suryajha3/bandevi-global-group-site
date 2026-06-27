@@ -126,7 +126,7 @@ const pageData = {
   cases: {
     title: "Case Studies",
     eyebrow: "Business outcomes",
-    lede: "Representative transformation programs for travel brands that need stronger control, faster response times, and better customer visibility."
+    lede: "Representative project examples for travel brands that need stronger CRM, ERP, portals, automation, websites, and booking control."
   },
   blog: {
     title: "Blog",
@@ -329,6 +329,7 @@ function homePage() {
         </div>
       </div>
     </section>
+    ${casePreview()}
     ${blogPreview()}
     ${cta()}
   `;
@@ -779,34 +780,167 @@ function itProductUpgradeSections() {
   `;
 }
 
+const caseStudies = [
+  {
+    icon: "users",
+    tag: "Travel CRM",
+    title: "Multi-branch travel agency CRM setup",
+    challenge: "Leads were arriving from website forms, calls, WhatsApp, referrals, and branch teams without one clear owner or follow-up view.",
+    solution: "Create a CRM flow with lead source capture, branch assignment, consultant ownership, quotation stages, reminders, and management dashboards.",
+    outcomes: ["Central lead queue for all enquiry sources", "Branch and consultant-level visibility", "Follow-up discipline across open opportunities", "Cleaner source and lost-reason reporting"],
+    link: "/travel-crm/"
+  },
+  {
+    icon: "stack",
+    tag: "Travel ERP",
+    title: "Tour operator ERP workflow",
+    challenge: "Confirmed trips needed better control across booking files, passenger details, suppliers, invoices, receipts, documents, and margin review.",
+    solution: "Build an ERP workflow that moves confirmed sales into structured booking files with supplier records, finance status, document tracking, and approvals.",
+    outcomes: ["One booking file for sales, operations, and finance", "Supplier confirmations connected to service items", "Invoice, payment, and margin visibility", "Approval paths for exceptions and discounts"],
+    link: "/travel-erp/"
+  },
+  {
+    icon: "globe",
+    tag: "Customer portal",
+    title: "Corporate travel customer portal",
+    challenge: "Corporate customers needed easier access to requests, traveller details, invoices, support messages, documents, and service status.",
+    solution: "Plan a secure portal for customer login, trip status, invoice access, document downloads, support requests, and corporate travel milestones.",
+    outcomes: ["Premium self-service customer experience", "Reduced repeated status questions", "Organized documents and invoice access", "Better support request history"],
+    link: "/customer-portal/"
+  },
+  {
+    icon: "chart",
+    tag: "Website + CRM",
+    title: "Corporate website with CRM-ready lead flow",
+    challenge: "The brand needed a professional online presence that could explain products clearly and send qualified enquiries into a sales process.",
+    solution: "Create premium corporate pages, product/service sections, SEO blog topics, demo paths, WhatsApp handoff, and structured contact forms.",
+    outcomes: ["Stronger first impression for prospects", "Clear product positioning", "Lead details captured in a useful sales format", "Internal links from content to demo and product pages"],
+    link: "/website-mobile-app-development/"
+  },
+  {
+    icon: "plane",
+    tag: "Booking operations",
+    title: "Booking and supplier management system",
+    challenge: "Operations teams needed a controlled way to manage service items, suppliers, confirmations, passenger data, vouchers, and booking status.",
+    solution: "Create a booking desk structure with supplier hub records, service inventory, change requests, confirmation status, document tracking, and team ownership.",
+    outcomes: ["Better visibility across active bookings", "Supplier and service records in one place", "Document and voucher status tracking", "Cleaner handoff from sales to operations"],
+    link: "/lead-booking-management/"
+  },
+  {
+    icon: "shield",
+    tag: "Automation",
+    title: "Follow-up and task automation rollout",
+    challenge: "Manual reminders, document requests, internal handoffs, and daily reporting were slowing down sales and service teams.",
+    solution: "Automate lead routing, follow-up reminders, document request triggers, task queues, status notifications, and management summary reports.",
+    outcomes: ["Faster next-action visibility", "Fewer missed follow-ups", "More consistent customer communication", "Less manual report preparation"],
+    link: "/business-automation/"
+  }
+];
+
+function caseStudyCards(items = caseStudies) {
+  return `<div class="grid cols-2">${items.map((item) => `
+    <article class="card case-card">
+      <div class="case-meta">
+        ${iconTile(item.icon)}
+        <span>${item.tag}</span>
+      </div>
+      <h3>${item.title}</h3>
+      <div class="case-copy">
+        <strong>Business challenge</strong>
+        <p>${item.challenge}</p>
+      </div>
+      <div class="case-copy">
+        <strong>Representative solution</strong>
+        <p>${item.solution}</p>
+      </div>
+      <div class="case-copy">
+        <strong>Practical outcomes</strong>
+        ${list(item.outcomes)}
+      </div>
+      <a href="${item.link}">Explore related solution ${icons.arrow}</a>
+    </article>
+  `).join("")}</div>`;
+}
+
+function casePreview() {
+  return `
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Representative project examples.</h2>
+          <p>See how CRM, ERP, portals, websites, booking workflows, and automation can work together for different travel operating models.</p>
+        </div>
+        ${caseStudyCards(caseStudies.slice(0, 3))}
+        <div class="inline-actions">
+          <a class="button dark" href="/case-studies/">View Case Studies ${icons.arrow}</a>
+          <a class="button light" href="/demo-request/">Request Demo</a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function casesPage() {
   return `
     <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Transformation programs for travel businesses.</h2>
-          <p>These representative case studies show how the BANDEVI GLOBAL GROUP platform can be shaped around different operating models.</p>
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Representative work</span>
+          <h2>Use-case stories for the systems travel teams ask for most.</h2>
+          <p class="muted">These are representative case study patterns that show how BANDEVI GLOBAL GROUP can shape CRM, ERP, portals, websites, booking operations, and automation around real travel business needs.</p>
+          ${list(["Sales teams need faster lead ownership and follow-up control", "Operations teams need booking files, supplier records, documents, and approvals", "Customers need cleaner portal access, invoices, trip status, and support", "Leadership needs dashboards that connect sales, service, revenue, margin, and workload"])}
+          <div class="inline-actions">
+            <a class="button dark" href="/demo-request/">Build a Similar System ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact Sales</a>
+          </div>
         </div>
-        ${cards([
-          { icon: "users", title: "Multi-branch travel agency", text: "Unified inquiry routing, branch-level performance, quotation tracking, and customer lifecycle visibility." },
-          { icon: "plane", title: "Tour operator operations", text: "Booking files, supplier confirmations, payment schedules, passenger documents, and margin tracking." },
-          { icon: "globe", title: "Corporate travel desk", text: "Portal access, request tracking, approvals, traveller profiles, invoices, and service desk reporting." }
-        ])}
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI case study dashboard examples"></div>
       </div>
     </section>
     <section class="section mist">
       <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">Outcome map</span>
-          <h2>Common improvements clients look for.</h2>
+        <div class="section-head">
+          <h2>Case study examples.</h2>
+          <p>Each example is written as a practical project model, so prospects can recognize their own workflow and start with the right first release.</p>
+        </div>
+        ${caseStudyCards()}
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Outcome map for travel technology projects.</h2>
+          <p>The first release should solve a real business bottleneck, then create a path to expand into connected systems.</p>
         </div>
         <div class="grid cols-4">
           ${[
-            ["Faster response", "Reduce delays between inquiry and first proposal."],
-            ["Cleaner handoffs", "Move work from sales to operations without data loss."],
-            ["Better margins", "See cost, selling price, discounting, and leakage."],
-            ["Premium service", "Give customers a controlled, modern portal experience."]
+            ["Faster response", "Reduce delays between enquiry capture, owner assignment, first contact, and quotation follow-up."],
+            ["Cleaner handoffs", "Move confirmed work from sales to operations without losing customer, service, or supplier details."],
+            ["Booking visibility", "Track passenger data, documents, suppliers, payment status, approvals, and open service tasks."],
+            ["Premium service", "Give customers a controlled digital experience with portal access, status updates, and support history."]
           ].map(([title, text]) => `<div class="card metric-card"><strong>${title}</strong><p>${text}</p></div>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How a similar project starts.</h2>
+          <p>BANDEVI can begin with one urgent pain point and design a rollout that grows into a complete digital operating layer.</p>
+        </div>
+        <div class="process">
+          ${[
+            ["Audit", "Review your current lead sources, booking process, team roles, documents, reports, and customer communication."],
+            ["Prioritize", "Choose the first release across CRM, ERP, portal, website, booking, automation, or dashboards."],
+            ["Launch", "Build the core workflow, forms, pages, admin controls, reports, and team handoff process."],
+            ["Expand", "Add integrations, customer portal features, automation, branch workflows, and advanced analytics."]
+          ].map((item, index) => `
+            <div class="process-step">
+              <span>0${index + 1}</span>
+              <h3>${item[0]}</h3>
+              <p>${item[1]}</p>
+            </div>
+          `).join("")}
         </div>
       </div>
     </section>
