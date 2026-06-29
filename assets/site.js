@@ -59,14 +59,14 @@ const heroImage = asset("travel-operations-hero.png");
 const pageData = {
   home: {
     title: "BANDEVI GLOBAL GROUP",
-    eyebrow: "Travel technology for modern operators",
-    lede: "Enterprise CRM, ERP, portals, and IT delivery for travel businesses that need cleaner operations, faster sales cycles, and a premium digital presence.",
+    eyebrow: "IT and development company",
+    lede: "Premium websites, CRM, ERP, portals, e-commerce, automation, and business software for travel, masala, makhana, astrology, and growing service brands.",
     home: true
   },
   about: {
     title: "About BANDEVI GLOBAL GROUP",
     eyebrow: "Company",
-    lede: "We help travel and service businesses build premium websites, CRM, ERP, portals, automation, and IT systems that support sales, operations, and customer experience."
+    lede: "We help group companies and outside clients build premium websites, CRM, ERP, portals, automation, and IT systems that support sales, operations, customer experience, and digital growth."
   },
   crm: {
     title: "Travel CRM",
@@ -81,12 +81,12 @@ const pageData = {
   products: {
     title: "Products",
     eyebrow: "Platform suite",
-    lede: "Modular travel technology products that can launch together or phase in across sales, operations, finance, and customer self-service."
+    lede: "Modular software products that can launch together or phase in across sales, operations, finance, commerce, bookings, service, and customer self-service."
   },
   itProducts: {
     title: "IT Products & Software Solutions",
     eyebrow: "Software products",
-    lede: "A complete product suite for CRM, ERP, customer portals, booking operations, automation, websites, e-commerce, and business dashboards."
+    lede: "A complete product suite for CRM, ERP, customer portals, booking operations, automation, websites, e-commerce, business dashboards, and vertical-specific digital products."
   },
   crmErp: {
     title: "CRM & ERP Solutions",
@@ -121,17 +121,17 @@ const pageData = {
   it: {
     title: "IT Solutions",
     eyebrow: "Digital delivery",
-    lede: "Web, cloud, integrations, automation, and managed engineering services built around the demands of travel and hospitality teams."
+    lede: "Web, cloud, integrations, automation, and managed development services for product, service, commerce, astrology, and travel-led businesses."
   },
   cases: {
     title: "Case Studies",
     eyebrow: "Business outcomes",
-    lede: "Representative project examples for travel brands that need stronger CRM, ERP, portals, automation, websites, and booking control."
+    lede: "Representative project examples for businesses that need stronger CRM, ERP, portals, automation, websites, commerce, booking control, and digital operations."
   },
   blog: {
     title: "Blog",
     eyebrow: "Insights",
-    lede: "Practical thinking on travel CRM, ERP, portals, automation, digital customer experience, and growth operations."
+    lede: "Practical thinking on CRM, ERP, portals, automation, e-commerce, digital customer experience, and growth operations."
   },
   support: {
     title: "Support",
@@ -146,7 +146,7 @@ const pageData = {
   demo: {
     title: "Demo Request",
     eyebrow: "See the platform",
-    lede: "Request a guided walkthrough of the travel CRM, ERP, products, portal experience, website strategy, and implementation roadmap."
+    lede: "Request a guided walkthrough of the CRM, ERP, products, portal experience, website strategy, and implementation roadmap."
   },
   portal: {
     title: "Customer Portal",
@@ -253,7 +253,7 @@ function optionList(items) {
   return items.map((item) => `<option>${item}</option>`).join("");
 }
 
-function cta(title = "Ready to modernize your travel business?", text = "Build the website, CRM, ERP, and customer portal around one clear growth story.") {
+function cta(title = "Ready to modernize your business systems?", text = "Build the website, CRM, ERP, customer portal, and automation around one clear growth story.") {
   return `
     <section class="cta-band">
       <div class="cta-inner">
@@ -272,13 +272,13 @@ function homePage() {
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>One premium digital ecosystem for travel sales, operations, and client experience.</h2>
-          <p>BANDEVI GLOBAL GROUP helps travel organizations replace scattered tools with integrated systems that make teams faster, customers better informed, and leadership more confident.</p>
+          <h2>One premium digital ecosystem for websites, software, sales, operations, and customer experience.</h2>
+          <p>BANDEVI GLOBAL GROUP helps businesses replace scattered tools with integrated systems that make teams faster, customers better informed, and leadership more confident.</p>
         </div>
         ${cards([
-          { icon: "users", title: "Lead to loyalty", text: "Capture inquiries, assign owners, build quotations, track follow-ups, and nurture repeat travelers." },
-          { icon: "plane", title: "Booking operations", text: "Coordinate packages, suppliers, documents, payments, schedules, and exceptions in one operational layer." },
-          { icon: "chart", title: "Management visibility", text: "Give decision makers dashboards for conversion, revenue, margin, workload, and customer service quality." }
+          { icon: "users", title: "Lead to loyalty", text: "Capture inquiries, assign owners, manage quotations, track follow-ups, and build repeat-customer relationships." },
+          { icon: "stack", title: "Operations control", text: "Coordinate orders, bookings, inventory, services, documents, payments, schedules, and exceptions in one operational layer." },
+          { icon: "chart", title: "Management visibility", text: "Give decision makers dashboards for conversion, revenue, stock, margin, workload, and customer service quality." }
         ])}
       </div>
     </section>
@@ -286,9 +286,9 @@ function homePage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Platform suite</span>
-          <h2>Built for the real pace of travel businesses.</h2>
-          <p class="muted">Every module is shaped around common travel workflows: inquiry handling, itinerary creation, supplier coordination, document management, finance, customer communication, and post-trip retention.</p>
-          ${list(["CRM for inquiries, quotations, follow-ups, campaigns, and customer profiles", "ERP for booking files, suppliers, invoices, approvals, and reporting", "Customer portal for documents, invoices, tickets, and trip status", "IT services for websites, integrations, automation, cloud, and security"])}
+          <h2>Built for the real pace of growing business lines.</h2>
+          <p class="muted">Every module is shaped around practical daily workflows: inquiry handling, order or booking control, product catalogs, service requests, supplier coordination, finance, customer communication, and repeat sales.</p>
+          ${list(["CRM for inquiries, quotations, follow-ups, campaigns, and customer profiles", "ERP for orders, bookings, suppliers, invoices, approvals, stock, and reporting", "Customer portals for documents, invoices, tickets, service status, and project milestones", "IT services for websites, integrations, automation, cloud, e-commerce, and security"])}
         </div>
         <div class="media-frame"><img src="${productImage}" alt="Premium travel software dashboard mockup"></div>
       </div>
@@ -297,12 +297,12 @@ function homePage() {
       <div class="container">
         <div class="section-head">
           <h2>Why choose BANDEVI GLOBAL GROUP.</h2>
-          <p>Technology delivery shaped by real travel service needs: fast response, clear documentation, premium customer confidence, and long-term operational control.</p>
+          <p>Technology delivery shaped by real business needs: fast response, clear documentation, premium customer confidence, and long-term operational control.</p>
         </div>
         ${cards([
-          { icon: "plane", title: "Travel-domain understanding", text: "CRM, ERP, portal, and booking workflows are planned around how travel teams actually sell, confirm, serve, and report." },
+          { icon: "stack", title: "Multi-business understanding", text: "CRM, ERP, portal, e-commerce, and workflow systems are planned around how each business line sells, serves, delivers, and reports." },
           { icon: "shield", title: "Trust and documentation", text: "Projects focus on clean records, controlled handoffs, professional communication, and a polished digital presence." },
-          { icon: "globe", title: "Multi-location support mindset", text: "The system direction can support branch teams, remote work, global customers, corporate desks, and partner coordination." },
+          { icon: "globe", title: "Sister-company clarity", text: "BANDEVI stays the IT and development company while sister brands such as THG and other business lines stay separate." },
           { icon: "chart", title: "Growth visibility", text: "Dashboards and lead paths help leadership understand enquiry sources, conversion quality, workload, service status, and next actions." }
         ], 4)}
       </div>
@@ -311,7 +311,7 @@ function homePage() {
       <div class="container">
         <div class="section-head single">
           <span class="eyebrow">Growth architecture</span>
-          <h2>From website visitor to confirmed traveler.</h2>
+          <h2>From website visitor to confirmed customer.</h2>
         </div>
         <div class="process">
           ${["Attract", "Capture", "Convert", "Retain"].map((name, index) => `
@@ -320,9 +320,9 @@ function homePage() {
               <h3>${name}</h3>
               <p>${[
                 "Premium corporate pages, product storytelling, blogs, and lead paths.",
-                "Contact, demo, and campaign forms routed into travel CRM queues.",
-                "Quotation, proposal, approval, booking, and payment visibility.",
-                "Portal access, support, campaigns, and repeat-business intelligence."
+                "Contact, demo, order, booking, and campaign forms routed into CRM queues.",
+                "Quotation, proposal, approval, order, booking, and payment visibility.",
+                "Portal access, support, campaigns, reviews, and repeat-business intelligence."
               ][index]}</p>
             </div>
           `).join("")}
@@ -341,10 +341,10 @@ function aboutPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Who we are</span>
-          <h2>A digital technology partner for ambitious travel and service brands.</h2>
-          <p class="muted">BANDEVI GLOBAL GROUP designs corporate websites, travel CRM, ERP, customer portals, and business automation systems for teams that want a more professional way to sell, operate, and serve customers.</p>
-          <p class="muted">Our work connects brand presence with practical software. The website helps create trust, the CRM protects every enquiry, the ERP brings control to bookings and finance, and portals give customers cleaner self-service.</p>
-          ${list(["Premium online presence for marketing and sales credibility", "Travel-first CRM and ERP workflows for daily teams", "Customer portals, lead management, and booking visibility", "Long-term improvement support after launch"])}
+          <h2>A digital technology partner for ambitious group companies and growing brands.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP designs corporate websites, CRM, ERP, customer portals, e-commerce, and business automation systems for teams that want a more professional way to sell, operate, and serve customers.</p>
+          <p class="muted">Our work connects brand presence with practical software. The website helps create trust, the CRM protects every enquiry, the ERP brings control to operations and finance, and portals give customers cleaner self-service.</p>
+          ${list(["Premium online presence for marketing and sales credibility", "CRM and ERP workflows for daily teams across business lines", "Customer portals, lead management, order, booking, and service visibility", "Long-term improvement support after launch"])}
           <div class="inline-actions">
             <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button ghost" href="/contact-us/">Contact Us</a>
@@ -356,7 +356,7 @@ function aboutPage() {
     <section class="section mist">
       <div class="container">
         <div class="section-head">
-          <h2>Built around the systems a growing travel business actually needs.</h2>
+          <h2>Built around the systems a growing business actually needs.</h2>
           <p>Instead of treating design, software, and support as separate pieces, BANDEVI GLOBAL GROUP brings them into one practical digital growth stack.</p>
         </div>
         <div class="grid cols-4">
@@ -366,11 +366,11 @@ function aboutPage() {
           </article>
           <article class="card metric-card">
             <strong>ERP</strong>
-            <p>Booking files, suppliers, operations, payments, approvals, and reporting control.</p>
+            <p>Orders, bookings, suppliers, stock, operations, payments, approvals, and reporting control.</p>
           </article>
           <article class="card metric-card">
             <strong>Portal</strong>
-            <p>Customer access for trip status, documents, invoices, service requests, and updates.</p>
+            <p>Customer access for service status, documents, invoices, support requests, and updates.</p>
           </article>
           <article class="card metric-card">
             <strong>Web</strong>
@@ -386,8 +386,8 @@ function aboutPage() {
           <h2>Technology that feels premium outside and disciplined inside.</h2>
         </div>
         ${cards([
-          { icon: "plane", title: "Travel CRM", text: "A sales workspace for enquiries, campaigns, agent ownership, follow-up reminders, proposals, and conversion reporting." },
-          { icon: "stack", title: "Travel ERP", text: "An operations backbone for bookings, suppliers, finance, approvals, documents, team workload, and management reports." },
+          { icon: "users", title: "CRM systems", text: "A sales workspace for enquiries, campaigns, owner assignment, follow-up reminders, proposals, and conversion reporting." },
+          { icon: "stack", title: "ERP systems", text: "An operations backbone for orders, bookings, stock, suppliers, finance, approvals, documents, team workload, and management reports." },
           { icon: "globe", title: "Corporate websites", text: "Premium pages for company profile, products, services, blogs, demo requests, and search-friendly lead generation." },
           { icon: "shield", title: "Portals and automation", text: "Customer portals, internal dashboards, WhatsApp handoffs, task routing, and repeatable workflows for service teams." }
         ], 4)}
@@ -421,8 +421,8 @@ function aboutPage() {
         <div>
           <span class="eyebrow">Who we serve</span>
           <h2>For teams that want better control from first lead to final service.</h2>
-          <p class="muted">The company is built for organizations where brand trust, fast response, booking accuracy, and customer communication directly affect revenue.</p>
-          ${list(["Travel agencies and tour operators", "Destination management companies and consolidators", "Corporate travel desks and service teams", "Growing businesses that need CRM, ERP, portals, websites, and automation"])}
+          <p class="muted">The company is built for organizations where brand trust, fast response, order or service accuracy, and customer communication directly affect revenue.</p>
+          ${list(["Group and sister-company technology projects", "Masala and food-product businesses that need e-commerce, CRM, stock, and order visibility", "Makhana brands that need product catalogs, commerce, distribution, and customer systems", "Astrology service brands that need websites, booking flows, consultation portals, CRM, and payments", "Travel, service, and corporate teams that need CRM, ERP, portals, websites, and automation"])}
         </div>
       </div>
     </section>
@@ -439,7 +439,7 @@ function aboutPage() {
         ])}
       </div>
     </section>
-    ${cta("Let your website and software tell one stronger story.", "Create a premium corporate presence backed by systems that can support sales and delivery.")}
+    ${cta("Let your website and software tell one stronger story.", "Create a premium corporate presence backed by systems that can support sales, orders, service, and delivery.")}
   `;
 }
 
@@ -509,10 +509,10 @@ function productsPage() {
       <div class="container product-row">
         <div>
           <span class="eyebrow">Products</span>
-          <h2>A modular platform suite for travel enterprises.</h2>
-          <p class="muted">Start with the module that solves the most urgent business problem, then expand into a connected operating system for growth.</p>
+          <h2>A modular platform suite for growing business lines.</h2>
+          <p class="muted">Start with the module that solves the most urgent business problem, then expand into a connected operating system for growth across travel, masala, makhana, astrology, and service brands.</p>
           <div class="pill-list">
-            ${["Travel CRM", "Travel ERP", "Customer Portal", "Booking Desk", "Supplier Hub", "Analytics"].map((item) => `<span class="pill">${item}</span>`).join("")}
+            ${["Travel CRM", "Travel ERP", "Customer Portal", "E-Commerce", "Supplier Hub", "Analytics"].map((item) => `<span class="pill">${item}</span>`).join("")}
           </div>
         </div>
         <div class="media-frame"><img src="${productImage}" alt="Travel technology product suite"></div>
@@ -522,15 +522,15 @@ function productsPage() {
       <div class="container">
         <div class="section-head">
           <h2>Product areas.</h2>
-          <p>Each product can be tailored to the scale, market, and operating model of the travel company.</p>
+          <p>Each product can be tailored to the scale, market, and operating model of the company while the core modules remain consistent.</p>
         </div>
         ${cards([
           { icon: "users", title: "Travel CRM", text: "Lead capture, pipeline, customer profiles, follow-up automation, campaigns, and consultant performance." },
           { icon: "stack", title: "Travel ERP", text: "Bookings, services, suppliers, invoices, receipts, approvals, documents, and profit tracking." },
-          { icon: "globe", title: "Customer Portal", text: "Client login for trips, files, invoices, support tickets, and project or booking milestones." },
-          { icon: "plane", title: "Booking Desk", text: "Package operations, service status, passenger data, confirmations, vouchers, and change requests." },
-          { icon: "shield", title: "Supplier Hub", text: "Rates, agreements, documents, payment schedules, service confirmations, and quality notes." },
-          { icon: "chart", title: "Analytics", text: "Dashboards for sales, operations, service quality, supplier performance, and management reporting." }
+          { icon: "globe", title: "Customer Portal", text: "Client login for service status, files, invoices, support tickets, project milestones, and booking milestones." },
+          { icon: "shield", title: "E-Commerce", text: "Product catalogs, offers, carts, payment flows, order status, and customer communication for masala and makhana brands." },
+          { icon: "plane", title: "Booking Desk", text: "Travel bookings, astrology consultations, service appointments, confirmations, documents, and change requests." },
+          { icon: "chart", title: "Analytics", text: "Dashboards for sales, operations, service quality, supplier performance, stock, orders, bookings, and management reporting." }
         ])}
       </div>
     </section>
@@ -543,13 +543,13 @@ function itPage() {
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>IT solutions for travel brands that need more than a brochure website.</h2>
-          <p>From premium corporate websites to integrated portals and automation, the delivery model is built to support both marketing and operations.</p>
+          <h2>IT solutions for brands that need more than a brochure website.</h2>
+          <p>From premium corporate websites to integrated portals, e-commerce, and automation, the delivery model is built to support both marketing and operations.</p>
         </div>
         ${cards([
           { icon: "globe", title: "Corporate websites", text: "Premium multi-page websites with product storytelling, lead paths, blogs, forms, and campaign-ready pages." },
-          { icon: "stack", title: "Custom applications", text: "Dashboards, admin panels, portals, booking tools, workflows, and internal productivity systems." },
-          { icon: "plane", title: "Travel integrations", text: "Supplier APIs, payment gateways, CRM handoffs, email workflows, analytics, and third-party tools." },
+          { icon: "stack", title: "Custom applications", text: "Dashboards, admin panels, portals, booking tools, order tools, workflows, and internal productivity systems." },
+          { icon: "plane", title: "Business integrations", text: "Supplier APIs, payment gateways, CRM handoffs, email workflows, analytics, inventory tools, and third-party systems." },
           { icon: "shield", title: "Cloud and security", text: "Hosting, monitoring, backups, access control, SSL, security hygiene, and release management." },
           { icon: "chart", title: "Automation", text: "Reduce manual status updates, reminders, data movement, reporting, and lead routing." },
           { icon: "users", title: "Ongoing support", text: "Enhancement backlogs, training, documentation, support desks, and continuous improvement." }
@@ -562,27 +562,27 @@ function itPage() {
           <span class="eyebrow">Delivery approach</span>
           <h2>Launch polished, then keep improving.</h2>
           <p class="muted">The first release should establish credibility quickly. After launch, the same platform can support campaigns, integrations, internal tools, and portal features.</p>
-          ${list(["Discovery and content architecture", "Premium UI direction and responsive page design", "CRM, ERP, and portal workflow planning", "Launch support, analytics, and enhancement roadmap"])}
+          ${list(["Discovery and content architecture", "Premium UI direction and responsive page design", "CRM, ERP, commerce, and portal workflow planning", "Launch support, analytics, and enhancement roadmap"])}
         </div>
-        <div class="media-frame"><img src="${heroImage}" alt="Global travel operations environment"></div>
+        <div class="media-frame"><img src="${heroImage}" alt="Global business operations environment"></div>
       </div>
     </section>
-    ${cta("Build a digital presence that also improves operations.", "A strong travel brand website should support sales, service, and systems together.")}
+    ${cta("Build a digital presence that also improves operations.", "A strong business website should support sales, service, orders, bookings, and systems together.")}
   `;
 }
 
 const landingPages = {
   itProducts: {
     tag: "Products & software",
-    title: "One product suite for sales, operations, customer service, and digital growth.",
-    intro: "BANDEVI GLOBAL GROUP builds practical software products for travel and service businesses that need stronger lead control, cleaner booking operations, premium customer experience, and better management visibility.",
-    points: ["Travel CRM and ERP products for sales, operations, finance, suppliers, and reporting", "Customer portals, admin panels, dashboards, booking desks, and internal productivity systems", "Websites, e-commerce platforms, mobile-ready experiences, automation, and analytics connected to real business workflows"],
+    title: "One product suite for sales, operations, commerce, customer service, and digital growth.",
+    intro: "BANDEVI GLOBAL GROUP builds practical software products for business lines that need stronger lead control, cleaner operations, premium customer experience, and better management visibility.",
+    points: ["CRM and ERP products for sales, operations, finance, suppliers, stock, bookings, and reporting", "Customer portals, admin panels, dashboards, booking desks, order desks, and internal productivity systems", "Websites, e-commerce platforms, mobile-ready experiences, automation, and analytics connected to real business workflows"],
     modules: [
       { icon: "users", title: "Travel CRM", text: "Capture enquiries, assign sales owners, track quotation stages, manage follow-ups, and improve conversion visibility." },
       { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, invoices, payments, approvals, documents, and operational reporting." },
-      { icon: "globe", title: "Customer Portal", text: "Give customers controlled access to trip status, invoices, documents, support requests, and project milestones." },
-      { icon: "plane", title: "Booking Desk", text: "Coordinate passenger data, packages, confirmations, vouchers, change requests, and service status." },
-      { icon: "shield", title: "Web & E-Commerce", text: "Launch premium corporate websites, landing pages, storefronts, service pages, and search-friendly lead paths." },
+      { icon: "globe", title: "Customer Portal", text: "Give customers controlled access to service status, invoices, documents, support requests, booking updates, and project milestones." },
+      { icon: "plane", title: "Booking & Order Desk", text: "Coordinate bookings, orders, consultations, packages, confirmations, documents, change requests, and service status." },
+      { icon: "shield", title: "Web & E-Commerce", text: "Launch premium corporate websites, landing pages, storefronts, masala or makhana catalogs, service pages, and search-friendly lead paths." },
       { icon: "chart", title: "Automation & Analytics", text: "Automate reminders, routing, reports, notifications, dashboards, and performance reviews." }
     ],
     process: ["Map business workflow", "Prioritize product modules", "Launch first release", "Improve with data"]
@@ -717,14 +717,14 @@ function itProductUpgradeSections() {
       <div class="container">
         <div class="section-head">
           <h2>A sales page for the complete BANDEVI product ecosystem.</h2>
-          <p>Each product can launch independently, then connect into a larger operating system for marketing, sales, service, finance, and leadership.</p>
+          <p>Each product can launch independently, then connect into a larger operating system for marketing, sales, commerce, service, finance, and leadership.</p>
         </div>
         <div class="grid cols-4">
           ${[
             ["Lead control", "Capture website, WhatsApp, phone, campaign, and partner enquiries into one structured sales flow."],
-            ["Booking control", "Move confirmed work into files, services, passengers, suppliers, documents, payments, and status tracking."],
-            ["Customer control", "Give customers and partners a premium portal experience with clean access to updates and documents."],
-            ["Management control", "Review conversion, workload, service quality, revenue, margin, and bottlenecks from dashboards."]
+            ["Operations control", "Move confirmed work into orders, bookings, files, services, suppliers, documents, payments, stock, and status tracking."],
+            ["Customer control", "Give customers, partners, and service clients a premium portal experience with clean access to updates and documents."],
+            ["Management control", "Review conversion, workload, service quality, revenue, stock, margin, and bottlenecks from dashboards."]
           ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
         </div>
       </div>
@@ -734,10 +734,10 @@ function itProductUpgradeSections() {
         <div class="media-frame"><img src="${heroImage}" alt="Global travel technology support network"></div>
         <div>
           <span class="eyebrow">Brand foundation</span>
-          <h2>Informed by real travel and hospitality operations.</h2>
-          <p class="muted">BANDEVI GLOBAL GROUP's product direction is shaped by the practical travel ecosystem behind The Holidays Group, a premium travel and hospitality brand serving families, honeymoon customers, corporate clients, travel agents, hotels, and global partners.</p>
-          <p class="muted">That gives the software a stronger point of view: travel systems must support trust, comfort, clear communication, documentation, faster coordination, and reliable service across locations.</p>
-          ${list(["Travel CRM and ERP workflows shaped around actual booking and service needs", "Premium website and portal design aligned with customer confidence", "Better coordination for sales, support, corporate travel, hotels, and partner teams", "Technology planning that understands travel, not only generic business software"])}
+          <h2>Informed by real sister-company operations.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP is positioned as the IT and development company for a wider business family. THG remains a separate travel brand, while BANDEVI can also support masala, makhana, astrology, e-commerce, and service-led projects.</p>
+          <p class="muted">That gives the software a stronger point of view: business systems must support trust, clear communication, documentation, faster coordination, payments, customer care, and reliable delivery across locations.</p>
+          ${list(["Travel CRM and ERP modules remain available for travel-led workflows", "E-commerce and catalog systems for masala and makhana product brands", "Astrology websites, consultation booking, customer CRM, payment, and portal flows", "Premium website and portal design aligned with customer confidence", "Technology planning that understands real operations, not only generic business software"])}
         </div>
       </div>
     </section>
@@ -745,14 +745,14 @@ function itProductUpgradeSections() {
       <div class="container">
         <div class="section-head">
           <h2>Why choose BANDEVI GLOBAL GROUP.</h2>
-          <p>Adapted from the same service principles behind The Holidays Group: premium planning, transparent communication, documentation, support, and long-term trust.</p>
+          <p>Built around premium planning, transparent communication, documentation, support, and long-term trust across every business line.</p>
         </div>
         ${cards([
-          { icon: "plane", title: "Travel-domain understanding", text: "Products are planned around enquiries, quotations, bookings, documents, suppliers, customers, corporate requests, and service follow-ups." },
+          { icon: "stack", title: "Business-domain understanding", text: "Products are planned around enquiries, quotations, orders, bookings, consultations, documents, suppliers, customers, requests, and service follow-ups." },
           { icon: "shield", title: "Professional documentation", text: "The delivery style supports clear scope, structured workflows, controlled handoffs, and cleaner records for daily teams." },
           { icon: "users", title: "Dedicated assistance", text: "Clients get a partner for launch planning, team adoption, training, refinements, and future module expansion." },
-          { icon: "globe", title: "Multi-location thinking", text: "The product architecture can support branch teams, remote service, international customers, partner networks, and corporate desks." },
-          { icon: "chart", title: "Management visibility", text: "Dashboards and reports help leadership see response speed, conversion quality, workload, booking status, and performance." },
+          { icon: "globe", title: "Separate brand structure", text: "Each project can stay separate with its own domain, content direction, workflow, access, and product roadmap." },
+          { icon: "chart", title: "Management visibility", text: "Dashboards and reports help leadership see response speed, conversion quality, workload, order status, booking status, stock, and performance." },
           { icon: "stack", title: "Long-term product roadmap", text: "Start with the urgent workflow, then add CRM, ERP, portal, e-commerce, automation, and analytics without losing the core system." }
         ], 3)}
       </div>
@@ -761,7 +761,7 @@ function itProductUpgradeSections() {
       <div class="container">
         <div class="section-head">
           <h2>Office and service network.</h2>
-          <p>The BANDEVI product story is supported by the wider travel group presence across India, Dubai, London, and the United States.</p>
+          <p>The BANDEVI product story can support separate projects and service needs across India, Dubai, London, and the United States.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -887,7 +887,7 @@ function casesPage() {
         <div>
           <span class="eyebrow">Representative work</span>
           <h2>Use-case stories for the systems travel teams ask for most.</h2>
-          <p class="muted">These are representative case study patterns that show how BANDEVI GLOBAL GROUP can shape CRM, ERP, portals, websites, booking operations, and automation around real travel business needs.</p>
+          <p class="muted">These are representative case study patterns that show how BANDEVI GLOBAL GROUP can shape CRM, ERP, portals, websites, booking operations, commerce, and automation around real business needs.</p>
           ${list(["Sales teams need faster lead ownership and follow-up control", "Operations teams need booking files, supplier records, documents, and approvals", "Customers need cleaner portal access, invoices, trip status, and support", "Leadership needs dashboards that connect sales, service, revenue, margin, and workload"])}
           <div class="inline-actions">
             <a class="button dark" href="/demo-request/">Build a Similar System ${icons.arrow}</a>
@@ -1113,7 +1113,7 @@ function blogPage() {
       <div class="container">
         <div class="section-head">
           <h2>Practical ideas for modern travel companies.</h2>
-          <p>Use the blog to support SEO, educate prospects, and show the market that BANDEVI GLOBAL GROUP understands travel operations.</p>
+          <p>Use the blog to support SEO, educate prospects, and show the market that BANDEVI GLOBAL GROUP understands business systems, CRM, ERP, portals, automation, and digital operations.</p>
         </div>
         <div class="grid cols-3">
           ${posts.map((article) => `
@@ -1194,7 +1194,7 @@ function blogArticlePage(key) {
           <article class="card blog-card">
             <time>Blog</time>
             <h3>More travel technology guides</h3>
-            <p>Read more articles on CRM, ERP, portals, automation, websites, and travel operations.</p>
+            <p>Read more articles on CRM, ERP, portals, automation, websites, commerce, and digital operations.</p>
             <a href="/blog/">Back to blog ${icons.arrow}</a>
           </article>
         </div>
@@ -1231,7 +1231,7 @@ function supportPage() {
             <tbody>
               <tr><td>Launch Care</td><td>New websites and first platform releases</td><td>Business hours</td><td>Stabilization, training, minor refinements</td></tr>
               <tr><td>Growth Care</td><td>CRM, ERP, and portal teams using the system daily</td><td>Priority queue</td><td>Enhancements, reports, automation, integrations</td></tr>
-              <tr><td>Enterprise Care</td><td>High-volume travel operations</td><td>Custom SLA</td><td>Monitoring, governance, security, roadmap management</td></tr>
+              <tr><td>Enterprise Care</td><td>High-volume business operations</td><td>Custom SLA</td><td>Monitoring, governance, security, roadmap management</td></tr>
             </tbody>
           </table>
         </div>
@@ -1294,7 +1294,7 @@ function contactForm(kind = "contact") {
         <div class="field">
           <label for="${kind}-business">Business type</label>
           <select id="${kind}-business" name="businessType">
-            ${optionList(["Travel agency", "Tour operator", "DMC", "Corporate travel desk", "Hotel or supplier partner", "E-commerce or service business", "Other business"])}
+            ${optionList(["IT or software project", "Masala / food products", "Makhana brand", "Astrology services", "Travel agency", "Tour operator", "DMC", "Corporate travel desk", "Hotel or supplier partner", "E-commerce or service business", "Other business"])}
           </select>
         </div>
         <div class="field">
@@ -1350,12 +1350,12 @@ function contactPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Contact</span>
-          <h2>Bring your website, CRM, ERP, portal, and automation plan into one conversation.</h2>
-          <p class="muted">Use the form to contact the BANDEVI GLOBAL GROUP sales desk for product demos, website projects, office support, partnerships, and implementation planning.</p>
+          <h2>Bring your website, CRM, ERP, portal, commerce, and automation plan into one conversation.</h2>
+          <p class="muted">Use the form to contact the BANDEVI GLOBAL GROUP sales desk for product demos, website projects, e-commerce, astrology service flows, office support, partnerships, and implementation planning.</p>
           ${cards([
             { icon: "mail", title: "Sales desk", text: contactInfo.email },
             { icon: "phone", title: "Call or WhatsApp", text: contactInfo.phoneDisplay },
-            { icon: "globe", title: "Office network", text: "India, Dubai, London, and United States support presence through the wider travel group ecosystem." }
+            { icon: "globe", title: "Office network", text: "India, Dubai, London, and United States support presence for separate business projects." }
           ], 3)}
           <div class="inline-actions">
             <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
@@ -1390,7 +1390,7 @@ function contactPage() {
         <div class="process">
           ${[
             ["Receive", "Your enquiry is captured with product interest, business type, office region, and contact preference."],
-            ["Review", "The sales team reviews whether you need CRM, ERP, portal, website, automation, or support help."],
+            ["Review", "The sales team reviews whether you need CRM, ERP, portal, website, e-commerce, automation, or support help."],
             ["Connect", "A callback, WhatsApp reply, or email response is prepared with the next action."],
             ["Plan", "If needed, the team schedules a demo or discovery conversation around your workflow."]
           ].map((item, index) => `
@@ -1414,7 +1414,7 @@ function demoPage() {
           <span class="eyebrow">Demo request</span>
           <h2>Request a demo that is matched to your business workflow.</h2>
           <p class="muted">Tell us your business type, product need, team scale, timeline, and preferred contact method. The request opens as a clean WhatsApp lead message so the sales team can respond faster.</p>
-          ${list(["Review your current sales, booking, service, and reporting workflow", "Select the right first modules across CRM, ERP, portal, website, automation, and analytics", "Discuss users, branches, rollout speed, and budget direction", "Map a phased delivery roadmap with launch and support options"])}
+          ${list(["Review your current sales, order, booking, service, and reporting workflow", "Select the right first modules across CRM, ERP, portal, website, e-commerce, automation, and analytics", "Discuss users, branches, rollout speed, and budget direction", "Map a phased delivery roadmap with launch and support options"])}
         </div>
         ${contactForm("demo")}
       </div>
@@ -1427,9 +1427,9 @@ function demoPage() {
         </div>
         ${cards([
           { icon: "users", title: "Lead and sales flow", text: "Website enquiries, WhatsApp leads, assignment, follow-ups, quotations, pipeline stages, and source reporting." },
-          { icon: "stack", title: "Booking and operations flow", text: "Booking files, passengers, suppliers, service items, documents, approvals, invoices, and status tracking." },
-          { icon: "globe", title: "Customer and partner portal", text: "Customer access for trip updates, invoices, documents, tickets, project milestones, and service communication." },
-          { icon: "chart", title: "Management dashboards", text: "Conversion, workload, revenue, margin, support quality, team performance, and operational bottlenecks." }
+          { icon: "stack", title: "Operations flow", text: "Orders, bookings, consultations, suppliers, service items, documents, approvals, invoices, stock, and status tracking." },
+          { icon: "globe", title: "Customer and partner portal", text: "Customer access for updates, invoices, documents, tickets, project milestones, booking status, and service communication." },
+          { icon: "chart", title: "Management dashboards", text: "Conversion, workload, revenue, margin, stock, support quality, team performance, and operational bottlenecks." }
         ], 4)}
       </div>
     </section>
@@ -1540,7 +1540,7 @@ function footer() {
       <div class="footer-grid">
         <div>
           <h3>BANDEVI GLOBAL GROUP</h3>
-          <p>Premium corporate websites, Travel CRM, Travel ERP, products, portals, and IT solutions for modern travel businesses.</p>
+          <p>Premium corporate websites, CRM, ERP, e-commerce, products, portals, and IT solutions for modern business lines.</p>
         </div>
         <div>
           <h4>Solutions</h4>
