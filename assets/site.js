@@ -90,6 +90,11 @@ const pageData = {
     eyebrow: "Company",
     lede: "An IT and software development company building premium websites, CRM, ERP, portals, automation, and business systems with trust, documentation, and sister-brand operating experience behind the work."
   },
+  trust: {
+    title: "Trust, Licences & Certifications",
+    eyebrow: "Trust center",
+    lede: "Company trust signals, sister-brand operating strength, travel-network references, office presence, documentation standards, and project-separation practices behind BANDEVI's IT delivery."
+  },
   crm: {
     title: "Travel CRM",
     eyebrow: "Sales engine",
@@ -398,6 +403,10 @@ function homePage() {
           { icon: "globe", title: "Sister-company clarity", text: "BANDEVI stays the IT and development company while sister brands such as THG and other business lines stay separate." },
           { icon: "chart", title: "Growth visibility", text: "Dashboards and lead paths help leadership understand enquiry sources, conversion quality, workload, service status, and next actions." }
         ], 4)}
+        <div class="inline-actions">
+          <a class="button primary" href="/trust-licences-certifications/">View Trust & Licences ${icons.arrow}</a>
+          <a class="button ghost" href="/about-us/">About BANDEVI</a>
+        </div>
       </div>
     </section>
     <section class="section">
@@ -483,6 +492,7 @@ function aboutPage() {
           ${travelTrustNetworks.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
         </div>
         <div class="inline-actions">
+          <a class="button dark" href="/trust-licences-certifications/">Trust & Licences ${icons.arrow}</a>
           <a class="button dark" href="/travel-website-development/">Travel Website Development ${icons.arrow}</a>
           <a class="button light" href="https://theholidaysgroup.com/about-us" target="_blank" rel="noopener noreferrer">THG Reference</a>
         </div>
@@ -566,6 +576,102 @@ function aboutPage() {
       </div>
     </section>
     ${cta("Let your About page prove trust before the first call.", "Create a premium corporate presence backed by systems that can support sales, orders, service, delivery, documentation, and long-term support.")}
+  `;
+}
+
+function trustPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Trust center</span>
+          <h2>Trust signals for clients choosing BANDEVI for websites, CRM, ERP, portals, and automation.</h2>
+          <p class="muted">This page brings BANDEVI's credibility story into one place: sister-brand operating exposure, public travel-network references, office presence, documentation standards, and separate project control.</p>
+          <p class="muted">BANDEVI GLOBAL GROUP remains the IT and software development company. The Holidays Group remains a separate sister travel brand, and its public trust profile gives practical context for the systems BANDEVI builds.</p>
+          ${list(["Clear separation between BANDEVI technology projects and sister-brand travel operations", "Travel-grade operating knowledge for websites, CRM, ERP, portals, booking workflows, and document handling", "Public THG references across tourism, airline, travel association, supplier, and quality networks", "Multi-location confidence across India, Dubai, London, and the United States", "Project delivery focused on scope clarity, access control, documentation, support, and long-term improvement"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button ghost" href="/contact-us/">Contact Us</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI trust and technology dashboard"></div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Sister-brand operating strength.</h2>
+          <p>THG's public profile gives BANDEVI a stronger real-world reference for customer support, documentation, multi-location coordination, and premium service expectations.</p>
+        </div>
+        <div class="grid cols-4">
+          ${sisterBrandTrustStats.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Licences, memberships, supplier networks, and quality references.</h2>
+          <p>These public THG travel-ecosystem references support stronger confidence when BANDEVI builds travel websites, white-label websites, CRM, ERP, booking workflows, portals, and documentation systems.</p>
+        </div>
+        <div class="grid cols-4">
+          ${travelTrustNetworks.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How trust becomes better software.</h2>
+          <p>Credibility is useful only when it improves the client experience. BANDEVI converts operating discipline into practical product decisions.</p>
+        </div>
+        ${cards([
+          { icon: "globe", title: "Trust-ready websites", text: "Company pages, service pages, travel websites, white-label websites, social links, office locations, policies, and enquiry paths are structured to build confidence quickly." },
+          { icon: "users", title: "CRM follow-up discipline", text: "Every enquiry can have owner assignment, follow-up reminders, source tracking, customer history, and clear sales-stage visibility." },
+          { icon: "stack", title: "ERP and document control", text: "Bookings, orders, service records, invoices, supplier notes, approvals, files, and status updates stay organized for daily teams." },
+          { icon: "shield", title: "Portal and access control", text: "Customer and partner portals can separate documents, invoices, tickets, project milestones, service updates, and support requests." }
+        ], 4)}
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head single">
+          <span class="eyebrow">Delivery standards</span>
+          <h2>Trust practices we apply to every project.</h2>
+        </div>
+        <div class="process">
+          ${[
+            ["Scope", "Define pages, modules, roles, workflows, data fields, access needs, and launch priorities clearly before build."],
+            ["Separate", "Keep each project, brand, domain, workflow, and login structure separate when the business requires it."],
+            ["Document", "Preserve important content, lead fields, customer records, service status, files, forms, and support paths."],
+            ["Improve", "Review usage, customer response, lead quality, team adoption, and future module expansion after launch."]
+          ].map((item, index) => `
+            <div class="process-step">
+              <span>0${index + 1}</span>
+              <h3>${item[0]}</h3>
+              <p>${item[1]}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Office and service-location confidence.</h2>
+          <p>The shared business network creates a stronger support story across India, Dubai, London, and the United States while BANDEVI technology projects remain separately managed.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    ${cta("Build trust into the website and the system behind it.", "BANDEVI can turn credibility, documentation, support, CRM, ERP, portal, and automation into one stronger digital experience.")}
   `;
 }
 
@@ -1805,6 +1911,7 @@ function footer() {
           <h4>Company</h4>
           <ul class="footer-links">
             <li><a href="/about-us/">About Us</a></li>
+            <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
             <li><a href="/case-studies/">Case Studies</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/support/">Support</a></li>
@@ -1831,6 +1938,7 @@ function footer() {
 const pageRenderers = {
   home: homePage,
   about: aboutPage,
+  trust: trustPage,
   crm: crmPage,
   erp: erpPage,
   products: productsPage,
