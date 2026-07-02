@@ -286,7 +286,7 @@ const pageData = {
   demo: {
     title: "Demo Request",
     eyebrow: "See the platform",
-    lede: "Request a guided walkthrough of the CRM, ERP, products, portal experience, website strategy, and implementation roadmap."
+    lede: "Request a package-matched demo for websites, CRM, ERP, portals, travel websites, e-commerce, astrology booking, automation, and implementation planning."
   },
   portal: {
     title: "Customer Portal",
@@ -1842,6 +1842,18 @@ function contactForm(kind = "contact") {
     "Support or existing project",
     "Office or partnership"
   ];
+  const timelineOptions = demo ? [
+    "Immediately",
+    "Within 15 days",
+    "Within 30 days",
+    "Within 60-90 days",
+    "Planning for later"
+  ] : [
+    "Immediately",
+    "Within 30 days",
+    "Within 90 days",
+    "Planning stage"
+  ];
 
   return `
     <form class="form-panel" data-form="${kind}">
@@ -1863,7 +1875,7 @@ function contactForm(kind = "contact") {
           <input id="${kind}-phone" name="phone" autocomplete="tel" ${demo ? "required" : ""}>
         </div>
         <div class="field">
-          <label for="${kind}-interest">${demo ? "Product needed" : "Inquiry type"}</label>
+          <label for="${kind}-interest">${demo ? "Package / product needed" : "Inquiry type"}</label>
           <select id="${kind}-interest" name="interest">
             ${optionList(interestOptions)}
           </select>
@@ -1877,10 +1889,7 @@ function contactForm(kind = "contact") {
         <div class="field">
           <label for="${kind}-timeline">Timeline</label>
           <select id="${kind}-timeline" name="timeline">
-            <option>Immediately</option>
-            <option>Within 30 days</option>
-            <option>Within 90 days</option>
-            <option>Planning stage</option>
+            ${optionList(timelineOptions)}
           </select>
         </div>
         <div class="field">
@@ -1897,10 +1906,20 @@ function contactForm(kind = "contact") {
             </select>
           </div>
           <div class="field">
+            <label for="${kind}-priority">Main priority</label>
+            <select id="${kind}-priority" name="priority">
+              ${optionList(["Need online presence", "Need better lead control", "Need operations control", "Need customer portal", "Need automation", "Need full digital system"])}
+            </select>
+          </div>
+          <div class="field">
             <label for="${kind}-budget">Budget range</label>
             <select id="${kind}-budget" name="budget">
-              ${optionList(["Need guidance", "Under INR 1 lakh", "INR 1-3 lakh", "INR 3-10 lakh", "Enterprise / custom"])}
+              ${optionList(["Need guidance", "Under INR 50,000", "INR 50,000-1 lakh", "INR 1-3 lakh", "INR 3-10 lakh", "Enterprise / custom"])}
             </select>
+          </div>
+          <div class="field">
+            <label for="${kind}-current">Current website / reference</label>
+            <input id="${kind}-current" name="currentWebsite" placeholder="Optional link or reference">
           </div>
         ` : `
           <div class="field">
@@ -1912,7 +1931,7 @@ function contactForm(kind = "contact") {
         `}
         <div class="field full">
           <label for="${kind}-message">${demo ? "Demo goals / current problem" : "Message"}</label>
-          <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need CRM for leads, booking tracking, portal access, and reports." : "Tell us what you want to discuss."}" required></textarea>
+          <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need the Travel Website Package with CRM-ready leads, WhatsApp enquiry flow, and package pages." : "Tell us what you want to discuss."}" required></textarea>
         </div>
       </div>
       <button class="button dark" type="submit">${demo ? "Send Demo Request" : "Send Message"} ${icons.arrow}</button>
@@ -1989,24 +2008,56 @@ function demoPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Demo request</span>
-          <h2>Request a demo that is matched to your business workflow.</h2>
-          <p class="muted">Tell us your business type, product need, team scale, timeline, and preferred contact method. The request opens as a clean WhatsApp lead message so the sales team can respond faster.</p>
-          ${list(["Review your current sales, order, booking, service, and reporting workflow", "Select the right first modules across CRM, ERP, portal, website, e-commerce, automation, and analytics", "Discuss users, branches, rollout speed, and budget direction", "Map a phased delivery roadmap with launch and support options"])}
+          <h2>Request the right BANDEVI package or platform demo.</h2>
+          <p class="muted">Use this page to choose the closest package, explain your current problem, and send a clean WhatsApp-ready lead message to the sales team.</p>
+          ${list(["Select a website, CRM, ERP, portal, travel, e-commerce, astrology, or automation package", "Share business type, timeline, team scale, priority, and budget direction", "Add your current website or reference if one exists", "Get a clearer first-release recommendation instead of a generic sales call"])}
+          <div class="inline-actions">
+            <a class="button dark" href="#demo-form">Start Demo Request ${icons.arrow}</a>
+            <a class="button light" href="/it-products/#packages">View Packages</a>
+          </div>
         </div>
-        ${contactForm("demo")}
+        <div id="demo-form">
+          ${contactForm("demo")}
+        </div>
       </div>
     </section>
     <section class="section mist">
       <div class="container">
         <div class="section-head">
-          <h2>What the demo can cover.</h2>
-          <p>The walkthrough can focus on one urgent problem or show how the full product suite connects across the business.</p>
+          <h2>Select the package closest to your requirement.</h2>
+          <p>You can choose one in the form, or use these cards to understand the best starting point before submitting.</p>
+        </div>
+        <div class="grid cols-3">
+          ${productPackages.map((item) => `
+            <article class="card case-card package-card">
+              <div class="case-meta">
+                ${iconTile(item.icon)}
+                <span>${item.tag}</span>
+              </div>
+              <h3>${item.title}</h3>
+              <p>${item.bestFor}</p>
+              <div class="pill-list">
+                ${item.addOns.slice(0, 3).map((addon) => `<span class="pill">${addon}</span>`).join("")}
+              </div>
+              <a href="${item.link}">Related solution ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>What your demo can cover.</h2>
+          <p>The walkthrough can focus on one urgent problem or show how the full BANDEVI product suite connects across the business.</p>
         </div>
         ${cards([
-          { icon: "users", title: "Lead and sales flow", text: "Website enquiries, WhatsApp leads, assignment, follow-ups, quotations, pipeline stages, and source reporting." },
+          { icon: "globe", title: "Website and package plan", text: "Pages, content structure, package or product display, enquiry paths, WhatsApp handoff, SEO basics, and trust sections." },
+          { icon: "users", title: "Lead and sales flow", text: "Website enquiries, assignment, follow-ups, quotation stages, customer records, source tracking, and sales visibility." },
           { icon: "stack", title: "Operations flow", text: "Orders, bookings, consultations, suppliers, service items, documents, approvals, invoices, stock, and status tracking." },
-          { icon: "globe", title: "Customer and partner portal", text: "Customer access for updates, invoices, documents, tickets, project milestones, booking status, and service communication." },
-          { icon: "chart", title: "Management dashboards", text: "Conversion, workload, revenue, margin, stock, support quality, team performance, and operational bottlenecks." }
+          { icon: "shield", title: "Portal and service flow", text: "Customer access for updates, invoices, documents, tickets, project milestones, booking status, and service communication." },
+          { icon: "chart", title: "Automation and dashboards", text: "Reminders, lead routing, document requests, reporting summaries, conversion, workload, revenue, and support visibility." },
+          { icon: "message", title: "WhatsApp-first routing", text: "The submitted request opens as a structured WhatsApp message so the team can respond with the right context." }
         ], 4)}
       </div>
     </section>
@@ -2018,10 +2069,10 @@ function demoPage() {
         </div>
         <div class="process">
           ${[
-            ["Qualify", "Your request includes product need, business type, scale, timeline, budget range, and preferred contact."],
-            ["Prepare", "The demo focus is matched to CRM, ERP, portal, website, automation, or complete suite requirements."],
-            ["Show", "The walkthrough explains the user journey, admin controls, reporting, and rollout path."],
-            ["Plan", "You receive a practical first-release direction with launch priorities and support options."]
+            ["Submit", "Your request captures package interest, business type, team scale, priority, timeline, budget, and contact preference."],
+            ["Route", "The form prepares a WhatsApp and email lead message so the sales team receives the request with proper context."],
+            ["Review", "BANDEVI reviews whether you need a website, CRM, ERP, portal, e-commerce, automation, or a complete first release."],
+            ["Plan", "You receive a practical next step: demo focus, first-release scope, timeline direction, and launch priorities."]
           ].map((item, index) => `
             <div class="process-step">
               <span>0${index + 1}</span>
@@ -2032,7 +2083,39 @@ function demoPage() {
         </div>
       </div>
     </section>
-    ${cta("A good demo should feel like your business.", "Share your workflow and the walkthrough can focus on the modules that matter most.")}
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Before you submit, this helps us respond faster.</h2>
+          <p>You do not need everything ready, but these details help the team suggest the right package and first release.</p>
+        </div>
+        <div class="grid cols-4">
+          ${[
+            ["Current stage", "New website, redesign, CRM setup, ERP workflow, portal, e-commerce, or automation improvement."],
+            ["Business type", "Travel, masala, makhana, astrology, e-commerce, service business, corporate desk, or other project."],
+            ["Urgent problem", "Lead loss, weak website, manual operations, missing documents, repeated follow-ups, or low visibility."],
+            ["Launch direction", "Immediate launch, 15-day plan, 30-day plan, 60-90 day roadmap, or early planning."]
+          ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Demo request FAQ.</h2>
+          <p>Quick answers for prospects before they send a package or platform request.</p>
+        </div>
+        ${cards([
+          { icon: "shield", title: "Is this a paid demo?", text: "The demo request is for discussion and qualification. Pricing is shared after the package, scope, timeline, and module depth are understood." },
+          { icon: "users", title: "What if I am not sure which package fits?", text: "Select Product Package Consultation or Not sure yet. BANDEVI can help map the right first release." },
+          { icon: "globe", title: "Can I start with only a website?", text: "Yes. You can start with a website package and later add CRM, ERP, portal, automation, or e-commerce modules." },
+          { icon: "stack", title: "Can BANDEVI handle separate projects?", text: "Yes. Each brand, domain, workflow, portal, and system can remain separate when needed." },
+          { icon: "chart", title: "Will the demo cover budget?", text: "Yes. Budget range helps the team suggest a realistic first release instead of over-planning." },
+          { icon: "message", title: "How will you contact me?", text: "The request prepares a WhatsApp-ready message, and you can also choose phone, email, or video meeting as the preferred contact method." }
+        ])}
+      </div>
+    </section>
+    ${cta("A good demo should feel like your business.", "Share your workflow and BANDEVI can focus the walkthrough on the package, modules, and first release that matter most.")}
   `;
 }
 
@@ -2226,7 +2309,9 @@ function bindForms() {
         ["timeline", "Timeline"],
         ["preferredContact", "Preferred contact"],
         ["scale", "Team / branch scale"],
+        ["priority", "Main priority"],
         ["budget", "Budget range"],
+        ["currentWebsite", "Current website / reference"],
         ["officeRegion", "Office / region"],
         ["message", type === "demo" ? "Demo goals / current problem" : "Message"]
       ];
