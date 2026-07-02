@@ -123,6 +123,11 @@ const pageData = {
     eyebrow: "Astrology service systems",
     lede: "Astrology websites, consultation booking, payment flows, WhatsApp lead capture, CRM, customer portals, and service automation."
   },
+  travelWebsite: {
+    title: "Travel Website Development",
+    eyebrow: "Travel website solutions",
+    lede: "Complete travel websites and white-label travel websites for agencies, DMCs, tour operators, travel sellers, partners, branches, and reseller brands."
+  },
   travelTech: {
     title: "Travel Technology",
     eyebrow: "Travel systems",
@@ -285,6 +290,12 @@ function cta(title = "Ready to modernize your business systems?", text = "Build 
 function industryPreview() {
   const industries = [
     {
+      icon: "plane",
+      title: "Travel website development",
+      text: "Launch complete travel websites and white-label travel websites with package pages, destination content, enquiries, WhatsApp handoff, and CRM-ready lead flow.",
+      href: "/travel-website-development/"
+    },
+    {
       icon: "shield",
       title: "Masala and food products",
       text: "Build a premium product website, online store, catalog, order flow, stock visibility, CRM, and distributor inquiry system.",
@@ -308,10 +319,10 @@ function industryPreview() {
     <section class="section gold-band">
       <div class="container">
         <div class="section-head">
-          <h2>Industries we build for.</h2>
+          <h2>Industries and services we build for.</h2>
           <p>BANDEVI GLOBAL GROUP keeps each business line separate while giving every brand the right website, CRM, ERP, portal, commerce, and automation layer.</p>
         </div>
-        <div class="grid cols-3">
+        <div class="grid cols-4">
           ${industries.map((item) => `
             <a class="card industry-card" href="${item.href}">
               ${iconTile(item.icon)}
@@ -742,6 +753,21 @@ const landingPages = {
     ],
     process: ["Map services", "Build booking flow", "Connect payments and CRM", "Launch portal"]
   },
+  travelWebsite: {
+    tag: "Travel website development",
+    title: "Complete and white-label travel websites for travel sellers.",
+    intro: "BANDEVI GLOBAL GROUP builds complete travel websites and white-label travel websites for agencies, DMCs, tour operators, travel sellers, partner brands, branches, and reseller networks.",
+    points: ["Complete travel websites with destination pages, package pages, service pages, enquiry forms, WhatsApp handoff, blogs, trust sections, and lead capture", "White-label travel websites for agencies, partners, branches, resellers, and franchise-style travel selling with controlled branding and lead flow", "Optional CRM handoff, booking workflow, customer portal, analytics, SEO setup, and support roadmap as the business grows"],
+    modules: [
+      { icon: "globe", title: "Complete travel website", text: "Build a full travel website with home, about, destinations, packages, services, blogs, testimonials, enquiry forms, and contact paths." },
+      { icon: "shield", title: "White-label travel website", text: "Create reusable travel website structures that can be branded for agencies, partners, branches, or reseller businesses." },
+      { icon: "plane", title: "Package and destination pages", text: "Organize destinations, themes, package details, itinerary highlights, inclusions, exclusions, FAQs, and enquiry actions." },
+      { icon: "message", title: "Enquiry and WhatsApp capture", text: "Turn website interest into structured leads through forms, WhatsApp handoff, source tracking, and team follow-up." },
+      { icon: "chart", title: "SEO and blog setup", text: "Prepare search-friendly pages, metadata, blog categories, analytics, and content paths for organic growth." },
+      { icon: "stack", title: "CRM handoff and analytics", text: "Connect qualified enquiries to CRM, booking workflow, customer portal, dashboards, and reporting when required." }
+    ],
+    process: ["Plan website structure", "Build brand pages", "Connect leads", "Launch and improve"]
+  },
   travelTech: {
     tag: "Travel technology",
     title: "Complete travel websites and systems for agencies, operators, DMCs, and corporate desks.",
@@ -772,7 +798,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -817,6 +843,50 @@ function landingPage(key) {
     </section>
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function travelTechWebsiteLinksSection() {
+  const links = [
+    {
+      icon: "globe",
+      title: "Travel Website Development",
+      text: "Explore complete travel websites and white-label travel websites built for agencies, DMCs, operators, partners, and resellers.",
+      href: "/travel-website-development/"
+    },
+    {
+      icon: "users",
+      title: "Travel CRM",
+      text: "Move enquiries, quotations, follow-ups, campaigns, and customer history into a controlled sales workflow.",
+      href: "/travel-crm/"
+    },
+    {
+      icon: "stack",
+      title: "Travel ERP",
+      text: "Connect confirmed bookings with suppliers, services, invoices, payments, documents, and reporting.",
+      href: "/travel-erp/"
+    }
+  ];
+
+  return `
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <h2>Travel website and system options.</h2>
+          <p>Start with the travel website, then connect CRM, ERP, portal, booking workflow, and reporting as the business grows.</p>
+        </div>
+        <div class="grid cols-3">
+          ${links.map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -1354,6 +1424,7 @@ function contactForm(kind = "contact") {
   const demo = kind === "demo";
   const interestOptions = demo ? [
     "CRM + ERP + Portal",
+    "Travel Website Development",
     "Complete Travel Website",
     "White-label Travel Website",
     "Masala / Food Product Website",
@@ -1370,6 +1441,7 @@ function contactForm(kind = "contact") {
   ] : [
     "Sales inquiry",
     "Demo request",
+    "Travel website development",
     "Complete travel website",
     "White-label travel website",
     "Masala / food product project",
@@ -1666,6 +1738,7 @@ function footer() {
           <ul class="footer-links">
             <li><a href="/travel-crm/">Travel CRM</a></li>
             <li><a href="/travel-erp/">Travel ERP</a></li>
+            <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">IT Solutions</a></li>
             <li><a href="/masala-food-products/">Masala / Food</a></li>
@@ -1714,6 +1787,7 @@ const pageRenderers = {
   masala: () => landingPage("masala"),
   makhana: () => landingPage("makhana"),
   astrology: () => landingPage("astrology"),
+  travelWebsite: () => landingPage("travelWebsite"),
   travelTech: () => landingPage("travelTech"),
   leadBooking: () => landingPage("leadBooking"),
   it: itPage,
