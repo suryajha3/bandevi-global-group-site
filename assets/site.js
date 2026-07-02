@@ -101,7 +101,7 @@ const pageData = {
   webApp: {
     title: "Website & Mobile App Development",
     eyebrow: "Digital delivery",
-    lede: "Professional websites, web apps, and mobile app development for brands that need polished design and reliable performance."
+    lede: "Professional websites, web apps, complete travel websites, white-label travel websites, and mobile app development for brands that need polished design and reliable performance."
   },
   automation: {
     title: "Business Automation",
@@ -126,7 +126,7 @@ const pageData = {
   travelTech: {
     title: "Travel Technology",
     eyebrow: "Travel systems",
-    lede: "Travel CRM, ERP, portals, booking workflows, supplier coordination, and analytics built for agencies, operators, and DMCs."
+    lede: "Complete travel websites, white-label travel websites, Travel CRM, ERP, portals, booking workflows, supplier coordination, and analytics built for agencies, operators, and DMCs."
   },
   leadBooking: {
     title: "Lead & Booking Management",
@@ -347,7 +347,7 @@ function homePage() {
           <span class="eyebrow">Platform suite</span>
           <h2>Built for the real pace of growing business lines.</h2>
           <p class="muted">Every module is shaped around practical daily workflows: inquiry handling, order or booking control, product catalogs, service requests, supplier coordination, finance, customer communication, and repeat sales.</p>
-          ${list(["CRM for inquiries, quotations, follow-ups, campaigns, and customer profiles", "ERP for orders, bookings, suppliers, invoices, approvals, stock, and reporting", "Customer portals for documents, invoices, tickets, service status, and project milestones", "IT services for websites, integrations, automation, cloud, e-commerce, and security"])}
+          ${list(["Complete travel websites and white-label travel websites for agencies, DMCs, operators, and partners", "CRM for inquiries, quotations, follow-ups, campaigns, and customer profiles", "ERP for orders, bookings, suppliers, invoices, approvals, stock, and reporting", "Customer portals for documents, invoices, tickets, service status, and project milestones", "IT services for websites, integrations, automation, cloud, e-commerce, and security"])}
         </div>
         <div class="media-frame"><img src="${productImage}" alt="Premium travel software dashboard mockup"></div>
       </div>
@@ -572,7 +572,7 @@ function productsPage() {
           <h2>A modular platform suite for growing business lines.</h2>
           <p class="muted">Start with the module that solves the most urgent business problem, then expand into a connected operating system for growth across travel, masala, makhana, astrology, and service brands.</p>
           <div class="pill-list">
-            ${["Travel CRM", "Travel ERP", "Customer Portal", "E-Commerce", "Supplier Hub", "Analytics"].map((item) => `<span class="pill">${item}</span>`).join("")}
+            ${["Travel CRM", "Travel ERP", "Complete Travel Website", "White-label Website", "Customer Portal", "E-Commerce", "Analytics"].map((item) => `<span class="pill">${item}</span>`).join("")}
           </div>
         </div>
         <div class="media-frame"><img src="${productImage}" alt="Travel technology product suite"></div>
@@ -642,7 +642,7 @@ const landingPages = {
       { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, invoices, payments, approvals, documents, and operational reporting." },
       { icon: "globe", title: "Customer Portal", text: "Give customers controlled access to service status, invoices, documents, support requests, booking updates, and project milestones." },
       { icon: "plane", title: "Booking & Order Desk", text: "Coordinate bookings, orders, consultations, packages, confirmations, documents, change requests, and service status." },
-      { icon: "shield", title: "Web & E-Commerce", text: "Launch premium corporate websites, landing pages, storefronts, masala or makhana catalogs, service pages, and search-friendly lead paths." },
+      { icon: "shield", title: "Websites & E-Commerce", text: "Launch premium corporate websites, complete travel websites, white-label travel websites, storefronts, masala or makhana catalogs, service pages, and search-friendly lead paths." },
       { icon: "chart", title: "Automation & Analytics", text: "Automate reminders, routing, reports, notifications, dashboards, and performance reviews." }
     ],
     process: ["Map business workflow", "Prioritize product modules", "Launch first release", "Improve with data"]
@@ -673,11 +673,13 @@ const landingPages = {
   },
   webApp: {
     tag: "Web & mobile",
-    title: "Professional websites, web apps, and mobile experiences for modern businesses.",
-    intro: "From a premium corporate website to internal dashboards and mobile-first customer experiences, the delivery focuses on clarity, speed, trust, and business usefulness.",
-    points: ["Corporate websites with strong positioning, SEO structure, forms, and conversion paths", "Web applications for dashboards, portals, workflows, and admin teams", "Mobile app planning and delivery for customer access, service, and engagement"],
+    title: "Professional websites, travel websites, web apps, and mobile experiences.",
+    intro: "From a premium corporate website to complete travel websites, white-label travel websites, internal dashboards, and mobile-first customer experiences, the delivery focuses on clarity, speed, trust, and business usefulness.",
+    points: ["Corporate websites with strong positioning, SEO structure, forms, and conversion paths", "Complete travel websites and white-label travel websites for agencies, DMCs, operators, and travel sellers", "Web applications for dashboards, portals, workflows, and admin teams", "Mobile app planning and delivery for customer access, service, and engagement"],
     modules: [
       { icon: "globe", title: "Corporate website", text: "Premium pages, service storytelling, lead capture, SEO metadata, analytics, and responsive layouts." },
+      { icon: "plane", title: "Complete travel website", text: "Travel-ready pages for destinations, packages, enquiries, itineraries, trust sections, WhatsApp handoff, blogs, and booking lead capture." },
+      { icon: "shield", title: "White-label travel website", text: "A ready travel website structure that can be branded for agencies, partners, branches, or resellers with controlled content and lead flow." },
       { icon: "stack", title: "Web application", text: "Admin dashboards, role-based tools, portals, data views, workflows, and integrations." },
       { icon: "phone", title: "Mobile experience", text: "Mobile app and mobile-first interface planning for customers, staff, and service workflows." }
     ],
@@ -742,10 +744,12 @@ const landingPages = {
   },
   travelTech: {
     tag: "Travel technology",
-    title: "Travel systems for agencies, tour operators, DMCs, and corporate desks.",
-    intro: "BANDEVI GLOBAL GROUP brings travel CRM, ERP, booking operations, supplier workflows, portals, and analytics into a more controlled digital ecosystem.",
-    points: ["Inquiry handling, quotation stages, itinerary discussions, and sales follow-up control", "Booking files, passenger details, documents, suppliers, payments, and finance visibility", "Customer portals and reporting that make service feel premium and organized"],
+    title: "Complete travel websites and systems for agencies, operators, DMCs, and corporate desks.",
+    intro: "BANDEVI GLOBAL GROUP builds complete travel websites, white-label travel websites, Travel CRM, ERP, booking operations, supplier workflows, portals, and analytics into a more controlled digital ecosystem.",
+    points: ["Complete travel websites with destinations, packages, enquiry forms, WhatsApp handoff, blogs, trust sections, and lead capture", "White-label travel websites for agencies, partners, branches, resellers, and franchise-style travel selling", "Inquiry handling, quotation stages, itinerary discussions, and sales follow-up control", "Booking files, passenger details, documents, suppliers, payments, and finance visibility", "Customer portals and reporting that make service feel premium and organized"],
     modules: [
+      { icon: "globe", title: "Complete travel website", text: "Build a full travel website with destination pages, package pages, enquiry forms, blogs, social proof, and conversion paths." },
+      { icon: "shield", title: "White-label travel website", text: "Create a branded travel website for agencies or partners using reusable structure, controlled content, and lead-routing options." },
       { icon: "plane", title: "Travel CRM", text: "Manage inquiries, trip interests, quotations, follow-ups, campaigns, and customer history." },
       { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, confirmations, invoices, payments, and margins." },
       { icon: "globe", title: "Customer portal", text: "Give travelers and corporate clients access to documents, invoices, status, and support." }
@@ -1350,6 +1354,8 @@ function contactForm(kind = "contact") {
   const demo = kind === "demo";
   const interestOptions = demo ? [
     "CRM + ERP + Portal",
+    "Complete Travel Website",
+    "White-label Travel Website",
     "Masala / Food Product Website",
     "Makhana Brand Digital System",
     "Astrology Services Platform",
@@ -1364,6 +1370,8 @@ function contactForm(kind = "contact") {
   ] : [
     "Sales inquiry",
     "Demo request",
+    "Complete travel website",
+    "White-label travel website",
     "Masala / food product project",
     "Makhana brand project",
     "Astrology services project",
