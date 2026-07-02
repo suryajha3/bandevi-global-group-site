@@ -75,6 +75,99 @@ const travelTrustNetworks = [
   ["ISO", "Quality-focused service-practice standards"]
 ];
 
+const productPackages = [
+  {
+    icon: "globe",
+    tag: "Website",
+    title: "Starter Website Package",
+    bestFor: "New companies, service brands, personal brands, and local businesses that need a polished first website.",
+    includes: ["Home, about, services, contact, and enquiry sections", "Responsive design for mobile and desktop", "WhatsApp, call, email, and social links", "Basic SEO page structure and analytics readiness"],
+    addOns: ["Blog setup", "Extra service pages", "CRM handoff", "Logo or brand polish"],
+    timeline: "Typical starting timeline: 7-14 working days.",
+    link: "/website-mobile-app-development/"
+  },
+  {
+    icon: "users",
+    tag: "Website + CRM",
+    title: "Business Website + CRM Package",
+    bestFor: "Growing service teams that want a better website plus structured lead capture and follow-up control.",
+    includes: ["Premium business website pages", "Lead and enquiry form structure", "CRM-ready customer fields", "Follow-up stages and source tracking"],
+    addOns: ["Quotation workflow", "WhatsApp routing", "Sales dashboard", "Email automation"],
+    timeline: "Typical starting timeline: 2-4 weeks.",
+    link: "/crm-erp-solutions/"
+  },
+  {
+    icon: "plane",
+    tag: "Travel website",
+    title: "Travel Website Package",
+    bestFor: "Travel agencies, tour operators, DMCs, and travel sellers that need a complete travel website.",
+    includes: ["Destination and package pages", "Itinerary, inclusions, exclusions, and FAQ structure", "Enquiry and WhatsApp capture", "Blog and SEO content paths"],
+    addOns: ["Travel CRM", "Customer portal", "Booking workflow", "Payment gateway"],
+    timeline: "Typical starting timeline: 2-4 weeks.",
+    link: "/travel-website-development/"
+  },
+  {
+    icon: "shield",
+    tag: "White-label",
+    title: "White-label Travel Website Package",
+    bestFor: "Travel groups, partner networks, branches, resellers, and franchise-style travel sellers.",
+    includes: ["Reusable travel website structure", "Partner or branch branding areas", "Controlled package and service templates", "Separate lead capture and source tracking"],
+    addOns: ["Partner portal", "CRM routing", "Multi-brand content setup", "Reporting dashboard"],
+    timeline: "Typical starting timeline: 3-6 weeks.",
+    link: "/travel-website-development/"
+  },
+  {
+    icon: "stack",
+    tag: "CRM + ERP",
+    title: "CRM + ERP Package",
+    bestFor: "Teams that need to connect sales, operations, finance, documents, approvals, and management reporting.",
+    includes: ["Lead pipeline and customer records", "Booking, order, or service workflow", "Invoices, payments, documents, and approvals", "Management dashboard planning"],
+    addOns: ["Supplier hub", "Customer portal", "Automation", "Advanced analytics"],
+    timeline: "Typical starting timeline: 4-8 weeks.",
+    link: "/crm-erp-solutions/"
+  },
+  {
+    icon: "globe",
+    tag: "Portal",
+    title: "Customer Portal Package",
+    bestFor: "Companies that want customers, partners, or clients to view documents, invoices, status, and support history.",
+    includes: ["Customer login concept", "Document and invoice access", "Support request structure", "Project, booking, order, or service status views"],
+    addOns: ["Payment status", "Notifications", "Partner access", "Advanced permissions"],
+    timeline: "Typical starting timeline: 3-6 weeks.",
+    link: "/customer-portal/"
+  },
+  {
+    icon: "shield",
+    tag: "Commerce",
+    title: "Masala / Makhana E-Commerce Package",
+    bestFor: "Masala, makhana, packaged food, and product brands that need catalog, enquiry, and commerce readiness.",
+    includes: ["Product catalog and category pages", "Bulk enquiry and distributor lead capture", "Cart or payment roadmap", "Order and customer communication planning"],
+    addOns: ["Inventory view", "Distributor CRM", "Offers and coupons", "Delivery workflow"],
+    timeline: "Typical starting timeline: 2-5 weeks.",
+    link: "/ecommerce-solutions/"
+  },
+  {
+    icon: "message",
+    tag: "Astrology",
+    title: "Astrology Booking Platform Package",
+    bestFor: "Astrology and consultation brands that need services, booking requests, payments, CRM, and customer records.",
+    includes: ["Astrology service pages", "Consultation booking request flow", "WhatsApp and form capture", "Customer CRM and report-delivery planning"],
+    addOns: ["Payment gateway", "Calendar workflow", "Customer portal", "Automated reminders"],
+    timeline: "Typical starting timeline: 2-5 weeks.",
+    link: "/astrology-services-platform/"
+  },
+  {
+    icon: "chart",
+    tag: "Automation",
+    title: "Automation Package",
+    bestFor: "Teams losing time on repeated follow-ups, document requests, internal handoffs, reminders, and reports.",
+    includes: ["Lead routing and assignment rules", "Follow-up and task reminders", "Document request triggers", "Status notifications and report summaries"],
+    addOns: ["WhatsApp workflow", "CRM/ERP connection", "Dashboard automation", "Support desk routing"],
+    timeline: "Typical starting timeline: 1-3 weeks.",
+    link: "/business-automation/"
+  }
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 
@@ -113,7 +206,7 @@ const pageData = {
   itProducts: {
     title: "IT Products & Software Solutions",
     eyebrow: "Software products",
-    lede: "A complete product suite for CRM, ERP, customer portals, booking operations, automation, websites, e-commerce, business dashboards, and vertical-specific digital products."
+    lede: "Clear product and service packages for websites, CRM, ERP, customer portals, travel websites, white-label websites, e-commerce, astrology booking, automation, and business dashboards."
   },
   crmErp: {
     title: "CRM & ERP Solutions",
@@ -806,9 +899,9 @@ function itPage() {
 const landingPages = {
   itProducts: {
     tag: "Products & software",
-    title: "One product suite for sales, operations, commerce, customer service, and digital growth.",
-    intro: "BANDEVI GLOBAL GROUP builds practical software products for business lines that need stronger lead control, cleaner operations, premium customer experience, and better management visibility.",
-    points: ["CRM and ERP products for sales, operations, finance, suppliers, stock, bookings, and reporting", "Customer portals, admin panels, dashboards, booking desks, order desks, and internal productivity systems", "Websites, e-commerce platforms, mobile-ready experiences, automation, and analytics connected to real business workflows"],
+    title: "Product and service packages for websites, CRM, ERP, portals, e-commerce, and automation.",
+    intro: "BANDEVI GLOBAL GROUP packages its IT products into clear starting points, so clients can choose a website, CRM, ERP, portal, commerce, travel, astrology, or automation rollout without guessing where to begin.",
+    points: ["Website and digital presence packages for brands that need trust, lead capture, and SEO-ready pages", "CRM, ERP, portal, booking, order, and automation packages for daily business control", "Industry packages for travel, masala, makhana, astrology, e-commerce, service teams, and multi-brand groups"],
     modules: [
       { icon: "users", title: "Travel CRM", text: "Capture enquiries, assign sales owners, track quotation stages, manage follow-ups, and improve conversion visibility." },
       { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, invoices, payments, approvals, documents, and operational reporting." },
@@ -1053,6 +1146,7 @@ function travelTechWebsiteLinksSection() {
 
 function itProductUpgradeSections() {
   return `
+    ${productPackagesSection()}
     <section class="section dark">
       <div class="container">
         <div class="section-head">
@@ -1114,6 +1208,69 @@ function itProductUpgradeSections() {
         <div class="inline-actions">
           <a class="button primary" href="/contact-us/">Talk to Sales ${icons.arrow}</a>
           <a class="button ghost" href="/demo-request/">Request Demo</a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function productPackagesSection() {
+  return `
+    <section class="section mist" id="packages">
+      <div class="container">
+        <div class="section-head">
+          <h2>Product and service packages.</h2>
+          <p>Pick the package closest to your current business need. Timelines are typical starting ranges and can change based on content, integrations, approvals, and module depth.</p>
+        </div>
+        <div class="grid cols-3">
+          ${productPackages.map((item) => `
+            <article class="card case-card package-card">
+              <div class="case-meta">
+                ${iconTile(item.icon)}
+                <span>${item.tag}</span>
+              </div>
+              <h3>${item.title}</h3>
+              <div class="case-copy">
+                <strong>Best for</strong>
+                <p>${item.bestFor}</p>
+              </div>
+              <div class="case-copy">
+                <strong>Included</strong>
+                ${list(item.includes)}
+              </div>
+              <div class="case-copy">
+                <strong>Add-ons</strong>
+                <div class="pill-list">
+                  ${item.addOns.map((addon) => `<span class="pill">${addon}</span>`).join("")}
+                </div>
+              </div>
+              <div class="case-copy">
+                <strong>Typical timeline</strong>
+                <p>${item.timeline}</p>
+              </div>
+              <a href="${item.link}">Explore related solution ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/demo-request/">Request Package Demo ${icons.arrow}</a>
+          <a class="button ghost" href="/contact-us/">Talk to Sales</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How to choose the right package.</h2>
+          <p>The best first package is the one that fixes the most urgent sales, operations, trust, customer-service, or reporting problem.</p>
+        </div>
+        <div class="grid cols-4">
+          ${[
+            ["Need online trust?", "Start with a website, travel website, white-label website, or product-commerce package."],
+            ["Need lead control?", "Start with CRM or a business website + CRM package so every enquiry has an owner and next action."],
+            ["Need operations control?", "Start with CRM + ERP when orders, bookings, suppliers, documents, and payments need structure."],
+            ["Need customer service control?", "Start with a portal or automation package to reduce repeated manual communication."]
+          ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
         </div>
       </div>
     </section>
@@ -1632,6 +1789,16 @@ function supportPage() {
 function contactForm(kind = "contact") {
   const demo = kind === "demo";
   const interestOptions = demo ? [
+    "Product Package Consultation",
+    "Starter Website Package",
+    "Business Website + CRM Package",
+    "Travel Website Package",
+    "White-label Travel Website Package",
+    "CRM + ERP Package",
+    "Customer Portal Package",
+    "Masala / Makhana E-Commerce Package",
+    "Astrology Booking Platform Package",
+    "Automation Package",
     "CRM + ERP + Portal",
     "Travel Website Development",
     "Complete Travel Website",
@@ -1650,6 +1817,16 @@ function contactForm(kind = "contact") {
   ] : [
     "Sales inquiry",
     "Demo request",
+    "Product package consultation",
+    "Starter website package",
+    "Business website + CRM package",
+    "Travel website package",
+    "White-label travel website package",
+    "CRM + ERP package",
+    "Customer portal package",
+    "Masala / makhana e-commerce package",
+    "Astrology booking platform package",
+    "Automation package",
     "Travel website development",
     "Complete travel website",
     "White-label travel website",
