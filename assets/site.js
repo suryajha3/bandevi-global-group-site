@@ -53,6 +53,28 @@ const officeLocations = [
   ["United States", "216 W Garvey Avenue, Suite C, Monterey Park, California 91754"]
 ];
 
+const sisterBrandTrustStats = [
+  ["Since 2007", "THG's travel presence gives BANDEVI real operating context for travel, hospitality, support, and customer-service systems."],
+  ["26+", "Office and service-location context across India, Dubai, London, and the United States."],
+  ["1000+", "Professional team ecosystem across travel operations, sales, support, partnerships, visa assistance, technology, and business development."],
+  ["INR 8,000 Cr+", "Estimated group business strength referenced by THG's public profile, supporting stronger market-confidence storytelling."]
+];
+
+const travelTrustNetworks = [
+  ["MoT", "Ministry of Tourism, Government of India travel ecosystem"],
+  ["IATA", "International airline and ticketing association"],
+  ["OTOAI", "Outbound Tour Operators Association of India"],
+  ["TAFI", "Travel Agents Federation of India"],
+  ["ASTA", "American Society of Travel Advisors"],
+  ["JATA", "Japan Association of Travel Agents"],
+  ["PATA", "Pacific Asia Travel Association"],
+  ["TBO", "B2B hotel and travel supplier platform"],
+  ["IAAI", "IATA Agents Association of India"],
+  ["ETAA", "Enterprising Travel Agents Association"],
+  ["TAAI", "Travel Agents Association of India"],
+  ["ISO", "Quality-focused service-practice standards"]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 
@@ -66,7 +88,7 @@ const pageData = {
   about: {
     title: "About BANDEVI GLOBAL GROUP",
     eyebrow: "Company",
-    lede: "We help group companies and outside clients build premium websites, CRM, ERP, portals, automation, and IT systems that support sales, operations, customer experience, and digital growth."
+    lede: "An IT and software development company building premium websites, CRM, ERP, portals, automation, and business systems with trust, documentation, and sister-brand operating experience behind the work."
   },
   crm: {
     title: "Travel CRM",
@@ -412,10 +434,10 @@ function aboutPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Who we are</span>
-          <h2>A digital technology partner for ambitious group companies and growing brands.</h2>
-          <p class="muted">BANDEVI GLOBAL GROUP designs corporate websites, CRM, ERP, customer portals, e-commerce, and business automation systems for teams that want a more professional way to sell, operate, and serve customers.</p>
-          <p class="muted">Our work connects brand presence with practical software. The website helps create trust, the CRM protects every enquiry, the ERP brings control to operations and finance, and portals give customers cleaner self-service.</p>
-          ${list(["Premium online presence for marketing and sales credibility", "CRM and ERP workflows for daily teams across business lines", "Customer portals, lead management, order, booking, and service visibility", "Long-term improvement support after launch"])}
+          <h2>A trusted IT and software development company for serious business growth.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP builds premium websites, CRM, ERP, customer portals, e-commerce platforms, automation, and business software for brands that need a stronger digital presence and cleaner operational control.</p>
+          <p class="muted">Our advantage is practical operating exposure. BANDEVI remains the IT and development company, while sister brands such as The Holidays Group stay separate. That gives our systems a real-world view of trust, documentation, customer support, multi-location coordination, and long-term service quality.</p>
+          ${list(["Premium website presence that builds confidence before the first enquiry", "CRM and ERP workflows that protect leads, orders, bookings, documents, finance, and follow-ups", "Customer portals, dashboards, and automation for professional service delivery", "Separate project structure for sister brands, outside clients, and new business lines", "Long-term improvement support after launch, not only one-time website delivery"])}
           <div class="inline-actions">
             <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button ghost" href="/contact-us/">Contact Us</a>
@@ -427,30 +449,46 @@ function aboutPage() {
     <section class="section mist">
       <div class="container">
         <div class="section-head">
-          <h2>Built around the systems a growing business actually needs.</h2>
-          <p>Instead of treating design, software, and support as separate pieces, BANDEVI GLOBAL GROUP brings them into one practical digital growth stack.</p>
+          <h2>Sister-brand trust signals that make our technology stronger.</h2>
+          <p>The Holidays Group public profile gives BANDEVI a real operating reference for travel-grade systems, premium support, documentation discipline, and multi-location customer service.</p>
         </div>
         <div class="grid cols-4">
-          <article class="card metric-card">
-            <strong>CRM</strong>
-            <p>Lead capture, follow-ups, quotation tracking, customer history, and sales visibility.</p>
-          </article>
-          <article class="card metric-card">
-            <strong>ERP</strong>
-            <p>Orders, bookings, suppliers, stock, operations, payments, approvals, and reporting control.</p>
-          </article>
-          <article class="card metric-card">
-            <strong>Portal</strong>
-            <p>Customer access for service status, documents, invoices, support requests, and updates.</p>
-          </article>
-          <article class="card metric-card">
-            <strong>Web</strong>
-            <p>Corporate websites, landing pages, product pages, and conversion-focused contact paths.</p>
-          </article>
+          ${sisterBrandTrustStats.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
         </div>
       </div>
     </section>
     <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Built around the systems a growing business actually needs.</h2>
+          <p>Instead of treating design, software, and support as separate pieces, BANDEVI GLOBAL GROUP brings them into one practical digital growth stack.</p>
+        </div>
+        <div class="grid cols-4">
+          ${[
+            ["CRM", "Lead capture, follow-ups, quotation tracking, customer history, and sales visibility."],
+            ["ERP", "Orders, bookings, suppliers, stock, operations, payments, approvals, and reporting control."],
+            ["Portal", "Customer access for service status, documents, invoices, support requests, and updates."],
+            ["Web", "Corporate websites, landing pages, product pages, and conversion-focused contact paths."]
+          ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Licences, memberships and travel-network references.</h2>
+          <p>THG's public travel ecosystem references recognized tourism, airline, travel association, supplier, and quality networks. BANDEVI uses this sister-brand operating knowledge to build better travel websites, CRM, ERP, customer portals, and booking workflows while keeping each brand separate.</p>
+        </div>
+        <div class="grid cols-4">
+          ${travelTrustNetworks.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button dark" href="/travel-website-development/">Travel Website Development ${icons.arrow}</a>
+          <a class="button light" href="https://theholidaysgroup.com/about-us" target="_blank" rel="noopener noreferrer">THG Reference</a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
       <div class="container">
         <div class="section-head single">
           <span class="eyebrow">What we build</span>
@@ -459,7 +497,7 @@ function aboutPage() {
         ${cards([
           { icon: "users", title: "CRM systems", text: "A sales workspace for enquiries, campaigns, owner assignment, follow-up reminders, proposals, and conversion reporting." },
           { icon: "stack", title: "ERP systems", text: "An operations backbone for orders, bookings, stock, suppliers, finance, approvals, documents, team workload, and management reports." },
-          { icon: "globe", title: "Corporate websites", text: "Premium pages for company profile, products, services, blogs, demo requests, and search-friendly lead generation." },
+          { icon: "globe", title: "Premium websites", text: "Company pages, product pages, travel websites, white-label websites, blogs, demo requests, and search-friendly lead generation." },
           { icon: "shield", title: "Portals and automation", text: "Customer portals, internal dashboards, WhatsApp handoffs, task routing, and repeatable workflows for service teams." }
         ], 4)}
       </div>
@@ -467,13 +505,13 @@ function aboutPage() {
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>How we work with clients.</h2>
-          <p>Every project starts with business clarity first, then moves into design, build, launch, and measured improvement.</p>
+          <h2>Trust-first delivery practices.</h2>
+          <p>We build websites and software around the things customers notice most: clear promises, fast response, proper records, secure access, and reliable post-launch service.</p>
         </div>
         <div class="process">
           ${[
-            ["Discover", "Understand services, users, lead sources, operations, reporting needs, and launch priorities."],
-            ["Design", "Shape the website structure, software modules, customer journeys, and approval flows."],
+            ["Discover", "Understand services, users, lead sources, operations, reporting needs, trust gaps, and launch priorities."],
+            ["Document", "Turn business requirements into clear pages, modules, workflows, roles, permissions, and handoff rules."],
             ["Build", "Create responsive pages, CRM/ERP workflows, portal experiences, integrations, and admin controls."],
             ["Support", "Refine content, train teams, review usage, improve conversion paths, and add new modules."]
           ].map((item, index) => `
@@ -486,14 +524,30 @@ function aboutPage() {
         </div>
       </div>
     </section>
-    <section class="section mist">
+    <section class="section dark">
       <div class="container split reverse">
         <div class="media-frame"><img src="${productImage}" alt="Travel CRM and ERP dashboard screens"></div>
         <div>
           <span class="eyebrow">Who we serve</span>
-          <h2>For teams that want better control from first lead to final service.</h2>
-          <p class="muted">The company is built for organizations where brand trust, fast response, order or service accuracy, and customer communication directly affect revenue.</p>
+          <h2>For teams where trust, speed, and service quality directly affect revenue.</h2>
+          <p class="muted">BANDEVI is built for organizations that need a stronger first impression, cleaner sales control, reliable operations, and a more professional customer experience.</p>
           ${list(["Group and sister-company technology projects", "Masala and food-product businesses that need e-commerce, CRM, stock, and order visibility", "Makhana brands that need product catalogs, commerce, distribution, and customer systems", "Astrology service brands that need websites, booking flows, consultation portals, CRM, and payments", "Travel, service, and corporate teams that need CRM, ERP, portals, websites, and automation"])}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <h2>Office and service-location confidence.</h2>
+          <p>The shared business network gives clients a stronger support story across India, Dubai, London, and the United States while each project remains separately managed.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -504,13 +558,14 @@ function aboutPage() {
           <h2>Clear systems, practical delivery, and long-term trust.</h2>
         </div>
         ${cards([
-          { icon: "shield", title: "Trust by design", text: "Clear data flows, permissions, auditability, and operational controls are treated as product essentials." },
-          { icon: "chart", title: "Measurable outcomes", text: "Projects are mapped to response speed, conversion visibility, staff productivity, and customer satisfaction." },
-          { icon: "users", title: "Team adoption", text: "Interfaces are designed for real daily users so sales, support, operations, and leadership can work with confidence." }
-        ])}
+          { icon: "shield", title: "Trust by design", text: "Clear data flows, permissions, auditability, customer communication, and operational controls are treated as product essentials." },
+          { icon: "chart", title: "Measurable outcomes", text: "Projects are mapped to response speed, conversion visibility, staff productivity, support quality, and customer satisfaction." },
+          { icon: "users", title: "Team adoption", text: "Interfaces are designed for daily users so sales, support, operations, finance, and leadership can work with confidence." },
+          { icon: "stack", title: "Separate project control", text: "Each brand, website, portal, CRM, ERP, and campaign can stay separate with its own access, content, workflows, and roadmap." }
+        ], 4)}
       </div>
     </section>
-    ${cta("Let your website and software tell one stronger story.", "Create a premium corporate presence backed by systems that can support sales, orders, service, and delivery.")}
+    ${cta("Let your About page prove trust before the first call.", "Create a premium corporate presence backed by systems that can support sales, orders, service, delivery, documentation, and long-term support.")}
   `;
 }
 
