@@ -108,6 +108,21 @@ const pageData = {
     eyebrow: "Workflow automation",
     lede: "Automate leads, follow-ups, customer communication, task routing, reports, and daily business workflows."
   },
+  masala: {
+    title: "Masala & Food Product IT Solutions",
+    eyebrow: "Food brand technology",
+    lede: "Websites, e-commerce, CRM, inventory, order management, distributor inquiry flows, and automation for masala and food-product brands."
+  },
+  makhana: {
+    title: "Makhana Brand Digital Solutions",
+    eyebrow: "Makhana brand systems",
+    lede: "Premium websites, online stores, product catalogs, bulk inquiry flows, payments, CRM, and operational dashboards for makhana brands."
+  },
+  astrology: {
+    title: "Astrology Services Digital Platform",
+    eyebrow: "Astrology service systems",
+    lede: "Astrology websites, consultation booking, payment flows, WhatsApp lead capture, CRM, customer portals, and service automation."
+  },
   travelTech: {
     title: "Travel Technology",
     eyebrow: "Travel systems",
@@ -267,6 +282,50 @@ function cta(title = "Ready to modernize your business systems?", text = "Build 
   `;
 }
 
+function industryPreview() {
+  const industries = [
+    {
+      icon: "shield",
+      title: "Masala and food products",
+      text: "Build a premium product website, online store, catalog, order flow, stock visibility, CRM, and distributor inquiry system.",
+      href: "/masala-food-products/"
+    },
+    {
+      icon: "stack",
+      title: "Makhana brands",
+      text: "Create product pages, bulk inquiry capture, online payments, customer follow-up, inventory views, and management dashboards.",
+      href: "/makhana-brand-solutions/"
+    },
+    {
+      icon: "globe",
+      title: "Astrology services",
+      text: "Launch consultation booking, payment collection, WhatsApp leads, customer profiles, reports, and a clean client portal.",
+      href: "/astrology-services-platform/"
+    }
+  ];
+
+  return `
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <h2>Industries we build for.</h2>
+          <p>BANDEVI GLOBAL GROUP keeps each business line separate while giving every brand the right website, CRM, ERP, portal, commerce, and automation layer.</p>
+        </div>
+        <div class="grid cols-3">
+          ${industries.map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Explore ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function homePage() {
   return `
     <section class="section">
@@ -293,6 +352,7 @@ function homePage() {
         <div class="media-frame"><img src="${productImage}" alt="Premium travel software dashboard mockup"></div>
       </div>
     </section>
+    ${industryPreview()}
     <section class="section dark">
       <div class="container">
         <div class="section-head">
@@ -634,6 +694,51 @@ const landingPages = {
       { icon: "chart", title: "Report automation", text: "Generate management views for pipeline, workload, turnaround time, and outcomes." }
     ],
     process: ["Find repeat work", "Define triggers", "Build automation", "Measure time saved"]
+  },
+  masala: {
+    tag: "Masala & food products",
+    title: "Digital systems for masala and food-product brands.",
+    intro: "BANDEVI GLOBAL GROUP builds product websites, e-commerce stores, CRM, ERP, inventory, order workflows, distributor inquiry systems, and automation for masala and packaged food businesses.",
+    points: ["Premium product website with brand story, categories, product detail pages, offers, and lead paths", "E-commerce, payment, order status, inventory, invoice, and customer communication workflows", "CRM and distributor inquiry tracking for bulk orders, retail partners, repeat customers, and campaigns"],
+    modules: [
+      { icon: "globe", title: "Product website", text: "Brand story, product catalog, categories, nutrition or usage details, trust sections, forms, and SEO-ready pages." },
+      { icon: "shield", title: "Online store", text: "Cart, checkout, payment flow, offers, order confirmation, customer notifications, and repeat purchase paths." },
+      { icon: "stack", title: "Order and stock control", text: "Inventory views, order status, supplier notes, invoices, dispatch stages, and internal dashboards." },
+      { icon: "users", title: "CRM and distributor leads", text: "Capture retailer, distributor, bulk, and customer inquiries with ownership, follow-ups, and source reporting." },
+      { icon: "chart", title: "Business dashboards", text: "Track product interest, order volume, campaign leads, conversion, stock movement, and customer response." },
+      { icon: "message", title: "WhatsApp handoff", text: "Route website inquiries and order questions into a clean WhatsApp or sales-team response flow." }
+    ],
+    process: ["Structure product catalog", "Build store and CRM", "Connect orders and stock", "Launch campaigns"]
+  },
+  makhana: {
+    tag: "Makhana brand",
+    title: "Premium digital growth systems for makhana brands.",
+    intro: "BANDEVI GLOBAL GROUP helps makhana brands create a premium web presence with product catalogs, e-commerce, bulk inquiry flows, CRM, payment paths, customer support, and management visibility.",
+    points: ["Premium product pages for flavors, pack sizes, quality story, certifications, offers, and customer confidence", "Bulk inquiry and distributor lead capture for retail, corporate, gifting, and export conversations", "Order, payment, stock, customer follow-up, campaign, and dashboard systems built around daily operations"],
+    modules: [
+      { icon: "globe", title: "Premium brand website", text: "Modern pages for product range, quality promise, packaging, use cases, brand story, and contact paths." },
+      { icon: "shield", title: "E-commerce and payments", text: "Online selling flows with cart, offers, checkout, payment status, notifications, and customer records." },
+      { icon: "users", title: "Bulk inquiry CRM", text: "Capture distributor, retail, gifting, and B2B leads with follow-up ownership and conversation history." },
+      { icon: "stack", title: "Inventory and operations", text: "Track product variants, stock status, orders, documents, invoices, and dispatch progress." },
+      { icon: "chart", title: "Sales visibility", text: "Review best-performing products, lead sources, order value, repeat interest, and campaign response." },
+      { icon: "message", title: "Customer communication", text: "Connect website forms, WhatsApp inquiries, email, status updates, and support requests." }
+    ],
+    process: ["Plan brand story", "Create product catalog", "Launch order flows", "Track growth"]
+  },
+  astrology: {
+    tag: "Astrology services",
+    title: "A professional digital platform for astrology consultation brands.",
+    intro: "BANDEVI GLOBAL GROUP builds astrology websites, consultation booking flows, payment systems, WhatsApp lead capture, CRM, customer portals, reports, and service automation for astrology businesses.",
+    points: ["Professional website for services, astrologer profile, consultation types, trust sections, blogs, and enquiry paths", "Booking, payment, calendar, WhatsApp, and consultation-status workflows for smoother service delivery", "Customer CRM, support history, report delivery, reminders, and portal access for a premium client experience"],
+    modules: [
+      { icon: "globe", title: "Astrology website", text: "Service pages for kundli, compatibility, career, business, marriage, vastu, numerology, and consultation categories." },
+      { icon: "plane", title: "Consultation booking", text: "Slot requests, appointment forms, payment status, reminders, WhatsApp handoff, and admin review." },
+      { icon: "users", title: "Customer CRM", text: "Client profiles, consultation history, follow-ups, notes, source tracking, and repeat-service opportunities." },
+      { icon: "shield", title: "Reports and portal", text: "Controlled access for reports, documents, invoices, support questions, and service milestones." },
+      { icon: "chart", title: "Service dashboards", text: "Monitor enquiries, bookings, revenue, service categories, pending follow-ups, and conversion." },
+      { icon: "message", title: "Communication automation", text: "Automate confirmations, reminders, document requests, follow-up messages, and support routing." }
+    ],
+    process: ["Map services", "Build booking flow", "Connect payments and CRM", "Launch portal"]
   },
   travelTech: {
     tag: "Travel technology",
@@ -1245,6 +1350,9 @@ function contactForm(kind = "contact") {
   const demo = kind === "demo";
   const interestOptions = demo ? [
     "CRM + ERP + Portal",
+    "Masala / Food Product Website",
+    "Makhana Brand Digital System",
+    "Astrology Services Platform",
     "Travel CRM",
     "Travel ERP",
     "Customer Portal",
@@ -1256,6 +1364,9 @@ function contactForm(kind = "contact") {
   ] : [
     "Sales inquiry",
     "Demo request",
+    "Masala / food product project",
+    "Makhana brand project",
+    "Astrology services project",
     "Travel CRM",
     "Travel ERP",
     "Customer portal",
@@ -1549,6 +1660,9 @@ function footer() {
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">IT Solutions</a></li>
+            <li><a href="/masala-food-products/">Masala / Food</a></li>
+            <li><a href="/makhana-brand-solutions/">Makhana</a></li>
+            <li><a href="/astrology-services-platform/">Astrology</a></li>
           </ul>
         </div>
         <div>
@@ -1589,6 +1703,9 @@ const pageRenderers = {
   ecommerce: () => landingPage("ecommerce"),
   webApp: () => landingPage("webApp"),
   automation: () => landingPage("automation"),
+  masala: () => landingPage("masala"),
+  makhana: () => landingPage("makhana"),
+  astrology: () => landingPage("astrology"),
   travelTech: () => landingPage("travelTech"),
   leadBooking: () => landingPage("leadBooking"),
   it: itPage,
