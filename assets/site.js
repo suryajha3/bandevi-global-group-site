@@ -173,7 +173,7 @@ const pageData = {
   cases: {
     title: "Case Studies",
     eyebrow: "Business outcomes",
-    lede: "Representative project examples for businesses that need stronger CRM, ERP, portals, automation, websites, commerce, booking control, and digital operations."
+    lede: "Representative project stories across travel websites, white-label websites, CRM, ERP, portals, e-commerce, automation, masala, makhana, astrology, and digital operations."
   },
   blog: {
     title: "Blog",
@@ -1122,57 +1122,91 @@ function itProductUpgradeSections() {
 
 const caseStudies = [
   {
+    icon: "globe",
+    tag: "Travel website",
+    title: "Complete travel website for a growing agency",
+    challenge: "The agency needed a premium online presence that could explain destinations, packages, enquiry options, trust sections, blogs, and contact paths without looking like a generic brochure site.",
+    solution: "Create a complete travel website structure with destination pages, package detail pages, itinerary highlights, WhatsApp handoff, enquiry forms, blog categories, social proof, and CRM-ready lead capture.",
+    modules: ["Home and company pages", "Destination and package pages", "Enquiry and WhatsApp capture", "SEO and blog structure", "CRM-ready lead fields"],
+    outcomes: ["Stronger first impression for travel prospects", "Clear package and destination storytelling", "Better enquiry data for sales follow-up", "A growth path into CRM, ERP, and portal modules"],
+    result: "A travel brand can move from scattered enquiries to a polished website that captures useful lead details from day one.",
+    link: "/travel-website-development/"
+  },
+  {
+    icon: "shield",
+    tag: "White-label travel",
+    title: "White-label travel website model for partners and resellers",
+    challenge: "A travel group needed a repeatable website model that could support agencies, partner brands, branches, or reseller teams while keeping branding and lead flow controlled.",
+    solution: "Build a reusable white-label travel website structure with controlled brand sections, package content, enquiry routing, partner-ready pages, and future CRM handoff options.",
+    modules: ["Reusable page structure", "Partner branding areas", "Package and service templates", "Lead routing", "Analytics and source tracking"],
+    outcomes: ["Faster rollout for partner websites", "Consistent content and trust presentation", "Separate lead paths for each brand or branch", "Better control over partner growth campaigns"],
+    result: "A white-label model helps travel sellers launch faster while keeping each brand separate and professional.",
+    link: "/travel-website-development/"
+  },
+  {
     icon: "users",
-    tag: "Travel CRM",
-    title: "Multi-branch travel agency CRM setup",
-    challenge: "Leads were arriving from website forms, calls, WhatsApp, referrals, and branch teams without one clear owner or follow-up view.",
-    solution: "Create a CRM flow with lead source capture, branch assignment, consultant ownership, quotation stages, reminders, and management dashboards.",
-    outcomes: ["Central lead queue for all enquiry sources", "Branch and consultant-level visibility", "Follow-up discipline across open opportunities", "Cleaner source and lost-reason reporting"],
-    link: "/travel-crm/"
+    tag: "CRM + ERP",
+    title: "Travel sales-to-operations control system",
+    challenge: "Leads were arriving from website forms, calls, WhatsApp, referrals, and branch teams, while confirmed work needed cleaner booking, supplier, finance, and document control.",
+    solution: "Create a connected CRM and ERP workflow with lead source capture, consultant ownership, quotation stages, booking files, supplier records, finance status, document tracking, and management dashboards.",
+    modules: ["Lead queue", "Quotation stages", "Booking files", "Supplier records", "Invoice and payment status", "Management dashboards"],
+    outcomes: ["Central lead queue for all enquiry sources", "Cleaner handoff from sales to operations", "Better booking and supplier visibility", "Source, conversion, payment, and margin reporting"],
+    result: "The business can start with CRM and grow into ERP without losing the original lead and customer context.",
+    link: "/crm-erp-solutions/"
   },
   {
     icon: "stack",
-    tag: "Travel ERP",
-    title: "Tour operator ERP workflow",
-    challenge: "Confirmed trips needed better control across booking files, passenger details, suppliers, invoices, receipts, documents, and margin review.",
-    solution: "Build an ERP workflow that moves confirmed sales into structured booking files with supplier records, finance status, document tracking, and approvals.",
-    outcomes: ["One booking file for sales, operations, and finance", "Supplier confirmations connected to service items", "Invoice, payment, and margin visibility", "Approval paths for exceptions and discounts"],
-    link: "/travel-erp/"
+    tag: "Masala / food",
+    title: "Masala and packaged food website with order visibility",
+    challenge: "The brand needed a stronger product website with catalog pages, product trust sections, distributor enquiries, order interest, WhatsApp routing, and future e-commerce readiness.",
+    solution: "Create a product-led website with categories, product pages, bulk inquiry forms, WhatsApp handoff, stock and order workflow planning, and CRM-ready distributor lead capture.",
+    modules: ["Product catalog", "Bulk inquiry forms", "Distributor CRM fields", "Order workflow planning", "WhatsApp handoff", "SEO-ready product pages"],
+    outcomes: ["Clearer product presentation", "Better distributor and bulk lead capture", "A path toward e-commerce and inventory control", "Professional brand experience for retail and B2B buyers"],
+    result: "Food brands can use the website as both a trust builder and the first step toward digital order control.",
+    link: "/masala-food-products/"
   },
   {
     icon: "globe",
+    tag: "Makhana brand",
+    title: "Makhana brand digital growth system",
+    challenge: "The makhana brand needed premium product storytelling, online enquiry capture, bulk order interest, payments roadmap, product variants, and sales visibility.",
+    solution: "Plan a premium website and digital system with product range pages, pack-size details, bulk enquiry capture, e-commerce readiness, customer records, and dashboard planning.",
+    modules: ["Premium brand pages", "Product and pack-size catalog", "Bulk inquiry CRM", "E-commerce roadmap", "Customer communication", "Sales dashboard planning"],
+    outcomes: ["Premium digital presence for a fast-growing product category", "Clear B2B and customer enquiry paths", "Better product and variant visibility", "Future-ready commerce and CRM structure"],
+    result: "A makhana brand can look premium online while preparing the systems needed for repeat sales and distribution growth.",
+    link: "/makhana-brand-solutions/"
+  },
+  {
+    icon: "plane",
+    tag: "Astrology platform",
+    title: "Astrology consultation website with booking and CRM",
+    challenge: "The astrology service needed a professional website that could explain services, capture consultation requests, manage payments or booking intent, and keep customer history organized.",
+    solution: "Create an astrology services platform plan with service pages, consultation booking flow, WhatsApp capture, payment roadmap, CRM fields, report delivery, and customer portal options.",
+    modules: ["Service pages", "Consultation booking", "WhatsApp lead capture", "Payment workflow", "Customer CRM", "Report and portal planning"],
+    outcomes: ["More professional consultation journey", "Cleaner booking and enquiry capture", "Better customer follow-up history", "A roadmap for report delivery and portal access"],
+    result: "Astrology brands can move from informal enquiries to a structured digital service experience.",
+    link: "/astrology-services-platform/"
+  },
+  {
+    icon: "shield",
     tag: "Customer portal",
-    title: "Corporate travel customer portal",
-    challenge: "Corporate customers needed easier access to requests, traveller details, invoices, support messages, documents, and service status.",
-    solution: "Plan a secure portal for customer login, trip status, invoice access, document downloads, support requests, and corporate travel milestones.",
+    title: "Customer portal for documents, invoices, and support",
+    challenge: "Customers needed easier access to service status, invoices, support messages, project updates, documents, and request history without repeated manual follow-ups.",
+    solution: "Plan a secure portal with customer login, service status, invoice access, document downloads, support requests, project milestones, and notification workflows.",
+    modules: ["Customer login", "Document access", "Invoice and payment status", "Support tickets", "Project milestones", "Notification workflow"],
     outcomes: ["Premium self-service customer experience", "Reduced repeated status questions", "Organized documents and invoice access", "Better support request history"],
+    result: "A portal helps the company look more organized while reducing routine service communication pressure.",
     link: "/customer-portal/"
   },
   {
     icon: "chart",
-    tag: "Website + CRM",
-    title: "Corporate website with CRM-ready lead flow",
-    challenge: "The brand needed a professional online presence that could explain products clearly and send qualified enquiries into a sales process.",
-    solution: "Create premium corporate pages, product/service sections, SEO blog topics, demo paths, WhatsApp handoff, and structured contact forms.",
-    outcomes: ["Stronger first impression for prospects", "Clear product positioning", "Lead details captured in a useful sales format", "Internal links from content to demo and product pages"],
-    link: "/website-mobile-app-development/"
-  },
-  {
-    icon: "plane",
-    tag: "Booking operations",
-    title: "Booking and supplier management system",
-    challenge: "Operations teams needed a controlled way to manage service items, suppliers, confirmations, passenger data, vouchers, and booking status.",
-    solution: "Create a booking desk structure with supplier hub records, service inventory, change requests, confirmation status, document tracking, and team ownership.",
-    outcomes: ["Better visibility across active bookings", "Supplier and service records in one place", "Document and voucher status tracking", "Cleaner handoff from sales to operations"],
-    link: "/lead-booking-management/"
-  },
-  {
-    icon: "shield",
     tag: "Automation",
-    title: "Follow-up and task automation rollout",
-    challenge: "Manual reminders, document requests, internal handoffs, and daily reporting were slowing down sales and service teams.",
-    solution: "Automate lead routing, follow-up reminders, document request triggers, task queues, status notifications, and management summary reports.",
+    title: "Follow-up, task, and reporting automation rollout",
+    challenge: "Manual reminders, document requests, internal handoffs, and daily reporting were slowing down sales, support, operations, and management review.",
+    solution: "Automate lead routing, follow-up reminders, document request triggers, task queues, status notifications, WhatsApp or email handoff, and management summary reports.",
+    modules: ["Lead routing", "Task reminders", "Document requests", "Status notifications", "Dashboard summaries", "Team handoff rules"],
     outcomes: ["Faster next-action visibility", "Fewer missed follow-ups", "More consistent customer communication", "Less manual report preparation"],
+    result: "Automation gives teams a cleaner daily rhythm and gives leadership a better view of what needs attention.",
     link: "/business-automation/"
   }
 ];
@@ -1193,10 +1227,24 @@ function caseStudyCards(items = caseStudies) {
         <strong>Representative solution</strong>
         <p>${item.solution}</p>
       </div>
+      ${item.modules ? `
+        <div class="case-copy">
+          <strong>Modules included</strong>
+          <div class="pill-list">
+            ${item.modules.map((module) => `<span class="pill">${module}</span>`).join("")}
+          </div>
+        </div>
+      ` : ""}
       <div class="case-copy">
         <strong>Practical outcomes</strong>
         ${list(item.outcomes)}
       </div>
+      ${item.result ? `
+        <div class="case-copy result-copy">
+          <strong>Business value</strong>
+          <p>${item.result}</p>
+        </div>
+      ` : ""}
       <a href="${item.link}">Explore related solution ${icons.arrow}</a>
     </article>
   `).join("")}</div>`;
@@ -1208,7 +1256,7 @@ function casePreview() {
       <div class="container">
         <div class="section-head">
           <h2>Representative project examples.</h2>
-          <p>See how CRM, ERP, portals, websites, booking workflows, and automation can work together for different travel operating models.</p>
+          <p>See how websites, CRM, ERP, portals, e-commerce, booking workflows, and automation can support different BANDEVI service areas.</p>
         </div>
         ${caseStudyCards(caseStudies.slice(0, 3))}
         <div class="inline-actions">
@@ -1226,9 +1274,9 @@ function casesPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Representative work</span>
-          <h2>Use-case stories for the systems travel teams ask for most.</h2>
-          <p class="muted">These are representative case study patterns that show how BANDEVI GLOBAL GROUP can shape CRM, ERP, portals, websites, booking operations, commerce, and automation around real business needs.</p>
-          ${list(["Sales teams need faster lead ownership and follow-up control", "Operations teams need booking files, supplier records, documents, and approvals", "Customers need cleaner portal access, invoices, trip status, and support", "Leadership needs dashboards that connect sales, service, revenue, margin, and workload"])}
+          <h2>Use-case stories for the systems modern brands ask for most.</h2>
+          <p class="muted">These representative case studies show how BANDEVI GLOBAL GROUP can shape websites, CRM, ERP, portals, e-commerce, booking workflows, customer systems, and automation around real business needs.</p>
+          ${list(["Travel sellers need complete websites, white-label websites, CRM, ERP, booking control, and portals", "Product brands need catalogs, e-commerce readiness, bulk enquiries, distributor CRM, and order visibility", "Service brands need booking flows, payment paths, customer history, documents, and support workflows", "Leadership needs dashboards that connect sales, service, revenue, workload, stock, margin, and customer experience"])}
           <div class="inline-actions">
             <a class="button dark" href="/demo-request/">Build a Similar System ${icons.arrow}</a>
             <a class="button light" href="/contact-us/">Contact Sales</a>
@@ -1241,7 +1289,7 @@ function casesPage() {
       <div class="container">
         <div class="section-head">
           <h2>Case study examples.</h2>
-          <p>Each example is written as a practical project model, so prospects can recognize their own workflow and start with the right first release.</p>
+          <p>Each example is written as a practical project model, so prospects can recognize their own workflow and choose the right first release.</p>
         </div>
         ${caseStudyCards()}
       </div>
@@ -1249,15 +1297,15 @@ function casesPage() {
     <section class="section dark">
       <div class="container">
         <div class="section-head">
-          <h2>Outcome map for travel technology projects.</h2>
+          <h2>Outcome map for BANDEVI projects.</h2>
           <p>The first release should solve a real business bottleneck, then create a path to expand into connected systems.</p>
         </div>
         <div class="grid cols-4">
           ${[
-            ["Faster response", "Reduce delays between enquiry capture, owner assignment, first contact, and quotation follow-up."],
-            ["Cleaner handoffs", "Move confirmed work from sales to operations without losing customer, service, or supplier details."],
-            ["Booking visibility", "Track passenger data, documents, suppliers, payment status, approvals, and open service tasks."],
-            ["Premium service", "Give customers a controlled digital experience with portal access, status updates, and support history."]
+            ["Faster response", "Reduce delays between enquiry capture, owner assignment, first contact, quotation, booking, order, or consultation follow-up."],
+            ["Cleaner handoffs", "Move confirmed work from sales to operations without losing customer, product, service, document, or supplier details."],
+            ["Better visibility", "Track leads, packages, products, orders, bookings, payments, documents, support tickets, stock, and team workload."],
+            ["Premium service", "Give customers a controlled digital experience with portal access, status updates, documents, invoices, and support history."]
           ].map(([title, text]) => `<div class="card metric-card"><strong>${title}</strong><p>${text}</p></div>`).join("")}
         </div>
       </div>
