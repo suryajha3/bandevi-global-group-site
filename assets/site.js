@@ -40,6 +40,8 @@ const contactInfo = {
   whatsapp: "https://wa.me/918287669022"
 };
 
+const brandAliases = ["BANDEVI GLOBAL GROUP", "Bandevi Global Group", "Bandevi Global", "Bandevi"];
+
 const officeLocations = [
   ["Delhi", "Third Floor, Gulshan Park, H-30, Plot No. 6 & 7, Vijay Chowk Area, Laxmi Nagar, Delhi 110092"],
   ["Pune", "Spacelane 15/a, 4th Floor, A Building, City Vista, Fountain Road, Ashoka Nagar, Kharadi, Pune, Maharashtra 411014"],
@@ -79,7 +81,7 @@ const trustVerificationCards = [
   {
     status: "Official channel",
     title: "Domain, email, phone, and social proof",
-    text: "Clients can verify BANDEVI through the official domain, sales email, phone/WhatsApp desk, and connected social profiles before sharing project details."
+    text: "Clients can verify BANDEVI through the official domain, sales email, phone/WhatsApp desk, connected social profiles, and the brand names BANDEVI GLOBAL GROUP, Bandevi Global Group, Bandevi Global, and Bandevi."
   },
   {
     status: "Project control",
@@ -217,13 +219,13 @@ const pageData = {
   home: {
     title: "BANDEVI GLOBAL GROUP",
     eyebrow: "IT and development company",
-    lede: "Premium websites, CRM, ERP, portals, e-commerce, automation, and business software for travel, masala, makhana, astrology, and growing service brands.",
+    lede: "Bandevi Global Group, also searched as Bandevi Global and Bandevi, builds premium websites, CRM, ERP, portals, e-commerce, automation, and business software.",
     home: true
   },
   about: {
     title: "About BANDEVI GLOBAL GROUP",
     eyebrow: "Company",
-    lede: "An IT and software development company building premium websites, CRM, ERP, portals, automation, and business systems with trust, documentation, and sister-brand operating experience behind the work."
+    lede: "Bandevi Global Group, also searched as Bandevi Global and Bandevi, is an IT and software development company building premium websites, CRM, ERP, portals, automation, and business systems."
   },
   trust: {
     title: "Trust, Licences & Certifications",
@@ -526,6 +528,28 @@ function trustProofPreview() {
   `;
 }
 
+function brandIdentityPanel() {
+  return `
+    <section class="section tight">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Brand identity</span>
+          <h2>One company, three common search names.</h2>
+          <p>Customers may search for the company as Bandevi Global Group, Bandevi Global, Bandevi, or BANDEVI GLOBAL GROUP. These names refer to the same official BANDEVI technology and development brand at bandeviglobalgroup.com.</p>
+        </div>
+        <div class="grid cols-3">
+          ${brandAliases.map((name) => `
+            <article class="card metric-card">
+              <strong>${name}</strong>
+              <p>Official BANDEVI brand reference for website, CRM, ERP, portal, automation, e-commerce, and IT development enquiries.</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function homePage() {
   return `
     <section class="section">
@@ -541,6 +565,7 @@ function homePage() {
         ])}
       </div>
     </section>
+    ${brandIdentityPanel()}
     <section class="section mist">
       <div class="container split">
         <div>
@@ -607,6 +632,7 @@ function aboutPage() {
         <div>
           <span class="eyebrow">Who we are</span>
           <h2>A trusted IT and software development company for serious business growth.</h2>
+          <p class="muted">The company is searched and referenced as Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI GLOBAL GROUP. The official website is bandeviglobalgroup.com.</p>
           <p class="muted">BANDEVI GLOBAL GROUP builds premium websites, CRM, ERP, customer portals, e-commerce platforms, automation, and business software for brands that need a stronger digital presence and cleaner operational control.</p>
           <p class="muted">Our advantage is practical operating exposure. BANDEVI remains the IT and development company, while sister brands such as The Holidays Group stay separate. That gives our systems a real-world view of trust, documentation, customer support, multi-location coordination, and long-term service quality.</p>
           ${list(["Premium website presence that builds confidence before the first enquiry", "CRM and ERP workflows that protect leads, orders, bookings, documents, finance, and follow-ups", "Customer portals, dashboards, and automation for professional service delivery", "Separate project structure for sister brands, outside clients, and new business lines", "Long-term improvement support after launch, not only one-time website delivery"])}
@@ -647,6 +673,7 @@ function aboutPage() {
         </div>
       </div>
     </section>
+    ${brandIdentityPanel()}
     <section class="section dark">
       <div class="container">
         <div class="section-head">
@@ -767,6 +794,7 @@ function trustPage() {
         <div>
           <span class="eyebrow">Trust center</span>
           <h2>Trust signals for clients choosing BANDEVI for websites, CRM, ERP, portals, and automation.</h2>
+          <p class="muted">Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI GLOBAL GROUP are used as brand references for the same official company website and technology services.</p>
           <p class="muted">This page brings BANDEVI's credibility story into one place: sister-brand operating exposure, public travel-network references, office presence, documentation standards, and separate project control.</p>
           <p class="muted">BANDEVI GLOBAL GROUP remains the IT and software development company. The Holidays Group remains a separate sister travel brand, and its public trust profile gives practical context for the systems BANDEVI builds.</p>
           ${list(["Official BANDEVI contact channels for sales, demo, WhatsApp, email, and support routing", "Clear separation between BANDEVI technology projects and sister-brand travel operations", "Written project scope, module lists, milestones, access records, and launch handover planning", "Public THG references across tourism, airline, travel association, supplier, and quality networks", "Multi-location confidence across India, Dubai, London, and the United States", "Project delivery focused on scope clarity, access control, documentation, support, and long-term improvement"])}
@@ -778,6 +806,7 @@ function trustPage() {
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI trust and technology dashboard"></div>
       </div>
     </section>
+    ${brandIdentityPanel()}
     <section class="section trust-strip">
       <div class="container">
         <div class="section-head">
@@ -2340,6 +2369,7 @@ function footer() {
           <p>Premium corporate websites, CRM, ERP, e-commerce, products, portals, and IT solutions for modern business lines.</p>
           <ul class="footer-trust-list">
             <li>Official domain: bandeviglobalgroup.com</li>
+            <li>Also searched as Bandevi Global Group, Bandevi Global, and Bandevi.</li>
             <li>BANDEVI and THG operate as separate sister brands.</li>
             <li>Scope, access, handover, and support records can be documented for every project.</li>
           </ul>
