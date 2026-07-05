@@ -131,6 +131,34 @@ const staffWorthFaqs = [
   ["Where can visitors verify BANDEVI company details?", "Visitors can use the Company Profile, Proof & Verification page, Offices page, official PDF, phone, WhatsApp, email, and the bandeviglobalgroup.com domain."]
 ];
 
+const itCompanyServices = [
+  ["Website development", "Premium business websites, landing pages, service pages, blog paths, lead forms, WhatsApp/call actions, and SEO-ready page structure."],
+  ["CRM development", "Lead capture, assignment, follow-up reminders, customer records, quotation stages, source tracking, sales dashboards, and reporting."],
+  ["ERP development", "Operations, approvals, suppliers, invoices, payments, documents, task ownership, inventory, finance flows, and management reports."],
+  ["Portal development", "Customer portals, staff portals, partner portals, support desks, document downloads, service status, and secure role-based access."],
+  ["E-commerce development", "Product catalogues, order flows, payments, customer accounts, inventory direction, service requests, and conversion-focused storefronts."],
+  ["Business automation", "Workflow routing, reminders, notifications, document requests, support handoffs, reporting automation, and process dashboards."],
+  ["Travel technology", "Travel CRM, travel ERP, travel websites, itinerary workflows, booking operations, supplier coordination, and customer communication systems."],
+  ["IT product planning", "Discovery, module planning, UI direction, launch roadmap, analytics setup, training, support, and post-launch improvement planning."]
+];
+
+const itCompanyIndustries = [
+  ["Travel and tourism", "Travel CRM, ERP, booking workflows, itinerary websites, supplier operations, and customer portals."],
+  ["Service businesses", "Lead handling, quotations, follow-ups, job tracking, document collection, customer status, and support workflows."],
+  ["Retail and commerce", "E-commerce storefronts, product catalogues, order handling, payment flows, and customer communication."],
+  ["Food and packaged products", "Brand websites, catalogues, enquiry flows, distributor pages, and operations dashboards for masala, makhana, and related brands."],
+  ["Consulting and professional services", "Corporate websites, service funnels, CRM pipelines, client portals, and internal management dashboards."],
+  ["Multi-brand groups", "Separate websites, portals, CRMs, ERPs, access control, reporting, and support paths across multiple business lines."]
+];
+
+const itCompanyFaqs = [
+  ["What services does BANDEVI GLOBAL GROUP provide?", "BANDEVI GLOBAL GROUP provides website development, CRM, ERP, portals, e-commerce, automation, travel technology, IT products, dashboards, and business software development."],
+  ["Is BANDEVI GLOBAL GROUP an IT company?", "Yes. BANDEVI GLOBAL GROUP is presented on the official website as an IT and software development company building websites, CRM, ERP, portals, automation, and business systems."],
+  ["Does BANDEVI build CRM and ERP systems?", "Yes. BANDEVI builds CRM and ERP systems for lead management, sales follow-ups, customer records, operations, approvals, finance workflows, documents, reporting, and team control."],
+  ["Does BANDEVI build travel CRM and travel ERP software?", "Yes. BANDEVI has dedicated travel CRM, travel ERP, travel website, booking, supplier, itinerary, and customer communication service paths."],
+  ["Where can visitors verify BANDEVI company strength?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, phone, email, and official website domain."]
+];
+
 const officeVerificationFaqs = [
   ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
@@ -318,6 +346,11 @@ const pageData = {
     title: "Staff Size & Net Worth",
     eyebrow: "Company strength",
     lede: "Dedicated BANDEVI GLOBAL GROUP staff size and net worth page covering 1,289 staff worldwide, INR 7,594 Cr group strength, offices, and proof links."
+  },
+  itCompanyServices: {
+    title: "IT Company & Software Development Services",
+    eyebrow: "Commercial services",
+    lede: "BANDEVI GLOBAL GROUP IT company and software development services for websites, CRM, ERP, portals, e-commerce, automation, travel technology, and business software."
   },
   offices: {
     title: "Offices & Locations",
@@ -930,6 +963,7 @@ function companyProfilePage() {
           ${list(["Official website: bandeviglobalgroup.com", "Official sales desk: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Company facts presented with sister-brand separation where needed", "Office and service-location references listed clearly for verification"])}
           <div class="inline-actions">
             <a class="button primary" href="/contact-us/">Verify Contact ${icons.arrow}</a>
+            <a class="button ghost" href="/it-company-software-development-services/">IT Services</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
@@ -1007,6 +1041,7 @@ function companyProfilePage() {
             <h3>Official verification</h3>
             ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF for staff size, net worth, offices, and proof notes."])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/it-company-software-development-services/">IT Services</a>
             <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button light" href="${companyProfilePdf}">Open PDF</a>
           </aside>
@@ -1029,6 +1064,7 @@ function proofVerificationPage() {
           ${list(["Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Offices and service locations: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States", "Official website: bandeviglobalgroup.com", "Official contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
           <div class="inline-actions">
             <a class="button primary" href="/company-profile/">Company Profile ${icons.arrow}</a>
+            <a class="button ghost" href="/it-company-software-development-services/">IT Services</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/contact-us/">Verify Contact</a>
@@ -1124,6 +1160,7 @@ function proofVerificationPage() {
             <h3>Verification priority</h3>
             ${list(["Keep 1,289 staff worldwide consistent everywhere.", "Keep INR 7,594 Cr net worth consistent everywhere.", "Link proof files only after approval for public use.", "Use BANDEVI and THG separation wherever sister-brand context is mentioned."])}
             <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
+            <a class="button light" href="/it-company-software-development-services/">IT Services</a>
             <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
           </aside>
@@ -1131,6 +1168,129 @@ function proofVerificationPage() {
       </div>
     </section>
     ${cta("Make BANDEVI proof easier to trust.", "Use the official contact channels to verify staff size, net worth, offices, documentation, and project scope before engagement.")}
+  `;
+}
+
+function itCompanyServicesPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">IT company and software development</span>
+          <h2>BANDEVI GLOBAL GROUP builds websites, CRM, ERP, portals, automation, and business software.</h2>
+          <p class="muted">This page is built for people searching BANDEVI GLOBAL GROUP services, BANDEVI IT company, software development company, website CRM ERP company, and business automation company.</p>
+          <p class="muted">BANDEVI combines commercial website design with practical business systems, so the public brand, sales pipeline, operations, support, and reporting can work together.</p>
+          ${list(["Premium website and landing-page development", "CRM and ERP development for sales, operations, finance, and reporting", "Customer, staff, partner, and support portal development", "E-commerce, booking, payment, and product-catalogue workflows", "Business automation, dashboards, and process improvement", "Travel CRM, travel ERP, travel websites, and travel technology systems"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button ghost" href="/contact-us/">Contact</a>
+            <a class="button ghost" href="/proof-verification/">Proof Page</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI IT company software development services dashboard"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial service signals</span>
+          <h2>The core services BANDEVI should rank for.</h2>
+          <p>These service signals connect BANDEVI's proof layer with the actual commercial work customers search for: website development, CRM, ERP, portals, automation, and software systems.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Website</strong><p>Corporate websites, landing pages, service pages, SEO page structure, enquiry paths, and conversion-ready design.</p></article>
+          <article class="card metric-card"><strong>CRM</strong><p>Lead capture, pipeline tracking, follow-ups, customer records, quotations, source tracking, and dashboards.</p></article>
+          <article class="card metric-card"><strong>ERP</strong><p>Operations, approvals, suppliers, invoices, finance, documents, task ownership, inventory, and reports.</p></article>
+          <article class="card metric-card"><strong>Automation</strong><p>Workflow routing, reminders, notifications, document requests, support handoffs, and process dashboards.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Service overview</span>
+          <h2>Software development services and business systems.</h2>
+          <p>Each service can launch as a focused first release, then expand into integrations, dashboards, portals, automation, and support workflows as the business grows.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Service</th><th>What BANDEVI can build</th></tr></thead>
+            <tbody>
+              ${itCompanyServices.map(([service, detail]) => `<tr><td>${service}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>Business lines that can use BANDEVI systems.</h2>
+          <p>The same website, CRM, ERP, portal, and automation foundation can be adapted for travel companies, service businesses, retail, food brands, professional services, and multi-brand groups.</p>
+        </div>
+        <div class="grid cols-3">
+          ${itCompanyIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed services</span>
+          <h2>Company strength signals supporting service trust.</h2>
+          <p>Commercial service pages should still point to the proof layer, so customers can verify company identity, staff size, net worth, offices, and official channels before starting a project.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and proof</h3>
+              <p>BANDEVI's company profile, proof page, staff size and net worth page, offices page, and company profile PDF work together as the public trust layer behind its IT services.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>The website publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Service delivery clarity</h3>
+              <p>Each website, CRM, ERP, portal, commerce, or automation project can be defined with scope notes, modules, responsibilities, launch requirements, access handover, and support paths.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before engagement</h3>
+            ${list(["Company Profile: /company-profile/", "Proof & Verification: /proof-verification/", "Staff Size & Net Worth: /staff-size-net-worth/", "Offices & Locations: /offices/", "Company Profile PDF: /assets/bandevi-global-group-company-profile.pdf"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Service FAQ</span>
+          <h2>Answers for IT company, software, CRM, ERP, and automation searches.</h2>
+          <p>These answers help Google connect BANDEVI with the commercial services customers are likely to search for.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${itCompanyFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start a project</h3>
+            ${list(["Share the business workflow.", "Choose website, CRM, ERP, portal, e-commerce, automation, or travel technology scope.", "Confirm first-release modules and timeline.", "Use official phone, WhatsApp, email, or demo request for contact."])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    ${cta("Build a website that can become a complete business system.", "BANDEVI GLOBAL GROUP can plan the public website, CRM, ERP, portal, automation, and reporting path together.")}
   `;
 }
 
@@ -2996,6 +3156,7 @@ function footer() {
         <div>
           <h4>Solutions</h4>
           <ul class="footer-links">
+            <li><a href="/it-company-software-development-services/">IT Company Services</a></li>
             <li><a href="/travel-crm/">Travel CRM</a></li>
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
@@ -3047,6 +3208,7 @@ const pageRenderers = {
   profile: companyProfilePage,
   proof: proofVerificationPage,
   staffWorth: staffWorthPage,
+  itCompanyServices: itCompanyServicesPage,
   offices: officesPage,
   trust: trustPage,
   crm: crmPage,
