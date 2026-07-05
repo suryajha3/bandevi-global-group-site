@@ -275,6 +275,35 @@ const travelCrmFaqs = [
   ["Where can visitors verify BANDEVI before starting a Travel CRM project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const travelErpRows = [
+  ["Booking file management", "Create confirmed booking files with passengers, itinerary notes, services, suppliers, documents, invoices, payment status, owners, and operating status."],
+  ["Passenger and traveller records", "Store passenger details, passport notes, visa direction, preferences, emergency information, document status, and communication notes."],
+  ["Supplier workflow", "Manage hotels, transport, activities, guides, visa support, insurance, DMC partners, confirmations, rates, availability notes, and payment schedules."],
+  ["Invoice and payment tracking", "Track customer invoices, receipts, pending dues, refunds, supplier payables, payment reminders, finance status, and reconciliation notes."],
+  ["Document management", "Organize vouchers, tickets, visas, passports, insurance files, invoices, receipts, supplier confirmations, customer documents, and handover records."],
+  ["Approvals and controls", "Define approval paths for discounts, margin exceptions, supplier changes, payment release, refunds, document exceptions, and operational changes."],
+  ["Margins and reporting", "Review booking revenue, supplier cost, receivables, payables, gross margin, source performance, workload, exceptions, and branch/team performance."],
+  ["CRM, portal, and automation path", "Confirmed CRM leads can move into ERP, customer portals, payment reminders, document requests, supplier tasks, status updates, and dashboards."]
+];
+
+const travelErpIndustries = [
+  ["Tour operators", "Manage confirmed bookings, passengers, suppliers, invoices, payments, documents, approvals, margins, and operations reports from quote to closure."],
+  ["Travel agencies", "Move won CRM leads into booking files with customer context, service details, supplier notes, invoices, payment status, and customer updates."],
+  ["DMCs", "Coordinate destination services, B2B partner bookings, supplier tasks, local services, confirmations, documents, costing, and partner reporting."],
+  ["Corporate travel desks", "Manage corporate bookings, traveller records, approval notes, invoices, service status, payment visibility, documents, and support workflow."],
+  ["Group and MICE operators", "Control passenger lists, rooming notes, transport, event services, documents, supplier confirmations, invoices, payments, and task ownership."],
+  ["Multi-office travel groups", "Use branch-wise booking ownership, role-based access, supplier workflows, finance visibility, approvals, dashboards, and management reports."]
+];
+
+const travelErpFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build Travel ERP software?", "Yes. BANDEVI builds Travel ERP software for tour operators, travel agencies, DMCs, corporate travel desks, group travel teams, MICE operators, and multi-office travel businesses."],
+  ["What does Travel ERP software include?", "Travel ERP can include booking files, passengers, suppliers, services, invoices, receipts, payments, documents, approvals, margins, task ownership, customer updates, and operations reports."],
+  ["Can Travel ERP connect with Travel CRM?", "Yes. Confirmed or qualified CRM leads can move into Travel ERP booking files with customer context, quote details, service requirements, documents, payments, and operations ownership."],
+  ["Can Travel ERP manage supplier and payment workflows?", "Yes. Travel ERP can track supplier records, service confirmations, rates, payment schedules, payables, customer invoices, receipts, refunds, dues, and finance status."],
+  ["Can Travel ERP connect with a customer portal?", "Yes. Booking status, documents, invoices, receipts, payment updates, support requests, and selected service information can connect with customer portal access when included in scope."],
+  ["Where can visitors verify BANDEVI before starting a Travel ERP project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const travelWebsiteDevelopmentRows = [
   ["Complete travel website", "Home, about, destinations, packages, services, blogs, trust sections, testimonials, enquiry forms, WhatsApp actions, contact paths, and analytics."],
   ["White-label travel website", "Reusable travel website structure for agencies, partners, branches, franchise-style sellers, resellers, controlled branding, and lead routing."],
@@ -629,9 +658,9 @@ const pageData = {
     lede: "BANDEVI GLOBAL GROUP builds Travel CRM software for travel agencies, tour operators, DMCs, corporate desks, WhatsApp leads, quotations, follow-ups, customer records, booking handoff, and sales dashboards."
   },
   erp: {
-    title: "Travel ERP",
-    eyebrow: "Operations backbone",
-    lede: "A unified ERP layer for bookings, suppliers, finance, operations, inventory, approvals, and reporting across the travel business."
+    title: "Travel ERP Software",
+    eyebrow: "Booking, supplier, finance, and operations control",
+    lede: "BANDEVI GLOBAL GROUP builds Travel ERP software for tour operators, travel agencies, DMCs, booking files, suppliers, invoices, payments, documents, approvals, margins, and operations reporting."
   },
   products: {
     title: "Products",
@@ -2056,10 +2085,10 @@ function erpPage() {
       <div class="container split reverse">
         <div class="media-frame"><img src="${productImage}" alt="Travel ERP operations screens"></div>
         <div>
-          <span class="eyebrow">Travel ERP</span>
-          <h2>Bring booking files, supplier work, and finance into one system.</h2>
-          <p class="muted">The ERP layer connects operational execution with supplier costing, customer billing, approvals, documentation, and reporting so teams stop chasing information across spreadsheets and chats.</p>
-          ${list(["Booking file management with passengers, itineraries, documents, and service items", "Supplier contracts, rates, confirmations, payment schedules, and reconciliation", "Invoice, receipt, refund, credit note, and margin visibility", "Role-based approvals for discounts, exceptions, payments, and changes"])}
+          <span class="eyebrow">Travel ERP software</span>
+          <h2>Travel ERP software for bookings, suppliers, finance, documents, and operations.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP builds Travel ERP software for tour operators, travel agencies, DMCs, corporate travel desks, group operators, MICE teams, and multi-office travel businesses that need stronger control after a lead becomes a confirmed booking.</p>
+          ${list(["Booking file management with passengers, itinerary notes, services, suppliers, invoices, documents, owners, and status", "Supplier workflows for hotels, transport, DMC partners, activities, guides, insurance, visas, confirmations, rates, and payment schedules", "Invoice, receipt, refund, customer dues, supplier payables, payment reminders, reconciliation notes, and margin visibility", "Role-based approvals for discounts, supplier changes, payment release, refunds, margin exceptions, and operational changes"])}
         </div>
       </div>
     </section>
@@ -2070,13 +2099,140 @@ function erpPage() {
           <h2>Operational clarity from quote to closure.</h2>
         </div>
         ${cards([
-          { icon: "stack", title: "Service inventory", text: "Track flights, hotels, transfers, activities, visas, insurance, and custom service components." },
-          { icon: "shield", title: "Approval paths", text: "Define authority rules for margin exceptions, payment approvals, supplier changes, and refunds." },
-          { icon: "chart", title: "Finance reporting", text: "Connect sales, cost, receivables, payables, and profitability views for every booking file." }
+          { icon: "stack", title: "Booking files", text: "Keep passengers, services, suppliers, itinerary notes, documents, invoices, payments, and status in one operating record." },
+          { icon: "plane", title: "Supplier coordination", text: "Track hotels, transport, activities, guides, visas, insurance, local services, confirmations, rates, and supplier payment schedules." },
+          { icon: "shield", title: "Approval paths", text: "Define authority rules for margin exceptions, payment release, supplier changes, refunds, discounts, and document exceptions." },
+          { icon: "users", title: "Team ownership", text: "Separate sales, operations, finance, support, branch, supplier, and management access with clear task responsibility." },
+          { icon: "message", title: "Customer updates", text: "Connect document requests, payment reminders, booking status notes, customer portal access, and support communication." },
+          { icon: "chart", title: "Finance reporting", text: "Connect sales, cost, receivables, payables, margin, workload, exceptions, and profitability views for every booking file." }
         ])}
       </div>
     </section>
+    ${erpSeoSections()}
     ${cta("Give operations the same polish as your sales story.", "Use ERP workflows to reduce leakage, delays, and manual reconciliation.")}
+  `;
+}
+
+function erpSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Travel ERP services customers search before choosing an operations system.</h2>
+          <p>This page is structured for Travel ERP software, tour operator ERP, travel agency ERP, DMC ERP software, travel booking ERP, booking file management, supplier management software, travel invoice software, travel payment tracking, travel document workflow, and travel operations reporting searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Bookings</strong><p>Booking files, passengers, itineraries, service items, owners, suppliers, documents, invoices, payments, and status.</p></article>
+          <article class="card metric-card"><strong>Suppliers</strong><p>Hotels, transport, activities, guides, DMC partners, visas, insurance, confirmations, rates, payables, and schedules.</p></article>
+          <article class="card metric-card"><strong>Finance</strong><p>Customer invoices, receipts, pending dues, refunds, supplier payments, reconciliation notes, margins, and profitability.</p></article>
+          <article class="card metric-card"><strong>Controls</strong><p>Approvals, roles, task ownership, exceptions, document workflow, customer updates, portal handoff, and operations dashboards.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel ERP modules</span>
+          <h2>What BANDEVI can build into Travel ERP software.</h2>
+          <p>The first release can start with booking files, passengers, suppliers, invoices, payments, and documents, then expand into approvals, margin reporting, customer portals, automation, and dashboards.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ERP area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${travelErpRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel segments</span>
+          <h2>Travel ERP for tour operators, agencies, DMCs, corporate desks, groups, and multi-office teams.</h2>
+          <p>BANDEVI can shape ERP around how each travel business confirms bookings, coordinates suppliers, tracks passengers, collects documents, handles finance, manages approvals, and reports operations.</p>
+        </div>
+        <div class="grid cols-3">
+          ${travelErpIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed Travel ERP company</span>
+          <h2>Company strength signals behind Travel ERP delivery.</h2>
+          <p>Travel ERP touches bookings, passengers, suppliers, payments, documents, margins, approvals, and daily operations. BANDEVI connects this page with its public proof layer so buyers can verify the company before sharing operations and finance workflow details.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links Travel ERP service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>ERP governance</h3>
+              <p>Travel ERP projects can include booking fields, supplier rules, document folders, invoice stages, payment status, approval paths, role access, handover records, training notes, and support ownership.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before ERP planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Connected travel operations</span>
+          <h2>Travel ERP connects CRM, booking management, suppliers, portal, and automation.</h2>
+          <p>Travel ERP is the operations backbone after sales confirms the work. It protects the booking record, financial status, supplier coordination, and document flow.</p>
+        </div>
+        <div class="grid cols-3">
+          <a class="card" href="/travel-crm/"><h3>Travel CRM</h3><p>Bring qualified or won enquiries into ERP with customer context, source notes, quotation status, and owner details.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/lead-booking-management/"><h3>Lead & Booking Management</h3><p>Convert confirmed leads into booking files with passengers, services, documents, invoices, payments, and operations status.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/customer-portal/"><h3>Customer Portal</h3><p>Give customers controlled access to booking status, documents, invoices, receipts, payment updates, and support requests.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/business-automation/"><h3>Business Automation</h3><p>Automate supplier tasks, document reminders, payment alerts, approvals, booking updates, and management reports.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-website-development/"><h3>Travel Website</h3><p>Start with travel website enquiries, then connect sales and operations through CRM, booking workflow, and ERP.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-technology/"><h3>Travel Technology</h3><p>Use the wider travel stack for websites, CRM, ERP, bookings, suppliers, portals, automation, and dashboards.</p><span>Open page ${icons.arrow}</span></a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel ERP FAQ</span>
+          <h2>Answers for Travel ERP, tour operator ERP, booking files, suppliers, invoices, payments, and document workflow searches.</h2>
+          <p>These answers help customers and search engines understand the Travel ERP work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${travelErpFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right ERP layer</h3>
+            ${list(["Booking files", "Passenger and traveller records", "Supplier workflow", "Invoices and payments", "Documents and approvals", "Margins, dashboards, and portal handoff"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
