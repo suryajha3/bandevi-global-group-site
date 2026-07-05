@@ -336,6 +336,16 @@ const pageData = {
     title: "Customer Portal",
     eyebrow: "Secure access",
     lede: "A premium portal concept for clients to view bookings, invoices, support requests, documents, and project milestones."
+  },
+  privacy: {
+    title: "Privacy Policy",
+    eyebrow: "Data and trust",
+    lede: "How BANDEVI GLOBAL GROUP handles website inquiries, demo requests, contact details, support messages, and project communication data."
+  },
+  terms: {
+    title: "Terms & Conditions",
+    eyebrow: "Website terms",
+    lede: "General terms for using the BANDEVI GLOBAL GROUP website, requesting demos, discussing projects, and reading service information."
   }
 };
 
@@ -2347,6 +2357,87 @@ function portalPage() {
   `;
 }
 
+function privacyPage() {
+  return `
+    <section class="section">
+      <div class="container article-layout">
+        <article class="article-body">
+          <span class="eyebrow">Privacy policy</span>
+          <h2>Information we collect.</h2>
+          <p class="muted article-intro">BANDEVI GLOBAL GROUP collects only the information needed to respond to inquiries, demo requests, support requests, and project discussions.</p>
+          ${list([
+            "Contact details such as name, company, phone number, email address, and preferred contact method.",
+            "Project details shared through contact forms, demo request forms, WhatsApp, email, phone calls, or meetings.",
+            "Basic website analytics and technical information such as page visits, device type, browser type, and referral source when analytics tools are enabled."
+          ])}
+          <section class="article-block">
+            <h3>How information is used</h3>
+            <p>Information is used to reply to inquiries, qualify demo requests, plan project scope, provide support, improve website content, and keep communication records clear for business follow-up.</p>
+          </section>
+          <section class="article-block">
+            <h3>Sharing and security</h3>
+            <p>BANDEVI does not sell inquiry data. Information may be shared only with internal team members, service providers, hosting tools, analytics tools, or communication platforms when needed to support the requested work.</p>
+          </section>
+          <section class="article-block">
+            <h3>Your choices</h3>
+            <p>You can contact BANDEVI to update contact details, ask about stored inquiry information, or request removal of non-essential communication records where legally and operationally possible.</p>
+          </section>
+        </article>
+        <aside class="article-aside card">
+          <span class="eyebrow">Contact</span>
+          <h3>Privacy questions</h3>
+          <p>For privacy or data-handling questions, contact the official BANDEVI sales and support desk.</p>
+          <div class="inline-actions">
+            <a class="button dark" href="mailto:${contactInfo.email}">Email ${icons.mail}</a>
+            <a class="button light" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+    ${cta("Need a project with clear data flow?", "BANDEVI can plan websites, CRM, ERP, portals, and automation with cleaner access and handover records.")}
+  `;
+}
+
+function termsPage() {
+  return `
+    <section class="section">
+      <div class="container article-layout">
+        <article class="article-body">
+          <span class="eyebrow">Terms & conditions</span>
+          <h2>Website use.</h2>
+          <p class="muted article-intro">This website gives general information about BANDEVI GLOBAL GROUP services, products, technology planning, and business solutions.</p>
+          <section class="article-block">
+            <h3>Service information</h3>
+            <p>Website content, package descriptions, timelines, modules, and examples are informational. Final project scope, cost, delivery timeline, support terms, and handover items are confirmed separately through written discussion, quotation, proposal, or agreement.</p>
+          </section>
+          <section class="article-block">
+            <h3>Demo and contact requests</h3>
+            <p>Submitting a form or opening a WhatsApp message does not create a paid engagement by itself. A project starts only after the relevant commercial terms, scope, and payment milestones are accepted by both sides.</p>
+          </section>
+          <section class="article-block">
+            <h3>Website content and references</h3>
+            <p>Brand names, sister-brand references, case examples, service descriptions, and trust information are provided for business understanding. THG and BANDEVI remain separate sister-brand contexts where stated.</p>
+          </section>
+          <section class="article-block">
+            <h3>Contact and support</h3>
+            <p>For project questions, support, corrections, or formal documentation, use the official phone, WhatsApp, or email listed on this website.</p>
+          </section>
+        </article>
+        <aside class="article-aside card">
+          <span class="eyebrow">Official channel</span>
+          <h3>Start with the right record.</h3>
+          <p>Use the official contact and demo paths so scope, timelines, budget direction, and handover notes stay clear.</p>
+          <div class="inline-actions">
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+    ${cta("Ready to discuss a website or system?", "Share the business workflow and BANDEVI can map a realistic first release.")}
+  `;
+}
+
 function quickContact() {
   return `
     <div class="quick-contact" aria-label="Quick contact options">
@@ -2395,6 +2486,8 @@ function footer() {
             <li><a href="/case-studies/">Case Studies</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/support/">Support</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms-and-conditions/">Terms & Conditions</a></li>
           </ul>
         </div>
         <div>
@@ -2409,7 +2502,7 @@ function footer() {
       </div>
       <div class="footer-bottom">
         <small>&copy; 2026 BANDEVI GLOBAL GROUP. All rights reserved.</small>
-        <small><a href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a> · <a href="mailto:${contactInfo.email}">${contactInfo.email}</a></small>
+        <small><a href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a> - <a href="mailto:${contactInfo.email}">${contactInfo.email}</a></small>
       </div>
     </footer>
   `;
@@ -2439,7 +2532,9 @@ const pageRenderers = {
   support: supportPage,
   contact: contactPage,
   demo: demoPage,
-  portal: portalPage
+  portal: portalPage,
+  privacy: privacyPage,
+  terms: termsPage
 };
 
 blogArticles.forEach((article) => {

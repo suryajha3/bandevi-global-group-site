@@ -2,170 +2,182 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bandeviglobalgroup.com/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/about-us/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/trust-licences-certifications/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/travel-crm/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.96</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/travel-erp/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/it-products/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.91</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/crm-erp-solutions/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.91</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/ecommerce-solutions/</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.78</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/travel-crm/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/travel-erp/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/it-products/</loc>
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/crm-erp-solutions/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/ecommerce-solutions/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
     <loc>https://bandeviglobalgroup.com/masala-food-products/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/makhana-brand-solutions/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/astrology-services-platform/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/travel-website-development/</loc>
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/website-mobile-app-development/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/business-automation/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://bandeviglobalgroup.com/travel-technology/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://bandeviglobalgroup.com/lead-booking-management/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <loc>https://bandeviglobalgroup.com/website-mobile-app-development/</loc>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.86</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/business-automation/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/travel-technology/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.91</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/lead-booking-management/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/case-studies/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.60</priority>
+    <priority>0.62</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/travel-crm-software-for-agencies/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/travel-erp-system-for-tour-operators/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/lead-booking-management-for-travel-companies/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/customer-portal-for-travel-agencies/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/business-automation-for-travel-companies/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/blog/corporate-website-crm-for-travel-businesses/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/support/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/contact-us/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.82</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/demo-request/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.74</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/customer-portal/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/privacy-policy/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/terms-and-conditions/</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.35</priority>
   </url>
 </urlset>
