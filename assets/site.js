@@ -246,6 +246,35 @@ const ecommerceFaqs = [
   ["Can a simple product catalogue become a full online store later?", "Yes. A business can start with a catalogue and enquiry flow, then add cart, checkout, payments, inventory direction, customer accounts, CRM, dashboards, and automation later."]
 ];
 
+const travelTechDevelopmentRows = [
+  ["Complete travel website", "Destination pages, package pages, enquiry forms, WhatsApp handoff, blogs, trust sections, lead capture, analytics, and SEO-ready service pages."],
+  ["White-label travel website", "Reusable travel website structure for agencies, partners, branches, resellers, franchise-style selling, controlled content, and lead routing."],
+  ["Travel CRM", "Travel enquiries, trip interest, customer records, quotation stages, follow-up reminders, campaign leads, consultant ownership, and sales dashboards."],
+  ["Travel ERP", "Booking files, passengers, services, suppliers, invoices, payments, documents, approvals, margins, operational tasks, and reporting."],
+  ["Lead and booking management", "Capture website, phone, WhatsApp, campaign, referral, and partner leads, then move confirmed work into structured booking files."],
+  ["Supplier and inventory workflows", "Supplier records, service inventory, confirmations, rates, availability notes, payment schedules, and operation handoffs."],
+  ["Customer portal", "Controlled access for travelers and corporate clients to documents, invoices, booking status, support requests, profile details, and updates."],
+  ["Automation and dashboards", "Lead routing, follow-up reminders, document requests, payment alerts, booking status updates, source reports, margin views, and workload dashboards."]
+];
+
+const travelTechIndustries = [
+  ["Travel agencies", "Complete travel websites, enquiry capture, Travel CRM, quotation stages, follow-ups, customer records, and sales dashboards."],
+  ["Tour operators", "Travel ERP, booking files, supplier coordination, passenger details, invoices, payments, documents, margins, and operations reports."],
+  ["DMCs", "Partner enquiries, destination pages, supplier services, quotation control, booking operations, document workflows, and B2B reporting."],
+  ["Corporate travel desks", "Corporate enquiries, traveller records, approval notes, invoices, service status, support tickets, and customer portal access."],
+  ["White-label and reseller networks", "Brand-ready travel websites, branch or partner lead routing, controlled content, access roles, reports, and handoff workflows."],
+  ["Multi-office travel groups", "Office-wise lead ownership, CRM stages, booking workflow, branch reporting, role-based access, dashboards, and management visibility."]
+];
+
+const travelTechFaqs = [
+  ["What is travel technology?", "Travel technology connects travel websites, Travel CRM, Travel ERP, booking workflows, supplier coordination, customer portals, automation, payments, documents, and dashboards into a controlled digital system."],
+  ["Does BANDEVI GLOBAL GROUP build travel technology systems?", "Yes. BANDEVI builds complete travel websites, white-label travel websites, Travel CRM, Travel ERP, lead and booking workflows, customer portals, automation, and travel dashboards."],
+  ["Can BANDEVI build a complete travel website?", "Yes. BANDEVI can build travel websites with destination pages, package pages, enquiry forms, WhatsApp handoff, blogs, trust sections, CRM-ready lead capture, and SEO structure."],
+  ["Can BANDEVI build Travel CRM and Travel ERP?", "Yes. Travel CRM can manage enquiries, customers, quotations, follow-ups, and campaigns. Travel ERP can manage bookings, suppliers, invoices, payments, documents, approvals, and reporting."],
+  ["Can travel systems connect with customer portals and automation?", "Yes. Travel CRM, ERP, websites, portals, WhatsApp updates, payment reminders, document requests, dashboards, and reporting can be connected as the system grows."],
+  ["Where can visitors verify BANDEVI before starting a travel technology project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const automationDevelopmentRows = [
   ["Lead automation", "Route website forms, demo requests, WhatsApp enquiries, campaign leads, partner leads, and branch enquiries to the right owner with source tracking."],
   ["Follow-up automation", "Create reminders, next-action alerts, overdue lead signals, quotation follow-ups, customer callbacks, and sales-stage notifications."],
@@ -539,9 +568,9 @@ const pageData = {
     lede: "Complete travel websites and white-label travel websites for agencies, DMCs, tour operators, travel sellers, partners, branches, and reseller brands."
   },
   travelTech: {
-    title: "Travel Technology",
-    eyebrow: "Travel systems",
-    lede: "Complete travel websites, white-label travel websites, Travel CRM, ERP, portals, booking workflows, supplier coordination, and analytics built for agencies, operators, and DMCs."
+    title: "Travel Technology Company",
+    eyebrow: "Travel CRM, ERP, and websites",
+    lede: "BANDEVI GLOBAL GROUP builds travel technology for complete travel websites, white-label travel websites, Travel CRM, Travel ERP, booking workflows, supplier coordination, customer portals, automation, and dashboards."
   },
   leadBooking: {
     title: "Lead & Booking Management",
@@ -2013,18 +2042,19 @@ const landingPages = {
     process: ["Plan website structure", "Build brand pages", "Connect leads", "Launch and improve"]
   },
   travelTech: {
-    tag: "Travel technology",
-    title: "Complete travel websites and systems for agencies, operators, DMCs, and corporate desks.",
-    intro: "BANDEVI GLOBAL GROUP builds complete travel websites, white-label travel websites, Travel CRM, ERP, booking operations, supplier workflows, portals, and analytics into a more controlled digital ecosystem.",
-    points: ["Complete travel websites with destinations, packages, enquiry forms, WhatsApp handoff, blogs, trust sections, and lead capture", "White-label travel websites for agencies, partners, branches, resellers, and franchise-style travel selling", "Inquiry handling, quotation stages, itinerary discussions, and sales follow-up control", "Booking files, passenger details, documents, suppliers, payments, and finance visibility", "Customer portals and reporting that make service feel premium and organized"],
+    tag: "Travel technology company",
+    title: "Travel technology company for Travel CRM, Travel ERP, complete websites, white-label websites, and booking systems.",
+    intro: "BANDEVI GLOBAL GROUP builds travel technology for agencies, tour operators, DMCs, corporate travel desks, white-label sellers, and multi-office travel groups that need stronger website, sales, booking, supplier, customer, payment, and reporting control.",
+    points: ["Complete travel websites with destination pages, package pages, enquiry forms, WhatsApp handoff, blogs, trust sections, analytics, and SEO-ready service paths", "White-label travel websites for agencies, partners, branches, resellers, and franchise-style travel selling", "Travel CRM for enquiries, trip interests, quotation stages, follow-ups, campaigns, source tracking, customers, and sales dashboards", "Travel ERP for booking files, passengers, suppliers, services, invoices, payments, documents, approvals, margins, and operations reports", "Customer portals, lead and booking management, automation, supplier workflows, payment reminders, and management dashboards"],
     modules: [
-      { icon: "globe", title: "Complete travel website", text: "Build a full travel website with destination pages, package pages, enquiry forms, blogs, social proof, and conversion paths." },
-      { icon: "shield", title: "White-label travel website", text: "Create a branded travel website for agencies or partners using reusable structure, controlled content, and lead-routing options." },
-      { icon: "plane", title: "Travel CRM", text: "Manage inquiries, trip interests, quotations, follow-ups, campaigns, and customer history." },
-      { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, confirmations, invoices, payments, and margins." },
-      { icon: "globe", title: "Customer portal", text: "Give travelers and corporate clients access to documents, invoices, status, and support." }
+      { icon: "globe", title: "Complete travel website", text: "Destination pages, package pages, enquiry forms, blogs, social proof, WhatsApp actions, lead capture, analytics, and SEO structure." },
+      { icon: "shield", title: "White-label website", text: "Brand-ready travel websites for agencies, partners, branches, resellers, controlled content, and lead-routing options." },
+      { icon: "users", title: "Travel CRM", text: "Enquiries, trip interests, quotation stages, follow-up reminders, campaigns, customers, source tracking, and sales dashboards." },
+      { icon: "stack", title: "Travel ERP", text: "Bookings, passengers, suppliers, invoices, payments, documents, approvals, margins, operations tasks, and reporting." },
+      { icon: "plane", title: "Lead and booking workflow", text: "Move website, WhatsApp, phone, campaign, referral, and partner leads into quotation and booking control." },
+      { icon: "chart", title: "Portal and dashboards", text: "Customer portals, document access, service status, support tickets, payment reminders, automation, and management views." }
     ],
-    process: ["Audit workflow", "Prioritize modules", "Launch travel system", "Scale with reporting"]
+    process: ["Audit travel workflow", "Prioritize website, CRM, and ERP", "Launch travel system", "Scale with automation and reporting"]
   },
   leadBooking: {
     tag: "Lead & booking",
@@ -2042,7 +2072,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -2087,6 +2117,113 @@ function landingPage(key) {
     </section>
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function travelTechSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Travel technology services customers search before choosing a system.</h2>
+          <p>This page is structured for travel technology company, Travel CRM, Travel ERP, travel website development, complete travel website, white-label travel website, travel booking software, tour operator software, DMC software, customer portal, supplier workflow, and travel automation searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Website</strong><p>Complete travel websites, white-label websites, destination pages, package pages, blogs, enquiry paths, and SEO-ready structure.</p></article>
+          <article class="card metric-card"><strong>Travel CRM</strong><p>Enquiries, customers, quotations, follow-ups, campaigns, source tracking, consultant ownership, and sales dashboards.</p></article>
+          <article class="card metric-card"><strong>Travel ERP</strong><p>Bookings, suppliers, passengers, invoices, payments, documents, approvals, margins, and operations reporting.</p></article>
+          <article class="card metric-card"><strong>Automation</strong><p>Lead routing, reminders, document requests, payment alerts, customer portals, booking updates, and management dashboards.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel technology modules</span>
+          <h2>What BANDEVI can build for travel businesses.</h2>
+          <p>The first release can start with a complete travel website, Travel CRM, Travel ERP, or white-label website, then expand into portals, suppliers, payments, automation, and dashboards.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Travel technology area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${travelTechDevelopmentRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel segments</span>
+          <h2>Travel systems for agencies, operators, DMCs, corporate desks, and reseller networks.</h2>
+          <p>BANDEVI can shape the travel technology stack around how each business captures enquiries, prepares quotations, confirms bookings, coordinates suppliers, collects documents, updates customers, and reviews performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${travelTechIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed travel technology company</span>
+          <h2>Company strength signals behind travel system delivery.</h2>
+          <p>Travel technology touches customers, payments, documents, suppliers, booking files, staff ownership, and daily operations. BANDEVI connects this page with its public proof layer so buyers can verify the company before sharing workflow details.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links travel technology service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Travel project governance</h3>
+              <p>Travel technology work can include scope notes, modules, fields, access roles, booking-flow rules, supplier workflow, payment status, customer communication, handover records, and support ownership.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before travel system planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    ${travelTechWebsiteLinksSection()}
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel technology FAQ</span>
+          <h2>Answers for Travel CRM, Travel ERP, travel website, booking, portal, and automation searches.</h2>
+          <p>These answers help customers and search engines understand the travel technology work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${travelTechFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right travel layer</h3>
+            ${list(["Complete travel website", "White-label travel website", "Travel CRM", "Travel ERP", "Lead and booking workflow", "Customer portal and dashboards"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -3711,6 +3848,7 @@ function footer() {
             <li><a href="/travel-crm/">Travel CRM</a></li>
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
+            <li><a href="/travel-technology/">Travel Technology</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
             <li><a href="/ecommerce-solutions/">E-Commerce Solutions</a></li>
