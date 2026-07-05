@@ -246,6 +246,35 @@ const ecommerceFaqs = [
   ["Can a simple product catalogue become a full online store later?", "Yes. A business can start with a catalogue and enquiry flow, then add cart, checkout, payments, inventory direction, customer accounts, CRM, dashboards, and automation later."]
 ];
 
+const travelCrmRows = [
+  ["Travel lead capture", "Capture enquiries from travel websites, package pages, destination pages, WhatsApp, calls, campaigns, referrals, walk-ins, branches, partners, and reseller channels."],
+  ["Customer and trip profile", "Record customer details, destination interest, dates, pax count, budget direction, hotel category, service type, source, notes, and preferred contact method."],
+  ["Quotation workflow", "Track itinerary discussions, proposal versions, package interest, pricing direction, quotation stage, approval notes, follow-up date, and customer response."],
+  ["Follow-up management", "Use reminders, callback lists, overdue alerts, next-action notes, WhatsApp handoff, email notes, consultant ownership, and daily sales review."],
+  ["Sales pipeline", "Move leads through new, contacted, qualified, quotation sent, negotiation, won, lost, postponed, repeat, and booking-ready stages."],
+  ["Campaign and source tracking", "Track leads from SEO pages, ads, social media, referrals, partners, events, office teams, branches, and white-label travel sellers."],
+  ["Dashboards and reports", "Review source quality, response speed, consultant activity, follow-up discipline, quote-to-booking conversion, lost reasons, and revenue pipeline."],
+  ["Booking and portal handoff", "Qualified or confirmed leads can move into lead and booking management, Travel ERP, customer portal, payment reminders, documents, support, and automation."]
+];
+
+const travelCrmIndustries = [
+  ["Travel agencies", "Capture package enquiries, WhatsApp leads, destination interest, quotations, follow-ups, customer records, source tracking, and booking-ready handoff."],
+  ["Tour operators", "Manage FIT, group, pilgrimage, MICE, holiday, family, and custom-trip enquiries with quotation stages, owner assignment, and conversion reporting."],
+  ["DMCs", "Track B2B partner leads, destination requests, service enquiries, quotation follow-ups, source quality, sales owners, and operations handoff."],
+  ["Corporate travel desks", "Manage corporate enquiries, traveller profiles, approval notes, service preferences, follow-up ownership, billing direction, and reporting."],
+  ["White-label networks", "Separate partner, branch, reseller, and franchise-style lead sources while keeping management visibility over conversion and workload."],
+  ["Multi-office travel groups", "Use branch-wise ownership, team roles, source reporting, follow-up queues, customer records, sales dashboards, and management review."]
+];
+
+const travelCrmFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build Travel CRM software?", "Yes. BANDEVI builds Travel CRM software for travel agencies, tour operators, DMCs, corporate travel desks, white-label networks, branches, and multi-office travel groups."],
+  ["What does Travel CRM software include?", "Travel CRM can include lead capture, customer profiles, trip interest, quotation stages, follow-up reminders, WhatsApp handoff, campaign tracking, source reports, sales dashboards, and booking-ready handoff."],
+  ["Can Travel CRM manage WhatsApp and website leads?", "Yes. Travel website forms, package enquiries, destination enquiries, WhatsApp actions, phone calls, demo requests, campaigns, referrals, partner leads, and branch enquiries can feed into CRM-ready lead records."],
+  ["Can Travel CRM connect with bookings and Travel ERP?", "Yes. Qualified or confirmed leads can connect with lead and booking management, Travel ERP, supplier workflows, passengers, invoices, payments, documents, customer portal access, and operations reporting."],
+  ["Can Travel CRM help improve follow-up discipline?", "Yes. Travel CRM can provide reminders, next-action notes, overdue lead alerts, daily call lists, quotation follow-up stages, owner assignment, lost reasons, and sales dashboards."],
+  ["Where can visitors verify BANDEVI before starting a Travel CRM project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const travelWebsiteDevelopmentRows = [
   ["Complete travel website", "Home, about, destinations, packages, services, blogs, trust sections, testimonials, enquiry forms, WhatsApp actions, contact paths, and analytics."],
   ["White-label travel website", "Reusable travel website structure for agencies, partners, branches, franchise-style sellers, resellers, controlled branding, and lead routing."],
@@ -595,9 +624,9 @@ const pageData = {
     lede: "A clearer trust center for BANDEVI's IT delivery: official channels, project separation, documentation, office presence, support readiness, and sister-brand references without mixing company claims."
   },
   crm: {
-    title: "Travel CRM",
-    eyebrow: "Sales engine",
-    lede: "A structured CRM for inquiry handling, lead capture, quotation workflows, follow-ups, customer profiles, and revenue visibility."
+    title: "Travel CRM Software",
+    eyebrow: "Travel lead, quotation, and follow-up control",
+    lede: "BANDEVI GLOBAL GROUP builds Travel CRM software for travel agencies, tour operators, DMCs, corporate desks, WhatsApp leads, quotations, follow-ups, customer records, booking handoff, and sales dashboards."
   },
   erp: {
     title: "Travel ERP",
@@ -1869,10 +1898,10 @@ function crmPage() {
     <section class="section">
       <div class="container split">
         <div>
-          <span class="eyebrow">Travel CRM</span>
-          <h2>Control every inquiry before it slips away.</h2>
-          <p class="muted">The travel CRM gives teams a central sales workspace for inbound inquiries, agent assignment, itinerary discussions, proposal progress, follow-ups, and customer history.</p>
-          ${list(["Lead capture from website, campaigns, WhatsApp handoffs, and offline enquiries", "Quotation stages for FIT, group, MICE, pilgrimage, corporate, and custom trips", "Follow-up reminders, task ownership, campaign segmentation, and repeat-sales prompts", "Pipeline dashboards for source quality, conversion speed, and lost-lead reasons"])}
+          <span class="eyebrow">Travel CRM software</span>
+          <h2>Travel CRM software for enquiries, quotations, follow-ups, and customer records.</h2>
+          <p class="muted">BANDEVI GLOBAL GROUP builds Travel CRM software for travel agencies, tour operators, DMCs, corporate travel desks, branches, partners, white-label sellers, and multi-office travel groups that need stronger sales control.</p>
+          ${list(["Lead capture from travel websites, package pages, destination pages, WhatsApp, calls, campaigns, referrals, partners, branches, and offline enquiries", "Customer and trip profiles with destination interest, dates, pax count, budget direction, hotel category, service type, notes, and source", "Quotation stages for FIT, group, MICE, pilgrimage, corporate, DMC, holiday, family, and custom-trip requests", "Follow-up reminders, task ownership, campaign segmentation, repeat-sales prompts, lost reasons, and sales dashboards"])}
         </div>
         <div class="media-frame"><img src="${productImage}" alt="Travel CRM dashboard screens"></div>
       </div>
@@ -1884,13 +1913,140 @@ function crmPage() {
           <p>Designed to support sales leaders, travel consultants, marketing teams, and customer service teams without forcing generic workflows.</p>
         </div>
         ${cards([
-          { icon: "users", title: "Lead desk", text: "Queue, assign, prioritize, and track every enquiry from first touch to qualified opportunity." },
-          { icon: "plane", title: "Trip interest profile", text: "Capture destinations, dates, budget, pax count, preferences, documents, and communication notes." },
-          { icon: "chart", title: "Conversion intelligence", text: "See source performance, response times, team productivity, and upcoming revenue potential." }
+          { icon: "users", title: "Travel lead desk", text: "Queue, assign, prioritize, and track enquiries from website, WhatsApp, calls, campaigns, referrals, partners, and branches." },
+          { icon: "plane", title: "Trip interest profile", text: "Capture destinations, dates, budget, pax count, hotel category, service type, preferences, documents, and communication notes." },
+          { icon: "message", title: "Quotation follow-ups", text: "Track quotation stage, proposal version, customer response, next action, callback owner, overdue reminders, and lost reasons." },
+          { icon: "stack", title: "Booking-ready handoff", text: "Move qualified or confirmed leads toward lead and booking management, Travel ERP, customer portal, documents, and payment workflow." },
+          { icon: "shield", title: "Team ownership", text: "Separate branch, partner, reseller, consultant, manager, and support access so daily work has clear accountability." },
+          { icon: "chart", title: "Conversion intelligence", text: "See source performance, response speed, consultant activity, follow-up discipline, conversion rate, and revenue potential." }
         ])}
       </div>
     </section>
+    ${crmSeoSections()}
     ${cta("Turn more travel enquiries into booked revenue.", "Launch a CRM that keeps follow-ups sharp and leadership informed.")}
+  `;
+}
+
+function crmSeoSections() {
+  return `
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Travel CRM services customers search before asking for a demo.</h2>
+          <p>This page is structured for Travel CRM software, travel agency CRM, tour operator CRM, DMC CRM software, travel lead management software, travel enquiry management, quotation follow-up software, WhatsApp lead CRM, travel sales CRM, and travel CRM with ERP handoff searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Leads</strong><p>Travel website enquiries, package leads, destination interest, WhatsApp, calls, campaigns, referrals, branches, partners, and resellers.</p></article>
+          <article class="card metric-card"><strong>Customers</strong><p>Customer profiles, trip interest, dates, pax count, budget, hotel category, preferences, documents, notes, and communication history.</p></article>
+          <article class="card metric-card"><strong>Quotations</strong><p>Proposal versions, quotation stages, follow-up reminders, next actions, overdue leads, lost reasons, and booking-ready movement.</p></article>
+          <article class="card metric-card"><strong>Reports</strong><p>Source quality, response speed, consultant activity, quote-to-booking conversion, revenue pipeline, and sales dashboards.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel CRM modules</span>
+          <h2>What BANDEVI can build into Travel CRM software.</h2>
+          <p>The first release can start with lead capture, customer profiles, quotation stages, and follow-up reminders, then expand into booking handoff, Travel ERP, portals, documents, payments, automation, and dashboards.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>CRM area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${travelCrmRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel segments</span>
+          <h2>Travel CRM for agencies, tour operators, DMCs, corporate desks, branches, and reseller networks.</h2>
+          <p>BANDEVI can shape the CRM around how each travel business captures enquiries, qualifies customers, sends quotations, follows up, tracks sources, and hands confirmed work into booking operations.</p>
+        </div>
+        <div class="grid cols-3">
+          ${travelCrmIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed Travel CRM company</span>
+          <h2>Company strength signals behind Travel CRM delivery.</h2>
+          <p>Travel CRM touches leads, customers, sales owners, quotations, documents, staff performance, and revenue pipeline. BANDEVI connects this page with its public proof layer so buyers can verify the company before sharing sales workflow details.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links Travel CRM service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>CRM governance</h3>
+              <p>Travel CRM projects can include lead fields, source rules, sales stages, user roles, follow-up rules, quotation notes, dashboard access, handover records, training notes, and support ownership.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before CRM planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Connected travel system</span>
+          <h2>Travel CRM connects website leads, lead booking, ERP, portal, and automation.</h2>
+          <p>Travel CRM is the sales center of the wider travel technology stack. It protects enquiry context before the lead becomes a confirmed booking.</p>
+        </div>
+        <div class="grid cols-3">
+          <a class="card" href="/travel-website-development/"><h3>Travel Website</h3><p>Capture SEO, package, destination, campaign, contact, demo, and WhatsApp enquiries into CRM-ready records.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/lead-booking-management/"><h3>Lead & Booking Management</h3><p>Move qualified CRM leads into booking files with customer context, quote status, documents, and operations notes.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-erp/"><h3>Travel ERP</h3><p>Connect confirmed work with suppliers, passengers, invoices, payments, documents, approvals, and operations reports.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/customer-portal/"><h3>Customer Portal</h3><p>Give customers controlled access to booking status, documents, invoices, support requests, and service updates.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/business-automation/"><h3>Business Automation</h3><p>Automate lead routing, follow-up reminders, document requests, payment alerts, updates, and daily sales reports.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-technology/"><h3>Travel Technology</h3><p>Use the wider travel stack for websites, CRM, ERP, bookings, suppliers, portals, automation, and dashboards.</p><span>Open page ${icons.arrow}</span></a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel CRM FAQ</span>
+          <h2>Answers for Travel CRM, travel agency CRM, WhatsApp leads, quotations, follow-ups, and ERP handoff searches.</h2>
+          <p>These answers help customers and search engines understand the Travel CRM work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${travelCrmFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right CRM layer</h3>
+            ${list(["Travel lead capture", "Customer and trip profiles", "Quotation stages", "Follow-up reminders", "Source tracking", "Sales dashboards and booking handoff"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
