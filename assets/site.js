@@ -66,6 +66,7 @@ const sisterBrandTrustStats = [
 const companyProfileFacts = [
   ["Official company", "BANDEVI GLOBAL GROUP"],
   ["Common search names", "Bandevi Global Group, Bandevi Global, Bandevi, BANDEVI GLOBAL GROUP"],
+  ["Chairman", "Mr Surya Kant Jha"],
   ["Core work", "Premium websites, CRM, ERP, portals, e-commerce, automation, IT products, and business software."],
   ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company, across operations, sales, support, partnerships, technology, and business development."],
   ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure. Supporting CA, audited, or company-profile proof can be linked when public."],
@@ -84,6 +85,7 @@ const proofVerificationItems = [
   ["Official company identity", "BANDEVI GLOBAL GROUP, also searched as Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI.", "Published on the official website and structured company profile."],
   ["Official website", "https://bandeviglobalgroup.com/", "Primary public domain for brand, service, and contact verification."],
   ["Official contact channels", `${contactInfo.phoneDisplay}, ${contactInfo.email}, WhatsApp, and connected social profiles.`, "Published for direct customer verification before project discussions."],
+  ["Chairman", "Mr Surya Kant Jha", "Published leadership detail for company-profile, directory, and public proof consistency."],
   ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company.", "Priority figure published publicly. HR, team, payroll, partner, or company-profile support can be attached when public."],
   ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure.", "Priority figure published publicly. CA, audited, valuation, or board-approved proof can be attached when public."],
   ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States.", "Published location table with address-level references for visitor and search verification."],
@@ -105,6 +107,29 @@ const proofVerificationFaqs = [
   ["What net worth figure is published for BANDEVI GLOBAL GROUP?", "The current company-provided net worth and group strength figure is INR 7,594 Cr. Supporting CA, audited, or company-profile proof can be linked when public."],
   ["Which offices are listed for verification?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["What proof should be added next?", "The next proof items should be staff confirmation, CA or audited net worth support, office photos or map links, registration documents, and client-approved project proof."]
+];
+
+const directoryListingFacts = [
+  ["Official business name", "BANDEVI GLOBAL GROUP"],
+  ["Common search names", "Bandevi Global Group, Bandevi Global, Bandevi, BANDEVI"],
+  ["Chairman", "Mr Surya Kant Jha"],
+  ["Primary category", "IT company, software development company, CRM and ERP development company"],
+  ["Services", "Websites, CRM, ERP, customer portals, e-commerce, Travel CRM, Travel ERP, lead and booking management, automation, dashboards, and IT products."],
+  ["Website", "https://bandeviglobalgroup.com/"],
+  ["Phone / WhatsApp", contactInfo.phoneDisplay],
+  ["Email", contactInfo.email],
+  ["Staff size", "1,289 staff worldwide as currently provided by the company."],
+  ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure."],
+  ["Office references", "10 listed office and service-location references across India, Dubai, London, and the United States."],
+  ["Proof links", "Company Profile, Proof & Verification, Staff Size & Net Worth, Offices & Locations, and company profile PDF."]
+];
+
+const directorySubmissionFaqs = [
+  ["What name should be used in directories?", "Use BANDEVI GLOBAL GROUP as the official business name. Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI can be used as alternate names where a directory supports aliases."],
+  ["Which category should directories use?", "Use IT company, software development company, CRM development company, ERP software company, website development company, travel technology company, and business automation company where relevant."],
+  ["Which phone, email, and website should directories use?", `Use ${contactInfo.phoneDisplay}, ${contactInfo.email}, and https://bandeviglobalgroup.com/ as the primary public contact details.`],
+  ["Can directories mention staff size and net worth?", "Yes, when the directory allows company profile details, use 1,289 staff worldwide and INR 7,594 Cr as company-provided public figures with proof links to the official website."],
+  ["Which proof links should be included?", "Include the Company Profile page, Proof & Verification page, Staff Size & Net Worth page, Offices page, Contact page, Demo Request page, and company profile PDF."]
 ];
 
 const staffWorthFacts = [
@@ -669,6 +694,11 @@ const pageData = {
     title: "Proof & Verification",
     eyebrow: "Public proof page",
     lede: "Priority verification page for BANDEVI GLOBAL GROUP staff size, net worth, office locations, official contacts, and proof documents."
+  },
+  directoryProfile: {
+    title: "Directory Listing Profile",
+    eyebrow: "Directory and AI citation pack",
+    lede: "Directory-ready BANDEVI GLOBAL GROUP profile for business listings, AI citations, staff size, net worth, offices, proof links, official phone, email, website, CRM, ERP, IT products, and software development services."
   },
   staffWorth: {
     title: "Staff Size & Net Worth",
@@ -1359,6 +1389,7 @@ function companyProfilePage() {
             <a class="button ghost" href="/it-company-software-development-services/">IT Services</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
+            <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button ghost" href="/offices/">Offices</a>
           </div>
@@ -1432,16 +1463,134 @@ function companyProfilePage() {
           </div>
           <aside class="article-aside">
             <h3>Official verification</h3>
-            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF for staff size, net worth, offices, and proof notes."])}
+            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF for staff size, net worth, offices, and proof notes.", "Use the Directory Listing Profile for external directory submissions."])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
             <a class="button light" href="/it-company-software-development-services/">IT Services</a>
             <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button light" href="${companyProfilePdf}">Open PDF</a>
           </aside>
         </div>
       </div>
     </section>
     ${cta("Keep company facts visible and verifiable.", "Contact BANDEVI GLOBAL GROUP to confirm project scope, office support, staff allocation, and official communication channels.")}
+  `;
+}
+
+function directoryProfilePage() {
+  const shortDescription = "BANDEVI GLOBAL GROUP is an IT and software development company building websites, CRM, ERP, customer portals, e-commerce systems, Travel CRM, Travel ERP, automation, dashboards, and business software.";
+  const longDescription = "BANDEVI GLOBAL GROUP, chaired by Mr Surya Kant Jha, builds IT products and software systems for businesses that need stronger websites, clearer lead management, CRM, ERP, customer portals, e-commerce, travel technology, automation, dashboards, and operational control. The company publishes 1,289 staff worldwide, INR 7,594 Cr company-provided net worth and group strength, and 10 listed office and service-location references across India, Dubai, London, and the United States.";
+
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Directory profile</span>
+          <h2>Directory-ready BANDEVI GLOBAL GROUP listing for Google, AI tools, and business directories.</h2>
+          <p class="muted">Use this page as the clean public citation source for directories, social profiles, business listings, AI search systems, and external company profiles.</p>
+          ${list(["Official name: BANDEVI GLOBAL GROUP", "Chairman: Mr Surya Kant Jha", "Category: IT company, software development company, CRM and ERP development company", `Contact: ${contactInfo.phoneDisplay}, ${contactInfo.email}`, "Website: https://bandeviglobalgroup.com/", "Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Offices: 10 listed office and service-location references"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/proof-verification/">Verify Proof ${icons.arrow}</a>
+            <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
+            <a class="button ghost" href="/contact-us/">Contact</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI directory listing profile and proof summary"></div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Listing facts</span>
+          <h2>Exact company details for directories.</h2>
+          <p>Keep these details consistent everywhere so Google, Bing, AI answer engines, directories, and customers see the same BANDEVI profile.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Field</th><th>Use this public detail</th></tr></thead>
+            <tbody>
+              ${directoryListingFacts.map(([label, value]) => `<tr><td>${label}</td><td>${value}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Copy for directory forms</span>
+          <h2>Short and long descriptions.</h2>
+          <p>These descriptions can be reused for directory profiles, social profiles, business listings, and AI citation pages.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Short description</h3>
+              <p>${shortDescription}</p>
+            </article>
+            <article class="article-block">
+              <h3>Long description</h3>
+              <p>${longDescription}</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Recommended directory categories</h3>
+            ${list(["IT company", "Software development company", "CRM development company", "ERP software company", "Website development company", "Travel technology company", "Business automation company"])}
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof links</span>
+          <h2>Links to include in directories and AI citations.</h2>
+          <p>Use these official links anywhere a directory allows website, social, proof, PDF, or profile references.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            ["/company-profile/", "Company Profile", "Official company profile, staff ecosystem, net worth, offices, and contact details."],
+            ["/proof-verification/", "Proof & Verification", "Staff size, net worth, offices, official contact, proof status, and document checklist."],
+            ["/staff-size-net-worth/", "Staff Size & Net Worth", "Dedicated staff and net worth verification page."],
+            ["/offices/", "Offices & Locations", "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States."],
+            ["/it-products/", "IT Products", "CRM, ERP, portals, Travel CRM, Travel ERP, websites, e-commerce, automation, and dashboards."],
+            ["/contact-us/", "Contact", "Official phone, WhatsApp, email, demo request, and office support routes."]
+          ].map(([href, title, text]) => `
+            <a class="card industry-card" href="${href}">
+              ${iconTile("shield")}
+              <h3>${title}</h3>
+              <p>${text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Directory FAQ</span>
+          <h2>Answers for directory submissions and AI profile citations.</h2>
+          <p>These answers keep the public profile consistent when submitting BANDEVI to directories or external profiles.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${directorySubmissionFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Submission status</h3>
+            ${list(["Website-controlled profile is ready.", "External directories may require login, OTP, owner approval, or manual verification.", "Keep every listing aligned with official phone, email, website, proof pages, and company PDF."])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -1460,6 +1609,7 @@ function proofVerificationPage() {
             <a class="button ghost" href="/it-company-software-development-services/">IT Services</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
+            <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button ghost" href="/contact-us/">Verify Contact</a>
           </div>
         </div>
@@ -1530,6 +1680,7 @@ function proofVerificationPage() {
         </div>
         <div class="inline-actions">
           <a class="button primary" href="${companyProfilePdf}">Open Company Profile PDF ${icons.arrow}</a>
+          <a class="button ghost" href="/directory-listing-profile/">Open Directory Profile</a>
         </div>
       </div>
     </section>
@@ -1555,6 +1706,7 @@ function proofVerificationPage() {
             <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
             <a class="button light" href="/it-company-software-development-services/">IT Services</a>
             <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
           </aside>
         </div>
@@ -4976,6 +5128,7 @@ function footer() {
             <li><a href="/company-profile/">Company Profile</a></li>
             <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
+            <li><a href="/directory-listing-profile/">Directory Listing Profile</a></li>
             <li><a href="/staff-size-net-worth/">Staff Size & Net Worth</a></li>
             <li><a href="/offices/">Offices & Locations</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
@@ -5009,6 +5162,7 @@ const pageRenderers = {
   about: aboutPage,
   profile: companyProfilePage,
   proof: proofVerificationPage,
+  directoryProfile: directoryProfilePage,
   staffWorth: staffWorthPage,
   itCompanyServices: itCompanyServicesPage,
   offices: officesPage,
