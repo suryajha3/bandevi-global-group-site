@@ -217,6 +217,35 @@ const webAppFaqs = [
   ["Where can visitors verify BANDEVI before starting a website or app project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const ecommerceDevelopmentRows = [
+  ["Storefront development", "Responsive online stores with home, category, product detail, offer, search, cart, checkout, trust, and contact paths."],
+  ["Product catalogue", "Manage categories, product names, images, variants, pack sizes, descriptions, price direction, stock notes, and enquiry paths."],
+  ["Cart and checkout", "Create cart, checkout, address, delivery note, order confirmation, coupon, shipping, tax, and customer communication flows."],
+  ["Payment workflow", "Plan payment gateway flow, payment status, receipts, failed-payment handling, manual review, refund direction, and finance visibility."],
+  ["Order management", "Track order status, dispatch notes, customer updates, internal ownership, service requests, returns, and operational handoffs."],
+  ["Inventory and stock visibility", "Show stock direction, low-stock alerts, product availability, distributor interest, bulk order records, and management reports."],
+  ["Customer accounts and CRM", "Connect customer profiles, repeat orders, WhatsApp enquiries, distributor leads, support requests, campaigns, and CRM follow-ups."],
+  ["Dashboards and campaigns", "Review sales, product interest, source quality, payment status, abandoned carts, repeat customers, and campaign performance."]
+];
+
+const ecommerceIndustries = [
+  ["Masala and food products", "Product catalogues, pack sizes, bulk enquiries, distributor leads, offers, order interest, customer records, and sales dashboards."],
+  ["Makhana brands", "Premium product pages, variant visibility, wholesale enquiries, gifting flows, payment paths, stock direction, and repeat-customer campaigns."],
+  ["Retail and D2C brands", "Online storefronts, product discovery, checkout flows, coupons, payment status, customer accounts, returns, and reporting."],
+  ["Wholesale and distributors", "Bulk enquiry forms, price request paths, partner leads, product interest, order notes, CRM follow-ups, and branch-wise reporting."],
+  ["Service businesses", "Paid service packages, booking or request flows, customer records, invoices, support updates, and renewal communication."],
+  ["Multi-brand groups", "Separate catalogues, shared CRM, role-based access, office or brand-level reports, product dashboards, and campaign visibility."]
+];
+
+const ecommerceFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build e-commerce websites?", "Yes. BANDEVI builds e-commerce websites and online stores with product catalogues, storefront pages, cart and checkout flows, payment planning, order management, customer records, and dashboards."],
+  ["Can BANDEVI build an online store for masala, makhana, or packaged food brands?", "Yes. BANDEVI can build product websites and e-commerce-ready systems for masala, makhana, food-product, retail, D2C, wholesale, and distributor-led brands."],
+  ["Can an e-commerce website connect with CRM and inventory?", "Yes. Product enquiries, customer accounts, orders, payment status, stock direction, distributor leads, campaigns, and support requests can connect with CRM, ERP, automation, and dashboards."],
+  ["Can BANDEVI support payments and order workflows?", "Yes. BANDEVI can plan payment gateway flow, checkout, receipts, failed-payment handling, order status, customer notifications, dispatch notes, returns direction, and finance visibility."],
+  ["Is the e-commerce page connected with proof and verification?", "Yes. Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, phone, email, and bandeviglobalgroup.com."],
+  ["Can a simple product catalogue become a full online store later?", "Yes. A business can start with a catalogue and enquiry flow, then add cart, checkout, payments, inventory direction, customer accounts, CRM, dashboards, and automation later."]
+];
+
 const automationDevelopmentRows = [
   ["Lead automation", "Route website forms, demo requests, WhatsApp enquiries, campaign leads, partner leads, and branch enquiries to the right owner with source tracking."],
   ["Follow-up automation", "Create reminders, next-action alerts, overdue lead signals, quotation follow-ups, customer callbacks, and sales-stage notifications."],
@@ -475,9 +504,9 @@ const pageData = {
     lede: "BANDEVI GLOBAL GROUP builds CRM and ERP software for lead management, sales pipelines, operations, finance, dashboards, automation, travel CRM, travel ERP, and business workflows."
   },
   ecommerce: {
-    title: "E-Commerce Solutions",
-    eyebrow: "Digital commerce",
-    lede: "Secure e-commerce websites and platforms with product management, payment flows, customer experience, and growth-ready operations."
+    title: "E-Commerce Website Development Company",
+    eyebrow: "E-commerce development",
+    lede: "BANDEVI GLOBAL GROUP builds e-commerce websites, online stores, product catalogues, cart and checkout flows, payment workflows, order management, inventory direction, CRM, dashboards, and campaigns."
   },
   webApp: {
     title: "Website & Mobile App Development Company",
@@ -1879,16 +1908,19 @@ const landingPages = {
     process: ["Map sales and operations", "Design CRM and ERP modules", "Build first release", "Train, support, and improve"]
   },
   ecommerce: {
-    tag: "E-commerce",
-    title: "Launch an online store that feels credible and easy to manage.",
-    intro: "BANDEVI GLOBAL GROUP builds e-commerce websites and platforms that combine storefront experience with product management, payments, operations, and customer communication.",
-    points: ["Responsive storefronts with product catalogs, offers, search, and checkout paths", "Payment, order, inventory, customer, and notification workflows", "Admin tools and reporting for daily management and growth campaigns"],
+    tag: "E-commerce development",
+    title: "E-commerce website development company for online stores, catalogues, payments, orders, and CRM.",
+    intro: "BANDEVI GLOBAL GROUP builds e-commerce websites and online store systems that connect storefront experience with product catalogues, cart and checkout, payment workflows, order management, inventory direction, customer CRM, dashboards, and campaigns.",
+    points: ["E-commerce website development for online stores, product catalogues, product detail pages, offers, search, cart, and checkout", "Payment, order, inventory, customer account, WhatsApp, email, support, and notification workflows", "CRM-ready leads, distributor enquiries, bulk orders, repeat customer records, dashboards, and campaign reporting", "Masala, makhana, packaged food, retail, D2C, wholesale, service, and multi-brand commerce workflows"],
     modules: [
-      { icon: "globe", title: "Storefront", text: "Modern product pages, category flows, trust sections, and conversion-focused purchase journeys." },
-      { icon: "stack", title: "Operations", text: "Order handling, product updates, payment status, customer records, and internal controls." },
-      { icon: "chart", title: "Growth", text: "Campaign landing pages, analytics, source tracking, and repeat-customer communication." }
+      { icon: "globe", title: "Online storefront", text: "Responsive category pages, product pages, search, offers, trust sections, enquiry paths, cart, and checkout journeys." },
+      { icon: "shield", title: "Cart and payments", text: "Payment gateway planning, payment status, receipts, failed-payment handling, order confirmation, and finance visibility." },
+      { icon: "stack", title: "Order operations", text: "Order status, dispatch notes, customer updates, returns direction, internal ownership, support requests, and reporting." },
+      { icon: "users", title: "Customer CRM", text: "Customer accounts, distributor leads, WhatsApp enquiries, repeat orders, support history, follow-ups, and campaigns." },
+      { icon: "plane", title: "Product catalogue", text: "Categories, variants, pack sizes, images, descriptions, offers, stock direction, bulk enquiry paths, and product visibility." },
+      { icon: "chart", title: "Dashboards", text: "Sales, source quality, product interest, payment status, inventory direction, abandoned carts, and repeat-customer reports." }
     ],
-    process: ["Structure catalog", "Design storefront", "Connect payments", "Launch campaigns"]
+    process: ["Structure catalogue", "Build storefront and cart", "Connect payments and CRM", "Launch, report, and improve"]
   },
   webApp: {
     tag: "Website and mobile app development",
@@ -2010,7 +2042,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -2055,6 +2087,112 @@ function landingPage(key) {
     </section>
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function ecommerceSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>E-commerce services customers search before building an online store.</h2>
+          <p>This page is structured for e-commerce website development company, online store development, e-commerce platform development, product catalogue website, payment gateway integration, order management system, inventory dashboard, customer CRM, and D2C website searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Storefront</strong><p>Online stores, product pages, category flows, search, offers, trust sections, cart, checkout, and conversion paths.</p></article>
+          <article class="card metric-card"><strong>Payments</strong><p>Payment gateway planning, receipts, failed-payment handling, payment status, refunds direction, and finance visibility.</p></article>
+          <article class="card metric-card"><strong>Operations</strong><p>Orders, stock direction, dispatch notes, customer updates, service requests, returns, internal owners, and support handoffs.</p></article>
+          <article class="card metric-card"><strong>Growth</strong><p>CRM leads, distributor enquiries, campaign pages, repeat customers, WhatsApp follow-ups, dashboards, and reporting.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">E-commerce modules</span>
+          <h2>What BANDEVI can build inside an e-commerce system.</h2>
+          <p>The first release can start with a product catalogue and enquiry path, then expand into cart, checkout, payments, order management, CRM, inventory direction, dashboards, and automation.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>E-commerce area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${ecommerceDevelopmentRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>E-commerce workflows for product, retail, service, and group businesses.</h2>
+          <p>BANDEVI can shape commerce around how each business presents products, receives orders, handles payments, follows up with customers, manages stock direction, and reviews performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${ecommerceIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed e-commerce company</span>
+          <h2>Company strength signals behind online store delivery.</h2>
+          <p>E-commerce work touches products, prices, payments, customers, stock direction, support, and daily operations. BANDEVI connects this page with its public proof layer so buyers can verify the company before sharing commerce details.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links e-commerce service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Controlled commerce rollout</h3>
+              <p>E-commerce projects can include catalogue scope, product fields, payment flow notes, order status rules, customer communication, access handover, support ownership, analytics, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before commerce planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/website-mobile-app-development/">Website & App Development</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">E-commerce FAQ</span>
+          <h2>Answers for online store, product catalogue, payment, CRM, and order searches.</h2>
+          <p>These answers help customers and search engines understand the e-commerce work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${ecommerceFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right store layer</h3>
+            ${list(["Product catalogue and category pages", "Cart, checkout, and payments", "Order and stock direction", "Customer CRM and distributor leads", "Dashboards, campaigns, and automation"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -3575,6 +3713,7 @@ function footer() {
             <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
+            <li><a href="/ecommerce-solutions/">E-Commerce Solutions</a></li>
             <li><a href="/business-automation/">Business Automation</a></li>
             <li><a href="/masala-food-products/">Masala / Food</a></li>
             <li><a href="/makhana-brand-solutions/">Makhana</a></li>
