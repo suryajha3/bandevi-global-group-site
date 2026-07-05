@@ -167,7 +167,9 @@ const crmErpDevelopmentRows = [
   ["ERP", "Operations and workflow management", "Move confirmed work into order, booking, project, service, task, approval, supplier, and delivery workflows."],
   ["ERP", "Finance, invoice, and payment control", "Track invoices, receipts, payment status, refunds, credit notes, approvals, margins, and management reports."],
   ["ERP", "Inventory, suppliers, and documents", "Manage supplier records, stock views, product or service availability, files, handover notes, and operating documents."],
-  ["ERP", "Management reporting and automation", "Connect sales, operations, finance, workload, turnaround time, and performance into clearer dashboards and reminders."]
+  ["ERP", "Management reporting and automation", "Connect sales, operations, finance, workload, turnaround time, and performance into clearer dashboards and reminders."],
+  ["CRM + ERP", "Multi-office access and reporting", "Set branch ownership, role-based permissions, office-level reporting, staff queues, escalation paths, and management dashboards across locations."],
+  ["CRM + ERP", "Website, portal, and demo integration", "Connect website forms, demo requests, customer portals, support desks, payment status, documents, and dashboard views with CRM and ERP records."]
 ];
 
 const crmErpIndustries = [
@@ -3183,13 +3185,15 @@ function crmErpSeoSections() {
         <div class="section-head">
           <span class="eyebrow">Commercial search targets</span>
           <h2>CRM and ERP services customers search before they buy.</h2>
-          <p>This page is structured for CRM development company, ERP software company, custom CRM software, ERP development, business software development, travel CRM, travel ERP, and business automation searches.</p>
+          <p>This page is structured for CRM development company, ERP software company, custom CRM software, ERP development, lead management software, operations management software, travel CRM, travel ERP, and business automation searches.</p>
         </div>
-        <div class="grid cols-4">
+        <div class="grid cols-3">
           <article class="card metric-card"><strong>CRM</strong><p>Leads, enquiries, sales pipeline, quotations, follow-ups, customer profiles, source tracking, and reports.</p></article>
           <article class="card metric-card"><strong>ERP</strong><p>Operations, bookings, orders, suppliers, inventory, invoices, payments, approvals, documents, and tasks.</p></article>
           <article class="card metric-card"><strong>Automation</strong><p>Reminders, routing, notifications, approvals, document requests, status updates, and management dashboards.</p></article>
+          <article class="card metric-card"><strong>Multi-office</strong><p>Branch ownership, role-based access, office-level reporting, staff queues, escalation paths, and shared management visibility.</p></article>
           <article class="card metric-card"><strong>Travel tech</strong><p>Travel CRM, travel ERP, itineraries, booking files, supplier coordination, customer documents, and payment tracking.</p></article>
+          <article class="card metric-card"><strong>Proof</strong><p>1,289 staff worldwide, INR 7,594 Cr company-provided strength, and office-location proof linked from the website.</p></article>
         </div>
       </div>
     </section>
@@ -3219,6 +3223,32 @@ function crmErpSeoSections() {
         </div>
         <div class="grid cols-3">
           ${crmErpIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Connected software ecosystem</span>
+          <h2>Internal paths that support CRM and ERP ranking.</h2>
+          <p>CRM and ERP pages work better when related service pages explain the full customer journey: lead capture, booking or order control, customer access, automation, dashboards, and proof.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "users", title: "Travel CRM", href: "/travel-crm/", text: "Lead capture, sales pipeline, quotations, follow-ups, customer records, and travel-specific conversion tracking." },
+            { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Booking files, supplier coordination, invoices, payments, approvals, documents, and operations reporting." },
+            { icon: "globe", title: "Lead & Booking Management", href: "/lead-booking-management/", text: "Website enquiries, WhatsApp handoff, lead ownership, booking status, reminders, and team accountability." },
+            { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Customer access for documents, invoices, service updates, support requests, and controlled account views." },
+            { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Task routing, approval flows, reminders, notifications, dashboard alerts, and workflow status automation." },
+            { icon: "stack", title: "Proof & Verification", href: "/proof-verification/", text: "Public verification paths for company profile, staff size, net worth, offices, contact details, and official records." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
         </div>
       </div>
     </section>
