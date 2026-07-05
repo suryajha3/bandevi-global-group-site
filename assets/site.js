@@ -217,6 +217,35 @@ const webAppFaqs = [
   ["Where can visitors verify BANDEVI before starting a website or app project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const automationDevelopmentRows = [
+  ["Lead automation", "Route website forms, demo requests, WhatsApp enquiries, campaign leads, partner leads, and branch enquiries to the right owner with source tracking."],
+  ["Follow-up automation", "Create reminders, next-action alerts, overdue lead signals, quotation follow-ups, customer callbacks, and sales-stage notifications."],
+  ["CRM automation", "Automate lead assignment, pipeline movement, lost reason capture, customer updates, source reporting, sales tasks, and daily team review."],
+  ["ERP automation", "Trigger task queues, approval paths, booking or order updates, supplier actions, invoice status, payment reminders, and operations reports."],
+  ["WhatsApp and email workflows", "Send structured customer updates, document requests, payment reminders, booking notes, service status, and internal team alerts."],
+  ["Document request automation", "Request, track, and remind for customer documents, project files, invoice copies, booking records, approvals, and support attachments."],
+  ["Dashboard automation", "Prepare pipeline, workload, revenue, source, payment, turnaround, support, and exception dashboards for management review."],
+  ["Portal and support automation", "Connect customer portals, support desks, status views, ticket routing, file access, notifications, and service handoffs."]
+];
+
+const automationIndustries = [
+  ["Travel and tourism", "Lead routing, quotation follow-ups, itinerary notes, document requests, payment reminders, booking status, supplier tasks, and travel dashboards."],
+  ["Service businesses", "Enquiry assignment, quotation reminders, service status, task routing, customer updates, support handoffs, and management reports."],
+  ["Retail and e-commerce", "Order status, payment reminders, customer notifications, distributor leads, inventory alerts, support tickets, and campaign reports."],
+  ["Food and packaged products", "Bulk enquiry routing, distributor follow-ups, product interest reports, stock direction, dispatch updates, and sales dashboards."],
+  ["Consulting and professional services", "Client onboarding, proposal reminders, document requests, project status, invoice tracking, and client portal notifications."],
+  ["Multi-office groups", "Branch-wise lead routing, team ownership, approval paths, role-based notifications, office-level dashboards, and shared management reporting."]
+];
+
+const automationFaqs = [
+  ["What is business automation?", "Business automation uses workflows, reminders, routing, notifications, dashboards, and system rules to reduce repeated manual work across sales, operations, finance, support, and reporting."],
+  ["Does BANDEVI GLOBAL GROUP build business automation systems?", "Yes. BANDEVI builds automation for lead routing, follow-ups, CRM, ERP, WhatsApp and email notifications, document requests, task queues, approvals, portals, and dashboards."],
+  ["Can automation connect with CRM and ERP?", "Yes. Automation can connect with CRM and ERP workflows for lead assignment, pipeline updates, tasks, approvals, invoices, payments, documents, reporting, and team notifications."],
+  ["Can BANDEVI automate WhatsApp and customer communication?", "Yes. BANDEVI can plan WhatsApp and communication workflows for enquiries, follow-ups, document requests, service status, payment reminders, booking notes, and support updates."],
+  ["Which businesses can use automation?", "Travel companies, service businesses, e-commerce brands, food-product brands, consulting teams, multi-office groups, and internal operations teams can use automation to reduce missed work and improve visibility."],
+  ["Where can visitors verify BANDEVI before starting automation work?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const officeVerificationFaqs = [
   ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
@@ -456,9 +485,9 @@ const pageData = {
     lede: "BANDEVI GLOBAL GROUP builds corporate websites, business websites, landing pages, web apps, mobile apps, portals, dashboards, travel websites, and SEO-ready digital systems."
   },
   automation: {
-    title: "Business Automation",
-    eyebrow: "Workflow automation",
-    lede: "Automate leads, follow-ups, customer communication, task routing, reports, and daily business workflows."
+    title: "Business Automation Company",
+    eyebrow: "Workflow automation services",
+    lede: "BANDEVI GLOBAL GROUP builds business automation for lead routing, follow-ups, CRM automation, ERP automation, WhatsApp workflows, document requests, task queues, dashboards, and reporting."
   },
   masala: {
     title: "Masala & Food Product IT Solutions",
@@ -1877,16 +1906,19 @@ const landingPages = {
     process: ["Plan pages and workflows", "Design website and app screens", "Build and connect systems", "Launch, measure, and improve"]
   },
   automation: {
-    tag: "Automation",
-    title: "Automate the repetitive work that slows down sales and service.",
-    intro: "Business automation helps teams respond faster, keep follow-ups consistent, move data between tools, and reduce manual reporting pressure.",
-    points: ["Lead routing, reminders, status updates, and customer communication flows", "Task queues, approvals, document requests, and internal notifications", "Reporting automations that reduce spreadsheet work and improve visibility"],
+    tag: "Business automation",
+    title: "Business automation company for leads, workflows, CRM, ERP, and dashboards.",
+    intro: "BANDEVI GLOBAL GROUP builds business automation for lead routing, follow-up reminders, CRM automation, ERP automation, WhatsApp workflows, email notifications, document requests, task queues, approvals, dashboards, and reporting.",
+    points: ["Lead automation for website forms, demo requests, WhatsApp enquiries, campaigns, partners, branches, owner assignment, and source tracking", "Workflow automation for reminders, task routing, approvals, document requests, service status, support handoffs, and customer updates", "CRM and ERP automation for pipeline movement, operations tasks, invoice and payment status, booking or order updates, and management reports", "Dashboard automation for sales, workload, revenue, source quality, overdue actions, support tickets, turnaround time, and exception visibility"],
     modules: [
-      { icon: "users", title: "Lead automation", text: "Route inquiries by source, service, branch, or team and keep follow-up ownership visible." },
-      { icon: "shield", title: "Workflow automation", text: "Trigger tasks, approvals, reminders, and document requests at the right stage." },
-      { icon: "chart", title: "Report automation", text: "Generate management views for pipeline, workload, turnaround time, and outcomes." }
+      { icon: "users", title: "Lead automation", text: "Route enquiries by source, service, branch, campaign, form, WhatsApp action, priority, and team owner with clear follow-up visibility." },
+      { icon: "shield", title: "Workflow automation", text: "Trigger task queues, approvals, reminders, document requests, support handoffs, status updates, and internal notifications." },
+      { icon: "message", title: "WhatsApp and email automation", text: "Plan communication flows for customer updates, payment reminders, booking notes, service status, document requests, and team alerts." },
+      { icon: "stack", title: "CRM and ERP automation", text: "Connect sales, operations, finance, documents, approvals, invoices, bookings, orders, payments, and team tasks." },
+      { icon: "globe", title: "Portal automation", text: "Link customer portals, staff portals, partner portals, support desks, file access, ticket routing, and controlled status views." },
+      { icon: "chart", title: "Dashboard automation", text: "Generate management views for pipeline, workload, revenue, source quality, overdue actions, turnaround time, and exceptions." }
     ],
-    process: ["Find repeat work", "Define triggers", "Build automation", "Measure time saved"]
+    process: ["Map repeated manual work", "Define triggers and owners", "Build controlled automation", "Measure, support, and improve"]
   },
   masala: {
     tag: "Masala & food products",
@@ -1978,7 +2010,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : key === "webApp" ? webAppSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -2023,6 +2055,112 @@ function landingPage(key) {
     </section>
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function automationSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Automation services that reduce manual work and missed follow-ups.</h2>
+          <p>This page is structured for business automation company, workflow automation services, process automation, CRM automation, ERP automation, WhatsApp automation, lead automation, task automation, document request automation, and dashboard automation searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Leads</strong><p>Form leads, WhatsApp enquiries, campaigns, referrals, branch enquiries, routing, ownership, and follow-up reminders.</p></article>
+          <article class="card metric-card"><strong>Workflow</strong><p>Tasks, approvals, document requests, support handoffs, customer updates, status changes, and internal notifications.</p></article>
+          <article class="card metric-card"><strong>CRM/ERP</strong><p>Pipeline actions, booking or order updates, invoice status, payment reminders, operations tasks, and management reports.</p></article>
+          <article class="card metric-card"><strong>Dashboards</strong><p>Sales, workload, revenue, source quality, overdue actions, support tickets, turnaround time, and exceptions.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Automation modules</span>
+          <h2>What BANDEVI can automate inside business workflows.</h2>
+          <p>The first release can start with a small repeated workflow, then expand into connected CRM, ERP, portal, WhatsApp, dashboard, support, and reporting automation.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Automation area</th><th>What it can control</th></tr></thead>
+            <tbody>
+              ${automationDevelopmentRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>Automation workflows for different business lines.</h2>
+          <p>BANDEVI can shape automation around how each business receives enquiries, assigns work, updates customers, collects documents, tracks payments, and reviews performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${automationIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed automation company</span>
+          <h2>Company strength signals behind automation delivery.</h2>
+          <p>Automation touches leads, customers, payments, documents, team ownership, and daily operations. BANDEVI links this service page with its public proof layer so buyers can verify the company before sharing workflow details.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links automation service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Controlled automation rollout</h3>
+              <p>Automation work can include workflow maps, trigger rules, user roles, approval paths, message drafts, reporting fields, access handover, support ownership, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before automation planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/crm-erp-solutions/">CRM & ERP</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Business automation FAQ</span>
+          <h2>Answers for workflow automation, CRM automation, and dashboard searches.</h2>
+          <p>These answers help customers and search engines understand the automation work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${automationFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with one repeat workflow</h3>
+            ${list(["Lead routing and assignment", "Follow-up reminders", "Document requests", "Task queues and approvals", "WhatsApp or email updates", "Dashboards and reports"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -3437,6 +3575,7 @@ function footer() {
             <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
+            <li><a href="/business-automation/">Business Automation</a></li>
             <li><a href="/masala-food-products/">Masala / Food</a></li>
             <li><a href="/makhana-brand-solutions/">Makhana</a></li>
             <li><a href="/astrology-services-platform/">Astrology</a></li>
