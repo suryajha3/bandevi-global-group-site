@@ -304,6 +304,35 @@ const travelTechFaqs = [
   ["Where can visitors verify BANDEVI before starting a travel technology project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const leadBookingManagementRows = [
+  ["Travel lead capture", "Capture website forms, WhatsApp enquiries, phone calls, campaigns, referrals, partner leads, branch leads, source, priority, and owner assignment."],
+  ["Lead qualification", "Record destination interest, travel dates, pax count, budget direction, service type, customer notes, preferred contact method, and next action."],
+  ["Quotation tracking", "Track quote status, package interest, proposal version, consultant ownership, follow-up date, response history, lost reason, and conversion stage."],
+  ["Follow-up management", "Use reminders, overdue alerts, daily call lists, WhatsApp handoff, email notes, callback ownership, and sales-stage movement."],
+  ["Booking file creation", "Move confirmed enquiries into booking files with passengers, services, suppliers, itinerary notes, documents, payments, invoices, and status."],
+  ["Sales to operations handoff", "Keep customer context, quote details, service requirements, document needs, and payment status visible when operations takes over."],
+  ["Dashboards and reports", "Review source quality, response speed, pending follow-ups, quote-to-booking conversion, open booking workload, payment status, and team performance."],
+  ["CRM, ERP, and portal path", "Connect the workflow with Travel CRM, Travel ERP, customer portals, payment reminders, document requests, support updates, and automation."]
+];
+
+const leadBookingIndustries = [
+  ["Travel agencies", "Website, WhatsApp, call, referral, and campaign enquiries can move from lead capture to quotation, follow-up, booking file, and customer update."],
+  ["Tour operators", "FIT, group, pilgrimage, MICE, holiday, and package enquiries can convert into booking files with passengers, suppliers, invoices, payments, and documents."],
+  ["DMCs", "Partner enquiries, destination requests, supplier services, quotation stages, B2B follow-ups, operations handoff, and booking status can stay organized."],
+  ["Corporate travel desks", "Corporate requests, traveller details, approval notes, billing direction, document needs, support queries, and service status can be tracked together."],
+  ["White-label networks", "Partner, branch, reseller, and franchise-style lead sources can be separated while management still reviews conversion and booking progress."],
+  ["Multi-office travel groups", "Branch-wise lead ownership, team follow-ups, booking workload, source reporting, user roles, and management dashboards can stay visible."]
+];
+
+const leadBookingFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build lead and booking management software?", "Yes. BANDEVI builds lead and booking management software for travel agencies, tour operators, DMCs, corporate travel desks, white-label networks, branches, and multi-office travel groups."],
+  ["What does lead and booking management include?", "It can include lead capture, source tracking, owner assignment, qualification fields, quotation tracking, follow-up reminders, booking files, documents, suppliers, payments, invoices, dashboards, and reports."],
+  ["Can WhatsApp and website enquiries be managed together?", "Yes. Website forms, demo requests, WhatsApp handoff, call enquiries, campaign leads, referrals, partner leads, and branch enquiries can be routed into a cleaner sales queue."],
+  ["Can confirmed leads become booking files?", "Yes. Confirmed enquiries can move into booking files with passenger details, service items, suppliers, itinerary notes, documents, invoices, payment status, support notes, and operations ownership."],
+  ["Can this connect with Travel CRM and Travel ERP?", "Yes. The lead side can connect with Travel CRM for sales follow-up, and the confirmed booking side can connect with Travel ERP for operations, suppliers, finance, documents, and reporting."],
+  ["Where can visitors verify BANDEVI before starting a lead and booking project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const automationDevelopmentRows = [
   ["Lead automation", "Route website forms, demo requests, WhatsApp enquiries, campaign leads, partner leads, and branch enquiries to the right owner with source tracking."],
   ["Follow-up automation", "Create reminders, next-action alerts, overdue lead signals, quotation follow-ups, customer callbacks, and sales-stage notifications."],
@@ -602,9 +631,9 @@ const pageData = {
     lede: "BANDEVI GLOBAL GROUP builds travel technology for complete travel websites, white-label travel websites, Travel CRM, Travel ERP, booking workflows, supplier coordination, customer portals, automation, and dashboards."
   },
   leadBooking: {
-    title: "Lead & Booking Management",
-    eyebrow: "Sales to operations",
-    lede: "Track travel inquiries, quotations, follow-ups, booking files, customer details, and team ownership in one controlled workflow."
+    title: "Lead & Booking Management Software",
+    eyebrow: "Travel sales to booking control",
+    lede: "BANDEVI GLOBAL GROUP builds lead and booking management software for travel enquiries, WhatsApp leads, quotation follow-ups, booking files, documents, payments, dashboards, and CRM/ERP handoff."
   },
   it: {
     title: "IT Solutions",
@@ -2086,22 +2115,25 @@ const landingPages = {
     process: ["Audit travel workflow", "Prioritize website, CRM, and ERP", "Launch travel system", "Scale with automation and reporting"]
   },
   leadBooking: {
-    tag: "Lead & booking",
-    title: "Move every travel inquiry from lead to booking without losing control.",
-    intro: "Lead and booking management connects inquiry capture, sales ownership, quotation tracking, operations handoff, booking files, and follow-up visibility.",
-    points: ["Capture leads from website, calls, WhatsApp, campaigns, and partner channels", "Track proposal status, reminders, lost reasons, and customer preferences", "Convert confirmed sales into structured booking files with documents and service items"],
+    tag: "Lead and booking management software",
+    title: "Lead and booking management software for travel enquiries, quotations, and confirmed bookings.",
+    intro: "BANDEVI GLOBAL GROUP builds lead and booking management software for travel agencies, tour operators, DMCs, corporate travel desks, white-label sellers, branch teams, and multi-office travel groups that need stronger enquiry control, quote follow-up, booking files, customer records, documents, payments, and reporting.",
+    points: ["Travel lead management for website forms, WhatsApp enquiries, phone calls, campaigns, referrals, partners, branches, and reseller channels", "Quotation tracking with customer preferences, destination interest, budget direction, follow-up reminders, lost reasons, and sales ownership", "Booking management software for confirmed enquiries, passengers, services, suppliers, invoices, payments, documents, status updates, and operations handoff", "CRM, ERP, customer portal, automation, payment reminder, document request, and dashboard paths can be added as the travel business grows"],
     modules: [
-      { icon: "users", title: "Lead desk", text: "Centralize inquiries, assign owners, set priority, and monitor response time." },
-      { icon: "plane", title: "Booking file", text: "Record passengers, services, suppliers, dates, payments, documents, and status." },
-      { icon: "chart", title: "Conversion view", text: "See sources, win rate, proposal speed, lost reasons, and upcoming revenue." }
+      { icon: "users", title: "Travel lead desk", text: "Centralize website, WhatsApp, phone, campaign, referral, partner, branch, and reseller enquiries with owner assignment and source tracking." },
+      { icon: "message", title: "Follow-up control", text: "Track callbacks, reminders, next actions, quotation stage, WhatsApp handoff, email notes, overdue leads, and customer response." },
+      { icon: "plane", title: "Quotation workflow", text: "Manage destination interest, package requests, pax count, travel dates, budget direction, proposal versions, and lost reasons." },
+      { icon: "stack", title: "Booking file management", text: "Create structured booking records with passengers, suppliers, services, itinerary notes, invoices, payments, documents, and status." },
+      { icon: "shield", title: "CRM and ERP handoff", text: "Move qualified leads into Travel CRM and confirmed bookings into Travel ERP without losing customer context." },
+      { icon: "chart", title: "Dashboards and reports", text: "Review source quality, response speed, quote-to-booking conversion, open booking workload, payments, and team performance." }
     ],
-    process: ["Capture inquiry", "Build quotation", "Confirm booking", "Track delivery"]
+    process: ["Capture travel enquiry", "Qualify and quote", "Confirm booking file", "Track delivery and reports"]
   }
 };
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelWebsite" ? travelWebsiteSeoSections() : key === "travelTech" ? travelTechSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelWebsite" ? travelWebsiteSeoSections() : key === "travelTech" ? travelTechSeoSections() : key === "leadBooking" ? leadBookingSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -2353,6 +2385,129 @@ function travelTechSeoSections() {
           <aside class="article-aside">
             <h3>Start with the right travel layer</h3>
             ${list(["Complete travel website", "White-label travel website", "Travel CRM", "Travel ERP", "Lead and booking workflow", "Customer portal and dashboards"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function leadBookingSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Lead and booking management services travel companies search before choosing a system.</h2>
+          <p>This page is structured for lead and booking management software, travel lead management software, travel booking management software, travel CRM lead management, quotation follow-up software, tour operator booking management, DMC lead management, WhatsApp lead management, and travel agency booking workflow searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Lead capture</strong><p>Website forms, WhatsApp enquiries, phone calls, campaigns, referrals, partner leads, branch leads, source tracking, and owner assignment.</p></article>
+          <article class="card metric-card"><strong>Quotation flow</strong><p>Destination interest, trip details, proposal versions, follow-up reminders, customer response, lost reasons, and sales-stage movement.</p></article>
+          <article class="card metric-card"><strong>Booking files</strong><p>Confirmed enquiries, passengers, services, suppliers, itinerary notes, documents, invoices, payment status, and operations handoff.</p></article>
+          <article class="card metric-card"><strong>Reporting</strong><p>Source quality, response speed, quote-to-booking conversion, open workload, payment visibility, team performance, and management dashboards.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Lead and booking modules</span>
+          <h2>What BANDEVI can build into the lead-to-booking workflow.</h2>
+          <p>The first release can start with a lead desk and quotation tracker, then expand into booking files, Travel CRM, Travel ERP, customer portals, document requests, payment reminders, automation, and dashboards.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Workflow area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${leadBookingManagementRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel segments</span>
+          <h2>Lead and booking workflows for agencies, operators, DMCs, corporate desks, and branch networks.</h2>
+          <p>BANDEVI can shape the system around how each travel business receives enquiries, qualifies customers, sends quotations, confirms bookings, coordinates operations, collects documents, tracks payments, and reports performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${leadBookingIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed software company</span>
+          <h2>Company strength signals behind travel lead and booking delivery.</h2>
+          <p>Lead and booking systems touch customers, revenue, documents, suppliers, payments, staff ownership, and daily operations. BANDEVI connects this page with its public proof layer so buyers can verify the company before sharing workflow details.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links lead and booking management pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Workflow governance</h3>
+              <p>Lead and booking projects can include source rules, lead fields, user roles, quote stages, booking status, supplier notes, payment status, document requests, handover records, access control, and support ownership.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before lead system planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Connected travel stack</span>
+          <h2>Lead and booking management connects the website, CRM, ERP, portal, and automation roadmap.</h2>
+          <p>This page is an important bridge between travel website enquiries and confirmed booking operations. It supports the wider SEO path for Travel CRM, Travel ERP, Travel Technology, Customer Portal, and Business Automation.</p>
+        </div>
+        <div class="grid cols-3">
+          <a class="card" href="/travel-website-development/"><h3>Travel Website</h3><p>Capture enquiries from destination pages, package pages, WhatsApp actions, forms, campaigns, blogs, and trust sections.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-crm/"><h3>Travel CRM</h3><p>Manage lead owners, quotation stages, follow-up reminders, customer records, source reports, and sales dashboards.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-erp/"><h3>Travel ERP</h3><p>Move confirmed bookings into supplier coordination, documents, invoices, payments, approvals, margins, and operations reports.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-technology/"><h3>Travel Technology</h3><p>Use the wider travel stack for websites, CRM, ERP, bookings, portals, suppliers, automation, and dashboards.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/customer-portal/"><h3>Customer Portal</h3><p>Give customers controlled access to booking status, documents, invoices, support requests, and updates.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/business-automation/"><h3>Business Automation</h3><p>Automate lead routing, follow-up reminders, document requests, payment alerts, status updates, and daily reports.</p><span>Open page ${icons.arrow}</span></a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Lead and booking FAQ</span>
+          <h2>Answers for travel lead management, quotation follow-up, booking workflow, and CRM/ERP handoff searches.</h2>
+          <p>These answers help customers and search engines understand the lead and booking management work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${leadBookingFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right workflow layer</h3>
+            ${list(["Travel lead desk", "Quotation tracking", "Follow-up reminders", "Booking file management", "CRM and ERP handoff", "Dashboards and reporting"])}
             <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button light" href="/contact-us/">Contact</a>
           </aside>
@@ -3984,6 +4139,7 @@ function footer() {
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/travel-technology/">Travel Technology</a></li>
+            <li><a href="/lead-booking-management/">Lead & Booking Management</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
             <li><a href="/ecommerce-solutions/">E-Commerce Solutions</a></li>
