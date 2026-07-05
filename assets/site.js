@@ -635,6 +635,15 @@ const contactFaqs = [
   ["What details should I include in a contact message?", "Share your product interest, business type, current problem, location or region, timeline, preferred contact method, and whether you need CRM, ERP, portals, travel technology, websites, e-commerce, automation, or support."]
 ];
 
+const homeFaqs = [
+  ["What is BANDEVI GLOBAL GROUP?", "BANDEVI GLOBAL GROUP is an IT and software development company for websites, CRM, ERP, customer portals, e-commerce, travel technology, automation, dashboards, and business software."],
+  ["What is BANDEVI GLOBAL GROUP staff size?", "The current company-provided staff count is 1,289 staff worldwide across the operating, sales, support, partnership, technology, and business development ecosystem."],
+  ["What is BANDEVI GLOBAL GROUP net worth?", "The current company-provided net worth and group strength figure is INR 7,594 Cr. Supporting CA, audited, valuation, or company-profile proof can be linked when public."],
+  ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
+  ["What IT products does BANDEVI provide?", "BANDEVI provides website packages, CRM, ERP, customer portals, e-commerce systems, Travel CRM, Travel ERP, lead and booking management, automation, dashboards, and software package planning."],
+  ["Where can visitors verify BANDEVI before contacting?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
@@ -642,8 +651,8 @@ const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
 const pageData = {
   home: {
     title: "BANDEVI GLOBAL GROUP",
-    eyebrow: "IT and development company",
-    lede: "Bandevi Global Group, also searched as Bandevi Global and Bandevi, builds premium websites, CRM, ERP, portals, e-commerce, automation, and business software.",
+    eyebrow: "IT products, CRM, ERP, proof, offices",
+    lede: "BANDEVI GLOBAL GROUP builds IT products, websites, CRM, ERP, portals, e-commerce, travel technology, automation, and business software with published company-provided strength of 1,289 staff worldwide, INR 7,594 Cr net worth, and 10 listed office references.",
     home: true
   },
   about: {
@@ -1032,6 +1041,69 @@ function companyProfilePreview() {
   `;
 }
 
+function homePriorityProof() {
+  const proofLinks = [
+    { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Verify company identity, official phone, email, staff size, net worth, offices, and public proof links." },
+    { icon: "users", title: "Staff Size & Net Worth", href: "/staff-size-net-worth/", text: "Review 1,289 staff worldwide and INR 7,594 Cr company-provided net worth and group strength figure." },
+    { icon: "globe", title: "Offices & Locations", href: "/offices/", text: "View Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States references." },
+    { icon: "stack", title: "IT Products", href: "/it-products/", text: "Explore website, CRM, ERP, portal, e-commerce, travel technology, automation, and dashboard packages." },
+    { icon: "chart", title: "CRM & ERP Solutions", href: "/crm-erp-solutions/", text: "Plan lead management, sales pipeline, operations, finance, approvals, reporting, portals, and multi-office dashboards." },
+    { icon: "message", title: "Demo Request", href: "/demo-request/", text: "Request a walkthrough for CRM, ERP, IT products, portals, Travel CRM, Travel ERP, websites, and automation." }
+  ];
+
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Priority public proof</span>
+          <h2>Staff size, net worth, offices, and IT products are now visible from the homepage.</h2>
+          <p>The homepage connects BANDEVI's main company-strength signals with the pages visitors and search engines need next: proof, staff size, net worth, offices, CRM, ERP, IT products, and demo request.</p>
+        </div>
+        <div class="grid cols-3">
+          ${proofLinks.map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function homeFaqSection() {
+  return `
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Homepage FAQ</span>
+          <h2>Answers for BANDEVI GLOBAL GROUP, staff size, net worth, offices, CRM, ERP, and IT product searches.</h2>
+          <p>These homepage answers help visitors quickly verify the company and choose the right product, proof, or contact path.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${homeFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Fast verification links</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "IT Products", "CRM & ERP Solutions"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/demo-request/">Request Demo</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function homePage() {
   return `
     <section class="section">
@@ -1049,6 +1121,7 @@ function homePage() {
     </section>
     ${brandIdentityPanel()}
     ${companyProfilePreview()}
+    ${homePriorityProof()}
     <section class="section mist">
       <div class="container split">
         <div>
@@ -1104,6 +1177,7 @@ function homePage() {
     </section>
     ${casePreview()}
     ${blogPreview()}
+    ${homeFaqSection()}
     ${cta()}
   `;
 }
