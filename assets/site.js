@@ -80,6 +80,33 @@ const companyProfileFaqs = [
   ["Are BANDEVI and THG the same company?", "BANDEVI GLOBAL GROUP remains the IT and software development company. The Holidays Group is referenced as a separate sister-brand context where trust, travel operations, and group ecosystem signals are discussed."]
 ];
 
+const proofVerificationItems = [
+  ["Official company identity", "BANDEVI GLOBAL GROUP, also searched as Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI.", "Published on the official website and structured company profile."],
+  ["Official website", "https://bandeviglobalgroup.com/", "Primary public domain for brand, service, and contact verification."],
+  ["Official contact channels", `${contactInfo.phoneDisplay}, ${contactInfo.email}, WhatsApp, and connected social profiles.`, "Published for direct customer verification before project discussions."],
+  ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company.", "Priority figure published publicly. HR, team, payroll, partner, or company-profile support can be attached when public."],
+  ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure.", "Priority figure published publicly. CA, audited, valuation, or board-approved proof can be attached when public."],
+  ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States.", "Published location table with address-level references for visitor and search verification."],
+  ["Sister-brand separation", "BANDEVI is the IT and software company. THG is referenced only as separate sister-brand operating context.", "Published separation note reduces confusion between group ecosystem signals and company-specific claims."],
+  ["Project proof", "Scope notes, proposals, handover records, access lists, and support history can support client work.", "Use case studies, testimonials, launch records, or client-approved proof when ready for public display."]
+];
+
+const proofDocumentChecklist = [
+  ["Staff proof pack", "Team register, HR summary, payroll certificate, partner network note, or board-approved staff declaration."],
+  ["Net worth proof pack", "CA certificate, audited statement, valuation note, asset summary, or board-approved net worth declaration."],
+  ["Office proof pack", "Office photos, lease or service-office confirmation, Google Business Profile links, map links, or location-specific contact proof."],
+  ["Company identity pack", "Registration, GST, MSME, incorporation, PAN, trademark, or formal company-profile PDF where applicable."],
+  ["Project credibility pack", "Client approvals, signed case studies, testimonials, project launch screenshots, support records, and delivery certificates."],
+  ["Sister-brand context pack", "Separate THG proof documents only where used as group ecosystem context, not as BANDEVI licence claims."]
+];
+
+const proofVerificationFaqs = [
+  ["What staff size is published for BANDEVI GLOBAL GROUP?", "The current company-provided staff size is 1,289 staff worldwide across operations, sales, support, partnerships, technology, and business development."],
+  ["What net worth figure is published for BANDEVI GLOBAL GROUP?", "The current company-provided net worth and group strength figure is INR 7,594 Cr. Supporting CA, audited, or company-profile proof can be linked when public."],
+  ["Which offices are listed for verification?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
+  ["What proof should be added next?", "The next proof items should be staff confirmation, CA or audited net worth support, office photos or map links, registration documents, and client-approved project proof."]
+];
+
 const travelTrustNetworks = [
   ["MoT", "Ministry of Tourism, Government of India travel ecosystem"],
   ["IATA", "International airline and ticketing association"],
@@ -249,6 +276,11 @@ const pageData = {
     title: "Company Profile, Staff Size & Offices",
     eyebrow: "Company facts",
     lede: "Priority company profile for BANDEVI GLOBAL GROUP covering common search names, staff ecosystem, group strength context, official contacts, and all listed offices."
+  },
+  proof: {
+    title: "Proof & Verification",
+    eyebrow: "Public proof page",
+    lede: "Priority verification page for BANDEVI GLOBAL GROUP staff size, net worth, office locations, official contacts, and proof documents."
   },
   trust: {
     title: "Trust, Licences & Certifications",
@@ -856,7 +888,7 @@ function companyProfilePage() {
           ${list(["Official website: bandeviglobalgroup.com", "Official sales desk: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Company facts presented with sister-brand separation where needed", "Office and service-location references listed clearly for verification"])}
           <div class="inline-actions">
             <a class="button primary" href="/contact-us/">Verify Contact ${icons.arrow}</a>
-            <a class="button ghost" href="/trust-licences-certifications/">Trust Center</a>
+            <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
           </div>
         </div>
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI company profile and office network"></div>
@@ -926,12 +958,119 @@ function companyProfilePage() {
           <aside class="article-aside">
             <h3>Official verification</h3>
             ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the Trust Center for licence, sister-brand, and documentation context."])}
-            <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
           </aside>
         </div>
       </div>
     </section>
     ${cta("Keep company facts visible and verifiable.", "Contact BANDEVI GLOBAL GROUP to confirm project scope, office support, staff allocation, and official communication channels.")}
+  `;
+}
+
+function proofVerificationPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Proof and verification</span>
+          <h2>Public verification for BANDEVI staff size, net worth, offices, and official identity.</h2>
+          <p class="muted">This page gives visitors, partners, and search engines one clear place to verify the highest-priority BANDEVI GLOBAL GROUP facts: staff size, net worth, office references, contact channels, and document proof status.</p>
+          <p class="muted">The figures below are published as company-provided public facts. Formal proof documents can be linked here when they are approved for public sharing.</p>
+          ${list(["Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Offices and service locations: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States", "Official website: bandeviglobalgroup.com", "Official contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/company-profile/">Company Profile ${icons.arrow}</a>
+            <a class="button ghost" href="/contact-us/">Verify Contact</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI proof verification dashboard"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Priority verification</span>
+          <h2>First facts to prove and rank.</h2>
+          <p>These are the public proof signals that should stay consistent across the website, Google indexing, company profile PDFs, social profiles, and future document links.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>1,289</strong><p>Current company-provided worldwide staff size across operations, sales, support, partnerships, technology, and business development.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Current company-provided net worth and group strength figure for public confidence and market context.</p></article>
+          <article class="card metric-card"><strong>10</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
+          <article class="card metric-card"><strong>Official</strong><p>Primary verification through bandeviglobalgroup.com, phone, WhatsApp, email, and connected social profiles.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof table</span>
+          <h2>Published facts and proof status.</h2>
+          <p>This table keeps public claims organized so each fact can later connect to a document, profile, certificate, map, case study, or approved proof file.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Proof item</th><th>Current public detail</th><th>Status / next evidence</th></tr></thead>
+            <tbody>
+              ${proofVerificationItems.map(([label, value, status]) => `<tr><td>${label}</td><td>${value}</td><td>${status}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Office verification</span>
+          <h2>All listed office and service-location references.</h2>
+          <p>Office proof can be strengthened next with location photos, Google Business Profile links, map links, service-office confirmations, and location-specific contact proof.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof documents</span>
+          <h2>Documents to attach when approved for public use.</h2>
+          <p>This list shows the next proof files that will make staff size, net worth, offices, and company identity stronger for visitors and search engines.</p>
+        </div>
+        <div class="grid cols-3">
+          ${proofDocumentChecklist.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Verification FAQ</span>
+          <h2>Answers for staff size, net worth, offices, and next proof.</h2>
+          <p>These answers keep the main public proof language consistent across BANDEVI pages and future Google indexing.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${proofVerificationFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Verification priority</h3>
+            ${list(["Keep 1,289 staff worldwide consistent everywhere.", "Keep INR 7,594 Cr net worth consistent everywhere.", "Link proof files only after approval for public use.", "Use BANDEVI and THG separation wherever sister-brand context is mentioned."])}
+            <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    ${cta("Make BANDEVI proof easier to trust.", "Use the official contact channels to verify staff size, net worth, offices, documentation, and project scope before engagement.")}
   `;
 }
 
@@ -2621,6 +2760,7 @@ function footer() {
           <ul class="footer-links">
             <li><a href="/about-us/">About Us</a></li>
             <li><a href="/company-profile/">Company Profile</a></li>
+            <li><a href="/proof-verification/">Proof & Verification</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
             <li><a href="/case-studies/">Case Studies</a></li>
             <li><a href="/blog/">Blog</a></li>
@@ -2651,6 +2791,7 @@ const pageRenderers = {
   home: homePage,
   about: aboutPage,
   profile: companyProfilePage,
+  proof: proofVerificationPage,
   trust: trustPage,
   crm: crmPage,
   erp: erpPage,
