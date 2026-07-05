@@ -107,6 +107,13 @@ const proofVerificationFaqs = [
   ["What proof should be added next?", "The next proof items should be staff confirmation, CA or audited net worth support, office photos or map links, registration documents, and client-approved project proof."]
 ];
 
+const officeVerificationFaqs = [
+  ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
+  ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
+  ["Are the office locations used for project delivery?", "Office and service-location references help visitors understand BANDEVI's wider operating presence. Project delivery, support ownership, and local coordination are confirmed separately for each engagement."],
+  ["What office proof can be added next?", "The strongest next office proof would be location photos, Google Business Profile links, map links, lease or service-office confirmations, and location-specific contact proof."]
+];
+
 const travelTrustNetworks = [
   ["MoT", "Ministry of Tourism, Government of India travel ecosystem"],
   ["IATA", "International airline and ticketing association"],
@@ -281,6 +288,11 @@ const pageData = {
     title: "Proof & Verification",
     eyebrow: "Public proof page",
     lede: "Priority verification page for BANDEVI GLOBAL GROUP staff size, net worth, office locations, official contacts, and proof documents."
+  },
+  offices: {
+    title: "Offices & Locations",
+    eyebrow: "Office network",
+    lede: "BANDEVI GLOBAL GROUP office and service-location references across Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."
   },
   trust: {
     title: "Trust, Licences & Certifications",
@@ -889,6 +901,7 @@ function companyProfilePage() {
           <div class="inline-actions">
             <a class="button primary" href="/contact-us/">Verify Contact ${icons.arrow}</a>
             <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
+            <a class="button ghost" href="/offices/">Offices</a>
           </div>
         </div>
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI company profile and office network"></div>
@@ -936,6 +949,9 @@ function companyProfilePage() {
               ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
             </tbody>
           </table>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/offices/">Open Offices Page ${icons.arrow}</a>
         </div>
       </div>
     </section>
@@ -1032,6 +1048,9 @@ function proofVerificationPage() {
             </tbody>
           </table>
         </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/offices/">Open Offices Page ${icons.arrow}</a>
+        </div>
       </div>
     </section>
     <section class="section mist">
@@ -1071,6 +1090,103 @@ function proofVerificationPage() {
       </div>
     </section>
     ${cta("Make BANDEVI proof easier to trust.", "Use the official contact channels to verify staff size, net worth, offices, documentation, and project scope before engagement.")}
+  `;
+}
+
+function officesPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Offices and locations</span>
+          <h2>BANDEVI GLOBAL GROUP office and service-location references.</h2>
+          <p class="muted">This page is built for visitors searching BANDEVI GLOBAL GROUP office, Bandevi Global Delhi office, Bandevi Global Pune, Bandevi Global Dubai, Bandevi Global London, and other location-based searches.</p>
+          <p class="muted">Use the official contact channels first so the correct office route, support desk, project owner, and delivery scope can be confirmed clearly.</p>
+          ${list(["India references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, and Lucknow", "International references: Dubai, London, and United States", "Official phone and WhatsApp: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Office proof can be strengthened with photos, map links, Google Business Profile links, and service-office confirmations"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/contact-us/">Contact Office Desk ${icons.arrow}</a>
+            <a class="button ghost" href="/proof-verification/">Proof Page</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI GLOBAL GROUP offices and service locations"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Location priority</span>
+          <h2>Office signals for customers and Google.</h2>
+          <p>The office page keeps location names, addresses, official contact paths, and verification language consistent across the website.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>7</strong><p>India office and service-location references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, and Lucknow.</p></article>
+          <article class="card metric-card"><strong>3</strong><p>International references: Dubai, London, and United States.</p></article>
+          <article class="card metric-card"><strong>10</strong><p>Total listed office and service-location references for visitor and search verification.</p></article>
+          <article class="card metric-card"><strong>Official</strong><p>Office enquiries should start through the official phone, WhatsApp, email, or contact page.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">All offices</span>
+          <h2>Complete BANDEVI office and service-location list.</h2>
+          <p>These addresses support local search visibility and give visitors one public place to confirm the location references currently listed by the company.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>BANDEVI GLOBAL GROUP ${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Office proof</span>
+          <h2>What should be attached next for stronger office trust.</h2>
+          <p>Website location listings are useful, but external and document proof makes the office story stronger for customers and Google.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { title: "Location photos", text: "Add office entrance, reception, workspace, team, or service-office photos where approved for public use." },
+            { title: "Map and profile links", text: "Add Google Business Profile links, map pins, or location pages after the listings are verified and ready." },
+            { title: "Official confirmations", text: "Add lease, service-office, registration, or location-specific contact proof where public sharing is allowed." },
+            { title: "Contact routing", text: "Keep all office enquiries routed through the official phone, WhatsApp, email, and contact page first." },
+            { title: "Local landing pages", text: "Create city pages later only for offices where proof, photos, services, and local content are strong enough." },
+            { title: "Consistent wording", text: "Use office and service-location references consistently so no city page overstates company-specific proof." }
+          ].map((item) => `<article class="card"><h3>${item.title}</h3><p>${item.text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Office FAQ</span>
+          <h2>Answers for office searches and verification.</h2>
+          <p>These answers support searches around BANDEVI GLOBAL GROUP offices, city names, location proof, and official contact routing.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${officeVerificationFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Official office contact</h3>
+            ${list(["Phone and WhatsApp: +91 8287669022", "Email: sales@bandeviglobalgroup.com", "Website: bandeviglobalgroup.com", "Use the proof page for staff size, net worth, offices, and documentation status."])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    ${cta("Confirm the right office route before starting.", "Contact BANDEVI GLOBAL GROUP through official channels so the correct office, support desk, and project owner can be assigned.")}
   `;
 }
 
@@ -2761,6 +2877,7 @@ function footer() {
             <li><a href="/about-us/">About Us</a></li>
             <li><a href="/company-profile/">Company Profile</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
+            <li><a href="/offices/">Offices & Locations</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
             <li><a href="/case-studies/">Case Studies</a></li>
             <li><a href="/blog/">Blog</a></li>
@@ -2792,6 +2909,7 @@ const pageRenderers = {
   about: aboutPage,
   profile: companyProfilePage,
   proof: proofVerificationPage,
+  offices: officesPage,
   trust: trustPage,
   crm: crmPage,
   erp: erpPage,
