@@ -159,6 +159,35 @@ const itCompanyFaqs = [
   ["Where can visitors verify BANDEVI company strength?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, phone, email, and official website domain."]
 ];
 
+const crmErpDevelopmentRows = [
+  ["CRM", "Lead and enquiry management", "Capture leads from websites, WhatsApp, calls, campaigns, referrals, partners, and branch teams with owner assignment and source tracking."],
+  ["CRM", "Sales pipeline and quotation stages", "Track inquiry status, proposal progress, follow-up reminders, lost reasons, customer notes, and conversion visibility."],
+  ["CRM", "Customer records and service history", "Maintain customer profiles, communication notes, documents, preferences, support requests, invoices, and repeat-business signals."],
+  ["CRM", "Team control and dashboards", "Review daily tasks, overdue follow-ups, consultant performance, source quality, lead ageing, and sales activity from one view."],
+  ["ERP", "Operations and workflow management", "Move confirmed work into order, booking, project, service, task, approval, supplier, and delivery workflows."],
+  ["ERP", "Finance, invoice, and payment control", "Track invoices, receipts, payment status, refunds, credit notes, approvals, margins, and management reports."],
+  ["ERP", "Inventory, suppliers, and documents", "Manage supplier records, stock views, product or service availability, files, handover notes, and operating documents."],
+  ["ERP", "Management reporting and automation", "Connect sales, operations, finance, workload, turnaround time, and performance into clearer dashboards and reminders."]
+];
+
+const crmErpIndustries = [
+  ["Travel and tourism", "Travel CRM, travel ERP, itinerary workflows, booking files, supplier coordination, customer documents, payments, and portal access."],
+  ["Service businesses", "Lead handling, quotation tracking, service delivery, customer history, support tickets, documents, follow-ups, and reporting."],
+  ["Retail and e-commerce", "Customer CRM, order workflows, inventory visibility, distributor leads, product interest, payments, invoices, and repeat-customer reporting."],
+  ["Food and packaged products", "Distributor CRM, bulk enquiry handling, stock and order control, product catalogues, dispatch status, and sales dashboards."],
+  ["Consulting and professional services", "Client records, proposals, project status, document sharing, billing status, approval flows, and management reporting."],
+  ["Multi-office groups", "Branch-wise leads, team ownership, role-based access, office-level reporting, task queues, approvals, and shared management dashboards."]
+];
+
+const crmErpFaqs = [
+  ["What is CRM and ERP development?", "CRM and ERP development means building business software for lead management, customer records, sales pipeline, operations, finance, approvals, documents, dashboards, and automation."],
+  ["Does BANDEVI GLOBAL GROUP build custom CRM software?", "Yes. BANDEVI builds CRM software for lead capture, enquiry routing, quotation stages, follow-up reminders, customer profiles, team assignment, source tracking, and sales dashboards."],
+  ["Does BANDEVI GLOBAL GROUP build ERP software?", "Yes. BANDEVI builds ERP software for operations, tasks, bookings, orders, suppliers, inventory, approvals, invoices, payments, documents, finance workflows, and management reports."],
+  ["Can CRM and ERP connect with a business website?", "Yes. Website forms, demo requests, WhatsApp actions, landing pages, campaigns, customer portals, payment flows, and dashboards can connect with CRM and ERP workflows."],
+  ["Does BANDEVI build travel CRM and travel ERP?", "Yes. BANDEVI has dedicated travel CRM and travel ERP paths for inquiries, quotations, itineraries, bookings, suppliers, documents, invoices, payments, customer communication, and reports."],
+  ["Where can visitors verify BANDEVI company details?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const officeVerificationFaqs = [
   ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
@@ -383,9 +412,9 @@ const pageData = {
     lede: "Clear product and service packages for websites, CRM, ERP, customer portals, travel websites, white-label websites, e-commerce, astrology booking, automation, and business dashboards."
   },
   crmErp: {
-    title: "CRM & ERP Solutions",
-    eyebrow: "Business systems",
-    lede: "Connected CRM and ERP systems that help teams manage sales, customers, operations, reports, approvals, and business workflows."
+    title: "CRM & ERP Development Company",
+    eyebrow: "CRM and ERP software",
+    lede: "BANDEVI GLOBAL GROUP builds CRM and ERP software for lead management, sales pipelines, operations, finance, dashboards, automation, travel CRM, travel ERP, and business workflows."
   },
   ecommerce: {
     title: "E-Commerce Solutions",
@@ -1777,16 +1806,19 @@ const landingPages = {
     process: ["Map business workflow", "Prioritize product modules", "Launch first release", "Improve with data"]
   },
   crmErp: {
-    tag: "CRM & ERP",
-    title: "Connect sales, operations, and reporting in one business system.",
-    intro: "A joined CRM and ERP setup helps growing companies stop losing information between lead generation, customer handling, delivery, finance, and management review.",
-    points: ["CRM for lead ownership, follow-up discipline, customer profiles, and pipeline clarity", "ERP for operations, approvals, billing, supplier coordination, and reporting", "Dashboards that help leadership see conversion, workload, revenue, and bottlenecks"],
+    tag: "CRM & ERP development",
+    title: "CRM development company and ERP software company for growing businesses.",
+    intro: "BANDEVI GLOBAL GROUP builds CRM and ERP software for lead management, sales pipelines, customer records, operations, approvals, finance, dashboards, automation, travel CRM, travel ERP, and business workflow control.",
+    points: ["CRM development for leads, enquiries, quotations, follow-ups, customer records, team assignment, source tracking, and dashboards", "ERP software development for operations, orders, bookings, suppliers, inventory, invoices, payments, approvals, documents, and reports", "Connected CRM and ERP systems that help sales, operations, finance, support, and management work from the same business truth", "Business automation, customer portals, website forms, WhatsApp actions, and reporting dashboards can be connected as the system grows"],
     modules: [
-      { icon: "users", title: "Sales control", text: "Capture every inquiry, assign ownership, track stages, and manage follow-up reminders." },
-      { icon: "shield", title: "Operational control", text: "Move confirmed work into delivery workflows with approvals, documents, and task queues." },
-      { icon: "chart", title: "Management control", text: "Use reports to measure source quality, performance, turnaround time, and profitability." }
+      { icon: "users", title: "CRM development", text: "Lead capture, enquiry routing, pipeline stages, quotation tracking, follow-up reminders, customer profiles, and sales dashboards." },
+      { icon: "stack", title: "ERP software development", text: "Operations, task queues, booking files, orders, suppliers, inventory, finance, approvals, invoices, payments, and documents." },
+      { icon: "chart", title: "Business dashboards", text: "Management views for pipeline health, workload, source quality, revenue, payments, margins, bottlenecks, and team performance." },
+      { icon: "globe", title: "Website and portal connection", text: "Website forms, demo requests, WhatsApp handoff, customer portals, support desks, and document access connected to CRM and ERP." },
+      { icon: "plane", title: "Travel CRM and ERP", text: "Travel-ready CRM and ERP for inquiries, quotations, itineraries, bookings, suppliers, customers, documents, payments, and reporting." },
+      { icon: "shield", title: "Automation and access control", text: "Role-based access, workflow reminders, approvals, notifications, source tracking, handover records, and support-ready governance." }
     ],
-    process: ["Map current work", "Design CRM stages", "Connect ERP workflows", "Train and optimize"]
+    process: ["Map sales and operations", "Design CRM and ERP modules", "Build first release", "Train, support, and improve"]
   },
   ecommerce: {
     tag: "E-commerce",
@@ -1916,7 +1948,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -1961,6 +1993,112 @@ function landingPage(key) {
     </section>
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function crmErpSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>CRM and ERP services customers search before they buy.</h2>
+          <p>This page is structured for CRM development company, ERP software company, custom CRM software, ERP development, business software development, travel CRM, travel ERP, and business automation searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>CRM</strong><p>Leads, enquiries, sales pipeline, quotations, follow-ups, customer profiles, source tracking, and reports.</p></article>
+          <article class="card metric-card"><strong>ERP</strong><p>Operations, bookings, orders, suppliers, inventory, invoices, payments, approvals, documents, and tasks.</p></article>
+          <article class="card metric-card"><strong>Automation</strong><p>Reminders, routing, notifications, approvals, document requests, status updates, and management dashboards.</p></article>
+          <article class="card metric-card"><strong>Travel tech</strong><p>Travel CRM, travel ERP, itineraries, booking files, supplier coordination, customer documents, and payment tracking.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">CRM and ERP modules</span>
+          <h2>What BANDEVI can build inside a CRM and ERP system.</h2>
+          <p>The first release can start with the most urgent workflow, then expand into connected CRM, ERP, portal, automation, dashboard, and support modules.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Layer</th><th>Module</th><th>What it controls</th></tr></thead>
+            <tbody>
+              ${crmErpDevelopmentRows.map(([layer, module, detail]) => `<tr><td>${layer}</td><td>${module}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>CRM and ERP workflows for different business lines.</h2>
+          <p>BANDEVI can shape CRM and ERP around how each business sells, delivers, collects payments, manages documents, supports customers, and reviews performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${crmErpIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed software company</span>
+          <h2>Company strength signals behind CRM and ERP delivery.</h2>
+          <p>High-intent CRM and ERP buyers need confidence before discussing internal data, operations, finance, and customer systems. BANDEVI links service pages to its public proof layer for verification.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links CRM and ERP service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Project governance</h3>
+              <p>CRM and ERP work can include scope notes, module lists, data fields, user roles, access handover, support ownership, reporting requirements, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before sharing workflow details</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">CRM and ERP FAQ</span>
+          <h2>Answers for CRM software, ERP development, and automation searches.</h2>
+          <p>These answers help customers and search engines understand the CRM and ERP work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${crmErpFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right first module</h3>
+            ${list(["Lead and enquiry control", "Sales pipeline and quotation stages", "Operations, approvals, and task workflows", "Finance, invoices, and payment tracking", "Dashboards, automation, and portals"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -3157,6 +3295,7 @@ function footer() {
           <h4>Solutions</h4>
           <ul class="footer-links">
             <li><a href="/it-company-software-development-services/">IT Company Services</a></li>
+            <li><a href="/crm-erp-solutions/">CRM & ERP Development</a></li>
             <li><a href="/travel-crm/">Travel CRM</a></li>
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
