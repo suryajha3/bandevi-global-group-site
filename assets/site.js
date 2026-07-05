@@ -608,6 +608,15 @@ const productPackages = [
   }
 ];
 
+const itProductFaqs = [
+  ["What IT products does BANDEVI GLOBAL GROUP provide?", "BANDEVI GLOBAL GROUP provides website packages, CRM, ERP, customer portals, travel CRM, travel ERP, lead and booking management, e-commerce systems, automation, dashboards, and business software packages."],
+  ["Can BANDEVI software products connect together?", "Yes. A website can capture leads into CRM, confirmed work can move into ERP, customers can use a portal, and automation can connect follow-ups, approvals, reminders, documents, invoices, payments, and dashboards."],
+  ["Which IT product package should a business start with?", "Start with a website package for trust, CRM for lead control, CRM plus ERP for sales-to-operations control, a portal for customer access, and automation when repeated manual work needs to be reduced."],
+  ["Does BANDEVI build travel technology products?", "Yes. BANDEVI builds travel websites, white-label travel websites, Travel CRM, Travel ERP, lead and booking management, customer portals, supplier workflows, payment tracking, and travel dashboards."],
+  ["Can BANDEVI support multi-office and global teams?", "Yes. BANDEVI product planning can include branch ownership, role-based access, office-level reporting, staff queues, escalation paths, and shared management dashboards across locations."],
+  ["Where can visitors verify BANDEVI before requesting a demo?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
@@ -2309,9 +2318,9 @@ function itPage() {
 const landingPages = {
   itProducts: {
     tag: "Products & software",
-    title: "Product and service packages for websites, CRM, ERP, portals, e-commerce, and automation.",
-    intro: "BANDEVI GLOBAL GROUP packages its IT products into clear starting points, so clients can choose a website, CRM, ERP, portal, commerce, travel, astrology, or automation rollout without guessing where to begin.",
-    points: ["Website and digital presence packages for brands that need trust, lead capture, and SEO-ready pages", "CRM, ERP, portal, booking, order, and automation packages for daily business control", "Industry packages for travel, masala, makhana, astrology, e-commerce, service teams, and multi-brand groups"],
+    title: "IT products and software solution packages for CRM, ERP, portals, e-commerce, travel tech, and automation.",
+    intro: "BANDEVI GLOBAL GROUP packages its IT products into clear starting points, so clients can choose a website, CRM, ERP, customer portal, e-commerce, travel technology, astrology booking, automation, or dashboard rollout without guessing where to begin.",
+    points: ["Website and digital presence packages for brands that need trust, lead capture, SEO-ready pages, and proof-backed company signals", "CRM, ERP, portal, booking, order, lead management, and automation packages for daily business control", "Industry software packages for travel, masala, makhana, astrology, e-commerce, service teams, multi-office groups, and global operations"],
     modules: [
       { icon: "users", title: "Travel CRM", text: "Capture enquiries, assign sales owners, track quotation stages, manage follow-ups, and improve conversion visibility." },
       { icon: "stack", title: "Travel ERP", text: "Control bookings, services, suppliers, invoices, payments, approvals, documents, and operational reporting." },
@@ -3362,16 +3371,48 @@ function itProductUpgradeSections() {
     <section class="section dark">
       <div class="container">
         <div class="section-head">
+          <span class="eyebrow">Commercial product hub</span>
           <h2>A sales page for the complete BANDEVI product ecosystem.</h2>
-          <p>Each product can launch independently, then connect into a larger operating system for marketing, sales, commerce, service, finance, and leadership.</p>
+          <p>Each product can launch independently, then connect into a larger operating system for websites, CRM, ERP, portals, travel technology, e-commerce, automation, service, finance, and leadership.</p>
         </div>
-        <div class="grid cols-4">
+        <div class="grid cols-3">
           ${[
-            ["Lead control", "Capture website, WhatsApp, phone, campaign, and partner enquiries into one structured sales flow."],
-            ["Operations control", "Move confirmed work into orders, bookings, files, services, suppliers, documents, payments, stock, and status tracking."],
-            ["Customer control", "Give customers, partners, and service clients a premium portal experience with clean access to updates and documents."],
-            ["Management control", "Review conversion, workload, service quality, revenue, stock, margin, and bottlenecks from dashboards."]
+            ["Website products", "Corporate websites, travel websites, white-label travel websites, landing pages, SEO pages, enquiry paths, and proof sections."],
+            ["CRM and ERP products", "Lead management, sales pipeline, operations workflows, booking files, order control, finance, approvals, and reports."],
+            ["Portal products", "Customer portals, partner portals, staff portals, document access, invoices, support requests, and service status."],
+            ["Automation products", "Task routing, reminders, approvals, notifications, dashboard alerts, WhatsApp handoff, and reporting automation."],
+            ["Travel technology", "Travel CRM, Travel ERP, travel websites, booking management, supplier coordination, customer documents, and payment tracking."],
+            ["Proof layer", "1,289 staff worldwide, INR 7,594 Cr company-provided strength, and 10 listed office and service-location references."]
           ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Priority product routes</span>
+          <h2>Fast paths into the right BANDEVI product.</h2>
+          <p>This hub sends buyers to the exact product page that matches their need, while keeping CRM, ERP, staff strength, net worth, offices, and proof connected.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "users", title: "CRM & ERP Solutions", href: "/crm-erp-solutions/", text: "Custom CRM, ERP, lead management, sales pipeline, operations, finance, dashboards, and multi-office reporting." },
+            { icon: "plane", title: "Travel CRM", href: "/travel-crm/", text: "Travel lead capture, quotation stages, follow-ups, customer records, sales ownership, and conversion visibility." },
+            { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Bookings, suppliers, invoices, payments, approvals, documents, operations reports, and travel back-office control." },
+            { icon: "globe", title: "Website & App Development", href: "/website-mobile-app-development/", text: "Corporate websites, landing pages, web apps, mobile-first portals, admin panels, and SEO-ready service pages." },
+            { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Customer login, document access, invoices, booking or order status, support requests, and controlled account views." },
+            { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Workflow automation for assignments, reminders, approvals, notifications, dashboards, and daily team control." },
+            { icon: "globe", title: "E-Commerce Solutions", href: "/ecommerce-solutions/", text: "Storefronts, product catalogues, payment paths, order workflows, distributor enquiries, inventory direction, and CRM." },
+            { icon: "plane", title: "Lead & Booking Management", href: "/lead-booking-management/", text: "Lead capture, booking files, source tracking, WhatsApp handoff, customer records, and operational visibility." },
+            { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Company profile, staff size, net worth, offices, official contact channels, and public proof links." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
         </div>
       </div>
     </section>
@@ -3384,6 +3425,25 @@ function itProductUpgradeSections() {
           <p class="muted">BANDEVI GLOBAL GROUP is positioned as the IT and development company for a wider business family. THG remains a separate travel brand, while BANDEVI can also support masala, makhana, astrology, e-commerce, and service-led projects.</p>
           <p class="muted">That gives the software a stronger point of view: business systems must support trust, clear communication, documentation, faster coordination, payments, customer care, and reliable delivery across locations.</p>
           ${list(["Travel CRM and ERP modules remain available for travel-led workflows", "E-commerce and catalog systems for masala and makhana product brands", "Astrology websites, consultation booking, customer CRM, payment, and portal flows", "Premium website and portal design aligned with customer confidence", "Technology planning that understands real operations, not only generic business software"])}
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed IT products</span>
+          <h2>Company strength behind the product suite.</h2>
+          <p>High-intent buyers compare product capability and company credibility together. BANDEVI keeps its public proof layer close to the software product pages.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>1,289</strong><p>Company-provided current staff count across the worldwide operating and support ecosystem.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided current net worth and group strength figure for market-confidence context.</p></article>
+          <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/staff-size-net-worth/">Staff & Net Worth ${icons.arrow}</a>
+          <a class="button ghost" href="/offices/">Offices</a>
+          <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
         </div>
       </div>
     </section>
@@ -3401,6 +3461,31 @@ function itProductUpgradeSections() {
           { icon: "chart", title: "Management visibility", text: "Dashboards and reports help leadership see response speed, conversion quality, workload, order status, booking status, stock, and performance." },
           { icon: "stack", title: "Long-term product roadmap", text: "Start with the urgent workflow, then add CRM, ERP, portal, e-commerce, automation, and analytics without losing the core system." }
         ], 3)}
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">IT products FAQ</span>
+          <h2>Answers for software product, package, CRM, ERP, and automation searches.</h2>
+          <p>These answers help visitors and search engines understand the BANDEVI product suite before a demo request.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${itProductFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Best next demo paths</h3>
+            ${list(["CRM + ERP Package", "Travel CRM and Travel ERP", "Customer Portal Package", "Automation Package", "Website + CRM Package"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Talk to Sales</a>
+          </aside>
+        </div>
       </div>
     </section>
     <section class="section">
