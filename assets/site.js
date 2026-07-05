@@ -617,6 +617,15 @@ const itProductFaqs = [
   ["Where can visitors verify BANDEVI before requesting a demo?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const demoRequestFaqs = [
+  ["Can I request a CRM or ERP demo?", "Yes. Use the demo form to request a CRM, ERP, CRM plus ERP, dashboard, portal, automation, or complete business software walkthrough."],
+  ["Can the demo cover Travel CRM and Travel ERP?", "Yes. The demo can focus on Travel CRM, Travel ERP, travel websites, lead and booking management, supplier workflows, customer documents, payments, and reporting."],
+  ["What should I share in the demo request?", "Share the product needed, business type, team or branch scale, main priority, timeline, budget direction, current website or reference, and the problem you want to solve first."],
+  ["Can BANDEVI suggest the right product package?", "Yes. If you are not sure which package fits, choose Product Package Consultation or Not sure yet. BANDEVI can map the right first release around your workflow."],
+  ["Where can I verify BANDEVI before requesting a demo?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."],
+  ["What happens after submitting a demo request?", "The request is routed with your product interest, business type, priority, timeline, budget direction, and contact preference so the sales team can respond with a focused next step."]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
@@ -761,7 +770,7 @@ const pageData = {
   demo: {
     title: "Demo Request",
     eyebrow: "See the platform",
-    lede: "Request a package-matched demo for websites, CRM, ERP, portals, travel websites, e-commerce, astrology booking, automation, and implementation planning."
+    lede: "Request a package-matched demo for CRM, ERP, customer portals, IT products, travel technology, websites, e-commerce, automation, dashboards, and implementation planning."
   },
   portal: {
     title: "Customer Portal Software",
@@ -4087,16 +4096,21 @@ function contactForm(kind = "contact") {
   const demo = kind === "demo";
   const interestOptions = demo ? [
     "Product Package Consultation",
+    "IT Products and Software Suite",
     "Starter Website Package",
     "Business Website + CRM Package",
     "Travel Website Package",
     "White-label Travel Website Package",
     "CRM + ERP Package",
+    "CRM Development Demo",
+    "ERP Software Demo",
     "Customer Portal Package",
+    "Lead & Booking Management",
     "Masala / Makhana E-Commerce Package",
     "Astrology Booking Platform Package",
     "Automation Package",
     "CRM + ERP + Portal",
+    "Travel Technology Suite",
     "Travel Website Development",
     "Complete Travel Website",
     "White-label Travel Website",
@@ -4180,7 +4194,7 @@ function contactForm(kind = "contact") {
         <div class="field">
           <label for="${kind}-business">Business type</label>
           <select id="${kind}-business" name="businessType">
-            ${optionList(["IT or software project", "Masala / food products", "Makhana brand", "Astrology services", "Travel agency", "Tour operator", "DMC", "Corporate travel desk", "Hotel or supplier partner", "E-commerce or service business", "Other business"])}
+            ${optionList(["IT or software project", "Masala / food products", "Makhana brand", "Astrology services", "Travel agency", "Tour operator", "DMC", "Corporate travel desk", "Multi-office or global team", "Hotel or supplier partner", "E-commerce or service business", "Other business"])}
           </select>
         </div>
         <div class="field">
@@ -4205,7 +4219,7 @@ function contactForm(kind = "contact") {
           <div class="field">
             <label for="${kind}-priority">Main priority</label>
             <select id="${kind}-priority" name="priority">
-              ${optionList(["Need online presence", "Need better lead control", "Need operations control", "Need customer portal", "Need automation", "Need full digital system"])}
+              ${optionList(["Need online presence", "Need better lead control", "Need CRM and ERP", "Need operations control", "Need customer portal", "Need travel technology", "Need automation", "Need full digital system"])}
             </select>
           </div>
           <div class="field">
@@ -4228,7 +4242,7 @@ function contactForm(kind = "contact") {
         `}
         <div class="field full">
           <label for="${kind}-message">${demo ? "Demo goals / current problem" : "Message"}</label>
-          <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need the Travel Website Package with CRM-ready leads, WhatsApp enquiry flow, and package pages." : "Tell us what you want to discuss."}" required></textarea>
+          <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need CRM + ERP with website leads, WhatsApp enquiry flow, customer portal, dashboards, and multi-office reporting." : "Tell us what you want to discuss."}" required></textarea>
         </div>
       </div>
       <button class="button dark" type="submit">${demo ? "Send Demo Request" : "Send Message"} ${icons.arrow}</button>
@@ -4305,16 +4319,46 @@ function demoPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Demo request</span>
-          <h2>Request the right BANDEVI package or platform demo.</h2>
-          <p class="muted">Use this page to choose the closest package, explain your current problem, and send a clean WhatsApp-ready lead message to the sales team.</p>
-          ${list(["Select a website, CRM, ERP, portal, travel, e-commerce, astrology, or automation package", "Share business type, timeline, team scale, priority, and budget direction", "Add your current website or reference if one exists", "Get a clearer first-release recommendation instead of a generic sales call"])}
+          <h2>Request a CRM, ERP, portal, IT product, travel tech, website, or automation demo.</h2>
+          <p class="muted">Use this page to choose the closest package, explain your current problem, and send a clean WhatsApp-ready lead message to the BANDEVI sales team.</p>
+          ${list(["Select a CRM, ERP, customer portal, IT product, travel technology, website, e-commerce, astrology, or automation package", "Share business type, timeline, team scale, priority, budget direction, and current website or reference", "Ask for a focused demo around lead control, sales pipeline, operations, finance, customer access, dashboards, or automation", "Verify company profile, staff size, net worth, offices, and proof links before discussing internal workflows"])}
           <div class="inline-actions">
             <a class="button dark" href="#demo-form">Start Demo Request ${icons.arrow}</a>
             <a class="button light" href="/it-products/#packages">View Packages</a>
+            <a class="button light" href="/proof-verification/">Verify BANDEVI</a>
           </div>
         </div>
         <div id="demo-form">
           ${contactForm("demo")}
+        </div>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Choose demo focus</span>
+          <h2>Fast demo paths for BANDEVI products and systems.</h2>
+          <p>Start with the closest product, then the sales team can narrow the walkthrough around your actual business workflow.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "users", title: "CRM & ERP Demo", href: "/crm-erp-solutions/", text: "Lead management, sales pipeline, operations workflows, finance, approvals, documents, dashboards, and multi-office reporting." },
+            { icon: "stack", title: "IT Products Demo", href: "/it-products/", text: "Website packages, CRM, ERP, customer portals, e-commerce, automation, travel tech, dashboards, and software suite planning." },
+            { icon: "plane", title: "Travel CRM Demo", href: "/travel-crm/", text: "Travel enquiries, quotation stages, customer records, follow-ups, sales owners, source tracking, and conversion reports." },
+            { icon: "stack", title: "Travel ERP Demo", href: "/travel-erp/", text: "Bookings, suppliers, invoices, payments, approvals, documents, margins, operations tasks, and travel reporting." },
+            { icon: "shield", title: "Customer Portal Demo", href: "/customer-portal/", text: "Customer login, documents, invoices, support requests, booking or order status, service updates, and controlled access." },
+            { icon: "chart", title: "Automation Demo", href: "/business-automation/", text: "Lead routing, reminders, task assignment, approvals, document requests, notifications, and dashboard automation." },
+            { icon: "globe", title: "Website & App Demo", href: "/website-mobile-app-development/", text: "Corporate websites, landing pages, web apps, mobile-first portals, admin panels, and CRM-ready lead flows." },
+            { icon: "plane", title: "Lead & Booking Demo", href: "/lead-booking-management/", text: "Website enquiries, WhatsApp handoff, booking files, source tracking, follow-ups, customer records, and team visibility." },
+            { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Review company profile, staff size, net worth, offices, official contact channels, and public proof links." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
         </div>
       </div>
     </section>
@@ -4356,6 +4400,26 @@ function demoPage() {
           { icon: "chart", title: "Automation and dashboards", text: "Reminders, lead routing, document requests, reporting summaries, conversion, workload, revenue, and support visibility." },
           { icon: "message", title: "WhatsApp-first routing", text: "The submitted request opens as a structured WhatsApp message so the team can respond with the right context." }
         ], 4)}
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof before the demo</span>
+          <h2>Verify BANDEVI before sharing project details.</h2>
+          <p>Demo requests can involve customer records, sales workflows, finance status, travel operations, documents, access control, and internal reporting. BANDEVI keeps public proof links close to the demo path.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>1,289</strong><p>Company-provided current staff count across the worldwide operating and support ecosystem.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided current net worth and group strength figure for public confidence and market context.</p></article>
+          <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+          <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
+          <a class="button ghost" href="/offices/">Offices</a>
+          <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
+        </div>
       </div>
     </section>
     <section class="section">
@@ -4402,14 +4466,22 @@ function demoPage() {
           <h2>Demo request FAQ.</h2>
           <p>Quick answers for prospects before they send a package or platform request.</p>
         </div>
-        ${cards([
-          { icon: "shield", title: "Is this a paid demo?", text: "The demo request is for discussion and qualification. Pricing is shared after the package, scope, timeline, and module depth are understood." },
-          { icon: "users", title: "What if I am not sure which package fits?", text: "Select Product Package Consultation or Not sure yet. BANDEVI can help map the right first release." },
-          { icon: "globe", title: "Can I start with only a website?", text: "Yes. You can start with a website package and later add CRM, ERP, portal, automation, or e-commerce modules." },
-          { icon: "stack", title: "Can BANDEVI handle separate projects?", text: "Yes. Each brand, domain, workflow, portal, and system can remain separate when needed." },
-          { icon: "chart", title: "Will the demo cover budget?", text: "Yes. Budget range helps the team suggest a realistic first release instead of over-planning." },
-          { icon: "message", title: "How will you contact me?", text: "The request prepares a WhatsApp-ready message, and you can also choose phone, email, or video meeting as the preferred contact method." }
-        ])}
+        <div class="article-layout">
+          <div class="article-body">
+            ${demoRequestFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Good demo details</h3>
+            ${list(["Product or package needed", "Business type and team scale", "Main priority and timeline", "Budget direction", "Current website or reference"])}
+            <a class="button dark" href="#demo-form">Start Demo Request ${icons.arrow}</a>
+            <a class="button light" href="/it-products/">View IT Products</a>
+          </aside>
+        </div>
       </div>
     </section>
     ${cta("A good demo should feel like your business.", "Share your workflow and BANDEVI can focus the walkthrough on the package, modules, and first release that matter most.")}
