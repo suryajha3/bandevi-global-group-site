@@ -107,6 +107,30 @@ const proofVerificationFaqs = [
   ["What proof should be added next?", "The next proof items should be staff confirmation, CA or audited net worth support, office photos or map links, registration documents, and client-approved project proof."]
 ];
 
+const staffWorthFacts = [
+  ["Staff size", "1,289 staff worldwide as currently provided by the company."],
+  ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure."],
+  ["Office network", "10 listed office and service-location references across India, Dubai, London, and the United States."],
+  ["Public proof document", "Official company profile PDF linked from this website and the sitemap."],
+  ["Official verification", "Use bandeviglobalgroup.com, +91 8287669022, and sales@bandeviglobalgroup.com for confirmation."]
+];
+
+const staffWorthProofSteps = [
+  ["Staff confirmation", "HR summary, staff declaration, payroll certificate, partner ecosystem note, or board-approved proof where public sharing is allowed."],
+  ["Net worth support", "CA certificate, audited statement, valuation note, asset summary, or board-approved net worth declaration where public sharing is allowed."],
+  ["Office support", "Office photos, service-office confirmations, map links, Google Business Profile links, or location-specific contact proof."],
+  ["Company profile", "Keep the PDF, website profile, proof page, and office page aligned with the same staff and net worth figures."],
+  ["External consistency", "Use the same company name, phone, website, and official contact details across social profiles, directories, and proposals."],
+  ["Public updates", "If staff size or net worth changes, update this page, the proof page, the PDF, sitemap, and Search Console together."]
+];
+
+const staffWorthFaqs = [
+  ["What is BANDEVI GLOBAL GROUP staff size?", "The current company-provided staff size is 1,289 staff worldwide across operations, sales, support, partnerships, technology, and business development."],
+  ["What is BANDEVI GLOBAL GROUP net worth?", "The current company-provided net worth and group strength figure is INR 7,594 Cr. Supporting CA, audited, valuation, or company-profile proof can be linked when public."],
+  ["Is the staff and net worth proof public?", "The figures are published on the official website and company profile PDF. Formal supporting documents can be linked when they are approved for public sharing."],
+  ["Where can visitors verify BANDEVI company details?", "Visitors can use the Company Profile, Proof & Verification page, Offices page, official PDF, phone, WhatsApp, email, and the bandeviglobalgroup.com domain."]
+];
+
 const officeVerificationFaqs = [
   ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
@@ -289,6 +313,11 @@ const pageData = {
     title: "Proof & Verification",
     eyebrow: "Public proof page",
     lede: "Priority verification page for BANDEVI GLOBAL GROUP staff size, net worth, office locations, official contacts, and proof documents."
+  },
+  staffWorth: {
+    title: "Staff Size & Net Worth",
+    eyebrow: "Company strength",
+    lede: "Dedicated BANDEVI GLOBAL GROUP staff size and net worth page covering 1,289 staff worldwide, INR 7,594 Cr group strength, offices, and proof links."
   },
   offices: {
     title: "Offices & Locations",
@@ -903,6 +932,7 @@ function companyProfilePage() {
             <a class="button primary" href="/contact-us/">Verify Contact ${icons.arrow}</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
+            <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button ghost" href="/offices/">Offices</a>
           </div>
         </div>
@@ -977,6 +1007,7 @@ function companyProfilePage() {
             <h3>Official verification</h3>
             ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF for staff size, net worth, offices, and proof notes."])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button light" href="${companyProfilePdf}">Open PDF</a>
           </aside>
         </div>
@@ -998,6 +1029,7 @@ function proofVerificationPage() {
           ${list(["Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Offices and service locations: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States", "Official website: bandeviglobalgroup.com", "Official contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
           <div class="inline-actions">
             <a class="button primary" href="/company-profile/">Company Profile ${icons.arrow}</a>
+            <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/contact-us/">Verify Contact</a>
           </div>
@@ -1092,12 +1124,105 @@ function proofVerificationPage() {
             <h3>Verification priority</h3>
             ${list(["Keep 1,289 staff worldwide consistent everywhere.", "Keep INR 7,594 Cr net worth consistent everywhere.", "Link proof files only after approval for public use.", "Use BANDEVI and THG separation wherever sister-brand context is mentioned."])}
             <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
           </aside>
         </div>
       </div>
     </section>
     ${cta("Make BANDEVI proof easier to trust.", "Use the official contact channels to verify staff size, net worth, offices, documentation, and project scope before engagement.")}
+  `;
+}
+
+function staffWorthPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Staff size and net worth</span>
+          <h2>BANDEVI GLOBAL GROUP staff size, net worth, and public proof links.</h2>
+          <p class="muted">This page is built for people searching BANDEVI GLOBAL GROUP staff size, Bandevi Global Group net worth, BANDEVI net worth, and BANDEVI company strength.</p>
+          <p class="muted">The figures below are presented as current company-provided public facts. Formal supporting documents can be linked when they are approved for public sharing.</p>
+          ${list(["Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Office network: 10 listed office and service-location references", "Official proof document: BANDEVI GLOBAL GROUP company profile PDF", "Official contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
+          <div class="inline-actions">
+            <a class="button primary" href="${companyProfilePdf}">Open Company Profile PDF ${icons.arrow}</a>
+            <a class="button ghost" href="/proof-verification/">Proof Page</a>
+            <a class="button ghost" href="/offices/">Offices</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI staff size and net worth verification"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Priority facts</span>
+          <h2>The exact staff and net worth signals to keep consistent.</h2>
+          <p>These numbers should match across the website, PDF, social profiles, proposals, public profiles, and future proof documents.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>1,289</strong><p>Current company-provided staff size worldwide.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Current company-provided net worth and group strength figure.</p></article>
+          <article class="card metric-card"><strong>10</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
+          <article class="card metric-card"><strong>PDF</strong><p>Official company profile document linked from the website and sitemap.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Company strength table</span>
+          <h2>Published staff, net worth, and verification details.</h2>
+          <p>This table gives Google and visitors a focused reference for the highest-priority company-strength facts.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fact</th><th>Published detail</th></tr></thead>
+            <tbody>
+              ${staffWorthFacts.map(([label, value]) => `<tr><td>${label}</td><td>${value}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof roadmap</span>
+          <h2>Next documents that can strengthen these claims.</h2>
+          <p>The website now publishes the staff and net worth facts. The strongest next trust layer is formal document support and external consistency.</p>
+        </div>
+        <div class="grid cols-3">
+          ${staffWorthProofSteps.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Staff and net worth FAQ</span>
+          <h2>Answers for staff size, net worth, proof, and verification.</h2>
+          <p>These answers are written for exact-search visibility while keeping the claim language careful and consistent.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${staffWorthFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Verification links</h3>
+            ${list(["Company Profile: /company-profile/", "Proof & Verification: /proof-verification/", "Offices & Locations: /offices/", "Company Profile PDF: /assets/bandevi-global-group-company-profile.pdf"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="${companyProfilePdf}">Open PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    ${cta("Keep staff size and net worth easy to verify.", "Use the official BANDEVI company profile, proof page, offices page, PDF, and contact channels for confirmation.")}
   `;
 }
 
@@ -2888,6 +3013,7 @@ function footer() {
             <li><a href="/company-profile/">Company Profile</a></li>
             <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
+            <li><a href="/staff-size-net-worth/">Staff Size & Net Worth</a></li>
             <li><a href="/offices/">Offices & Locations</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
             <li><a href="/case-studies/">Case Studies</a></li>
@@ -2920,6 +3046,7 @@ const pageRenderers = {
   about: aboutPage,
   profile: companyProfilePage,
   proof: proofVerificationPage,
+  staffWorth: staffWorthPage,
   offices: officesPage,
   trust: trustPage,
   crm: crmPage,
