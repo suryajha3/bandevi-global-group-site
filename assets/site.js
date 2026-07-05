@@ -333,6 +333,35 @@ const leadBookingFaqs = [
   ["Where can visitors verify BANDEVI before starting a lead and booking project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const customerPortalRows = [
+  ["Customer login", "Role-based customer, corporate client, partner, or traveller access with profile details, service history, booking status, and controlled information views."],
+  ["Booking and service status", "Trip status, project milestones, consultation stages, order status, service progress, internal owner notes, and customer-facing updates."],
+  ["Documents and files", "Document requests, uploads, downloads, vouchers, tickets, invoices, receipts, reports, project files, policy notes, and handover documents."],
+  ["Invoices and payments", "Invoice access, receipts, payment status, due reminders, refund notes, statements, finance handoff, and payment communication support."],
+  ["Support requests", "Ticket-style requests, support history, priority notes, response records, service categories, internal routing, and customer updates."],
+  ["CRM and ERP connection", "Portal views can connect with CRM customer records, ERP booking files, order workflows, finance records, documents, and support queues."],
+  ["Automation and notifications", "Status updates, document reminders, payment reminders, support alerts, booking notes, email or WhatsApp handoff, and dashboard summaries."],
+  ["Dashboards and reporting", "Management views for portal activity, open requests, document status, unpaid invoices, service turnaround, customer satisfaction, and workload."]
+];
+
+const customerPortalIndustries = [
+  ["Travel agencies", "Customers can view booking status, trip documents, vouchers, invoices, payment status, support requests, traveller profiles, and updates."],
+  ["Tour operators", "Groups, FIT bookings, pilgrimage, MICE, family trips, and holiday packages can use portal views for documents, services, invoices, and support."],
+  ["DMCs", "Partners and B2B clients can access controlled destination service updates, supplier-linked details, documents, invoices, and request history."],
+  ["Corporate travel desks", "Corporate clients can manage traveller details, approvals, invoices, service requests, travel documents, and status communication."],
+  ["Service businesses", "Customers can view project milestones, documents, invoices, support tickets, service updates, onboarding details, and account history."],
+  ["Multi-office groups", "Branches, partners, customers, and internal teams can use role-based access with separated records, support queues, reports, and dashboards."]
+];
+
+const customerPortalFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build customer portal software?", "Yes. BANDEVI builds customer portal software for travel companies, service businesses, corporate teams, partner networks, multi-office groups, and brands that need controlled customer access."],
+  ["What can a customer portal include?", "A customer portal can include login access, booking status, service status, documents, invoices, receipts, payment status, support requests, profile details, project milestones, notifications, and dashboards."],
+  ["Can a customer portal connect with CRM and ERP?", "Yes. A portal can connect with CRM customer records, Travel CRM, Travel ERP, booking files, order workflows, invoices, payments, documents, support queues, and automation."],
+  ["Can travel customers use the portal for trip documents?", "Yes. Travel customers can use a portal for vouchers, tickets, itineraries, visa notes, invoices, receipts, payment updates, support requests, and booking status."],
+  ["Can corporate clients and partners get separate portal access?", "Yes. Corporate clients, partners, branches, resellers, and support teams can receive separate role-based views when the project scope includes those access rules."],
+  ["Where can visitors verify BANDEVI before starting a portal project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const automationDevelopmentRows = [
   ["Lead automation", "Route website forms, demo requests, WhatsApp enquiries, campaign leads, partner leads, and branch enquiries to the right owner with source tracking."],
   ["Follow-up automation", "Create reminders, next-action alerts, overdue lead signals, quotation follow-ups, customer callbacks, and sales-stage notifications."],
@@ -666,9 +695,9 @@ const pageData = {
     lede: "Request a package-matched demo for websites, CRM, ERP, portals, travel websites, e-commerce, astrology booking, automation, and implementation planning."
   },
   portal: {
-    title: "Customer Portal",
-    eyebrow: "Secure access",
-    lede: "A premium portal concept for clients to view bookings, invoices, support requests, documents, and project milestones."
+    title: "Customer Portal Software",
+    eyebrow: "Customer access, documents, invoices, support",
+    lede: "BANDEVI GLOBAL GROUP builds customer portal software for booking status, documents, invoices, payments, support requests, project milestones, CRM/ERP connection, and controlled customer access."
   },
   privacy: {
     title: "Privacy Policy",
@@ -3966,16 +3995,16 @@ function portalPage() {
       <div class="container portal-panel">
         <div class="portal-preview" aria-label="Customer portal preview">
           <div class="portal-preview-head">
-            <span class="dot"></span><strong>Customer Portal Dashboard</strong>
+            <span class="dot"></span><strong>Customer Portal Software Dashboard</strong>
           </div>
           <div class="portal-grid">
             ${[
-              ["Trips", "Upcoming itineraries and service status", "gold"],
+              ["Bookings", "Trip, project, order, and service status", "gold"],
               ["Invoices", "Receipts, dues, refunds, and statements", ""],
-              ["Documents", "Passports, vouchers, visas, and tickets", ""],
+              ["Documents", "Vouchers, tickets, reports, and files", ""],
               ["Support", "Requests, responses, and priority updates", "gold"],
-              ["Projects", "Milestones for corporate or group programs", ""],
-              ["Profile", "Traveller details and service preferences", ""]
+              ["Payments", "Payment status, reminders, and finance notes", ""],
+              ["Profile", "Customer, traveller, or partner details", ""]
             ].map(([title, text, tone]) => `
               <div class="portal-cell">
                 <strong>${title}</strong>
@@ -3987,9 +4016,9 @@ function portalPage() {
           </div>
         </div>
         <form class="form-panel" data-form="portal">
-          <span class="eyebrow">Portal sign in</span>
-          <h2>Client access</h2>
-          <p class="muted">A secure portal can be connected to your CRM and ERP records for customers, corporate clients, or partners.</p>
+          <span class="eyebrow">Portal sign in concept</span>
+          <h2>Customer access</h2>
+          <p class="muted">A customer portal can connect with CRM, ERP, booking files, invoices, documents, payments, and support records for customers, corporate clients, partners, or travellers.</p>
           <div class="form-grid">
             <div class="field full">
               <label for="portal-email">Email</label>
@@ -4009,16 +4038,143 @@ function portalPage() {
       <div class="container">
         <div class="section-head">
           <h2>Portal capabilities.</h2>
-          <p>The customer portal strengthens service quality while reducing repetitive manual communication.</p>
+          <p>Customer portal software strengthens service quality while reducing repetitive manual communication about bookings, invoices, documents, payments, and support.</p>
         </div>
         ${cards([
-          { icon: "shield", title: "Secure records", text: "Role-based access to booking details, documents, invoices, and support history." },
-          { icon: "plane", title: "Trip visibility", text: "Customers can follow service status, travel documents, schedules, and important updates." },
-          { icon: "users", title: "Support desk", text: "Structured requests give customers clarity and give teams a cleaner service queue." }
+          { icon: "shield", title: "Controlled access", text: "Role-based access to booking details, project records, documents, invoices, receipts, support history, and profile details." },
+          { icon: "plane", title: "Booking visibility", text: "Customers can follow trip status, service status, project milestones, order updates, schedules, and important notes." },
+          { icon: "stack", title: "Document center", text: "Organize vouchers, tickets, visa notes, reports, invoices, receipts, forms, uploaded files, and handover documents." },
+          { icon: "message", title: "Support desk", text: "Structured requests give customers clarity and give teams a cleaner service queue with category, priority, and response history." },
+          { icon: "users", title: "CRM and ERP connection", text: "Customer portal views can connect with CRM customer records, ERP booking files, finance status, documents, and team workflows." },
+          { icon: "chart", title: "Management dashboard", text: "Track open requests, document status, unpaid invoices, service turnaround, portal activity, and workload signals." }
         ])}
       </div>
     </section>
-    ${cta("Add portal access to your premium travel experience.", "A polished customer portal helps your service feel organized before, during, and after travel.")}
+    ${portalSeoSections()}
+    ${cta("Add customer portal access to your premium service experience.", "A polished portal helps customers see bookings, documents, invoices, support updates, and service progress without repeated manual follow-up.")}
+  `;
+}
+
+function portalSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Customer portal services buyers search before asking for a demo.</h2>
+          <p>This page is structured for customer portal software, client portal development, travel customer portal, customer login portal, document portal, invoice portal, support portal, booking status portal, CRM customer portal, ERP customer portal, and partner portal searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Access</strong><p>Customer, corporate client, partner, branch, reseller, traveller, and support-team access with role-based views.</p></article>
+          <article class="card metric-card"><strong>Documents</strong><p>Document requests, uploads, downloads, vouchers, tickets, reports, files, invoices, receipts, and handover records.</p></article>
+          <article class="card metric-card"><strong>Support</strong><p>Support tickets, request history, priority notes, customer updates, internal routing, response records, and service categories.</p></article>
+          <article class="card metric-card"><strong>Connection</strong><p>Travel CRM, Travel ERP, booking files, order workflows, finance status, payment reminders, automation, and dashboards.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Portal modules</span>
+          <h2>What BANDEVI can build into customer portal software.</h2>
+          <p>The first release can start with login, documents, invoices, and support requests, then expand into CRM/ERP connection, payment reminders, customer notifications, partner access, and dashboards.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Portal area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${customerPortalRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>Customer portals for travel, service, corporate, partner, and multi-office teams.</h2>
+          <p>BANDEVI can shape portal access around how each business shares updates, documents, invoices, payment status, support history, and customer-facing information.</p>
+        </div>
+        <div class="grid cols-3">
+          ${customerPortalIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed portal company</span>
+          <h2>Company strength signals behind customer portal delivery.</h2>
+          <p>Customer portals can expose sensitive business workflows, documents, payments, invoices, support notes, and service status. BANDEVI connects this page with its public proof layer so buyers can verify the company before planning access rules.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links customer portal service pages to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Portal governance</h3>
+              <p>Portal projects can include role rules, customer fields, document folders, invoice visibility, payment status notes, support categories, access handover, training notes, and support ownership.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before portal planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Connected system</span>
+          <h2>Customer portal software connects bookings, CRM, ERP, automation, and support.</h2>
+          <p>The portal becomes stronger when it reads from real customer, booking, invoice, document, and support records instead of standing alone.</p>
+        </div>
+        <div class="grid cols-3">
+          <a class="card" href="/lead-booking-management/"><h3>Lead & Booking Management</h3><p>Move confirmed enquiries into booking files that can later feed customer-facing portal status.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-crm/"><h3>Travel CRM</h3><p>Connect customer records, enquiry history, quotations, source notes, and follow-up context with portal access.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-erp/"><h3>Travel ERP</h3><p>Connect booking files, passengers, suppliers, invoices, payments, documents, and operations status to portal views.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/business-automation/"><h3>Business Automation</h3><p>Automate document reminders, support alerts, payment updates, booking notes, and dashboard summaries.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-technology/"><h3>Travel Technology</h3><p>Use the wider travel stack for websites, CRM, ERP, booking workflows, portals, suppliers, and reporting.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/website-mobile-app-development/"><h3>Website & App Development</h3><p>Extend the portal into web apps, mobile-first access, dashboards, admin panels, and role-based workflows.</p><span>Open page ${icons.arrow}</span></a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Customer portal FAQ</span>
+          <h2>Answers for customer portal, client portal, travel portal, document access, invoices, and support searches.</h2>
+          <p>These answers help customers and search engines understand the portal work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${customerPortalFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right portal layer</h3>
+            ${list(["Customer login and profile", "Booking and service status", "Documents and invoices", "Support requests", "CRM and ERP connection", "Notifications and dashboards"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -4140,6 +4296,7 @@ function footer() {
             <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/travel-technology/">Travel Technology</a></li>
             <li><a href="/lead-booking-management/">Lead & Booking Management</a></li>
+            <li><a href="/customer-portal/">Customer Portal</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
             <li><a href="/ecommerce-solutions/">E-Commerce Solutions</a></li>
