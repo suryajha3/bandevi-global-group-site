@@ -266,6 +266,7 @@ const productPackages = [
 
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
+const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
 
 const pageData = {
   home: {
@@ -900,6 +901,7 @@ function companyProfilePage() {
           ${list(["Official website: bandeviglobalgroup.com", "Official sales desk: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Company facts presented with sister-brand separation where needed", "Office and service-location references listed clearly for verification"])}
           <div class="inline-actions">
             <a class="button primary" href="/contact-us/">Verify Contact ${icons.arrow}</a>
+            <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
             <a class="button ghost" href="/offices/">Offices</a>
           </div>
@@ -973,8 +975,9 @@ function companyProfilePage() {
           </div>
           <aside class="article-aside">
             <h3>Official verification</h3>
-            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the Trust Center for licence, sister-brand, and documentation context."])}
+            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF for staff size, net worth, offices, and proof notes."])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="${companyProfilePdf}">Open PDF</a>
           </aside>
         </div>
       </div>
@@ -995,6 +998,7 @@ function proofVerificationPage() {
           ${list(["Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Offices and service locations: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States", "Official website: bandeviglobalgroup.com", "Official contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
           <div class="inline-actions">
             <a class="button primary" href="/company-profile/">Company Profile ${icons.arrow}</a>
+            <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/contact-us/">Verify Contact</a>
           </div>
         </div>
@@ -1063,6 +1067,9 @@ function proofVerificationPage() {
         <div class="grid cols-3">
           ${proofDocumentChecklist.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
         </div>
+        <div class="inline-actions">
+          <a class="button primary" href="${companyProfilePdf}">Open Company Profile PDF ${icons.arrow}</a>
+        </div>
       </div>
     </section>
     <section class="section">
@@ -1085,6 +1092,7 @@ function proofVerificationPage() {
             <h3>Verification priority</h3>
             ${list(["Keep 1,289 staff worldwide consistent everywhere.", "Keep INR 7,594 Cr net worth consistent everywhere.", "Link proof files only after approval for public use.", "Use BANDEVI and THG separation wherever sister-brand context is mentioned."])}
             <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
           </aside>
         </div>
       </div>
@@ -1105,6 +1113,7 @@ function officesPage() {
           ${list(["India references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, and Lucknow", "International references: Dubai, London, and United States", "Official phone and WhatsApp: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Office proof can be strengthened with photos, map links, Google Business Profile links, and service-office confirmations"])}
           <div class="inline-actions">
             <a class="button primary" href="/contact-us/">Contact Office Desk ${icons.arrow}</a>
+            <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
           </div>
         </div>
@@ -1182,6 +1191,7 @@ function officesPage() {
             <h3>Official office contact</h3>
             ${list(["Phone and WhatsApp: +91 8287669022", "Email: sales@bandeviglobalgroup.com", "Website: bandeviglobalgroup.com", "Use the proof page for staff size, net worth, offices, and documentation status."])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
           </aside>
         </div>
       </div>
@@ -2876,6 +2886,7 @@ function footer() {
           <ul class="footer-links">
             <li><a href="/about-us/">About Us</a></li>
             <li><a href="/company-profile/">Company Profile</a></li>
+            <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
             <li><a href="/offices/">Offices & Locations</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
