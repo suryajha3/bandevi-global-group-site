@@ -626,6 +626,15 @@ const demoRequestFaqs = [
   ["What happens after submitting a demo request?", "The request is routed with your product interest, business type, priority, timeline, budget direction, and contact preference so the sales team can respond with a focused next step."]
 ];
 
+const contactFaqs = [
+  ["How can I contact BANDEVI GLOBAL GROUP?", `Use the official phone or WhatsApp ${contactInfo.phoneDisplay}, email ${contactInfo.email}, the Contact Us page, or the Demo Request page on bandeviglobalgroup.com.`],
+  ["Can I contact BANDEVI for CRM and ERP projects?", "Yes. Contact BANDEVI for CRM development, ERP software, lead management, sales pipeline, operations workflows, finance, dashboards, portals, automation, and business software."],
+  ["Can I contact BANDEVI for Travel CRM or Travel ERP?", "Yes. BANDEVI supports Travel CRM, Travel ERP, travel websites, lead and booking management, supplier workflows, customer documents, payments, and travel reporting discussions."],
+  ["Which office should I contact first?", "Use the official sales desk first by phone, WhatsApp, email, contact form, or demo request. The correct office or support route can then be confirmed according to project scope."],
+  ["Where can visitors verify BANDEVI before contacting?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."],
+  ["What details should I include in a contact message?", "Share your product interest, business type, current problem, location or region, timeline, preferred contact method, and whether you need CRM, ERP, portals, travel technology, websites, e-commerce, automation, or support."]
+];
+
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
@@ -765,7 +774,7 @@ const pageData = {
   contact: {
     title: "Contact",
     eyebrow: "Start a conversation",
-    lede: "Talk to BANDEVI GLOBAL GROUP about CRM, ERP, portals, website projects, automation, IT services, and office support."
+    lede: "Contact BANDEVI GLOBAL GROUP through official phone, WhatsApp, email, demo request, or office support for CRM, ERP, IT products, portals, travel technology, websites, e-commerce, automation, and proof verification."
   },
   demo: {
     title: "Demo Request",
@@ -4257,19 +4266,75 @@ function contactPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Contact</span>
-          <h2>Bring your website, CRM, ERP, portal, commerce, and automation plan into one conversation.</h2>
-          <p class="muted">Use the form to contact the BANDEVI GLOBAL GROUP sales desk for product demos, website projects, e-commerce, astrology service flows, office support, partnerships, and implementation planning.</p>
+          <h2>Contact BANDEVI GLOBAL GROUP for CRM, ERP, IT products, portals, websites, and automation.</h2>
+          <p class="muted">Use the official phone, WhatsApp, email, contact form, or demo request path to reach the BANDEVI GLOBAL GROUP sales desk for CRM, ERP, Travel CRM, Travel ERP, customer portals, IT products, website projects, e-commerce, automation, office support, and implementation planning.</p>
           ${cards([
             { icon: "mail", title: "Sales desk", text: contactInfo.email },
             { icon: "phone", title: "Call or WhatsApp", text: contactInfo.phoneDisplay },
-            { icon: "globe", title: "Office network", text: "India, Dubai, London, and United States support presence for separate business projects." }
+            { icon: "message", title: "Demo requests", text: "Use the demo path for CRM, ERP, IT product, portal, travel technology, website, and automation walkthroughs." },
+            { icon: "globe", title: "Office network", text: "10 listed office and service-location references across India, Dubai, London, and the United States." },
+            { icon: "users", title: "Staff ecosystem", text: "1,289 staff worldwide as currently provided by the company." },
+            { icon: "shield", title: "Company strength", text: "INR 7,594 Cr current company-provided net worth and group strength figure." }
           ], 3)}
           <div class="inline-actions">
             <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
             <a class="button light" href="${contactInfo.phoneHref}">Call ${icons.phone}</a>
+            <a class="button light" href="/demo-request/">Request Demo</a>
+            <a class="button light" href="/proof-verification/">Verify Proof</a>
           </div>
         </div>
         ${contactForm("contact")}
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Official contact routes</span>
+          <h2>Choose the right contact path.</h2>
+          <p>Contact requests work better when they are routed to the right product, proof, demo, office, or support path from the start.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "stack", title: "IT Products", href: "/it-products/", text: "Review website, CRM, ERP, portal, commerce, travel tech, automation, and dashboard packages before contacting." },
+            { icon: "users", title: "CRM & ERP", href: "/crm-erp-solutions/", text: "Discuss CRM development, ERP software, lead management, operations, finance, dashboards, and multi-office reporting." },
+            { icon: "message", title: "Demo Request", href: "/demo-request/", text: "Request a focused walkthrough for CRM, ERP, portals, Travel CRM, Travel ERP, websites, automation, and dashboards." },
+            { icon: "plane", title: "Travel CRM", href: "/travel-crm/", text: "Contact for travel leads, quotation stages, follow-ups, customer records, and travel sales visibility." },
+            { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Contact for booking operations, suppliers, invoices, payments, documents, approvals, and travel reporting." },
+            { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Discuss customer login, documents, invoices, service status, support requests, and controlled account access." },
+            { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Discuss lead routing, reminders, task assignment, approvals, document requests, alerts, and dashboards." },
+            { icon: "globe", title: "Offices", href: "/offices/", text: "View Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States references." },
+            { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Verify company profile, staff size, net worth, office references, official phone, email, and proof links." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Public verification before contact</span>
+          <h2>Official contact details backed by company proof.</h2>
+          <p>Before discussing customer records, finance workflows, travel operations, CRM/ERP access, or internal dashboards, visitors can verify BANDEVI's public company facts and official contact channels.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>${contactInfo.phoneDisplay}</strong><p>Official phone and WhatsApp route for sales, demos, project enquiries, and support routing.</p></article>
+          <article class="card metric-card"><strong>${contactInfo.email}</strong><p>Official email for CRM, ERP, portals, websites, e-commerce, automation, IT products, and office-support enquiries.</p></article>
+          <article class="card metric-card"><strong>1,289</strong><p>Company-provided current staff count across the worldwide operating and support ecosystem.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided current net worth and group strength figure for public confidence and market context.</p></article>
+          <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
+          <article class="card metric-card"><strong>Official domain</strong><p>Use bandeviglobalgroup.com, the company profile PDF, proof page, and official social profiles for verification.</p></article>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+          <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
+          <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
+        </div>
       </div>
     </section>
     <section class="section mist">
@@ -4307,6 +4372,31 @@ function contactPage() {
               <p>${item[1]}</p>
             </div>
           `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Contact FAQ</span>
+          <h2>Answers for contact, phone, WhatsApp, email, office, CRM, ERP, and demo searches.</h2>
+          <p>These answers help visitors and search engines understand how to contact BANDEVI through official channels.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${contactFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Official contact checklist</h3>
+            ${list(["Phone and WhatsApp: +91 8287669022", "Email: sales@bandeviglobalgroup.com", "Website: bandeviglobalgroup.com", "Use demo request for product walkthroughs", "Use proof page for staff, net worth, and offices"])}
+            <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
+            <a class="button light" href="/demo-request/">Request Demo</a>
+          </aside>
         </div>
       </div>
     </section>
