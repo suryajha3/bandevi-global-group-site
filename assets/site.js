@@ -18,6 +18,7 @@ const icons = {
 const navItems = [
   ["Home", "/", "home"],
   ["About", "/about-us/", "about"],
+  ["Profile", "/company-profile/", "profile"],
   ["Travel CRM", "/travel-crm/", "crm"],
   ["Travel ERP", "/travel-erp/", "erp"],
   ["Products", "/it-products/", "itProducts"],
@@ -60,6 +61,23 @@ const sisterBrandTrustStats = [
   ["26+", "Office and service-location context across India, Dubai, London, and the United States."],
   ["1000+", "Professional team ecosystem across travel operations, sales, support, partnerships, visa assistance, technology, and business development."],
   ["INR 8,000 Cr+", "Estimated group business strength referenced by THG's public profile, supporting stronger market-confidence storytelling."]
+];
+
+const companyProfileFacts = [
+  ["Official company", "BANDEVI GLOBAL GROUP"],
+  ["Common search names", "Bandevi Global Group, Bandevi Global, Bandevi, BANDEVI GLOBAL GROUP"],
+  ["Core work", "Premium websites, CRM, ERP, portals, e-commerce, automation, IT products, and business software."],
+  ["Staff size / ecosystem", "1000+ professional team ecosystem referenced through sister-brand and group operating context. BANDEVI project staffing is confirmed by project scope."],
+  ["Net worth / group strength", "BANDEVI-specific standalone net worth is not publicly disclosed on this website. INR 8,000 Cr+ estimated group business strength is referenced through THG sister-brand public profile context."],
+  ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States."],
+  ["Official contact", `${contactInfo.phoneDisplay} and ${contactInfo.email}`]
+];
+
+const companyProfileFaqs = [
+  ["What is BANDEVI GLOBAL GROUP net worth?", "BANDEVI-specific standalone net worth is not publicly disclosed on this website. The site references INR 8,000 Cr+ estimated group business strength through THG sister-brand public profile context."],
+  ["What is BANDEVI GLOBAL GROUP staff size?", "The public company profile references a 1000+ professional team ecosystem across travel operations, sales, support, partnerships, visa assistance, technology, and business development. Individual BANDEVI project teams are allocated according to scope."],
+  ["Where are BANDEVI GLOBAL GROUP offices?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
+  ["Are BANDEVI and THG the same company?", "BANDEVI GLOBAL GROUP remains the IT and software development company. The Holidays Group is referenced as a separate sister-brand context where trust, travel operations, and group ecosystem signals are discussed."]
 ];
 
 const travelTrustNetworks = [
@@ -226,6 +244,11 @@ const pageData = {
     title: "About BANDEVI GLOBAL GROUP",
     eyebrow: "Company",
     lede: "Bandevi Global Group, also searched as Bandevi Global and Bandevi, is an IT and software development company building premium websites, CRM, ERP, portals, automation, and business systems."
+  },
+  profile: {
+    title: "Company Profile, Staff Size & Offices",
+    eyebrow: "Company facts",
+    lede: "Priority company profile for BANDEVI GLOBAL GROUP covering common search names, staff ecosystem, group strength context, official contacts, and all listed offices."
   },
   trust: {
     title: "Trust, Licences & Certifications",
@@ -531,7 +554,7 @@ function trustProofPreview() {
         </div>
         <div class="inline-actions">
           <a class="button primary" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
-          <a class="button ghost" href="/contact-us/">Verify Contact Details</a>
+          <a class="button ghost" href="/company-profile/">Company Profile</a>
         </div>
       </div>
     </section>
@@ -560,6 +583,29 @@ function brandIdentityPanel() {
   `;
 }
 
+function companyProfilePreview() {
+  return `
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Company facts</span>
+          <h2>Priority profile signals: staff ecosystem, group strength, and offices.</h2>
+          <p>This company-profile layer helps visitors and search engines understand BANDEVI GLOBAL GROUP, the common search names, the office network, and the careful separation between BANDEVI and sister-brand THG references.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>1000+</strong><p>Professional team ecosystem referenced through sister-brand and group operating context.</p></article>
+          <article class="card metric-card"><strong>INR 8,000 Cr+</strong><p>Estimated group business strength referenced through THG sister-brand public profile context.</p></article>
+          <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="/company-profile/">Open Company Profile ${icons.arrow}</a>
+          <a class="button ghost" href="/contact-us/">Verify Contact Details</a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function homePage() {
   return `
     <section class="section">
@@ -576,6 +622,7 @@ function homePage() {
       </div>
     </section>
     ${brandIdentityPanel()}
+    ${companyProfilePreview()}
     <section class="section mist">
       <div class="container split">
         <div>
@@ -794,6 +841,97 @@ function aboutPage() {
       </div>
     </section>
     ${cta("Let your About page prove trust before the first call.", "Create a premium corporate presence backed by systems that can support sales, orders, service, delivery, documentation, and long-term support.")}
+  `;
+}
+
+function companyProfilePage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Company profile</span>
+          <h2>BANDEVI GLOBAL GROUP company profile, staff ecosystem, group strength, and offices.</h2>
+          <p class="muted">This page is built as the priority reference for people searching BANDEVI GLOBAL GROUP, Bandevi Global Group, Bandevi Global, Bandevi, BANDEVI staff size, BANDEVI net worth, and BANDEVI office locations.</p>
+          <p class="muted">BANDEVI GLOBAL GROUP is the IT and software development company. THG and other sister-brand references are used only where they provide operating context, team ecosystem context, or public trust signals.</p>
+          ${list(["Official website: bandeviglobalgroup.com", "Official sales desk: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Company facts presented with sister-brand separation where needed", "Office and service-location references listed clearly for verification"])}
+          <div class="inline-actions">
+            <a class="button primary" href="/contact-us/">Verify Contact ${icons.arrow}</a>
+            <a class="button ghost" href="/trust-licences-certifications/">Trust Center</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI company profile and office network"></div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Priority facts</span>
+          <h2>Company facts Google and visitors should read first.</h2>
+          <p>These details are worded carefully so public claims stay accurate while the company profile still answers high-intent searches for staff size, net worth, offices, and official identity.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fact</th><th>Published detail</th></tr></thead>
+            <tbody>
+              ${companyProfileFacts.map(([label, value]) => `<tr><td>${label}</td><td>${value}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <h2>Staff size and group strength context.</h2>
+          <p>BANDEVI keeps its company identity separate while using sister-brand operating exposure to show practical scale, service understanding, and delivery maturity.</p>
+        </div>
+        <div class="grid cols-4">
+          ${sisterBrandTrustStats.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Offices</span>
+          <h2>All listed office and service-location references.</h2>
+          <p>Visitors can use these locations to understand the broader service-location story across India, Dubai, London, and the United States. Project ownership, support desk, and delivery scope are confirmed separately for every engagement.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Location</th><th>Address</th></tr></thead>
+            <tbody>
+              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Search questions</span>
+          <h2>Answers for net worth, staff size, offices, and brand separation.</h2>
+          <p>These answers are written for clarity, customer confidence, and search visibility without overstating company-specific claims.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${companyProfileFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Official verification</h3>
+            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the Trust Center for licence, sister-brand, and documentation context."])}
+            <a class="button dark" href="/trust-licences-certifications/">Open Trust Center ${icons.arrow}</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    ${cta("Keep company facts visible and verifiable.", "Contact BANDEVI GLOBAL GROUP to confirm project scope, office support, staff allocation, and official communication channels.")}
   `;
 }
 
@@ -2482,6 +2620,7 @@ function footer() {
           <h4>Company</h4>
           <ul class="footer-links">
             <li><a href="/about-us/">About Us</a></li>
+            <li><a href="/company-profile/">Company Profile</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
             <li><a href="/case-studies/">Case Studies</a></li>
             <li><a href="/blog/">Blog</a></li>
@@ -2511,6 +2650,7 @@ function footer() {
 const pageRenderers = {
   home: homePage,
   about: aboutPage,
+  profile: companyProfilePage,
   trust: trustPage,
   crm: crmPage,
   erp: erpPage,
