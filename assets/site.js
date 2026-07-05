@@ -59,23 +59,23 @@ const officeLocations = [
 const sisterBrandTrustStats = [
   ["Since 2007", "THG's travel presence gives BANDEVI real operating context for travel, hospitality, support, and customer-service systems."],
   ["26+", "Office and service-location context across India, Dubai, London, and the United States."],
-  ["1000+", "Professional team ecosystem across travel operations, sales, support, partnerships, visa assistance, technology, and business development."],
-  ["INR 8,000 Cr+", "Estimated group business strength referenced by THG's public profile, supporting stronger market-confidence storytelling."]
+  ["1,289", "Current company-provided worldwide staff count across operations, sales, support, partnerships, technology, and business development."],
+  ["INR 7,594 Cr", "Current company-provided net worth and group strength figure. Supporting CA, audited, or company-profile proof can be linked when public."]
 ];
 
 const companyProfileFacts = [
   ["Official company", "BANDEVI GLOBAL GROUP"],
   ["Common search names", "Bandevi Global Group, Bandevi Global, Bandevi, BANDEVI GLOBAL GROUP"],
   ["Core work", "Premium websites, CRM, ERP, portals, e-commerce, automation, IT products, and business software."],
-  ["Staff size / ecosystem", "1000+ professional team ecosystem referenced through sister-brand and group operating context. BANDEVI project staffing is confirmed by project scope."],
-  ["Net worth / group strength", "BANDEVI-specific standalone net worth is not publicly disclosed on this website. INR 8,000 Cr+ estimated group business strength is referenced through THG sister-brand public profile context."],
+  ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company, across operations, sales, support, partnerships, technology, and business development."],
+  ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure. Supporting CA, audited, or company-profile proof can be linked when public."],
   ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States."],
   ["Official contact", `${contactInfo.phoneDisplay} and ${contactInfo.email}`]
 ];
 
 const companyProfileFaqs = [
-  ["What is BANDEVI GLOBAL GROUP net worth?", "BANDEVI-specific standalone net worth is not publicly disclosed on this website. The site references INR 8,000 Cr+ estimated group business strength through THG sister-brand public profile context."],
-  ["What is BANDEVI GLOBAL GROUP staff size?", "The public company profile references a 1000+ professional team ecosystem across travel operations, sales, support, partnerships, visa assistance, technology, and business development. Individual BANDEVI project teams are allocated according to scope."],
+  ["What is BANDEVI GLOBAL GROUP net worth?", "The current company-provided net worth and group strength figure is INR 7,594 Cr. Supporting CA, audited, or company-profile proof can be linked when public."],
+  ["What is BANDEVI GLOBAL GROUP staff size?", "The current company-provided staff count is 1,289 staff worldwide across operations, sales, support, partnerships, technology, and business development. Individual project teams are allocated according to scope."],
   ["Where are BANDEVI GLOBAL GROUP offices?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Are BANDEVI and THG the same company?", "BANDEVI GLOBAL GROUP remains the IT and software development company. The Holidays Group is referenced as a separate sister-brand context where trust, travel operations, and group ecosystem signals are discussed."]
 ];
@@ -593,8 +593,8 @@ function companyProfilePreview() {
           <p>This company-profile layer helps visitors and search engines understand BANDEVI GLOBAL GROUP, the common search names, the office network, and the careful separation between BANDEVI and sister-brand THG references.</p>
         </div>
         <div class="grid cols-3">
-          <article class="card metric-card"><strong>1000+</strong><p>Professional team ecosystem referenced through sister-brand and group operating context.</p></article>
-          <article class="card metric-card"><strong>INR 8,000 Cr+</strong><p>Estimated group business strength referenced through THG sister-brand public profile context.</p></article>
+          <article class="card metric-card"><strong>1,289</strong><p>Company-provided current staff count across the worldwide operating and support ecosystem.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided current net worth and group strength figure for market-confidence context.</p></article>
           <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
         </div>
         <div class="inline-actions">
