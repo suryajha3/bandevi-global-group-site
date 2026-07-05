@@ -188,6 +188,35 @@ const crmErpFaqs = [
   ["Where can visitors verify BANDEVI company details?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const webAppDevelopmentRows = [
+  ["Corporate website development", "Company websites, service pages, about pages, proof sections, office pages, contact flows, lead forms, and SEO-ready page structure."],
+  ["Landing page development", "Campaign pages, product or service pages, demo request pages, call/WhatsApp actions, conversion sections, and analytics-ready lead paths."],
+  ["Web app development", "Admin panels, dashboards, role-based tools, workflow screens, internal business apps, reporting views, and integration-ready modules."],
+  ["Mobile app development", "Customer apps, staff apps, service apps, mobile-first interfaces, account access, notifications, and workflow screens for Android or iOS planning."],
+  ["Portal development", "Customer portals, partner portals, staff portals, support desks, document access, service status, invoices, and secure role-based views."],
+  ["E-commerce website development", "Product catalogues, online storefronts, order flows, payments, customer accounts, distributor enquiries, stock direction, and reporting."],
+  ["Travel website development", "Complete travel websites, white-label travel websites, destination pages, packages, enquiry forms, WhatsApp handoff, and booking-ready lead flows."],
+  ["Website to CRM/ERP connection", "Website forms, demo requests, WhatsApp actions, customer data, portals, dashboards, and automation connected with CRM and ERP workflows."]
+];
+
+const webAppIndustries = [
+  ["Corporate and service companies", "Professional websites, lead funnels, quotation flows, service pages, CRM-ready forms, portals, and business dashboards."],
+  ["Travel and tourism", "Complete travel websites, white-label travel websites, travel CRM handoff, booking workflows, itinerary pages, and customer portals."],
+  ["Retail and e-commerce", "Online stores, product catalogues, payment flows, inventory direction, customer accounts, distributor enquiries, and dashboards."],
+  ["Food and packaged products", "Masala, makhana, and product-brand websites with catalogues, bulk enquiry paths, e-commerce planning, and distributor CRM support."],
+  ["Consulting and professional services", "Authority websites, appointment or demo flows, client portals, document access, service dashboards, and content-led trust pages."],
+  ["Multi-brand groups", "Separate websites, apps, portals, dashboards, access control, reporting, and support paths across multiple business lines."]
+];
+
+const webAppFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build websites?", "Yes. BANDEVI builds corporate websites, business websites, service pages, landing pages, travel websites, e-commerce websites, portals, and SEO-ready digital experiences."],
+  ["Does BANDEVI build mobile apps?", "Yes. BANDEVI can plan and build mobile app experiences for customers, staff, service teams, portals, accounts, notifications, and business workflows."],
+  ["Does BANDEVI build web apps and dashboards?", "Yes. BANDEVI builds web apps, admin panels, dashboards, role-based tools, reporting views, customer portals, staff portals, and workflow screens."],
+  ["Can a website connect with CRM and ERP?", "Yes. Website forms, demo requests, WhatsApp actions, customer portals, e-commerce flows, dashboards, and automation can connect with CRM and ERP workflows."],
+  ["Does BANDEVI build travel websites?", "Yes. BANDEVI builds complete travel websites and white-label travel websites with destination pages, package pages, enquiry forms, WhatsApp handoff, blogs, and CRM-ready lead capture."],
+  ["Where can visitors verify BANDEVI before starting a website or app project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const officeVerificationFaqs = [
   ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
@@ -422,9 +451,9 @@ const pageData = {
     lede: "Secure e-commerce websites and platforms with product management, payment flows, customer experience, and growth-ready operations."
   },
   webApp: {
-    title: "Website & Mobile App Development",
-    eyebrow: "Digital delivery",
-    lede: "Professional websites, web apps, complete travel websites, white-label travel websites, and mobile app development for brands that need polished design and reliable performance."
+    title: "Website & Mobile App Development Company",
+    eyebrow: "Website and app development",
+    lede: "BANDEVI GLOBAL GROUP builds corporate websites, business websites, landing pages, web apps, mobile apps, portals, dashboards, travel websites, and SEO-ready digital systems."
   },
   automation: {
     title: "Business Automation",
@@ -1833,18 +1862,19 @@ const landingPages = {
     process: ["Structure catalog", "Design storefront", "Connect payments", "Launch campaigns"]
   },
   webApp: {
-    tag: "Web & mobile",
-    title: "Professional websites, travel websites, web apps, and mobile experiences.",
-    intro: "From a premium corporate website to complete travel websites, white-label travel websites, internal dashboards, and mobile-first customer experiences, the delivery focuses on clarity, speed, trust, and business usefulness.",
-    points: ["Corporate websites with strong positioning, SEO structure, forms, and conversion paths", "Complete travel websites and white-label travel websites for agencies, DMCs, operators, and travel sellers", "Web applications for dashboards, portals, workflows, and admin teams", "Mobile app planning and delivery for customer access, service, and engagement"],
+    tag: "Website and mobile app development",
+    title: "Website development company and mobile app development company for business growth.",
+    intro: "BANDEVI GLOBAL GROUP builds corporate websites, business websites, landing pages, web apps, mobile apps, portals, dashboards, travel websites, white-label travel websites, and SEO-ready digital systems.",
+    points: ["Website development for corporate websites, business websites, landing pages, service pages, enquiry forms, SEO structure, WhatsApp actions, and trust sections", "Web app development for dashboards, admin panels, portals, workflow screens, role-based tools, reporting views, and internal systems", "Mobile app development for customer access, staff workflows, service status, notifications, portals, account views, and mobile-first experiences", "Travel website development, e-commerce websites, CRM-ready lead flows, ERP connection, automation, and analytics can be added as the business grows"],
     modules: [
-      { icon: "globe", title: "Corporate website", text: "Premium pages, service storytelling, lead capture, SEO metadata, analytics, and responsive layouts." },
-      { icon: "plane", title: "Complete travel website", text: "Travel-ready pages for destinations, packages, enquiries, itineraries, trust sections, WhatsApp handoff, blogs, and booking lead capture." },
-      { icon: "shield", title: "White-label travel website", text: "A ready travel website structure that can be branded for agencies, partners, branches, or resellers with controlled content and lead flow." },
-      { icon: "stack", title: "Web application", text: "Admin dashboards, role-based tools, portals, data views, workflows, and integrations." },
-      { icon: "phone", title: "Mobile experience", text: "Mobile app and mobile-first interface planning for customers, staff, and service workflows." }
+      { icon: "globe", title: "Website development", text: "Corporate websites, service pages, landing pages, lead forms, proof sections, office pages, SEO metadata, analytics, and responsive layouts." },
+      { icon: "stack", title: "Web app development", text: "Admin dashboards, role-based tools, workflow screens, reporting views, integrations, portals, and business software interfaces." },
+      { icon: "phone", title: "Mobile app development", text: "Customer apps, staff apps, service apps, account access, notifications, mobile-first portals, and workflow screens." },
+      { icon: "plane", title: "Travel website development", text: "Complete travel websites, white-label travel websites, destination pages, package pages, enquiry forms, WhatsApp handoff, and CRM-ready leads." },
+      { icon: "shield", title: "Portal development", text: "Customer portals, partner portals, staff portals, document access, support desks, service status, invoices, and role-based access." },
+      { icon: "chart", title: "Dashboards and SEO", text: "Business dashboards, analytics, source tracking, conversion paths, content structure, schema support, and post-launch improvement planning." }
     ],
-    process: ["Plan content", "Design interface", "Build and test", "Launch and measure"]
+    process: ["Plan pages and workflows", "Design website and app screens", "Build and connect systems", "Launch, measure, and improve"]
   },
   automation: {
     tag: "Automation",
@@ -1948,7 +1978,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelTech" ? travelTechWebsiteLinksSection() : key === "crmErp" ? crmErpSeoSections() : key === "webApp" ? webAppSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -1993,6 +2023,112 @@ function landingPage(key) {
     </section>
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function webAppSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial search targets</span>
+          <h2>Website, web app, and mobile app services customers search first.</h2>
+          <p>This page is structured for website development company, business website development, corporate website development, mobile app development company, web app development company, landing page development, portal development, and dashboard development searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Website</strong><p>Corporate websites, business websites, service pages, landing pages, enquiry paths, SEO structure, and trust sections.</p></article>
+          <article class="card metric-card"><strong>Web app</strong><p>Dashboards, admin panels, role-based tools, workflow screens, portals, reporting views, and system interfaces.</p></article>
+          <article class="card metric-card"><strong>Mobile app</strong><p>Customer apps, staff apps, service apps, account access, notifications, mobile-first portals, and workflow screens.</p></article>
+          <article class="card metric-card"><strong>Growth</strong><p>CRM-ready leads, ERP connection, automation, analytics, Search Console support, and post-launch improvement.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Service modules</span>
+          <h2>What BANDEVI can build for website and app projects.</h2>
+          <p>The first release can start as a website, landing page, portal, web app, or mobile app, then expand into CRM, ERP, automation, dashboards, and customer access.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Service</th><th>What it includes</th></tr></thead>
+            <tbody>
+              ${webAppDevelopmentRows.map(([service, detail]) => `<tr><td>${service}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>Website and app development for different business lines.</h2>
+          <p>BANDEVI can shape the website, web app, mobile app, portal, and dashboard experience around how each business sells, supports, delivers, and reports.</p>
+        </div>
+        <div class="grid cols-3">
+          ${webAppIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed web development company</span>
+          <h2>Company strength signals behind website and app delivery.</h2>
+          <p>Website and app buyers need confidence before sharing brand, customer, product, sales, and system details. BANDEVI connects its commercial service pages with the public proof layer for verification.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Company profile and verification</h3>
+              <p>The website links this service page to the Company Profile, Proof & Verification page, Offices page, Staff Size & Net Worth page, and official company profile PDF.</p>
+            </article>
+            <article class="article-block">
+              <h3>Staff, net worth, and offices</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, and 10 listed office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Project clarity and handover</h3>
+              <p>Website, web app, mobile app, portal, and dashboard projects can include scope notes, page lists, screen flows, access handover, analytics setup, support ownership, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before starting</h3>
+            ${list(["Company Profile", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Official contact and demo request"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/crm-erp-solutions/">CRM & ERP</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Website and app FAQ</span>
+          <h2>Answers for website, mobile app, web app, portal, and dashboard searches.</h2>
+          <p>These answers help customers and search engines understand the website and app work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${webAppFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right release</h3>
+            ${list(["Corporate website or landing page", "Web app, dashboard, or admin panel", "Mobile app or mobile-first portal", "Customer, staff, or partner portal", "CRM/ERP connection and automation"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -3300,7 +3436,7 @@ function footer() {
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/it-products/">Products</a></li>
-            <li><a href="/website-mobile-app-development/">IT Solutions</a></li>
+            <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
             <li><a href="/masala-food-products/">Masala / Food</a></li>
             <li><a href="/makhana-brand-solutions/">Makhana</a></li>
             <li><a href="/astrology-services-platform/">Astrology</a></li>
