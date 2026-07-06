@@ -684,11 +684,12 @@ const proofSupportFiles = [
 
 const citationTrackerCsv = asset("bandevi-global-group-external-citation-tracker.csv");
 const directorySubmissionCopy = asset("bandevi-global-group-directory-submission-copy.txt");
+const externalSubmissionStatus = asset("bandevi-global-group-external-submission-status.txt");
 
 const externalCitationTargets = [
-  ["Google Business Profile", "Search and maps", "https://business.google.com/us/business-profile/", "Ready for owner login and verification", "Software company, website designer, IT services"],
-  ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Ready for owner login and verification", "Software company, IT services, website designer"],
-  ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Ready for account submission", "Custom software development, web development, CRM, ERP"],
+  ["Google Business Profile", "Search and maps", "https://business.google.com/us/business-profile/", "Owner verification pending", "Software company, website designer, IT services"],
+  ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Owner verification pending", "Software company, IT services, website designer"],
+  ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Submission reported complete; monitor review", "Custom software development, web development, CRM, ERP"],
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Ready for account submission", "Software development, web development, CRM, ERP"],
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Ready for account submission", "Custom software development, web development, CRM, ERP"],
@@ -1642,6 +1643,7 @@ function externalCitationTrackerPage() {
           <div class="inline-actions">
             <a class="button primary" href="${citationTrackerCsv}">Download Tracker CSV ${icons.arrow}</a>
             <a class="button ghost" href="${directorySubmissionCopy}">Submission Copy Pack</a>
+            <a class="button ghost" href="${externalSubmissionStatus}">Submission Status</a>
             <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
           </div>
@@ -1658,9 +1660,9 @@ function externalCitationTrackerPage() {
         </div>
         <div class="grid cols-4">
           <article class="card metric-card"><strong>12</strong><p>Priority external citation targets prepared for map, B2B directory, and social profile consistency.</p></article>
-          <article class="card metric-card"><strong>Ready</strong><p>Company copy, proof links, PDF, staff note, net worth note, office sheet, and identity note are ready to attach.</p></article>
+          <article class="card metric-card"><strong>Pending</strong><p>Map verification is pending after owner submission. Keep official name, phone, website, category, and first address unchanged.</p></article>
           <article class="card metric-card"><strong>Same data</strong><p>Every listing should repeat the same name, chairman, phone, email, website, staff size, net worth, and proof links.</p></article>
-          <article class="card metric-card"><strong>Manual</strong><p>Google, Bing, B2B directories, and social profiles need owner login or verification before final submission.</p></article>
+          <article class="card metric-card"><strong>Clutch</strong><p>Basic free profile submission has been reported complete. Monitor review/onboarding and add approved case studies later.</p></article>
         </div>
       </div>
     </section>
@@ -1682,6 +1684,7 @@ function externalCitationTrackerPage() {
         <div class="inline-actions">
           <a class="button primary" href="${citationTrackerCsv}">Open Full Tracker CSV ${icons.arrow}</a>
           <a class="button ghost" href="${directorySubmissionCopy}">Open Copy Pack</a>
+          <a class="button ghost" href="${externalSubmissionStatus}">Open Status Note</a>
         </div>
       </div>
     </section>
@@ -1695,6 +1698,7 @@ function externalCitationTrackerPage() {
         <div class="grid cols-3">
           ${[
             ["Directory Submission Copy", directorySubmissionCopy, "Copy-paste descriptions, categories, services, proof URLs, phone, email, social links, staff size, net worth, and office wording."],
+            ["External Submission Status", externalSubmissionStatus, "Working status note for Google/Bing verification, Clutch submission, GoodFirms next action, and proof-link consistency."],
             ["External Citation Tracker CSV", citationTrackerCsv, "Priority platform list with status, account requirements, categories, proof URLs, and notes for each submission."],
             ["Directory Listing Profile", "/directory-listing-profile/", "Public directory-ready company profile for search engines, AI tools, and external business listings."],
             ["Proof Support Pack", proofSupportPackPdf, "Combined PDF for chairman identity, staff size, net worth, office references, and next formal evidence."],
@@ -1729,9 +1733,10 @@ function externalCitationTrackerPage() {
           </div>
           <aside class="article-aside">
             <h3>Next live action</h3>
-            ${list(["Login to Google Business Profile and verify eligible locations.", "Login to Bing Places and mirror the verified map data.", "Create or update Clutch and GoodFirms first for B2B trust.", "Update LinkedIn, Facebook, Instagram, and X with the proof URL."])}
+            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "Monitor Clutch for profile review or onboarding messages.", "Create GoodFirms next using the same profile copy and proof URLs.", "Update LinkedIn, Facebook, Instagram, and X with the proof URL."])}
             <a class="button dark" href="${citationTrackerCsv}">Download Tracker ${icons.arrow}</a>
             <a class="button light" href="${directorySubmissionCopy}">Copy Pack</a>
+            <a class="button light" href="${externalSubmissionStatus}">Status Note</a>
           </aside>
         </div>
       </div>
