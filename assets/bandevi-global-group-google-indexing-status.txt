@@ -27,6 +27,8 @@ Search Console status:
 6. URL Inspection confirmed the Proof & Verification page is on Google.
 7. Request indexing was confirmed for https://bandeviglobalgroup.com/
 8. Request indexing was confirmed for https://bandeviglobalgroup.com/proof-verification/
+9. A wrong sitemap submission that Google read as HTML was removed by the owner on 6 July 2026, and the correct sitemap.xml entry was resubmitted.
+10. Live verification confirms https://bandeviglobalgroup.com/sitemap.xml returns HTTP 200, application/xml, and valid XML sitemap content.
 
 Priority URL Inspection follow-up:
 These URLs should be inspected and request-indexed next when Search Console is available:
