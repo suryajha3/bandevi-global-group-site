@@ -674,6 +674,7 @@ const heroImage = asset("travel-operations-hero.png");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
 const proofSupportPackPdf = asset("bandevi-global-group-public-proof-support-pack.pdf");
 const officialFactsJson = asset("bandevi-global-group-official-facts.json");
+const proofIndexJson = asset("bandevi-global-group-proof-index.json");
 const llmsTxt = "/llms.txt";
 
 const proofSupportFiles = [
@@ -682,6 +683,7 @@ const proofSupportFiles = [
   ["Office Verification Sheet", asset("bandevi-global-group-office-verification-sheet.txt"), "Address-level office and service-location sheet for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States references."],
   ["Chairman & Company Identity Note", asset("bandevi-global-group-chairman-company-identity-note.txt"), "Public identity note for BANDEVI GLOBAL GROUP, Chairman Mr Surya Kant Jha, official contact details, and company category consistency."],
   ["Official Facts JSON", officialFactsJson, "Machine-readable official facts for staff size, net worth, offices, chairman, contact, services, proof URLs, and structured search consistency."],
+  ["Proof Index JSON", proofIndexJson, "Machine-readable catalog of all public proof files, official facts, PDFs, citation tracker, and submission status references."],
   ["LLMs Text Summary", llmsTxt, "Crawler-friendly official facts file for AI assistants and search systems to identify the correct BANDEVI staff, net worth, office, and proof facts."],
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."]
 ];
