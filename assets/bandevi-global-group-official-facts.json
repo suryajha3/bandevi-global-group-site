@@ -1,0 +1,186 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://bandeviglobalgroup.com/#organization",
+  "name": "BANDEVI GLOBAL GROUP",
+  "alternateName": [
+    "Bandevi Global Group",
+    "Bandevi Global",
+    "Bandevi",
+    "BANDEVI"
+  ],
+  "url": "https://bandeviglobalgroup.com/",
+  "email": "sales@bandeviglobalgroup.com",
+  "telephone": "+91 8287669022",
+  "description": "BANDEVI GLOBAL GROUP is an IT and software development company for websites, CRM, ERP, customer portals, e-commerce systems, travel technology, business automation, dashboards, IT products, and software services.",
+  "numberOfEmployees": {
+    "@type": "QuantitativeValue",
+    "value": 1289,
+    "unitText": "staff worldwide"
+  },
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Chairman",
+      "value": "Mr Surya Kant Jha"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Company-provided staff size",
+      "value": "1,289 staff worldwide"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Company-provided net worth and group strength",
+      "value": "INR 7,594 Cr"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Listed office and service-location references",
+      "value": "10 references across India, Dubai, London, and the United States"
+    }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61591222415314",
+    "https://www.instagram.com/bandeviglobalgroup/",
+    "https://www.linkedin.com/in/bandevi-global-group-38584b419/",
+    "https://x.com/BANDEVIGLOBAL"
+  ],
+  "location": [
+    {
+      "@type": "Place",
+      "name": "Delhi office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Third Floor, Gulshan Park, H-30, Plot No. 6 & 7, Vijay Chowk Area, Laxmi Nagar",
+        "addressLocality": "Delhi",
+        "postalCode": "110092",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Pune office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Spacelane 15/a, 4th Floor, A Building, City Vista, Fountain Road, Ashoka Nagar, Kharadi",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "postalCode": "411014",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Gurgaon office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "7th Floor, 704 Palm Court, Mehrauli Gurugram Road, Sector 16",
+        "addressLocality": "Gurgaon",
+        "addressRegion": "Haryana",
+        "postalCode": "122001",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Mumbai office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1st Floor, Sai Dham Housing Society, B-2, Marol Naka, Andheri East",
+        "addressLocality": "Mumbai",
+        "postalCode": "400059",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Bangalore office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "561, 32nd Cross Rd, 4th Block, Jayanagar",
+        "addressLocality": "Bengaluru",
+        "postalCode": "560011",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Kolkata office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2D, Bose Pukur Rd, Prantik Palli, Kasba",
+        "addressLocality": "Kolkata",
+        "postalCode": "700042",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Lucknow office reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Radiant Complex, Cantonment Road, Lalbagh",
+        "addressLocality": "Lucknow",
+        "postalCode": "226001",
+        "addressCountry": "IN"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "Dubai service-location reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Office 203, Al Tayer Building, Sheikh Zayed Road",
+        "addressLocality": "Dubai",
+        "addressCountry": "AE"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "London service-location reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "71-75 Shelton Street, Covent Garden / Holborn",
+        "addressLocality": "London",
+        "postalCode": "WC2H 9JQ",
+        "addressCountry": "GB"
+      }
+    },
+    {
+      "@type": "Place",
+      "name": "United States service-location reference",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "216 W Garvey Avenue, Suite C",
+        "addressLocality": "Monterey Park",
+        "addressRegion": "California",
+        "postalCode": "91754",
+        "addressCountry": "US"
+      }
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "BANDEVI GLOBAL GROUP services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ERP development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customer portal development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travel CRM and Travel ERP" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business automation" } }
+    ]
+  },
+  "subjectOf": [
+    "https://bandeviglobalgroup.com/company-profile/",
+    "https://bandeviglobalgroup.com/proof-verification/",
+    "https://bandeviglobalgroup.com/staff-size-net-worth/",
+    "https://bandeviglobalgroup.com/offices/",
+    "https://bandeviglobalgroup.com/directory-listing-profile/",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf",
+    "https://bandeviglobalgroup.com/llms.txt"
+  ],
+  "dateModified": "2026-07-06"
+}
