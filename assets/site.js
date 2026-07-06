@@ -30,7 +30,7 @@ const navItems = [
 const socialLinks = [
   ["Facebook", "https://www.facebook.com/profile.php?id=61591222415314"],
   ["Instagram", "https://www.instagram.com/bandeviglobalgroup/"],
-  ["LinkedIn", "https://www.linkedin.com/in/bandeviglobal-group-38584b419/"],
+  ["LinkedIn", "https://www.linkedin.com/in/bandevi-global-group-38584b419/"],
   ["X", "https://x.com/BANDEVIGLOBAL"]
 ];
 
@@ -692,13 +692,13 @@ const externalCitationTargets = [
   ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Submission reported complete; monitor review", "Custom software development, web development, CRM, ERP"],
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
-  ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Next active submission target", "Custom software development, web development, CRM, ERP"],
+  ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
   ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/providers", "Ready for account submission", "Software development, web development, CRM, ERP"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Ready for account submission", "Software development, app development, web design, technology services"],
-  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandeviglobal-group-38584b419/", "Needs profile update", "IT services and IT consulting, software development"],
-  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Needs profile update", "Software company, information technology company"],
-  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Needs profile update", "Software company, IT services"],
-  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Needs profile update", "IT company, software development"]
+  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; monitor public cache", "IT services and IT consulting, software development"],
+  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Bio updated; category follow-up pending", "Software company, information technology company"],
+  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; mobile link edit pending", "Software company, IT services"],
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Blocked; X did not expose editor", "IT company, software development"]
 ];
 
 const pageData = {
