@@ -3,7 +3,7 @@ External Submission Status Note
 Updated: 6 July 2026
 
 Purpose:
-This public note records the working status for external citation and directory submissions connected to BANDEVI GLOBAL GROUP. It supports consistency for Google, Bing, Clutch, GoodFirms, and later B2B directory profiles.
+This public note records the working status for external citation and directory submissions connected to BANDEVI GLOBAL GROUP. It supports consistency for Google, Bing, Clutch, GoodFirms, TechBehemoths, and later B2B directory profiles.
 
 Official company facts to keep unchanged:
 Company name: BANDEVI GLOBAL GROUP
@@ -20,7 +20,8 @@ Current external submission status:
 2. Bing Places for Business - owner verification pending / dashboard follow-up required if the listing has been submitted. Keep Bing details aligned with Google and the official website.
 3. Clutch - basic free profile submission reported complete by owner. Monitor Clutch onboarding, review, and profile approval status. Add client-approved reviews and case studies only after public approval.
 4. GoodFirms - company profile submission reported complete by owner. Monitor GoodFirms review, email verification, and approval status. Keep company facts and proof links unchanged.
-5. TechBehemoths - next B2B directory target. Use the same company copy, services, proof links, staff size, net worth wording, and official contact details.
+5. TechBehemoths - company submitted on 6 July 2026. Manual review is pending after the confirmation page was reached. TechBehemoths says a confirmation email is usually expected within 1 business day, and manual verification may take 1-2 business days.
+6. Sortlist - next active B2B directory target. Use the same company copy, services, proof links, staff size, net worth wording, and official contact details.
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
