@@ -112,6 +112,13 @@
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt",
       "encodingFormat": "text/plain",
       "description": "Public status note for sitemap submission, URL Inspection, confirmed indexing requests, and priority Google indexing follow-up URLs."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Google Business Profile status",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt",
+      "encodingFormat": "text/plain",
+      "description": "Public status note for Google Business Profile manager verification, processing review, and map-listing follow-up rules."
     }
   ],
   "dateModified": "2026-07-06"

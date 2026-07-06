@@ -41,6 +41,7 @@ https://bandeviglobalgroup.com/llms.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
@@ -51,6 +52,7 @@ https://bandeviglobalgroup.com/directory-listing-profile/
 https://bandeviglobalgroup.com/external-citation-tracker/
 https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
 https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 
 Rule:
 Keep the same company name, chairman name, phone, email, website, staff size, net worth figure, office references, and proof URLs across Search Console, sitemap, directories, maps, social profiles, and AI citation files.
