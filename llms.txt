@@ -54,6 +54,7 @@ BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce s
 - Proof index JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
 - Google indexing status: https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt
 - Google Business Profile status: https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
+- Bing Places submission pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt
 
 ## Important Consistency Rule
 

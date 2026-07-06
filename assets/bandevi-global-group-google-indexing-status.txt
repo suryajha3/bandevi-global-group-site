@@ -22,13 +22,17 @@ Search Console status:
 1. URL-prefix property for https://bandeviglobalgroup.com/ is accessible in Google Search Console.
 2. Domain property bandeviglobalgroup.com requires separate access/ownership follow-up.
 3. Sitemap https://bandeviglobalgroup.com/sitemap.xml is submitted and was reported successful on 6 July 2026.
-4. Google Search Console reported 46 discovered pages from the sitemap on 6 July 2026.
+4. Google Search Console reported 52 discovered pages from the sitemap on 6 July 2026 after the Google Business Profile status asset was added.
 5. URL Inspection confirmed the homepage is on Google.
 6. URL Inspection confirmed the Proof & Verification page is on Google.
 7. Request indexing was confirmed for https://bandeviglobalgroup.com/
 8. Request indexing was confirmed for https://bandeviglobalgroup.com/proof-verification/
-9. A wrong sitemap submission that Google read as HTML was removed by the owner on 6 July 2026, and the correct sitemap.xml entry was resubmitted.
-10. Live verification confirms https://bandeviglobalgroup.com/sitemap.xml returns HTTP 200, application/xml, and valid XML sitemap content.
+9. Wrong page URLs that Google read as HTML sitemap submissions were removed from the Sitemaps report on 6 July 2026, leaving only /sitemap.xml as the successful sitemap row.
+10. Wrong temporary removal requests for priority pages were cancelled on 6 July 2026.
+11. URL Inspection confirmed the Staff Size & Net Worth page is on Google and indexed.
+12. Request indexing was confirmed for https://bandeviglobalgroup.com/external-citation-tracker/
+13. Google temporarily returned a submission problem after the external citation tracker request, so additional URL Inspection requests should be retried later.
+14. Live verification confirms https://bandeviglobalgroup.com/sitemap.xml returns HTTP 200, application/xml, and valid XML sitemap content.
 
 Priority URL Inspection follow-up:
 These URLs should be inspected and request-indexed next when Search Console is available:
@@ -36,7 +40,6 @@ https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
 https://bandeviglobalgroup.com/company-profile/
 https://bandeviglobalgroup.com/directory-listing-profile/
-https://bandeviglobalgroup.com/external-citation-tracker/
 https://bandeviglobalgroup.com/llms.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json

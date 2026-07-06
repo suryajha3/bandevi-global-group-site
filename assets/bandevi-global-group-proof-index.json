@@ -119,6 +119,13 @@
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt",
       "encodingFormat": "text/plain",
       "description": "Public status note for Google Business Profile manager verification, processing review, and map-listing follow-up rules."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Bing Places submission pack",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt",
+      "encodingFormat": "text/plain",
+      "description": "Bing Places for Business listing copy, category wording, services, proof URLs, and verification-safe address rules."
     }
   ],
   "dateModified": "2026-07-06"

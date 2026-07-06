@@ -693,11 +693,12 @@ const citationTrackerCsv = asset("bandevi-global-group-external-citation-tracker
 const directorySubmissionCopy = asset("bandevi-global-group-directory-submission-copy.txt");
 const externalSubmissionStatus = asset("bandevi-global-group-external-submission-status.txt");
 const googleBusinessProfileStatus = asset("bandevi-global-group-google-business-profile-status.txt");
+const bingPlacesSubmissionPack = asset("bandevi-global-group-bing-places-submission-pack.txt");
 
 const externalCitationTargets = [
-  ["Google Search Console", "Search indexing", "https://search.google.com/search-console", "Sitemap successful; homepage and proof page indexing requested", "URL Inspection, sitemap, priority crawl"],
+  ["Google Search Console", "Search indexing", "https://search.google.com/search-console", "Sitemap clean; 52 pages discovered; priority indexing in progress", "URL Inspection, sitemap, priority crawl"],
   ["Google Business Profile", "Search and maps", "https://business.google.com/us/business-profile/", "100% verified in manager; processing review", "Software company, website designer, IT services"],
-  ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Owner verification pending", "Software company, IT services, website designer"],
+  ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Submission pack ready; Microsoft verification pending", "Software company, IT services, website designer"],
   ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Submission reported complete; monitor review", "Custom software development, web development, CRM, ERP"],
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
@@ -1654,6 +1655,7 @@ function externalCitationTrackerPage() {
             <a class="button ghost" href="${directorySubmissionCopy}">Submission Copy Pack</a>
             <a class="button ghost" href="${externalSubmissionStatus}">Submission Status</a>
             <a class="button ghost" href="${googleBusinessProfileStatus}">Google Profile Status</a>
+            <a class="button ghost" href="${bingPlacesSubmissionPack}">Bing Places Pack</a>
             <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
           </div>
@@ -1710,6 +1712,7 @@ function externalCitationTrackerPage() {
             ["Directory Submission Copy", directorySubmissionCopy, "Copy-paste descriptions, categories, services, proof URLs, phone, email, social links, staff size, net worth, and office wording."],
             ["External Submission Status", externalSubmissionStatus, "Working status note for Google/Bing verification, Clutch submission, GoodFirms next action, and proof-link consistency."],
             ["Google Business Profile Status", googleBusinessProfileStatus, "Public status note showing the profile is verified in Business Profile Manager and currently processing review."],
+            ["Bing Places Submission Pack", bingPlacesSubmissionPack, "Microsoft/Bing listing copy, categories, services, proof URLs, address rule, and verification-safe submission wording."],
             ["External Citation Tracker CSV", citationTrackerCsv, "Priority platform list with status, account requirements, categories, proof URLs, and notes for each submission."],
             ["Directory Listing Profile", "/directory-listing-profile/", "Public directory-ready company profile for search engines, AI tools, and external business listings."],
             ["Proof Support Pack", proofSupportPackPdf, "Combined PDF for chairman identity, staff size, net worth, office references, and next formal evidence."],
