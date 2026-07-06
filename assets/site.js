@@ -691,8 +691,8 @@ const externalCitationTargets = [
   ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Owner verification pending", "Software company, IT services, website designer"],
   ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Submission reported complete; monitor review", "Custom software development, web development, CRM, ERP"],
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
-  ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Ready for account submission", "Software development, web development, CRM, ERP"],
-  ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Ready for account submission", "Custom software development, web development, CRM, ERP"],
+  ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
+  ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Next active submission target", "Custom software development, web development, CRM, ERP"],
   ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/providers", "Ready for account submission", "Software development, web development, CRM, ERP"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Ready for account submission", "Software development, app development, web design, technology services"],
   ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandeviglobal-group-38584b419/", "Needs profile update", "IT services and IT consulting, software development"],
@@ -1733,7 +1733,7 @@ function externalCitationTrackerPage() {
           </div>
           <aside class="article-aside">
             <h3>Next live action</h3>
-            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "Monitor Clutch for profile review or onboarding messages.", "Create GoodFirms next using the same profile copy and proof URLs.", "Update LinkedIn, Facebook, Instagram, and X with the proof URL."])}
+            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "Monitor Clutch and GoodFirms for profile review or onboarding messages.", "Create TechBehemoths next using the same profile copy and proof URLs.", "Update LinkedIn, Facebook, Instagram, and X with the proof URL."])}
             <a class="button dark" href="${citationTrackerCsv}">Download Tracker ${icons.arrow}</a>
             <a class="button light" href="${directorySubmissionCopy}">Copy Pack</a>
             <a class="button light" href="${externalSubmissionStatus}">Status Note</a>

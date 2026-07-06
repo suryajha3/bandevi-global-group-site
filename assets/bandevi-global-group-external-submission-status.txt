@@ -19,7 +19,8 @@ Current external submission status:
 1. Google Business Profile - owner verification pending / dashboard follow-up required. Do not change business name, phone, website, category, or first verified address while verification is pending.
 2. Bing Places for Business - owner verification pending / dashboard follow-up required if the listing has been submitted. Keep Bing details aligned with Google and the official website.
 3. Clutch - basic free profile submission reported complete by owner. Monitor Clutch onboarding, review, and profile approval status. Add client-approved reviews and case studies only after public approval.
-4. GoodFirms - next B2B directory target. Use the same company copy, services, proof links, staff size, net worth wording, and official contact details.
+4. GoodFirms - company profile submission reported complete by owner. Monitor GoodFirms review, email verification, and approval status. Keep company facts and proof links unchanged.
+5. TechBehemoths - next B2B directory target. Use the same company copy, services, proof links, staff size, net worth wording, and official contact details.
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
