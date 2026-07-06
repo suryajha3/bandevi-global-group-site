@@ -85,19 +85,19 @@ const proofVerificationItems = [
   ["Official company identity", "BANDEVI GLOBAL GROUP, also searched as Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI.", "Published on the official website and structured company profile."],
   ["Official website", "https://bandeviglobalgroup.com/", "Primary public domain for brand, service, and contact verification."],
   ["Official contact channels", `${contactInfo.phoneDisplay}, ${contactInfo.email}, WhatsApp, and connected social profiles.`, "Published for direct customer verification before project discussions."],
-  ["Chairman", "Mr Surya Kant Jha", "Published leadership detail for company-profile, directory, and public proof consistency."],
-  ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company.", "Priority figure published publicly. HR, team, payroll, partner, or company-profile support can be attached when public."],
-  ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure.", "Priority figure published publicly. CA, audited, valuation, or board-approved proof can be attached when public."],
-  ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States.", "Published location table with address-level references for visitor and search verification."],
+  ["Chairman", "Mr Surya Kant Jha", "Published leadership detail with a public chairman and company identity note for company-profile, directory, and proof consistency."],
+  ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company.", "Priority figure published publicly with a staff confirmation note. HR, team, payroll, partner, or company-profile support can be attached when public."],
+  ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure.", "Priority figure published publicly with a net worth and group strength note. CA, audited, valuation, or board-approved proof can be attached when public."],
+  ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States.", "Published location table and office verification sheet with address-level references for visitor and search verification."],
   ["Sister-brand separation", "BANDEVI is the IT and software company. THG is referenced only as separate sister-brand operating context.", "Published separation note reduces confusion between group ecosystem signals and company-specific claims."],
   ["Project proof", "Scope notes, proposals, handover records, access lists, and support history can support client work.", "Use case studies, testimonials, launch records, or client-approved proof when ready for public display."]
 ];
 
 const proofDocumentChecklist = [
-  ["Staff proof pack", "Team register, HR summary, payroll certificate, partner network note, or board-approved staff declaration."],
-  ["Net worth proof pack", "CA certificate, audited statement, valuation note, asset summary, or board-approved net worth declaration."],
-  ["Office proof pack", "Office photos, lease or service-office confirmation, Google Business Profile links, map links, or location-specific contact proof."],
-  ["Company identity pack", "Registration, GST, MSME, incorporation, PAN, trademark, or formal company-profile PDF where applicable."],
+  ["Staff proof pack", "Public staff confirmation note is now available. Team register, HR summary, payroll certificate, partner network note, or board-approved staff declaration can be attached when approved."],
+  ["Net worth proof pack", "Public net worth and group strength note is now available. CA certificate, audited statement, valuation note, asset summary, or board-approved net worth declaration can be attached when approved."],
+  ["Office proof pack", "Public office verification sheet is now available. Office photos, lease or service-office confirmation, Google Business Profile links, map links, or location-specific contact proof can be attached when approved."],
+  ["Company identity pack", "Public chairman and company identity note is now available. Registration, GST, MSME, incorporation, PAN, trademark, or formal company-profile PDF can be attached where applicable."],
   ["Project credibility pack", "Client approvals, signed case studies, testimonials, project launch screenshots, support records, and delivery certificates."],
   ["Sister-brand context pack", "Separate THG proof documents only where used as group ecosystem context, not as BANDEVI licence claims."]
 ];
@@ -136,14 +136,14 @@ const staffWorthFacts = [
   ["Staff size", "1,289 staff worldwide as currently provided by the company."],
   ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure."],
   ["Office network", "10 listed office and service-location references across India, Dubai, London, and the United States."],
-  ["Public proof document", "Official company profile PDF linked from this website and the sitemap."],
+  ["Public proof documents", "Official company profile PDF, public proof support pack, staff confirmation note, and net worth note linked from this website and the sitemap."],
   ["Official verification", "Use bandeviglobalgroup.com, +91 8287669022, and sales@bandeviglobalgroup.com for confirmation."]
 ];
 
 const staffWorthProofSteps = [
-  ["Staff confirmation", "HR summary, staff declaration, payroll certificate, partner ecosystem note, or board-approved proof where public sharing is allowed."],
-  ["Net worth support", "CA certificate, audited statement, valuation note, asset summary, or board-approved net worth declaration where public sharing is allowed."],
-  ["Office support", "Office photos, service-office confirmations, map links, Google Business Profile links, or location-specific contact proof."],
+  ["Staff confirmation", "Public staff confirmation note is now available. HR summary, staff declaration, payroll certificate, partner ecosystem note, or board-approved proof can be added when public sharing is allowed."],
+  ["Net worth support", "Public net worth and group strength note is now available. CA certificate, audited statement, valuation note, asset summary, or board-approved net worth declaration can be added when public sharing is allowed."],
+  ["Office support", "Public office verification sheet is now available. Office photos, service-office confirmations, map links, Google Business Profile links, or location-specific contact proof can be added next."],
   ["Company profile", "Keep the PDF, website profile, proof page, and office page aligned with the same staff and net worth figures."],
   ["External consistency", "Use the same company name, phone, website, and official contact details across social profiles, directories, and proposals."],
   ["Public updates", "If staff size or net worth changes, update this page, the proof page, the PDF, sitemap, and Search Console together."]
@@ -672,6 +672,15 @@ const homeFaqs = [
 const productImage = asset("travel-platform-dashboard.png");
 const heroImage = asset("travel-operations-hero.png");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
+const proofSupportPackPdf = asset("bandevi-global-group-public-proof-support-pack.pdf");
+
+const proofSupportFiles = [
+  ["Staff Confirmation Note", asset("bandevi-global-group-staff-confirmation-note.txt"), "Company-published public note for 1,289 staff worldwide and staff-size wording consistency."],
+  ["Net Worth & Group Strength Note", asset("bandevi-global-group-net-worth-group-strength-note.txt"), "Company-published public note for INR 7,594 Cr net worth and group-strength wording consistency."],
+  ["Office Verification Sheet", asset("bandevi-global-group-office-verification-sheet.txt"), "Address-level office and service-location sheet for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States references."],
+  ["Chairman & Company Identity Note", asset("bandevi-global-group-chairman-company-identity-note.txt"), "Public identity note for BANDEVI GLOBAL GROUP, Chairman Mr Surya Kant Jha, official contact details, and company category consistency."],
+  ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."]
+];
 
 const pageData = {
   home: {
@@ -1390,6 +1399,7 @@ function companyProfilePage() {
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof & Verification</a>
             <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
+            <a class="button ghost" href="${proofSupportPackPdf}">Proof Support Pack</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button ghost" href="/offices/">Offices</a>
           </div>
@@ -1463,12 +1473,13 @@ function companyProfilePage() {
           </div>
           <aside class="article-aside">
             <h3>Official verification</h3>
-            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF for staff size, net worth, offices, and proof notes.", "Use the Directory Listing Profile for external directory submissions."])}
+            ${list(["Use bandeviglobalgroup.com as the official domain.", "Use sales@bandeviglobalgroup.com for company enquiries.", "Use +91 8287669022 for phone or WhatsApp contact.", "Use the company profile PDF and public proof support pack for staff size, net worth, offices, and proof notes.", "Use the Directory Listing Profile for external directory submissions."])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
             <a class="button light" href="/it-company-software-development-services/">IT Services</a>
             <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
             <a class="button light" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button light" href="${companyProfilePdf}">Open PDF</a>
+            <a class="button light" href="${proofSupportPackPdf}">Proof Support Pack</a>
           </aside>
         </div>
       </div>
@@ -1687,6 +1698,24 @@ function proofVerificationPage() {
     <section class="section">
       <div class="container">
         <div class="section-head">
+          <span class="eyebrow">Public support files</span>
+          <h2>Downloadable proof-support notes now published.</h2>
+          <p>These company-published notes give Google, directories, partners, and visitors consistent public references for staff size, net worth, offices, chairman identity, and next formal proof.</p>
+        </div>
+        <div class="grid cols-3">
+          ${proofSupportFiles.map(([title, href, text]) => `
+            <article class="card">
+              <h3>${title}</h3>
+              <p>${text}</p>
+              <a class="button light" href="${href}">Open file ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
           <span class="eyebrow">Verification FAQ</span>
           <h2>Answers for staff size, net worth, offices, and next proof.</h2>
           <p>These answers keep the main public proof language consistent across BANDEVI pages and future Google indexing.</p>
@@ -1853,6 +1882,7 @@ function staffWorthPage() {
             <a class="button primary" href="${companyProfilePdf}">Open Company Profile PDF ${icons.arrow}</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
             <a class="button ghost" href="/offices/">Offices</a>
+            <a class="button ghost" href="${proofSupportPackPdf}">Proof Support Pack</a>
           </div>
         </div>
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI staff size and net worth verification"></div>
@@ -1905,6 +1935,28 @@ function staffWorthPage() {
     <section class="section mist">
       <div class="container">
         <div class="section-head">
+          <span class="eyebrow">Support notes</span>
+          <h2>Staff and net worth proof-support files.</h2>
+          <p>Use these public files as the current company-published support layer for the 1,289 staff and INR 7,594 Cr figures.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            proofSupportFiles[0],
+            proofSupportFiles[1],
+            proofSupportFiles[4]
+          ].map(([title, href, text]) => `
+            <article class="card">
+              <h3>${title}</h3>
+              <p>${text}</p>
+              <a class="button light" href="${href}">Open file ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
           <span class="eyebrow">Staff and net worth FAQ</span>
           <h2>Answers for staff size, net worth, proof, and verification.</h2>
           <p>These answers are written for exact-search visibility while keeping the claim language careful and consistent.</p>
@@ -1920,9 +1972,10 @@ function staffWorthPage() {
           </div>
           <aside class="article-aside">
             <h3>Verification links</h3>
-            ${list(["Company Profile: /company-profile/", "Proof & Verification: /proof-verification/", "Offices & Locations: /offices/", "Company Profile PDF: /assets/bandevi-global-group-company-profile.pdf"])}
+            ${list(["Company Profile: /company-profile/", "Proof & Verification: /proof-verification/", "Offices & Locations: /offices/", "Company Profile PDF: /assets/bandevi-global-group-company-profile.pdf", "Staff Confirmation Note: /assets/bandevi-global-group-staff-confirmation-note.txt", "Net Worth Note: /assets/bandevi-global-group-net-worth-group-strength-note.txt"])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
             <a class="button light" href="${companyProfilePdf}">Open PDF</a>
+            <a class="button light" href="${proofSupportPackPdf}">Proof Support Pack</a>
           </aside>
         </div>
       </div>
@@ -1945,6 +1998,7 @@ function officesPage() {
             <a class="button primary" href="/contact-us/">Contact Office Desk ${icons.arrow}</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
+            <a class="button ghost" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Office Verification Sheet</a>
           </div>
         </div>
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI GLOBAL GROUP offices and service locations"></div>
@@ -1991,6 +2045,7 @@ function officesPage() {
         </div>
         <div class="grid cols-3">
           ${[
+            { title: "Public office sheet", text: "The office verification sheet is now published with all 10 office and service-location references." },
             { title: "Location photos", text: "Add office entrance, reception, workspace, team, or service-office photos where approved for public use." },
             { title: "Map and profile links", text: "Add Google Business Profile links, map pins, or location pages after the listings are verified and ready." },
             { title: "Official confirmations", text: "Add lease, service-office, registration, or location-specific contact proof where public sharing is allowed." },
@@ -1998,6 +2053,10 @@ function officesPage() {
             { title: "Local landing pages", text: "Create city pages later only for offices where proof, photos, services, and local content are strong enough." },
             { title: "Consistent wording", text: "Use office and service-location references consistently so no city page overstates company-specific proof." }
           ].map((item) => `<article class="card"><h3>${item.title}</h3><p>${item.text}</p></article>`).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Open Office Verification Sheet ${icons.arrow}</a>
+          <a class="button ghost" href="${proofSupportPackPdf}">Open Proof Support Pack</a>
         </div>
       </div>
     </section>
@@ -2019,9 +2078,10 @@ function officesPage() {
           </div>
           <aside class="article-aside">
             <h3>Official office contact</h3>
-            ${list(["Phone and WhatsApp: +91 8287669022", "Email: sales@bandeviglobalgroup.com", "Website: bandeviglobalgroup.com", "Use the proof page for staff size, net worth, offices, and documentation status."])}
+            ${list(["Phone and WhatsApp: +91 8287669022", "Email: sales@bandeviglobalgroup.com", "Website: bandeviglobalgroup.com", "Use the proof page for staff size, net worth, offices, and documentation status.", "Office Verification Sheet: /assets/bandevi-global-group-office-verification-sheet.txt"])}
             <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
             <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+            <a class="button light" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Office Sheet</a>
           </aside>
         </div>
       </div>
@@ -5127,6 +5187,7 @@ function footer() {
             <li><a href="/about-us/">About Us</a></li>
             <li><a href="/company-profile/">Company Profile</a></li>
             <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
+            <li><a href="${proofSupportPackPdf}">Proof Support Pack</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
             <li><a href="/directory-listing-profile/">Directory Listing Profile</a></li>
             <li><a href="/staff-size-net-worth/">Staff Size & Net Worth</a></li>
