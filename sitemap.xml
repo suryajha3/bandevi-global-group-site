@@ -37,10 +37,28 @@
     <priority>0.90</priority>
   </url>
   <url>
+    <loc>https://bandeviglobalgroup.com/external-citation-tracker/</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-directory-listing-pack.txt</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-external-citation-tracker.csv</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-directory-submission-copy.txt</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf</loc>

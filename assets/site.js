@@ -682,6 +682,24 @@ const proofSupportFiles = [
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."]
 ];
 
+const citationTrackerCsv = asset("bandevi-global-group-external-citation-tracker.csv");
+const directorySubmissionCopy = asset("bandevi-global-group-directory-submission-copy.txt");
+
+const externalCitationTargets = [
+  ["Google Business Profile", "Search and maps", "https://business.google.com/us/business-profile/", "Ready for owner login and verification", "Software company, website designer, IT services"],
+  ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Ready for owner login and verification", "Software company, IT services, website designer"],
+  ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Ready for account submission", "Custom software development, web development, CRM, ERP"],
+  ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
+  ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Ready for account submission", "Software development, web development, CRM, ERP"],
+  ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Ready for account submission", "Custom software development, web development, CRM, ERP"],
+  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/providers", "Ready for account submission", "Software development, web development, CRM, ERP"],
+  ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Ready for account submission", "Software development, app development, web design, technology services"],
+  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandeviglobal-group-38584b419/", "Needs profile update", "IT services and IT consulting, software development"],
+  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Needs profile update", "Software company, information technology company"],
+  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Needs profile update", "Software company, IT services"],
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Needs profile update", "IT company, software development"]
+];
+
 const pageData = {
   home: {
     title: "BANDEVI GLOBAL GROUP",
@@ -708,6 +726,11 @@ const pageData = {
     title: "Directory Listing Profile",
     eyebrow: "Directory and AI citation pack",
     lede: "Directory-ready BANDEVI GLOBAL GROUP profile for business listings, AI citations, staff size, net worth, offices, proof links, official phone, email, website, CRM, ERP, IT products, and software development services."
+  },
+  externalCitations: {
+    title: "External Citation Tracker",
+    eyebrow: "Directory submission tracker",
+    lede: "Priority external citation tracker for BANDEVI GLOBAL GROUP directory submissions, social profile updates, map listings, proof links, staff size, net worth, offices, and chairman identity consistency."
   },
   staffWorth: {
     title: "Staff Size & Net Worth",
@@ -1503,6 +1526,7 @@ function directoryProfilePage() {
           <div class="inline-actions">
             <a class="button primary" href="/proof-verification/">Verify Proof ${icons.arrow}</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
+            <a class="button ghost" href="/external-citation-tracker/">Citation Tracker</a>
             <a class="button ghost" href="/contact-us/">Contact</a>
           </div>
         </div>
@@ -1597,7 +1621,117 @@ function directoryProfilePage() {
             <h3>Submission status</h3>
             ${list(["Website-controlled profile is ready.", "External directories may require login, OTP, owner approval, or manual verification.", "Keep every listing aligned with official phone, email, website, proof pages, and company PDF."])}
             <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/external-citation-tracker/">Citation Tracker</a>
             <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function externalCitationTrackerPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">External citations</span>
+          <h2>Directory submission tracker for BANDEVI GLOBAL GROUP.</h2>
+          <p class="muted">This tracker keeps outside profiles aligned with the official BANDEVI website, chairman identity, staff size, net worth, offices, proof files, and contact details.</p>
+          ${list(["Official company: BANDEVI GLOBAL GROUP", "Chairman: Mr Surya Kant Jha", "Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Office references: 10 listed office and service-location references", "Primary contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
+          <div class="inline-actions">
+            <a class="button primary" href="${citationTrackerCsv}">Download Tracker CSV ${icons.arrow}</a>
+            <a class="button ghost" href="${directorySubmissionCopy}">Submission Copy Pack</a>
+            <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
+            <a class="button ghost" href="/proof-verification/">Proof Page</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI external citation tracker and directory submission pack"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Submission priority</span>
+          <h2>Start with the platforms that can reinforce search and AI trust.</h2>
+          <p>Most external profiles require account access, OTP, owner approval, profile review, or location verification. The website-controlled files are ready now; the next work is logging into each platform and submitting the same details.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>12</strong><p>Priority external citation targets prepared for map, B2B directory, and social profile consistency.</p></article>
+          <article class="card metric-card"><strong>Ready</strong><p>Company copy, proof links, PDF, staff note, net worth note, office sheet, and identity note are ready to attach.</p></article>
+          <article class="card metric-card"><strong>Same data</strong><p>Every listing should repeat the same name, chairman, phone, email, website, staff size, net worth, and proof links.</p></article>
+          <article class="card metric-card"><strong>Manual</strong><p>Google, Bing, B2B directories, and social profiles need owner login or verification before final submission.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Tracker table</span>
+          <h2>Priority directory and profile targets.</h2>
+          <p>Use this table as the working order for external trust building. The CSV has the fuller submission notes, proof URLs, and status columns.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Platform</th><th>Type</th><th>Status</th><th>Recommended category</th></tr></thead>
+            <tbody>
+              ${externalCitationTargets.map(([name, type, href, status, category]) => `<tr><td><a href="${href}" target="_blank" rel="noopener noreferrer">${name}</a></td><td>${type}</td><td>${status}</td><td>${category}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="${citationTrackerCsv}">Open Full Tracker CSV ${icons.arrow}</a>
+          <a class="button ghost" href="${directorySubmissionCopy}">Open Copy Pack</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Copy and proof assets</span>
+          <h2>Use these files while creating external profiles.</h2>
+          <p>These files keep staff size, net worth, offices, chairman identity, and proof links consistent across every directory submission.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            ["Directory Submission Copy", directorySubmissionCopy, "Copy-paste descriptions, categories, services, proof URLs, phone, email, social links, staff size, net worth, and office wording."],
+            ["External Citation Tracker CSV", citationTrackerCsv, "Priority platform list with status, account requirements, categories, proof URLs, and notes for each submission."],
+            ["Directory Listing Profile", "/directory-listing-profile/", "Public directory-ready company profile for search engines, AI tools, and external business listings."],
+            ["Proof Support Pack", proofSupportPackPdf, "Combined PDF for chairman identity, staff size, net worth, office references, and next formal evidence."],
+            ["Company Profile PDF", companyProfilePdf, "Downloadable company profile covering services, staff, net worth, offices, and official contact details."],
+            ["Proof & Verification", "/proof-verification/", "Public proof page for staff size, net worth, offices, contact details, and proof status."]
+          ].map(([title, href, text]) => `
+            <article class="card">
+              <h3>${title}</h3>
+              <p>${text}</p>
+              <a class="button light" href="${href}">Open ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Submission rule</h3>
+              <p>Do not change BANDEVI's official company name, chairman name, phone, email, website, staff size, net worth, or office wording between platforms. Consistency is the trust signal.</p>
+            </article>
+            <article class="article-block">
+              <h3>Location rule</h3>
+              <p>For Google Business Profile, Bing Places, and map-style platforms, publish only locations that can pass that platform's verification rules. Use the offices page and office verification sheet as public support.</p>
+            </article>
+            <article class="article-block">
+              <h3>Review rule</h3>
+              <p>For Clutch, GoodFirms, TechBehemoths, Sortlist, DesignRush, and The Manifest, add client-approved reviews, portfolio items, case studies, and project proof only after approval for public sharing.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Next live action</h3>
+            ${list(["Login to Google Business Profile and verify eligible locations.", "Login to Bing Places and mirror the verified map data.", "Create or update Clutch and GoodFirms first for B2B trust.", "Update LinkedIn, Facebook, Instagram, and X with the proof URL."])}
+            <a class="button dark" href="${citationTrackerCsv}">Download Tracker ${icons.arrow}</a>
+            <a class="button light" href="${directorySubmissionCopy}">Copy Pack</a>
           </aside>
         </div>
       </div>
@@ -5190,6 +5324,7 @@ function footer() {
             <li><a href="${proofSupportPackPdf}">Proof Support Pack</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
             <li><a href="/directory-listing-profile/">Directory Listing Profile</a></li>
+            <li><a href="/external-citation-tracker/">External Citation Tracker</a></li>
             <li><a href="/staff-size-net-worth/">Staff Size & Net Worth</a></li>
             <li><a href="/offices/">Offices & Locations</a></li>
             <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
@@ -5224,6 +5359,7 @@ const pageRenderers = {
   profile: companyProfilePage,
   proof: proofVerificationPage,
   directoryProfile: directoryProfilePage,
+  externalCitations: externalCitationTrackerPage,
   staffWorth: staffWorthPage,
   itCompanyServices: itCompanyServicesPage,
   offices: officesPage,
