@@ -105,6 +105,13 @@
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-external-submission-status.txt",
       "encodingFormat": "text/plain",
       "description": "Public status note for external directory, proof, and citation submissions."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Google Search Console indexing status",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt",
+      "encodingFormat": "text/plain",
+      "description": "Public status note for sitemap submission, URL Inspection, confirmed indexing requests, and priority Google indexing follow-up URLs."
     }
   ],
   "dateModified": "2026-07-06"

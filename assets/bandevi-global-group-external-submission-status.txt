@@ -15,6 +15,9 @@ Staff size: 1,289 staff worldwide
 Net worth / group strength: INR 7,594 Cr
 Office references: 10 listed office and service-location references across India, Dubai, London, and the United States.
 
+Google Search Console status:
+URL-prefix property https://bandeviglobalgroup.com/ is accessible. Sitemap https://bandeviglobalgroup.com/sitemap.xml was submitted and reported successful on 6 July 2026 with 46 discovered pages. URL Inspection confirmed the homepage and Proof & Verification page are on Google, and request indexing was confirmed for both URLs. Domain property bandeviglobalgroup.com still requires separate ownership/access follow-up. Remaining priority URL Inspection requests: Staff Size & Net Worth, Offices, Company Profile, Directory Listing Profile, External Citation Tracker, LLMs text, Official Facts JSON, Proof Index JSON, and Google Indexing Status note.
+
 Current external submission status:
 1. Google Business Profile - owner verification pending / dashboard follow-up required. Do not change business name, phone, website, category, or first verified address while verification is pending.
 2. Bing Places for Business - owner verification pending / dashboard follow-up required if the listing has been submitted. Keep Bing details aligned with Google and the official website.

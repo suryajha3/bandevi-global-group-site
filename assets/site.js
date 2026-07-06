@@ -684,6 +684,7 @@ const proofSupportFiles = [
   ["Chairman & Company Identity Note", asset("bandevi-global-group-chairman-company-identity-note.txt"), "Public identity note for BANDEVI GLOBAL GROUP, Chairman Mr Surya Kant Jha, official contact details, and company category consistency."],
   ["Official Facts JSON", officialFactsJson, "Machine-readable official facts for staff size, net worth, offices, chairman, contact, services, proof URLs, and structured search consistency."],
   ["Proof Index JSON", proofIndexJson, "Machine-readable catalog of all public proof files, official facts, PDFs, citation tracker, and submission status references."],
+  ["Google Indexing Status", asset("bandevi-global-group-google-indexing-status.txt"), "Public Search Console status note for sitemap success, confirmed indexing requests, and next priority URL Inspection follow-up."],
   ["LLMs Text Summary", llmsTxt, "Crawler-friendly official facts file for AI assistants and search systems to identify the correct BANDEVI staff, net worth, office, and proof facts."],
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."]
 ];
@@ -693,6 +694,7 @@ const directorySubmissionCopy = asset("bandevi-global-group-directory-submission
 const externalSubmissionStatus = asset("bandevi-global-group-external-submission-status.txt");
 
 const externalCitationTargets = [
+  ["Google Search Console", "Search indexing", "https://search.google.com/search-console", "Sitemap successful; homepage and proof page indexing requested", "URL Inspection, sitemap, priority crawl"],
   ["Google Business Profile", "Search and maps", "https://business.google.com/us/business-profile/", "Owner verification pending", "Software company, website designer, IT services"],
   ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Owner verification pending", "Software company, IT services, website designer"],
   ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Submission reported complete; monitor review", "Custom software development, web development, CRM, ERP"],
