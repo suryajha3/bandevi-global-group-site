@@ -28,7 +28,7 @@ Current external submission status:
 7. LinkedIn - profile updated on 6 July 2026. Name/headline, About section, current BANDEVI experience, staff size, net worth, offices, proof URLs, and contact facts were added or corrected. Monitor LinkedIn public cache.
 8. Facebook - bio updated on 6 July 2026 with IT/software services. Phone and website were already visible. Category was corrected from Service station to Software company on 7 July 2026.
 9. Instagram - bio updated on 6 July 2026 with services, Chairman Mr Surya Kant Jha, 1,289 staff worldwide, INR 7,594 Cr, and website text. Website link was completed from the Instagram mobile app on 7 July 2026.
-10. X - profile update blocked on 6 July 2026 because X stayed on the loading/splash screen and did not expose logged-in profile controls. Retried on 7 July 2026; stable profile editor controls were still not available, so X remains pending until it loads normally with logged-in access.
+10. X - profile update blocked on 6 July 2026 because X stayed on the loading/splash screen and did not expose logged-in profile controls. Retried again on 7 July 2026; the X page/editor still did not load stably enough for a profile update, so X remains pending until it loads normally with logged-in access.
 11. DesignRush - profile information submitted on 7 July 2026 for software development, app development, web design, web development, technology services, CRM, ERP, automation, and directory proof consistency. DesignRush confirmed receipt and said its team will notify the company after review. Public profile approval and profile URL are pending.
 
 Priority proof URLs:
