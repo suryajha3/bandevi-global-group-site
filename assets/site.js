@@ -675,6 +675,8 @@ const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
 const proofSupportPackPdf = asset("bandevi-global-group-public-proof-support-pack.pdf");
 const officialFactsJson = asset("bandevi-global-group-official-facts.json");
 const proofIndexJson = asset("bandevi-global-group-proof-index.json");
+const evidenceRegisterTxt = asset("bandevi-global-group-evidence-register.txt");
+const evidenceRegisterJson = asset("bandevi-global-group-evidence-register.json");
 const llmsTxt = "/llms.txt";
 
 const proofSupportFiles = [
@@ -684,6 +686,8 @@ const proofSupportFiles = [
   ["Chairman & Company Identity Note", asset("bandevi-global-group-chairman-company-identity-note.txt"), "Public identity note for BANDEVI GLOBAL GROUP, Chairman Mr Surya Kant Jha, official contact details, and company category consistency."],
   ["Official Facts JSON", officialFactsJson, "Machine-readable official facts for staff size, net worth, offices, chairman, contact, services, proof URLs, and structured search consistency."],
   ["Proof Index JSON", proofIndexJson, "Machine-readable catalog of all public proof files, official facts, PDFs, citation tracker, and submission status references."],
+  ["Evidence Register", evidenceRegisterTxt, "Reviewer-friendly proof-status register for staff size, net worth, offices, chairman identity, and next formal evidence requirements."],
+  ["Evidence Register JSON", evidenceRegisterJson, "Machine-readable proof-status register for search, AI assistants, directories, and verification reviewers."],
   ["Google Indexing Status", asset("bandevi-global-group-google-indexing-status.txt"), "Public Search Console status note for sitemap success, confirmed indexing requests, and next priority URL Inspection follow-up."],
   ["LLMs Text Summary", llmsTxt, "Crawler-friendly official facts file for AI assistants and search systems to identify the correct BANDEVI staff, net worth, office, and proof facts."],
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."],
@@ -725,6 +729,14 @@ const socialProofPostTemplates = [
   ["Pinned profile note", "This is the official BANDEVI GLOBAL GROUP profile. Website: https://bandeviglobalgroup.com/. Proof: https://bandeviglobalgroup.com/proof-verification/. Chairman: Mr Surya Kant Jha. Company-provided staff size: 1,289 worldwide. Company-provided net worth / group strength: INR 7,594 Cr."]
 ];
 
+const evidenceRegisterItems = [
+  ["Staff size", "1,289 staff worldwide", "Company-published public statement", "HR headcount certificate, payroll summary, board-approved staff confirmation, or department breakdown approved for public use."],
+  ["Net worth / group strength", "INR 7,594 Cr", "Company-published public statement", "CA certificate, audited statement, valuation note, board resolution, or finance-approved proof extract."],
+  ["Offices / service locations", "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, United States", "Company-published office verification sheet", "Google/Bing map links, office photos, signage photos, lease or service-office confirmation, and location-specific contact proof."],
+  ["Chairman identity", "Mr Surya Kant Jha", "Company-published identity note", "Public letterhead confirmation, director/chairman profile proof, registration excerpt, or board document approved for public sharing."],
+  ["External citations", "Directory, map, and social proof in progress", "External citation tracker and social proof pack", "Live approved profiles from Google, Bing, Clutch, GoodFirms, TechBehemoths, Sortlist, DesignRush, LinkedIn, Facebook, Instagram, and X."]
+];
+
 const pageData = {
   home: {
     title: "BANDEVI GLOBAL GROUP",
@@ -761,6 +773,11 @@ const pageData = {
     title: "Social Proof Post Pack",
     eyebrow: "Proof posts",
     lede: "Reusable BANDEVI GLOBAL GROUP proof post copy, proof-card asset, and structured public proof pack for Facebook, Instagram, LinkedIn, X, directory reviewers, and search/AI citation consistency."
+  },
+  evidenceRegister: {
+    title: "Evidence Register",
+    eyebrow: "Proof status register",
+    lede: "Reviewer-friendly BANDEVI GLOBAL GROUP evidence register separating current company-published proof from the stronger formal evidence still needed for staff size, net worth, offices, chairman identity, and external citations."
   },
   staffWorth: {
     title: "Staff Size & Net Worth",
@@ -1883,6 +1900,109 @@ function socialProofPostsPage() {
   `;
 }
 
+function evidenceRegisterPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Evidence register</span>
+          <h2>Proof status for staff size, net worth, offices, chairman identity, and citations.</h2>
+          <p class="muted">This register is built for directory reviewers, search engines, AI assistants, partners, and visitors who need to understand exactly what is already published and what stronger formal evidence can be attached later.</p>
+          <p class="muted">It keeps BANDEVI GLOBAL GROUP's proof language strong but careful: staff size and net worth/group strength remain company-provided unless a separate formal document is public.</p>
+          ${list(["Company: BANDEVI GLOBAL GROUP", "Chairman: Mr Surya Kant Jha", "Staff size: 1,289 worldwide as company-provided information", "Net worth / group strength: INR 7,594 Cr as company-provided information", "Office references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, United States"])}
+          <div class="inline-actions">
+            <a class="button primary" href="${evidenceRegisterTxt}">Open Evidence Register ${icons.arrow}</a>
+            <a class="button ghost" href="${evidenceRegisterJson}">Open JSON</a>
+            <a class="button ghost" href="/proof-verification/">Proof Page</a>
+            <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${productImage}" alt="BANDEVI GLOBAL GROUP evidence register"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Priority facts</span>
+          <h2>The facts we are protecting first.</h2>
+          <p>These facts are now repeated through the company profile, proof page, staff page, offices page, proof index, LLMs file, social proof pack, and evidence register.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>1,289</strong><p>Staff worldwide, company-provided.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Net worth / group strength, company-provided.</p></article>
+          <article class="card metric-card"><strong>10</strong><p>Listed office and service-location references.</p></article>
+          <article class="card metric-card"><strong>5</strong><p>Evidence categories tracked for review.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Evidence table</span>
+          <h2>Published support and next formal proof.</h2>
+          <p>This table avoids unsupported claims while still giving reviewers a clear roadmap for verification.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Evidence item</th><th>Public detail</th><th>Current support</th><th>Stronger formal evidence to add</th></tr></thead>
+            <tbody>
+              ${evidenceRegisterItems.map(([item, detail, support, next]) => `<tr><td>${item}</td><td>${detail}</td><td>${support}</td><td>${next}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Current proof trail</span>
+          <h2>Official links connected to the evidence register.</h2>
+          <p>These pages and files form the public proof trail for staff size, net worth, offices, chairman identity, profile consistency, and search discovery.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            ["Proof & Verification", "/proof-verification/", "Primary proof hub for official identity, staff size, net worth, offices, and public proof notes."],
+            ["Staff Size & Net Worth", "/staff-size-net-worth/", "Dedicated page for 1,289 staff worldwide and INR 7,594 Cr company-provided group strength."],
+            ["Offices & Locations", "/offices/", "Office and service-location references across India, Dubai, London, and the United States."],
+            ["Company Profile", "/company-profile/", "Official profile page with chairman, services, company details, contact channels, and proof links."],
+            ["Proof Index JSON", proofIndexJson, "Machine-readable proof catalog for crawlers, AI systems, and reviewers."],
+            ["Social Proof Posts", "/social-proof-posts/", "Reusable proof post copy and proof-card asset for social profiles and directory updates."]
+          ].map(([title, href, text]) => `
+            <article class="card">
+              <h3>${title}</h3>
+              <p>${text}</p>
+              <a class="button light" href="${href}">Open ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Wording rule</h3>
+              <p>Use company-provided wording for staff size, net worth, and group strength until a separate HR, CA, audited, registration, or board-approved proof file is attached publicly.</p>
+            </article>
+            <article class="article-block">
+              <h3>Next strongest proof</h3>
+              <p>The strongest next evidence will be HR confirmation for staff size, CA or finance-approved proof for INR 7,594 Cr, and map/photo/service-office proof for each listed location.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Download register</h3>
+            ${list(["Evidence Register TXT", "Evidence Register JSON", "Proof Index JSON", "Company Profile PDF", "Public Proof Support Pack"])}
+            <a class="button dark" href="${evidenceRegisterTxt}">Open Text Register ${icons.arrow}</a>
+            <a class="button light" href="${evidenceRegisterJson}">Open JSON</a>
+            <a class="button light" href="${proofSupportPackPdf}">Proof Support Pack</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function proofVerificationPage() {
   return `
     <section class="section">
@@ -1897,6 +2017,7 @@ function proofVerificationPage() {
             <a class="button primary" href="/company-profile/">Company Profile ${icons.arrow}</a>
             <a class="button ghost" href="/it-company-software-development-services/">IT Services</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button ghost" href="/evidence-register/">Evidence Register</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button ghost" href="/contact-us/">Verify Contact</a>
@@ -5467,6 +5588,7 @@ function footer() {
             <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
             <li><a href="${proofSupportPackPdf}">Proof Support Pack</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
+            <li><a href="/evidence-register/">Evidence Register</a></li>
             <li><a href="/directory-listing-profile/">Directory Listing Profile</a></li>
             <li><a href="/external-citation-tracker/">External Citation Tracker</a></li>
             <li><a href="/staff-size-net-worth/">Staff Size & Net Worth</a></li>
@@ -5505,6 +5627,7 @@ const pageRenderers = {
   directoryProfile: directoryProfilePage,
   externalCitations: externalCitationTrackerPage,
   socialProof: socialProofPostsPage,
+  evidenceRegister: evidenceRegisterPage,
   staffWorth: staffWorthPage,
   itCompanyServices: itCompanyServicesPage,
   offices: officesPage,

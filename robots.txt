@@ -16,3 +16,6 @@ Sitemap: https://bandeviglobalgroup.com/sitemap.xml
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg
+# https://bandeviglobalgroup.com/evidence-register/
+# https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
+# https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json

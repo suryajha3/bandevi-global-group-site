@@ -150,6 +150,20 @@
     },
     {
       "@type": "Dataset",
+      "name": "Evidence register",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt",
+      "encodingFormat": "text/plain",
+      "description": "Company-published public evidence register separating current proof support from stronger formal evidence needed for staff size, net worth, offices, chairman identity, and citations."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Evidence register structured JSON",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json",
+      "encodingFormat": "application/ld+json",
+      "description": "Machine-readable evidence register for staff size, net worth/group strength, offices, chairman identity, current support, and next formal evidence requirements."
+    },
+    {
+      "@type": "Dataset",
       "name": "Social proof structured JSON",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
       "encodingFormat": "application/ld+json",

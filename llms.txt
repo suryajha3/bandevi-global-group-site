@@ -61,6 +61,9 @@ BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce s
 - Social proof text pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt
 - Social proof structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json
 - Social proof card: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg
+- Evidence register: https://bandeviglobalgroup.com/evidence-register/
+- Evidence register text: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
+- Evidence register structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json
 
 ## Important Consistency Rule
 
