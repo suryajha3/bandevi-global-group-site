@@ -707,7 +707,7 @@ const externalCitationTargets = [
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
   ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; monitor public cache", "IT services and IT consulting, software development"],
   ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected to Software company; bio, phone and website visible", "Software company, information technology company"],
-  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; desktop link edit blocked; mobile link pending", "Software company, IT services"],
+  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; website link completed from mobile app", "Software company, IT services"],
   ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Retry blocked; profile editor not available", "IT company, software development"]
 ];
 
