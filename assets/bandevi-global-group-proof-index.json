@@ -133,6 +133,13 @@
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt",
       "encodingFormat": "text/plain",
       "description": "Public status note for Bing Places login completion, wait / verification stage, and map-listing expansion rules."
+    },
+    {
+      "@type": "Dataset",
+      "name": "DesignRush submission pack",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt",
+      "encodingFormat": "text/plain",
+      "description": "DesignRush directory submission copy, category wording, services, proof URLs, and public portfolio-use rules."
     }
   ],
   "dateModified": "2026-07-07"

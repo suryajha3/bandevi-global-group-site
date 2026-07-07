@@ -29,6 +29,7 @@ Current external submission status:
 8. Facebook - bio updated on 6 July 2026 with IT/software services. Phone and website were already visible. Category still needs follow-up because Facebook did not accept the category widget change in this session.
 9. Instagram - bio updated on 6 July 2026 with services, Chairman Mr Surya Kant Jha, 1,289 staff worldwide, INR 7,594 Cr, and website text. Separate website link edit is blocked on desktop; Instagram requires the mobile app for link editing.
 10. X - profile update blocked on 6 July 2026 because X stayed on the loading/splash screen and did not expose logged-in profile controls.
+11. DesignRush - dedicated submission pack prepared on 7 July 2026 for software development, app development, web design, web development, technology services, CRM, ERP, automation, and directory proof consistency. Account/form submission and profile review are pending.
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
@@ -40,6 +41,7 @@ https://bandeviglobalgroup.com/external-citation-tracker/
 https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
 https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
 https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt
 
 Rule:
 Do not publish additional map locations unless the location can pass the platform's owner verification process. Use one verified eligible office first, then expand only after proof is available.
