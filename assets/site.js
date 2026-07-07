@@ -713,7 +713,7 @@ const externalCitationTargets = [
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
-  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/providers", "Existing entity rechecked; claimed profile access pending", "Web Application, web development, CRM, ERP"],
+  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; profile quality improvement in progress", "Web Application, web development, CRM, ERP"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
   ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published", "IT services and IT consulting, software development"],
   ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published", "Software company, information technology company"],
@@ -1783,7 +1783,7 @@ function externalCitationTrackerPage() {
           </div>
           <aside class="article-aside">
             <h3>Next live action</h3>
-            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "Wait for Sortlist manager invitation or support verification; do not create a duplicate listing.", "Monitor Clutch, GoodFirms, TechBehemoths, and DesignRush for profile review or onboarding messages.", "Retry remaining Google URL Inspection requests later when Search Console accepts more submissions."])}
+            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "Clean the duplicated Sortlist tagline, keep the bandevi-global-group slug unchanged, and add only real client-approved reviews or portfolio items.", "Monitor Clutch, GoodFirms, TechBehemoths, and DesignRush for profile review or onboarding messages.", "Retry remaining Google URL Inspection requests later when Search Console accepts more submissions."])}
             <a class="button dark" href="${citationTrackerCsv}">Download Tracker ${icons.arrow}</a>
             <a class="button light" href="${directorySubmissionCopy}">Copy Pack</a>
             <a class="button light" href="${externalSubmissionStatus}">Status Note</a>
