@@ -126,7 +126,14 @@
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt",
       "encodingFormat": "text/plain",
       "description": "Bing Places for Business listing copy, category wording, services, proof URLs, and verification-safe address rules."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Bing Places verification status",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt",
+      "encodingFormat": "text/plain",
+      "description": "Public status note for Bing Places login completion, wait / verification stage, and map-listing expansion rules."
     }
   ],
-  "dateModified": "2026-07-06"
+  "dateModified": "2026-07-07"
 }

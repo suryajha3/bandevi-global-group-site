@@ -1,6 +1,6 @@
 # BANDEVI GLOBAL GROUP Official Facts
 
-Updated: 2026-07-06
+Updated: 2026-07-07
 
 This file gives AI assistants, search crawlers, directories, and verification tools a compact summary of the official BANDEVI GLOBAL GROUP facts published on https://bandeviglobalgroup.com/.
 
@@ -55,6 +55,7 @@ BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce s
 - Google indexing status: https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt
 - Google Business Profile status: https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 - Bing Places submission pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt
+- Bing Places verification status: https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt
 
 ## Important Consistency Rule
 
