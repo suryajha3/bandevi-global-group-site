@@ -706,7 +706,7 @@ const socialProofPostJson = asset("bandevi-global-group-social-proof-post-pack.j
 const socialProofCard = asset("bandevi-global-group-social-proof-card.svg");
 
 const externalCitationTargets = [
-  ["Google Search Console", "Search indexing", "https://search.google.com/search-console", "Sitemap clean; 52 pages discovered; priority indexing in progress", "URL Inspection, sitemap, priority crawl"],
+  ["Google Search Console", "Search indexing", "https://search.google.com/search-console", "Sitemap clean; Evidence Register page and JSON indexing requested", "URL Inspection, sitemap, priority crawl"],
   ["Google Business Profile", "Search and maps", "https://business.google.com/us/business-profile/", "100% verified in manager; processing review", "Software company, website designer, IT services"],
   ["Bing Places for Business", "Search and maps", "https://www.bing.com/forbusiness", "Submission pack ready; Microsoft verification pending", "Software company, IT services, website designer"],
   ["Clutch", "B2B services directory", "https://clutch.co/get-listed", "Submission reported complete; monitor review", "Custom software development, web development, CRM, ERP"],
@@ -715,10 +715,10 @@ const externalCitationTargets = [
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
   ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/providers", "Existing profile claimed; access request submitted", "Web Application, web development, CRM, ERP"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
-  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; monitor public cache", "IT services and IT consulting, software development"],
-  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected to Software company; bio, phone and website visible", "Software company, information technology company"],
-  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; website link completed from mobile app", "Software company, IT services"],
-  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Retry blocked; X editor did not load stably", "IT company, software development"]
+  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published", "IT services and IT consulting, software development"],
+  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published", "Software company, information technology company"],
+  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio and website link updated; Evidence Register proof post published", "Software company, IT services"],
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, and broad location updated", "IT company, software development"]
 ];
 
 const socialProofPostTemplates = [

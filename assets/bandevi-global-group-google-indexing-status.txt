@@ -1,6 +1,6 @@
 BANDEVI GLOBAL GROUP
 Google Search Console Indexing Status
-Updated: 6 July 2026
+Updated: 7 July 2026
 
 Purpose:
 This public note records the Google Search Console indexing and sitemap status for BANDEVI GLOBAL GROUP priority proof URLs. It supports crawler, directory, AI citation, and internal SEO follow-up consistency.
@@ -22,7 +22,7 @@ Search Console status:
 1. URL-prefix property for https://bandeviglobalgroup.com/ is accessible in Google Search Console.
 2. Domain property bandeviglobalgroup.com requires separate access/ownership follow-up.
 3. Sitemap https://bandeviglobalgroup.com/sitemap.xml is submitted and was reported successful on 6 July 2026.
-4. Google Search Console reported 52 discovered pages from the sitemap on 6 July 2026 after the Google Business Profile status asset was added.
+4. Google Search Console reported 52 discovered pages from the sitemap on 6 July 2026 after the Google Business Profile status asset was added. The live sitemap was later expanded to include the Evidence Register and social proof assets.
 5. URL Inspection confirmed the homepage is on Google.
 6. URL Inspection confirmed the Proof & Verification page is on Google.
 7. Request indexing was confirmed for https://bandeviglobalgroup.com/
@@ -31,8 +31,10 @@ Search Console status:
 10. Wrong temporary removal requests for priority pages were cancelled on 6 July 2026.
 11. URL Inspection confirmed the Staff Size & Net Worth page is on Google and indexed.
 12. Request indexing was confirmed for https://bandeviglobalgroup.com/external-citation-tracker/
-13. Google temporarily returned a submission problem after the external citation tracker request, so additional URL Inspection requests should be retried later.
-14. Live verification confirms https://bandeviglobalgroup.com/sitemap.xml returns HTTP 200, application/xml, and valid XML sitemap content.
+13. Request indexing was confirmed for https://bandeviglobalgroup.com/evidence-register/ on 7 July 2026.
+14. Request indexing was confirmed for https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json on 7 July 2026.
+15. Google temporarily returned a submission problem for one additional evidence-register support file request; retry the TXT file later if quota allows.
+16. Live verification confirms https://bandeviglobalgroup.com/sitemap.xml returns HTTP 200, application/xml, and valid XML sitemap content.
 
 Priority URL Inspection follow-up:
 These URLs should be inspected and request-indexed next when Search Console is available:
@@ -40,6 +42,7 @@ https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
 https://bandeviglobalgroup.com/company-profile/
 https://bandeviglobalgroup.com/directory-listing-profile/
+https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
 https://bandeviglobalgroup.com/llms.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
@@ -53,8 +56,11 @@ https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
 https://bandeviglobalgroup.com/directory-listing-profile/
 https://bandeviglobalgroup.com/external-citation-tracker/
+https://bandeviglobalgroup.com/evidence-register/
+https://bandeviglobalgroup.com/social-proof-posts/
 https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
 https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 
 Rule:
