@@ -704,11 +704,11 @@ const externalCitationTargets = [
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
   ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/providers", "Existing profile claimed; access request submitted", "Web Application, web development, CRM, ERP"],
-  ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Ready for account submission", "Software development, app development, web design, technology services"],
+  ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
   ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; monitor public cache", "IT services and IT consulting, software development"],
-  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Bio updated; category follow-up pending", "Software company, information technology company"],
-  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; mobile link edit pending", "Software company, IT services"],
-  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Blocked; X did not expose editor", "IT company, software development"]
+  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected to Software company; bio, phone and website visible", "Software company, information technology company"],
+  ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; desktop link edit blocked; mobile link pending", "Software company, IT services"],
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Retry blocked; profile editor not available", "IT company, software development"]
 ];
 
 const pageData = {
