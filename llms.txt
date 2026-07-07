@@ -57,6 +57,10 @@ BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce s
 - Bing Places submission pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt
 - Bing Places verification status: https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt
 - DesignRush submission pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt
+- Social proof post pack: https://bandeviglobalgroup.com/social-proof-posts/
+- Social proof text pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt
+- Social proof structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json
+- Social proof card: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg
 
 ## Important Consistency Rule
 

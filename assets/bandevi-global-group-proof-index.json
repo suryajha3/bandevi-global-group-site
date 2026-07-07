@@ -140,6 +140,27 @@
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt",
       "encodingFormat": "text/plain",
       "description": "DesignRush directory submission copy, category wording, services, proof URLs, and public portfolio-use rules."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Social proof post pack",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt",
+      "encodingFormat": "text/plain",
+      "description": "Company-published public social proof post copy for Facebook, Instagram, LinkedIn, X, directory reviewers, staff size, net worth, offices, chairman identity, and proof links."
+    },
+    {
+      "@type": "Dataset",
+      "name": "Social proof structured JSON",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
+      "encodingFormat": "application/ld+json",
+      "description": "Machine-readable social proof post pack with official proof citations and company-provided fact wording."
+    },
+    {
+      "@type": "ImageObject",
+      "name": "Social proof card",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg",
+      "encodingFormat": "image/svg+xml",
+      "description": "Square social proof card for BANDEVI GLOBAL GROUP official proof posts."
     }
   ],
   "dateModified": "2026-07-07"

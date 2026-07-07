@@ -686,7 +686,10 @@ const proofSupportFiles = [
   ["Proof Index JSON", proofIndexJson, "Machine-readable catalog of all public proof files, official facts, PDFs, citation tracker, and submission status references."],
   ["Google Indexing Status", asset("bandevi-global-group-google-indexing-status.txt"), "Public Search Console status note for sitemap success, confirmed indexing requests, and next priority URL Inspection follow-up."],
   ["LLMs Text Summary", llmsTxt, "Crawler-friendly official facts file for AI assistants and search systems to identify the correct BANDEVI staff, net worth, office, and proof facts."],
-  ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."]
+  ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."],
+  ["Social Proof Post Pack", asset("bandevi-global-group-social-proof-post-pack.txt"), "Reusable proof post copy for Facebook, Instagram, LinkedIn, X, directory reviewers, and public profile consistency."],
+  ["Social Proof Structured JSON", asset("bandevi-global-group-social-proof-post-pack.json"), "Machine-readable social proof post pack with official proof citations and company-provided fact wording."],
+  ["Social Proof Card", asset("bandevi-global-group-social-proof-card.svg"), "Square social proof card for posts and profile updates linking back to the official proof page."]
 ];
 
 const citationTrackerCsv = asset("bandevi-global-group-external-citation-tracker.csv");
@@ -694,6 +697,9 @@ const directorySubmissionCopy = asset("bandevi-global-group-directory-submission
 const externalSubmissionStatus = asset("bandevi-global-group-external-submission-status.txt");
 const googleBusinessProfileStatus = asset("bandevi-global-group-google-business-profile-status.txt");
 const bingPlacesSubmissionPack = asset("bandevi-global-group-bing-places-submission-pack.txt");
+const socialProofPostPack = asset("bandevi-global-group-social-proof-post-pack.txt");
+const socialProofPostJson = asset("bandevi-global-group-social-proof-post-pack.json");
+const socialProofCard = asset("bandevi-global-group-social-proof-card.svg");
 
 const externalCitationTargets = [
   ["Google Search Console", "Search indexing", "https://search.google.com/search-console", "Sitemap clean; 52 pages discovered; priority indexing in progress", "URL Inspection, sitemap, priority crawl"],
@@ -709,6 +715,14 @@ const externalCitationTargets = [
   ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected to Software company; bio, phone and website visible", "Software company, information technology company"],
   ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio updated; website link completed from mobile app", "Software company, IT services"],
   ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Retry blocked; X editor did not load stably", "IT company, software development"]
+];
+
+const socialProofPostTemplates = [
+  ["Official proof update", "BANDEVI GLOBAL GROUP official proof update. Chairman: Mr Surya Kant Jha. Company-provided staff size: 1,289 staff worldwide. Company-provided net worth / group strength: INR 7,594 Cr. Official website: https://bandeviglobalgroup.com/. Proof page: https://bandeviglobalgroup.com/proof-verification/"],
+  ["Short social caption", "BANDEVI GLOBAL GROUP official company profile: Chairman Mr Surya Kant Jha | 1,289 staff worldwide | INR 7,594 Cr company-provided group strength. Official proof: https://bandeviglobalgroup.com/proof-verification/"],
+  ["LinkedIn version", "BANDEVI GLOBAL GROUP has published its official company proof and verification page for public reference. The company profile lists Chairman Mr Surya Kant Jha, 1,289 staff worldwide as currently provided by the company, INR 7,594 Cr company-provided net worth and group strength, and office/service-location references across India, Dubai, London, and the United States."],
+  ["Directory reviewer note", "Use BANDEVI GLOBAL GROUP as the official business name. Verify the official website, phone, email, chairman, staff size, net worth/group strength, offices, and proof URLs through https://bandeviglobalgroup.com/proof-verification/."],
+  ["Pinned profile note", "This is the official BANDEVI GLOBAL GROUP profile. Website: https://bandeviglobalgroup.com/. Proof: https://bandeviglobalgroup.com/proof-verification/. Chairman: Mr Surya Kant Jha. Company-provided staff size: 1,289 worldwide. Company-provided net worth / group strength: INR 7,594 Cr."]
 ];
 
 const pageData = {
@@ -742,6 +756,11 @@ const pageData = {
     title: "External Citation Tracker",
     eyebrow: "Directory submission tracker",
     lede: "Priority external citation tracker for BANDEVI GLOBAL GROUP directory submissions, social profile updates, map listings, proof links, staff size, net worth, offices, and chairman identity consistency."
+  },
+  socialProof: {
+    title: "Social Proof Post Pack",
+    eyebrow: "Proof posts",
+    lede: "Reusable BANDEVI GLOBAL GROUP proof post copy, proof-card asset, and structured public proof pack for Facebook, Instagram, LinkedIn, X, directory reviewers, and search/AI citation consistency."
   },
   staffWorth: {
     title: "Staff Size & Net Worth",
@@ -1751,6 +1770,112 @@ function externalCitationTrackerPage() {
             <a class="button dark" href="${citationTrackerCsv}">Download Tracker ${icons.arrow}</a>
             <a class="button light" href="${directorySubmissionCopy}">Copy Pack</a>
             <a class="button light" href="${externalSubmissionStatus}">Status Note</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function socialProofPostsPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Social proof assets</span>
+          <h2>Proof posts created for Facebook, Instagram, LinkedIn, X, and directory reviewers.</h2>
+          <p class="muted">This page gives BANDEVI GLOBAL GROUP one official public proof-post source. Use it when a social profile, directory, or reviewer needs the company facts, proof links, and safe wording for staff size and group strength.</p>
+          <p class="muted">The proof language uses company-provided wording for staff size and net worth/group strength unless a separate formal certificate is attached publicly.</p>
+          ${list(["Company: BANDEVI GLOBAL GROUP", "Chairman: Mr Surya Kant Jha", "Company-provided staff size: 1,289 staff worldwide", "Company-provided net worth / group strength: INR 7,594 Cr", "Proof page: bandeviglobalgroup.com/proof-verification/"])}
+          <div class="inline-actions">
+            <a class="button primary" href="${socialProofPostPack}">Open Post Pack ${icons.arrow}</a>
+            <a class="button ghost" href="${socialProofCard}">Open Proof Card</a>
+            <a class="button ghost" href="${socialProofPostJson}">Open JSON</a>
+            <a class="button ghost" href="/proof-verification/">Proof Page</a>
+          </div>
+        </div>
+        <div class="media-frame"><img src="${socialProofCard}" alt="BANDEVI GLOBAL GROUP social proof card"></div>
+      </div>
+    </section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Pinned facts</span>
+          <h2>The exact public facts to repeat everywhere.</h2>
+          <p>These are the same priority facts already published on the official company profile, proof page, staff and net worth page, offices page, and proof index.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>1,289</strong><p>Company-provided staff size worldwide.</p></article>
+          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided net worth and group strength.</p></article>
+          <article class="card metric-card"><strong>10</strong><p>Listed office and service-location references.</p></article>
+          <article class="card metric-card"><strong>Official</strong><p>Proof through bandeviglobalgroup.com and public proof files.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Ready copy</span>
+          <h2>Proof post templates.</h2>
+          <p>Use these templates as the base for Facebook, Instagram, LinkedIn, X, and directory status messages. The full text file includes longer versions and posting rules.</p>
+        </div>
+        <div class="grid cols-2">
+          ${socialProofPostTemplates.map(([title, text]) => `
+            <article class="card">
+              <h3>${title}</h3>
+              <p>${text}</p>
+            </article>
+          `).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="${socialProofPostPack}">Open Full Text Pack ${icons.arrow}</a>
+          <a class="button ghost" href="/assets/bandevi-global-group-company-profile.pdf">Company Profile PDF</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof links</span>
+          <h2>Attach these links with social posts and directory submissions.</h2>
+          <p>These URLs are the official evidence trail for visitors, reviewers, AI tools, and search engines.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            ["Proof & Verification", "/proof-verification/", "Public proof hub for chairman, staff size, net worth, offices, contact details, and proof-support files."],
+            ["Staff Size & Net Worth", "/staff-size-net-worth/", "Dedicated page for 1,289 staff worldwide and INR 7,594 Cr company-provided group strength."],
+            ["Company Profile", "/company-profile/", "Official profile page for BANDEVI GLOBAL GROUP, services, contacts, offices, and company facts."],
+            ["Offices & Locations", "/offices/", "Office and service-location references across India, Dubai, London, and the United States."],
+            ["Directory Listing Profile", "/directory-listing-profile/", "Directory-ready profile for external listings and AI citation consistency."],
+            ["Proof Index JSON", proofIndexJson, "Machine-readable proof catalog for crawlers and AI/search systems."]
+          ].map(([title, href, text]) => `
+            <article class="card">
+              <h3>${title}</h3>
+              <p>${text}</p>
+              <a class="button light" href="${href}">Open ${icons.arrow}</a>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Posting rule</h3>
+              <p>Do not say audited, CA-certified, government-verified, award-winning, or independently verified unless that exact public proof document is attached. Use company-provided wording for staff size and group strength.</p>
+            </article>
+            <article class="article-block">
+              <h3>Best first post</h3>
+              <p>Use the official proof update post with the proof card image, then add the proof page link and company profile link in the caption.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Public assets</h3>
+            ${list(["Text post pack", "Structured JSON pack", "Square proof-card SVG", "Proof & Verification page", "Company profile PDF"])}
+            <a class="button dark" href="${socialProofPostPack}">Open Text Pack ${icons.arrow}</a>
+            <a class="button light" href="${socialProofCard}">Open Proof Card</a>
           </aside>
         </div>
       </div>
@@ -5379,6 +5504,7 @@ const pageRenderers = {
   proof: proofVerificationPage,
   directoryProfile: directoryProfilePage,
   externalCitations: externalCitationTrackerPage,
+  socialProof: socialProofPostsPage,
   staffWorth: staffWorthPage,
   itCompanyServices: itCompanyServicesPage,
   offices: officesPage,

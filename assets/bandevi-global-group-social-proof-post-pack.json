@@ -1,0 +1,83 @@
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "@id": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
+  "name": "BANDEVI GLOBAL GROUP Social Proof Post Pack",
+  "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
+  "dateModified": "2026-07-07",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://bandeviglobalgroup.com/#organization",
+    "name": "BANDEVI GLOBAL GROUP",
+    "url": "https://bandeviglobalgroup.com/",
+    "telephone": "+91 8287669022",
+    "email": "sales@bandeviglobalgroup.com"
+  },
+  "about": [
+    {
+      "@type": "Organization",
+      "name": "BANDEVI GLOBAL GROUP",
+      "url": "https://bandeviglobalgroup.com/"
+    },
+    {
+      "@type": "Person",
+      "name": "Mr Surya Kant Jha",
+      "jobTitle": "Chairman"
+    },
+    {
+      "@type": "Thing",
+      "name": "Company-provided staff size",
+      "description": "1,289 staff worldwide as currently provided by the company."
+    },
+    {
+      "@type": "Thing",
+      "name": "Company-provided net worth and group strength",
+      "description": "INR 7,594 Cr as currently provided by the company."
+    }
+  ],
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Social proof post templates",
+    "numberOfItems": 5,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Official proof update",
+        "description": "BANDEVI GLOBAL GROUP official proof update with chairman, company-provided staff size, company-provided net worth/group strength, official website, and proof page."
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Short social caption",
+        "description": "Compact caption for Facebook, Instagram, and social bio/profile updates."
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "LinkedIn version",
+        "description": "Professional public update for LinkedIn company/entity consistency."
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Directory reviewer note",
+        "description": "Verification note for directory moderators and business profile review teams."
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "Pinned post format",
+        "description": "Pinned profile proof note for social channels."
+      }
+    ]
+  },
+  "citation": [
+    "https://bandeviglobalgroup.com/proof-verification/",
+    "https://bandeviglobalgroup.com/staff-size-net-worth/",
+    "https://bandeviglobalgroup.com/company-profile/",
+    "https://bandeviglobalgroup.com/offices/",
+    "https://bandeviglobalgroup.com/directory-listing-profile/",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf"
+  ]
+}

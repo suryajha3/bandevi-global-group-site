@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" role="img" aria-labelledby="title desc">
+  <title id="title">BANDEVI GLOBAL GROUP official proof card</title>
+  <desc id="desc">Social proof card for BANDEVI GLOBAL GROUP showing chairman, staff size, group strength, official website, and proof page.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101418"/>
+      <stop offset="0.52" stop-color="#17232b"/>
+      <stop offset="1" stop-color="#0f1419"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7d77a"/>
+      <stop offset="1" stop-color="#b88a34"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <rect x="62" y="62" width="956" height="956" rx="34" fill="none" stroke="#d6ad52" stroke-width="3"/>
+  <circle cx="150" cy="150" r="52" fill="url(#gold)"/>
+  <path d="M124 153h52M150 127v52" stroke="#101418" stroke-width="14" stroke-linecap="round"/>
+  <text x="230" y="134" fill="#f7d77a" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" letter-spacing="2">BANDEVI</text>
+  <text x="230" y="184" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="30" letter-spacing="6">GLOBAL GROUP</text>
+  <text x="86" y="318" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Official Company Proof</text>
+  <text x="86" y="376" fill="#d6dde2" font-family="Arial, Helvetica, sans-serif" font-size="31">Company-published public facts for profile and directory verification.</text>
+  <g transform="translate(86 455)">
+    <rect width="908" height="118" rx="18" fill="#ffffff" opacity="0.08"/>
+    <text x="34" y="48" fill="#f7d77a" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Chairman</text>
+    <text x="34" y="88" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700">Mr Surya Kant Jha</text>
+  </g>
+  <g transform="translate(86 602)">
+    <rect width="430" height="150" rx="18" fill="#ffffff" opacity="0.08"/>
+    <text x="32" y="50" fill="#f7d77a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Company-provided staff</text>
+    <text x="32" y="105" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">1,289</text>
+    <text x="164" y="104" fill="#d6dde2" font-family="Arial, Helvetica, sans-serif" font-size="28">worldwide</text>
+  </g>
+  <g transform="translate(564 602)">
+    <rect width="430" height="150" rx="18" fill="#ffffff" opacity="0.08"/>
+    <text x="32" y="50" fill="#f7d77a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Company-provided strength</text>
+    <text x="32" y="105" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">INR 7,594 Cr</text>
+  </g>
+  <text x="86" y="826" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">Official website</text>
+  <text x="86" y="874" fill="#f7d77a" font-family="Arial, Helvetica, sans-serif" font-size="34">bandeviglobalgroup.com</text>
+  <text x="86" y="940" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Proof page</text>
+  <text x="86" y="982" fill="#d6dde2" font-family="Arial, Helvetica, sans-serif" font-size="28">bandeviglobalgroup.com/proof-verification/</text>
+</svg>

@@ -43,6 +43,12 @@
     <priority>0.88</priority>
   </url>
   <url>
+    <loc>https://bandeviglobalgroup.com/social-proof-posts/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.87</priority>
+  </url>
+  <url>
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-directory-listing-pack.txt</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -328,6 +334,24 @@
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 </urlset>
