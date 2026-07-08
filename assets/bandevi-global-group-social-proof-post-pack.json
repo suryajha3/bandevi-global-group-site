@@ -33,12 +33,17 @@
       "@type": "Thing",
       "name": "Company-provided net worth and group strength",
       "description": "INR 7,594 Cr as currently provided by the company."
+    },
+    {
+      "@type": "Thing",
+      "name": "Office and service-location references",
+      "description": "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."
     }
   ],
   "mainEntity": {
     "@type": "ItemList",
     "name": "Social proof post templates",
-    "numberOfItems": 9,
+    "numberOfItems": 11,
     "itemListElement": [
       {
         "@type": "ListItem",
@@ -93,6 +98,18 @@
         "position": 9,
         "name": "X short version for new IT sales pages",
         "description": "Short social update for X covering CRM, ERP, e-commerce, custom software, and business automation sales pages."
+      },
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "name": "First target proof post",
+        "description": "Priority proof update focused on 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, and all listed office references."
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "name": "Short first target caption",
+        "description": "Short social caption focused on staff strength, group strength, office references, and the official proof URL."
       }
     ]
   },
@@ -103,6 +120,10 @@
     "https://bandeviglobalgroup.com/offices/",
     "https://bandeviglobalgroup.com/directory-listing-profile/",
     "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-net-worth-group-strength-note.txt",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-office-verification-sheet.txt",
     "https://bandeviglobalgroup.com/white-label-crm/",
     "https://bandeviglobalgroup.com/travel-crm-software/",
     "https://bandeviglobalgroup.com/b2b-travel-portal/",
