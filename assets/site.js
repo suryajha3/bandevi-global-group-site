@@ -701,6 +701,7 @@ const directorySubmissionCopy = asset("bandevi-global-group-directory-submission
 const externalSubmissionStatus = asset("bandevi-global-group-external-submission-status.txt");
 const googleBusinessProfileStatus = asset("bandevi-global-group-google-business-profile-status.txt");
 const bingPlacesSubmissionPack = asset("bandevi-global-group-bing-places-submission-pack.txt");
+const sortlistServiceCompletionPack = asset("bandevi-global-group-sortlist-service-completion-pack.txt");
 const socialProofPostPack = asset("bandevi-global-group-social-proof-post-pack.txt");
 const socialProofPostJson = asset("bandevi-global-group-social-proof-post-pack.json");
 const socialProofCard = asset("bandevi-global-group-social-proof-card.svg");
@@ -713,7 +714,7 @@ const externalCitationTargets = [
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
-  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; tagline cleaned; CRM/ERP portfolio page live; quality score observed at 46%", "Web Application, web development, CRM, ERP"],
+  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; tagline cleaned; CRM/ERP portfolio page live; quality score observed at 46%; service completion pack ready", "Web Application, web development, CRM, ERP"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
   ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published", "IT services and IT consulting, software development"],
   ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published", "Software company, information technology company"],
@@ -1574,6 +1575,7 @@ function directoryProfilePage() {
             <a class="button primary" href="/proof-verification/">Verify Proof ${icons.arrow}</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/external-citation-tracker/">Citation Tracker</a>
+            <a class="button ghost" href="${sortlistServiceCompletionPack}">Sortlist Service Pack</a>
             <a class="button ghost" href="/contact-us/">Contact</a>
           </div>
         </div>
@@ -1635,6 +1637,7 @@ function directoryProfilePage() {
             ["/proof-verification/", "Proof & Verification", "Staff size, net worth, offices, official contact, proof status, and document checklist."],
             ["/staff-size-net-worth/", "Staff Size & Net Worth", "Dedicated staff and net worth verification page."],
             ["/offices/", "Offices & Locations", "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States."],
+            [sortlistServiceCompletionPack, "Sortlist Service Pack", "Service budgets, descriptions, and skills for the public Sortlist provider profile."],
             ["/it-products/", "IT Products", "CRM, ERP, portals, Travel CRM, Travel ERP, websites, e-commerce, automation, and dashboards."],
             ["/contact-us/", "Contact", "Official phone, WhatsApp, email, demo request, and office support routes."]
           ].map(([href, title, text]) => `
@@ -1692,6 +1695,7 @@ function externalCitationTrackerPage() {
             <a class="button ghost" href="${externalSubmissionStatus}">Submission Status</a>
             <a class="button ghost" href="${googleBusinessProfileStatus}">Google Profile Status</a>
             <a class="button ghost" href="${bingPlacesSubmissionPack}">Bing Places Pack</a>
+            <a class="button ghost" href="${sortlistServiceCompletionPack}">Sortlist Service Pack</a>
             <a class="button ghost" href="/directory-listing-profile/">Directory Profile</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
           </div>
@@ -1749,6 +1753,7 @@ function externalCitationTrackerPage() {
             ["External Submission Status", externalSubmissionStatus, "Working status note for Google/Bing verification, Clutch submission, GoodFirms next action, and proof-link consistency."],
             ["Google Business Profile Status", googleBusinessProfileStatus, "Public status note showing the profile is verified in Business Profile Manager and currently processing review."],
             ["Bing Places Submission Pack", bingPlacesSubmissionPack, "Microsoft/Bing listing copy, categories, services, proof URLs, address rule, and verification-safe submission wording."],
+            ["Sortlist Service Completion Pack", sortlistServiceCompletionPack, "Sortlist-ready service budgets, descriptions, skills, safe review rule, and proof links for the live provider profile."],
             ["External Citation Tracker CSV", citationTrackerCsv, "Priority platform list with status, account requirements, categories, proof URLs, and notes for each submission."],
             ["Directory Listing Profile", "/directory-listing-profile/", "Public directory-ready company profile for search engines, AI tools, and external business listings."],
             ["Proof Support Pack", proofSupportPackPdf, "Combined PDF for chairman identity, staff size, net worth, office references, and next formal evidence."],
@@ -1783,7 +1788,7 @@ function externalCitationTrackerPage() {
           </div>
           <aside class="article-aside">
             <h3>Next live action</h3>
-            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "For Sortlist, keep the bandevi-global-group slug unchanged, finish service budgets/descriptions/skills in Showcase your talent, and add only real client-approved reviews.", "Monitor Clutch, GoodFirms, TechBehemoths, and DesignRush for profile review or onboarding messages.", "Retry remaining Google URL Inspection requests later when Search Console accepts more submissions."])}
+            ${list(["Do not edit Google/Bing core profile details while verification is pending.", "For Sortlist, keep the bandevi-global-group slug unchanged, use the Sortlist Service Completion Pack for service budgets/descriptions/skills, and add only real client-approved reviews.", "Monitor Clutch, GoodFirms, TechBehemoths, and DesignRush for profile review or onboarding messages.", "Retry remaining Google URL Inspection requests later when Search Console accepts more submissions."])}
             <a class="button dark" href="${citationTrackerCsv}">Download Tracker ${icons.arrow}</a>
             <a class="button light" href="${directorySubmissionCopy}">Copy Pack</a>
             <a class="button light" href="${externalSubmissionStatus}">Status Note</a>

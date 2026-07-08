@@ -1,0 +1,73 @@
+BANDEVI GLOBAL GROUP
+Sortlist Service Completion Pack
+Updated: 8 July 2026
+
+Purpose:
+This public pack keeps Sortlist, agency directory, and B2B marketplace service details aligned with the official BANDEVI GLOBAL GROUP website. Use it when completing Sortlist service budgets, service descriptions, skills, and profile quality items.
+
+Official profile:
+Sortlist public profile: https://www.sortlist.com/agency/bandevi-global-group
+Official website: https://bandeviglobalgroup.com/
+Proof page: https://bandeviglobalgroup.com/proof-verification/
+Directory profile: https://bandeviglobalgroup.com/directory-listing-profile/
+
+Company facts to keep unchanged:
+Company name: BANDEVI GLOBAL GROUP
+Chairman: Mr Surya Kant Jha
+Phone / WhatsApp: +91 8287669022
+Email: sales@bandeviglobalgroup.com
+Staff size: 1,289 staff worldwide
+Net worth / group strength: INR 7,594 Cr company-provided figure
+Location: Delhi, India
+Public tagline: Global IT, Software & Business Solutions Partner
+
+Safe Sortlist profile rule:
+Do not add fake reviews, unsupported awards, unapproved client names, or unverified claims. Add reviews, clients, awards, and case studies only when they are real and approved for public use.
+
+Recommended starting budget:
+Use EUR 1,000+ or the closest available low starting-budget option in Sortlist for standard service entries. Use higher budgets only where a specific project scope requires it.
+
+Service: Software Development
+Description:
+Custom planning, design, development, integration, testing, deployment, and support for scalable business software solutions, including CRM, ERP, dashboards, portals, workflow automation, and API-connected business platforms.
+Recommended skills:
+Custom Software Development; Software Engineering; CRM Consulting; Enterprise Software Development; Software Testing and QA; API Integration; Software Consulting.
+
+Service: Web Application
+Description:
+Business web application design and development for customer portals, admin panels, dashboards, lead systems, booking workflows, internal tools, and secure role-based access.
+Recommended skills:
+Web Application; Web Development; Custom Software Development; Front-End Development; Back-End Development; API Integration; Dashboard Development.
+
+Service: E-commerce
+Description:
+E-commerce website and platform development for product catalogues, checkout flows, payment readiness, customer accounts, inventory direction, enquiry capture, and CRM-connected sales workflows.
+Recommended skills:
+E-commerce Development; Web Development; Payment Gateway Integration; Product Catalogue; Checkout Optimization; CRM Integration; API Integration.
+
+Service: Digital Strategy
+Description:
+Digital strategy for business websites, CRM and ERP planning, lead-generation flows, automation roadmaps, content structure, proof pages, analytics direction, and conversion-ready digital systems.
+Recommended skills:
+Digital Strategy; CRM Strategy; Marketing Automation; Analytics Setup; Conversion Planning; SEO Planning; Business Automation.
+
+Service: Marketing
+Description:
+Marketing support for service-page messaging, proof-led profile content, directory copy, social profile consistency, landing pages, lead capture, and follow-up-ready digital campaigns.
+Recommended skills:
+Marketing Strategy; Content Strategy; Lead Generation; Social Media Content; Landing Pages; Directory Profile Copy; CRM Follow-Up.
+
+Priority proof links to attach where allowed:
+https://bandeviglobalgroup.com/company-profile/
+https://bandeviglobalgroup.com/proof-verification/
+https://bandeviglobalgroup.com/staff-size-net-worth/
+https://bandeviglobalgroup.com/offices/
+https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
+https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+
+Next Sortlist dashboard actions:
+1. Keep slug bandevi-global-group unchanged.
+2. Add service budget, description, and skills for each service.
+3. Recheck Profile Quality Index after saving.
+4. Add only real team members, real reviews, real awards, and client-approved portfolio details.
+5. Recheck public profile after Sortlist cache refresh.
