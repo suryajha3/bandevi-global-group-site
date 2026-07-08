@@ -1,6 +1,6 @@
 BANDEVI GLOBAL GROUP
 Evidence Register
-Updated: 7 July 2026
+Updated: 8 July 2026
 
 Purpose:
 This register lists the highest-priority company proof items for BANDEVI GLOBAL GROUP. It separates currently published company-provided proof from stronger formal evidence that can be attached later when approved for public sharing.
@@ -20,6 +20,7 @@ Current public support:
 - https://bandeviglobalgroup.com/proof-verification/
 - https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt
 - https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+- https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 Stronger formal evidence to add later:
 - HR headcount certificate or board-approved staff confirmation.
 - Payroll or department summary suitable for public release.
@@ -32,6 +33,7 @@ Current public support:
 - https://bandeviglobalgroup.com/proof-verification/
 - https://bandeviglobalgroup.com/assets/bandevi-global-group-net-worth-group-strength-note.txt
 - https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+- https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 Stronger formal evidence to add later:
 - CA certificate, audited statement, valuation note, board resolution, or finance-approved proof extract.
 - Public-ready financial note that clearly explains whether the figure is net worth, group strength, assets, valuation, or combined business strength.
@@ -44,6 +46,7 @@ Current public support:
 - https://bandeviglobalgroup.com/proof-verification/
 - https://bandeviglobalgroup.com/assets/bandevi-global-group-office-verification-sheet.txt
 - https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+- https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 Stronger formal evidence to add later:
 - Google Business Profile or Bing Places live location links where each location passes platform rules.
 - Office photos, signage photos, map links, lease/service-office confirmations, utility proof, or location-specific contact proof.
@@ -71,8 +74,15 @@ Stronger formal evidence to add later:
 - Approved live directory links from Clutch, GoodFirms, TechBehemoths, Sortlist, DesignRush, Google Business Profile, Bing Places, Facebook, Instagram, LinkedIn, and X.
 - Public reviews, portfolio entries, team bios, and awards only when genuine and approved.
 
+6. Priority proof action plan
+Current public support:
+- https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
+Purpose:
+- Lists the exact next documents needed for staff size, net worth / group strength, offices, directory approvals, Search Console retry, and safe public wording.
+- Keeps private inbox names, billing details, payment notices, OTPs, and internal account messages out of public SEO files.
+- Separates public approval outcomes from private account follow-up.
+
 Important wording rule:
 Use "company-provided" for staff size, net worth, and group strength unless a separate CA certificate, audited statement, HR certificate, registration document, or board-approved proof file is attached publicly.
 
 Do not claim audited, certified, government-verified, award-winning, or independently verified proof unless the exact public proof file or live external source is available.
-

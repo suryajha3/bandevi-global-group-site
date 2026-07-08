@@ -1,0 +1,80 @@
+BANDEVI GLOBAL GROUP
+Priority Proof Action Plan
+Updated: 8 July 2026
+
+Purpose:
+This public action plan lists the next proof items needed to strengthen BANDEVI GLOBAL GROUP's priority public facts for search, AI citation, directory review, map verification, and enterprise buyer confidence.
+
+Official identity:
+Company: BANDEVI GLOBAL GROUP
+Chairman: Mr Surya Kant Jha
+Website: https://bandeviglobalgroup.com/
+Phone / WhatsApp: +91 8287669022
+Email: sales@bandeviglobalgroup.com
+
+Priority facts being protected:
+1. Staff size: 1,289 staff worldwide as company-provided information.
+2. Net worth / group strength: INR 7,594 Cr as company-provided information.
+3. Office and service-location references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.
+
+Current public support already available:
+https://bandeviglobalgroup.com/proof-verification/
+https://bandeviglobalgroup.com/staff-size-net-worth/
+https://bandeviglobalgroup.com/offices/
+https://bandeviglobalgroup.com/company-profile/
+https://bandeviglobalgroup.com/evidence-register/
+https://bandeviglobalgroup.com/directory-listing-profile/
+https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-net-worth-group-strength-note.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-office-verification-sheet.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
+https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
+https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+
+Highest-priority evidence to collect next:
+
+Staff size proof:
+- Board-approved staff declaration on company letterhead.
+- HR headcount certificate or HR summary approved for public sharing.
+- Department-level summary for operations, sales, support, partnerships, technology, business development, and regional teams.
+- Payroll, contractor, partner-network, or staff-allocation summary suitable for public release.
+- Date, signer name, signer role, company seal or official letterhead, and permission to publish.
+
+Net worth / group strength proof:
+- CA certificate, audited statement extract, valuation note, finance-approved asset summary, or board resolution.
+- Clear explanation of whether INR 7,594 Cr means net worth, group strength, valuation, assets, or combined business strength.
+- Currency, date, scope, signing authority, and public-sharing approval.
+- Use company-provided wording until this formal proof is public.
+
+Office and service-location proof:
+- For each listed location, collect office exterior photo, interior photo, signage photo, and reception or workspace photo where available.
+- Lease, service-office confirmation, utility bill, business correspondence, or location-specific document suitable for public sharing.
+- Google Business Profile, Bing Places, or map links only for locations that can pass platform verification.
+- Do not create map listings for service-location references unless that location can pass the platform's owner verification process.
+- Label locations carefully as "office reference", "service-location reference", or "verified map location" depending on the available proof.
+
+Directory and social proof:
+- Monitor Clutch, GoodFirms, TechBehemoths, Sortlist, DesignRush, Google Business Profile, and Bing Places for approval or verification messages.
+- Add live public profile URLs after approval.
+- Add reviews only from genuine clients after approval for public sharing.
+- Add portfolio entries only when the project, client name, screenshots, and result details are approved for public use.
+- Do not add unsupported awards, fake clients, fake reviews, or unverified licence claims.
+
+Search and indexing follow-up:
+- Sitemap is live at https://bandeviglobalgroup.com/sitemap.xml.
+- Google Search Console URL-prefix property is accessible.
+- On 8 July 2026, Google returned a temporary Request Indexing error for the Sortlist Service Completion Pack URL. Do not keep retrying the same request on the same day.
+- Next Google retry should include this Priority Proof Action Plan, the Sortlist Service Completion Pack, Official Facts JSON, Proof Index JSON, LLMs text, Offices page, Company Profile page, and Directory Listing Profile page when Search Console accepts requests again.
+- IndexNow can be used after each deployment for updated proof URLs.
+
+Gmail and approval monitoring status:
+- Monitor the active company inboxes for DesignRush, GoodFirms, Clutch, Sortlist, TechBehemoths, Bing Places, Google Business Profile, and Google Search Console messages.
+- Record only public approval outcomes, live profile URLs, and verified listing links in public proof files.
+- Keep private inbox names, billing details, payment notices, OTPs, and internal account messages out of public SEO files.
+- Hosting, billing, and domain renewal issues should be handled privately by the account owner because site availability affects SEO.
+
+Public wording rule:
+Use "company-provided" for staff size, net worth, and group strength until formal supporting proof is attached publicly.
+
+Do not claim audited, certified, government-verified, award-winning, independently verified, or client-reviewed status unless the exact public source is available.

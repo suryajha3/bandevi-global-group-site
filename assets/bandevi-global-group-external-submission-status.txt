@@ -18,6 +18,9 @@ Office references: 10 listed office and service-location references across India
 Google Search Console status:
 URL-prefix property https://bandeviglobalgroup.com/ is accessible. Sitemap https://bandeviglobalgroup.com/sitemap.xml was submitted and reported successful on 6 July 2026 with 52 discovered pages after the Google Business Profile status asset was added. The live sitemap was later expanded to include the Evidence Register, social proof assets, and the Sortlist Service Completion Pack. Wrong page URLs that had accidentally been submitted as sitemaps were removed from the Sitemaps report, leaving only /sitemap.xml as the successful sitemap. Wrong temporary removal requests for priority pages were cancelled. URL Inspection confirmed the homepage, Proof & Verification page, Staff Size & Net Worth page, and External Citation Tracker page are on Google. Request indexing was confirmed for the homepage, Proof & Verification page, External Citation Tracker page, Evidence Register page, and Evidence Register JSON file. On 8 July 2026, Google Search Console loaded the Sortlist Service Completion Pack URL but the Request Indexing action returned Google's temporary "Oops! Something went wrong" submission problem. Do not retry it repeatedly the same day; retry after the temporary issue or quota clears. Domain property bandeviglobalgroup.com still requires separate ownership/access follow-up.
 
+Proof action status:
+Priority Proof Action Plan added on 8 July 2026 for the next staff-size, net worth / group strength, office, directory approval, and Search Console follow-up evidence steps. Keep private inbox names, billing details, OTPs, and internal account messages out of public proof files.
+
 Current external submission status:
 1. Google Business Profile - dashboard checked on 6 July 2026. Business Profile Manager shows one BANDEVI GLOBAL GROUP profile, 100% verified, with status Processing / pending review. Do not change business name, phone, website, category, or first verified address while Google is processing the profile.
 2. Bing Places for Business - submission pack prepared on 6 July 2026. Owner completed Bing login and reached the wait / verification stage on 7 July 2026. Keep Bing name, phone, website, address, category, and proof links aligned with Google and the official website while verification is pending.
@@ -47,6 +50,7 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pac
 https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 
 Rule:
 Do not publish additional map locations unless the location can pass the platform's owner verification process. Use one verified eligible office first, then expand only after proof is available.

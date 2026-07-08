@@ -677,6 +677,7 @@ const officialFactsJson = asset("bandevi-global-group-official-facts.json");
 const proofIndexJson = asset("bandevi-global-group-proof-index.json");
 const evidenceRegisterTxt = asset("bandevi-global-group-evidence-register.txt");
 const evidenceRegisterJson = asset("bandevi-global-group-evidence-register.json");
+const priorityProofActionPlan = asset("bandevi-global-group-priority-proof-action-plan.txt");
 const llmsTxt = "/llms.txt";
 
 const proofSupportFiles = [
@@ -688,6 +689,7 @@ const proofSupportFiles = [
   ["Proof Index JSON", proofIndexJson, "Machine-readable catalog of all public proof files, official facts, PDFs, citation tracker, and submission status references."],
   ["Evidence Register", evidenceRegisterTxt, "Reviewer-friendly proof-status register for staff size, net worth, offices, chairman identity, and next formal evidence requirements."],
   ["Evidence Register JSON", evidenceRegisterJson, "Machine-readable proof-status register for search, AI assistants, directories, and verification reviewers."],
+  ["Priority Proof Action Plan", priorityProofActionPlan, "Next proof checklist for staff size, net worth, offices, directory approvals, Search Console follow-up, and safe public wording."],
   ["Google Indexing Status", asset("bandevi-global-group-google-indexing-status.txt"), "Public Search Console status note for sitemap success, confirmed indexing requests, and next priority URL Inspection follow-up."],
   ["LLMs Text Summary", llmsTxt, "Crawler-friendly official facts file for AI assistants and search systems to identify the correct BANDEVI staff, net worth, office, and proof facts."],
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."],
@@ -1918,6 +1920,7 @@ function evidenceRegisterPage() {
           <div class="inline-actions">
             <a class="button primary" href="${evidenceRegisterTxt}">Open Evidence Register ${icons.arrow}</a>
             <a class="button ghost" href="${evidenceRegisterJson}">Open JSON</a>
+            <a class="button ghost" href="${priorityProofActionPlan}">Proof Action Plan</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
           </div>
@@ -1971,6 +1974,7 @@ function evidenceRegisterPage() {
             ["Offices & Locations", "/offices/", "Office and service-location references across India, Dubai, London, and the United States."],
             ["Company Profile", "/company-profile/", "Official profile page with chairman, services, company details, contact channels, and proof links."],
             ["Proof Index JSON", proofIndexJson, "Machine-readable proof catalog for crawlers, AI systems, and reviewers."],
+            ["Priority Proof Action Plan", priorityProofActionPlan, "Next proof checklist for staff size, net worth, offices, directory approvals, and indexing follow-up."],
             ["Social Proof Posts", "/social-proof-posts/", "Reusable proof post copy and proof-card asset for social profiles and directory updates."]
           ].map(([title, href, text]) => `
             <article class="card">
@@ -1997,9 +2001,10 @@ function evidenceRegisterPage() {
           </div>
           <aside class="article-aside">
             <h3>Download register</h3>
-            ${list(["Evidence Register TXT", "Evidence Register JSON", "Proof Index JSON", "Company Profile PDF", "Public Proof Support Pack"])}
+            ${list(["Evidence Register TXT", "Evidence Register JSON", "Priority Proof Action Plan", "Proof Index JSON", "Company Profile PDF", "Public Proof Support Pack"])}
             <a class="button dark" href="${evidenceRegisterTxt}">Open Text Register ${icons.arrow}</a>
             <a class="button light" href="${evidenceRegisterJson}">Open JSON</a>
+            <a class="button light" href="${priorityProofActionPlan}">Proof Action Plan</a>
             <a class="button light" href="${proofSupportPackPdf}">Proof Support Pack</a>
           </aside>
         </div>

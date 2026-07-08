@@ -164,6 +164,13 @@
     },
     {
       "@type": "Dataset",
+      "name": "Priority proof action plan",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt",
+      "encodingFormat": "text/plain",
+      "description": "Public action plan listing next proof items for staff size, net worth/group strength, offices, directory approvals, Search Console retry, and safe public wording."
+    },
+    {
+      "@type": "Dataset",
       "name": "Social proof structured JSON",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
       "encodingFormat": "application/ld+json",

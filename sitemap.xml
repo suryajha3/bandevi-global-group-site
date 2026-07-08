@@ -26,13 +26,13 @@
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/proof-verification/</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.93</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/evidence-register/</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -350,15 +350,21 @@
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.74</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.76</priority>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt</loc>

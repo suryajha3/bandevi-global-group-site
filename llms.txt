@@ -64,6 +64,7 @@ BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce s
 - Evidence register: https://bandeviglobalgroup.com/evidence-register/
 - Evidence register text: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
 - Evidence register structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json
+- Priority proof action plan: https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 - Sortlist service completion pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 
 ## Important Consistency Rule
