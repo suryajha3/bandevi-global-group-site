@@ -768,10 +768,10 @@ const externalCitationTargets = [
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
   ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; tagline cleaned; CRM/ERP portfolio page live; service pack expanded with new product URLs", "Web Application, web development, CRM, ERP, Travel Technology"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
-  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published; sales product post copy ready", "IT services and IT consulting, software development, CRM, travel technology"],
+  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published; sales product post reported published; post URL pending", "IT services and IT consulting, software development, CRM, travel technology"],
   ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published", "Software company, information technology company"],
   ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio and website link updated; Evidence Register proof post published", "Software company, IT services"],
-  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, broad location updated; short sales product post copy ready", "IT company, software development, CRM, travel technology"]
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, broad location updated; short sales product post reported published; post URL pending", "IT company, software development, CRM, travel technology"]
 ];
 
 const socialProofPostTemplates = [
