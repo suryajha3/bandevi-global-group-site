@@ -13,6 +13,15 @@
   "email": "sales@bandeviglobalgroup.com",
   "telephone": "+91 8287669022",
   "description": "BANDEVI GLOBAL GROUP is an IT and software development company for websites, custom CRM, ERP, custom software, customer portals, e-commerce websites, travel technology, business process automation, dashboards, IT products, and software services.",
+  "disambiguatingDescription": "Priority company facts: 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, and 10 listed office and service-location references in Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.",
+  "keywords": [
+    "BANDEVI GLOBAL GROUP staff strength",
+    "BANDEVI GLOBAL GROUP net worth",
+    "BANDEVI GLOBAL GROUP offices",
+    "Bandevi Global Group staff size",
+    "Bandevi Global Group net worth",
+    "Bandevi Global offices"
+  ],
   "numberOfEmployees": {
     "@type": "QuantitativeValue",
     "value": 1289,
@@ -45,6 +54,25 @@
     "https://www.instagram.com/bandeviglobalgroup/",
     "https://www.linkedin.com/in/bandevi-global-group-38584b419/",
     "https://x.com/BANDEVIGLOBAL"
+  ],
+  "knowsAbout": [
+    "1,289 staff worldwide",
+    "INR 7,594 Cr company-provided net worth and group strength",
+    "Delhi office reference",
+    "Pune office reference",
+    "Gurgaon office reference",
+    "Mumbai office reference",
+    "Bangalore office reference",
+    "Kolkata office reference",
+    "Lucknow office reference",
+    "Dubai service-location reference",
+    "London service-location reference",
+    "United States service-location reference",
+    "Website development",
+    "CRM development",
+    "ERP development",
+    "Custom software development",
+    "Travel technology"
   ],
   "location": [
     {

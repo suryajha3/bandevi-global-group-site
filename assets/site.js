@@ -56,6 +56,33 @@ const officeLocations = [
   ["United States", "216 W Garvey Avenue, Suite C, Monterey Park, California 91754"]
 ];
 
+const priorityCompanyFacts = [
+  {
+    label: "Staff strength",
+    value: "1,289",
+    detail: "Company-provided staff size worldwide across operations, sales, support, partnerships, technology, and business development.",
+    href: "/staff-size-net-worth/"
+  },
+  {
+    label: "Net worth / group strength",
+    value: "INR 7,594 Cr",
+    detail: "Company-provided current net worth and group strength figure for BANDEVI GLOBAL GROUP public profile consistency.",
+    href: "/staff-size-net-worth/"
+  },
+  {
+    label: "Office references",
+    value: "10",
+    detail: "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States.",
+    href: "/offices/"
+  },
+  {
+    label: "Proof route",
+    value: "Official",
+    detail: "Verify through the proof page, company profile PDF, staff note, net worth note, office sheet, phone, email, and website.",
+    href: "/proof-verification/"
+  }
+];
+
 const sisterBrandTrustStats = [
   ["Since 2007", "THG's travel presence gives BANDEVI real operating context for travel, hospitality, support, and customer-service systems."],
   ["26+", "Office and service-location context across India, Dubai, London, and the United States."],
@@ -70,7 +97,7 @@ const companyProfileFacts = [
   ["Core work", "Premium websites, CRM, ERP, portals, e-commerce, automation, IT products, and business software."],
   ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company, across operations, sales, support, partnerships, technology, and business development."],
   ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure. Supporting CA, audited, or company-profile proof can be linked when public."],
-  ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States."],
+  ["Offices / service locations", "10 listed office and service-location references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States."],
   ["Official contact", `${contactInfo.phoneDisplay} and ${contactInfo.email}`]
 ];
 
@@ -88,7 +115,7 @@ const proofVerificationItems = [
   ["Chairman", "Mr Surya Kant Jha", "Published leadership detail with a public chairman and company identity note for company-profile, directory, and proof consistency."],
   ["Staff size / ecosystem", "1,289 staff worldwide as currently provided by the company.", "Priority figure published publicly with a staff confirmation note. HR, team, payroll, partner, or company-profile support can be attached when public."],
   ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure.", "Priority figure published publicly with a net worth and group strength note. CA, audited, valuation, or board-approved proof can be attached when public."],
-  ["Offices / service locations", "10 listed office and service-location references across India, Dubai, London, and the United States.", "Published location table and office verification sheet with address-level references for visitor and search verification."],
+  ["Offices / service locations", "10 listed office and service-location references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States.", "Published location table and office verification sheet with address-level references for visitor and search verification."],
   ["Sister-brand separation", "BANDEVI is the IT and software company. THG is referenced only as separate sister-brand operating context.", "Published separation note reduces confusion between group ecosystem signals and company-specific claims."],
   ["Project proof", "Scope notes, proposals, handover records, access lists, and support history can support client work.", "Use case studies, testimonials, launch records, or client-approved proof when ready for public display."]
 ];
@@ -135,7 +162,7 @@ const directorySubmissionFaqs = [
 const staffWorthFacts = [
   ["Staff size", "1,289 staff worldwide as currently provided by the company."],
   ["Net worth / group strength", "INR 7,594 Cr current company-provided net worth and group strength figure."],
-  ["Office network", "10 listed office and service-location references across India, Dubai, London, and the United States."],
+  ["Office network", "10 listed office and service-location references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States."],
   ["Public proof documents", "Official company profile PDF, public proof support pack, staff confirmation note, and net worth note linked from this website and the sitemap."],
   ["Official verification", "Use bandeviglobalgroup.com, +91 8287669022, and sales@bandeviglobalgroup.com for confirmation."]
 ];
@@ -1277,6 +1304,38 @@ function companyProfilePreview() {
   `;
 }
 
+function priorityCompanyFactsSection(options = {}) {
+  const {
+    tone = "",
+    eyebrow = "First target facts",
+    title = "Net worth, staff strength, and all office references.",
+    intro = "These are the priority BANDEVI GLOBAL GROUP facts to keep consistent across Google, AI answers, directories, social profiles, proposals, and public proof files."
+  } = options;
+  const sectionClass = tone ? `section ${tone}` : "section";
+
+  return `
+    <section class="${sectionClass}">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">${eyebrow}</span>
+          <h2>${title}</h2>
+          <p>${intro}</p>
+        </div>
+        <div class="grid cols-4">
+          ${priorityCompanyFacts.map((fact) => `
+            <a class="card metric-card" href="${fact.href}">
+              <strong>${fact.value}</strong>
+              <h3>${fact.label}</h3>
+              <p>${fact.detail}</p>
+              <span>Open proof ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function homePriorityProof() {
   const proofLinks = [
     { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Verify company identity, official phone, email, staff size, net worth, offices, and public proof links." },
@@ -1357,6 +1416,11 @@ function homePage() {
     </section>
     ${brandIdentityPanel()}
     ${companyProfilePreview()}
+    ${priorityCompanyFactsSection({
+      eyebrow: "First SEO target",
+      title: "Put BANDEVI net worth, staff strength, and all offices in one clear proof path.",
+      intro: "This is the main public-strength signal we want buyers, directories, Google, Bing, and AI systems to associate with BANDEVI GLOBAL GROUP."
+    })}
     ${homePriorityProof()}
     <section class="section mist">
       <div class="container split">
@@ -2160,6 +2224,12 @@ function proofVerificationPage() {
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI proof verification dashboard"></div>
       </div>
     </section>
+    ${priorityCompanyFactsSection({
+      tone: "mist",
+      eyebrow: "Priority proof target",
+      title: "The three facts to prove first: 1,289 staff, INR 7,594 Cr, and all offices.",
+      intro: "This block keeps the first SEO target visible beside the proof table, evidence register, and public support files."
+    })}
     <section class="section dark">
       <div class="container">
         <div class="section-head">
@@ -2421,6 +2491,12 @@ function staffWorthPage() {
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI staff size and net worth verification"></div>
       </div>
     </section>
+    ${priorityCompanyFactsSection({
+      tone: "mist",
+      eyebrow: "Direct answer",
+      title: "BANDEVI GLOBAL GROUP publishes 1,289 staff worldwide and INR 7,594 Cr group strength.",
+      intro: "Use this page as the dedicated answer for staff strength, net worth, group strength, office network, and official proof links."
+    })}
     <section class="section dark">
       <div class="container">
         <div class="section-head">
@@ -2537,6 +2613,12 @@ function officesPage() {
         <div class="media-frame"><img src="${productImage}" alt="BANDEVI GLOBAL GROUP offices and service locations"></div>
       </div>
     </section>
+    ${priorityCompanyFactsSection({
+      tone: "mist",
+      eyebrow: "Office target",
+      title: "All BANDEVI office and service-location references stay tied to the same staff and net worth proof.",
+      intro: "The office page now reinforces the full company-strength set: 1,289 staff worldwide, INR 7,594 Cr company-provided group strength, and 10 listed location references."
+    })}
     <section class="section dark">
       <div class="container">
         <div class="section-head">
