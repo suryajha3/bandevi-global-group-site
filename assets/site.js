@@ -766,12 +766,12 @@ const externalCitationTargets = [
   ["The Manifest", "B2B shortlist directory", "https://themanifest.com/get-listed", "Ready after Clutch profile", "Software development, web development, IT services"],
   ["GoodFirms", "B2B reviews and software directory", "https://www.goodfirms.co/get-listed", "Submission reported complete; monitor review", "Software development, web development, CRM, ERP"],
   ["TechBehemoths", "IT company directory", "https://techbehemoths.com/", "Submitted; manual review pending", "Custom software development, web development, CRM, ERP"],
-  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; tagline cleaned; CRM/ERP portfolio page live; quality score observed at 46%; service completion pack ready", "Web Application, web development, CRM, ERP"],
+  ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; tagline cleaned; CRM/ERP portfolio page live; service pack expanded with new product URLs", "Web Application, web development, CRM, ERP, Travel Technology"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
-  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published", "IT services and IT consulting, software development"],
+  ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published; sales product post copy ready", "IT services and IT consulting, software development, CRM, travel technology"],
   ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published", "Software company, information technology company"],
   ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio and website link updated; Evidence Register proof post published", "Software company, IT services"],
-  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, and broad location updated", "IT company, software development"]
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, broad location updated; short sales product post copy ready", "IT company, software development, CRM, travel technology"]
 ];
 
 const socialProofPostTemplates = [
@@ -779,7 +779,9 @@ const socialProofPostTemplates = [
   ["Short social caption", "BANDEVI GLOBAL GROUP official company profile: Chairman Mr Surya Kant Jha | 1,289 staff worldwide | INR 7,594 Cr company-provided group strength. Official proof: https://bandeviglobalgroup.com/proof-verification/"],
   ["LinkedIn version", "BANDEVI GLOBAL GROUP has published its official company proof and verification page for public reference. The company profile lists Chairman Mr Surya Kant Jha, 1,289 staff worldwide as currently provided by the company, INR 7,594 Cr company-provided net worth and group strength, and office/service-location references across India, Dubai, London, and the United States."],
   ["Directory reviewer note", "Use BANDEVI GLOBAL GROUP as the official business name. Verify the official website, phone, email, chairman, staff size, net worth/group strength, offices, and proof URLs through https://bandeviglobalgroup.com/proof-verification/."],
-  ["Pinned profile note", "This is the official BANDEVI GLOBAL GROUP profile. Website: https://bandeviglobalgroup.com/. Proof: https://bandeviglobalgroup.com/proof-verification/. Chairman: Mr Surya Kant Jha. Company-provided staff size: 1,289 worldwide. Company-provided net worth / group strength: INR 7,594 Cr."]
+  ["Pinned profile note", "This is the official BANDEVI GLOBAL GROUP profile. Website: https://bandeviglobalgroup.com/. Proof: https://bandeviglobalgroup.com/proof-verification/. Chairman: Mr Surya Kant Jha. Company-provided staff size: 1,289 worldwide. Company-provided net worth / group strength: INR 7,594 Cr."],
+  ["Sales product launch update", "BANDEVI GLOBAL GROUP has added new sales-focused service pages for companies comparing white-label CRM, Travel CRM software, B2B travel portals, flight booking engine workflows, hotel booking engine workflows, and travel agency mobile apps. Product hub: https://bandeviglobalgroup.com/it-products/"],
+  ["X short version", "BANDEVI GLOBAL GROUP has added new service pages for white-label CRM, Travel CRM software, B2B travel portals, booking-engine workflows, and travel agency mobile apps. Products: https://bandeviglobalgroup.com/it-products/"]
 ];
 
 const evidenceRegisterItems = [

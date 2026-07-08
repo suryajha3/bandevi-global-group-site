@@ -4,7 +4,7 @@
   "@id": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
   "name": "BANDEVI GLOBAL GROUP Social Proof Post Pack",
   "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
-  "dateModified": "2026-07-07",
+  "dateModified": "2026-07-08",
   "publisher": {
     "@type": "Organization",
     "@id": "https://bandeviglobalgroup.com/#organization",
@@ -38,7 +38,7 @@
   "mainEntity": {
     "@type": "ItemList",
     "name": "Social proof post templates",
-    "numberOfItems": 5,
+    "numberOfItems": 7,
     "itemListElement": [
       {
         "@type": "ListItem",
@@ -69,6 +69,18 @@
         "position": 5,
         "name": "Pinned post format",
         "description": "Pinned profile proof note for social channels."
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "Sales product launch update",
+        "description": "LinkedIn and directory-friendly update covering white-label CRM, Travel CRM software, B2B travel portal, flight booking engine, hotel booking engine, and travel agency mobile app pages."
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "X short version",
+        "description": "Short social update for X covering the new sales-focused product URLs."
       }
     ]
   },
@@ -78,6 +90,12 @@
     "https://bandeviglobalgroup.com/company-profile/",
     "https://bandeviglobalgroup.com/offices/",
     "https://bandeviglobalgroup.com/directory-listing-profile/",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf"
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf",
+    "https://bandeviglobalgroup.com/white-label-crm/",
+    "https://bandeviglobalgroup.com/travel-crm-software/",
+    "https://bandeviglobalgroup.com/b2b-travel-portal/",
+    "https://bandeviglobalgroup.com/flight-booking-engine/",
+    "https://bandeviglobalgroup.com/hotel-booking-engine/",
+    "https://bandeviglobalgroup.com/travel-agency-mobile-app/"
   ]
 }
