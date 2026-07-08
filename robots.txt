@@ -7,6 +7,7 @@ Sitemap: https://bandeviglobalgroup.com/sitemap.xml
 # https://bandeviglobalgroup.com/llms.txt
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
+# https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt
