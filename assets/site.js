@@ -562,6 +562,16 @@ const productPackages = [
     link: "/crm-erp-solutions/"
   },
   {
+    icon: "users",
+    tag: "White-label CRM",
+    title: "White-label CRM Package",
+    bestFor: "Agencies, partners, resellers, franchise-style sellers, and multi-branch teams that need branded CRM control.",
+    includes: ["Branded CRM workspace structure", "Lead capture, owner assignment, and source tracking", "Customer records, follow-up stages, and reminders", "Sales dashboard and role-based access planning"],
+    addOns: ["Partner login", "WhatsApp routing", "Quotation workflow", "Multi-brand reporting"],
+    timeline: "Typical starting timeline: 3-6 weeks.",
+    link: "/white-label-crm/"
+  },
+  {
     icon: "plane",
     tag: "Travel website",
     title: "Travel Website Package",
@@ -579,7 +589,47 @@ const productPackages = [
     includes: ["Reusable travel website structure", "Partner or branch branding areas", "Controlled package and service templates", "Separate lead capture and source tracking"],
     addOns: ["Partner portal", "CRM routing", "Multi-brand content setup", "Reporting dashboard"],
     timeline: "Typical starting timeline: 3-6 weeks.",
-    link: "/travel-website-development/"
+    link: "/white-label-travel-website/"
+  },
+  {
+    icon: "stack",
+    tag: "B2B travel portal",
+    title: "B2B Travel Portal Package",
+    bestFor: "Travel companies that work with agents, partners, branches, reseller networks, and corporate desks.",
+    includes: ["Agent and partner access planning", "Package, enquiry, and booking workflow", "Document, invoice, and payment status views", "Reporting for sources, branches, and teams"],
+    addOns: ["Flight module", "Hotel module", "Travel CRM", "Travel ERP"],
+    timeline: "Typical starting timeline: 4-8 weeks.",
+    link: "/b2b-travel-portal/"
+  },
+  {
+    icon: "plane",
+    tag: "Booking engine",
+    title: "Flight Booking Engine Package",
+    bestFor: "Travel agencies and corporate travel teams that need a flight enquiry, booking, payment, and operations flow.",
+    includes: ["Flight search or enquiry journey", "Passenger and travel detail capture", "Booking status and supplier coordination", "CRM/ERP-ready handoff and reporting"],
+    addOns: ["API planning", "Payment status", "Customer portal", "Notification workflow"],
+    timeline: "Typical starting timeline: 4-8 weeks.",
+    link: "/flight-booking-engine/"
+  },
+  {
+    icon: "globe",
+    tag: "Hotel engine",
+    title: "Hotel Booking Engine Package",
+    bestFor: "DMCs, tour operators, travel agencies, and hospitality sellers managing hotel enquiries and room bookings.",
+    includes: ["Hotel, room, and destination enquiry paths", "Supplier notes and booking records", "Customer documents and payment status", "Dashboard planning for open bookings"],
+    addOns: ["Supplier portal", "Package builder", "Travel ERP", "Customer notifications"],
+    timeline: "Typical starting timeline: 4-8 weeks.",
+    link: "/hotel-booking-engine/"
+  },
+  {
+    icon: "phone",
+    tag: "Travel app",
+    title: "Travel Agency Mobile App Package",
+    bestFor: "Travel sellers that want customers, agents, and staff to manage enquiries, status, documents, and updates on mobile.",
+    includes: ["Customer and agent mobile journeys", "Booking status, documents, and support paths", "Payment reminders and notification planning", "Travel CRM and ERP connection roadmap"],
+    addOns: ["Customer login", "Agent dashboard", "Push notifications", "Portal integration"],
+    timeline: "Typical starting timeline: 4-8 weeks.",
+    link: "/travel-agency-mobile-app/"
   },
   {
     icon: "stack",
@@ -876,6 +926,36 @@ const pageData = {
     title: "Travel Mobile App Development",
     eyebrow: "Mobile apps for travel teams",
     lede: "BANDEVI GLOBAL GROUP builds travel mobile app and mobile-first portal experiences for customers, agents, staff, booking status, documents, enquiries, notifications, Travel CRM, and Travel ERP workflows."
+  },
+  whiteLabelCrm: {
+    title: "White Label CRM Software",
+    eyebrow: "CRM for agencies, partners, and reseller teams",
+    lede: "BANDEVI GLOBAL GROUP builds white-label CRM software for agencies, partners, branches, resellers, and service teams that need branded lead management, sales follow-up, customer records, dashboards, and controlled team access."
+  },
+  travelCrmSoftware: {
+    title: "Travel CRM Software for Agencies",
+    eyebrow: "Travel leads, quotes, and follow-up control",
+    lede: "BANDEVI GLOBAL GROUP builds Travel CRM software for travel agencies, tour operators, DMCs, corporate travel desks, branches, and travel sales teams that need enquiry capture, quotation stages, WhatsApp follow-ups, customer records, and dashboards."
+  },
+  b2bTravelPortal: {
+    title: "B2B Travel Portal Development",
+    eyebrow: "Partner, agent, and reseller travel systems",
+    lede: "BANDEVI GLOBAL GROUP builds B2B travel portal systems for agents, partners, branches, reseller networks, corporate desks, and travel groups that need controlled access, package distribution, lead routing, booking workflows, documents, payments, and dashboards."
+  },
+  flightBookingEngine: {
+    title: "Flight Booking Engine Development",
+    eyebrow: "Flight search, enquiry, booking, and operations flow",
+    lede: "BANDEVI GLOBAL GROUP builds flight booking engine workflows and flight booking website modules for travel businesses that need flight enquiry capture, booking status, supplier coordination, payment tracking, customer documents, and CRM/ERP connection."
+  },
+  hotelBookingEngine: {
+    title: "Hotel Booking Engine Development",
+    eyebrow: "Hotel search, enquiry, booking, and supplier workflow",
+    lede: "BANDEVI GLOBAL GROUP builds hotel booking engine workflows and hotel booking website modules for travel agencies, DMCs, tour operators, and hospitality sellers that need room enquiry flows, booking records, supplier notes, payments, customer documents, and dashboards."
+  },
+  travelAgencyMobileApp: {
+    title: "Travel Agency Mobile App",
+    eyebrow: "Customer and agent mobile experience",
+    lede: "BANDEVI GLOBAL GROUP builds travel agency mobile app experiences for customers, agents, staff, and travel sales teams with enquiries, booking status, documents, payment reminders, notifications, customer support, Travel CRM, and Travel ERP connection."
   },
   travelTech: {
     title: "Travel Technology Company",
@@ -3224,6 +3304,96 @@ const landingPages = {
     ],
     process: ["Map mobile journeys", "Design customer and staff screens", "Connect CRM/ERP data", "Launch and improve usage"]
   },
+  whiteLabelCrm: {
+    tag: "White label CRM software",
+    title: "White label CRM software for agencies, resellers, partners, branches, and service teams.",
+    intro: "BANDEVI GLOBAL GROUP builds white-label CRM software for companies that want a branded CRM experience for their teams, branches, partners, resellers, or franchise-style sellers. The system can support lead capture, source tracking, assignment, follow-ups, customer records, quotation stages, dashboards, and controlled access.",
+    points: ["White-label CRM structure for agencies, partners, branches, resellers, franchise-style sellers, and multi-brand teams", "Lead capture from websites, WhatsApp, forms, calls, campaigns, referrals, partners, and branch channels", "Customer records, sales stages, follow-up reminders, quotation tracking, source quality, and owner assignment", "Role-based access, branded workspace direction, partner-ready views, dashboards, and reporting"],
+    modules: [
+      { icon: "users", title: "Branded CRM workspace", text: "Create a CRM direction that can carry company, partner, branch, reseller, or franchise-style branding and controlled user access." },
+      { icon: "message", title: "Lead capture and routing", text: "Route leads from website forms, WhatsApp, calls, campaigns, referrals, partners, and branch teams into clean queues." },
+      { icon: "chart", title: "Sales dashboard", text: "Track pipeline, follow-ups, lead source quality, owner performance, overdue work, quotation stage, and conversion status." },
+      { icon: "shield", title: "Access control", text: "Plan roles for owners, managers, branch teams, partners, resellers, support teams, and leadership reporting." },
+      { icon: "stack", title: "Quotation and workflow path", text: "Connect CRM records with quotations, task queues, documents, reminders, customer notes, and handoff to ERP when needed." },
+      { icon: "globe", title: "Website and portal connection", text: "Connect landing pages, demo requests, partner pages, customer portals, and sales forms with the CRM workflow." }
+    ],
+    process: ["Map brand and team model", "Build CRM fields and stages", "Connect lead sources", "Launch dashboards and improve"]
+  },
+  travelCrmSoftware: {
+    tag: "Travel CRM software",
+    title: "Travel CRM software for travel agencies, tour operators, DMCs, and sales teams.",
+    intro: "BANDEVI GLOBAL GROUP builds Travel CRM software for travel companies that need stronger enquiry capture, quotation follow-up, WhatsApp handling, customer records, destination interest tracking, branch ownership, sales dashboards, and booking-ready handoff.",
+    points: ["Travel enquiry capture from travel websites, package pages, WhatsApp, calls, campaigns, referrals, agents, and partner channels", "Customer profiles with destination interest, travel dates, pax count, budget direction, notes, source, and preferred contact method", "Quotation stages, follow-up reminders, lost reasons, sales owner assignment, overdue lead views, and daily sales discipline", "Booking handoff into Travel ERP, customer portal, documents, payment reminders, supplier workflow, and reporting when ready"],
+    modules: [
+      { icon: "plane", title: "Travel lead capture", text: "Capture package, destination, flight, hotel, visa, group tour, corporate travel, and holiday enquiries with sales context." },
+      { icon: "message", title: "WhatsApp follow-up", text: "Structure WhatsApp and callback follow-ups with next action dates, owner assignment, customer notes, and stage tracking." },
+      { icon: "users", title: "Customer travel profile", text: "Store customer details, trip interest, dates, budget, passenger count, documents, communication history, and preferences." },
+      { icon: "chart", title: "Sales reporting", text: "Review source quality, package interest, open follow-ups, quotation movement, conversion, and consultant activity." },
+      { icon: "stack", title: "Booking handoff", text: "Move qualified or won leads into booking files, supplier notes, invoices, payments, documents, and Travel ERP workflows." },
+      { icon: "shield", title: "Branch and role control", text: "Support branch-wise ownership, manager review, sales queues, escalation paths, and multi-office reporting." }
+    ],
+    process: ["Capture travel leads", "Track quote follow-ups", "Move won leads to booking", "Report and improve sales"]
+  },
+  b2bTravelPortal: {
+    tag: "B2B travel portal",
+    title: "B2B travel portal development for agents, partners, resellers, branches, and corporate desks.",
+    intro: "BANDEVI GLOBAL GROUP builds B2B travel portal systems for travel businesses that need agent access, partner workflows, branch control, reseller enquiries, package distribution, booking status, documents, invoices, payment tracking, customer support, and dashboards.",
+    points: ["Agent, partner, reseller, branch, and corporate desk access planning with controlled roles and reporting", "Travel package, flight, hotel, visa, insurance, MICE, group tour, and destination enquiry workflows", "Booking records, passenger details, supplier notes, invoices, payments, documents, support requests, and status views", "Travel CRM, Travel ERP, customer portal, notifications, payment reminders, and management dashboard connection"],
+    modules: [
+      { icon: "users", title: "Agent and partner access", text: "Plan login views and permissions for agents, branches, partners, resellers, corporate desks, managers, and support teams." },
+      { icon: "globe", title: "Package distribution", text: "Publish packages, destinations, service options, enquiry paths, campaign content, and partner-ready product information." },
+      { icon: "plane", title: "Travel booking workflow", text: "Manage enquiries, passengers, services, suppliers, booking status, documents, invoices, payments, and operations notes." },
+      { icon: "message", title: "Communication flow", text: "Route questions, support requests, status updates, payment reminders, and document requests through controlled workflows." },
+      { icon: "stack", title: "CRM and ERP connection", text: "Connect B2B portal activity with Travel CRM, Travel ERP, lead and booking management, and customer records." },
+      { icon: "chart", title: "Partner reporting", text: "Track partner leads, branch performance, open bookings, payments, supplier follow-up, conversion, and service status." }
+    ],
+    process: ["Map partner access", "Build portal workflow", "Connect CRM and ERP", "Launch reporting"]
+  },
+  flightBookingEngine: {
+    tag: "Flight booking engine",
+    title: "Flight booking engine development for travel websites, agencies, and corporate travel teams.",
+    intro: "BANDEVI GLOBAL GROUP builds flight booking engine workflows and flight booking website modules for travel companies that need flight enquiry capture, passenger details, booking status, supplier coordination, payment tracking, documents, notifications, CRM handoff, and ERP reporting.",
+    points: ["Flight search, request, enquiry, callback, quote, and booking workflow planning for travel sellers", "Passenger detail capture, travel dates, route preference, budget direction, fare notes, supplier status, and document needs", "Payment status, invoice tracking, ticket/voucher document paths, customer updates, and support workflow", "Travel CRM, Travel ERP, customer portal, corporate desk reporting, and dashboard connection"],
+    modules: [
+      { icon: "plane", title: "Flight enquiry journey", text: "Build enquiry or search-led flows for route, dates, passenger count, cabin class, preferences, and callback requests." },
+      { icon: "users", title: "Passenger records", text: "Capture passenger details, documents, travel requirements, corporate references, notes, and customer communication history." },
+      { icon: "stack", title: "Booking operations", text: "Track supplier status, fares, booking records, ticket notes, invoices, payments, documents, and operational ownership." },
+      { icon: "message", title: "Updates and reminders", text: "Plan payment reminders, document requests, ticket status, booking updates, and customer support messages." },
+      { icon: "shield", title: "CRM and ERP handoff", text: "Connect flight enquiries to Travel CRM and confirmed flight work to Travel ERP booking files and finance views." },
+      { icon: "chart", title: "Dashboard visibility", text: "Review open flight enquiries, pending payments, document gaps, booking status, source performance, and team activity." }
+    ],
+    process: ["Map flight journey", "Build enquiry and booking flow", "Connect operations", "Launch and report"]
+  },
+  hotelBookingEngine: {
+    tag: "Hotel booking engine",
+    title: "Hotel booking engine development for travel agencies, DMCs, tour operators, and hospitality sellers.",
+    intro: "BANDEVI GLOBAL GROUP builds hotel booking engine workflows and hotel booking website modules for companies that need hotel enquiries, room requests, supplier notes, destination flow, booking records, payment status, customer documents, CRM/ERP handoff, and dashboards.",
+    points: ["Hotel enquiry and room request flow for destinations, dates, room type, guest count, meal plan, budget direction, and special notes", "Supplier coordination, room status, rate notes, booking files, invoice and payment tracking, documents, and customer updates", "Package, hotel, destination, DMC, group tour, corporate stay, and travel website integration paths", "Travel CRM, Travel ERP, B2B portal, customer portal, notification, support, and reporting connection"],
+    modules: [
+      { icon: "globe", title: "Hotel enquiry flow", text: "Capture destination, hotel preference, dates, rooms, guests, meal plan, budget, notes, and preferred contact path." },
+      { icon: "stack", title: "Supplier workflow", text: "Track supplier notes, room availability, rates, confirmation status, invoices, payments, and booking documents." },
+      { icon: "plane", title: "Package connection", text: "Connect hotel requests with package pages, destination pages, DMC workflows, group tours, and travel booking records." },
+      { icon: "message", title: "Customer updates", text: "Send or plan status updates, payment reminders, document requests, support replies, and confirmation notes." },
+      { icon: "shield", title: "CRM and ERP handoff", text: "Move hotel enquiries into Travel CRM and confirmed hotel bookings into Travel ERP, customer portals, and finance reports." },
+      { icon: "chart", title: "Booking dashboard", text: "Monitor open requests, supplier follow-up, pending payments, documents, booking status, and source quality." }
+    ],
+    process: ["Plan hotel enquiry fields", "Build booking workflow", "Connect supplier and payment status", "Report and improve"]
+  },
+  travelAgencyMobileApp: {
+    tag: "Travel agency mobile app",
+    title: "Travel agency mobile app development for customers, agents, booking status, documents, and support.",
+    intro: "BANDEVI GLOBAL GROUP builds travel agency mobile app experiences for travel sellers that need customer access, agent workflows, booking status, document views, payment reminders, support requests, notifications, Travel CRM, Travel ERP, and customer portal connection.",
+    points: ["Customer app or mobile-first portal for enquiries, booking status, invoices, documents, payment reminders, support, and travel updates", "Agent and staff app workflows for lead follow-up, quotation notes, booking status, customer context, document requests, and tasks", "Mobile paths connected with Travel CRM, Travel ERP, B2B portal, customer portal, booking workflow, payments, and dashboards", "Notification planning for payment alerts, document requests, status updates, support replies, lead follow-ups, and internal escalations"],
+    modules: [
+      { icon: "phone", title: "Customer mobile experience", text: "Give customers controlled access to enquiries, booking status, documents, invoices, payments, support, and updates." },
+      { icon: "users", title: "Agent app workflow", text: "Support sales owners with lead follow-ups, customer notes, quotation status, tasks, reminders, and booking visibility." },
+      { icon: "plane", title: "Booking status views", text: "Show trip status, passenger details, service notes, tickets, vouchers, visas, insurance, and handover records." },
+      { icon: "message", title: "Notifications", text: "Plan notifications for payment reminders, document requests, support replies, booking updates, and internal alerts." },
+      { icon: "stack", title: "CRM and ERP connection", text: "Connect app screens to Travel CRM, Travel ERP, customer portals, B2B portals, booking files, and finance records." },
+      { icon: "chart", title: "Usage and operations reports", text: "Track app enquiries, pending documents, payment reminders, support load, booking status, and team activity." }
+    ],
+    process: ["Map customer and agent app flows", "Design mobile screens", "Connect travel systems", "Launch and improve"]
+  },
   travelTech: {
     tag: "Travel technology company",
     title: "Travel technology company for Travel CRM, Travel ERP, complete websites, white-label websites, and booking systems.",
@@ -4188,12 +4358,18 @@ function itProductUpgradeSections() {
         <div class="grid cols-3">
           ${[
             { icon: "users", title: "CRM & ERP Solutions", href: "/crm-erp-solutions/", text: "Custom CRM, ERP, lead management, sales pipeline, operations, finance, dashboards, and multi-office reporting." },
+            { icon: "users", title: "White-label CRM", href: "/white-label-crm/", text: "Branded CRM software for agencies, partners, branches, resellers, sales teams, customer records, follow-ups, and dashboards." },
             { icon: "plane", title: "Travel CRM", href: "/travel-crm/", text: "Travel lead capture, quotation stages, follow-ups, customer records, sales ownership, and conversion visibility." },
+            { icon: "plane", title: "Travel CRM Software", href: "/travel-crm-software/", text: "Travel CRM for agencies, DMCs, tour operators, WhatsApp leads, quotations, follow-ups, and booking-ready handoff." },
             { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Bookings, suppliers, invoices, payments, approvals, documents, operations reports, and travel back-office control." },
             { icon: "globe", title: "Website & App Development", href: "/website-mobile-app-development/", text: "Corporate websites, landing pages, web apps, mobile-first portals, admin panels, and SEO-ready service pages." },
             { icon: "shield", title: "White-label Travel Website", href: "/white-label-travel-website/", text: "Partner-ready travel website structures for agencies, branches, resellers, franchise-style sellers, and multi-brand travel groups." },
             { icon: "globe", title: "Travel Agency Website", href: "/travel-agency-website-development/", text: "Destination pages, package pages, WhatsApp enquiries, trust sections, SEO setup, and Travel CRM-ready lead capture." },
             { icon: "phone", title: "Travel Mobile App", href: "/travel-mobile-app-development/", text: "Customer and agent mobile journeys for booking status, documents, enquiries, notifications, CRM, and ERP workflows." },
+            { icon: "phone", title: "Travel Agency Mobile App", href: "/travel-agency-mobile-app/", text: "Customer and agent mobile app flows for enquiries, booking status, documents, payments, support, and notifications." },
+            { icon: "stack", title: "B2B Travel Portal", href: "/b2b-travel-portal/", text: "Agent, partner, reseller, branch, booking, document, payment, CRM, ERP, and reporting portal workflows." },
+            { icon: "plane", title: "Flight Booking Engine", href: "/flight-booking-engine/", text: "Flight enquiry, passenger detail, booking status, supplier coordination, payment, document, and CRM/ERP handoff." },
+            { icon: "globe", title: "Hotel Booking Engine", href: "/hotel-booking-engine/", text: "Hotel enquiry, room request, supplier status, booking record, payment, document, and dashboard workflows." },
             { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Customer login, document access, invoices, booking or order status, support requests, and controlled account views." },
             { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Workflow automation for assignments, reminders, approvals, notifications, dashboards, and daily team control." },
             { icon: "globe", title: "E-Commerce Solutions", href: "/ecommerce-solutions/", text: "Storefronts, product catalogues, payment paths, order workflows, distributor enquiries, inventory direction, and CRM." },
@@ -4894,8 +5070,13 @@ function contactForm(kind = "contact") {
     "IT Products and Software Suite",
     "Starter Website Package",
     "Business Website + CRM Package",
+    "White-label CRM Package",
     "Travel Website Package",
     "White-label Travel Website Package",
+    "B2B Travel Portal Package",
+    "Flight Booking Engine Package",
+    "Hotel Booking Engine Package",
+    "Travel Agency Mobile App Package",
     "CRM + ERP Package",
     "CRM Development Demo",
     "ERP Software Demo",
@@ -4909,6 +5090,12 @@ function contactForm(kind = "contact") {
     "Travel Website Development",
     "Complete Travel Website",
     "White-label Travel Website",
+    "White-label CRM Software",
+    "Travel CRM Software",
+    "B2B Travel Portal",
+    "Flight Booking Engine",
+    "Hotel Booking Engine",
+    "Travel Agency Mobile App",
     "Masala / Food Product Website",
     "Makhana Brand Digital System",
     "Astrology Services Platform",
@@ -4926,8 +5113,13 @@ function contactForm(kind = "contact") {
     "Product package consultation",
     "Starter website package",
     "Business website + CRM package",
+    "White-label CRM package",
     "Travel website package",
     "White-label travel website package",
+    "B2B travel portal package",
+    "Flight booking engine package",
+    "Hotel booking engine package",
+    "Travel agency mobile app package",
     "CRM + ERP package",
     "Customer portal package",
     "Masala / makhana e-commerce package",
@@ -4936,6 +5128,12 @@ function contactForm(kind = "contact") {
     "Travel website development",
     "Complete travel website",
     "White-label travel website",
+    "White-label CRM software",
+    "Travel CRM software",
+    "B2B travel portal",
+    "Flight booking engine",
+    "Hotel booking engine",
+    "Travel agency mobile app",
     "Masala / food product project",
     "Makhana brand project",
     "Astrology services project",
@@ -5666,12 +5864,18 @@ function footer() {
           <ul class="footer-links">
             <li><a href="/it-company-software-development-services/">IT Company Services</a></li>
             <li><a href="/crm-erp-solutions/">CRM & ERP Development</a></li>
+            <li><a href="/white-label-crm/">White-label CRM</a></li>
             <li><a href="/travel-crm/">Travel CRM</a></li>
+            <li><a href="/travel-crm-software/">Travel CRM Software</a></li>
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
             <li><a href="/white-label-travel-website/">White-label Travel Website</a></li>
             <li><a href="/travel-agency-website-development/">Travel Agency Website</a></li>
             <li><a href="/travel-mobile-app-development/">Travel Mobile App</a></li>
+            <li><a href="/travel-agency-mobile-app/">Travel Agency Mobile App</a></li>
+            <li><a href="/b2b-travel-portal/">B2B Travel Portal</a></li>
+            <li><a href="/flight-booking-engine/">Flight Booking Engine</a></li>
+            <li><a href="/hotel-booking-engine/">Hotel Booking Engine</a></li>
             <li><a href="/travel-technology/">Travel Technology</a></li>
             <li><a href="/lead-booking-management/">Lead & Booking Management</a></li>
             <li><a href="/customer-portal/">Customer Portal</a></li>
@@ -5751,6 +5955,12 @@ const pageRenderers = {
   whiteLabelTravelWebsite: () => landingPage("whiteLabelTravelWebsite"),
   travelAgencyWebsite: () => landingPage("travelAgencyWebsite"),
   travelMobileApp: () => landingPage("travelMobileApp"),
+  whiteLabelCrm: () => landingPage("whiteLabelCrm"),
+  travelCrmSoftware: () => landingPage("travelCrmSoftware"),
+  b2bTravelPortal: () => landingPage("b2bTravelPortal"),
+  flightBookingEngine: () => landingPage("flightBookingEngine"),
+  hotelBookingEngine: () => landingPage("hotelBookingEngine"),
+  travelAgencyMobileApp: () => landingPage("travelAgencyMobileApp"),
   travelTech: () => landingPage("travelTech"),
   leadBooking: () => landingPage("leadBooking"),
   it: itPage,
