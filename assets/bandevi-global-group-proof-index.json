@@ -170,6 +170,13 @@
       "description": "Machine-readable social proof post pack with official proof citations and company-provided fact wording."
     },
     {
+      "@type": "Dataset",
+      "name": "Sortlist service completion pack",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt",
+      "encodingFormat": "text/plain",
+      "description": "Sortlist-ready service budgets, service descriptions, skills, safe review rules, and proof links for the live provider profile."
+    },
+    {
       "@type": "ImageObject",
       "name": "Social proof card",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg",
@@ -177,5 +184,5 @@
       "description": "Square social proof card for BANDEVI GLOBAL GROUP official proof posts."
     }
   ],
-  "dateModified": "2026-07-07"
+  "dateModified": "2026-07-08"
 }

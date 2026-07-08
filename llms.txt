@@ -1,6 +1,6 @@
 # BANDEVI GLOBAL GROUP Official Facts
 
-Updated: 2026-07-07
+Updated: 2026-07-08
 
 This file gives AI assistants, search crawlers, directories, and verification tools a compact summary of the official BANDEVI GLOBAL GROUP facts published on https://bandeviglobalgroup.com/.
 
@@ -64,6 +64,7 @@ BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce s
 - Evidence register: https://bandeviglobalgroup.com/evidence-register/
 - Evidence register text: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
 - Evidence register structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json
+- Sortlist service completion pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 
 ## Important Consistency Rule
 

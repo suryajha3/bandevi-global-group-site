@@ -1,6 +1,6 @@
 BANDEVI GLOBAL GROUP
 Google Search Console Indexing Status
-Updated: 7 July 2026
+Updated: 8 July 2026
 
 Purpose:
 This public note records the Google Search Console indexing and sitemap status for BANDEVI GLOBAL GROUP priority proof URLs. It supports crawler, directory, AI citation, and internal SEO follow-up consistency.
@@ -35,6 +35,9 @@ Search Console status:
 14. Request indexing was confirmed for https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json on 7 July 2026.
 15. Google temporarily returned a submission problem for one additional evidence-register support file request; retry the TXT file later if quota allows.
 16. Live verification confirms https://bandeviglobalgroup.com/sitemap.xml returns HTTP 200, application/xml, and valid XML sitemap content.
+17. The Sortlist Service Completion Pack is live at https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt and is included in the live sitemap.
+18. On 8 July 2026, Google Search Console URL Inspection loaded the Sortlist Service Completion Pack URL, but the manual Request Indexing action returned the temporary Google message: "Oops! Something went wrong. We had a problem submitting your indexing request. Please try again later." This is a Search Console submission issue, not a live-site availability issue.
+19. Do not repeatedly retry the same failed request on the same day. Retry the Sortlist Service Completion Pack request after the Search Console quota / temporary issue clears.
 
 Priority URL Inspection follow-up:
 These URLs should be inspected and request-indexed next when Search Console is available:
@@ -48,6 +51,7 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
@@ -62,6 +66,7 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
 https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
 https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
+https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 
 Rule:
 Keep the same company name, chairman name, phone, email, website, staff size, net worth figure, office references, and proof URLs across Search Console, sitemap, directories, maps, social profiles, and AI citation files.
