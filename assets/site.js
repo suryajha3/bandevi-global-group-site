@@ -862,6 +862,21 @@ const pageData = {
     eyebrow: "Complete and white-label travel websites",
     lede: "BANDEVI GLOBAL GROUP builds complete travel websites and white-label travel websites for agencies, DMCs, tour operators, corporate travel desks, partners, branches, resellers, and travel technology brands."
   },
+  whiteLabelTravelWebsite: {
+    title: "White Label Travel Website Development",
+    eyebrow: "Partner-ready travel websites",
+    lede: "BANDEVI GLOBAL GROUP builds white-label travel websites for agencies, resellers, partners, branches, franchise-style sellers, and travel groups that need branded package pages, enquiry routing, CRM handoff, and scalable lead control."
+  },
+  travelAgencyWebsite: {
+    title: "Travel Agency Website Development",
+    eyebrow: "Websites for travel sellers",
+    lede: "BANDEVI GLOBAL GROUP builds travel agency websites with destination pages, package pages, itinerary structure, WhatsApp enquiries, SEO-ready content, trust sections, and Travel CRM-ready lead capture."
+  },
+  travelMobileApp: {
+    title: "Travel Mobile App Development",
+    eyebrow: "Mobile apps for travel teams",
+    lede: "BANDEVI GLOBAL GROUP builds travel mobile app and mobile-first portal experiences for customers, agents, staff, booking status, documents, enquiries, notifications, Travel CRM, and Travel ERP workflows."
+  },
   travelTech: {
     title: "Travel Technology Company",
     eyebrow: "Travel CRM, ERP, and websites",
@@ -3164,6 +3179,51 @@ const landingPages = {
     ],
     process: ["Plan website and content", "Build pages and lead flow", "Connect CRM-ready enquiries", "Launch, submit, and improve"]
   },
+  whiteLabelTravelWebsite: {
+    tag: "White label travel website",
+    title: "White label travel website development for agencies, resellers, partners, and travel groups.",
+    intro: "BANDEVI GLOBAL GROUP builds white-label travel websites for travel agencies, resellers, partner networks, branches, franchise-style sellers, and multi-brand travel groups that need a branded travel website system with package templates, destination pages, enquiry routing, source tracking, Travel CRM handoff, and growth-ready SEO structure.",
+    points: ["Reusable travel website structure that can be branded for agencies, branches, partners, resellers, or franchise-style travel sellers", "Destination pages, package pages, itinerary sections, inclusions, exclusions, FAQs, gallery areas, and enquiry CTAs", "Separate lead capture, WhatsApp handoff, campaign tracking, source reporting, and Travel CRM-ready enquiry records", "Optional partner portal, customer portal, booking workflow, Travel ERP, payment reminders, dashboards, and automation as the network grows"],
+    modules: [
+      { icon: "shield", title: "White-label brand structure", text: "Reusable travel website sections that can support partner, branch, reseller, franchise-style, or multi-brand travel selling." },
+      { icon: "globe", title: "Travel content templates", text: "Destination pages, package pages, itinerary blocks, inclusions, exclusions, FAQs, trust sections, and enquiry actions." },
+      { icon: "message", title: "Lead routing and WhatsApp", text: "Capture website, package, destination, campaign, phone, and WhatsApp enquiries with clean source and owner context." },
+      { icon: "users", title: "Travel CRM handoff", text: "Move white-label enquiries into Travel CRM with customer details, trip interest, quotation stage, follow-up date, and source tracking." },
+      { icon: "stack", title: "Portal and booking path", text: "Add customer portals, partner access, booking files, documents, payment status, and Travel ERP workflows when needed." },
+      { icon: "chart", title: "SEO and reporting", text: "Build internal links, schema, analytics, Search Console readiness, lead source reports, and conversion-ready sales pages." }
+    ],
+    process: ["Map brand and partner model", "Create reusable website structure", "Connect lead routing", "Scale with CRM and reporting"]
+  },
+  travelAgencyWebsite: {
+    tag: "Travel agency website",
+    title: "Travel agency website development for packages, destinations, WhatsApp leads, and CRM-ready enquiries.",
+    intro: "BANDEVI GLOBAL GROUP builds travel agency websites for agencies, DMCs, tour operators, corporate travel desks, and holiday sellers that need destination pages, package detail pages, itinerary sections, trust content, enquiry forms, WhatsApp handoff, SEO setup, and Travel CRM-ready lead flow.",
+    points: ["Complete travel agency website with home, about, destinations, package pages, services, blogs, trust sections, and contact paths", "Package pages with itinerary highlights, inclusions, exclusions, FAQ structure, galleries, CTA buttons, and lead capture", "WhatsApp, phone, enquiry forms, demo request paths, campaign landing pages, source tracking, and CRM-ready customer details", "Growth path into Travel CRM, Travel ERP, booking workflow, customer portal, payment reminders, documents, dashboards, and automation"],
+    modules: [
+      { icon: "globe", title: "Agency website pages", text: "Home, about, services, destinations, packages, blogs, trust sections, reviews-ready sections, contact paths, and SEO metadata." },
+      { icon: "plane", title: "Package and destination SEO", text: "Destination pages, package detail pages, itinerary blocks, themes, inclusions, exclusions, FAQs, and enquiry actions." },
+      { icon: "message", title: "WhatsApp enquiry flow", text: "Route package interest, destination interest, campaign enquiries, and callback requests to sales with clean context." },
+      { icon: "users", title: "Travel CRM-ready leads", text: "Capture name, phone, destination, dates, pax count, budget direction, source, notes, and preferred contact method." },
+      { icon: "stack", title: "Booking and ERP path", text: "Move won enquiries into booking workflows, suppliers, invoices, documents, payment status, and operations reporting." },
+      { icon: "chart", title: "Sales and SEO reporting", text: "Track page performance, lead sources, package interest, follow-up status, and search improvement priorities." }
+    ],
+    process: ["Plan travel website content", "Build package lead flow", "Prepare CRM handoff", "Launch and improve SEO"]
+  },
+  travelMobileApp: {
+    tag: "Travel mobile app",
+    title: "Travel mobile app development for customers, agents, booking updates, documents, and travel workflows.",
+    intro: "BANDEVI GLOBAL GROUP builds travel mobile app and mobile-first portal experiences for travel agencies, DMCs, tour operators, corporate travel desks, and travel groups that need customer access, agent workflows, booking status, documents, payment reminders, notifications, Travel CRM, Travel ERP, and dashboards.",
+    points: ["Customer mobile app or mobile-first portal for booking status, documents, invoices, support requests, enquiry history, and travel updates", "Agent or staff app screens for lead follow-up, task ownership, quotation updates, document collection, support notes, and booking visibility", "Travel CRM and Travel ERP connection roadmap for enquiries, customers, bookings, suppliers, invoices, payments, documents, and operations", "Notification planning for reminders, status updates, payment alerts, document requests, support replies, and team escalations"],
+    modules: [
+      { icon: "phone", title: "Customer mobile access", text: "Booking status, customer profile, invoices, documents, payment status, support requests, service updates, and notifications." },
+      { icon: "users", title: "Agent and staff workflows", text: "Lead follow-ups, quotation notes, customer context, document requests, task lists, support notes, and owner visibility." },
+      { icon: "plane", title: "Travel booking views", text: "Itinerary status, passenger details, supplier notes, service status, vouchers, tickets, visas, insurance, and handover records." },
+      { icon: "message", title: "Notifications and reminders", text: "Payment reminders, document requests, support replies, booking updates, lead follow-ups, and internal alerts." },
+      { icon: "stack", title: "CRM and ERP connection", text: "Connect mobile journeys with Travel CRM, Travel ERP, customer portals, booking files, invoices, payments, and reports." },
+      { icon: "chart", title: "Dashboard and analytics", text: "Review app enquiries, booking status, support load, pending documents, payment reminders, and team activity." }
+    ],
+    process: ["Map mobile journeys", "Design customer and staff screens", "Connect CRM/ERP data", "Launch and improve usage"]
+  },
   travelTech: {
     tag: "Travel technology company",
     title: "Travel technology company for Travel CRM, Travel ERP, complete websites, white-label websites, and booking systems.",
@@ -4043,6 +4103,24 @@ function travelTechWebsiteLinksSection() {
       href: "/travel-website-development/"
     },
     {
+      icon: "shield",
+      title: "White-label Travel Website",
+      text: "Build partner-ready websites for agencies, branches, resellers, franchise-style sellers, and multi-brand travel groups.",
+      href: "/white-label-travel-website/"
+    },
+    {
+      icon: "globe",
+      title: "Travel Agency Website",
+      text: "Create destination pages, package pages, WhatsApp enquiries, SEO-ready content, and Travel CRM-ready lead capture.",
+      href: "/travel-agency-website-development/"
+    },
+    {
+      icon: "phone",
+      title: "Travel Mobile App",
+      text: "Plan customer and agent mobile journeys for bookings, documents, support, reminders, Travel CRM, and Travel ERP.",
+      href: "/travel-mobile-app-development/"
+    },
+    {
       icon: "users",
       title: "Travel CRM",
       text: "Move enquiries, quotations, follow-ups, campaigns, and customer history into a controlled sales workflow.",
@@ -4113,6 +4191,9 @@ function itProductUpgradeSections() {
             { icon: "plane", title: "Travel CRM", href: "/travel-crm/", text: "Travel lead capture, quotation stages, follow-ups, customer records, sales ownership, and conversion visibility." },
             { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Bookings, suppliers, invoices, payments, approvals, documents, operations reports, and travel back-office control." },
             { icon: "globe", title: "Website & App Development", href: "/website-mobile-app-development/", text: "Corporate websites, landing pages, web apps, mobile-first portals, admin panels, and SEO-ready service pages." },
+            { icon: "shield", title: "White-label Travel Website", href: "/white-label-travel-website/", text: "Partner-ready travel website structures for agencies, branches, resellers, franchise-style sellers, and multi-brand travel groups." },
+            { icon: "globe", title: "Travel Agency Website", href: "/travel-agency-website-development/", text: "Destination pages, package pages, WhatsApp enquiries, trust sections, SEO setup, and Travel CRM-ready lead capture." },
+            { icon: "phone", title: "Travel Mobile App", href: "/travel-mobile-app-development/", text: "Customer and agent mobile journeys for booking status, documents, enquiries, notifications, CRM, and ERP workflows." },
             { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Customer login, document access, invoices, booking or order status, support requests, and controlled account views." },
             { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Workflow automation for assignments, reminders, approvals, notifications, dashboards, and daily team control." },
             { icon: "globe", title: "E-Commerce Solutions", href: "/ecommerce-solutions/", text: "Storefronts, product catalogues, payment paths, order workflows, distributor enquiries, inventory direction, and CRM." },
@@ -4297,7 +4378,7 @@ const caseStudies = [
     modules: ["Home and company pages", "Destination and package pages", "Enquiry and WhatsApp capture", "SEO and blog structure", "CRM-ready lead fields"],
     outcomes: ["Stronger first impression for travel prospects", "Clear package and destination storytelling", "Better enquiry data for sales follow-up", "A growth path into CRM, ERP, and portal modules"],
     result: "A travel brand can move from scattered enquiries to a polished website that captures useful lead details from day one.",
-    link: "/travel-website-development/"
+    link: "/travel-agency-website-development/"
   },
   {
     icon: "shield",
@@ -4308,7 +4389,17 @@ const caseStudies = [
     modules: ["Reusable page structure", "Partner branding areas", "Package and service templates", "Lead routing", "Analytics and source tracking"],
     outcomes: ["Faster rollout for partner websites", "Consistent content and trust presentation", "Separate lead paths for each brand or branch", "Better control over partner growth campaigns"],
     result: "A white-label model helps travel sellers launch faster while keeping each brand separate and professional.",
-    link: "/travel-website-development/"
+    link: "/white-label-travel-website/"
+  },
+  {
+    icon: "phone",
+    tag: "Travel app",
+    title: "Travel Mobile App Package",
+    bestFor: "Travel agencies, DMCs, tour operators, and travel groups that need mobile customer access, agent workflows, booking updates, and notifications.",
+    includes: ["Mobile-first customer and agent journeys", "Enquiry, booking status, document, and support screens", "Push or notification planning", "Travel CRM and ERP connection roadmap"],
+    addOns: ["Customer portal", "Payment status", "Loyalty or repeat traveller flows", "Staff app screens"],
+    timeline: "Typical starting timeline: 4-8 weeks.",
+    link: "/travel-mobile-app-development/"
   },
   {
     icon: "users",
@@ -5578,6 +5669,9 @@ function footer() {
             <li><a href="/travel-crm/">Travel CRM</a></li>
             <li><a href="/travel-erp/">Travel ERP</a></li>
             <li><a href="/travel-website-development/">Travel Websites</a></li>
+            <li><a href="/white-label-travel-website/">White-label Travel Website</a></li>
+            <li><a href="/travel-agency-website-development/">Travel Agency Website</a></li>
+            <li><a href="/travel-mobile-app-development/">Travel Mobile App</a></li>
             <li><a href="/travel-technology/">Travel Technology</a></li>
             <li><a href="/lead-booking-management/">Lead & Booking Management</a></li>
             <li><a href="/customer-portal/">Customer Portal</a></li>
@@ -5654,6 +5748,9 @@ const pageRenderers = {
   makhana: () => landingPage("makhana"),
   astrology: () => landingPage("astrology"),
   travelWebsite: () => landingPage("travelWebsite"),
+  whiteLabelTravelWebsite: () => landingPage("whiteLabelTravelWebsite"),
+  travelAgencyWebsite: () => landingPage("travelAgencyWebsite"),
+  travelMobileApp: () => landingPage("travelMobileApp"),
   travelTech: () => landingPage("travelTech"),
   leadBooking: () => landingPage("leadBooking"),
   it: itPage,

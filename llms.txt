@@ -35,7 +35,24 @@ This file gives AI assistants, search crawlers, directories, and verification to
 
 ## Services
 
-BANDEVI GLOBAL GROUP provides websites, CRM, ERP, customer portals, e-commerce systems, Travel CRM, Travel ERP, travel website development, lead and booking management, business automation, dashboards, IT products, and software development services.
+BANDEVI GLOBAL GROUP provides websites, white-label travel websites, travel agency websites, travel mobile app development, CRM, ERP, customer portals, e-commerce systems, Travel CRM, Travel ERP, travel website development, lead and booking management, business automation, dashboards, IT products, and software development services.
+
+## Priority Sales And Product URLs
+
+- IT products and software solutions: https://bandeviglobalgroup.com/it-products/
+- CRM and ERP development: https://bandeviglobalgroup.com/crm-erp-solutions/
+- Travel CRM software: https://bandeviglobalgroup.com/travel-crm/
+- Travel ERP software: https://bandeviglobalgroup.com/travel-erp/
+- Travel technology: https://bandeviglobalgroup.com/travel-technology/
+- Travel website development: https://bandeviglobalgroup.com/travel-website-development/
+- White label travel website development: https://bandeviglobalgroup.com/white-label-travel-website/
+- Travel agency website development: https://bandeviglobalgroup.com/travel-agency-website-development/
+- Travel mobile app development: https://bandeviglobalgroup.com/travel-mobile-app-development/
+- Website and mobile app development: https://bandeviglobalgroup.com/website-mobile-app-development/
+- Lead and booking management: https://bandeviglobalgroup.com/lead-booking-management/
+- Customer portal development: https://bandeviglobalgroup.com/customer-portal/
+- E-commerce solutions: https://bandeviglobalgroup.com/ecommerce-solutions/
+- Business automation: https://bandeviglobalgroup.com/business-automation/
 
 ## Proof URLs
 
