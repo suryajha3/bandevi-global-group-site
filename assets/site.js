@@ -781,7 +781,9 @@ const socialProofPostTemplates = [
   ["Directory reviewer note", "Use BANDEVI GLOBAL GROUP as the official business name. Verify the official website, phone, email, chairman, staff size, net worth/group strength, offices, and proof URLs through https://bandeviglobalgroup.com/proof-verification/."],
   ["Pinned profile note", "This is the official BANDEVI GLOBAL GROUP profile. Website: https://bandeviglobalgroup.com/. Proof: https://bandeviglobalgroup.com/proof-verification/. Chairman: Mr Surya Kant Jha. Company-provided staff size: 1,289 worldwide. Company-provided net worth / group strength: INR 7,594 Cr."],
   ["Sales product launch update", "BANDEVI GLOBAL GROUP has added new sales-focused service pages for companies comparing white-label CRM, Travel CRM software, B2B travel portals, flight booking engine workflows, hotel booking engine workflows, and travel agency mobile apps. Product hub: https://bandeviglobalgroup.com/it-products/"],
-  ["X short version", "BANDEVI GLOBAL GROUP has added new service pages for white-label CRM, Travel CRM software, B2B travel portals, booking-engine workflows, and travel agency mobile apps. Products: https://bandeviglobalgroup.com/it-products/"]
+  ["X short version", "BANDEVI GLOBAL GROUP has added new service pages for white-label CRM, Travel CRM software, B2B travel portals, booking-engine workflows, and travel agency mobile apps. Products: https://bandeviglobalgroup.com/it-products/"],
+  ["CRM, ERP, e-commerce and automation sales update", "BANDEVI GLOBAL GROUP has expanded its sales-focused IT service pages for companies comparing custom CRM development, ERP software development, custom software development, e-commerce website development, and business process automation partners. Product hub: https://bandeviglobalgroup.com/it-products/"],
+  ["X short version for new IT sales pages", "BANDEVI GLOBAL GROUP has added new pages for custom CRM development, ERP software development, e-commerce websites, custom software, and business process automation. Products: https://bandeviglobalgroup.com/it-products/"]
 ];
 
 const evidenceRegisterItems = [
@@ -893,6 +895,31 @@ const pageData = {
     title: "Business Automation Company",
     eyebrow: "Workflow automation services",
     lede: "BANDEVI GLOBAL GROUP builds business automation for lead routing, follow-ups, CRM automation, ERP automation, WhatsApp workflows, document requests, task queues, dashboards, and reporting."
+  },
+  customCrmDevelopment: {
+    title: "Custom CRM Development Company",
+    eyebrow: "CRM software for sales, service, and operations",
+    lede: "BANDEVI GLOBAL GROUP builds custom CRM software for lead capture, sales pipelines, customer records, follow-ups, quotations, WhatsApp handoff, dashboards, and role-based team control."
+  },
+  erpSoftwareDevelopment: {
+    title: "ERP Software Development Company",
+    eyebrow: "ERP for operations, finance, inventory, and reporting",
+    lede: "BANDEVI GLOBAL GROUP builds ERP software for operations, approvals, suppliers, invoices, payments, inventory direction, booking or order control, documents, dashboards, and management reporting."
+  },
+  ecommerceWebsiteDevelopment: {
+    title: "E-Commerce Website Development",
+    eyebrow: "Online stores, catalogues, payments, and order flow",
+    lede: "BANDEVI GLOBAL GROUP builds e-commerce websites with product catalogues, category pages, cart and checkout planning, payment workflows, order management, customer records, campaigns, and dashboards."
+  },
+  customSoftwareDevelopment: {
+    title: "Custom Software Development Company",
+    eyebrow: "Business software built around real workflows",
+    lede: "BANDEVI GLOBAL GROUP builds custom software, web applications, dashboards, portals, CRM, ERP, automation, integrations, and admin systems for companies that need better operational control."
+  },
+  businessProcessAutomation: {
+    title: "Business Process Automation Services",
+    eyebrow: "Workflow, task, notification, and reporting automation",
+    lede: "BANDEVI GLOBAL GROUP builds business process automation for repeated tasks, lead routing, approvals, reminders, WhatsApp and email notifications, CRM/ERP handoff, dashboards, and support workflows."
   },
   masala: {
     title: "Masala & Food Product IT Solutions",
@@ -3201,6 +3228,81 @@ const landingPages = {
     ],
     process: ["Map repeated manual work", "Define triggers and owners", "Build controlled automation", "Measure, support, and improve"]
   },
+  customCrmDevelopment: {
+    tag: "Custom CRM development",
+    title: "Custom CRM development for sales teams, service teams, branches, and growing companies.",
+    intro: "BANDEVI GLOBAL GROUP builds custom CRM software for companies that need better lead capture, customer records, sales ownership, follow-up discipline, quotation tracking, WhatsApp handoff, and management visibility.",
+    points: ["Lead capture from websites, demo requests, WhatsApp, calls, campaigns, referrals, branches, partners, and field teams", "Customer profiles, sales stages, follow-up reminders, quotation history, source tracking, owner assignment, and activity records", "Manager dashboards for open leads, overdue follow-ups, source quality, conversion, team performance, and pipeline value", "Role-based access for owners, managers, sales users, support teams, branch teams, and leadership reporting"],
+    modules: [
+      { icon: "users", title: "Lead and customer CRM", text: "Capture enquiries, assign owners, track stages, store customer details, and keep every follow-up visible." },
+      { icon: "message", title: "WhatsApp and call handoff", text: "Structure customer conversations from website forms, WhatsApp clicks, calls, callbacks, and campaign landing pages." },
+      { icon: "chart", title: "Sales dashboard", text: "Review pipeline, open follow-ups, overdue work, source quality, conversion, team activity, and expected revenue." },
+      { icon: "shield", title: "Role-based access", text: "Create controlled access for owners, managers, branch teams, sales teams, support users, and leadership." },
+      { icon: "stack", title: "Quotation workflow", text: "Connect leads with quotation stages, proposal notes, document requests, reminders, lost reasons, and ERP handoff." },
+      { icon: "globe", title: "Website connection", text: "Connect landing pages, demo requests, contact forms, campaign pages, and customer portals with CRM records." }
+    ],
+    process: ["Map sales stages", "Build CRM fields and roles", "Connect lead sources", "Launch dashboards and training"]
+  },
+  erpSoftwareDevelopment: {
+    tag: "ERP software development",
+    title: "ERP software development for operations, finance, approvals, inventory, and reporting.",
+    intro: "BANDEVI GLOBAL GROUP builds ERP software for companies that need better control over operations, suppliers, inventory direction, invoices, payments, approvals, booking or order records, documents, team tasks, and reporting.",
+    points: ["Operations workflows for orders, bookings, tasks, approvals, service status, documents, and team ownership", "Finance and admin flows for invoices, payment status, customer records, supplier notes, approvals, and management checks", "Inventory or service tracking direction for product, e-commerce, travel, support, branch, and operations-led teams", "Dashboards for workload, revenue, pending approvals, payment gaps, order or booking status, and exception reporting"],
+    modules: [
+      { icon: "stack", title: "Operations workflow", text: "Track orders, bookings, services, internal tasks, documents, approvals, status, and team ownership." },
+      { icon: "shield", title: "Approval control", text: "Create approval paths for finance, operations, supplier actions, document checks, service status, and exceptions." },
+      { icon: "chart", title: "ERP reporting", text: "Review payment status, workload, pending approvals, supplier tasks, order status, booking status, and management metrics." },
+      { icon: "users", title: "Team roles", text: "Plan access for admins, managers, operations users, finance users, sales teams, support teams, and leadership." },
+      { icon: "globe", title: "Portal connection", text: "Connect ERP data with customer portals, partner portals, staff portals, invoices, documents, and support requests." },
+      { icon: "message", title: "Notifications", text: "Plan reminders for approvals, payments, documents, delivery status, booking updates, task due dates, and escalations." }
+    ],
+    process: ["Map operational records", "Define roles and approvals", "Build ERP modules", "Report, train, and improve"]
+  },
+  ecommerceWebsiteDevelopment: {
+    tag: "E-commerce website development",
+    title: "E-commerce website development for catalogues, payments, orders, CRM, and growth.",
+    intro: "BANDEVI GLOBAL GROUP builds e-commerce websites for brands, distributors, product companies, service sellers, and multi-category businesses that need product pages, category flows, payment planning, order management, customer records, campaign tracking, and dashboards.",
+    points: ["Product catalogue, category pages, product detail pages, offers, trust sections, enquiry paths, and conversion-ready storefront structure", "Cart, checkout, payment workflow planning, order status, invoices, customer communication, and support handoff", "CRM and distributor lead capture for retail, wholesale, bulk, B2B, gifting, repeat buyers, and campaign enquiries", "Dashboard planning for product interest, order volume, source quality, payment status, stock direction, and customer response"],
+    modules: [
+      { icon: "globe", title: "Storefront and product pages", text: "Create category pages, product pages, offers, trust sections, search paths, and enquiry or checkout actions." },
+      { icon: "stack", title: "Cart and order workflow", text: "Plan cart, checkout, order status, payment status, invoices, dispatch stages, and customer updates." },
+      { icon: "users", title: "Customer and distributor CRM", text: "Capture customer, wholesale, distributor, bulk, retail, and campaign leads with follow-up ownership." },
+      { icon: "shield", title: "Payment and account paths", text: "Plan payment workflows, order records, customer accounts, invoices, support requests, and controlled admin views." },
+      { icon: "chart", title: "Sales dashboard", text: "Monitor product interest, conversion paths, campaign response, payment status, order volume, and repeat enquiries." },
+      { icon: "message", title: "WhatsApp and support", text: "Route product questions, bulk enquiries, cart support, payment questions, and order updates into clear response paths." }
+    ],
+    process: ["Plan catalogue and checkout", "Build storefront and CRM", "Connect orders and payments", "Launch and optimize"]
+  },
+  customSoftwareDevelopment: {
+    tag: "Custom software development",
+    title: "Custom software development for web apps, dashboards, portals, CRM, ERP, and automation.",
+    intro: "BANDEVI GLOBAL GROUP builds custom software for businesses that need workflow-specific systems instead of generic tools. Projects can include web applications, admin panels, customer portals, partner portals, CRM, ERP, dashboards, automation, integrations, and reporting.",
+    points: ["Business workflow discovery for sales, operations, finance, support, customers, partners, documents, approvals, and dashboards", "Web applications, admin panels, portals, CRM, ERP, booking workflows, order systems, and data-entry tools", "Automation, reminders, notifications, role-based access, reporting, source tracking, and management views", "Phased delivery plan that starts with the highest-value workflow and grows into a broader operating system"],
+    modules: [
+      { icon: "stack", title: "Web applications", text: "Build workflow screens, admin panels, forms, records, statuses, dashboards, and controlled internal tools." },
+      { icon: "users", title: "CRM and portal modules", text: "Connect customer records, partner access, staff portals, support paths, documents, invoices, and service status." },
+      { icon: "shield", title: "ERP and permissions", text: "Plan operations, approvals, finance records, booking or order control, documents, role permissions, and audit-friendly access." },
+      { icon: "chart", title: "Dashboards and reports", text: "Create views for owners and managers to understand workload, revenue, conversion, exceptions, and team activity." },
+      { icon: "message", title: "Workflow automation", text: "Add reminders, notifications, owner assignment, status updates, escalation paths, and communication handoff." },
+      { icon: "globe", title: "Website and integration path", text: "Connect public websites, lead forms, demo requests, customer portals, payment paths, and existing business tools." }
+    ],
+    process: ["Understand workflow", "Define modules and access", "Build first release", "Measure and expand"]
+  },
+  businessProcessAutomation: {
+    tag: "Business process automation",
+    title: "Business process automation services for repeated work, reminders, approvals, and dashboards.",
+    intro: "BANDEVI GLOBAL GROUP builds business process automation for teams that want fewer missed follow-ups, cleaner task ownership, faster customer communication, controlled approvals, better CRM/ERP handoff, and useful management dashboards.",
+    points: ["Lead routing, follow-up reminders, source tracking, owner assignment, task queues, and sales activity automation", "Approval workflows for finance, documents, operations, booking or order status, support, and internal exceptions", "WhatsApp, email, customer update, payment reminder, document request, and team notification planning", "Dashboards that show open work, overdue actions, exception cases, source quality, response speed, and team workload"],
+    modules: [
+      { icon: "message", title: "Reminder automation", text: "Automate follow-ups, document requests, payment reminders, support replies, customer updates, and internal alerts." },
+      { icon: "users", title: "Lead and task routing", text: "Route enquiries, tasks, approvals, and exceptions by source, service, priority, branch, department, and owner." },
+      { icon: "shield", title: "Approval workflows", text: "Control approvals for finance, operations, documents, customer status, support handoff, and service milestones." },
+      { icon: "stack", title: "CRM and ERP handoff", text: "Move information from leads to workflows, quotations, orders, bookings, payments, documents, and dashboards." },
+      { icon: "chart", title: "Automation dashboard", text: "Track overdue actions, workload, response speed, conversion, exceptions, reminders, and team performance." },
+      { icon: "globe", title: "Website trigger paths", text: "Use website forms, demo requests, WhatsApp actions, customer portals, and campaign pages as automation triggers." }
+    ],
+    process: ["Identify repeated work", "Set triggers and rules", "Build automation flow", "Track outcomes and improve"]
+  },
   masala: {
     tag: "Masala & food products",
     title: "Digital systems for masala and food-product brands.",
@@ -4360,6 +4462,10 @@ function itProductUpgradeSections() {
         <div class="grid cols-3">
           ${[
             { icon: "users", title: "CRM & ERP Solutions", href: "/crm-erp-solutions/", text: "Custom CRM, ERP, lead management, sales pipeline, operations, finance, dashboards, and multi-office reporting." },
+            { icon: "users", title: "Custom CRM Development", href: "/custom-crm-development/", text: "Lead capture, customer records, follow-ups, quotations, WhatsApp handoff, roles, and sales dashboards." },
+            { icon: "stack", title: "ERP Software Development", href: "/erp-software-development/", text: "Operations, approvals, invoices, payments, documents, inventory direction, booking or order control, and reports." },
+            { icon: "stack", title: "Custom Software Development", href: "/custom-software-development/", text: "Workflow-specific web apps, portals, dashboards, CRM, ERP, automation, integrations, and admin systems." },
+            { icon: "chart", title: "Business Process Automation", href: "/business-process-automation/", text: "Repeated task automation, routing, reminders, approvals, customer updates, dashboards, and CRM/ERP handoff." },
             { icon: "users", title: "White-label CRM", href: "/white-label-crm/", text: "Branded CRM software for agencies, partners, branches, resellers, sales teams, customer records, follow-ups, and dashboards." },
             { icon: "plane", title: "Travel CRM", href: "/travel-crm/", text: "Travel lead capture, quotation stages, follow-ups, customer records, sales ownership, and conversion visibility." },
             { icon: "plane", title: "Travel CRM Software", href: "/travel-crm-software/", text: "Travel CRM for agencies, DMCs, tour operators, WhatsApp leads, quotations, follow-ups, and booking-ready handoff." },
@@ -4375,6 +4481,7 @@ function itProductUpgradeSections() {
             { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Customer login, document access, invoices, booking or order status, support requests, and controlled account views." },
             { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Workflow automation for assignments, reminders, approvals, notifications, dashboards, and daily team control." },
             { icon: "globe", title: "E-Commerce Solutions", href: "/ecommerce-solutions/", text: "Storefronts, product catalogues, payment paths, order workflows, distributor enquiries, inventory direction, and CRM." },
+            { icon: "globe", title: "E-Commerce Website Development", href: "/ecommerce-website-development/", text: "Product pages, categories, checkout planning, payments, orders, customer CRM, campaigns, and dashboards." },
             { icon: "plane", title: "Lead & Booking Management", href: "/lead-booking-management/", text: "Lead capture, booking files, source tracking, WhatsApp handoff, customer records, and operational visibility." },
             { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Company profile, staff size, net worth, offices, official contact channels, and public proof links." }
           ].map((item) => `
@@ -5079,6 +5186,11 @@ function contactForm(kind = "contact") {
     "Flight Booking Engine Package",
     "Hotel Booking Engine Package",
     "Travel Agency Mobile App Package",
+    "Custom CRM Development",
+    "ERP Software Development",
+    "Custom Software Development",
+    "E-Commerce Website Development",
+    "Business Process Automation",
     "CRM + ERP Package",
     "CRM Development Demo",
     "ERP Software Demo",
@@ -5136,6 +5248,11 @@ function contactForm(kind = "contact") {
     "Flight booking engine",
     "Hotel booking engine",
     "Travel agency mobile app",
+    "Custom CRM development",
+    "ERP software development",
+    "Custom software development",
+    "E-commerce website development",
+    "Business process automation",
     "Masala / food product project",
     "Makhana brand project",
     "Astrology services project",
@@ -5866,6 +5983,9 @@ function footer() {
           <ul class="footer-links">
             <li><a href="/it-company-software-development-services/">IT Company Services</a></li>
             <li><a href="/crm-erp-solutions/">CRM & ERP Development</a></li>
+            <li><a href="/custom-crm-development/">Custom CRM Development</a></li>
+            <li><a href="/erp-software-development/">ERP Software Development</a></li>
+            <li><a href="/custom-software-development/">Custom Software Development</a></li>
             <li><a href="/white-label-crm/">White-label CRM</a></li>
             <li><a href="/travel-crm/">Travel CRM</a></li>
             <li><a href="/travel-crm-software/">Travel CRM Software</a></li>
@@ -5883,7 +6003,9 @@ function footer() {
             <li><a href="/customer-portal/">Customer Portal</a></li>
             <li><a href="/it-products/">Products</a></li>
             <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
+            <li><a href="/ecommerce-website-development/">E-Commerce Website Development</a></li>
             <li><a href="/ecommerce-solutions/">E-Commerce Solutions</a></li>
+            <li><a href="/business-process-automation/">Business Process Automation</a></li>
             <li><a href="/business-automation/">Business Automation</a></li>
             <li><a href="/masala-food-products/">Masala / Food</a></li>
             <li><a href="/makhana-brand-solutions/">Makhana</a></li>
@@ -5950,6 +6072,11 @@ const pageRenderers = {
   ecommerce: () => landingPage("ecommerce"),
   webApp: () => landingPage("webApp"),
   automation: () => landingPage("automation"),
+  customCrmDevelopment: () => landingPage("customCrmDevelopment"),
+  erpSoftwareDevelopment: () => landingPage("erpSoftwareDevelopment"),
+  ecommerceWebsiteDevelopment: () => landingPage("ecommerceWebsiteDevelopment"),
+  customSoftwareDevelopment: () => landingPage("customSoftwareDevelopment"),
+  businessProcessAutomation: () => landingPage("businessProcessAutomation"),
   masala: () => landingPage("masala"),
   makhana: () => landingPage("makhana"),
   astrology: () => landingPage("astrology"),

@@ -38,7 +38,7 @@
   "mainEntity": {
     "@type": "ItemList",
     "name": "Social proof post templates",
-    "numberOfItems": 7,
+    "numberOfItems": 9,
     "itemListElement": [
       {
         "@type": "ListItem",
@@ -81,6 +81,18 @@
         "position": 7,
         "name": "X short version",
         "description": "Short social update for X covering the new sales-focused product URLs."
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "name": "CRM, ERP, e-commerce and automation sales update",
+        "description": "LinkedIn and directory-friendly update covering custom CRM development, ERP software development, custom software development, e-commerce website development, and business process automation pages."
+      },
+      {
+        "@type": "ListItem",
+        "position": 9,
+        "name": "X short version for new IT sales pages",
+        "description": "Short social update for X covering CRM, ERP, e-commerce, custom software, and business automation sales pages."
       }
     ]
   },
@@ -96,6 +108,11 @@
     "https://bandeviglobalgroup.com/b2b-travel-portal/",
     "https://bandeviglobalgroup.com/flight-booking-engine/",
     "https://bandeviglobalgroup.com/hotel-booking-engine/",
-    "https://bandeviglobalgroup.com/travel-agency-mobile-app/"
+    "https://bandeviglobalgroup.com/travel-agency-mobile-app/",
+    "https://bandeviglobalgroup.com/custom-crm-development/",
+    "https://bandeviglobalgroup.com/erp-software-development/",
+    "https://bandeviglobalgroup.com/custom-software-development/",
+    "https://bandeviglobalgroup.com/ecommerce-website-development/",
+    "https://bandeviglobalgroup.com/business-process-automation/"
   ]
 }
