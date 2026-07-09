@@ -150,6 +150,13 @@
     },
     {
       "@type": "Dataset",
+      "name": "Social proof links register",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.txt",
+      "encodingFormat": "text/plain",
+      "description": "Crawler-friendly register of captured LinkedIn and Facebook proof post URLs for staff strength, net worth / group strength, and office references."
+    },
+    {
+      "@type": "Dataset",
       "name": "Evidence register",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt",
       "encodingFormat": "text/plain",
@@ -178,6 +185,13 @@
     },
     {
       "@type": "Dataset",
+      "name": "Social proof links structured JSON",
+      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
+      "encodingFormat": "application/ld+json",
+      "description": "Machine-readable register of captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target."
+    },
+    {
+      "@type": "Dataset",
       "name": "Sortlist service completion pack",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt",
       "encodingFormat": "text/plain",
@@ -191,5 +205,5 @@
       "description": "Square social proof card for BANDEVI GLOBAL GROUP official proof posts."
     }
   ],
-  "dateModified": "2026-07-08"
+  "dateModified": "2026-07-09"
 }

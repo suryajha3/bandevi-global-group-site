@@ -1,0 +1,75 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
+  "name": "BANDEVI GLOBAL GROUP Social Proof Links Register",
+  "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
+  "dateModified": "2026-07-09",
+  "description": "Captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target: 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, and office references in Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.",
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://bandeviglobalgroup.com/#organization",
+    "name": "BANDEVI GLOBAL GROUP",
+    "url": "https://bandeviglobalgroup.com/",
+    "telephone": "+91 8287669022",
+    "email": "sales@bandeviglobalgroup.com"
+  },
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "BANDEVI GLOBAL GROUP staff strength",
+      "description": "1,289 staff worldwide as company-provided information."
+    },
+    {
+      "@type": "Thing",
+      "name": "BANDEVI GLOBAL GROUP net worth and group strength",
+      "description": "INR 7,594 Cr as company-provided information."
+    },
+    {
+      "@type": "Thing",
+      "name": "BANDEVI GLOBAL GROUP office references",
+      "description": "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."
+    }
+  ],
+  "numberOfItems": 2,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "SocialMediaPosting",
+        "name": "LinkedIn first-target proof post",
+        "url": "https://www.linkedin.com/feed/update/urn:li:share:7480666502069665792/",
+        "datePublished": "2026-07-08",
+        "about": "BANDEVI GLOBAL GROUP first-target proof post for staff strength, net worth / group strength, and office references.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "BANDEVI GLOBAL GROUP"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "SocialMediaPosting",
+        "name": "Facebook first-target proof post",
+        "url": "https://www.facebook.com/share/p/1DAV9EGQ8q/",
+        "datePublished": "2026-07-08",
+        "about": "BANDEVI GLOBAL GROUP first-target proof post for staff strength, net worth / group strength, and office references.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "BANDEVI GLOBAL GROUP"
+        }
+      }
+    }
+  ],
+  "citation": [
+    "https://bandeviglobalgroup.com/proof-verification/",
+    "https://bandeviglobalgroup.com/staff-size-net-worth/",
+    "https://bandeviglobalgroup.com/offices/",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json",
+    "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.txt"
+  ]
+}

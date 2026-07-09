@@ -772,6 +772,8 @@ const proofSupportFiles = [
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."],
   ["Social Proof Post Pack", asset("bandevi-global-group-social-proof-post-pack.txt"), "Reusable proof post copy for Facebook, Instagram, LinkedIn, X, directory reviewers, and public profile consistency."],
   ["Social Proof Structured JSON", asset("bandevi-global-group-social-proof-post-pack.json"), "Machine-readable social proof post pack with official proof citations and company-provided fact wording."],
+  ["Social Proof Links Register", asset("bandevi-global-group-social-proof-links.txt"), "Crawler-friendly register of captured LinkedIn and Facebook proof post URLs for staff strength, net worth, and office references."],
+  ["Social Proof Links JSON", asset("bandevi-global-group-social-proof-links.json"), "Machine-readable register of captured external social proof links for BANDEVI's first SEO target."],
   ["Social Proof Card", asset("bandevi-global-group-social-proof-card.svg"), "Square social proof card for posts and profile updates linking back to the official proof page."]
 ];
 

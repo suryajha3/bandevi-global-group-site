@@ -98,6 +98,8 @@ BANDEVI GLOBAL GROUP provides websites, white-label travel websites, travel agen
 - Social proof post pack: https://bandeviglobalgroup.com/social-proof-posts/
 - Social proof text pack: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt
 - Social proof structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json
+- Social proof links register: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.txt
+- Social proof links structured JSON: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json
 - Social proof card: https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg
 - Evidence register: https://bandeviglobalgroup.com/evidence-register/
 - Evidence register text: https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
