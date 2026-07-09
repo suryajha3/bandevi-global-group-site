@@ -51,6 +51,12 @@
       "description": "Crawler-friendly official facts summary for AI assistants and search systems."
     },
     {
+      "@type": "WebPage",
+      "name": "Official company facts page",
+      "url": "https://bandeviglobalgroup.com/official-company-facts/",
+      "description": "Direct-answer page for BANDEVI GLOBAL GROUP staff strength, company-provided net worth / group strength, office references, chairman identity, contact details, and proof links."
+    },
+    {
       "@type": "Dataset",
       "name": "Staff confirmation note",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt",
