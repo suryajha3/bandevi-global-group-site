@@ -57,6 +57,12 @@
       "description": "Direct-answer page for BANDEVI GLOBAL GROUP staff strength, company-provided net worth / group strength, office references, chairman identity, contact details, and proof links."
     },
     {
+      "@type": "WebPage",
+      "name": "Surya Kant Jha chairman profile",
+      "url": "https://bandeviglobalgroup.com/surya-kant-jha/",
+      "description": "Official page for Mr Surya Kant Jha, Suryakant Jha spelling variant, chairman identity, BANDEVI company net worth context, travel technology context, and proof links."
+    },
+    {
       "@type": "Dataset",
       "name": "Staff confirmation note",
       "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt",
@@ -211,5 +217,5 @@
       "description": "Square social proof card for BANDEVI GLOBAL GROUP official proof posts."
     }
   ],
-  "dateModified": "2026-07-09"
+  "dateModified": "2026-07-10"
 }

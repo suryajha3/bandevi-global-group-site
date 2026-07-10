@@ -6,6 +6,7 @@ Sitemap: https://bandeviglobalgroup.com/sitemap.xml
 # Official AI/search facts for BANDEVI GLOBAL GROUP:
 # https://bandeviglobalgroup.com/llms.txt
 # https://bandeviglobalgroup.com/official-company-facts/
+# https://bandeviglobalgroup.com/surya-kant-jha/
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
 # https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt

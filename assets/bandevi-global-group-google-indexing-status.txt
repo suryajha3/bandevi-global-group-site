@@ -47,6 +47,7 @@ Search Console status:
 26. On 10 July 2026, White Label CRM, Travel CRM Software, B2B Travel Portal, Flight Booking Engine, Hotel Booking Engine, and Travel Agency Mobile App pages were strengthened with dedicated travel product sales sections, module tables, buyer segments, proof links, connected product links, and FAQs.
 27. On 10 July 2026, White Label Travel Website, Travel Agency Website Development, and Travel Mobile App Development pages were strengthened with dedicated travel website and app sales sections, module tables, commercial use cases, proof links, connected travel stack links, and FAQs.
 28. On 10 July 2026, Website & Mobile App Development, Lead & Booking Management, and Customer Portal pages were refreshed with dateModified schema, sitemap lastmod updates, and AI-readable sales focus notes for conversion-system SEO.
+29. On 10 July 2026, Surya Kant Jha Chairman Profile was added as a dedicated direct-answer URL for Mr Surya Kant Jha, Suryakant Jha and Surya kant Jha spelling variants, chairman identity, safe net worth context, travel technology context, and proof links.
 
 Optional URL Inspection follow-up:
 These URLs can be inspected or rechecked only when Search Console quota is available, especially after a fresh deployment or when Google shows "Page changed? Request indexing":
@@ -62,6 +63,7 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-statu
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
+https://bandeviglobalgroup.com/surya-kant-jha/
 https://bandeviglobalgroup.com/custom-crm-development/
 https://bandeviglobalgroup.com/erp-software-development/
 https://bandeviglobalgroup.com/custom-software-development/
@@ -82,6 +84,7 @@ https://bandeviglobalgroup.com/customer-portal/
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
+https://bandeviglobalgroup.com/surya-kant-jha/
 https://bandeviglobalgroup.com/proof-verification/
 https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/

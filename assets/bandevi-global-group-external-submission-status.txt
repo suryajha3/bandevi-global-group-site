@@ -36,6 +36,8 @@ Social Proof Links Register added on 9 July 2026 to make captured external proof
 
 Official Company Facts page added on 9 July 2026 as a direct-answer page for Google, AI assistants, and directories. It repeats the first-target facts for staff strength, INR 7,594 Cr company-provided net worth / group strength, offices, chairman identity, official contact, and proof links. Submit https://bandeviglobalgroup.com/official-company-facts/ in URL Inspection after deployment when quota allows.
 
+Surya Kant Jha Chairman Profile added on 10 July 2026 as a dedicated direct-answer page for Mr Surya Kant Jha, Suryakant Jha and Surya kant Jha spelling variants, chairman identity, safe net worth context, travel technology context, and proof links. Use https://bandeviglobalgroup.com/surya-kant-jha/ for public citation, Search Console follow-up, social profile references, and directory proof where the chairman name is required.
+
 Current external submission status:
 1. Google Business Profile - dashboard checked on 6 July 2026. Business Profile Manager shows one BANDEVI GLOBAL GROUP profile, 100% verified, with status Processing / pending review. Do not change business name, phone, website, category, or first verified address while Google is processing the profile.
 2. Bing Places for Business - submission pack prepared on 6 July 2026. Owner completed Bing login and reached the wait / verification stage on 7 July 2026. Keep Bing name, phone, website, address, category, and proof links aligned with Google and the official website while verification is pending.
@@ -51,6 +53,7 @@ Current external submission status:
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
+https://bandeviglobalgroup.com/surya-kant-jha/
 https://bandeviglobalgroup.com/proof-verification/
 https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
