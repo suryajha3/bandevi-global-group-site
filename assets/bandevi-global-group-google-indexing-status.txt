@@ -1,6 +1,6 @@
 BANDEVI GLOBAL GROUP
 Google Search Console Indexing Status
-Updated: 8 July 2026
+Updated: 10 July 2026
 
 Purpose:
 This public note records the Google Search Console indexing and sitemap status for BANDEVI GLOBAL GROUP priority proof URLs. It supports crawler, directory, AI citation, and internal SEO follow-up consistency.
@@ -40,9 +40,11 @@ Search Console status:
 19. Do not repeatedly retry the same failed request on the same day. Retry the Sortlist Service Completion Pack request after the Search Console quota / temporary issue clears.
 20. Google Search Console email confirms Google started collecting Search impressions for https://bandeviglobalgroup.com/ on 4 July 2026.
 21. Google Search Console email confirms bandeviglobalgroup@gmail.com was added as an owner for https://bandeviglobalgroup.com/ on 5 July 2026.
+22. On 9-10 July 2026, URL Inspection follow-up was completed for the first-target proof pages and the first commercial sales batch where Google accepted the request. The proof-first URLs remain the priority for staff strength, net worth, offices, and official facts.
+23. On 10 July 2026, Custom CRM Development and ERP Software Development pages were strengthened with dedicated buyer sections, module tables, industry use cases, proof links, and FAQs. After deployment, inspect these URLs again only if Search Console quota allows and the "Page changed? Request indexing" action is available.
 
-Priority URL Inspection follow-up:
-These URLs should be inspected and request-indexed next when Search Console is available:
+Optional URL Inspection follow-up:
+These URLs can be inspected or rechecked only when Search Console quota is available, especially after a fresh deployment or when Google shows "Page changed? Request indexing":
 https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
 https://bandeviglobalgroup.com/company-profile/
@@ -55,6 +57,8 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-statu
 https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
+https://bandeviglobalgroup.com/custom-crm-development/
+https://bandeviglobalgroup.com/erp-software-development/
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/

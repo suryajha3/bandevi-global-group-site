@@ -1,6 +1,6 @@
 # BANDEVI GLOBAL GROUP Official Facts
 
-Updated: 2026-07-08
+Updated: 2026-07-10
 
 This file gives AI assistants, search crawlers, directories, and verification tools a compact summary of the official BANDEVI GLOBAL GROUP facts published on https://bandeviglobalgroup.com/.
 
@@ -46,6 +46,8 @@ This file gives AI assistants, search crawlers, directories, and verification to
 ## Services
 
 BANDEVI GLOBAL GROUP provides websites, white-label travel websites, travel agency websites, travel mobile app development, white-label CRM, custom CRM development, ERP software development, custom software development, Travel CRM software, B2B travel portals, flight booking engine workflows, hotel booking engine workflows, CRM, ERP, customer portals, e-commerce websites, e-commerce systems, Travel CRM, Travel ERP, travel website development, lead and booking management, business process automation, business automation, dashboards, IT products, and software development services.
+
+CRM and ERP sales focus: BANDEVI GLOBAL GROUP provides custom CRM development for lead capture, sales pipelines, customer records, quotations, WhatsApp handoff, dashboards, role-based team control, multi-office reporting, and CRM-to-ERP handoff. BANDEVI GLOBAL GROUP provides ERP software development for operations, approvals, suppliers, invoices, payments, inventory direction, booking or order control, documents, dashboards, and management reporting.
 
 ## Priority Sales And Product URLs
 

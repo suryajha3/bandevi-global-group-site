@@ -263,6 +263,64 @@ const crmErpFaqs = [
   ["Where can visitors verify BANDEVI company details?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const customCrmBuyerRows = [
+  ["Lead capture CRM", "Website forms, WhatsApp enquiries, phone calls, campaigns, referrals, partners, walk-ins, and branch leads can move into one CRM pipeline."],
+  ["Sales pipeline CRM", "Teams can track new, contacted, qualified, proposal, negotiation, won, lost, repeat, and follow-up stages with owner assignment."],
+  ["Customer management CRM", "Customer records can hold contact details, notes, documents, history, preferences, quotations, invoices, support requests, and next actions."],
+  ["WhatsApp and call workflow", "CRM screens can support WhatsApp handoff, callback reminders, call notes, missed follow-ups, source tracking, and daily sales review."],
+  ["Quotation and proposal CRM", "Quotation status, proposal versions, approval notes, customer response, pricing direction, lost reasons, and sales accountability can stay visible."],
+  ["Role-based CRM dashboard", "Admin, sales, support, branch, finance, and management users can get role-based views, permissions, alerts, reports, and exports."],
+  ["Multi-office CRM", "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States service-location references can be reflected in office-wise reporting when needed."],
+  ["CRM to ERP path", "Won leads can move into operations, orders, bookings, invoices, payment tracking, documents, customer portal access, and management dashboards."]
+];
+
+const customCrmIndustries = [
+  ["Travel agencies and tour operators", "Travel CRM for package enquiries, destination interest, quotations, WhatsApp leads, follow-ups, customer records, and booking handoff."],
+  ["IT and software service teams", "Lead routing, demo requests, proposal stages, support tickets, project handoff, renewal reminders, and customer history."],
+  ["E-commerce and retail brands", "Customer enquiries, distributor leads, product interest, order follow-up, support requests, campaigns, and repeat-customer tracking."],
+  ["Food and packaged product brands", "Bulk enquiries, distributor CRM, sales owner assignment, product interest, follow-up reminders, and dispatch or order handoff."],
+  ["Professional services", "Client records, appointment or demo flow, quotation stages, documents, service status, billing notes, and relationship history."],
+  ["Multi-brand and multi-office groups", "Branch ownership, role-based access, office-level reporting, escalation paths, team queues, and central management visibility."]
+];
+
+const customCrmFaqs = [
+  ["What is custom CRM development?", "Custom CRM development means building CRM software around the business's own sales, service, follow-up, customer, quotation, dashboard, and reporting workflow."],
+  ["Does BANDEVI GLOBAL GROUP build custom CRM software?", "Yes. BANDEVI builds custom CRM software for lead capture, sales pipelines, customer records, quotations, follow-ups, WhatsApp handoff, dashboards, and role-based team control."],
+  ["Can a custom CRM connect with WhatsApp and website leads?", "Yes. Website forms, landing pages, WhatsApp actions, phone leads, campaigns, referrals, branches, and partner enquiries can be routed into CRM-ready lead records."],
+  ["Can custom CRM connect with ERP?", "Yes. Won CRM leads can connect with ERP workflows such as orders, bookings, suppliers, invoices, payments, documents, approvals, dashboards, and customer portals."],
+  ["Can BANDEVI build a CRM for multiple offices?", "Yes. Custom CRM can include branch ownership, office-wise reporting, staff queues, role permissions, escalation paths, and management dashboards."],
+  ["Where can buyers verify BANDEVI before sharing CRM requirements?", "Buyers can verify BANDEVI through the Proof & Verification page, Company Profile, Official Company Facts page, Staff Size & Net Worth page, Offices page, phone, email, and company profile PDF."]
+];
+
+const erpSoftwareBuyerRows = [
+  ["Operations ERP", "Orders, bookings, service files, tasks, owners, status updates, handovers, approvals, delivery notes, and operating documents can be controlled in one workflow."],
+  ["Finance and invoice ERP", "Invoices, receipts, payment status, dues, refunds, credit notes, approvals, margins, and finance reporting can be tracked in the same system."],
+  ["Supplier and inventory ERP", "Supplier records, inventory direction, product or service availability, purchase notes, confirmation status, dispatch notes, and document storage can be organized."],
+  ["Approval workflow ERP", "Discounts, supplier changes, payment releases, refunds, document exceptions, order changes, and operational exceptions can follow approval rules."],
+  ["Document management ERP", "Invoices, receipts, vouchers, contracts, customer files, supplier confirmations, service notes, and internal handover files can be linked to records."],
+  ["ERP dashboards", "Management can review workload, pending payments, order status, supplier status, task delays, office performance, margins, and operating exceptions."],
+  ["ERP with CRM handoff", "Confirmed CRM leads can move into ERP without losing customer notes, quotation details, source, assigned owner, payment direction, and communication history."],
+  ["ERP with customer portal", "Selected invoices, documents, service status, booking status, support requests, and payment updates can be shared through controlled customer access."]
+];
+
+const erpSoftwareIndustries = [
+  ["Travel and tourism", "Travel ERP for booking files, passengers, suppliers, invoices, payments, documents, approvals, margins, and branch reports."],
+  ["Service businesses", "Service jobs, customer records, tasks, approvals, documents, invoices, payment status, support updates, and operational dashboards."],
+  ["Retail and e-commerce", "Orders, product records, stock direction, dispatch notes, payments, customer support, returns direction, and management reports."],
+  ["Food and packaged products", "Distributor orders, stock direction, dispatch status, bulk enquiries, payments, invoices, and sales or operations reporting."],
+  ["Professional services", "Client work, proposals, approvals, project status, documents, billing, support notes, and management reporting."],
+  ["Multi-office groups", "Branch-wise operations, role-based access, approvals, task queues, office reports, finance visibility, and shared dashboards."]
+];
+
+const erpSoftwareFaqs = [
+  ["What is ERP software development?", "ERP software development means building business software for operations, orders, bookings, suppliers, inventory, approvals, invoices, payments, documents, dashboards, and reporting."],
+  ["Does BANDEVI GLOBAL GROUP build ERP software?", "Yes. BANDEVI builds ERP software for operations, approvals, suppliers, invoices, payments, inventory direction, booking or order control, documents, dashboards, and management reporting."],
+  ["Can ERP software connect with CRM?", "Yes. CRM leads, quotations, customer notes, owners, and source details can move into ERP workflows for orders, bookings, finance, documents, and operations."],
+  ["Can ERP software support multiple offices?", "Yes. ERP software can include branch ownership, office-level reporting, role-based permissions, task queues, approvals, and management dashboards."],
+  ["Can BANDEVI build travel ERP software?", "Yes. BANDEVI has dedicated Travel ERP paths for booking files, passengers, suppliers, invoices, payments, documents, approvals, margins, and operations reporting."],
+  ["Where can buyers verify BANDEVI before starting an ERP project?", "Buyers can verify BANDEVI through the Proof & Verification page, Company Profile, Official Company Facts page, Staff Size & Net Worth page, Offices page, phone, email, and company profile PDF."]
+];
+
 const webAppDevelopmentRows = [
   ["Corporate website development", "Company websites, service pages, about pages, proof sections, office pages, contact flows, lead forms, and SEO-ready page structure."],
   ["Landing page development", "Campaign pages, product or service pages, demo request pages, call/WhatsApp actions, conversion sections, and analytics-ready lead paths."],
@@ -3763,7 +3821,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelWebsite" ? travelWebsiteSeoSections() : key === "travelTech" ? travelTechSeoSections() : key === "leadBooking" ? leadBookingSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelWebsite" ? travelWebsiteSeoSections() : key === "travelTech" ? travelTechSeoSections() : key === "leadBooking" ? leadBookingSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "customCrmDevelopment" ? customCrmSeoSections() : key === "erpSoftwareDevelopment" ? erpSoftwareSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -4590,6 +4648,274 @@ function crmErpSeoSections() {
           <aside class="article-aside">
             <h3>Start with the right first module</h3>
             ${list(["Lead and enquiry control", "Sales pipeline and quotation stages", "Operations, approvals, and task workflows", "Finance, invoices, and payment tracking", "Dashboards, automation, and portals"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function customCrmSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Custom CRM search targets</span>
+          <h2>Custom CRM services buyers search before asking for a demo.</h2>
+          <p>This page is structured for custom CRM development company, CRM software development, lead management CRM, sales pipeline CRM, WhatsApp CRM, customer management CRM, multi-office CRM, and CRM dashboard searches.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>Lead CRM</strong><p>Website forms, WhatsApp enquiries, phone calls, campaigns, referrals, partners, walk-ins, and office leads in one pipeline.</p></article>
+          <article class="card metric-card"><strong>Sales CRM</strong><p>Stages, quotation status, follow-up reminders, proposal notes, owner assignment, lost reasons, and source quality reporting.</p></article>
+          <article class="card metric-card"><strong>Customer CRM</strong><p>Customer profiles, communication history, documents, preferences, invoices, support requests, and repeat-business signals.</p></article>
+          <article class="card metric-card"><strong>Team control</strong><p>Role-based dashboards for admin, sales, service, finance, branch users, and management review.</p></article>
+          <article class="card metric-card"><strong>CRM to ERP</strong><p>Won leads can move into operations, bookings, orders, suppliers, invoices, documents, payment tracking, and portals.</p></article>
+          <article class="card metric-card"><strong>Proof layer</strong><p>1,289 staff worldwide, INR 7,594 Cr company-provided strength, and office-location references linked from the official website.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">CRM build areas</span>
+          <h2>What BANDEVI can build inside custom CRM software.</h2>
+          <p>Custom CRM can start with the sales problem that is hurting the business most, then grow into support, operations, finance, portal, automation, and dashboard paths.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>CRM area</th><th>What it controls</th></tr></thead>
+            <tbody>
+              ${customCrmBuyerRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>Custom CRM workflows for sales, service, travel, retail, and multi-office teams.</h2>
+          <p>BANDEVI can shape CRM fields, stages, roles, follow-up rules, and dashboards around the way each business actually sells and supports customers.</p>
+        </div>
+        <div class="grid cols-3">
+          ${customCrmIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Related CRM paths</span>
+          <h2>Internal pages that support custom CRM buyers.</h2>
+          <p>CRM buyers often compare lead management, travel CRM, ERP handoff, portals, automation, and proof before they share workflow details.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "users", title: "CRM & ERP Development", href: "/crm-erp-solutions/", text: "Main CRM and ERP service hub for lead management, operations, finance, dashboards, and automation." },
+            { icon: "globe", title: "Lead & Booking Management", href: "/lead-booking-management/", text: "Lead capture, quotation follow-up, booking or order handoff, status tracking, and team accountability." },
+            { icon: "users", title: "Travel CRM", href: "/travel-crm/", text: "Travel-specific CRM for package enquiries, quotations, follow-ups, customer records, and booking handoff." },
+            { icon: "stack", title: "ERP Software Development", href: "/erp-software-development/", text: "ERP paths for operations, approvals, suppliers, invoices, payments, inventory direction, and reports." },
+            { icon: "chart", title: "Business Automation", href: "/business-process-automation/", text: "Automation for reminders, routing, approvals, WhatsApp handoff, notifications, and dashboard alerts." },
+            { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Public proof paths for company profile, staff strength, net worth, offices, contact details, and official records." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed CRM company</span>
+          <h2>Company trust signals for CRM buyers.</h2>
+          <p>CRM buyers are sharing customer data, pipeline process, team controls, and follow-up rules. BANDEVI links this service page to public proof pages so buyers can verify company facts first.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Official facts for verification</h3>
+              <p>The official company facts page repeats BANDEVI GLOBAL GROUP's chairman, official contact, 1,289 staff worldwide, INR 7,594 Cr company-provided net worth and group strength, and office references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Office and service-location references</h3>
+              <p>The office page lists Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States references for consistency across directories and search systems.</p>
+            </article>
+            <article class="article-block">
+              <h3>CRM delivery governance</h3>
+              <p>CRM delivery can include scope notes, user roles, field lists, pipeline stages, report requirements, handover items, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify BANDEVI before CRM planning</h3>
+            ${list(["Official Company Facts", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Demo request and official contact"])}
+            <a class="button dark" href="/official-company-facts/">Official Facts ${icons.arrow}</a>
+            <a class="button light" href="/proof-verification/">Proof Page</a>
+            <a class="button light" href="/demo-request/">Request Demo</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Custom CRM FAQ</span>
+          <h2>Answers for custom CRM development searches.</h2>
+          <p>These answers help customers and search systems understand the CRM services BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${customCrmFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Best CRM first releases</h3>
+            ${list(["Lead capture and assignment", "Sales pipeline and follow-up control", "Customer record and quotation workflow", "WhatsApp and website lead handoff", "CRM dashboard and office-wise reports"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function erpSoftwareSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">ERP search targets</span>
+          <h2>ERP services buyers search before choosing a software partner.</h2>
+          <p>This page is structured for ERP software development company, custom ERP software, operations ERP, finance ERP, inventory ERP, order management ERP, approval workflow ERP, business ERP, and ERP dashboard searches.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>Operations ERP</strong><p>Orders, bookings, services, tasks, handovers, owners, status updates, delivery notes, and operating documents.</p></article>
+          <article class="card metric-card"><strong>Finance ERP</strong><p>Invoices, receipts, payment status, dues, refunds, credit notes, approvals, margins, and finance reporting.</p></article>
+          <article class="card metric-card"><strong>Supplier ERP</strong><p>Supplier records, stock direction, service availability, purchase notes, confirmations, dispatch status, and documents.</p></article>
+          <article class="card metric-card"><strong>Approval ERP</strong><p>Discount approvals, payment releases, supplier changes, refunds, order changes, and operating exceptions.</p></article>
+          <article class="card metric-card"><strong>CRM handoff</strong><p>Confirmed leads, customer notes, quotations, source details, and assigned owners can move from CRM to ERP.</p></article>
+          <article class="card metric-card"><strong>Proof layer</strong><p>Company profile, proof pages, staff strength, net worth, office references, and official contact details are linked for buyer verification.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">ERP build areas</span>
+          <h2>What BANDEVI can build inside ERP software.</h2>
+          <p>ERP can begin with one operating workflow, then expand into finance, inventory direction, approvals, documents, CRM handoff, customer portals, automation, and reporting.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ERP area</th><th>What it controls</th></tr></thead>
+            <tbody>
+              ${erpSoftwareBuyerRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>ERP workflows for operations, finance, travel, retail, and multi-office groups.</h2>
+          <p>BANDEVI can shape ERP modules around how each business delivers work, manages suppliers, collects payments, handles documents, and reviews performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${erpSoftwareIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Related ERP paths</span>
+          <h2>Internal pages that support ERP buyers.</h2>
+          <p>ERP buyers often review CRM handoff, automation, travel ERP, portals, e-commerce operations, and proof before they request a system plan.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "stack", title: "CRM & ERP Development", href: "/crm-erp-solutions/", text: "Main CRM and ERP hub for lead management, operations, finance, dashboards, and automation." },
+            { icon: "users", title: "Custom CRM Development", href: "/custom-crm-development/", text: "CRM lead capture, sales pipeline, customer records, quotations, follow-ups, and ERP handoff." },
+            { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Travel-specific ERP for booking files, passengers, suppliers, invoices, payments, documents, and margins." },
+            { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Controlled customer access for invoices, documents, status updates, service information, and support." },
+            { icon: "chart", title: "Business Automation", href: "/business-process-automation/", text: "Task routing, approvals, reminders, WhatsApp or email notifications, dashboard alerts, and workflow automation." },
+            { icon: "globe", title: "E-commerce Development", href: "/ecommerce-website-development/", text: "Storefront, catalogue, order, payment, inventory direction, customer account, and reporting paths." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed ERP company</span>
+          <h2>Company trust signals for ERP buyers.</h2>
+          <p>ERP buyers are sharing operating data, supplier processes, finance workflows, and management reporting requirements. BANDEVI keeps proof and company facts connected from this service page.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Official company facts</h3>
+              <p>BANDEVI publishes its chairman, contact details, 1,289 staff worldwide, INR 7,594 Cr company-provided net worth and group strength, and office references on dedicated official fact and proof pages.</p>
+            </article>
+            <article class="article-block">
+              <h3>Public proof route</h3>
+              <p>The ERP page links to Proof & Verification, Official Company Facts, Staff Size & Net Worth, Offices, Directory Listing Profile, company profile PDF, and public proof support assets.</p>
+            </article>
+            <article class="article-block">
+              <h3>ERP delivery governance</h3>
+              <p>ERP delivery can include module scope, role permissions, approval rules, dashboard requirements, data handover, support ownership, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify BANDEVI before ERP planning</h3>
+            ${list(["Official Company Facts", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Demo request and official contact"])}
+            <a class="button dark" href="/official-company-facts/">Official Facts ${icons.arrow}</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="/offices/">Offices</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">ERP FAQ</span>
+          <h2>Answers for ERP software development searches.</h2>
+          <p>These answers help customers and search systems understand the ERP software services BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${erpSoftwareFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Best ERP first releases</h3>
+            ${list(["Operations and task workflow", "Invoice and payment tracking", "Supplier and inventory direction", "Approvals and document control", "CRM handoff and management dashboard"])}
             <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button light" href="/contact-us/">Contact</a>
           </aside>
