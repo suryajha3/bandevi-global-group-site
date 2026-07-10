@@ -45,6 +45,7 @@ Search Console status:
 24. On 10 July 2026, the owner reported both Custom CRM Development and ERP Software Development Search Console follow-ups complete. URL Inspection screenshot showed the ERP Software Development URL is on Google and indexed.
 25. On 10 July 2026, Custom Software Development, E-commerce Website Development, and Business Process Automation pages were strengthened for the next commercial SEO batch.
 26. On 10 July 2026, White Label CRM, Travel CRM Software, B2B Travel Portal, Flight Booking Engine, Hotel Booking Engine, and Travel Agency Mobile App pages were strengthened with dedicated travel product sales sections, module tables, buyer segments, proof links, connected product links, and FAQs.
+27. On 10 July 2026, White Label Travel Website, Travel Agency Website Development, and Travel Mobile App Development pages were strengthened with dedicated travel website and app sales sections, module tables, commercial use cases, proof links, connected travel stack links, and FAQs.
 
 Optional URL Inspection follow-up:
 These URLs can be inspected or rechecked only when Search Console quota is available, especially after a fresh deployment or when Google shows "Page changed? Request indexing":
@@ -71,6 +72,9 @@ https://bandeviglobalgroup.com/b2b-travel-portal/
 https://bandeviglobalgroup.com/flight-booking-engine/
 https://bandeviglobalgroup.com/hotel-booking-engine/
 https://bandeviglobalgroup.com/travel-agency-mobile-app/
+https://bandeviglobalgroup.com/white-label-travel-website/
+https://bandeviglobalgroup.com/travel-agency-website-development/
+https://bandeviglobalgroup.com/travel-mobile-app-development/
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/

@@ -495,6 +495,32 @@ const travelTechFaqs = [
   ["Where can visitors verify BANDEVI before starting a travel technology project?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const travelWebsiteAppPageKeys = new Set([
+  "whiteLabelTravelWebsite",
+  "travelAgencyWebsite",
+  "travelMobileApp"
+]);
+
+const travelWebsiteAppRows = [
+  ["Travel agency website", "Destination pages, package pages, itinerary blocks, galleries, trust sections, enquiry forms, WhatsApp actions, SEO metadata, and analytics."],
+  ["White-label travel website", "Partner-ready and reseller-ready travel website structures for agencies, branches, franchise-style sellers, and multi-brand travel groups."],
+  ["Travel mobile app", "Customer and agent mobile journeys for enquiries, booking status, documents, invoices, payment reminders, notifications, support, CRM, and ERP connection."],
+  ["Lead capture and routing", "Website forms, WhatsApp handoff, campaign pages, branch source tracking, partner source tracking, customer details, and CRM-ready lead records."],
+  ["Package and destination content", "Itinerary sections, inclusions, exclusions, FAQs, terms, image galleries, destination guides, service pages, and search-ready page structure."],
+  ["Travel CRM and ERP path", "Move website or app enquiries into Travel CRM, then connect confirmed bookings with Travel ERP, booking files, suppliers, invoices, payments, and documents."],
+  ["Sales reporting", "Track page enquiries, source quality, package interest, destination interest, open follow-ups, booking handoff, and branch or partner performance."],
+  ["Proof and verification", "Connect each sales page with company profile, proof page, staff strength, net worth / group strength, offices, and official contact details."]
+];
+
+const travelWebsiteAppFaqs = [
+  ["Does BANDEVI GLOBAL GROUP build travel agency websites?", "Yes. BANDEVI builds travel agency websites with destination pages, package pages, itinerary content, WhatsApp enquiries, SEO setup, analytics, trust sections, and Travel CRM-ready lead capture."],
+  ["Does BANDEVI build white-label travel websites?", "Yes. BANDEVI builds white-label travel websites for agencies, partners, branches, resellers, franchise-style sellers, and multi-brand travel groups that need branded package pages and controlled lead routing."],
+  ["Does BANDEVI build travel mobile apps?", "Yes. BANDEVI builds travel mobile app and mobile-first portal experiences for customers, agents, staff, booking status, documents, payment reminders, notifications, support, Travel CRM, and Travel ERP workflows."],
+  ["Can website and app leads connect with Travel CRM?", "Yes. Website forms, WhatsApp enquiries, app enquiries, package interest, destination interest, campaign leads, and partner leads can be structured for Travel CRM ownership, follow-ups, quotations, and reporting."],
+  ["Can the travel website later expand into Travel ERP or B2B portal?", "Yes. A travel website or mobile app can grow into Travel CRM, Travel ERP, B2B travel portal, customer portal, lead and booking management, payment reminders, document workflows, and dashboards."],
+  ["Where can buyers verify BANDEVI before starting a website or app project?", "Buyers can verify BANDEVI through the Company Profile, Proof & Verification page, Official Company Facts page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
+];
+
 const travelRevenuePageKeys = new Set([
   "whiteLabelCrm",
   "travelCrmSoftware",
@@ -3890,6 +3916,7 @@ function landingPage(key) {
   const page = landingPages[key];
   const extraSections = key === "itProducts" ? itProductUpgradeSections()
     : key === "travelWebsite" ? travelWebsiteSeoSections()
+    : travelWebsiteAppPageKeys.has(key) ? travelWebsiteAppSeoSections()
     : key === "travelTech" ? travelTechSeoSections()
     : travelRevenuePageKeys.has(key) ? travelProductRevenueSeoSections()
     : key === "leadBooking" ? leadBookingSeoSections()
@@ -4047,6 +4074,130 @@ function travelWebsiteSeoSections() {
             ${list(["Complete travel website", "White-label travel website", "Destination and package pages", "Enquiry and WhatsApp capture", "Travel CRM handoff", "SEO and blog setup"])}
             <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function travelWebsiteAppSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel website and app sales targets</span>
+          <h2>Travel agency website, white-label travel website, and travel mobile app pages built for buyer search.</h2>
+          <p>These pages are structured for travel agency website development, white-label travel website development, travel mobile app development, tour operator website, DMC website, travel customer app, travel agent app, package website, destination pages, enquiry capture, and Travel CRM handoff searches.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>Website</strong><p>Destination pages, package pages, itinerary content, enquiry forms, WhatsApp actions, blogs, and SEO-ready structure.</p></article>
+          <article class="card metric-card"><strong>White-label</strong><p>Partner-ready travel website structures for branches, resellers, agencies, franchise-style sellers, and multi-brand networks.</p></article>
+          <article class="card metric-card"><strong>Mobile app</strong><p>Customer and agent access for enquiries, booking status, documents, payments, notifications, support, CRM, and ERP connection.</p></article>
+          <article class="card metric-card"><strong>Proof layer</strong><p>1,289 staff worldwide, INR 7,594 Cr company-provided group strength, offices, and official company verification pages.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Website and app modules</span>
+          <h2>What BANDEVI can build into the travel website or mobile app stack.</h2>
+          <p>The first release can be a sales website, white-label website, or mobile app, then expand into Travel CRM, Travel ERP, B2B portals, lead and booking management, customer portals, documents, payments, automation, and dashboards.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Website or app area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${travelWebsiteAppRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Commercial use cases</span>
+          <h2>Built for travel sellers that need more enquiries, faster follow-up, and stronger buyer trust.</h2>
+          <p>BANDEVI can shape the website or app around the actual selling model: direct travel agency leads, white-label partner leads, corporate travel requests, DMC destination enquiries, tour operator packages, or multi-office travel sales.</p>
+        </div>
+        <div class="grid cols-3">
+          ${travelWebsiteIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed travel web and app partner</span>
+          <h2>Company facts connected to every travel website and app sales page.</h2>
+          <p>Travel websites and apps are often the first buyer touchpoint. BANDEVI connects these pages with public proof pages so customers, directories, Google, and AI assistants see consistent facts before a project discussion starts.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Published strength signals</h3>
+              <p>BANDEVI publishes 1,289 staff worldwide, INR 7,594 Cr current company-provided net worth and group strength, Chairman Mr Surya Kant Jha, official phone, official email, and website verification paths.</p>
+            </article>
+            <article class="article-block">
+              <h3>Office and service-location references</h3>
+              <p>The public office layer lists Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States as office and service-location references.</p>
+            </article>
+            <article class="article-block">
+              <h3>Buyer review path</h3>
+              <p>The Company Profile, Proof & Verification page, Official Company Facts page, Staff Size & Net Worth page, Offices page, public proof support pack, and company profile PDF support buyer and directory verification.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify before web or app planning</h3>
+            ${list(["Company Profile", "Proof & Verification", "Official Company Facts", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF"])}
+            <a class="button dark" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
+            <a class="button light" href="/official-company-facts/">Official Facts</a>
+            <a class="button light" href="/staff-size-net-worth/">Staff & Net Worth</a>
+            <a class="button light" href="${companyProfilePdf}">Company Profile PDF</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Connected travel web stack</span>
+          <h2>Connect website, app, CRM, ERP, booking workflows, and customer portals.</h2>
+          <p>These internal links help buyers and crawlers move from website or app interest into the full travel technology path.</p>
+        </div>
+        <div class="grid cols-3">
+          <a class="card" href="/travel-website-development/"><h3>Travel Website Development</h3><p>Complete travel websites with destination pages, package pages, enquiry paths, blogs, and CRM-ready lead capture.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/white-label-travel-website/"><h3>White-label Travel Website</h3><p>Partner-ready websites for agencies, branches, resellers, and multi-brand travel selling.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-agency-website-development/"><h3>Travel Agency Website</h3><p>Travel agency websites for packages, destinations, itineraries, WhatsApp enquiries, and SEO setup.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-mobile-app-development/"><h3>Travel Mobile App</h3><p>Customer and agent mobile app journeys for booking status, documents, payments, support, and notifications.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/travel-crm-software/"><h3>Travel CRM Software</h3><p>Route enquiries and app leads into customer records, quotation stages, follow-ups, source tracking, and dashboards.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/lead-booking-management/"><h3>Lead & Booking Management</h3><p>Move website and app enquiries into quotation follow-up, booking files, documents, payments, and operations handoff.</p><span>Open page ${icons.arrow}</span></a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel website and app FAQ</span>
+          <h2>Answers for travel agency website, white-label website, mobile app, CRM handoff, and proof searches.</h2>
+          <p>These answers help buyers, directories, Google, and AI assistants understand the travel web and app work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${travelWebsiteAppFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Start with the right sales layer</h3>
+            ${list(["Travel agency website", "White-label travel website", "Travel mobile app", "Travel CRM handoff", "Lead and booking workflow", "Proof-backed company profile"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/travel-technology/">Travel Technology</a>
           </aside>
         </div>
       </div>
