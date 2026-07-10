@@ -1,9 +1,9 @@
 BANDEVI GLOBAL GROUP
 Social Proof Links Register
-Updated: 9 July 2026
+Updated: 10 July 2026
 
 Purpose:
-This public register lists captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target: staff strength, net worth / group strength, and office references.
+This public register lists captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target: staff strength, net worth / group strength, office references, chairman identity, and Surya Kant Jha search consistency.
 
 Official company:
 BANDEVI GLOBAL GROUP
@@ -26,7 +26,14 @@ https://www.linkedin.com/feed/update/urn:li:share:7480666502069665792/
 2. Facebook first-target proof post
 https://www.facebook.com/share/p/1DAV9EGQ8q/
 
+3. Facebook Surya Kant Jha chairman profile proof post
+https://www.facebook.com/share/p/199iQGBZX9/
+
+4. X Surya Kant Jha chairman profile proof post
+https://x.com/BANDEVIGLOBAL/status/2075494336318636151?s=20
+
 Official proof links:
+https://bandeviglobalgroup.com/surya-kant-jha/
 https://bandeviglobalgroup.com/proof-verification/
 https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
@@ -34,7 +41,7 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json
 https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
 
 Pending external proof links:
-X proof post URL - pending capture.
+LinkedIn Surya Kant Jha chairman profile post URL - pending capture if posted.
 Instagram proof post URL - pending capture if posted.
 
 Verification wording rule:

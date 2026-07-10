@@ -4,8 +4,8 @@
   "@id": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
   "name": "BANDEVI GLOBAL GROUP Social Proof Links Register",
   "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
-  "dateModified": "2026-07-09",
-  "description": "Captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target: 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, and office references in Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.",
+  "dateModified": "2026-07-10",
+  "description": "Captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target: 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, office references, chairman identity, and Surya Kant Jha search consistency.",
   "publisher": {
     "@type": "Organization",
     "@id": "https://bandeviglobalgroup.com/#organization",
@@ -29,9 +29,19 @@
       "@type": "Thing",
       "name": "BANDEVI GLOBAL GROUP office references",
       "description": "Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."
+    },
+    {
+      "@type": "Person",
+      "name": "Mr Surya Kant Jha",
+      "alternateName": [
+        "Surya Kant Jha",
+        "Suryakant Jha",
+        "Surya kant Jha"
+      ],
+      "jobTitle": "Chairman"
     }
   ],
-  "numberOfItems": 2,
+  "numberOfItems": 4,
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -62,9 +72,40 @@
           "name": "BANDEVI GLOBAL GROUP"
         }
       }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "SocialMediaPosting",
+        "name": "Facebook Surya Kant Jha chairman profile proof post",
+        "url": "https://www.facebook.com/share/p/199iQGBZX9/",
+        "datePublished": "2026-07-10",
+        "about": "BANDEVI GLOBAL GROUP chairman profile proof post for Mr Surya Kant Jha, Suryakant Jha spelling variant, safe net worth context, and travel technology context.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "BANDEVI GLOBAL GROUP"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "SocialMediaPosting",
+        "name": "X Surya Kant Jha chairman profile proof post",
+        "url": "https://x.com/BANDEVIGLOBAL/status/2075494336318636151?s=20",
+        "datePublished": "2026-07-10",
+        "about": "BANDEVI GLOBAL GROUP chairman profile proof post for Mr Surya Kant Jha, Suryakant Jha spelling variant, safe net worth context, and travel technology context.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "BANDEVI GLOBAL GROUP"
+        }
+      }
     }
   ],
   "citation": [
+    "https://bandeviglobalgroup.com/surya-kant-jha/",
     "https://bandeviglobalgroup.com/proof-verification/",
     "https://bandeviglobalgroup.com/staff-size-net-worth/",
     "https://bandeviglobalgroup.com/offices/",

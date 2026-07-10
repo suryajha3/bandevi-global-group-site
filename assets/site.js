@@ -961,8 +961,8 @@ const proofSupportFiles = [
   ["Public Proof Support Pack PDF", proofSupportPackPdf, "Combined downloadable proof-support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."],
   ["Social Proof Post Pack", asset("bandevi-global-group-social-proof-post-pack.txt"), "Reusable proof post copy for Facebook, Instagram, LinkedIn, X, directory reviewers, and public profile consistency."],
   ["Social Proof Structured JSON", asset("bandevi-global-group-social-proof-post-pack.json"), "Machine-readable social proof post pack with official proof citations and company-provided fact wording."],
-  ["Social Proof Links Register", asset("bandevi-global-group-social-proof-links.txt"), "Crawler-friendly register of captured LinkedIn and Facebook proof post URLs for staff strength, net worth, and office references."],
-  ["Social Proof Links JSON", asset("bandevi-global-group-social-proof-links.json"), "Machine-readable register of captured external social proof links for BANDEVI's first SEO target."],
+  ["Social Proof Links Register", asset("bandevi-global-group-social-proof-links.txt"), "Crawler-friendly register of captured LinkedIn, Facebook, and X proof post URLs for staff strength, net worth, offices, and chairman identity."],
+  ["Social Proof Links JSON", asset("bandevi-global-group-social-proof-links.json"), "Machine-readable register of captured external social proof links for BANDEVI's first SEO target and Surya Kant Jha chairman profile target."],
   ["Social Proof Card", asset("bandevi-global-group-social-proof-card.svg"), "Square social proof card for posts and profile updates linking back to the official proof page."]
 ];
 
@@ -987,9 +987,9 @@ const externalCitationTargets = [
   ["Sortlist", "Agency and service-provider directory", "https://www.sortlist.com/agency/bandevi-global-group", "Public profile live; tagline cleaned; CRM/ERP portfolio page live; service pack expanded with new product URLs", "Web Application, web development, CRM, ERP, Travel Technology"],
   ["DesignRush", "Agency and B2B marketplace", "https://www.designrush.com/", "Submitted; review pending", "Software development, app development, web design, technology services"],
   ["LinkedIn", "Professional profile", "https://www.linkedin.com/in/bandevi-global-group-38584b419/", "Profile updated; Evidence Register proof post published; sales posts reported published; first-target proof post URL captured", "IT services and IT consulting, software development, CRM, ERP, e-commerce, travel technology"],
-  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published; CRM/ERP/e-commerce sales post reported published; first-target proof post URL captured", "Software company, information technology company"],
+  ["Facebook", "Social profile", "https://www.facebook.com/profile.php?id=61591222415314", "Category corrected; Evidence Register proof post published; CRM/ERP/e-commerce sales post reported published; first-target and Surya Kant Jha chairman proof post URLs captured", "Software company, information technology company"],
   ["Instagram", "Social profile", "https://www.instagram.com/bandeviglobalgroup/", "Bio and website link updated; Evidence Register proof post published", "Software company, IT services"],
-  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, broad location updated; travel sales post and CRM/ERP/e-commerce sales post reported published; post URLs pending", "IT company, software development, CRM, ERP, e-commerce, automation"]
+  ["X", "Social profile", "https://x.com/BANDEVIGLOBAL", "Evidence Register proof post published; bio, website, broad location updated; travel sales post and CRM/ERP/e-commerce sales post reported published; Surya Kant Jha chairman proof post URL captured", "IT company, software development, CRM, ERP, e-commerce, automation"]
 ];
 
 const socialProofPostTemplates = [
@@ -1956,7 +1956,7 @@ function officialCompanyFactsPage() {
     ["Offices & Locations", "/offices/", "Office and service-location references across India, Dubai, London, and the United States."],
     ["Official facts JSON", officialFactsJson, "Machine-readable company facts for search systems, AI tools, and directory reviewers."],
     ["Proof index JSON", proofIndexJson, "Machine-readable index of public proof support files and verification assets."],
-    ["Social proof links", asset("bandevi-global-group-social-proof-links.txt"), "Captured LinkedIn and Facebook proof post URLs for first-target fact consistency."]
+    ["Social proof links", asset("bandevi-global-group-social-proof-links.txt"), "Captured LinkedIn, Facebook, and X proof post URLs for first-target and chairman-profile consistency."]
   ];
 
   return `
