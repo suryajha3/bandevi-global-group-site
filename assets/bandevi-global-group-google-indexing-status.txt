@@ -42,6 +42,8 @@ Search Console status:
 21. Google Search Console email confirms bandeviglobalgroup@gmail.com was added as an owner for https://bandeviglobalgroup.com/ on 5 July 2026.
 22. On 9-10 July 2026, URL Inspection follow-up was completed for the first-target proof pages and the first commercial sales batch where Google accepted the request. The proof-first URLs remain the priority for staff strength, net worth, offices, and official facts.
 23. On 10 July 2026, Custom CRM Development and ERP Software Development pages were strengthened with dedicated buyer sections, module tables, industry use cases, proof links, and FAQs. After deployment, inspect these URLs again only if Search Console quota allows and the "Page changed? Request indexing" action is available.
+24. On 10 July 2026, the owner reported both Custom CRM Development and ERP Software Development Search Console follow-ups complete. URL Inspection screenshot showed the ERP Software Development URL is on Google and indexed.
+25. On 10 July 2026, Custom Software Development, E-commerce Website Development, and Business Process Automation pages were strengthened for the next commercial SEO batch.
 
 Optional URL Inspection follow-up:
 These URLs can be inspected or rechecked only when Search Console quota is available, especially after a fresh deployment or when Google shows "Page changed? Request indexing":
@@ -59,6 +61,9 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-comp
 https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 https://bandeviglobalgroup.com/custom-crm-development/
 https://bandeviglobalgroup.com/erp-software-development/
+https://bandeviglobalgroup.com/custom-software-development/
+https://bandeviglobalgroup.com/ecommerce-website-development/
+https://bandeviglobalgroup.com/business-process-automation/
 
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/

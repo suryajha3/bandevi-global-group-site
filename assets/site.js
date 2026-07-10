@@ -582,6 +582,35 @@ const automationFaqs = [
   ["Where can visitors verify BANDEVI before starting automation work?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
+const customSoftwareRows = [
+  ["Business web application", "Admin panels, workflow screens, records, statuses, forms, role-based views, dashboards, and controlled internal tools."],
+  ["Customer and partner portal", "Customer login, partner access, documents, invoices, support requests, service status, profile records, and controlled information views."],
+  ["CRM and sales software", "Lead capture, customer records, sales stages, quotation flow, reminders, WhatsApp handoff, source tracking, and sales dashboards."],
+  ["ERP and operations software", "Orders, bookings, tasks, suppliers, inventory direction, invoices, payments, approvals, documents, and management reporting."],
+  ["Dashboard and reporting system", "Owner and manager views for workload, revenue, source quality, conversion, exceptions, payments, support, and team activity."],
+  ["Automation and notifications", "Reminders, owner assignment, approvals, document requests, status updates, WhatsApp or email handoff, and escalation paths."],
+  ["Integration-ready software", "Website forms, demo requests, payment paths, CRM/ERP records, customer portals, third-party tools, and reporting exports."],
+  ["Multi-office access control", "Branch ownership, office-wise dashboards, staff queues, role permissions, approval rules, and shared management visibility."]
+];
+
+const customSoftwareIndustries = [
+  ["Travel and tourism", "Travel websites, Travel CRM, Travel ERP, booking files, supplier coordination, payment tracking, documents, and portals."],
+  ["Service companies", "Lead management, customer portals, quotation tracking, service status, support tickets, invoices, and dashboard reporting."],
+  ["Retail and e-commerce", "Product catalogues, order workflows, payments, customer accounts, distributor CRM, stock direction, and reports."],
+  ["Food and packaged products", "Distributor enquiries, bulk order tracking, product catalogues, dispatch notes, invoice status, and sales dashboards."],
+  ["Consulting and professional services", "Client records, proposal flow, project status, document access, billing notes, approvals, and management dashboards."],
+  ["Multi-brand and multi-office groups", "Separate modules, access roles, brand or office reports, shared dashboards, escalation paths, and centralized control."]
+];
+
+const customSoftwareFaqs = [
+  ["What is custom software development?", "Custom software development means building business software around a company's specific workflow, users, records, approvals, dashboards, portals, and reporting needs."],
+  ["Does BANDEVI GLOBAL GROUP build custom software?", "Yes. BANDEVI builds custom software including web applications, admin panels, dashboards, customer portals, partner portals, CRM, ERP, automation, integrations, and reporting systems."],
+  ["Can custom software include CRM and ERP modules?", "Yes. Custom software can include CRM for sales and customers, ERP for operations and finance, portals for controlled access, and dashboards for management visibility."],
+  ["Can BANDEVI build software for multiple offices?", "Yes. Custom software can support branch ownership, office-wise reporting, role-based permissions, team queues, approvals, and management dashboards."],
+  ["Can custom software connect with websites and payment flows?", "Yes. Website forms, demo requests, landing pages, payment status, customer records, portals, CRM/ERP records, and reporting exports can be connected when included in scope."],
+  ["Where can buyers verify BANDEVI before sharing software requirements?", "Buyers can verify BANDEVI through the Proof & Verification page, Company Profile, Official Company Facts page, Staff Size & Net Worth page, Offices page, phone, email, and company profile PDF."]
+];
+
 const officeVerificationFaqs = [
   ["Where are BANDEVI GLOBAL GROUP offices listed?", "The website lists office and service-location references for Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States."],
   ["Which BANDEVI office should a customer contact first?", "Customers should use the official sales desk, phone, WhatsApp, or email first. The right office or support route can then be confirmed according to project scope."],
@@ -3821,7 +3850,7 @@ const landingPages = {
 
 function landingPage(key) {
   const page = landingPages[key];
-  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelWebsite" ? travelWebsiteSeoSections() : key === "travelTech" ? travelTechSeoSections() : key === "leadBooking" ? leadBookingSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "customCrmDevelopment" ? customCrmSeoSections() : key === "erpSoftwareDevelopment" ? erpSoftwareSeoSections() : key === "ecommerce" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" ? automationSeoSections() : "";
+  const extraSections = key === "itProducts" ? itProductUpgradeSections() : key === "travelWebsite" ? travelWebsiteSeoSections() : key === "travelTech" ? travelTechSeoSections() : key === "leadBooking" ? leadBookingSeoSections() : key === "crmErp" ? crmErpSeoSections() : key === "customCrmDevelopment" ? customCrmSeoSections() : key === "erpSoftwareDevelopment" ? erpSoftwareSeoSections() : key === "customSoftwareDevelopment" ? customSoftwareSeoSections() : key === "ecommerce" || key === "ecommerceWebsiteDevelopment" ? ecommerceSeoSections() : key === "webApp" ? webAppSeoSections() : key === "automation" || key === "businessProcessAutomation" ? automationSeoSections() : "";
   return `
     <section class="section">
       <div class="container split">
@@ -4916,6 +4945,140 @@ function erpSoftwareSeoSections() {
           <aside class="article-aside">
             <h3>Best ERP first releases</h3>
             ${list(["Operations and task workflow", "Invoice and payment tracking", "Supplier and inventory direction", "Approvals and document control", "CRM handoff and management dashboard"])}
+            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button light" href="/contact-us/">Contact</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function customSoftwareSeoSections() {
+  return `
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Custom software search targets</span>
+          <h2>Custom software services buyers search before requesting a build plan.</h2>
+          <p>This page is structured for custom software development company, software development services, business software development, web application development, admin panel development, dashboard software, portal development, CRM ERP software, and workflow automation searches.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="card metric-card"><strong>Web apps</strong><p>Admin panels, forms, records, workflow screens, status views, user roles, and internal business tools.</p></article>
+          <article class="card metric-card"><strong>Portals</strong><p>Customer, partner, staff, support, document, invoice, service-status, and account-access portals.</p></article>
+          <article class="card metric-card"><strong>CRM + ERP</strong><p>Lead management, customer records, operations, orders, bookings, invoices, payments, documents, and dashboards.</p></article>
+          <article class="card metric-card"><strong>Automation</strong><p>Reminders, approvals, notifications, document requests, owner assignment, status updates, and escalation paths.</p></article>
+          <article class="card metric-card"><strong>Dashboards</strong><p>Sales, workload, revenue, source quality, payments, support requests, exceptions, and team activity views.</p></article>
+          <article class="card metric-card"><strong>Proof layer</strong><p>1,289 staff worldwide, INR 7,594 Cr company-provided strength, and office references are linked for buyer verification.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Software build areas</span>
+          <h2>What BANDEVI can build inside a custom software project.</h2>
+          <p>A custom software project can start with one urgent workflow, then grow into CRM, ERP, portals, dashboards, automation, integrations, and reporting.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Software area</th><th>What it can include</th></tr></thead>
+            <tbody>
+              ${customSoftwareRows.map(([area, detail]) => `<tr><td>${area}</td><td>${detail}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Industries</span>
+          <h2>Custom software workflows for service, travel, retail, product, and multi-office businesses.</h2>
+          <p>BANDEVI can shape modules around how each business captures work, assigns teams, updates customers, handles documents, tracks payments, and reviews performance.</p>
+        </div>
+        <div class="grid cols-3">
+          ${customSoftwareIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Related software paths</span>
+          <h2>Internal pages that support custom software buyers.</h2>
+          <p>Most custom software decisions connect to CRM, ERP, websites, portals, e-commerce, automation, and proof before the buyer asks for a scope plan.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            { icon: "users", title: "Custom CRM Development", href: "/custom-crm-development/", text: "CRM for lead capture, customer records, quotation stages, follow-up discipline, dashboards, and team control." },
+            { icon: "stack", title: "ERP Software Development", href: "/erp-software-development/", text: "ERP for operations, suppliers, invoices, payments, inventory direction, approvals, documents, and reports." },
+            { icon: "globe", title: "Website & Mobile App Development", href: "/website-mobile-app-development/", text: "Websites, apps, portals, dashboards, landing pages, and responsive digital systems." },
+            { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Customer access for documents, invoices, service updates, support requests, and controlled account views." },
+            { icon: "chart", title: "Business Process Automation", href: "/business-process-automation/", text: "Workflow automation for reminders, approvals, document requests, notifications, and dashboard alerts." },
+            { icon: "globe", title: "E-commerce Website Development", href: "/ecommerce-website-development/", text: "Online stores, product catalogues, cart and checkout planning, payments, order management, and CRM." }
+          ].map((item) => `
+            <a class="card industry-card" href="${item.href}">
+              ${iconTile(item.icon)}
+              <h3>${item.title}</h3>
+              <p>${item.text}</p>
+              <span>Open page ${icons.arrow}</span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Proof-backed software company</span>
+          <h2>Company trust signals for custom software buyers.</h2>
+          <p>Custom software work touches internal operations, customer data, finance flows, documents, and team access. BANDEVI links this service page to public proof routes so buyers can verify company details first.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            <article class="article-block">
+              <h3>Official company facts</h3>
+              <p>BANDEVI publishes its chairman, official contact, 1,289 staff worldwide, INR 7,594 Cr company-provided net worth and group strength, and office references on dedicated official fact and proof pages.</p>
+            </article>
+            <article class="article-block">
+              <h3>Proof and verification route</h3>
+              <p>The software page links to Proof & Verification, Official Company Facts, Staff Size & Net Worth, Offices, Directory Listing Profile, company profile PDF, and public proof support assets.</p>
+            </article>
+            <article class="article-block">
+              <h3>Controlled delivery planning</h3>
+              <p>Software delivery can include module scope, user roles, workflow fields, approval rules, dashboard requirements, handover notes, support ownership, and post-launch improvement planning.</p>
+            </article>
+          </div>
+          <aside class="article-aside">
+            <h3>Verify BANDEVI before software planning</h3>
+            ${list(["Official Company Facts", "Proof & Verification", "Staff Size & Net Worth", "Offices & Locations", "Company Profile PDF", "Demo request and official contact"])}
+            <a class="button dark" href="/official-company-facts/">Official Facts ${icons.arrow}</a>
+            <a class="button light" href="/proof-verification/">Proof Page</a>
+            <a class="button light" href="/demo-request/">Request Demo</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Custom software FAQ</span>
+          <h2>Answers for custom software development searches.</h2>
+          <p>These answers help customers and search systems understand the software development work BANDEVI can support.</p>
+        </div>
+        <div class="article-layout">
+          <div class="article-body">
+            ${customSoftwareFaqs.map(([question, answer]) => `
+              <article class="article-block">
+                <h3>${question}</h3>
+                <p>${answer}</p>
+              </article>
+            `).join("")}
+          </div>
+          <aside class="article-aside">
+            <h3>Best first software releases</h3>
+            ${list(["Admin panel or workflow screen", "Customer or partner portal", "CRM and sales workflow", "ERP and operations workflow", "Dashboards, automation, and reports"])}
             <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button light" href="/contact-us/">Contact</a>
           </aside>

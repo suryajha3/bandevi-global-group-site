@@ -49,6 +49,8 @@ BANDEVI GLOBAL GROUP provides websites, white-label travel websites, travel agen
 
 CRM and ERP sales focus: BANDEVI GLOBAL GROUP provides custom CRM development for lead capture, sales pipelines, customer records, quotations, WhatsApp handoff, dashboards, role-based team control, multi-office reporting, and CRM-to-ERP handoff. BANDEVI GLOBAL GROUP provides ERP software development for operations, approvals, suppliers, invoices, payments, inventory direction, booking or order control, documents, dashboards, and management reporting.
 
+Custom software, e-commerce, and automation sales focus: BANDEVI GLOBAL GROUP provides custom software development for web applications, admin panels, portals, CRM, ERP, dashboards, automation, integrations, and reporting. BANDEVI GLOBAL GROUP provides e-commerce website development for product catalogues, online stores, cart and checkout planning, payment workflows, order management, customer CRM, inventory direction, and dashboards. BANDEVI GLOBAL GROUP provides business process automation for lead routing, task ownership, reminders, approvals, document requests, CRM/ERP handoff, WhatsApp or email notifications, and dashboard automation.
+
 ## Priority Sales And Product URLs
 
 - IT products and software solutions: https://bandeviglobalgroup.com/it-products/
