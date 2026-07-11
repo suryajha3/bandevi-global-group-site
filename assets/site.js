@@ -557,6 +557,7 @@ const travelWebsiteAppFaqs = [
 const travelRevenuePageKeys = new Set([
   "whiteLabelCrm",
   "travelCrmSoftware",
+  "travelBookingSoftware",
   "b2bTravelPortal",
   "flightBookingEngine",
   "hotelBookingEngine",
@@ -566,6 +567,7 @@ const travelRevenuePageKeys = new Set([
 const travelRevenueProductRows = [
   ["White-label CRM", "Branded CRM for agencies, partners, resellers, branches, lead capture, source tracking, follow-ups, dashboards, and controlled access."],
   ["Travel CRM software", "Travel enquiries, destination interest, quotations, WhatsApp follow-up, customer records, booking handoff, sales owners, and reporting."],
+  ["Travel booking software", "Lead-to-booking workflows, passenger and service details, suppliers, invoices, payments, documents, status updates, and reporting."],
   ["B2B travel portal", "Agent, partner, branch, reseller, and corporate desk access with package distribution, enquiry routing, booking records, and status views."],
   ["Flight booking engine workflow", "Flight enquiry, passenger details, route notes, fare status, supplier coordination, documents, payments, CRM handoff, and dashboards."],
   ["Hotel booking engine workflow", "Hotel requests, room details, supplier notes, availability status, invoices, payments, customer updates, and booking records."],
@@ -586,6 +588,7 @@ const travelRevenueBuyerSegments = [
 const travelRevenueFaqs = [
   ["Does BANDEVI GLOBAL GROUP build white-label CRM for travel and service teams?", "Yes. BANDEVI builds white-label CRM software for agencies, partners, branches, resellers, and service teams that need branded lead management, follow-ups, customer records, dashboards, and access control."],
   ["Does BANDEVI build Travel CRM software for agencies?", "Yes. BANDEVI builds Travel CRM software for travel agencies, tour operators, DMCs, corporate travel desks, and travel sales teams that need enquiry capture, quotation stages, WhatsApp follow-ups, customer records, and dashboards."],
+  ["Does BANDEVI build travel booking software?", "Yes. BANDEVI builds travel booking software workflows for enquiries, quotations, confirmed booking files, passengers, suppliers, invoices, payments, documents, customer updates, and Travel CRM or Travel ERP handoff."],
   ["Can BANDEVI build B2B travel portals?", "Yes. BANDEVI builds B2B travel portal systems for agents, partners, branches, reseller networks, corporate desks, and travel groups with controlled access, package distribution, booking workflows, documents, payments, and reporting."],
   ["Can BANDEVI build flight and hotel booking engine workflows?", "Yes. BANDEVI can build flight and hotel booking enquiry and operations workflows with passenger or guest details, supplier notes, booking status, payment tracking, customer documents, and CRM or ERP handoff."],
   ["Can BANDEVI build travel agency mobile apps?", "Yes. BANDEVI builds travel agency mobile app and mobile-first portal experiences for customer access, agent workflows, booking status, documents, payment reminders, notifications, and support."],
@@ -1216,6 +1219,11 @@ const pageData = {
     title: "Travel CRM Software for Agencies",
     eyebrow: "Travel leads, quotes, and follow-up control",
     lede: "BANDEVI GLOBAL GROUP builds Travel CRM software for travel agencies, tour operators, DMCs, corporate travel desks, branches, and travel sales teams that need enquiry capture, quotation stages, WhatsApp follow-ups, customer records, and dashboards."
+  },
+  travelBookingSoftware: {
+    title: "Travel Booking Software",
+    eyebrow: "Booking workflows for travel businesses",
+    lede: "BANDEVI GLOBAL GROUP builds travel booking software for travel agencies, tour operators, DMCs, corporate travel desks, and multi-office travel businesses that need enquiry-to-booking control, passengers, suppliers, invoices, payments, documents, customer updates, and reporting."
   },
   b2bTravelPortal: {
     title: "B2B Travel Portal Development",
@@ -4079,6 +4087,21 @@ const landingPages = {
       { icon: "shield", title: "Branch and role control", text: "Support branch-wise ownership, manager review, sales queues, escalation paths, and multi-office reporting." }
     ],
     process: ["Capture travel leads", "Track quote follow-ups", "Move won leads to booking", "Report and improve sales"]
+  },
+  travelBookingSoftware: {
+    tag: "Travel booking software",
+    title: "Travel booking software for enquiries, quotations, confirmed bookings, suppliers, payments, and documents.",
+    intro: "BANDEVI GLOBAL GROUP builds travel booking software for travel agencies, tour operators, DMCs, corporate travel desks, branches, partner networks, and multi-office travel groups that need one controlled workflow from enquiry and quotation through confirmed booking, supplier coordination, customer documents, invoices, payments, and reporting.",
+    points: ["Capture website, WhatsApp, call, campaign, referral, partner, and branch enquiries with source, owner, trip interest, and next-action control", "Track quotations, customer preferences, destination interest, travel dates, pax count, budgets, proposal stages, reminders, and lost reasons", "Create confirmed booking files with passengers, services, suppliers, itinerary notes, invoices, payment status, documents, and operations ownership", "Connect Travel CRM, Travel ERP, customer portals, payment reminders, document requests, support updates, dashboards, and automation as the business grows"],
+    modules: [
+      { icon: "message", title: "Enquiry and quotation desk", text: "Bring website, WhatsApp, calls, campaigns, referrals, partners, and branch enquiries into a structured lead and quotation workflow." },
+      { icon: "plane", title: "Booking file management", text: "Create confirmed booking files with passenger details, service items, itinerary notes, owners, status, and customer communication context." },
+      { icon: "stack", title: "Supplier and service workflow", text: "Track supplier records, service confirmations, availability notes, rates, booking status, documents, and operating handoffs." },
+      { icon: "chart", title: "Invoices and payment visibility", text: "Review customer invoices, receipts, pending dues, supplier payables, payment reminders, finance notes, and booking-level status." },
+      { icon: "shield", title: "Documents and customer updates", text: "Organize vouchers, invoices, receipts, customer documents, requests, booking updates, support notes, and controlled portal access." },
+      { icon: "users", title: "Travel CRM and ERP connection", text: "Move qualified leads from Travel CRM into booking workflows and connect confirmed operations with Travel ERP, dashboards, and reports." }
+    ],
+    process: ["Capture and qualify enquiry", "Prepare quote and follow up", "Create confirmed booking file", "Track suppliers, payments, documents, and reports"]
   },
   b2bTravelPortal: {
     tag: "B2B travel portal",
@@ -7419,6 +7442,7 @@ const pageRenderers = {
   travelMobileApp: () => landingPage("travelMobileApp"),
   whiteLabelCrm: () => landingPage("whiteLabelCrm"),
   travelCrmSoftware: () => landingPage("travelCrmSoftware"),
+  travelBookingSoftware: () => landingPage("travelBookingSoftware"),
   b2bTravelPortal: () => landingPage("b2bTravelPortal"),
   flightBookingEngine: () => landingPage("flightBookingEngine"),
   hotelBookingEngine: () => landingPage("hotelBookingEngine"),
