@@ -4623,8 +4623,8 @@ function travelProductRevenueSeoSections() {
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Travel product sales targets</span>
-          <h2>Travel CRM, white-label CRM, B2B portal, booking engine, and mobile app pages built for commercial search.</h2>
-          <p>These travel product pages are structured for buyers searching white-label CRM software, Travel CRM software, B2B travel portal development, flight booking engine development, hotel booking engine development, travel agency mobile app development, and travel technology partner support.</p>
+          <h2>Travel CRM, tour operator software, B2B portal, booking engine, and mobile app pages built for commercial search.</h2>
+          <p>These travel product pages are structured for buyers searching white-label CRM software, Travel CRM software, tour operator software, B2B travel portal development, flight booking engine development, hotel booking engine development, travel agency mobile app development, and travel technology partner support.</p>
         </div>
         <div class="grid cols-4">
           <article class="card metric-card"><strong>1,289</strong><p>Staff worldwide, company-provided, published for buyer and directory verification.</p></article>
@@ -4706,6 +4706,7 @@ function travelProductRevenueSeoSections() {
         <div class="grid cols-3">
           <a class="card" href="/white-label-crm/"><h3>White Label CRM</h3><p>Branded CRM for agencies, partners, resellers, branches, service teams, leads, dashboards, and access control.</p><span>Open page ${icons.arrow}</span></a>
           <a class="card" href="/travel-crm-software/"><h3>Travel CRM Software</h3><p>Travel enquiries, quotation stages, WhatsApp follow-up, customers, source tracking, and booking handoff.</p><span>Open page ${icons.arrow}</span></a>
+          <a class="card" href="/tour-operator-software/"><h3>Tour Operator Software</h3><p>Package, quotation, booking, passenger, supplier, document, payment, and travel operations workflows.</p><span>Open page ${icons.arrow}</span></a>
           <a class="card" href="/b2b-travel-portal/"><h3>B2B Travel Portal</h3><p>Agent, partner, reseller, branch, and corporate desk access with package, booking, document, and reporting flows.</p><span>Open page ${icons.arrow}</span></a>
           <a class="card" href="/flight-booking-engine/"><h3>Flight Booking Engine</h3><p>Flight enquiry, passenger records, supplier notes, payment status, tickets, documents, and dashboards.</p><span>Open page ${icons.arrow}</span></a>
           <a class="card" href="/hotel-booking-engine/"><h3>Hotel Booking Engine</h3><p>Hotel requests, room details, supplier coordination, booking records, invoices, payments, and customer updates.</p><span>Open page ${icons.arrow}</span></a>
@@ -4717,7 +4718,7 @@ function travelProductRevenueSeoSections() {
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Travel product FAQ</span>
-          <h2>Answers for Travel CRM, white-label CRM, B2B portal, booking engine, and mobile app searches.</h2>
+          <h2>Answers for Travel CRM, tour operator software, B2B portal, booking engine, and mobile app searches.</h2>
           <p>These answers help customers, directories, Google, and AI assistants understand the travel product work BANDEVI can support.</p>
         </div>
         <div class="article-layout">
@@ -4731,7 +4732,7 @@ function travelProductRevenueSeoSections() {
           </div>
           <aside class="article-aside">
             <h3>Start with the right travel product</h3>
-            ${list(["White-label CRM", "Travel CRM software", "B2B travel portal", "Flight booking workflow", "Hotel booking workflow", "Travel agency mobile app"])}
+            ${list(["White-label CRM", "Travel CRM software", "Tour operator software", "B2B travel portal", "Flight booking workflow", "Hotel booking workflow", "Travel agency mobile app"])}
             <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
             <a class="button light" href="/travel-technology/">Travel Technology</a>
           </aside>
