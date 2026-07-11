@@ -558,6 +558,7 @@ const travelRevenuePageKeys = new Set([
   "whiteLabelCrm",
   "travelCrmSoftware",
   "travelBookingSoftware",
+  "tourOperatorSoftware",
   "b2bTravelPortal",
   "flightBookingEngine",
   "hotelBookingEngine",
@@ -568,6 +569,7 @@ const travelRevenueProductRows = [
   ["White-label CRM", "Branded CRM for agencies, partners, resellers, branches, lead capture, source tracking, follow-ups, dashboards, and controlled access."],
   ["Travel CRM software", "Travel enquiries, destination interest, quotations, WhatsApp follow-up, customer records, booking handoff, sales owners, and reporting."],
   ["Travel booking software", "Lead-to-booking workflows, passenger and service details, suppliers, invoices, payments, documents, status updates, and reporting."],
+  ["Tour operator software", "Tour operations, itinerary and package workflows, quotation-to-booking handoff, passenger records, suppliers, documents, payments, and operating dashboards."],
   ["B2B travel portal", "Agent, partner, branch, reseller, and corporate desk access with package distribution, enquiry routing, booking records, and status views."],
   ["Flight booking engine workflow", "Flight enquiry, passenger details, route notes, fare status, supplier coordination, documents, payments, CRM handoff, and dashboards."],
   ["Hotel booking engine workflow", "Hotel requests, room details, supplier notes, availability status, invoices, payments, customer updates, and booking records."],
@@ -1224,6 +1226,11 @@ const pageData = {
     title: "Travel Booking Software",
     eyebrow: "Booking workflows for travel businesses",
     lede: "BANDEVI GLOBAL GROUP builds travel booking software for travel agencies, tour operators, DMCs, corporate travel desks, and multi-office travel businesses that need enquiry-to-booking control, passengers, suppliers, invoices, payments, documents, customer updates, and reporting."
+  },
+  tourOperatorSoftware: {
+    title: "Tour Operator Software",
+    eyebrow: "Tour operations, bookings, suppliers, and customer delivery",
+    lede: "BANDEVI GLOBAL GROUP builds tour operator software for tour companies, DMCs, group-tour sellers, and travel businesses that need package workflows, quotations, confirmed bookings, passengers, suppliers, documents, payments, team ownership, and operating dashboards."
   },
   b2bTravelPortal: {
     title: "B2B Travel Portal Development",
@@ -4102,6 +4109,21 @@ const landingPages = {
       { icon: "users", title: "Travel CRM and ERP connection", text: "Move qualified leads from Travel CRM into booking workflows and connect confirmed operations with Travel ERP, dashboards, and reports." }
     ],
     process: ["Capture and qualify enquiry", "Prepare quote and follow up", "Create confirmed booking file", "Track suppliers, payments, documents, and reports"]
+  },
+  tourOperatorSoftware: {
+    tag: "Tour operator software",
+    title: "Tour operator software for packages, quotations, bookings, suppliers, documents, and travel operations.",
+    intro: "BANDEVI GLOBAL GROUP builds tour operator software for tour companies, DMCs, group-tour sellers, corporate travel desks, and multi-office travel groups that need one connected route from package enquiry and quotation through confirmed bookings, passenger records, supplier coordination, documents, payments, customer updates, and operating reporting.",
+    points: ["Structure package, group-tour, FIT, MICE, pilgrimage, corporate, destination, hotel, flight, visa, insurance, and service enquiries with clear sales ownership and next actions", "Prepare quotations with itinerary notes, traveller requirements, dates, pax count, budget direction, service needs, follow-up stages, and decision history", "Create controlled booking files for confirmed work with passengers, services, suppliers, vouchers, invoices, payments, documents, task ownership, and customer communication", "Connect Travel CRM for lead and quotation discipline, Travel ERP for booking and finance operations, and portals, notifications, dashboards, and automation as the business grows"],
+    modules: [
+      { icon: "globe", title: "Tour and package workflows", text: "Plan package, destination, itinerary, group-tour, FIT, MICE, pilgrimage, corporate, flight, hotel, visa, insurance, and service enquiry workflows." },
+      { icon: "message", title: "Quotation and sales control", text: "Track quotations, traveller requirements, dates, pax count, budgets, follow-up stages, customer notes, owners, reminders, and lost reasons." },
+      { icon: "plane", title: "Booking and passenger records", text: "Create confirmed booking files with passengers, services, itinerary notes, booking status, customer updates, delivery tasks, and operations ownership." },
+      { icon: "stack", title: "Supplier and service coordination", text: "Track suppliers, availability, confirmations, rates, vouchers, service notes, operating deadlines, and booking-level handoffs." },
+      { icon: "shield", title: "Documents, payments, and approvals", text: "Organize traveller documents, vouchers, invoices, receipts, payment status, supplier payables, approval notes, and controlled customer access." },
+      { icon: "chart", title: "Travel CRM and ERP reporting", text: "Connect lead sources, sales follow-ups, booking files, finance status, operations workload, and management dashboards in phases." }
+    ],
+    process: ["Map packages and enquiry fields", "Control quotations and follow-ups", "Create booking and supplier workflows", "Track documents, payments, delivery, and reports"]
   },
   b2bTravelPortal: {
     tag: "B2B travel portal",
@@ -7443,6 +7465,7 @@ const pageRenderers = {
   whiteLabelCrm: () => landingPage("whiteLabelCrm"),
   travelCrmSoftware: () => landingPage("travelCrmSoftware"),
   travelBookingSoftware: () => landingPage("travelBookingSoftware"),
+  tourOperatorSoftware: () => landingPage("tourOperatorSoftware"),
   b2bTravelPortal: () => landingPage("b2bTravelPortal"),
   flightBookingEngine: () => landingPage("flightBookingEngine"),
   hotelBookingEngine: () => landingPage("hotelBookingEngine"),
