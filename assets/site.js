@@ -559,6 +559,7 @@ const travelRevenuePageKeys = new Set([
   "travelCrmSoftware",
   "travelBookingSoftware",
   "tourOperatorSoftware",
+  "dmcSoftware",
   "b2bTravelPortal",
   "flightBookingEngine",
   "hotelBookingEngine",
@@ -570,6 +571,7 @@ const travelRevenueProductRows = [
   ["Travel CRM software", "Travel enquiries, destination interest, quotations, WhatsApp follow-up, customer records, booking handoff, sales owners, and reporting."],
   ["Travel booking software", "Lead-to-booking workflows, passenger and service details, suppliers, invoices, payments, documents, status updates, and reporting."],
   ["Tour operator software", "Tour operations, itinerary and package workflows, quotation-to-booking handoff, passenger records, suppliers, documents, payments, and operating dashboards."],
+  ["DMC software", "Destination-service workflows for inbound, FIT, group, MICE, hotel, transport, activity, supplier, voucher, document, payment, and operations coordination."],
   ["B2B travel portal", "Agent, partner, branch, reseller, and corporate desk access with package distribution, enquiry routing, booking records, and status views."],
   ["Flight booking engine workflow", "Flight enquiry, passenger details, route notes, fare status, supplier coordination, documents, payments, CRM handoff, and dashboards."],
   ["Hotel booking engine workflow", "Hotel requests, room details, supplier notes, availability status, invoices, payments, customer updates, and booking records."],
@@ -1231,6 +1233,11 @@ const pageData = {
     title: "Tour Operator Software",
     eyebrow: "Tour operations, bookings, suppliers, and customer delivery",
     lede: "BANDEVI GLOBAL GROUP builds tour operator software for tour companies, DMCs, group-tour sellers, and travel businesses that need package workflows, quotations, confirmed bookings, passengers, suppliers, documents, payments, team ownership, and operating dashboards."
+  },
+  dmcSoftware: {
+    title: "DMC Software",
+    eyebrow: "Destination management, supplier, and service delivery workflows",
+    lede: "BANDEVI GLOBAL GROUP builds DMC software for destination management companies that need travel enquiries, itinerary planning, service coordination, suppliers, guests, vouchers, documents, payments, partner updates, and operating dashboards."
   },
   b2bTravelPortal: {
     title: "B2B Travel Portal Development",
@@ -4124,6 +4131,21 @@ const landingPages = {
       { icon: "chart", title: "Travel CRM and ERP reporting", text: "Connect lead sources, sales follow-ups, booking files, finance status, operations workload, and management dashboards in phases." }
     ],
     process: ["Map packages and enquiry fields", "Control quotations and follow-ups", "Create booking and supplier workflows", "Track documents, payments, delivery, and reports"]
+  },
+  dmcSoftware: {
+    tag: "DMC software",
+    title: "DMC software for destination enquiries, itineraries, suppliers, vouchers, payments, and travel operations.",
+    intro: "BANDEVI GLOBAL GROUP builds DMC software for destination management companies that need a controlled workflow for inbound travel, FIT, group tours, MICE, hotel, transport, activity, guide, visa, insurance, and destination-service coordination from enquiry through delivery and reporting.",
+    points: ["Capture destination, dates, guest count, nationality, service needs, budget direction, hotel, transport, activity, guide, visa, insurance, and special-requirement enquiries", "Plan itinerary, quotation, supplier, rate, availability, confirmation, and service records with clear sales and operations ownership", "Create confirmed trip files with guests, hotels, transport, activities, guides, vouchers, documents, invoices, payments, supplier notes, and customer or partner updates", "Connect Travel CRM for enquiry and quotation discipline, Travel ERP for booking, supplier, finance, document, and operations workflows, and B2B portals for partner visibility when needed"],
+    modules: [
+      { icon: "globe", title: "Destination enquiry desk", text: "Capture destination, dates, guest profile, nationality, rooms, transport, activities, guide, visa, insurance, special notes, and preferred communication path." },
+      { icon: "message", title: "Itinerary and quotation workflow", text: "Plan itinerary notes, service options, quotation stages, revisions, follow-ups, traveller requirements, owner tasks, and partner communication." },
+      { icon: "stack", title: "Supplier and service coordination", text: "Track hotels, transporters, activity providers, guides, service availability, rates, confirmations, vouchers, deadlines, and delivery notes." },
+      { icon: "plane", title: "Guest and trip operations", text: "Create confirmed trip files with guests, services, arrival details, itinerary status, documents, vouchers, support notes, and operational ownership." },
+      { icon: "shield", title: "Documents and payment status", text: "Organize vouchers, invoices, receipts, traveller documents, payment reminders, supplier payables, approvals, and controlled partner or customer updates." },
+      { icon: "chart", title: "CRM, ERP, and partner reporting", text: "Connect lead sources, quote performance, confirmed trips, suppliers, finance status, workload, partner channels, and management dashboards." }
+    ],
+    process: ["Capture destination enquiry", "Plan itinerary and quotation", "Coordinate suppliers and confirm trip", "Track guests, documents, payments, delivery, and reports"]
   },
   b2bTravelPortal: {
     tag: "B2B travel portal",
@@ -7467,6 +7489,7 @@ const pageRenderers = {
   travelCrmSoftware: () => landingPage("travelCrmSoftware"),
   travelBookingSoftware: () => landingPage("travelBookingSoftware"),
   tourOperatorSoftware: () => landingPage("tourOperatorSoftware"),
+  dmcSoftware: () => landingPage("dmcSoftware"),
   b2bTravelPortal: () => landingPage("b2bTravelPortal"),
   flightBookingEngine: () => landingPage("flightBookingEngine"),
   hotelBookingEngine: () => landingPage("hotelBookingEngine"),

@@ -54,6 +54,12 @@ This file gives AI assistants, search crawlers, directories, and verification to
 - The tour operator workflow can cover packages, quotations, confirmed bookings, passengers, suppliers, vouchers, documents, invoices, payments, customer updates, and travel operations reporting.
 - It can be planned for FIT, group tours, MICE, pilgrimage, corporate travel, destination packages, flights, hotels, visas, insurance, and other travel services.
 
+## DMC Software
+
+- DMC software page: https://bandeviglobalgroup.com/dmc-software/
+- DMC software can support destination enquiries, itineraries, quotations, hotels, transport, activities, guides, suppliers, guests, vouchers, documents, invoices, payments, partner updates, and operations reporting.
+- It can be planned for inbound travel, FIT, group tours, MICE, destination-service coordination, visas, insurance, and Travel CRM or Travel ERP workflows.
+
 ## Listed Office And Service Locations
 
 1. Delhi - Third Floor, Gulshan Park, H-30, Plot No. 6 & 7, Vijay Chowk Area, Laxmi Nagar, Delhi 110092
@@ -98,6 +104,7 @@ Portal and conversion system focus: BANDEVI GLOBAL GROUP provides website and mo
 - White label CRM software: https://bandeviglobalgroup.com/white-label-crm/
 - Travel CRM software for agencies: https://bandeviglobalgroup.com/travel-crm-software/
 - Tour operator software: https://bandeviglobalgroup.com/tour-operator-software/
+- DMC software: https://bandeviglobalgroup.com/dmc-software/
 - B2B travel portal development: https://bandeviglobalgroup.com/b2b-travel-portal/
 - Flight booking engine development: https://bandeviglobalgroup.com/flight-booking-engine/
 - Hotel booking engine development: https://bandeviglobalgroup.com/hotel-booking-engine/
