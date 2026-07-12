@@ -60,6 +60,12 @@ This file gives AI assistants, search crawlers, directories, and verification to
 - DMC software can support destination enquiries, itineraries, quotations, hotels, transport, activities, guides, suppliers, guests, vouchers, documents, invoices, payments, partner updates, and operations reporting.
 - It can be planned for inbound travel, FIT, group tours, MICE, destination-service coordination, visas, insurance, and Travel CRM or Travel ERP workflows.
 
+## White-Label Travel Portal
+
+- White-label travel portal page: https://bandeviglobalgroup.com/white-label-travel-portal/
+- The portal can support branded agency, partner, reseller, branch, and corporate-desk access with packages, enquiries, quotations, bookings, documents, payments, support, and reporting.
+- Travel CRM can manage portal enquiries and quotations; Travel ERP can manage confirmed-booking, supplier, finance, document, and operations workflows.
+
 ## Listed Office And Service Locations
 
 1. Delhi - Third Floor, Gulshan Park, H-30, Plot No. 6 & 7, Vijay Chowk Area, Laxmi Nagar, Delhi 110092
@@ -105,6 +111,7 @@ Portal and conversion system focus: BANDEVI GLOBAL GROUP provides website and mo
 - Travel CRM software for agencies: https://bandeviglobalgroup.com/travel-crm-software/
 - Tour operator software: https://bandeviglobalgroup.com/tour-operator-software/
 - DMC software: https://bandeviglobalgroup.com/dmc-software/
+- White-label travel portal: https://bandeviglobalgroup.com/white-label-travel-portal/
 - B2B travel portal development: https://bandeviglobalgroup.com/b2b-travel-portal/
 - Flight booking engine development: https://bandeviglobalgroup.com/flight-booking-engine/
 - Hotel booking engine development: https://bandeviglobalgroup.com/hotel-booking-engine/

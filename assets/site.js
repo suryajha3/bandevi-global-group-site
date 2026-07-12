@@ -560,6 +560,7 @@ const travelRevenuePageKeys = new Set([
   "travelBookingSoftware",
   "tourOperatorSoftware",
   "dmcSoftware",
+  "whiteLabelTravelPortal",
   "b2bTravelPortal",
   "flightBookingEngine",
   "hotelBookingEngine",
@@ -572,6 +573,7 @@ const travelRevenueProductRows = [
   ["Travel booking software", "Lead-to-booking workflows, passenger and service details, suppliers, invoices, payments, documents, status updates, and reporting."],
   ["Tour operator software", "Tour operations, itinerary and package workflows, quotation-to-booking handoff, passenger records, suppliers, documents, payments, and operating dashboards."],
   ["DMC software", "Destination-service workflows for inbound, FIT, group, MICE, hotel, transport, activity, supplier, voucher, document, payment, and operations coordination."],
+  ["White-label travel portal", "Branded portal workflows for agencies, partners, resellers, branches, B2B sellers, enquiries, packages, bookings, documents, payments, and controlled access."],
   ["B2B travel portal", "Agent, partner, branch, reseller, and corporate desk access with package distribution, enquiry routing, booking records, and status views."],
   ["Flight booking engine workflow", "Flight enquiry, passenger details, route notes, fare status, supplier coordination, documents, payments, CRM handoff, and dashboards."],
   ["Hotel booking engine workflow", "Hotel requests, room details, supplier notes, availability status, invoices, payments, customer updates, and booking records."],
@@ -1238,6 +1240,11 @@ const pageData = {
     title: "DMC Software",
     eyebrow: "Destination management, supplier, and service delivery workflows",
     lede: "BANDEVI GLOBAL GROUP builds DMC software for destination management companies that need travel enquiries, itinerary planning, service coordination, suppliers, guests, vouchers, documents, payments, partner updates, and operating dashboards."
+  },
+  whiteLabelTravelPortal: {
+    title: "White-Label Travel Portal",
+    eyebrow: "Branded travel portal for agencies, partners, resellers, and branches",
+    lede: "BANDEVI GLOBAL GROUP builds white-label travel portals for agencies, partners, resellers, branches, corporate desks, and travel groups that need branded access, package distribution, enquiry routing, booking status, documents, payments, and Travel CRM or Travel ERP connection."
   },
   b2bTravelPortal: {
     title: "B2B Travel Portal Development",
@@ -4165,6 +4172,21 @@ const landingPages = {
       { icon: "chart", title: "CRM, ERP, and partner reporting", text: "Connect lead sources, quote performance, confirmed trips, suppliers, finance status, workload, partner channels, and management dashboards." }
     ],
     process: ["Capture destination enquiry", "Plan itinerary and quotation", "Coordinate suppliers and confirm trip", "Track guests, documents, payments, delivery, and reports"]
+  },
+  whiteLabelTravelPortal: {
+    tag: "White-label travel portal",
+    title: "White-label travel portal for agencies, partners, resellers, branches, bookings, documents, and payments.",
+    intro: "BANDEVI GLOBAL GROUP builds white-label travel portals for travel agencies, partners, resellers, branches, corporate desks, and multi-brand travel groups that need a branded portal for package distribution, customer or partner enquiries, booking status, documents, payments, support, and controlled access.",
+    points: ["Create a branded portal direction for agencies, partners, branches, resellers, franchise-style sellers, corporate travel desks, and multi-brand travel groups", "Publish travel packages, destinations, services, flights, hotels, visas, insurance, group tours, and enquiry paths with controlled product and lead routing", "Provide controlled views for enquiries, quotations, bookings, passenger details, invoices, payment status, vouchers, documents, support requests, and updates", "Connect portal activity with Travel CRM, Travel ERP, booking workflows, customer portals, notifications, dashboards, and role-based access as the business grows"],
+    modules: [
+      { icon: "shield", title: "Branded portal and role access", text: "Plan branded portal views and permissions for agencies, partners, resellers, branches, corporate desks, managers, support teams, and leadership." },
+      { icon: "globe", title: "Packages and travel catalogue", text: "Publish destinations, packages, flights, hotels, visas, insurance, group tours, service options, enquiry paths, campaigns, and partner-ready content." },
+      { icon: "message", title: "Lead and quotation routing", text: "Route portal enquiries into sales ownership, customer records, quotation stages, WhatsApp follow-up, branch queues, partner channels, and source reporting." },
+      { icon: "plane", title: "Booking and customer status", text: "Give controlled access to booking records, passenger details, itinerary status, vouchers, tickets, visas, insurance, documents, and service updates." },
+      { icon: "stack", title: "Invoices, payments, and documents", text: "Show or manage invoices, receipts, pending dues, payment reminders, documents, voucher access, support notes, and finance handoff." },
+      { icon: "chart", title: "Travel CRM and ERP connection", text: "Connect portal activity with Travel CRM for lead and sales control, Travel ERP for confirmed bookings and finance, and dashboards for management reporting." }
+    ],
+    process: ["Map portal users and brand structure", "Publish packages and enquiry paths", "Connect CRM, booking, and payment workflows", "Launch portal access and improve reporting"]
   },
   b2bTravelPortal: {
     tag: "B2B travel portal",
@@ -7509,6 +7531,7 @@ const pageRenderers = {
   travelBookingSoftware: () => landingPage("travelBookingSoftware"),
   tourOperatorSoftware: () => landingPage("tourOperatorSoftware"),
   dmcSoftware: () => landingPage("dmcSoftware"),
+  whiteLabelTravelPortal: () => landingPage("whiteLabelTravelPortal"),
   b2bTravelPortal: () => landingPage("b2bTravelPortal"),
   flightBookingEngine: () => landingPage("flightBookingEngine"),
   hotelBookingEngine: () => landingPage("hotelBookingEngine"),
