@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://bandeviglobalgroup.com/</loc>
     <lastmod>2026-07-08</lastmod>
@@ -29,6 +29,36 @@
     <lastmod>2026-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/surya-kant-jha/surya-kant-jha-chairman-headshot.webp</image:loc>
+      <image:title>Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP</image:title>
+      <image:caption>Official chairman portrait published by BANDEVI GLOBAL GROUP.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/surya-kant-jha/surya-kant-jha-chairman-executive-portrait.webp</image:loc>
+      <image:title>Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP</image:title>
+      <image:caption>Executive portrait published on the official BANDEVI GLOBAL GROUP chairman profile.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/surya-kant-jha/surya-kant-jha-chairman-office-work.webp</image:loc>
+      <image:title>Surya Kant Jha at work</image:title>
+      <image:caption>Chairman profile image published by BANDEVI GLOBAL GROUP.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/surya-kant-jha/surya-kant-jha-chairman-business-meeting.webp</image:loc>
+      <image:title>Surya Kant Jha business portrait</image:title>
+      <image:caption>Chairman profile image published by BANDEVI GLOBAL GROUP.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/surya-kant-jha/surya-kant-jha-chairman-planning.webp</image:loc>
+      <image:title>Surya Kant Jha planning business work</image:title>
+      <image:caption>Chairman profile image published by BANDEVI GLOBAL GROUP.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/surya-kant-jha/surya-kant-jha-chairman-leadership.webp</image:loc>
+      <image:title>Surya Kant Jha leadership portrait</image:title>
+      <image:caption>Chairman profile image published by BANDEVI GLOBAL GROUP.</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/surya-kant-jha-travel-agent/</loc>
