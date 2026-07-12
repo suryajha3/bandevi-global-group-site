@@ -2132,7 +2132,26 @@ function suryaKantJhaPage() {
             <a class="button ghost" href="/travel-technology/">Travel Technology</a>
           </div>
         </div>
-        <div class="media-frame"><img src="${productImage}" alt="BANDEVI GLOBAL GROUP chairman and company proof summary"></div>
+        <div class="media-frame"><img src="/assets/surya-kant-jha/surya-kant-jha-chairman-executive-portrait.webp" alt="Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP" width="1200" height="1200" fetchpriority="high"></div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Chairman media</span>
+          <h2>Authorised portrait media for Mr Surya Kant Jha.</h2>
+          <p>These images were submitted to BANDEVI GLOBAL GROUP for publication on this official chairman profile. They support identity recognition while the role, company facts, and proof links remain the primary verification sources.</p>
+        </div>
+        <div class="chairman-media-grid">
+          ${[
+            ["/assets/surya-kant-jha/surya-kant-jha-chairman-headshot.webp", "Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP - official portrait"],
+            ["/assets/surya-kant-jha/surya-kant-jha-chairman-executive-portrait.webp", "Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP - executive portrait"],
+            ["/assets/surya-kant-jha/surya-kant-jha-chairman-office-work.webp", "Mr Surya Kant Jha at work - BANDEVI GLOBAL GROUP chairman profile"],
+            ["/assets/surya-kant-jha/surya-kant-jha-chairman-business-meeting.webp", "Mr Surya Kant Jha in a business setting - BANDEVI GLOBAL GROUP chairman profile"],
+            ["/assets/surya-kant-jha/surya-kant-jha-chairman-planning.webp", "Mr Surya Kant Jha planning business work - BANDEVI GLOBAL GROUP chairman profile"],
+            ["/assets/surya-kant-jha/surya-kant-jha-chairman-leadership.webp", "Mr Surya Kant Jha leadership portrait - BANDEVI GLOBAL GROUP chairman profile"]
+          ].map(([src, alt]) => `<figure class="chairman-media-card"><img src="${src}" alt="${alt}" width="1200" height="1200" loading="lazy"><figcaption>${alt}</figcaption></figure>`).join("")}
+        </div>
       </div>
     </section>
     <section class="section mist">

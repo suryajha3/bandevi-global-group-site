@@ -574,6 +574,35 @@ h1 {
   object-fit: cover;
 }
 
+.chairman-media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.chairman-media-card {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(16, 20, 24, 0.06);
+}
+
+.chairman-media-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.chairman-media-card figcaption {
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 .feature-list {
   list-style: none;
   padding: 0;
@@ -1207,6 +1236,7 @@ textarea:focus {
   .grid.cols-2,
   .grid.cols-3,
   .grid.cols-4,
+  .chairman-media-grid,
   .process,
   .portal-grid,
   .form-grid,
