@@ -2,6 +2,12 @@ const asset = (name) => `/assets/${name}`;
 
 const googleAnalyticsId = "G-TGK7Z8VNJX";
 
+function trackAnalyticsEvent(eventName, parameters = {}) {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, parameters);
+  }
+}
+
 if (googleAnalyticsId && !window.gtag) {
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
@@ -7674,12 +7680,42 @@ function bindForms() {
       const whatsappUrl = `${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
       const mailUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(label)}&body=${encodeURIComponent(message)}`;
 
+      trackAnalyticsEvent("generate_lead", {
+        lead_type: type,
+        page_location: window.location.href,
+        page_title: document.title
+      });
+
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       if (note) {
         note.innerHTML = `Your lead message is ready. <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Send on WhatsApp</a> or <a href="${mailUrl}">send by email</a>.`;
       }
       form.reset();
     });
+  });
+}
+
+function bindAnalyticsEvents() {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a");
+    if (!link) return;
+
+    const href = link.getAttribute("href") || "";
+    const contactMethod = href.startsWith("mailto:")
+      ? "email"
+      : href.startsWith("tel:")
+        ? "phone"
+        : href.includes("wa.me/")
+          ? "whatsapp"
+          : "";
+
+    if (contactMethod) {
+      trackAnalyticsEvent("contact", {
+        contact_method: contactMethod,
+        page_location: window.location.href,
+        page_title: document.title
+      });
+    }
   });
 }
 
@@ -7700,6 +7736,7 @@ function render() {
   `;
   bindNav();
   bindForms();
+  bindAnalyticsEvents();
 }
 
 render();
