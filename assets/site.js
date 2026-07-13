@@ -7578,6 +7578,11 @@ function bindForms() {
 
       const data = Object.fromEntries(new FormData(form).entries());
       const label = type === "demo" ? "Demo request" : "Contact inquiry";
+      const currentUrl = new URL(window.location.href);
+      const campaignDetails = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
+        .map((key) => [key.replace("utm_", "").replace(/^./, (letter) => letter.toUpperCase()), currentUrl.searchParams.get(key)])
+        .filter(([, value]) => value)
+        .map(([label, value]) => `${label}: ${value}`);
       const fieldLabels = [
         ["name", "Name"],
         ["company", "Company"],
@@ -7597,7 +7602,9 @@ function bindForms() {
       const lines = [
         `New ${label} from BANDEVI website`,
         `Page: ${document.title}`,
-        `URL: ${window.location.href.split("?")[0]}`,
+        `URL: ${currentUrl.origin}${currentUrl.pathname}`,
+        ...(campaignDetails.length ? ["Campaign attribution:", ...campaignDetails] : []),
+        ...(document.referrer ? [`Referrer: ${document.referrer}`] : []),
         ...fieldLabels
           .map(([key, title]) => [title, (data[key] || "").trim()])
           .filter(([, value]) => value)
