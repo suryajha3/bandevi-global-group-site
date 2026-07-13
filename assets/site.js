@@ -6435,6 +6435,27 @@ const blogArticles = [
       ["What pages should a travel technology website include?", "Core pages include home, about, products, travel CRM, travel ERP, IT solutions, blog, contact, demo request, and customer portal."]
     ],
     links: [["Website & Mobile App Development", "/website-mobile-app-development/"], ["Explore Products", "/it-products/"]]
+  },
+  {
+    key: "blogTravelWebsiteVsPortal",
+    slug: "travel-website-vs-white-label-travel-portal",
+    tag: "Buyer guide",
+    title: "Travel Website vs White-Label Travel Portal: What Does Your Business Need?",
+    description: "A practical guide for travel agencies, tour operators, DMCs, and resellers choosing a travel website, a white-label travel portal, or a phased combination.",
+    intro: "A travel website and a white-label travel portal solve different commercial problems. A website helps a business present destinations, packages, and enquiry actions under its brand. A portal adds controlled access and operating workflows for partners, resellers, branches, or B2B users.",
+    highlights: ["Choose a travel website to publish packages, destination content, trust information, and lead-capture paths", "Choose a white-label portal when partners, resellers, branches, or B2B users need controlled access and workflow visibility", "Start in phases when the business needs a sales website now and a portal after the first workflow is proven"],
+    sections: [
+      { title: "Choose a travel website when you need more qualified enquiries", text: "A travel website is the right first move for a business that needs a strong online presence, destination and package pages, WhatsApp enquiries, lead source tracking, and an SEO-ready foundation.", bullets: ["Show destination, package, itinerary, FAQ, and trust content", "Create a clear path to WhatsApp, call, contact, or a demo request", "Capture the visitor's product interest and route it into Travel CRM", "Publish brand, office, and verification information in one official place"] },
+      { title: "Choose a white-label travel portal when your sales network needs access", text: "A white-label portal is suited to travel businesses that work through multiple partners, resellers, branches, agents, or B2B channels and need controlled views, source separation, and repeatable workflows.", bullets: ["Give partner, branch, reseller, or agent users controlled access", "Separate branding, lead source, quotation, booking, and support workflows", "Connect customer, partner, booking, document, payment, and support information", "Give management a clearer view of activity across the sales network"] },
+      { title: "Use a phased plan when both outcomes matter", text: "Many growing travel businesses should not try to launch every module at once. A focused first phase can bring enquiries and prove the sales workflow, then the portal can expand around the real partner or branch process.", bullets: ["Phase one: sales website, package content, enquiry routing, and CRM-ready leads", "Phase two: partner or B2B portal workflows", "Phase three: booking, document, payment, customer portal, and reporting connections", "Review product scope, priorities, and timing before committing to a full build"] }
+    ],
+    faqs: [
+      ["What is the difference between a travel website and a white-label travel portal?", "A travel website is mainly a public branded sales and lead-generation experience. A white-label travel portal adds controlled access and workflows for partners, resellers, branches, agents, or B2B users."],
+      ["Can a travel website connect with Travel CRM?", "Yes. Website forms, WhatsApp actions, campaign pages, and destination or package enquiries can be structured as CRM-ready lead records with source and product-interest details."],
+      ["Can a travel business start with a website and add a portal later?", "Yes. A phased approach often works well: launch the website and lead process first, then add a portal once partner, reseller, or branch workflows are clear."],
+      ["Does BANDEVI GLOBAL GROUP build both travel websites and white-label portals?", "Yes. BANDEVI GLOBAL GROUP builds travel websites, white-label travel portals, Travel CRM, Travel ERP, lead and booking management, customer portals, and phased travel technology systems."]
+    ],
+    links: [["Travel Website Development", "/travel-website-development/"], ["White-Label Travel Website", "/white-label-travel-website/"], ["White-Label Travel Portal", "/white-label-travel-portal/"], ["Request Demo", "/demo-request/"]]
   }
 ];
 
