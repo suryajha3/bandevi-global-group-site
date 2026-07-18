@@ -2168,6 +2168,18 @@ function suryaKantJhaPage() {
     <section class="section mist">
       <div class="container">
         <div class="section-head">
+          <span class="eyebrow">Independent profile reference</span>
+          <h2>Cross-company leadership profile for Surya Kant Jha.</h2>
+          <p>Grandgetways publishes a separate source-backed profile connecting Surya Kant Jha with travel leadership and public company references.</p>
+        </div>
+        <div class="inline-actions">
+          <a class="button dark" href="https://grandgetways.com/surya-kant-jha" target="_blank" rel="noopener noreferrer">View the Grandgetways leadership profile ${icons.arrow}</a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
           <span class="eyebrow">Chairman media</span>
           <h2>Authorised portrait media for Mr Surya Kant Jha.</h2>
           <p>These images were submitted to BANDEVI GLOBAL GROUP for publication on this official chairman profile. They support identity recognition while the role, company facts, and proof links remain the primary verification sources.</p>
