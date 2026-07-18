@@ -3524,6 +3524,7 @@ function crmPage() {
         ])}
       </div>
     </section>
+    ${salesDecisionSection("travelCrmSoftware")}
     ${crmSeoSections()}
     ${cta("Turn more travel enquiries into booked revenue.", "Launch a CRM that keeps follow-ups sharp and leadership informed.")}
   `;
@@ -4373,8 +4374,81 @@ function landingPage(key) {
         </div>
       </div>
     </section>
+    ${salesDecisionSection(key)}
     ${extraSections}
     ${cta(`Discuss ${page.tag.toLowerCase()} for your business.`, "Share your current workflow and BANDEVI GLOBAL GROUP can map the right first release.")}
+  `;
+}
+
+function salesDecisionSection(key) {
+  const options = {
+    travelCrmSoftware: {
+      label: "Travel CRM planning",
+      title: "Start with the travel sales workflow that is losing the most time.",
+      intro: "A useful first release focuses on lead capture, quotation follow-up, and sales ownership before expanding into booking and operations.",
+      start: "Website, WhatsApp, call, and campaign lead capture; customer and trip fields; quotation stages; follow-up reminders; source tracking; sales dashboards.",
+      grow: "Booking handoff, documents, payment reminders, Travel ERP, customer portal access, branch reporting, and workflow automation.",
+      demo: "Request a Travel CRM demo"
+    },
+    whiteLabelTravelWebsite: {
+      label: "White-label website planning",
+      title: "Launch one controlled travel website model before scaling it to partners.",
+      intro: "The first release should prove the brand, package content, enquiry flow, and lead ownership before adding multiple partner or branch variants.",
+      start: "Brand-ready home and service pages, destination and package templates, trust content, enquiry forms, WhatsApp actions, and source-aware lead routing.",
+      grow: "Partner or reseller variants, CRM handoff, customer and partner portals, booking workflows, payment status, dashboards, and automation.",
+      demo: "Request a white-label website demo"
+    },
+    crmErp: {
+      label: "CRM and ERP planning",
+      title: "Choose the first workflow to control, then connect the wider system.",
+      intro: "CRM and ERP projects are easier to adopt when the first release fixes one visible sales or operations bottleneck.",
+      start: "Lead and quotation control, task ownership, customer records, approvals, order or booking workflow, invoices, reports, and role-based access.",
+      grow: "Customer portals, finance workflow, inventory direction, automations, integrations, multi-office reporting, and management dashboards.",
+      demo: "Request a CRM and ERP demo"
+    },
+    ecommerce: {
+      label: "E-commerce planning",
+      title: "Build the catalogue and order journey first, then connect commerce operations.",
+      intro: "An e-commerce launch should make products easy to understand, buy, and support before adding more campaign or automation layers.",
+      start: "Product and category pages, product details, cart and checkout planning, payment workflow, order confirmation, support paths, and basic reporting.",
+      grow: "Customer CRM, distributor or wholesale enquiries, campaigns, repeat-order journeys, inventory direction, dashboards, and automation.",
+      demo: "Request an e-commerce demo"
+    },
+    ecommerceWebsiteDevelopment: {
+      label: "E-commerce planning",
+      title: "Build the catalogue and order journey first, then connect commerce operations.",
+      intro: "An e-commerce launch should make products easy to understand, buy, and support before adding more campaign or automation layers.",
+      start: "Product and category pages, product details, cart and checkout planning, payment workflow, order confirmation, support paths, and basic reporting.",
+      grow: "Customer CRM, distributor or wholesale enquiries, campaigns, repeat-order journeys, inventory direction, dashboards, and automation.",
+      demo: "Request an e-commerce demo"
+    }
+  };
+  const option = options[key];
+  if (!option) return "";
+  return `
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">${option.label}</span>
+          <h2>${option.title}</h2>
+          <p>${option.intro}</p>
+        </div>
+        <div class="grid cols-2">
+          <article class="card">
+            <h3>Start with</h3>
+            <p>${option.start}</p>
+          </article>
+          <article class="card">
+            <h3>Add when ready</h3>
+            <p>${option.grow}</p>
+          </article>
+        </div>
+        <div class="inline-actions">
+          <a class="button dark" href="/demo-request/">${option.demo} ${icons.arrow}</a>
+          <a class="button light" href="/contact-us/">Discuss your workflow</a>
+        </div>
+      </div>
+    </section>
   `;
 }
 
