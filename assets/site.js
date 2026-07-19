@@ -6906,7 +6906,8 @@ function contactForm(kind = "contact") {
         </div>
         <div class="field">
           <label for="${kind}-interest">${demo ? "Package / product needed" : "Inquiry type"}</label>
-          <select id="${kind}-interest" name="interest">
+          <select id="${kind}-interest" name="interest" ${demo ? "required" : ""}>
+            ${demo ? '<option value="" selected disabled>Select the solution you want to discuss</option>' : ""}
             ${optionList(interestOptions)}
           </select>
         </div>
@@ -6936,14 +6937,23 @@ function contactForm(kind = "contact") {
             </select>
           </div>
           <div class="field">
-            <label for="${kind}-priority">Main priority</label>
-            <select id="${kind}-priority" name="priority">
-              ${optionList(["Need online presence", "Need better lead control", "Need CRM and ERP", "Need operations control", "Need customer portal", "Need travel technology", "Need automation", "Need full digital system"])}
+            <label for="${kind}-priority">Main business objective</label>
+            <select id="${kind}-priority" name="priority" required>
+              <option value="" selected disabled>Select the outcome you need</option>
+              ${optionList(["Launch or improve online sales", "Get better lead control", "Replace or upgrade an existing system", "Need CRM and ERP", "Need operations control", "Need customer portal", "Need travel technology", "Need automation", "Need full digital system"])}
+            </select>
+          </div>
+          <div class="field">
+            <label for="${kind}-stage">Decision stage</label>
+            <select id="${kind}-stage" name="decisionStage" required>
+              <option value="" selected disabled>Select your current stage</option>
+              ${optionList(["Ready to start", "Comparing solutions", "Gathering requirements", "Researching options"])}
             </select>
           </div>
           <div class="field">
             <label for="${kind}-budget">Budget range</label>
-            <select id="${kind}-budget" name="budget">
+            <select id="${kind}-budget" name="budget" required>
+              <option value="" selected disabled>Select a budget direction</option>
               ${optionList(["Need guidance", "Under INR 50,000", "INR 50,000-1 lakh", "INR 1-3 lakh", "INR 3-10 lakh", "Enterprise / custom"])}
             </select>
           </div>
@@ -6963,6 +6973,11 @@ function contactForm(kind = "contact") {
           <label for="${kind}-message">${demo ? "Demo goals / current problem" : "Message"}</label>
           <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need CRM + ERP with website leads, WhatsApp enquiry flow, customer portal, dashboards, and multi-office reporting." : "Tell us what you want to discuss."}" required></textarea>
         </div>
+        ${demo ? `
+          <div class="field full">
+            <label><input name="consent" type="checkbox" value="yes" required> I agree that BANDEVI GLOBAL GROUP may contact me about this demo request.</label>
+          </div>
+        ` : ""}
       </div>
       <button class="button dark" type="submit">${demo ? "Send Demo Request" : "Send Message"} ${icons.arrow}</button>
       <p class="form-note" aria-live="polite"></p>
@@ -7763,7 +7778,8 @@ function bindForms() {
         ["timeline", "Timeline"],
         ["preferredContact", "Preferred contact"],
         ["scale", "Team / branch scale"],
-        ["priority", "Main priority"],
+        ["priority", "Main business objective"],
+        ["decisionStage", "Decision stage"],
         ["budget", "Budget range"],
         ["currentWebsite", "Current website / reference"],
         ["officeRegion", "Office / region"],
