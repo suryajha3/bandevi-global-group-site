@@ -6887,6 +6887,7 @@ function contactForm(kind = "contact") {
 
   return `
     <form class="form-panel" data-form="${kind}">
+      ${demo ? '<input type="hidden" name="leadSource" value="">' : ""}
       <div class="form-grid">
         <div class="field">
           <label for="${kind}-name">Name</label>
@@ -7751,10 +7752,53 @@ function bindNav() {
 
 function bindForms() {
   document.querySelectorAll("[data-form]").forEach((form) => {
+    const type = form.dataset.form;
+    if (type === "demo") {
+      const interest = form.elements.interest;
+      const leadSource = form.elements.leadSource;
+      const solutionByPath = {
+        "/white-label-travel-website/": "White-label Travel Website Package",
+        "/white-label-travel-portal/": "B2B Travel Portal Package",
+        "/white-label-crm/": "White-label CRM Package",
+        "/travel-crm-software/": "Travel CRM Software",
+        "/travel-crm/": "Travel CRM",
+        "/travel-erp/": "Travel ERP",
+        "/travel-booking-software/": "Travel Technology Suite",
+        "/tour-operator-software/": "Travel Technology Suite",
+        "/dmc-software/": "Travel Technology Suite",
+        "/travel-agency-website-development/": "Travel Website Package",
+        "/travel-website-development/": "Travel Website Development",
+        "/travel-mobile-app-development/": "Travel Agency Mobile App Package",
+        "/travel-agency-mobile-app/": "Travel Agency Mobile App Package",
+        "/b2b-travel-portal/": "B2B Travel Portal Package",
+        "/flight-booking-engine/": "Flight Booking Engine Package",
+        "/hotel-booking-engine/": "Hotel Booking Engine Package",
+        "/crm-erp-solutions/": "CRM + ERP Package",
+        "/custom-crm-development/": "Custom CRM Development",
+        "/erp-software-development/": "ERP Software Development",
+        "/customer-portal/": "Customer Portal Package",
+        "/ecommerce-website-development/": "E-Commerce Website Development",
+        "/business-process-automation/": "Business Process Automation"
+      };
+      const currentUrl = new URL(window.location.href);
+      const requestedSolution = currentUrl.searchParams.get("solution");
+      let sourcePath = "";
+      try {
+        const referringUrl = document.referrer ? new URL(document.referrer) : null;
+        if (referringUrl && referringUrl.origin === currentUrl.origin) sourcePath = referringUrl.pathname;
+      } catch (_) {
+        sourcePath = "";
+      }
+      const selectedSolution = requestedSolution || solutionByPath[sourcePath];
+      if (selectedSolution && Array.from(interest.options).some((option) => option.value === selectedSolution)) {
+        interest.value = selectedSolution;
+      }
+      if (leadSource) leadSource.value = sourcePath || currentUrl.searchParams.get("source") || "Direct demo request";
+    }
+
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const note = form.querySelector(".form-note");
-      const type = form.dataset.form;
       if (type === "portal") {
         if (note) note.textContent = "Portal access preview received.";
         form.reset();
@@ -7771,6 +7815,7 @@ function bindForms() {
       const fieldLabels = [
         ["name", "Name"],
         ["company", "Company"],
+        ["leadSource", "Solution page source"],
         ["email", "Email"],
         ["phone", "Phone"],
         ["interest", "Product / inquiry"],
