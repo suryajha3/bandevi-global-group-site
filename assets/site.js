@@ -6359,6 +6359,27 @@ function casesPage() {
         ${caseStudyCards()}
       </div>
     </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Evidence-first project work</span>
+          <h2>Client-specific proof is published only when the scope, permission, and evidence are ready.</h2>
+          <p>Representative project models explain the type of system BANDEVI can build. A named client story, testimonial, metric, or award is added only after the client approves publication and the supporting record is available.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            ["Discovery scope", "Business goals, users, modules, integrations, delivery phases, and ownership are agreed before development begins."],
+            ["Delivery evidence", "Approved screens, launch records, solution scope, and customer permission establish what can be shown publicly."],
+            ["Outcome validation", "Only measured or client-confirmed outcomes are used in a named case study, testimonial, or sales claim."]
+          ].map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button dark" href="/demo-request/">Discuss Your Project ${icons.arrow}</a>
+          <a class="button light" href="/contact-us/">Contact Sales</a>
+          <a class="button light" href="/proof-verification/">Company Verification</a>
+        </div>
+      </div>
+    </section>
     <section class="section dark">
       <div class="container">
         <div class="section-head">
