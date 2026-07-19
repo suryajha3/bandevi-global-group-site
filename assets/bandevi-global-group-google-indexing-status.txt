@@ -49,7 +49,7 @@ Search Console status:
 28. On 10 July 2026, Website & Mobile App Development, Lead & Booking Management, and Customer Portal pages were refreshed with dateModified schema, sitemap lastmod updates, and AI-readable sales focus notes for conversion-system SEO.
 29. On 10 July 2026, Surya Kant Jha Chairman Profile was added as a dedicated direct-answer URL for Mr Surya Kant Jha, Suryakant Jha and Surya kant Jha spelling variants, chairman identity, safe net worth context, travel technology context, and proof links.
 30. On 10 July 2026, Facebook and X Surya Kant Jha chairman profile proof post URLs were captured and added to the Social Proof Links Register and structured JSON.
-31. On 11 July 2026, Surya Kant Jha Travel Agent Context was added as a dedicated direct-answer URL for Surya Kant Jha travel agent, Suryakant Jha travel agent, travel agency search context, BANDEVI travel technology services, and safe company net worth wording.
+31. On 19 July 2026, chairman citations were consolidated to the official Surya Kant Jha chairman profile and neutral BANDEVI travel technology context.
 
 Optional URL Inspection follow-up:
 These URLs can be inspected or rechecked only when Search Console quota is available, especially after a fresh deployment or when Google shows "Page changed? Request indexing":
@@ -66,7 +66,7 @@ https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profi
 https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt
 https://bandeviglobalgroup.com/surya-kant-jha/
-https://bandeviglobalgroup.com/surya-kant-jha-travel-agent/
+https://bandeviglobalgroup.com/surya-kant-jha/
 https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json
 https://bandeviglobalgroup.com/custom-crm-development/
@@ -90,7 +90,7 @@ https://bandeviglobalgroup.com/customer-portal/
 Priority proof URLs:
 https://bandeviglobalgroup.com/company-profile/
 https://bandeviglobalgroup.com/surya-kant-jha/
-https://bandeviglobalgroup.com/surya-kant-jha-travel-agent/
+https://bandeviglobalgroup.com/surya-kant-jha/
 https://bandeviglobalgroup.com/proof-verification/
 https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/offices/
