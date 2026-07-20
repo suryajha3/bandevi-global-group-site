@@ -158,9 +158,34 @@
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/offices/</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/office-gallery/bandevi-live-office-workstations-01.jpg</image:loc>
+      <image:title>BANDEVI GLOBAL GROUP live office workstations</image:title>
+      <image:caption>Company-submitted photo of the BANDEVI GLOBAL GROUP operational workspace.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/office-gallery/bandevi-live-office-workstations-02.jpg</image:loc>
+      <image:title>BANDEVI GLOBAL GROUP office workspace</image:title>
+      <image:caption>Company-submitted photo of workstations at the BANDEVI GLOBAL GROUP office.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/office-gallery/bandevi-live-office-workstations-03.jpg</image:loc>
+      <image:title>BANDEVI GLOBAL GROUP operational office</image:title>
+      <image:caption>Company-submitted view of the BANDEVI GLOBAL GROUP shared office workspace.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/office-gallery/bandevi-live-office-team-01.jpg</image:loc>
+      <image:title>BANDEVI GLOBAL GROUP team at work</image:title>
+      <image:caption>Company-submitted photo showing the BANDEVI GLOBAL GROUP team working in the office.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://bandeviglobalgroup.com/assets/office-gallery/bandevi-live-office-team-02.jpg</image:loc>
+      <image:title>BANDEVI GLOBAL GROUP live office team</image:title>
+      <image:caption>Company-submitted office photo showing the operational team workspace.</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://bandeviglobalgroup.com/it-company-software-development-services/</loc>
