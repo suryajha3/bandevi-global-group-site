@@ -205,6 +205,24 @@ const liveOfficeGallery = [
   }
 ];
 
+const liveOfficeWalkthroughs = [
+  {
+    src: asset("office-gallery/bandevi-live-office-walkthrough-01.mp4"),
+    poster: asset("office-gallery/bandevi-live-office-workstations-03.jpg"),
+    label: "Live office walkthrough 1"
+  },
+  {
+    src: asset("office-gallery/bandevi-live-office-walkthrough-02.mp4"),
+    poster: asset("office-gallery/bandevi-live-office-workstations-01.jpg"),
+    label: "Live office walkthrough 2"
+  },
+  {
+    src: asset("office-gallery/bandevi-live-office-walkthrough-03.mp4"),
+    poster: asset("office-gallery/bandevi-live-office-workstations-02.jpg"),
+    label: "Live office walkthrough 3"
+  }
+];
+
 const chairmanTravelTechnologyFaqs = [
   ["What is Mr Surya Kant Jha's role at BANDEVI GLOBAL GROUP?", "Mr Surya Kant Jha is published as Chairman of BANDEVI GLOBAL GROUP."],
   ["What travel solutions does BANDEVI provide?", "BANDEVI GLOBAL GROUP provides Travel CRM, Travel ERP, travel websites, white-label travel websites, B2B travel portals, booking workflows, lead and booking management, and travel mobile apps."],
@@ -1804,27 +1822,6 @@ function aboutPage() {
         <div class="media-frame"><img src="${heroImage}" alt="Travel technology operations center"></div>
       </div>
     </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Live workspace gallery</span>
-          <h2>Company-submitted photos from a live BANDEVI office workspace.</h2>
-          <p>These photos show a working office environment and team desks supplied by BANDEVI GLOBAL GROUP. They support the company workspace story; address-level and city-level confirmation remains available through the office verification sheet and official contact route.</p>
-        </div>
-        <div class="office-gallery" aria-label="BANDEVI office workspace photo gallery">
-          ${liveOfficeGallery.map((item) => `
-            <figure class="office-gallery-card">
-              <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
-              <figcaption>${item.caption}</figcaption>
-            </figure>
-          `).join("")}
-        </div>
-        <div class="inline-actions">
-          <a class="button primary" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Open Office Verification Sheet ${icons.arrow}</a>
-          <a class="button ghost" href="/proof-verification/">Open Proof & Verification</a>
-        </div>
-      </div>
-    </section>
     <section class="section mist">
       <div class="container">
         <div class="section-head">
@@ -3363,6 +3360,47 @@ function officesPage() {
         <div class="inline-actions">
           <a class="button primary" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Open Office Verification Sheet ${icons.arrow}</a>
           <a class="button ghost" href="${proofSupportPackPdf}">Open Proof Support Pack</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Live workspace gallery</span>
+          <h2>Company-submitted photos from a live BANDEVI office workspace.</h2>
+          <p>These photos show a working office environment and team desks supplied by BANDEVI GLOBAL GROUP. They support the company workspace story; address-level and city-level confirmation remains available through the office verification sheet and official contact route.</p>
+        </div>
+        <div class="office-gallery" aria-label="BANDEVI office workspace photo gallery">
+          ${liveOfficeGallery.map((item) => `
+            <figure class="office-gallery-card">
+              <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
+              <figcaption>${item.caption}</figcaption>
+            </figure>
+          `).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Open Office Verification Sheet ${icons.arrow}</a>
+          <a class="button ghost" href="/proof-verification/">Open Proof & Verification</a>
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Live office walkthroughs</span>
+          <h2>See the company-submitted BANDEVI office workspace in motion.</h2>
+          <p>These optional videos are supplied by BANDEVI GLOBAL GROUP and show the live working environment behind the office gallery. Playback is visitor-controlled and does not start automatically.</p>
+        </div>
+        <div class="office-video-grid" aria-label="BANDEVI live office walkthrough videos">
+          ${liveOfficeWalkthroughs.map((item) => `
+            <article class="office-video-card">
+              <video controls playsinline preload="none" poster="${item.poster}" aria-label="${item.label}">
+                <source src="${item.src}" type="video/mp4">
+                Your browser does not support embedded video. <a href="${item.src}">Open the office walkthrough video</a>.
+              </video>
+              <p>${item.label} - company-submitted live office workspace video.</p>
+            </article>
+          `).join("")}
         </div>
       </div>
     </section>
