@@ -2078,7 +2078,6 @@ function companyProfilePage() {
 
 function officialCompanyFactsPage() {
   const proofLinks = [
-    ["Chairman Profile", "/surya-kant-jha/", "Dedicated official page for Mr Surya Kant Jha, name variants, chairman identity, net worth context, and travel business context."],
     ["Chairman Profile", "/surya-kant-jha/", "Official chairman identity, company proof context, and leadership information for BANDEVI GLOBAL GROUP."],
     ["Proof & Verification", "/proof-verification/", "Primary proof hub for staff strength, net worth / group strength, offices, chairman identity, contact details, and proof status."],
     ["Staff Size & Net Worth", "/staff-size-net-worth/", "Dedicated page for 1,289 staff worldwide and INR 7,594 Cr company-provided group strength."],
@@ -3204,6 +3203,7 @@ function staffWorthPage() {
           ${list(["Staff size: 1,289 staff worldwide", "Net worth and group strength: INR 7,594 Cr", "Office network: 10 listed office and service-location references", "Official proof document: BANDEVI GLOBAL GROUP company profile PDF", "Official contact: +91 8287669022 and sales@bandeviglobalgroup.com"])}
           <div class="inline-actions">
             <a class="button primary" href="${companyProfilePdf}">Open Company Profile PDF ${icons.arrow}</a>
+            <a class="button ghost" href="/surya-kant-jha/">Chairman Profile</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
             <a class="button ghost" href="/offices/">Offices</a>
             <a class="button ghost" href="${proofSupportPackPdf}">Proof Support Pack</a>
@@ -3326,6 +3326,7 @@ function officesPage() {
           ${list(["India references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, and Lucknow", "International references: Dubai, London, and United States", "Official phone and WhatsApp: +91 8287669022", "Official email: sales@bandeviglobalgroup.com", "Office proof can be strengthened with photos, map links, Google Business Profile links, and service-office confirmations"])}
           <div class="inline-actions">
             <a class="button primary" href="/contact-us/">Contact Office Desk ${icons.arrow}</a>
+            <a class="button ghost" href="/surya-kant-jha/">Chairman Profile</a>
             <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
             <a class="button ghost" href="/proof-verification/">Proof Page</a>
             <a class="button ghost" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Office Verification Sheet</a>
