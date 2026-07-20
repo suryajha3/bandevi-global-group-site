@@ -2227,6 +2227,20 @@ function suryaKantJhaPage() {
         </div>
       </div>
     </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Related leadership references</span>
+          <h2>Additional Bandevi Proctor leadership pages.</h2>
+          <p>These external pages provide further leadership and gallery context. For BANDEVI company facts, use the official proof and company-profile pages on this domain.</p>
+        </div>
+        <div class="inline-actions">
+          <a class="button light" href="https://bandeviproctor.com/chairman-suryakant-jha" target="_blank" rel="noopener noreferrer">Chairman Profile ${icons.arrow}</a>
+          <a class="button light" href="https://bandeviproctor.com/suryakant-jha" target="_blank" rel="noopener noreferrer">Surya Kant Jha Profile ${icons.arrow}</a>
+          <a class="button light" href="https://bandeviproctor.com/leadership-gallery" target="_blank" rel="noopener noreferrer">Leadership Gallery ${icons.arrow}</a>
+        </div>
+      </div>
+    </section>
     <section class="section mist">
       <div class="container">
         <div class="section-head">
@@ -2374,6 +2388,20 @@ function suryaKantJhaTravelTechnologyPage() {
               ${chairmanTravelTechnologyFacts.map(([label, value]) => `<tr><td>${label}</td><td>${value}</td></tr>`).join("")}
             </tbody>
           </table>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Related leadership references</span>
+          <h2>Additional Bandevi Proctor leadership pages.</h2>
+          <p>These external pages provide further leadership and gallery context. The BANDEVI proof pages remain the official source for company facts, office references, and company-provided group strength.</p>
+        </div>
+        <div class="inline-actions">
+          <a class="button light" href="https://bandeviproctor.com/chairman-suryakant-jha" target="_blank" rel="noopener noreferrer">Chairman Profile ${icons.arrow}</a>
+          <a class="button light" href="https://bandeviproctor.com/suryakant-jha" target="_blank" rel="noopener noreferrer">Surya Kant Jha Profile ${icons.arrow}</a>
+          <a class="button light" href="https://bandeviproctor.com/leadership-gallery" target="_blank" rel="noopener noreferrer">Leadership Gallery ${icons.arrow}</a>
         </div>
       </div>
     </section>
