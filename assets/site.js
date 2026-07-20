@@ -177,6 +177,34 @@ const chairmanTravelTechnologyFacts = [
   ["Official verification", "Use the official chairman profile, Company Profile, Official Company Facts, Proof & Verification, Staff Size & Net Worth, and Offices pages."]
 ];
 
+const liveOfficeGallery = [
+  {
+    src: asset("office-gallery/bandevi-live-office-workstations-01.jpg"),
+    alt: "BANDEVI GLOBAL GROUP office workstations and team desks",
+    caption: "Shared workstations in a BANDEVI company-submitted office workspace photo."
+  },
+  {
+    src: asset("office-gallery/bandevi-live-office-workstations-02.jpg"),
+    alt: "BANDEVI GLOBAL GROUP office desks and workspace partitions",
+    caption: "Office desks and workspace partitions in a company-submitted live workspace photo."
+  },
+  {
+    src: asset("office-gallery/bandevi-live-office-workstations-03.jpg"),
+    alt: "BANDEVI GLOBAL GROUP office floor with team work areas",
+    caption: "A wider view of a BANDEVI office workspace supplied by the company."
+  },
+  {
+    src: asset("office-gallery/bandevi-live-office-team-01.jpg"),
+    alt: "BANDEVI GLOBAL GROUP team members working from office desks",
+    caption: "Team members at work in a company-submitted live office workspace photo."
+  },
+  {
+    src: asset("office-gallery/bandevi-live-office-team-02.jpg"),
+    alt: "BANDEVI GLOBAL GROUP team at shared office workstations",
+    caption: "Company-submitted photo showing a working team area and shared workstations."
+  }
+];
+
 const chairmanTravelTechnologyFaqs = [
   ["What is Mr Surya Kant Jha's role at BANDEVI GLOBAL GROUP?", "Mr Surya Kant Jha is published as Chairman of BANDEVI GLOBAL GROUP."],
   ["What travel solutions does BANDEVI provide?", "BANDEVI GLOBAL GROUP provides Travel CRM, Travel ERP, travel websites, white-label travel websites, B2B travel portals, booking workflows, lead and booking management, and travel mobile apps."],
@@ -1774,6 +1802,27 @@ function aboutPage() {
           </div>
         </div>
         <div class="media-frame"><img src="${heroImage}" alt="Travel technology operations center"></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Live workspace gallery</span>
+          <h2>Company-submitted photos from a live BANDEVI office workspace.</h2>
+          <p>These photos show a working office environment and team desks supplied by BANDEVI GLOBAL GROUP. They support the company workspace story; address-level and city-level confirmation remains available through the office verification sheet and official contact route.</p>
+        </div>
+        <div class="office-gallery" aria-label="BANDEVI office workspace photo gallery">
+          ${liveOfficeGallery.map((item) => `
+            <figure class="office-gallery-card">
+              <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
+              <figcaption>${item.caption}</figcaption>
+            </figure>
+          `).join("")}
+        </div>
+        <div class="inline-actions">
+          <a class="button primary" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Open Office Verification Sheet ${icons.arrow}</a>
+          <a class="button ghost" href="/proof-verification/">Open Proof & Verification</a>
+        </div>
       </div>
     </section>
     <section class="section mist">
