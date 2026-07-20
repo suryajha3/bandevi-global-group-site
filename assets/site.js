@@ -1374,6 +1374,11 @@ const pageData = {
     eyebrow: "See the platform",
     lede: "Request a package-matched demo for CRM, ERP, customer portals, IT products, travel technology, websites, e-commerce, automation, dashboards, and implementation planning."
   },
+  feedback: {
+    title: "Client Feedback & Case Study Approval",
+    eyebrow: "Client voice",
+    lede: "Share genuine project feedback or approve a factual case-study mention for BANDEVI GLOBAL GROUP."
+  },
   portal: {
     title: "Customer Portal Software",
     eyebrow: "Customer access, documents, invoices, support",
@@ -6463,6 +6468,7 @@ function casesPage() {
         <div class="inline-actions">
           <a class="button dark" href="/demo-request/">Discuss Your Project ${icons.arrow}</a>
           <a class="button light" href="/contact-us/">Contact Sales</a>
+          <a class="button light" href="/client-feedback/">Share Client Feedback</a>
           <a class="button light" href="/proof-verification/">Company Verification</a>
         </div>
       </div>
@@ -7412,6 +7418,59 @@ function demoPage() {
   `;
 }
 
+function feedbackPage() {
+  return `
+    <section class="section">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">Client feedback</span>
+          <h2>Share feedback based on your actual experience with BANDEVI.</h2>
+          <p class="muted">This page is for real clients, partners, and project contacts. Feedback is reviewed before publication. BANDEVI does not publish testimonials, client names, results, ratings, or case-study claims without the contributor's approval and supporting context.</p>
+          ${list([
+            "Describe the service, product, website, CRM, ERP, portal, automation, or support work you actually received",
+            "State only facts you are comfortable approving for a public review or case study",
+            "Choose whether your organisation name may be mentioned",
+            "Send the completed request through the official WhatsApp or email route"
+          ])}
+          <div class="inline-actions">
+            <a class="button dark" href="#client-feedback-form">Share Feedback ${icons.arrow}</a>
+            <a class="button light" href="/case-studies/">View Case Study Standards</a>
+            <a class="button light" href="/proof-verification/">Verify BANDEVI</a>
+          </div>
+        </div>
+        <form class="lead-form" data-form="review" id="client-feedback-form">
+          <div class="form-grid">
+            <div class="field"><label for="review-name">Your name</label><input id="review-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="review-company">Company or organisation</label><input id="review-company" name="company" autocomplete="organization" required></div>
+            <div class="field"><label for="review-email">Work email</label><input id="review-email" name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="review-service">Service received</label><select id="review-service" name="service" required><option value="">Choose one</option><option>CRM or ERP</option><option>Travel technology</option><option>Website or mobile app</option><option>Customer portal</option><option>E-commerce</option><option>Business automation</option><option>Support or enhancement</option><option>Other</option></select></div>
+            <div class="field full"><label for="review-project">Project or engagement reference</label><input id="review-project" name="project" placeholder="Example: CRM implementation, travel website, portal, or support project" required></div>
+            <div class="field full"><label for="review-feedback">Your feedback</label><textarea id="review-feedback" name="feedback" placeholder="Please share only your genuine experience, delivered work, and approved outcomes." required></textarea></div>
+            <div class="field full"><label for="review-approval">Publication approval</label><select id="review-approval" name="approval" required><option value="">Choose one</option><option>I approve publication with my company name</option><option>I approve an anonymised case-study mention only</option><option>Please contact me before any publication</option></select></div>
+            <div class="field full"><label><input name="consent" type="checkbox" value="yes" required> I confirm this feedback is genuine and I am authorised to share it.</label></div>
+          </div>
+          <button class="button dark" type="submit">Prepare Feedback Request ${icons.arrow}</button>
+          <p class="form-note" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+    <section class="section gold-band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Publication standard</span>
+          <h2>Truthful, permission-based client proof.</h2>
+          <p>Public reviews and case studies are more credible when the contributor, service scope, factual wording, and publication permission are clear.</p>
+        </div>
+        ${cards([
+          { icon: "shield", title: "No invented reviews", text: "BANDEVI does not create ratings, testimonials, awards, client names, project outcomes, or endorsements without a real source." },
+          { icon: "users", title: "Client control", text: "The contributor can approve use of their company name, choose an anonymised mention, or ask for contact before publication." },
+          { icon: "stack", title: "Useful proof", text: "Approved feedback can support an honest review, portfolio item, or case study with the project scope and relevant evidence." }
+        ])}
+      </div>
+    </section>
+  `;
+}
+
 function portalPage() {
   return `
     <section class="section">
@@ -7838,6 +7897,7 @@ const pageRenderers = {
   support: supportPage,
   contact: contactPage,
   demo: demoPage,
+  feedback: feedbackPage,
   portal: portalPage,
   privacy: privacyPage,
   terms: termsPage
@@ -7914,7 +7974,7 @@ function bindForms() {
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
-      const label = type === "demo" ? "Demo request" : "Contact inquiry";
+      const label = type === "demo" ? "Demo request" : type === "review" ? "Client feedback and case study approval" : "Contact inquiry";
       const currentUrl = new URL(window.location.href);
       const campaignDetails = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
         .map((key) => [key.replace("utm_", "").replace(/^./, (letter) => letter.toUpperCase()), currentUrl.searchParams.get(key)])
@@ -7923,6 +7983,10 @@ function bindForms() {
       const fieldLabels = [
         ["name", "Name"],
         ["company", "Company"],
+        ["service", "Service received"],
+        ["project", "Project or engagement reference"],
+        ["feedback", "Client feedback"],
+        ["approval", "Publication approval"],
         ["leadSource", "Solution page source"],
         ["email", "Email"],
         ["phone", "Phone"],
@@ -7962,7 +8026,8 @@ function bindForms() {
 
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       if (note) {
-        note.innerHTML = `Your lead message is ready. <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Send on WhatsApp</a> or <a href="${mailUrl}">send by email</a>.`;
+        const messageType = type === "review" ? "Your feedback request" : "Your lead message";
+        note.innerHTML = `${messageType} is ready. <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Send on WhatsApp</a> or <a href="${mailUrl}">send by email</a>.`;
       }
       form.reset();
     });
