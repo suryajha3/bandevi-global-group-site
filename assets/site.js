@@ -1154,6 +1154,11 @@ const pageData = {
     eyebrow: "Businessman keyword page",
     lede: "Official BANDEVI GLOBAL GROUP search page for Suryakant Jha businessman, Surya Kant Jha chairman, business leadership, company strength, proof links, and public photos."
   },
+  suryaKantJhaPhotos: {
+    title: "Surya Kant Jha Photos",
+    eyebrow: "Chairman photo gallery",
+    lede: "Official BANDEVI GLOBAL GROUP image gallery for Surya Kant Jha photos, Suryakant Jha chairman portraits, travel business context, and business leadership images."
+  },
   proof: {
     title: "Proof & Verification",
     eyebrow: "Public proof page",
@@ -2623,6 +2628,52 @@ function suryakantJhaKeywordPage(kind) {
       </div>
     </section>
     ${cta("Use the official BANDEVI proof pages for verification.", "For travel CRM, travel ERP, custom software, websites, portals, automation, or company profile verification, contact BANDEVI GLOBAL GROUP through the official phone, WhatsApp, email, or demo request page.")}
+  `;
+}
+
+function suryaKantJhaPhotosPage() {
+  const photos = [
+    ["/assets/surya-kant-jha/surya-kant-jha-chairman-headshot.webp", "Surya Kant Jha photo - Suryakant Jha chairman official portrait"],
+    ["/assets/surya-kant-jha/surya-kant-jha-chairman-executive-portrait.webp", "Suryakant Jha photo - Surya Kant Jha chairman executive portrait"],
+    ["/assets/surya-kant-jha/surya-kant-jha-chairman-office-work.webp", "Suryakant Jha travel agent photo - Surya Kant Jha travel technology office work"],
+    ["/assets/surya-kant-jha/surya-kant-jha-chairman-business-meeting.webp", "Suryakant Jha businessman photo - Surya Kant Jha business meeting"],
+    ["/assets/surya-kant-jha/surya-kant-jha-chairman-planning.webp", "Surya Kant Jha photo - Suryakant Jha business planning and leadership"],
+    ["/assets/surya-kant-jha/surya-kant-jha-chairman-leadership.webp", "Suryakant Jha leadership photo - Surya Kant Jha chairman profile"]
+  ];
+
+  return `
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Official photo gallery</span>
+          <h2>Surya Kant Jha photos for chairman, travel agent, and businessman searches.</h2>
+          <p>These images are published by BANDEVI GLOBAL GROUP for Surya Kant Jha, Suryakant Jha, chairman, travel technology, travel agent, businessman, and leadership image discovery.</p>
+        </div>
+        <div class="chairman-media-grid">
+          ${photos.map(([src, alt]) => `<figure class="chairman-media-card"><a href="${src}"><img src="${src}" alt="${alt}" width="1200" height="1200" loading="lazy"></a><figcaption>${alt}</figcaption></figure>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section mist">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Image SEO links</span>
+          <h2>Connected pages for the same photo/entity signals.</h2>
+          <p>These links connect the photo gallery to exact-match chairman keyword pages and the machine-readable image sitemap.</p>
+        </div>
+        <div class="grid cols-3">
+          ${[
+            ["Surya Kant Jha profile", "/surya-kant-jha/", "Main official chairman profile with full proof and company context."],
+            ["Suryakant Jha chairman", "/suryakant-jha-chairman/", "Exact-match chairman keyword page."],
+            ["Suryakant Jha travel agent", "/surya-kant-jha-travel-agent/", "Travel agent and travel technology keyword page."],
+            ["Suryakant Jha businessman", "/suryakant-jha-businessman/", "Businessman and business leadership keyword page."],
+            ["Image sitemap", "/image-sitemap.xml", "Dedicated image sitemap for Google Images discovery."],
+            ["Bandevi Proctor gallery", "https://bandeviproctor.com/leadership-gallery", "Related cross-domain leadership gallery."]
+          ].map(([title, href, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p><a class="button light" href="${href}"${href.startsWith("http") ? ' target="_blank" rel="noopener noreferrer"' : ""}>Open ${icons.arrow}</a></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    ${cta("Use this page when submitting photo URLs to Google.", "After publishing, inspect this gallery page and the image sitemap in Search Console so Google refreshes the image context faster.")}
   `;
 }
 
@@ -7997,6 +8048,10 @@ function footer() {
             <li><a href="/company-profile/">Company Profile</a></li>
             <li><a href="/official-company-facts/">Official Company Facts</a></li>
             <li><a href="/surya-kant-jha/">Surya Kant Jha Chairman Profile</a></li>
+            <li><a href="/surya-kant-jha-photos/">Surya Kant Jha Photos</a></li>
+            <li><a href="/suryakant-jha-chairman/">Suryakant Jha Chairman</a></li>
+            <li><a href="/surya-kant-jha-travel-agent/">Suryakant Jha Travel Agent</a></li>
+            <li><a href="/suryakant-jha-businessman/">Suryakant Jha Businessman</a></li>
             <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
             <li><a href="${proofSupportPackPdf}">Proof Support Pack</a></li>
             <li><a href="/proof-verification/">Proof & Verification</a></li>
@@ -8041,6 +8096,7 @@ const pageRenderers = {
   suryakantJhaChairman: () => suryakantJhaKeywordPage("chairman"),
   suryakantJhaTravelAgent: () => suryakantJhaKeywordPage("travelAgent"),
   suryakantJhaBusinessman: () => suryakantJhaKeywordPage("businessman"),
+  suryaKantJhaPhotos: suryaKantJhaPhotosPage,
   proof: proofVerificationPage,
   directoryProfile: directoryProfilePage,
   externalCitations: externalCitationTrackerPage,
