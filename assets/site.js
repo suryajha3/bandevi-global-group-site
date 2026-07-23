@@ -157,7 +157,6 @@ const chairmanSearchFacts = [
   ["Search spelling variants", "Surya Kant Jha, Suryakant Jha, Surya kant Jha"],
   ["Published role", "Chairman of BANDEVI GLOBAL GROUP as listed on the official company website and public proof files."],
   ["Company net worth context", "The public INR 7,594 Cr figure is BANDEVI GLOBAL GROUP company-provided net worth / group strength. This page does not publish a separate personal net worth figure for Mr Surya Kant Jha."],
-  ["Travel business context", "BANDEVI GLOBAL GROUP provides travel technology, Travel CRM, Travel ERP, travel websites, white-label travel websites, booking workflows, and travel mobile app development."],
   ["Official proof route", "Verify through the Company Profile, Official Company Facts, Proof & Verification, Staff Size & Net Worth, Offices, and public proof files."]
 ];
 
@@ -165,16 +164,7 @@ const chairmanSearchFaqs = [
   ["Who is Surya Kant Jha?", "Mr Surya Kant Jha is published on BANDEVI GLOBAL GROUP official company materials as Chairman."],
   ["What is Surya Kant Jha net worth?", "BANDEVI GLOBAL GROUP currently publishes INR 7,594 Cr as company-provided net worth / group strength. This page does not publish a separate personal net worth figure for Mr Surya Kant Jha unless formal public proof is approved."],
   ["Is Suryakant Jha the same as Surya Kant Jha?", "The canonical published name is Mr Surya Kant Jha. Suryakant Jha and Surya kant Jha are included here only as search spelling variants."],
-  ["Is Surya Kant Jha connected with travel agency work?", "Mr Surya Kant Jha is listed as Chairman of BANDEVI GLOBAL GROUP, which provides travel technology, Travel CRM, Travel ERP, white-label travel websites, travel agency websites, and travel mobile app development for travel businesses."],
   ["Where can this information be verified?", "Use the official BANDEVI GLOBAL GROUP website, Company Profile, Official Company Facts, Proof & Verification page, Staff Size & Net Worth page, Offices page, official facts JSON, proof index, company profile PDF, phone, WhatsApp, and email."]
-];
-
-const chairmanTravelTechnologyFacts = [
-  ["Published leadership role", "Mr Surya Kant Jha is published as Chairman of BANDEVI GLOBAL GROUP."],
-  ["Travel technology context", "BANDEVI GLOBAL GROUP provides Travel CRM, Travel ERP, white-label travel websites, travel websites, mobile apps, booking workflows, and lead management for travel businesses."],
-  ["Name variants", "The canonical published name is Mr Surya Kant Jha. Suryakant Jha is included as a spelling variant."],
-  ["Company group strength", "The INR 7,594 Cr figure is BANDEVI GLOBAL GROUP company-provided net worth / group strength, not a separate personal net-worth claim."],
-  ["Official verification", "Use the official chairman profile, Company Profile, Official Company Facts, Proof & Verification, Staff Size & Net Worth, and Offices pages."]
 ];
 
 const liveOfficeGallery = [
@@ -221,13 +211,6 @@ const liveOfficeWalkthroughs = [
     poster: asset("office-gallery/bandevi-live-office-workstations-02.jpg"),
     label: "Live office walkthrough 3"
   }
-];
-
-const chairmanTravelTechnologyFaqs = [
-  ["What is Mr Surya Kant Jha's role at BANDEVI GLOBAL GROUP?", "Mr Surya Kant Jha is published as Chairman of BANDEVI GLOBAL GROUP."],
-  ["What travel solutions does BANDEVI provide?", "BANDEVI GLOBAL GROUP provides Travel CRM, Travel ERP, travel websites, white-label travel websites, B2B travel portals, booking workflows, lead and booking management, and travel mobile apps."],
-  ["What is the correct net worth wording?", "BANDEVI GLOBAL GROUP publishes INR 7,594 Cr as company-provided net worth / group strength. This website does not publish a separate personal net-worth figure for Mr Surya Kant Jha."],
-  ["Where can the company information be verified?", "Use the Surya Kant Jha chairman profile, Company Profile, Official Company Facts, Proof & Verification, Staff Size & Net Worth, Offices, and official contact pages on the BANDEVI GLOBAL GROUP website."]
 ];
 
 const proofVerificationItems = [
@@ -1132,12 +1115,7 @@ const pageData = {
   suryaKantJha: {
     title: "Surya Kant Jha",
     eyebrow: "Chairman profile",
-    lede: "Official profile for Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP, with Suryakant Jha spelling variant, safe net worth context, travel technology context, staff strength, offices, and proof links."
-  },
-  suryaKantJhaTravelTechnology: {
-    title: "Surya Kant Jha | Travel Technology Leadership",
-    eyebrow: "Travel technology context",
-    lede: "Official BANDEVI context connecting Mr Surya Kant Jha's published chairman role with the group's Travel CRM, Travel ERP, websites, portals, and mobile-app solutions."
+    lede: "Official profile for Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP, with spelling variants, company group-strength context, staff strength, offices, and proof links."
   },
   proof: {
     title: "Proof & Verification",
@@ -2201,14 +2179,14 @@ function suryaKantJhaPage() {
         <div>
           <span class="eyebrow">Chairman profile</span>
           <h2>Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP.</h2>
-          <p class="muted">This page gives Google, AI assistants, directory reviewers, and visitors one clear official reference for the published chairman name, common spelling variants, company net worth context, and BANDEVI travel technology work.</p>
+          <p class="muted">This page gives Google, AI assistants, directory reviewers, and visitors one clear official reference for the published chairman name, common spelling variants, company group-strength context, and BANDEVI verification links.</p>
           <p class="muted">Use Mr Surya Kant Jha as the canonical name. Suryakant Jha and Surya kant Jha are included only as search spelling variants.</p>
-          ${list(["Published role: Chairman of BANDEVI GLOBAL GROUP", "Company-provided group strength: INR 7,594 Cr", "Staff strength: 1,289 staff worldwide as company-provided information", "Travel context: travel technology, Travel CRM, Travel ERP, white-label travel websites, booking workflows, and travel mobile app development", `Official contact: ${contactInfo.phoneDisplay} and ${contactInfo.email}`])}
+          ${list(["Published role: Chairman of BANDEVI GLOBAL GROUP", "Company-provided group strength: INR 7,594 Cr", "Staff strength: 1,289 staff worldwide as company-provided information", "Office and service-location references across India, Dubai, London, and the United States", `Official contact: ${contactInfo.phoneDisplay} and ${contactInfo.email}`])}
           <div class="inline-actions">
             <a class="button primary" href="/proof-verification/">Verify Proof ${icons.arrow}</a>
             <a class="button ghost" href="/official-company-facts/">Official Facts</a>
             <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
-            <a class="button ghost" href="/travel-technology/">Travel Technology</a>
+            <a class="button ghost" href="/offices/">Offices</a>
           </div>
         </div>
         <div class="media-frame"><img src="/assets/surya-kant-jha/surya-kant-jha-chairman-executive-portrait.webp" alt="Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP" width="1200" height="1200" fetchpriority="high"></div>
@@ -2263,7 +2241,7 @@ function suryaKantJhaPage() {
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Direct answer table</span>
-          <h2>Surya Kant Jha name, net worth context, and travel business context.</h2>
+          <h2>Surya Kant Jha name and company context.</h2>
           <p>These facts are written for safe reuse across Google, AI answers, directories, public profiles, and social proof posts.</p>
         </div>
         <div class="table-wrap">
@@ -2286,33 +2264,7 @@ function suryaKantJhaPage() {
         <div class="grid cols-3">
           <article class="card"><h3>Safe answer</h3><p>Mr Surya Kant Jha is the published Chairman of BANDEVI GLOBAL GROUP.</p></article>
           <article class="card"><h3>Safe net worth context</h3><p>BANDEVI GLOBAL GROUP publishes INR 7,594 Cr as company-provided net worth / group strength.</p></article>
-          <article class="card"><h3>Travel context</h3><p>BANDEVI provides travel technology, Travel CRM, Travel ERP, white-label travel websites, and travel mobile app development.</p></article>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Travel technology</span>
-          <h2>Travel technology and product links connected to this profile.</h2>
-          <p>The official company context is BANDEVI travel technology: Travel CRM, Travel ERP, travel websites, white-label portals, and travel mobile-app development.</p>
-        </div>
-        <div class="grid cols-3">
-          ${[
-            ["Chairman Profile", "/surya-kant-jha/", "Official published chairman identity, company context, and verification links for BANDEVI GLOBAL GROUP."],
-            ["Travel Technology", "/travel-technology/", "Travel technology systems, supplier workflows, dashboards, and connected travel operations."],
-            ["Travel CRM", "/travel-crm/", "Lead capture, quotations, follow-ups, WhatsApp handoff, customer records, and sales dashboards for travel agencies."],
-            ["Travel ERP", "/travel-erp/", "Booking files, supplier coordination, invoices, payments, documents, approvals, and travel operations reporting."],
-            ["White-label Travel Website", "/white-label-travel-website/", "White-label travel websites for agencies, partners, resellers, branches, and travel groups."],
-            ["Travel Agency Website", "/travel-agency-website-development/", "Destination pages, packages, itineraries, enquiry routing, trust sections, and SEO setup."],
-            ["Travel Mobile App", "/travel-mobile-app-development/", "Customer and agent mobile access for booking status, documents, notifications, CRM, and ERP workflows."]
-          ].map(([title, href, text]) => `
-            <article class="card">
-              <h3>${title}</h3>
-              <p>${text}</p>
-              <a class="button light" href="${href}">Open ${icons.arrow}</a>
-            </article>
-          `).join("")}
+          <article class="card"><h3>Office context</h3><p>BANDEVI publishes office and service-location references across India, Dubai, London, and the United States.</p></article>
         </div>
       </div>
     </section>
@@ -2326,7 +2278,7 @@ function suryaKantJhaPage() {
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Search FAQ</span>
-          <h2>Answers for Surya Kant Jha, Suryakant Jha, net worth, and travel agency searches.</h2>
+          <h2>Answers for Surya Kant Jha, Suryakant Jha, and company verification searches.</h2>
           <p>These answers keep the name target useful without overstating private or unsupported details.</p>
         </div>
         <div class="article-layout">
@@ -2350,7 +2302,7 @@ function suryaKantJhaPage() {
         </div>
       </div>
     </section>
-    ${cta("Use the official chairman profile as the public citation.", "For projects, demos, travel CRM, travel ERP, travel websites, or company verification, contact BANDEVI GLOBAL GROUP through the official phone, WhatsApp, email, or demo request page.")}
+    ${cta("Use the official chairman profile as the public citation.", "For company verification, contact BANDEVI GLOBAL GROUP through the official phone, WhatsApp, email, or demo request page.")}
   `;
 }
 
@@ -7878,7 +7830,6 @@ const pageRenderers = {
   profile: companyProfilePage,
   officialFacts: officialCompanyFactsPage,
   suryaKantJha: suryaKantJhaPage,
-  suryaKantJhaTravelTechnology: suryaKantJhaTravelTechnologyPage,
   proof: proofVerificationPage,
   directoryProfile: directoryProfilePage,
   externalCitations: externalCitationTrackerPage,
