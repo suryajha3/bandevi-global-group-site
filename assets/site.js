@@ -3469,6 +3469,22 @@ function trustPage() {
         </div>
       </div>
     </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Related business websites</span>
+          <h2>Clear company and brand references.</h2>
+          <p>These related business websites have been provided by the company for reference. Each website publishes its own services, contacts, team information, office information, documentation, and any company figures.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card metric-card"><strong>BANDEVI GLOBAL GROUP</strong><p>Official IT, software, CRM, ERP, portal, website, and automation company information.</p><a href="/company-profile/">View official company profile</a></article>
+          <article class="card metric-card"><strong>BandEvi Gourmet</strong><p>Food and consumer brand information is published separately on its own official website.</p><a href="https://bandevigourmet.com/" rel="noopener">Visit BandEvi Gourmet</a></article>
+          <article class="card metric-card"><strong>Bandevi Electronics</strong><p>Consumer electronics and product information is published separately on its own official website.</p><a href="https://bandevielectronics.com/" rel="noopener">Visit Bandevi Electronics</a></article>
+          <article class="card metric-card"><strong>Bandevi Astro</strong><p>Spiritual-service information is published separately on its own official website.</p><a href="https://bandeviastro.com/" rel="noopener">Visit Bandevi Astro</a></article>
+        </div>
+        <p class="muted">Important: staff size, financial or group-strength figures, office counts, licences, leadership roles, reviews, and compliance statements must be read on the official website that publishes them. They are not automatically transferable between related websites.</p>
+      </div>
+    </section>
     <section class="section dark">
       <div class="container">
         <div class="section-head">
