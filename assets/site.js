@@ -7940,9 +7940,16 @@ function bindForms() {
         "/crm-erp-solutions/": "CRM + ERP Package",
         "/custom-crm-development/": "Custom CRM Development",
         "/erp-software-development/": "ERP Software Development",
+        "/custom-software-development/": "Custom Software Development",
         "/customer-portal/": "Customer Portal Package",
         "/ecommerce-website-development/": "E-Commerce Website Development",
-        "/business-process-automation/": "Business Process Automation"
+        "/ecommerce-solutions/": "E-commerce Solution",
+        "/business-process-automation/": "Business Process Automation",
+        "/business-automation/": "Business Automation",
+        "/website-mobile-app-development/": "Website + Mobile App",
+        "/it-products/": "IT Products and Software Suite",
+        "/travel-technology/": "Travel Technology Suite",
+        "/lead-booking-management/": "Lead & Booking Management"
       };
       const currentUrl = new URL(window.location.href);
       const requestedSolution = currentUrl.searchParams.get("solution");
@@ -8036,6 +8043,26 @@ function bindAnalyticsEvents() {
     if (!link) return;
 
     const href = link.getAttribute("href") || "";
+    if (href.startsWith("/demo-request/")) {
+      const currentUrl = new URL(window.location.href);
+      const demoUrl = new URL(href, currentUrl.origin);
+      const campaignKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+
+      demoUrl.searchParams.set("source", currentUrl.pathname);
+      campaignKeys.forEach((key) => {
+        const value = currentUrl.searchParams.get(key);
+        if (value) demoUrl.searchParams.set(key, value);
+      });
+
+      link.href = `${demoUrl.pathname}${demoUrl.search}${demoUrl.hash}`;
+      trackAnalyticsEvent("select_content", {
+        content_type: "demo_cta",
+        content_name: link.textContent.trim().replace(/\s+/g, " "),
+        page_location: window.location.href,
+        page_title: document.title
+      });
+    }
+
     const contactMethod = href.startsWith("mailto:")
       ? "email"
       : href.startsWith("tel:")
@@ -8045,7 +8072,8 @@ function bindAnalyticsEvents() {
           : "";
 
     if (contactMethod) {
-      trackAnalyticsEvent("contact", {
+      trackAnalyticsEvent("generate_lead", {
+        lead_type: `${contactMethod}_click`,
         contact_method: contactMethod,
         page_location: window.location.href,
         page_title: document.title
