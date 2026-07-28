@@ -1464,7 +1464,7 @@ function cards(items, cols = 3) {
   `).join("")}</div>`;
 }
 
-function list(items) {
+function list(items = []) {
   return `<ul class="feature-list">${items.map((item) => `<li><span class="check">&#10003;</span><span>${item}</span></li>`).join("")}</ul>`;
 }
 
