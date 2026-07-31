@@ -514,6 +514,7 @@ const travelErpIndustries = [
 
 const travelErpFaqs = [
   ["Does BANDEVI GLOBAL GROUP build Travel ERP software?", "Yes. BANDEVI builds Travel ERP software for tour operators, travel agencies, DMCs, corporate travel desks, group travel teams, MICE operators, and multi-office travel businesses."],
+  ["What does Travel ERP consulting cover?", "Travel ERP consulting can start with a review of the current booking, supplier, finance, document, approval, and reporting workflow. The outcome is a practical implementation scope, priority modules, roles, integrations, and phased rollout plan for the business."],
   ["What does Travel ERP software include?", "Travel ERP can include booking files, passengers, suppliers, services, invoices, receipts, payments, documents, approvals, margins, task ownership, customer updates, and operations reports."],
   ["Can Travel ERP connect with Travel CRM?", "Yes. Confirmed or qualified CRM leads can move into Travel ERP booking files with customer context, quote details, service requirements, documents, payments, and operations ownership."],
   ["Can Travel ERP manage supplier and payment workflows?", "Yes. Travel ERP can track supplier records, service confirmations, rates, payment schedules, payables, customer invoices, receipts, refunds, dues, and finance status."],
@@ -3818,6 +3819,24 @@ function erpSeoSections() {
         </div>
         <div class="grid cols-3">
           ${travelErpIndustries.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Travel ERP consulting</span>
+          <h2>Plan the Travel ERP workflow before committing to a full build.</h2>
+          <p>Travel ERP consulting helps decision-makers turn an operational problem into a realistic implementation plan. Start with the booking journey and the handoffs between sales, operations, suppliers, finance, and management.</p>
+        </div>
+        ${cards([
+          { icon: "search", title: "Workflow discovery", text: "Review how enquiries become bookings, how suppliers are confirmed, where documents sit, and how payments and approvals are handled today." },
+          { icon: "stack", title: "Module priorities", text: "Choose the first ERP layer that solves the biggest bottleneck, such as booking files, supplier coordination, invoices, document control, or management reporting." },
+          { icon: "chart", title: "Phased rollout plan", text: "Define users, roles, milestones, integrations, data migration needs, training, testing, and the next modules to add after the first release." }
+        ])}
+        <div class="inline-actions">
+          <a class="button dark" href="/demo-request/">Discuss Travel ERP Scope ${icons.arrow}</a>
+          <a class="button light" href="/contact-us/">Contact the Team</a>
         </div>
       </div>
     </section>
