@@ -108,7 +108,7 @@ const priorityCompanyFacts = [
 
 const sisterBrandTrustStats = [
   ["Since 2007", "THG's travel presence gives BANDEVI real operating context for travel, hospitality, support, and customer-service systems."],
-  ["26+", "Office and service-location context across India, Dubai, London, and the United States."],
+  ["Locations", "Listed office and service-location references across India, Dubai, London, and the United States."],
   ["1,289", "Current company-provided worldwide staff count across operations, sales, support, partnerships, technology, and business development."],
   ["INR 7,594 Cr", "Current company-provided net worth and group strength figure. Supporting CA, audited, or company-profile proof can be linked when public."]
 ];
