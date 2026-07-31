@@ -6537,21 +6537,23 @@ const blogArticles = [
     key: "blogTravelErp",
     slug: "travel-erp-system-for-tour-operators",
     tag: "Travel ERP",
-    title: "Travel ERP System for Tour Operators",
-    description: "A practical guide to Travel ERP for tour operators managing bookings, suppliers, payments, documents, margins, and operations.",
-    intro: "Tour operators need more than lead tracking. Once a trip is confirmed, the business must coordinate services, suppliers, passenger details, documents, invoices, payments, approvals, and delivery status. A Travel ERP turns that operational work into a controlled system.",
+    title: "Tour Operator Back Office Software: Travel ERP Guide",
+    description: "A practical guide to tour operator back office software and Travel ERP for bookings, suppliers, payments, documents, margins, and operations.",
+    intro: "Tour operators need more than lead tracking. Once a trip is confirmed, the business must coordinate services, suppliers, passenger details, documents, invoices, payments, approvals, and delivery status. Tour operator back office software brings that operational work into a controlled Travel ERP system.",
     highlights: ["Booking files for passenger, itinerary, service, and document details", "Supplier, payment, invoice, approval, and margin visibility", "Operations dashboards for confirmed work and delivery status"],
     sections: [
       { title: "Where tour operators lose control", text: "Operations become difficult when sales, supplier coordination, finance, and customer communication happen in separate tools. A confirmed booking should not become a scattered set of messages and spreadsheets.", bullets: ["Supplier confirmations stay outside the booking file", "Payments and invoices are checked manually", "Passenger documents are requested repeatedly", "Leadership cannot see margin and workload quickly"] },
       { title: "Core Travel ERP modules", text: "A good ERP should keep every confirmed booking organized from quote to closure. It should make team ownership, financial status, and supplier work easy to review.", bullets: ["Booking file management", "Supplier and service inventory", "Invoices, receipts, refunds, and credit notes", "Approval paths for discounts, exceptions, and payments"] },
+      { title: "What to check in tour operator back office software", text: "The right system should match the way your team hands work from sales to operations and finance. Ask for a walkthrough using a real booking workflow before deciding on the rollout scope.", bullets: ["One booking file for passenger, itinerary, supplier, document, and task details", "Supplier confirmations, invoices, receipts, due amounts, and approvals connected to the booking", "Clear ownership for consultants, operations, finance, and management review", "A phased rollout path that can connect CRM, portals, payment workflows, and reporting"] },
       { title: "Why ERP and CRM should connect", text: "When CRM and ERP are joined, confirmed sales can move into operations without data loss. This makes the customer journey smoother and reduces repeated data entry.", bullets: ["Sales handoff from lead to booking", "Customer history carried into service delivery", "Revenue and margin reporting connected to sales source", "Better accountability from consultant to operations team"] }
     ],
     faqs: [
+      ["What is tour operator back office software?", "Tour operator back office software supports the work that follows an enquiry or booking confirmation, including booking files, services, suppliers, documents, payments, invoices, approvals, margins, and operations reporting."],
       ["What is Travel ERP?", "Travel ERP is an operations system for managing bookings, suppliers, services, documents, finance, approvals, and reporting in travel businesses."],
       ["Who needs Travel ERP?", "Tour operators, DMCs, travel agencies, consolidators, and corporate travel desks can use ERP when confirmed bookings need stronger control."],
       ["Can ERP start with only one module?", "Yes. Many businesses start with booking files or supplier coordination, then add finance, approvals, and reporting."]
     ],
-    links: [["Explore Travel ERP", "/travel-erp/"], ["CRM & ERP Solutions", "/crm-erp-solutions/"]]
+    links: [["Explore Travel ERP", "/travel-erp/"], ["Lead & Booking Management", "/lead-booking-management/"], ["CRM & ERP Solutions", "/crm-erp-solutions/"]]
   },
   {
     key: "blogTravelCrmVsErp",
