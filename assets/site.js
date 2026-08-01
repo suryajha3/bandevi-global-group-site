@@ -6558,6 +6558,7 @@ const blogArticles = [
     tag: "Travel ERP",
     title: "Tour Operator Back Office Software: Travel ERP Guide",
     description: "A practical guide to tour operator back office software and Travel ERP for bookings, suppliers, payments, documents, margins, and operations.",
+    demoHref: "/demo-request/?solution=ERP%20Software%20Demo&source=tour-operator-back-office-guide",
     intro: "Tour operators need more than lead tracking. Once a trip is confirmed, the business must coordinate services, suppliers, passenger details, documents, invoices, payments, approvals, and delivery status. Tour operator back office software brings that operational work into a controlled Travel ERP system.",
     highlights: ["Booking files for passenger, itinerary, service, and document details", "Supplier, payment, invoice, approval, and margin visibility", "Operations dashboards for confirmed work and delivery status"],
     sections: [
@@ -6846,7 +6847,7 @@ function blogArticlePage(key) {
           <h3>Turn this guide into a working system.</h3>
           <p>Share your current workflow and BANDEVI GLOBAL GROUP can map the right website, CRM, ERP, portal, or automation release.</p>
           <div class="inline-actions">
-            <a class="button dark" href="/demo-request/">Request Demo ${icons.arrow}</a>
+            <a class="button dark" href="${article.demoHref || "/demo-request/"}">Request Demo ${icons.arrow}</a>
             <a class="button light" href="/contact-us/">Contact</a>
           </div>
         </aside>
