@@ -1440,3 +1440,6 @@ body[data-page="home"] .hero-small a {color:#c2e8e4;text-underline-offset:4px}
 body[data-page="home"] .product-preview {transform:none}
 body[data-page="home"] .quick-contact {position:static;justify-content:center;padding:18px;background:#eef5f4;box-shadow:none}
 @media(max-width:760px){body[data-page="home"] .new-hero {padding:28px 0 32px}body[data-page="home"] .hero-grid {grid-template-columns:1fr;gap:28px}body[data-page="home"] .new-hero h1 {font-size:clamp(2rem,8vw,3rem)}body[data-page="home"] .hero-actions .button {flex:1 1 180px}}
+
+.demo-selector {display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;max-width:550px}.demo-selector span {flex-basis:100%;font-size:.82rem;color:#c2d7d8}.demo-selector a {padding:10px 13px;border:1px solid #6d9396;border-radius:8px;color:#fff;font-size:.85rem;line-height:1.4}.demo-selector a:hover,.demo-selector a:focus-visible {background:#245860;outline:2px solid #a5ded7;outline-offset:2px}.demo-focus-note {font-size:.85rem;color:#485c62;margin:0}
+body[data-page="demo"] .quick-contact,body[data-page="contact"] .quick-contact {position:static;justify-content:center;padding:18px;background:#eef5f4;box-shadow:none}
