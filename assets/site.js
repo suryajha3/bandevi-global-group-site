@@ -1346,9 +1346,9 @@ const pageData = {
     lede: "Web, cloud, integrations, automation, and managed development services for product, service, commerce, astrology, and travel-led businesses."
   },
   cases: {
-    title: "Case Studies",
-    eyebrow: "Business outcomes",
-    lede: "Representative project stories across travel websites, white-label websites, CRM, ERP, portals, e-commerce, automation, masala, makhana, astrology, and digital operations."
+    title: "Project Evidence & Workflow Models",
+    eyebrow: "Make an informed project decision",
+    lede: "Request approved delivery evidence and explore illustrative Travel CRM, ERP and customer portal workflows before agreeing your project scope."
   },
   blog: {
     title: "Blog",
@@ -3402,11 +3402,12 @@ function trustPage() {
     ['ISO or other certification', 'Certificate number, standard, certified entity, scope, issuer and validity dates, if held.'],
     ['Industry licences and memberships', 'Issuing body, membership or licence number, legal holder, covered activity and expiry, if held.']
   ];
-  return `<section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Company credentials</span><h2>Check the business behind your project.</h2><p>This website uses the BANDEVI GLOBAL GROUP brand. The exact legal entity that contracts and invoices customers has not yet been documented on this public register. Request that information before signing or paying.</p><p><strong>Publication status: supporting registration and certificate records awaiting evidence.</strong> No licence or certification is represented as verified on this page.</p></div><div class="grid cols-3">${records.map(([title,text])=>`<article class="card"><span class="status-label">Evidence not yet published</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
+  const evidenceOverview = `<section class="section mist"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Evidence overview</span><h2>Review identity, credentials and delivery evidence.</h2><p>The BANDEVI GLOBAL GROUP brand and official contact channels are published. The contracting legal name and independently checkable registrations are awaiting supplied records.</p><p>Ask for the legal supplier name on your proposal, agreement and invoice. A registration applies to its named holder and covered activity.</p><a class="button dark" href="/contact-us/?request=company-records">Request company records ${icons.arrow}</a></div><article class="card"><h3>Public evidence status</h3><dl><dt>Contracting legal entity</dt><dd>Awaiting supplied legal identity</dd><dt>Verified registrations and certificates</dt><dd>No verified credential records published</dd><dt>Approved client case studies</dt><dd>Awaiting delivery evidence and permission</dd></dl><p><a href="/case-studies/">Review project evidence standards</a></p><p><a href="/assets/supplier-evidence-checklist.txt" download>Download the supplier evidence checklist</a></p></article></div></section>`;
+  return `${evidenceOverview}<section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Company credentials</span><h2>Check the business behind your project.</h2><p>This website uses the BANDEVI GLOBAL GROUP brand. The exact legal entity that contracts and invoices customers has not yet been documented on this public register. Request that information before signing or paying.</p><p><strong>Publication status: supporting registration and certificate records awaiting evidence.</strong> No licence or certification is represented as verified on this page.</p></div><div class="grid cols-3">${records.map(([title,text])=>`<article class="card"><span class="status-label">Evidence not yet published</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
   <section class="section mist"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Document verification</span><h2>A certificate should be independently checkable.</h2><p>For each credential, ask for the holder's legal name, registration number, issuing authority, applicable scope and validity. Match those details to your proposal and invoice.</p><p>A brand logo, HTTPS connection or company profile is not evidence of a business licence. Certificates belonging to The Holidays Group or another sister brand do not establish BANDEVI's registrations.</p></div><article class="card"><h3>Official verification starting points</h3><ul><li><a href="https://www.mca.gov.in/" target="_blank" rel="noopener noreferrer">Ministry of Corporate Affairs</a> — company and LLP records.</li><li><a href="https://www.gst.gov.in/" target="_blank" rel="noopener noreferrer">GST portal</a> — Search Taxpayer using a supplied GSTIN.</li><li><a href="https://udyamregistration.gov.in/" target="_blank" rel="noopener noreferrer">Official Udyam portal</a> — registration verification.</li></ul><p>These links are verification resources; they do not confirm a BANDEVI registration. ISO and membership records should be checked with their named issuer.</p></article></div></section>
   <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Before you engage</span><h2>Ask for a written project and commercial record.</h2><p>Use this checklist when reviewing your proposal. Confirm each item in your agreement; the checklist itself does not create a warranty or service commitment.</p></div><div class="grid cols-3">${[['Identity & payment','Confirm the legal supplier, invoice details and matching payment beneficiary. Verify changes to bank details through an established contact.'],['Scope & acceptance','Name the modules, integrations, deliverables, exclusions, review process and acceptance criteria.'],['Costs & milestones','Record delivery milestones, payment schedule, hosting and third-party charges, and the process for scope changes.'],['Data & ownership','Agree ownership of domains, source code and data, permissions, backups, migration and handover responsibilities.'],['Support & privacy','Agree support channels, hours, response expectations, maintenance scope and handling of customer information.'],['Client evidence','Request a relevant demonstration or an approved client reference. Illustrative workflows are not completed client case studies.']].map(([t,d])=>`<article class="card"><h3>${t}</h3><p>${d}</p></article>`).join('')}</div><p><a href="/privacy-policy/">Privacy policy</a> · <a href="/terms-and-conditions/">Website terms</a> · <a href="/case-studies/">Illustrative project models</a></p></div></section>
   <section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">Evidence standards</span><h2>Company statements and issued credentials have different roles.</h2><p>Company profiles, staff counts, financial figures, office lists and evidence notes on this website are company-published information unless a specific independent source is supplied. They are not audited financials, government licences or independent certification.</p><p>Related brands operate separately. Their travel-network references and credentials must be checked against their own legal entities and activities.</p><p><a href="/evidence-register/">Review company-published evidence</a> · <a href="/proof-verification/">Ask about supporting records</a></p></div></div></section>
-  <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Official contact</span><h2>Request the records relevant to your project.</h2><p>Contact <a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a> or <a href="tel:+918287669022">+91 8287669022</a>. Ask the team to identify the contracting entity and supply applicable documents.</p><a class="button dark" href="/contact-us/">Request company documents ${icons.arrow}</a><p class="muted">Register presentation updated 4 October 2026. This date is not a certificate verification date.</p></div></div></section>`;
+  <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Official contact</span><h2>Request the records relevant to your project.</h2><p>Contact <a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a> or <a href="tel:+918287669022">+91 8287669022</a>. Ask the team to identify the contracting entity and supply applicable documents.</p><a class="button dark" href="/contact-us/?request=company-records">Request company documents ${icons.arrow}</a><p class="muted">Register presentation updated 4 October 2026. This date is not a certificate verification date.</p></div></div></section>`;
 }
 
 
@@ -6268,93 +6269,8 @@ function casePreview() {
 }
 
 function casesPage() {
-  return `
-    <section class="section">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Representative work</span>
-          <h2>Use-case stories for the systems modern brands ask for most.</h2>
-          <p class="muted">These representative case studies show how BANDEVI GLOBAL GROUP can shape websites, CRM, ERP, portals, e-commerce, booking workflows, customer systems, and automation around real business needs.</p>
-          ${list(["Travel sellers need complete websites, white-label websites, CRM, ERP, booking control, and portals", "Product brands need catalogs, e-commerce readiness, bulk enquiries, distributor CRM, and order visibility", "Service brands need booking flows, payment paths, customer history, documents, and support workflows", "Leadership needs dashboards that connect sales, service, revenue, workload, stock, margin, and customer experience"])}
-          <div class="inline-actions">
-            <a class="button dark" href="/demo-request/">Build a Similar System ${icons.arrow}</a>
-            <a class="button light" href="/contact-us/">Contact Sales</a>
-          </div>
-        </div>
-        <div class="media-frame"><img src="${productImage}" alt="BANDEVI case study dashboard examples"></div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Case study examples.</h2>
-          <p>Each example is written as a practical project model, so prospects can recognize their own workflow and choose the right first release.</p>
-        </div>
-        ${caseStudyCards()}
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Evidence-first project work</span>
-          <h2>Client-specific proof is published only when the scope, permission, and evidence are ready.</h2>
-          <p>Representative project models explain the type of system BANDEVI can build. A named client story, testimonial, metric, or award is added only after the client approves publication and the supporting record is available.</p>
-        </div>
-        <div class="grid cols-3">
-          ${[
-            ["Discovery scope", "Business goals, users, modules, integrations, delivery phases, and ownership are agreed before development begins."],
-            ["Delivery evidence", "Approved screens, launch records, solution scope, and customer permission establish what can be shown publicly."],
-            ["Outcome validation", "Only measured or client-confirmed outcomes are used in a named case study, testimonial, or sales claim."]
-          ].map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}
-        </div>
-        <div class="inline-actions">
-          <a class="button dark" href="/demo-request/">Discuss Your Project ${icons.arrow}</a>
-          <a class="button light" href="/contact-us/">Contact Sales</a>
-          <a class="button light" href="/client-feedback/">Share Client Feedback</a>
-          <a class="button light" href="/proof-verification/">Company Verification</a>
-        </div>
-      </div>
-    </section>
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <h2>Outcome map for BANDEVI projects.</h2>
-          <p>The first release should solve a real business bottleneck, then create a path to expand into connected systems.</p>
-        </div>
-        <div class="grid cols-4">
-          ${[
-            ["Faster response", "Reduce delays between enquiry capture, owner assignment, first contact, quotation, booking, order, or consultation follow-up."],
-            ["Cleaner handoffs", "Move confirmed work from sales to operations without losing customer, product, service, document, or supplier details."],
-            ["Better visibility", "Track leads, packages, products, orders, bookings, payments, documents, support tickets, stock, and team workload."],
-            ["Premium service", "Give customers a controlled digital experience with portal access, status updates, documents, invoices, and support history."]
-          ].map(([title, text]) => `<div class="card metric-card"><strong>${title}</strong><p>${text}</p></div>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>How a similar project starts.</h2>
-          <p>BANDEVI can begin with one urgent pain point and design a rollout that grows into a complete digital operating layer.</p>
-        </div>
-        <div class="process">
-          ${[
-            ["Audit", "Review your current lead sources, booking process, team roles, documents, reports, and customer communication."],
-            ["Prioritize", "Choose the first release across CRM, ERP, portal, website, booking, automation, or dashboards."],
-            ["Launch", "Build the core workflow, forms, pages, admin controls, reports, and team handoff process."],
-            ["Expand", "Add integrations, customer portal features, automation, branch workflows, and advanced analytics."]
-          ].map((item, index) => `
-            <div class="process-step">
-              <span>0${index + 1}</span>
-              <h3>${item[0]}</h3>
-              <p>${item[1]}</p>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    ${cta("Map your business case to the right platform release.", "Start with the bottleneck that is costing the most time, margin, or growth.")}
-  `;
+ const models=[['Travel CRM','Enquiry ownership and quotation follow-up','Define lead fields, ownership, quotation stages and the booking handover.','Assign a sample enquiry, record a quotation revision and check that the next action has an owner.','Travel CRM Package','/travel-crm/'],['Travel ERP','Confirmed bookings and supplier coordination','Define booking files, supplier confirmations, payment status and approval roles.','Trace a sample booking from confirmation through supplier tasks and the agreed financial review.','Travel ERP Package','/travel-erp/'],['Customer portal','Booking updates and controlled document access','Define what each customer can view, download and ask the support team.','Test with two sample customer accounts to check record separation, access and document permissions.','Customer Portal Package','/customer-portal/']];
+ return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Project evidence</span><h2>Review the work behind the proposal.</h2><p>A useful client reference identifies the delivered scope, approved screens and evidence behind any outcome. Ask for a reference relevant to your workflow before committing to a project.</p><p><strong>Publication status:</strong> no client-approved case studies or measured client results are published in this collection yet.</p><a class="button dark" href="/contact-us/?request=client-reference">Request a relevant project reference ${icons.arrow}</a></div><article class="card"><h3>What an approved case study should show</h3>${list(['Client identity or an explicitly approved anonymized description','Delivered modules, project role and completion period','Approved screenshots or a public project link','Outcome source, measurement period and baseline','Client permission and a clear review date'])}<p><a href="/client-feedback/">Share feedback and publication approval</a></p></article></div></section><section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">Illustrative project models</span><h2>Choose a workflow to discuss.</h2><p>These examples help scope a project. They do not describe completed client engagements or measured results.</p></div><div class="grid cols-3">${models.map(([label,title,scope,check,solution,href])=>`<article class="card"><span class="status-label">Illustrative model</span><h3>${label}: ${title}</h3><p><strong>Possible scope:</strong> ${scope}</p><p><strong>Example acceptance check:</strong> ${check}</p><p><a class="text-link" href="${href}">Explore ${label}</a></p><a class="button dark" href="/demo-request/?solution=${encodeURIComponent(solution)}">Discuss this workflow ${icons.arrow}</a></article>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Assess the evidence</span><h2>Make the reference useful for your decision.</h2></div><div class="grid cols-3"><article class="card"><h3>Confirm the delivery role</h3><p>Ask which parts BANDEVI designed, built or maintained, what depended on third-party providers, and what the client accepted.</p></article><article class="card"><h3>Check the outcome source</h3><p>Ask how a result was measured, over which dates and against which starting point. A target or software mockup does not establish a delivered result.</p></article><article class="card"><h3>Respect client permission</h3><p>Request only material approved for sharing. Screens and exports should hide private customer records, credentials and commercially sensitive information.</p></article></div><p><a href="/trust-licences-certifications/">Review company records</a> · <a href="/support/">Discuss support arrangements</a></p></div></section>`;
 }
 
 const blogArticles = [
@@ -7496,6 +7412,18 @@ function bindForms() {
         form.elements.message.value='Demo focus: '+focusLabels[focus]+(team?'\nExpected users: '+team:'')+'\nPlease show the workflow, role permissions and available modules, and discuss implementation scope and support.';
       }
 
+    }
+
+    if (type === 'contact') {
+      const requests = {
+        'company-records': 'Please identify the legal entity that will contract and invoice for my project. Share its registered address and applicable registration or certificate numbers, issuing authorities, scope, validity and official verification links. Please identify any record that is not applicable or not available.',
+        'client-reference': 'Please share a client-approved project reference relevant to my requirements, including BANDEVI’s delivery role, delivered scope, completion period, approved screenshots or a public link, and the source and period of any measured outcomes. Please confirm which material is approved for sharing.'
+      };
+      const request = new URL(window.location.href).searchParams.get('request');
+      if (requests[request] && !form.elements.message.value) {
+        form.elements.message.value = requests[request];
+        if (!form.elements.interest.value) form.elements.interest.value = 'Need guidance';
+      }
     }
 
     form.addEventListener("submit", async (event) => {
