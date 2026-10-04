@@ -7807,7 +7807,7 @@ function render() {
   document.getElementById("site").innerHTML = `
     <div class="site-shell"><a class="skip-link" href="#main-content">Skip to content</a>
       ${header(page)}
-      <main>
+      <main id="main-content" tabindex="-1">
         ${hero(page, data)}
         ${main()}
       </main>
