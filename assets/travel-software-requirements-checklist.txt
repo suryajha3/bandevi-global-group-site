@@ -1,0 +1,19 @@
+TRAVEL CRM / ERP REQUIREMENTS CHECKLIST
+BANDEVI GLOBAL GROUP - planning aid
+
+1. Business and workflow: agency / tour operator / DMC; enquiry sources; sales stages; booking and supplier stages; main problem.
+2. Users: roles, branches, teams, record visibility, approval permissions and export permissions.
+3. Records: anonymized enquiry, quotation and booking samples; mandatory fields; identifiers; duplicate rules; document requirements.
+4. Reporting: required views; definitions of won/lost, pipeline, due balances and margins; treatment of estimated or missing values.
+5. Integrations: existing website, communication, booking, accounting and payment providers; API availability; fees; system ownership.
+6. Migration: field mapping, validation, duplicate handling, sample import, history and attachment requirements.
+7. Test scenarios: enquiry assignment, quotation revision, overdue follow-up, confirmed booking handover, supplier exception, partial payment and role restrictions.
+8. Commercial record: included modules, exclusions, dependencies, milestones, acceptance criteria, costs, change requests, support and ongoing charges.
+9. Ownership and handover: domains, source code, data export, credentials, backups, documentation and training responsibilities.
+10. Supplier evidence: exact legal contracting/invoicing entity, applicable registration records and approved client references.
+
+Use anonymized examples. Do not include customer personal data, passwords, payment-card data or private government IDs in an initial project brief.
+This checklist does not establish a fixed package, certification, warranty or completed client result. Confirm project commitments in your written agreement.
+
+Discuss requirements: https://bandeviglobalgroup.com/demo-request/
+Contact: sales@bandeviglobalgroup.com | +91 8287669022
