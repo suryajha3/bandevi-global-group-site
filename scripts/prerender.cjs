@@ -1,6 +1,7 @@
 const fs=require('fs'),path=require('path'),http=require('http');
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..');
+const clientVersion=require('crypto').createHash('sha256').update(fs.readFileSync(path.join(root,'assets/site.js'))).digest('hex').slice(0,12);
 function files(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(path.join(dir,e.name)):[path.join(dir,e.name)]);}
 const server=http.createServer((req,res)=>{let p=path.join(root,new URL(req.url,'http://localhost').pathname);if(fs.existsSync(p)&&fs.statSync(p).isDirectory())p=path.join(p,'index.html');if(!fs.existsSync(p)){res.writeHead(404);return res.end();}res.setHeader('Content-Type',({'.html':'text/html','.js':'application/javascript','.css':'text/css','.webp':'image/webp','.svg':'image/svg+xml'})[path.extname(p)]||'application/octet-stream');let out=fs.readFileSync(p);if(p.endsWith('.html')){let h=out.toString();if(/<body data-page=/.test(h))out=Buffer.from(h.replace(/<body[\s\S]*?<\/body>/,'<body '+h.match(/<body ([^>]+)>/)[1]+'><div id="site"></div><script src="/assets/site.js" defer></script></body>'));}res.end(out);});
 (async()=>{let browser;try{
@@ -12,7 +13,7 @@ const server=http.createServer((req,res)=>{let p=path.join(root,new URL(req.url,
   if(await page.locator('h1').count()!==1)throw Error('Heading count '+rel);
   h=h.replace(/<body[\s\S]*?<\/body>/,'<body '+h.match(/<body ([^>]+)>/)[1]+'><div id="site" data-prerendered="true">'+markup+'</div><script src="/assets/client.js?v=20261004-seo-trust" defer></script></body>');
   h=h.replace(/\/assets\/site\.js[^"']*/g,'/assets/client.js?v=20261004-seo-trust').replace(/styles\.css\?v=[^"']*/g,'styles.css?v=20261004-seo-trust');
-  fs.writeFileSync(f,h);count++;
+  h=h.replace(/client\.js\?v=[^"']*/g,'client.js?v='+clientVersion);fs.writeFileSync(f,h);count++;
  }
  if(errors.length)throw Error(errors.join('\n'));
  const source=fs.readFileSync(path.join(root,'assets/site.js'),'utf8');const client=source.slice(0,source.indexOf('const brandAliases'))+source.slice(source.indexOf('function bindNav()'),source.indexOf('function render()'))+'\nbindNav();\nbindForms();\nbindAnalyticsEvents();\n';fs.writeFileSync(path.join(root,'assets/client.js'),client);
