@@ -39,16 +39,13 @@ const icons = {
 };
 
 const navItems = [
-  ["Home", "/", "home"],
-  ["About", "/about-us/", "about"],
-  ["Profile", "/company-profile/", "profile"],
-  ["Travel CRM", "/travel-crm/", "crm"],
-  ["Travel ERP", "/travel-erp/", "erp"],
-  ["Products", "/it-products/", "itProducts"],
-  ["IT Solutions", "/website-mobile-app-development/", "webApp"],
-  ["Blog", "/blog/", "blog"],
-  ["Contact", "/contact-us/", "contact"]
-];
+  ["Websites & Apps", "/website-mobile-app-development/", "webApp"],
+  ["CRM & ERP", "/crm-erp-solutions/", "crmErp"],
+  ["Travel Technology", "/travel-technology/", "travelTech"],
+  ["Project Models", "/case-studies/", "cases"],
+  ["Company", "/about-us/", "about"],
+  ["Contact", "/contact-us/", "contact"]];
+
 
 const socialLinks = [
   ["Facebook", "https://www.facebook.com/profile.php?id=61591222415314"],
@@ -1394,7 +1391,7 @@ function header(page) {
             <span class="brand-line">IT & software development company</span>
           </span>
         </a>
-        <nav class="primary-nav" aria-label="Primary navigation">
+        <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
           ${links}
           <div class="mobile-nav-extra">
             <a class="nav-link ${page === "crmErp" ? "is-active" : ""}" href="/crm-erp-solutions/">CRM & ERP</a>
@@ -1408,7 +1405,7 @@ function header(page) {
         <div class="nav-actions">
           <a class="button secondary" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
           <a class="button primary" href="/demo-request/">Demo ${icons.arrow}</a>
-          <button class="icon-button" type="button" aria-label="Open menu" data-nav-toggle>${icons.menu}</button>
+          <button class="icon-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>${icons.menu}</button>
         </div>
       </div>
     </header>
@@ -1416,6 +1413,7 @@ function header(page) {
 }
 
 function hero(page, data) {
+  if (page === "home") return improvedHomeHero();
   const actions = data.home ? `
     <div class="hero-actions">
       <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
@@ -1704,87 +1702,40 @@ function homeFaqSection() {
   `;
 }
 
+function improvedHomeHero() {
+  return `<section class="new-hero"><div class="container hero-grid">
+    <div><span class="eyebrow">BANDEVI GLOBAL GROUP · Business technology</span>
+    <h1>Better websites.<br>Smarter systems.<br><span>One connected business.</span></h1>
+    <p class="hero-lede">Websites, CRM and ERP built around how your team sells, delivers and supports customers. Turn scattered enquiries and daily tasks into a clear workflow.</p>
+    <div class="hero-actions"><a class="button primary" href="/demo-request/">Book a Demo ${icons.arrow}</a><a class="button secondary" href="#solutions">Explore Solutions</a></div>
+    <p class="hero-small">Websites & apps · CRM & ERP · Travel technology</p></div>
+    <figure class="product-preview"><img src="/assets/travel-platform-dashboard.png" width="1536" height="1024" alt="Illustrative travel software dashboard showing a proposed interface" fetchpriority="high"><figcaption>Illustrative interface concept. Request a walkthrough of the modules available for your project.</figcaption></figure>
+  </div></section>`;
+}
+
 function homePage() {
+  const solutions = [
+    ["01", "Websites & Apps", "Make your first impression count.", "Corporate websites, e-commerce, customer portals and apps with clear journeys from browsing to enquiry.", "/website-mobile-app-development/", "Service pages · Enquiries · Customer access"],
+    ["02", "CRM & ERP", "Give every task a next step.", "Connect lead ownership, quotations, orders, suppliers, payments and reporting around your team's daily workflow.", "/crm-erp-solutions/", "Sales pipelines · Operations · Dashboards"],
+    ["03", "Travel Technology", "Connect enquiry to booking.", "Travel websites, agency portals, Travel CRM and Travel ERP for customer, supplier and booking coordination.", "/travel-technology/", "Travel websites · Booking flows · Agent tools"]
+  ];
   return `
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>One premium digital ecosystem for websites, software, sales, operations, and customer experience.</h2>
-          <p>BANDEVI GLOBAL GROUP helps businesses replace scattered tools with integrated systems that make teams faster, customers better informed, and leadership more confident.</p>
-        </div>
-        ${cards([
-          { icon: "users", title: "Lead to loyalty", text: "Capture inquiries, assign owners, manage quotations, track follow-ups, and build repeat-customer relationships." },
-          { icon: "stack", title: "Operations control", text: "Coordinate orders, bookings, inventory, services, documents, payments, schedules, and exceptions in one operational layer." },
-          { icon: "chart", title: "Management visibility", text: "Give decision makers dashboards for conversion, revenue, stock, margin, workload, and customer service quality." }
-        ])}
-      </div>
-    </section>
-    ${brandIdentityPanel()}
-    ${companyProfilePreview()}
-    ${priorityCompanyFactsSection({
-      eyebrow: "First SEO target",
-      title: "Put BANDEVI net worth, staff strength, and all offices in one clear proof path.",
-      intro: "This is the main public-strength signal we want buyers, directories, Google, Bing, and AI systems to associate with BANDEVI GLOBAL GROUP."
-    })}
-    ${homePriorityProof()}
-    <section class="section mist">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Platform suite</span>
-          <h2>Built for the real pace of growing business lines.</h2>
-          <p class="muted">Every module is shaped around practical daily workflows: inquiry handling, order or booking control, product catalogs, service requests, supplier coordination, finance, customer communication, and repeat sales.</p>
-          ${list(["Complete travel websites and white-label travel websites for agencies, DMCs, operators, and partners", "CRM for inquiries, quotations, follow-ups, campaigns, and customer profiles", "ERP for orders, bookings, suppliers, invoices, approvals, stock, and reporting", "Customer portals for documents, invoices, tickets, service status, and project milestones", "IT services for websites, integrations, automation, cloud, e-commerce, and security"])}
-        </div>
-        <div class="media-frame"><img src="${productImage}" alt="Premium travel software dashboard mockup"></div>
-      </div>
-    </section>
-    ${industryPreview()}
-    ${trustProofPreview()}
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <h2>Why choose BANDEVI GLOBAL GROUP.</h2>
-          <p>Technology delivery shaped by real business needs: fast response, clear documentation, premium customer confidence, and long-term operational control.</p>
-        </div>
-        ${cards([
-          { icon: "stack", title: "Multi-business understanding", text: "CRM, ERP, portal, e-commerce, and workflow systems are planned around how each business line sells, serves, delivers, and reports." },
-          { icon: "shield", title: "Trust and documentation", text: "Projects focus on clean records, controlled handoffs, professional communication, and a polished digital presence." },
-          { icon: "globe", title: "Sister-company clarity", text: "BANDEVI stays the IT and development company while sister brands such as THG and other business lines stay separate." },
-          { icon: "chart", title: "Growth visibility", text: "Dashboards and lead paths help leadership understand enquiry sources, conversion quality, workload, service status, and next actions." }
-        ], 4)}
-        <div class="inline-actions">
-          <a class="button primary" href="/trust-licences-certifications/">View Trust & Licences ${icons.arrow}</a>
-          <a class="button ghost" href="/about-us/">About BANDEVI</a>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">Growth architecture</span>
-          <h2>From website visitor to confirmed customer.</h2>
-        </div>
-        <div class="process">
-          ${["Attract", "Capture", "Convert", "Retain"].map((name, index) => `
-            <div class="process-step">
-              <span>0${index + 1}</span>
-              <h3>${name}</h3>
-              <p>${[
-                "Premium corporate pages, product storytelling, blogs, and lead paths.",
-                "Contact, demo, order, booking, and campaign forms routed into CRM queues.",
-                "Quotation, proposal, approval, order, booking, and payment visibility.",
-                "Portal access, support, campaigns, reviews, and repeat-business intelligence."
-              ][index]}</p>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    ${casePreview()}
-    ${blogPreview()}
-    ${homeFaqSection()}
-    ${cta()}
-  `;
+  <section class="section" id="solutions"><div class="container"><div class="section-head"><span class="eyebrow">Find your starting point</span><h2>The right system for your next stage.</h2><p>Start with the problem you need to solve. Expand the system as your business grows.</p></div>
+  <div class="grid cols-3">${solutions.map(([n,title,headline,text,href,features])=>`<article class="card solution-card"><span class="solution-number">${n}</span><h3>${title}</h3><h4>${headline}</h4><p>${text}</p><p class="solution-features">${features}</p><a class="text-link" href="${href}">Explore ${title} ${icons.arrow}</a></article>`).join('')}</div></div></section>
+  <section class="section mist"><div class="container outcome-grid"><div class="section-head"><span class="eyebrow">From enquiry to delivery</span><h2>Keep the whole team on the same page.</h2><p>Plan the connections between your website, sales team, operations and customer support.</p><a class="button dark" href="/crm-erp-solutions/">Explore CRM & ERP ${icons.arrow}</a></div><ol class="workflow-list"><li><strong>Capture the enquiry</strong><span>Collect the service needed and give the enquiry a clear owner.</span></li><li><strong>Follow up and quote</strong><span>Keep customer history, next actions and proposal stages together.</span></li><li><strong>Coordinate delivery</strong><span>Track orders or bookings, documents, suppliers and payment status.</span></li><li><strong>Review and improve</strong><span>Use dashboards to see pending work and opportunities.</span></li></ol></div></section>
+  <section class="section" id="project-models"><div class="container"><div class="section-head"><span class="eyebrow">Explore the possibilities</span><h2>See how a solution could fit your business.</h2><p>These are illustrative project models, not published client results. Discuss your requirements to confirm the modules and integrations included.</p></div><div class="grid cols-3">${[
+    ["Travel agency", "Website → enquiry → quotation", "Destination and package pages linked to lead capture, follow-ups and booking handover.", "/travel-agency-website-development/"],
+    ["Sales & operations", "Lead → order → delivery", "A shared flow for sales ownership, quotations, orders, approvals and management reporting.", "/crm-erp-solutions/"],
+    ["Customer service", "Account → documents → support", "A customer portal for selected documents, invoices, service updates and support requests.", "/customer-portal/"]
+  ].map(([tag,title,text,href])=>`<article class="card"><span class="eyebrow">${tag}</span><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">View solution ${icons.arrow}</a></article>`).join('')}</div></div></section>
+  <section class="section delivery-section"><div class="container"><div class="section-head"><span class="eyebrow">A clear delivery process</span><h2>Know what happens next.</h2></div><div class="grid cols-4">${[
+    ["01", "Discovery", "Review your current workflow, users and priorities."],
+    ["02", "Proposal", "Agree the scope, modules, delivery milestones and commercial terms."],
+    ["03", "Build & review", "Review the design and workflows against your agreed requirements."],
+    ["04", "Launch & support", "Confirm handover, access, training and the support included in your agreement."]
+  ].map(([n,title,text])=>`<article><span class="solution-number">${n}</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
+  <section class="section"><div class="container"><div class="section-head"><span class="eyebrow">Scope & pricing</span><h2>A proposal you can evaluate.</h2><p>Pricing and delivery timelines depend on scope. Request a written proposal covering modules, integrations, hosting, third-party fees, milestones, ownership and ongoing support.</p></div><details class="buyer-faq"><summary>Can I start with a website and add CRM later?</summary><p>Yes. Discuss the lead fields and integration requirements at the beginning so your website can support the planned CRM workflow.</p></details><details class="buyer-faq"><summary>What should I prepare for a demo?</summary><p>Share your business type, current workflow and main problem. Existing website links or examples help the team focus the conversation.</p></details><details class="buyer-faq"><summary>Where can I review company information?</summary><p>Read the <a href="/company-profile/">company profile</a>, <a href="/proof-verification/">evidence and verification information</a>, and <a href="/offices/">listed office and service locations</a>. Staff and group-strength figures are company-provided; sister-brand information is identified separately.</p></details></div></section>
+  <section class="section mist" id="start-project"><div class="container outcome-grid"><div class="section-head"><span class="eyebrow">Tell us what you need</span><h2>Let's plan your next improvement.</h2><p>Share your main business problem and the solution you want to explore.</p><p><a class="text-link" href="tel:+918287669022">+91 8287669022</a><br><a class="text-link" href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p></div>${contactForm("home")}</div></section>`;
 }
 
 function aboutPage() {
@@ -6935,210 +6886,14 @@ function supportPage() {
 }
 
 function contactForm(kind = "contact") {
-  const demo = kind === "demo";
-  const interestOptions = demo ? [
-    "Product Package Consultation",
-    "IT Products and Software Suite",
-    "Starter Website Package",
-    "Business Website + CRM Package",
-    "White-label CRM Package",
-    "Travel Website Package",
-    "White-label Travel Website Package",
-    "B2B Travel Portal Package",
-    "Flight Booking Engine Package",
-    "Hotel Booking Engine Package",
-    "Travel Agency Mobile App Package",
-    "Custom CRM Development",
-    "ERP Software Development",
-    "Custom Software Development",
-    "E-Commerce Website Development",
-    "Business Process Automation",
-    "CRM + ERP Package",
-    "CRM Development Demo",
-    "ERP Software Demo",
-    "Customer Portal Package",
-    "Lead & Booking Management",
-    "Masala / Makhana E-Commerce Package",
-    "Astrology Booking Platform Package",
-    "Automation Package",
-    "CRM + ERP + Portal",
-    "Travel Technology Suite",
-    "Travel Website Development",
-    "Complete Travel Website",
-    "White-label Travel Website",
-    "White-label CRM Software",
-    "Travel CRM Software",
-    "B2B Travel Portal",
-    "Flight Booking Engine",
-    "Hotel Booking Engine",
-    "Travel Agency Mobile App",
-    "Masala / Food Product Website",
-    "Makhana Brand Digital System",
-    "Astrology Services Platform",
-    "Travel CRM",
-    "Travel ERP",
-    "Customer Portal",
-    "Corporate Website",
-    "Website + Mobile App",
-    "E-commerce Solution",
-    "Business Automation",
-    "Not sure yet"
-  ] : [
-    "Sales inquiry",
-    "Demo request",
-    "Product package consultation",
-    "Starter website package",
-    "Business website + CRM package",
-    "White-label CRM package",
-    "Travel website package",
-    "White-label travel website package",
-    "B2B travel portal package",
-    "Flight booking engine package",
-    "Hotel booking engine package",
-    "Travel agency mobile app package",
-    "CRM + ERP package",
-    "Customer portal package",
-    "Masala / makhana e-commerce package",
-    "Astrology booking platform package",
-    "Automation package",
-    "Travel website development",
-    "Complete travel website",
-    "White-label travel website",
-    "White-label CRM software",
-    "Travel CRM software",
-    "B2B travel portal",
-    "Flight booking engine",
-    "Hotel booking engine",
-    "Travel agency mobile app",
-    "Custom CRM development",
-    "ERP software development",
-    "Custom software development",
-    "E-commerce website development",
-    "Business process automation",
-    "Masala / food product project",
-    "Makhana brand project",
-    "Astrology services project",
-    "Travel CRM",
-    "Travel ERP",
-    "Customer portal",
-    "Website or mobile app",
-    "E-commerce solution",
-    "Business automation",
-    "Support or existing project",
-    "Office or partnership"
-  ];
-  const timelineOptions = demo ? [
-    "Immediately",
-    "Within 15 days",
-    "Within 30 days",
-    "Within 60-90 days",
-    "Planning for later"
-  ] : [
-    "Immediately",
-    "Within 30 days",
-    "Within 90 days",
-    "Planning stage"
-  ];
-
-  return `
-    <form class="form-panel" data-form="${kind}">
-      ${demo ? '<input type="hidden" name="leadSource" value="">' : ""}
-      <div class="form-grid">
-        <div class="field">
-          <label for="${kind}-name">Name</label>
-          <input id="${kind}-name" name="name" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="${kind}-company">Company</label>
-          <input id="${kind}-company" name="company" autocomplete="organization" required>
-        </div>
-        <div class="field">
-          <label for="${kind}-email">Email</label>
-          <input id="${kind}-email" name="email" type="email" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="${kind}-phone">Phone</label>
-          <input id="${kind}-phone" name="phone" autocomplete="tel" ${demo ? "required" : ""}>
-        </div>
-        <div class="field">
-          <label for="${kind}-interest">${demo ? "Package / product needed" : "Inquiry type"}</label>
-          <select id="${kind}-interest" name="interest" ${demo ? "required" : ""}>
-            ${demo ? '<option value="" selected disabled>Select the solution you want to discuss</option>' : ""}
-            ${optionList(interestOptions)}
-          </select>
-        </div>
-        <div class="field">
-          <label for="${kind}-business">Business type</label>
-          <select id="${kind}-business" name="businessType">
-            ${optionList(["IT or software project", "Masala / food products", "Makhana brand", "Astrology services", "Travel agency", "Tour operator", "DMC", "Corporate travel desk", "Multi-office or global team", "Hotel or supplier partner", "E-commerce or service business", "Other business"])}
-          </select>
-        </div>
-        <div class="field">
-          <label for="${kind}-timeline">Timeline</label>
-          <select id="${kind}-timeline" name="timeline">
-            ${optionList(timelineOptions)}
-          </select>
-        </div>
-        <div class="field">
-          <label for="${kind}-preferred">Preferred contact</label>
-          <select id="${kind}-preferred" name="preferredContact">
-            ${optionList(["WhatsApp", "Phone call", "Email", "Video meeting"])}
-          </select>
-        </div>
-        ${demo ? `
-          <div class="field">
-            <label for="${kind}-scale">Team / branch scale</label>
-            <select id="${kind}-scale" name="scale">
-              ${optionList(["Single branch", "2-5 branches", "Multi-branch team", "Remote or global team", "Early stage business"])}
-            </select>
-          </div>
-          <div class="field">
-            <label for="${kind}-priority">Main business objective</label>
-            <select id="${kind}-priority" name="priority" required>
-              <option value="" selected disabled>Select the outcome you need</option>
-              ${optionList(["Launch or improve online sales", "Get better lead control", "Replace or upgrade an existing system", "Need CRM and ERP", "Need operations control", "Need customer portal", "Need travel technology", "Need automation", "Need full digital system"])}
-            </select>
-          </div>
-          <div class="field">
-            <label for="${kind}-stage">Decision stage</label>
-            <select id="${kind}-stage" name="decisionStage" required>
-              <option value="" selected disabled>Select your current stage</option>
-              ${optionList(["Ready to start", "Comparing solutions", "Gathering requirements", "Researching options"])}
-            </select>
-          </div>
-          <div class="field">
-            <label for="${kind}-budget">Budget range</label>
-            <select id="${kind}-budget" name="budget" required>
-              <option value="" selected disabled>Select a budget direction</option>
-              ${optionList(["Need guidance", "Under INR 50,000", "INR 50,000-1 lakh", "INR 1-3 lakh", "INR 3-10 lakh", "Enterprise / custom"])}
-            </select>
-          </div>
-          <div class="field">
-            <label for="${kind}-current">Current website / reference</label>
-            <input id="${kind}-current" name="currentWebsite" placeholder="Optional link or reference">
-          </div>
-        ` : `
-          <div class="field">
-            <label for="${kind}-office">Office / region</label>
-            <select id="${kind}-office" name="officeRegion">
-              ${optionList(["Delhi", "Pune", "Gurgaon", "Mumbai", "Bangalore", "Kolkata", "Lucknow", "Dubai", "London", "United States", "Remote / online"])}
-            </select>
-          </div>
-        `}
-        <div class="field full">
-          <label for="${kind}-message">${demo ? "Demo goals / current problem" : "Message"}</label>
-          <textarea id="${kind}-message" name="message" placeholder="${demo ? "Example: We need CRM + ERP with website leads, WhatsApp enquiry flow, customer portal, dashboards, and multi-office reporting." : "Tell us what you want to discuss."}" required></textarea>
-        </div>
-        ${demo ? `
-          <div class="field full">
-            <label><input name="consent" type="checkbox" value="yes" required> I agree that BANDEVI GLOBAL GROUP may contact me about this demo request.</label>
-          </div>
-        ` : ""}
-      </div>
-      <button class="button dark" type="submit">${demo ? "Send Demo Request" : "Send Message"} ${icons.arrow}</button>
-      <p class="form-note" aria-live="polite"></p>
-    </form>
-  `;
+  return `<form class="form-panel" data-form="${kind}"><input type="hidden" name="leadSource" value=""><div class="form-grid">
+  <div class="field"><label for="${kind}-name">Your name</label><input id="${kind}-name" name="name" autocomplete="name" maxlength="120" required></div>
+  <div class="field"><label for="${kind}-email">Email</label><input id="${kind}-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+  <div class="field"><label for="${kind}-phone">Phone / WhatsApp (optional)</label><input id="${kind}-phone" name="phone" type="tel" autocomplete="tel" maxlength="30"></div>
+  <div class="field"><label for="${kind}-interest">Service needed</label><select id="${kind}-interest" name="interest" required><option value="">Choose a solution</option>${optionList(["Website / App Development Package", "CRM & ERP Package", "Travel CRM Package", "Travel ERP Package", "Complete Travel Website Package", "White-label Travel Website Package", "B2B Travel Portal Package", "Customer Portal Package", "E-Commerce Package", "Automation Package", "Need guidance"])}</select></div>
+  <div class="field full"><label for="${kind}-message">What would you like to improve?</label><textarea id="${kind}-message" name="message" maxlength="3000" placeholder="Tell us about your business and the problem you want to solve." required></textarea></div></div>
+  <p class="form-help">This prepares a message in WhatsApp. Send it there to complete your enquiry, or use the email option shown after preparing it. <a href="/privacy-policy/">Privacy policy</a></p>
+  <button class="button dark" type="submit">Prepare enquiry ${icons.arrow}</button><p class="form-note" aria-live="polite"></p></form>`;
 }
 
 function contactPage() {
@@ -7792,96 +7547,12 @@ function quickContact() {
 }
 
 function footer() {
-  const socialItems = socialLinks.map(([label, href]) => (
-    `<li><a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="BANDEVI GLOBAL GROUP on ${label}">${label}</a></li>`
-  )).join("");
-
-  return `
-    <footer class="footer">
-      <div class="footer-grid">
-        <div>
-          <h3>BANDEVI GLOBAL GROUP</h3>
-          <p>Premium corporate websites, CRM, ERP, e-commerce, products, portals, and IT solutions for modern business lines.</p>
-          <ul class="footer-trust-list">
-            <li>Official domain: bandeviglobalgroup.com</li>
-            <li>Also searched as Bandevi Global Group, Bandevi Global, and Bandevi.</li>
-            <li>BANDEVI and THG operate as separate sister brands.</li>
-            <li>Scope, access, handover, and support records can be documented for every project.</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Solutions</h4>
-          <ul class="footer-links">
-            <li><a href="/it-company-software-development-services/">IT Company Services</a></li>
-            <li><a href="/crm-erp-solutions/">CRM & ERP Development</a></li>
-            <li><a href="/custom-crm-development/">Custom CRM Development</a></li>
-            <li><a href="/erp-software-development/">ERP Software Development</a></li>
-            <li><a href="/custom-software-development/">Custom Software Development</a></li>
-            <li><a href="/white-label-crm/">White-label CRM</a></li>
-            <li><a href="/travel-crm/">Travel CRM</a></li>
-            <li><a href="/travel-crm-software/">Travel CRM Software</a></li>
-            <li><a href="/travel-erp/">Travel ERP</a></li>
-            <li><a href="/travel-website-development/">Travel Websites</a></li>
-            <li><a href="/white-label-travel-website/">White-label Travel Website</a></li>
-            <li><a href="/travel-agency-website-development/">Travel Agency Website</a></li>
-            <li><a href="/travel-mobile-app-development/">Travel Mobile App</a></li>
-            <li><a href="/travel-agency-mobile-app/">Travel Agency Mobile App</a></li>
-            <li><a href="/b2b-travel-portal/">B2B Travel Portal</a></li>
-            <li><a href="/flight-booking-engine/">Flight Booking Engine</a></li>
-            <li><a href="/hotel-booking-engine/">Hotel Booking Engine</a></li>
-            <li><a href="/travel-technology/">Travel Technology</a></li>
-            <li><a href="/lead-booking-management/">Lead & Booking Management</a></li>
-            <li><a href="/customer-portal/">Customer Portal</a></li>
-            <li><a href="/it-products/">Products</a></li>
-            <li><a href="/website-mobile-app-development/">Website & App Development</a></li>
-            <li><a href="/ecommerce-website-development/">E-Commerce Website Development</a></li>
-            <li><a href="/ecommerce-solutions/">E-Commerce Solutions</a></li>
-            <li><a href="/business-process-automation/">Business Process Automation</a></li>
-            <li><a href="/business-automation/">Business Automation</a></li>
-            <li><a href="/masala-food-products/">Masala / Food</a></li>
-            <li><a href="/makhana-brand-solutions/">Makhana</a></li>
-            <li><a href="/astrology-services-platform/">Astrology</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <ul class="footer-links">
-            <li><a href="/about-us/">About Us</a></li>
-            <li><a href="/company-profile/">Company Profile</a></li>
-            <li><a href="/official-company-facts/">Official Company Facts</a></li>
-            <li><a href="/surya-kant-jha/">Surya Kant Jha Chairman Profile</a></li>
-            <li><a href="${companyProfilePdf}">Company Profile PDF</a></li>
-            <li><a href="${proofSupportPackPdf}">Proof Support Pack</a></li>
-            <li><a href="/proof-verification/">Proof & Verification</a></li>
-            <li><a href="/evidence-register/">Evidence Register</a></li>
-            <li><a href="/directory-listing-profile/">Directory Listing Profile</a></li>
-            <li><a href="/external-citation-tracker/">External Citation Tracker</a></li>
-            <li><a href="/staff-size-net-worth/">Staff Size & Net Worth</a></li>
-            <li><a href="/offices/">Offices & Locations</a></li>
-            <li><a href="/trust-licences-certifications/">Trust & Licences</a></li>
-            <li><a href="/case-studies/">Case Studies</a></li>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href="/support/">Support</a></li>
-            <li><a href="/privacy-policy/">Privacy Policy</a></li>
-            <li><a href="/terms-and-conditions/">Terms & Conditions</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Connect</h4>
-          <ul class="footer-links">
-            <li><a href="/contact-us/">Contact</a></li>
-            <li><a href="/demo-request/">Demo Request</a></li>
-            <li><a href="/customer-portal/">Customer Portal</a></li>
-            ${socialItems}
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <small>&copy; 2026 BANDEVI GLOBAL GROUP. All rights reserved.</small>
-        <small><a href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a> - <a href="mailto:${contactInfo.email}">${contactInfo.email}</a></small>
-      </div>
-    </footer>
-  `;
+  const groups = [
+    ["Solutions", [["Websites & Apps", "/website-mobile-app-development/"], ["CRM & ERP", "/crm-erp-solutions/"], ["Travel Technology", "/travel-technology/"], ["Customer Portals", "/customer-portal/"], ["All Products", "/it-products/"]]],
+    ["Company", [["About Bandevi", "/about-us/"], ["Company Profile", "/company-profile/"], ["Project Models", "/case-studies/"], ["Evidence & Verification", "/proof-verification/"], ["Office & Service Locations", "/offices/"], ["Blog", "/blog/"]]],
+    ["Connect", [["Book a Demo", "/demo-request/"], ["Contact", "/contact-us/"], ["Support", "/support/"], ...socialLinks]]
+  ];
+  return `<footer class="footer"><div class="footer-grid"><div><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><p><a href="tel:+918287669022">+91 8287669022</a><br><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><p>BANDEVI and The Holidays Group are separate sister brands.</p></div>${groups.map(([title,links])=>`<div><h4>${title}</h4><ul class="footer-links">${links.map(([label,href])=>`<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('')}</div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms & Conditions</a></span></div></footer>`;
 }
 
 const pageRenderers = {
@@ -7950,12 +7621,16 @@ blogArticles.forEach((article) => {
 function bindNav() {
   const toggle = document.querySelector("[data-nav-toggle]");
   if (!toggle) return;
-
-  toggle.addEventListener("click", () => {
-    const open = document.body.classList.toggle("nav-open");
+  function setOpen(open) {
+    document.body.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     toggle.innerHTML = open ? icons.close : icons.menu;
-  });
+  }
+  toggle.addEventListener("click", () => setOpen(!document.body.classList.contains("nav-open")));
+  document.addEventListener("keydown", event => { if (event.key === "Escape" && document.body.classList.contains("nav-open")) { setOpen(false); toggle.focus(); } });
+  document.querySelectorAll(".primary-nav a").forEach(link => link.addEventListener("click", () => setOpen(false)));
+  window.matchMedia("(min-width: 1181px)").addEventListener("change", event => { if (event.matches) setOpen(false); });
 }
 
 function bindForms() {
@@ -8076,7 +7751,6 @@ function bindForms() {
         const messageType = type === "review" ? "Your feedback request" : "Your lead message";
         note.innerHTML = `${messageType} is ready. <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">Send on WhatsApp</a> or <a href="${mailUrl}">send by email</a>.`;
       }
-      form.reset();
     });
   });
 }
@@ -8131,7 +7805,7 @@ function render() {
   const data = pageData[page] || pageData.home;
   const main = pageRenderers[page] || homePage;
   document.getElementById("site").innerHTML = `
-    <div class="site-shell">
+    <div class="site-shell"><a class="skip-link" href="#main-content">Skip to content</a>
       ${header(page)}
       <main>
         ${hero(page, data)}
