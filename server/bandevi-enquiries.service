@@ -1,0 +1,26 @@
+[Unit]
+Description=Bandevi private enquiry inbox
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/bandeviglobalgroup/app/server
+ExecStart=/usr/bin/python3 /srv/bandeviglobalgroup/app/server/enquiries.py
+EnvironmentFile=/etc/bandevi-enquiries.env
+Restart=on-failure
+RestartSec=5
+StateDirectory=bandevi-enquiries
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/bandevi-enquiries
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target
