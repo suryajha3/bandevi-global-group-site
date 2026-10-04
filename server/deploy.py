@@ -34,6 +34,30 @@ if '# Bandevi enquiry API' not in text:
     if marker not in text:
         raise SystemExit('Routing pattern changed; config left untouched.')
     CONFIG.write_text(text.replace(marker, routing + marker, 1))
+text = CONFIG.read_text()
+if '# Bandevi private dashboard' not in text:
+    routing = '''
+    # Bandevi private dashboard
+    location = /team-inbox { return 302 /team-inbox/; }
+    location ^~ /team-inbox/ {
+        proxy_pass http://127.0.0.1:8766;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_read_timeout 20s;
+    }
+    location ^~ /api/admin/ {
+        client_max_body_size 8k;
+        proxy_pass http://127.0.0.1:8766;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_read_timeout 20s;
+    }
+
+'''
+    marker = '    location / {'
+    if marker not in text:
+        raise SystemExit('Routing pattern changed; config left untouched.')
+    CONFIG.write_text(text.replace(marker, routing + marker, 1))
 try:
     subprocess.run(['nginx', '-t'], check=True)
     subprocess.run(['systemctl', 'daemon-reload'], check=True)
