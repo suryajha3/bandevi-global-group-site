@@ -74,7 +74,6 @@ const navItems = [
   ["Websites & Apps", "/website-mobile-app-development/", "webApp"],
   ["CRM & ERP", "/crm-erp-solutions/", "crmErp"],
   ["Travel Technology", "/travel-technology/", "travelTech"],
-  ["Project Models", "/case-studies/", "cases"],
   ["Company", "/about-us/", "about"],
   ["Contact", "/contact-us/", "contact"]];
 

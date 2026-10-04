@@ -74,7 +74,6 @@ const navItems = [
   ["Websites & Apps", "/website-mobile-app-development/", "webApp"],
   ["CRM & ERP", "/crm-erp-solutions/", "crmErp"],
   ["Travel Technology", "/travel-technology/", "travelTech"],
-  ["Project Models", "/case-studies/", "cases"],
   ["Company", "/about-us/", "about"],
   ["Contact", "/contact-us/", "contact"]];
 
@@ -1726,10 +1725,10 @@ function homeFaqSection() {
 function improvedHomeHero() {
   return `<section class="new-hero"><div class="container hero-grid">
     <div><span class="eyebrow">BANDEVI GLOBAL GROUP · Business technology</span>
-    <h1>Better websites.<br>Smarter systems.<br><span>One connected business.</span></h1>
-    <p class="hero-lede">Websites, CRM and ERP built around how your team sells, delivers and supports customers. Turn scattered enquiries and daily tasks into a clear workflow.</p>
-    <div class="hero-actions"><a class="button primary" href="/demo-request/">Book a Demo ${icons.arrow}</a><a class="button secondary" href="#solutions">Explore Solutions</a></div>
-    <p class="hero-small">Websites & apps · CRM & ERP · Travel technology</p></div>
+    <h1>Websites, CRM &amp; ERP<br><span>built for your business.</span></h1>
+    <p class="hero-lede">Connect your website, sales and operations. Build a clear workflow for enquiries, customer follow-ups and daily delivery.</p>
+    <div class="hero-actions"><a class="button primary" href="/demo-request/">Book a Demo ${icons.arrow}</a><a class="button secondary" href="/contact-us/">Discuss Your Project</a></div>
+    <p class="hero-small"><a href="#solutions">Explore solutions</a> · <a href="/trust-licences-certifications/">Company records &amp; verification</a></p></div>
     <figure class="product-preview"><img src="/assets/travel-platform-dashboard.webp" width="1536" height="1024" alt="Illustrative travel software dashboard showing a proposed interface" fetchpriority="high"><figcaption>Illustrative interface concept. Request a walkthrough of the modules available for your project.</figcaption></figure>
   </div></section>`;
 }

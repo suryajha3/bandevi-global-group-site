@@ -1428,3 +1428,15 @@ body[data-page="home"] .section-head p {margin:16px 0}
 #delivery-plan,#project-agreement,#demo-planner,#service-modules {scroll-margin-top:100px}
 @media(max-width:1000px) {.travel-service-grid {gap:30px;grid-template-columns:1fr 1fr}.workflow-preview {padding:24px}}
 @media(max-width:760px) {.travel-service-hero {padding-top:36px}.travel-service-grid {grid-template-columns:1fr;gap:30px}.travel-service-hero h1 {font-size:clamp(2.15rem,9vw,3rem)}.service-section-nav {gap:16px;font-size:.84rem;margin-top:32px}.workflow-preview {padding:24px 20px}.delivery-milestones {grid-template-columns:1fr}.demo-planner {padding:24px 20px}}
+
+/* Homepage: keep the project actions visible and product artwork unobstructed. */
+body[data-page="home"] .new-hero {padding:44px 0 40px}
+body[data-page="home"] .hero-grid {gap:36px;grid-template-columns:1.05fr 1fr}
+body[data-page="home"] .new-hero h1 {font-size:clamp(2.4rem,3.8vw,3.8rem);margin:18px 0 20px;line-height:1.12}
+body[data-page="home"] .hero-lede {max-width:540px;margin-bottom:24px}
+body[data-page="home"] .hero-actions {display:flex;flex-wrap:wrap;gap:12px}
+body[data-page="home"] .hero-small {margin-top:20px}
+body[data-page="home"] .hero-small a {color:#c2e8e4;text-underline-offset:4px}
+body[data-page="home"] .product-preview {transform:none}
+body[data-page="home"] .quick-contact {position:static;justify-content:center;padding:18px;background:#eef5f4;box-shadow:none}
+@media(max-width:760px){body[data-page="home"] .new-hero {padding:28px 0 32px}body[data-page="home"] .hero-grid {grid-template-columns:1fr;gap:28px}body[data-page="home"] .new-hero h1 {font-size:clamp(2rem,8vw,3rem)}body[data-page="home"] .hero-actions .button {flex:1 1 180px}}
