@@ -180,6 +180,18 @@ function bindForms() {
 
     }
 
+    if (type === 'contact') {
+      const requests = {
+        'company-records': 'Please identify the legal entity that will contract and invoice for my project. Share its registered address and applicable registration or certificate numbers, issuing authorities, scope, validity and official verification links. Please identify any record that is not applicable or not available.',
+        'client-reference': 'Please share a client-approved project reference relevant to my requirements, including BANDEVI’s delivery role, delivered scope, completion period, approved screenshots or a public link, and the source and period of any measured outcomes. Please confirm which material is approved for sharing.'
+      };
+      const request = new URL(window.location.href).searchParams.get('request');
+      if (requests[request] && !form.elements.message.value) {
+        form.elements.message.value = requests[request];
+        if (!form.elements.interest.value) form.elements.interest.value = 'Need guidance';
+      }
+    }
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const note = form.querySelector(".form-note");

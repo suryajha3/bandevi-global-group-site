@@ -1,0 +1,17 @@
+SUPPLIER EVIDENCE CHECKLIST
+
+Use when reviewing your BANDEVI project proposal. This checklist is a review aid, not proof of registration or a contractual commitment.
+
+1. Legal supplier name, business structure, registered address and invoice details.
+2. Applicable registration numbers and official verification records matching that legal holder.
+3. For certificates: issuer, number, covered standard/activity, scope and validity.
+4. Project deliverables, exclusions, third-party dependencies and acceptance checks.
+5. Costs, recurring fees, payment milestones and change process.
+6. Source-code/data ownership, access, exports, hosting and handover.
+7. Support contact, hours, response expectations, warranty and maintenance scope.
+8. Client-approved delivery evidence: role, scope, period and approved screenshots or public link.
+9. For results: baseline, measurement period, source and client permission.
+10. Confirm supplier and payment beneficiary details through established contact channels.
+
+Request relevant records: https://bandeviglobalgroup.com/contact-us/?request=company-records
+Project evidence: https://bandeviglobalgroup.com/case-studies/
