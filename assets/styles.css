@@ -1459,3 +1459,5 @@ body[data-page="home"] .hero-lede {margin-bottom:0;font-size:1.05rem}
 .preview-details {display:inline-flex;gap:8px;align-items:center;color:#c2e8e4;font-size:.82rem;text-decoration:underline;text-underline-offset:4px}
 .hero-project-link {margin-top:10px}
 @media(max-width:760px){body[data-page="home"] .product-preview {margin-top:0}.preview-panel {min-height:260px}body[data-page="home"] .hero-grid {gap:24px}.preview-panel .button {width:auto;min-width:200px}}
+
+.deliverable-label{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px;color:#c2e8e4}.product-preview [data-service-visual]{object-fit:contain;background:#eef5f4}.preview-panel{min-height:274px}@media(max-width:760px){.preview-panel{min-height:294px}}
