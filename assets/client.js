@@ -123,7 +123,7 @@ function bindForms() {
         sourcePath = "";
       }
       const solutionAliases = {
-        "Travel CRM": "Travel CRM Package", "Travel CRM Software": "Travel CRM Package", "Travel ERP": "Travel ERP Package",
+        "ERP Software Demo": "Travel ERP Package", "Travel CRM": "Travel CRM Package", "Travel CRM Software": "Travel CRM Package", "Travel ERP": "Travel ERP Package",
         "Travel Technology Suite": "Complete Travel Website Package", "Travel Website Package": "Complete Travel Website Package", "Travel Website Development": "Complete Travel Website Package", "Travel Agency Mobile App Package": "Complete Travel Website Package",
         "CRM + ERP Package": "CRM & ERP Package", "Custom CRM Development": "CRM & ERP Package", "ERP Software Development": "CRM & ERP Package", "White-label CRM Package": "CRM & ERP Package",
         "Website + Mobile App": "Website / App Development Package", "Custom Software Development": "Website / App Development Package",
