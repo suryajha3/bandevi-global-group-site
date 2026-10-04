@@ -1009,8 +1009,8 @@ const homeFaqs = [
   ["Where can visitors verify BANDEVI before contacting?", "Visitors can verify BANDEVI through the Company Profile, Proof & Verification page, Staff Size & Net Worth page, Offices page, company profile PDF, official phone, email, and bandeviglobalgroup.com."]
 ];
 
-const productImage = asset("travel-platform-dashboard.png");
-const heroImage = asset("travel-operations-hero.png");
+const productImage = asset("travel-platform-dashboard.webp");
+const heroImage = asset("travel-operations-hero.webp");
 const companyProfilePdf = asset("bandevi-global-group-company-profile.pdf");
 const proofSupportPackPdf = asset("bandevi-global-group-public-proof-support-pack.pdf");
 const officialFactsJson = asset("bandevi-global-group-official-facts.json");
@@ -1697,7 +1697,7 @@ function improvedHomeHero() {
     <p class="hero-lede">Websites, CRM and ERP built around how your team sells, delivers and supports customers. Turn scattered enquiries and daily tasks into a clear workflow.</p>
     <div class="hero-actions"><a class="button primary" href="/demo-request/">Book a Demo ${icons.arrow}</a><a class="button secondary" href="#solutions">Explore Solutions</a></div>
     <p class="hero-small">Websites & apps · CRM & ERP · Travel technology</p></div>
-    <figure class="product-preview"><img src="/assets/travel-platform-dashboard.png" width="1536" height="1024" alt="Illustrative travel software dashboard showing a proposed interface" fetchpriority="high"><figcaption>Illustrative interface concept. Request a walkthrough of the modules available for your project.</figcaption></figure>
+    <figure class="product-preview"><img src="/assets/travel-platform-dashboard.webp" width="1536" height="1024" alt="Illustrative travel software dashboard showing a proposed interface" fetchpriority="high"><figcaption>Illustrative interface concept. Request a walkthrough of the modules available for your project.</figcaption></figure>
   </div></section>`;
 }
 
@@ -1722,7 +1722,7 @@ function homePage() {
     ["03", "Build & review", "Review the design and workflows against your agreed requirements."],
     ["04", "Launch & support", "Confirm handover, access, training and the support included in your agreement."]
   ].map(([n,title,text])=>`<article><span class="solution-number">${n}</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
-  <section class="section"><div class="container"><div class="section-head"><span class="eyebrow">Scope & pricing</span><h2>A proposal you can evaluate.</h2><p>Pricing and delivery timelines depend on scope. Request a written proposal covering modules, integrations, hosting, third-party fees, milestones, ownership and ongoing support.</p></div><details class="buyer-faq"><summary>Can I start with a website and add CRM later?</summary><p>Yes. Discuss the lead fields and integration requirements at the beginning so your website can support the planned CRM workflow.</p></details><details class="buyer-faq"><summary>What should I prepare for a demo?</summary><p>Share your business type, current workflow and main problem. Existing website links or examples help the team focus the conversation.</p></details><details class="buyer-faq"><summary>Where can I review company information?</summary><p>Read the <a href="/company-profile/">company profile</a>, <a href="/proof-verification/">evidence and verification information</a>, and <a href="/offices/">listed office and service locations</a>. Staff and group-strength figures are company-provided; sister-brand information is identified separately.</p></details></div></section>
+  <section class="section"><div class="container"><div class="section-head"><span class="eyebrow">Scope & pricing</span><h2>A proposal you can evaluate.</h2><p>Pricing and delivery timelines depend on scope. Request a written proposal covering modules, integrations, hosting, third-party fees, milestones, ownership and ongoing support.</p></div><details class="buyer-faq"><summary>Can I start with a website and add CRM later?</summary><p>Yes. Discuss the lead fields and integration requirements at the beginning so your website can support the planned CRM workflow.</p></details><details class="buyer-faq"><summary>What should I prepare for a demo?</summary><p>Share your business type, current workflow and main problem. Existing website links or examples help the team focus the conversation.</p></details><details class="buyer-faq"><summary>Where can I review company information?</summary><p>Read the <a href="/company-profile/">company profile</a>, <a href="/trust-licences-certifications/">trust and registration status</a>, and <a href="/offices/">listed office and service locations</a>. Staff and group-strength figures are company-provided; sister-brand information is identified separately.</p></details></div></section>
   <section class="section mist" id="start-project"><div class="container outcome-grid"><div class="section-head"><span class="eyebrow">Tell us what you need</span><h2>Let's plan your next improvement.</h2><p>Share your main business problem and the solution you want to explore.</p><p><a class="text-link" href="tel:+918287669022">+91 8287669022</a><br><a class="text-link" href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p></div>${contactForm("home")}</div></section>`;
 }
 
@@ -2118,7 +2118,7 @@ function suryaKantJhaPage() {
       <div class="container split">
         <div>
           <span class="eyebrow">Chairman profile</span>
-          <h1>Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP.</h1>
+          <h2>Mr Surya Kant Jha, Chairman of BANDEVI GLOBAL GROUP.</h2>
           <p class="muted">This page gives Google, AI assistants, directory reviewers, and visitors one clear official reference for the published chairman name, common spelling variants, company group-strength context, and BANDEVI verification links.</p>
           <p class="muted">Use Mr Surya Kant Jha as the canonical name. Suryakant Jha and Surya kant Jha are included only as search spelling variants.</p>
           ${list(["Published role: Chairman of BANDEVI GLOBAL GROUP", "Company-provided group strength: INR 7,594 Cr", "Staff strength: 1,289 staff worldwide as company-provided information", "Office and service-location references across India, Dubai, London, and the United States", `Official contact: ${contactInfo.phoneDisplay} and ${contactInfo.email}`])}
@@ -3361,167 +3361,21 @@ function officesPage() {
 }
 
 function trustPage() {
-  return `
-    <section class="section">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Trust center</span>
-          <h2>Trust signals for clients choosing BANDEVI for websites, CRM, ERP, portals, and automation.</h2>
-          <p class="muted">Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI GLOBAL GROUP are used as brand references for the same official company website and technology services.</p>
-          <p class="muted">This page brings BANDEVI's credibility story into one place: sister-brand operating exposure, public travel-network references, office presence, documentation standards, and separate project control.</p>
-          <p class="muted">BANDEVI GLOBAL GROUP remains the IT and software development company. The Holidays Group remains a separate sister travel brand, and its public trust profile gives practical context for the systems BANDEVI builds.</p>
-          ${list(["Official BANDEVI contact channels for sales, demo, WhatsApp, email, and support routing", "Clear separation between BANDEVI technology projects and sister-brand travel operations", "Written project scope, module lists, milestones, access records, and launch handover planning", "Public THG references across tourism, airline, travel association, supplier, and quality networks", "Multi-location confidence across India, Dubai, London, and the United States", "Project delivery focused on scope clarity, access control, documentation, support, and long-term improvement"])}
-          <div class="inline-actions">
-            <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
-            <a class="button ghost" href="/contact-us/">Contact Us</a>
-          </div>
-        </div>
-        <div class="media-frame"><img src="${productImage}" alt="BANDEVI trust and technology dashboard"></div>
-      </div>
-    </section>
-    ${brandIdentityPanel()}
-    <section class="section trust-strip">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Verification layer</span>
-          <h2>Practical proof points clients can review.</h2>
-          <p>Trust is strongest when the client can check who they are speaking to, what will be delivered, how access will be handled, and how support will continue after launch.</p>
-        </div>
-        <div class="proof-grid">
-          ${trustVerificationCards.map((item) => `
-            <article class="proof-card">
-              <span class="status-label">${item.status}</span>
-              <h3>${item.title}</h3>
-              <p>${item.text}</p>
-            </article>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Sister-brand operating strength.</h2>
-          <p>THG's public profile gives BANDEVI a stronger real-world reference for customer support, documentation, multi-location coordination, and premium service expectations.</p>
-        </div>
-        <div class="grid cols-4">
-          ${sisterBrandTrustStats.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Related business websites</span>
-          <h2>Clear company and brand references.</h2>
-          <p>These related business websites have been provided by the company for reference. Each website publishes its own services, contacts, team information, office information, documentation, and any company figures.</p>
-        </div>
-        <div class="grid cols-4">
-          <article class="card metric-card"><strong>BANDEVI GLOBAL GROUP</strong><p>Official IT, software, CRM, ERP, portal, website, and automation company information.</p><a href="/company-profile/">View official company profile</a></article>
-          <article class="card metric-card"><strong>BandEvi Gourmet</strong><p>Food and consumer brand information is published separately on its own official website.</p><a href="https://bandevigourmet.com/" rel="noopener">Visit BandEvi Gourmet</a></article>
-          <article class="card metric-card"><strong>Bandevi Electronics</strong><p>Consumer electronics and product information is published separately on its own official website.</p><a href="https://bandevielectronics.com/" rel="noopener">Visit Bandevi Electronics</a></article>
-          <article class="card metric-card"><strong>Bandevi Astro</strong><p>Spiritual-service information is published separately on its own official website.</p><a href="https://bandeviastro.com/" rel="noopener">Visit Bandevi Astro</a></article>
-        </div>
-        <p class="muted">Important: staff size, financial or group-strength figures, office counts, licences, leadership roles, reviews, and compliance statements must be read on the official website that publishes them. They are not automatically transferable between related websites.</p>
-      </div>
-    </section>
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <h2>Licences, memberships, supplier networks, and quality references.</h2>
-          <p>These public THG travel-ecosystem references support stronger confidence when BANDEVI builds travel websites, white-label websites, CRM, ERP, booking workflows, portals, and documentation systems. They are shown as sister-brand references, not as BANDEVI licence claims.</p>
-        </div>
-        <div class="grid cols-4">
-          ${travelTrustNetworks.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Onboarding records</span>
-          <h2>Documents and handover details that reduce client risk.</h2>
-          <p>A premium website or system should not depend on memory. BANDEVI can keep the important business, technical, commercial, and access details visible during planning, launch, and support.</p>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Trust record</th><th>What it covers</th></tr></thead>
-            <tbody>
-              ${trustDocumentChecklist.map(([title, text]) => `<tr><td>${title}</td><td>${text}</td></tr>`).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>How trust becomes better software.</h2>
-          <p>Credibility is useful only when it improves the client experience. BANDEVI converts operating discipline into practical product decisions.</p>
-        </div>
-        ${cards([
-          { icon: "globe", title: "Trust-ready websites", text: "Company pages, service pages, travel websites, white-label websites, social links, office locations, policies, and enquiry paths are structured to build confidence quickly." },
-          { icon: "users", title: "CRM follow-up discipline", text: "Every enquiry can have owner assignment, follow-up reminders, source tracking, customer history, and clear sales-stage visibility." },
-          { icon: "stack", title: "ERP and document control", text: "Bookings, orders, service records, invoices, supplier notes, approvals, files, and status updates stay organized for daily teams." },
-          { icon: "shield", title: "Portal and access control", text: "Customer and partner portals can separate documents, invoices, tickets, project milestones, service updates, and support requests." }
-        ], 4)}
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">Delivery standards</span>
-          <h2>Trust practices we apply to every project.</h2>
-        </div>
-        <div class="process">
-          ${[
-            ["Scope", "Define pages, modules, roles, workflows, data fields, access needs, and launch priorities clearly before build."],
-            ["Separate", "Keep each project, brand, domain, workflow, and login structure separate when the business requires it."],
-            ["Document", "Preserve important content, lead fields, customer records, service status, files, forms, and support paths."],
-            ["Improve", "Review usage, customer response, lead quality, team adoption, and future module expansion after launch."]
-          ].map((item, index) => `
-            <div class="process-step">
-              <span>0${index + 1}</span>
-              <h3>${item[0]}</h3>
-              <p>${item[1]}</p>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <h2>Access, privacy, and support promises.</h2>
-          <p>These practices help clients trust the system after it goes live, especially when websites, CRM, ERP, portals, domains, and business brands must stay separate.</p>
-        </div>
-        ${cards([
-          { icon: "shield", title: "Least-access planning", text: "Admin, staff, customer, partner, and support access can be separated so users only see what they need." },
-          { icon: "stack", title: "Ownership clarity", text: "Domain, hosting, database, repository, email, analytics, payment, and WhatsApp ownership can be documented before launch." },
-          { icon: "users", title: "Training and handover", text: "Daily users can receive clear launch notes for content, leads, orders, bookings, reports, support requests, and future updates." },
-          { icon: "chart", title: "Improvement roadmap", text: "After launch, the next release can be prioritized around real enquiries, conversion gaps, staff feedback, and support requests." }
-        ], 4)}
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Office and service-location confidence.</h2>
-          <p>The shared business network creates a stronger support story across India, Dubai, London, and the United States while BANDEVI technology projects remain separately managed.</p>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Location</th><th>Address</th></tr></thead>
-            <tbody>
-              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    ${cta("Build trust into the website and the system behind it.", "BANDEVI can turn credibility, documentation, support, CRM, ERP, portal, and automation into one stronger digital experience.")}
-  `;
+  const records = [
+    ['Legal contracting identity', 'Registered legal name, business structure, registered address and invoice entity.'],
+    ['Company / LLP registration', 'CIN or LLPIN and incorporation record, where applicable to the contracting entity.'],
+    ['GST registration', 'GSTIN, legal business name and current taxpayer status, where applicable.'],
+    ['MSME / Udyam registration', 'Udyam registration number and official verification record, if held.'],
+    ['ISO or other certification', 'Certificate number, standard, certified entity, scope, issuer and validity dates, if held.'],
+    ['Industry licences and memberships', 'Issuing body, membership or licence number, legal holder, covered activity and expiry, if held.']
+  ];
+  return `<section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Company credentials</span><h2>Check the business behind your project.</h2><p>This website uses the BANDEVI GLOBAL GROUP brand. The exact legal entity that contracts and invoices customers has not yet been documented on this public register. Request that information before signing or paying.</p><p><strong>Publication status: supporting registration and certificate records awaiting evidence.</strong> No licence or certification is represented as verified on this page.</p></div><div class="grid cols-3">${records.map(([title,text])=>`<article class="card"><span class="status-label">Evidence not yet published</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
+  <section class="section mist"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Document verification</span><h2>A certificate should be independently checkable.</h2><p>For each credential, ask for the holder's legal name, registration number, issuing authority, applicable scope and validity. Match those details to your proposal and invoice.</p><p>A brand logo, HTTPS connection or company profile is not evidence of a business licence. Certificates belonging to The Holidays Group or another sister brand do not establish BANDEVI's registrations.</p></div><article class="card"><h3>Official verification starting points</h3><ul><li><a href="https://www.mca.gov.in/" target="_blank" rel="noopener noreferrer">Ministry of Corporate Affairs</a> — company and LLP records.</li><li><a href="https://www.gst.gov.in/" target="_blank" rel="noopener noreferrer">GST portal</a> — Search Taxpayer using a supplied GSTIN.</li><li><a href="https://udyamregistration.gov.in/" target="_blank" rel="noopener noreferrer">Official Udyam portal</a> — registration verification.</li></ul><p>These links are verification resources; they do not confirm a BANDEVI registration. ISO and membership records should be checked with their named issuer.</p></article></div></section>
+  <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Before you engage</span><h2>Ask for a written project and commercial record.</h2><p>Use this checklist when reviewing your proposal. Confirm each item in your agreement; the checklist itself does not create a warranty or service commitment.</p></div><div class="grid cols-3">${[['Identity & payment','Confirm the legal supplier, invoice details and matching payment beneficiary. Verify changes to bank details through an established contact.'],['Scope & acceptance','Name the modules, integrations, deliverables, exclusions, review process and acceptance criteria.'],['Costs & milestones','Record delivery milestones, payment schedule, hosting and third-party charges, and the process for scope changes.'],['Data & ownership','Agree ownership of domains, source code and data, permissions, backups, migration and handover responsibilities.'],['Support & privacy','Agree support channels, hours, response expectations, maintenance scope and handling of customer information.'],['Client evidence','Request a relevant demonstration or an approved client reference. Illustrative workflows are not completed client case studies.']].map(([t,d])=>`<article class="card"><h3>${t}</h3><p>${d}</p></article>`).join('')}</div><p><a href="/privacy-policy/">Privacy policy</a> · <a href="/terms-and-conditions/">Website terms</a> · <a href="/case-studies/">Illustrative project models</a></p></div></section>
+  <section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">Evidence standards</span><h2>Company statements and issued credentials have different roles.</h2><p>Company profiles, staff counts, financial figures, office lists and evidence notes on this website are company-published information unless a specific independent source is supplied. They are not audited financials, government licences or independent certification.</p><p>Related brands operate separately. Their travel-network references and credentials must be checked against their own legal entities and activities.</p><p><a href="/evidence-register/">Review company-published evidence</a> · <a href="/proof-verification/">Ask about supporting records</a></p></div></div></section>
+  <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Official contact</span><h2>Request the records relevant to your project.</h2><p>Contact <a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a> or <a href="tel:+918287669022">+91 8287669022</a>. Ask the team to identify the contracting entity and supply applicable documents.</p><a class="button dark" href="/contact-us/">Request company documents ${icons.arrow}</a><p class="muted">Register presentation updated 4 October 2026. This date is not a certificate verification date.</p></div></div></section>`;
 }
+
 
 function crmPage() {
   return `
@@ -6744,7 +6598,7 @@ function blogPage() {
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>Practical ideas for modern travel companies.</h2>
+          <h2>Practical ideas for modern travel companies.</h2><p><a href="/blog/automate-payment-workflows-in-travel-agencies/">New guide: automate payment workflows in travel agencies</a></p>
           <p>Use the blog to support SEO, educate prospects, and show the market that BANDEVI GLOBAL GROUP understands business systems, CRM, ERP, portals, automation, and digital operations.</p>
         </div>
         <div class="grid cols-3">
@@ -7231,7 +7085,7 @@ function quickContact() {
 function footer() {
   const groups = [
     ["Solutions", [["Websites & Apps", "/website-mobile-app-development/"], ["CRM & ERP", "/crm-erp-solutions/"], ["Travel Technology", "/travel-technology/"], ["Customer Portals", "/customer-portal/"], ["All Products", "/it-products/"]]],
-    ["Company", [["About Bandevi", "/about-us/"], ["Company Profile", "/company-profile/"], ["Project Models", "/case-studies/"], ["Evidence & Verification", "/proof-verification/"], ["Office & Service Locations", "/offices/"], ["Blog", "/blog/"]]],
+    ["Company", [["About Bandevi", "/about-us/"], ["Company Profile", "/company-profile/"], ["Project Models", "/case-studies/"], ["Trust & Registrations", "/trust-licences-certifications/"], ["Evidence & Verification", "/proof-verification/"], ["Office & Service Locations", "/offices/"], ["Blog", "/blog/"]]],
     ["Connect", [["Book a Demo", "/demo-request/"], ["Contact", "/contact-us/"], ["Support", "/support/"], ...socialLinks]]
   ];
   return `<footer class="footer"><div class="footer-grid"><div><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><p><a href="tel:+918287669022">+91 8287669022</a><br><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><p>BANDEVI and The Holidays Group are separate sister brands.</p></div>${groups.map(([title,links])=>`<div><h4>${title}</h4><ul class="footer-links">${links.map(([label,href])=>`<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('')}</div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms & Conditions</a></span></div></footer>`;
@@ -7456,7 +7310,7 @@ function improvedServicePage(key) {
   <section class="section"><div class="container"><div class="service-example"><span class="eyebrow">${d.example[0]}</span><h2>${d.example[1]}</h2><p>${d.example[2]}</p><a class="button dark" href="/demo-request/?solution=${encodeURIComponent(key==='crmErp'?'CRM & ERP Package':key==='webApp'?'Website / App Development Package':'Complete Travel Website Package')}">Discuss this workflow ${icons.arrow}</a></div></div></section>
   <section class="section mist"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Integrations</span><h2>Agree the connections before the build.</h2><p>${d.integrations}</p></div><article class="card"><h3>Your proposal should explain</h3>${list(['Included modules and acceptance criteria','Dependencies and information you need to supply','Milestones and an agreed delivery schedule','Setup cost, third-party fees and ongoing charges','Data ownership, access and handover','Training, warranty and support scope'])}<p>Pricing and timelines are confirmed after requirements review.</p></article></div></section>
   <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Delivery</span><h2>A practical first release.</h2></div><div class="grid cols-4">${[['Discover','Map users, current tools and the workflow problem.'],['Scope','Agree modules, dependencies, cost and milestones.'],['Build & review','Review screens and test the agreed customer and staff journeys.'],['Launch & hand over','Confirm access, documentation, training and support arrangements.']].map(([title,text],i)=>`<article><span class="solution-number">0${i+1}</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
-  <section class="section mist"><div class="container"><div class="section-head single"><h2>Questions before you start.</h2></div>${d.faqs.map(([q,a])=>`<details class="buyer-faq"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div></section>${cta('Bring your workflow. Let’s plan the system.','Share your service interest and the problem you want to solve. We can discuss the scope and a suitable demo focus.')}`;
+  <section class="section mist"><div class="container"><div class="section-head single"><h2>Questions before you start.</h2></div>${d.faqs.map(([q,a])=>`<details class="buyer-faq"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div></section><section class="section"><div class="container"><h2>Review the supplier before your project starts.</h2><p>Check <a href="/trust-licences-certifications/">company identity, registration status and the buyer checklist</a>. Ask for the applicable legal documents and agree ownership, support and commercial terms in writing.</p></div></section>${cta('Bring your workflow. Let’s plan the system.','Share your service interest and the problem you want to solve. We can discuss the scope and a suitable demo focus.')}`;
 }
 
 const pageRenderers = {
@@ -7583,7 +7437,17 @@ function bindForms() {
       } catch (_) {
         sourcePath = "";
       }
-      const selectedSolution = requestedSolution || solutionByPath[sourcePath];
+      const solutionAliases = {
+        "Travel CRM": "Travel CRM Package", "Travel CRM Software": "Travel CRM Package", "Travel ERP": "Travel ERP Package",
+        "Travel Technology Suite": "Complete Travel Website Package", "Travel Website Package": "Complete Travel Website Package", "Travel Website Development": "Complete Travel Website Package", "Travel Agency Mobile App Package": "Complete Travel Website Package",
+        "CRM + ERP Package": "CRM & ERP Package", "Custom CRM Development": "CRM & ERP Package", "ERP Software Development": "CRM & ERP Package", "White-label CRM Package": "CRM & ERP Package",
+        "Website + Mobile App": "Website / App Development Package", "Custom Software Development": "Website / App Development Package",
+        "E-Commerce Website Development": "E-Commerce Package", "E-commerce Solution": "E-Commerce Package",
+        "Business Process Automation": "Automation Package", "Business Automation": "Automation Package",
+        "IT Products and Software Suite": "Need guidance", "Lead & Booking Management": "CRM & ERP Package", "Flight Booking Engine Package": "B2B Travel Portal Package", "Hotel Booking Engine Package": "B2B Travel Portal Package"
+      };
+      const requested = requestedSolution || solutionByPath[sourcePath];
+      const selectedSolution = solutionAliases[requested] || requested;
       if (selectedSolution && Array.from(interest.options).some((option) => option.value === selectedSolution)) {
         interest.value = selectedSolution;
       }
@@ -7600,11 +7464,11 @@ function bindForms() {
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
-      if (type === "contact" || type === "demo") {
+      if (type === "contact" || type === "demo" || type === "home") {
         const button = form.querySelector('button[type="submit"]');
         if (form.dataset.sending === 'true') return;
         const payload = {
-          type, name: data.name, email: data.email, phone: data.phone || '',
+          type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
           interest: data.interest, message: data.message, website: data.website || '',
           source: window.location.pathname,
           campaign: ['utm_source','utm_medium','utm_campaign'].map(k => new URL(location.href).searchParams.get(k) || '').join(' / ').slice(0,500)
@@ -7753,7 +7617,7 @@ function render() {
   const page = activePage();
   const data = pageData[page] || pageData.home;
   const main = pageRenderers[page] || homePage;
-  document.getElementById("site").innerHTML = `
+  if (!document.getElementById("site").dataset.prerendered) document.getElementById("site").innerHTML = `
     <div class="site-shell"><a class="skip-link" href="#main-content">Skip to content</a>
       ${header(page)}
       <main id="main-content" tabindex="-1">
@@ -7768,6 +7632,10 @@ function render() {
   bindForms();
   bindAnalyticsEvents();
 }
+
+pageData.paymentWorkflow = {eyebrow: "Travel ERP & automation", title: "How to automate payment workflows in travel agencies", lede: "Plan booking payments, approvals, reminders and reconciliation around your travel operations."};
+pageData.trust = {eyebrow: "Trust & company records", title: "Company identity, registrations and buyer confidence", lede: "Review credential publication status, verification resources and the records to request before starting a project."};
+pageRenderers.paymentWorkflow = () => "<section class=\"section\"><article class=\"container\"><div class=\"section-head single\"><span class=\"eyebrow\">Travel operations guide \u00b7 4 October 2026</span><h2>Start with visibility and approvals.</h2><p>Travel agencies coordinate customer deposits, balances, supplier payments, cancellations and refunds. Payment workflow automation should help the team track those obligations and review exceptions. A CRM or ERP status is not proof that money has settled.</p></div><h2>1. Map the booking and payment records</h2><p>Keep a booking reference, customer, agreed amount, currency, due dates, supplier obligations and responsible owner together. Separate receivables from payables. Define how partial payments, booking changes and refunds affect the records.</p><h2>2. Define approval and access rules</h2><p>Agree which team members can record payments, change beneficiary details, approve refunds and reconcile transactions. Keep an audit trail of changes. Confirm the process for verifying supplier bank-detail changes through an established channel.</p><h2>3. Connect systems only where access is supported</h2><p>Review the payment provider and accounting software APIs, credentials, webhook behaviour and fees before promising an integration. Use provider-hosted checkout where appropriate; do not put payment-card information into CRM notes. Keep settlement confirmation separate from a customer's browser success screen.</p><h2>4. Make repeated events safe</h2><p>Gateway callbacks may arrive more than once or out of order. Define duplicate-event handling, reconciliation and retry rules so the same payment does not create repeated receipts or trigger repeated actions. Failed events need a visible exception queue and an owner.</p><h2>5. Reconcile before closing a booking</h2><p>Compare the booking ledger with provider or bank records and approved supplier invoices. Track outstanding balances, transaction fees, currency differences, disputed transactions and pending refunds. Ask for reports that show exceptions as well as successful payments.</p><h2>Illustrative workflow</h2><p>Confirmed quotation \u2192 deposit due \u2192 payment event received \u2192 settlement reviewed \u2192 balance reminder \u2192 supplier approval \u2192 reconciliation. This example is a requirements starting point, not a delivered client result or a guarantee of automated money movement.</p><h2>What to include in your software brief</h2><ul><li>Your existing payment and accounting providers.</li><li>Booking states, payment schedules, currencies and refund cases.</li><li>Approval roles, reports and audit requirements.</li><li>Integration dependencies, test scenarios and acceptance criteria.</li></ul><p>Explore <a href=\"/travel-erp/\">Travel ERP workflows</a>, <a href=\"/travel-crm/\">Travel CRM</a> and <a href=\"/business-process-automation/\">business process automation</a>. <a href=\"/demo-request/\">Discuss your payment-workflow requirements</a> and confirm what is included in the proposal.</p></article></section>";
 
 render();
 
