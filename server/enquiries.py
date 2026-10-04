@@ -15,6 +15,7 @@ from contextlib import contextmanager
 from email.message import EmailMessage
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from dashboard import initialize_dashboard, handle_get, handle_post
 
 DB = Path(os.environ.get('ENQUIRY_DB', '/var/lib/bandevi-enquiries/inbox.sqlite3'))
 ORIGINS = {'https://bandeviglobalgroup.com', 'https://www.bandeviglobalgroup.com'}
@@ -50,6 +51,7 @@ def initialize():
           key TEXT PRIMARY KEY, digest TEXT NOT NULL, enquiry_id TEXT NOT NULL,
           created INTEGER NOT NULL);
         ''')
+        initialize_dashboard(db)
     os.chmod(DB, 0o600)
 
 def validate(data):
@@ -126,21 +128,36 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *_):
         pass
 
-    def respond(self, status, body):
+    def respond(self, status, body, headers=None):
         content = json.dumps(body).encode()
         self.send_response(status)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
         self.send_header('Content-Length', str(len(content)))
+        self.send_header('X-Robots-Tag', 'noindex, nofollow')
+        for key, value in (headers or {}).items():
+            self.send_header(key, value)
         self.end_headers()
         self.wfile.write(content)
 
     def do_GET(self):
+        try:
+            if handle_get(self, connect):
+                return
+        except sqlite3.Error:
+            LOG.error('Dashboard storage unavailable')
+            return self.respond(503, {'error':'Inbox temporarily unavailable. Please try again.'})
         self.respond(200 if self.path == '/health' else 404,
                      {'ok': True} if self.path == '/health' else {'error': 'Not found'})
 
     def do_POST(self):
+        try:
+            if handle_post(self, connect, ORIGINS, SALT):
+                return
+        except sqlite3.Error:
+            LOG.error('Dashboard storage unavailable')
+            return self.respond(503, {'error':'Unable to save right now. Your edits have not been confirmed.'})
         if self.path != '/api/enquiries':
             return self.respond(404, {'error': 'Not found'})
         if self.headers.get('Origin') not in ORIGINS:
