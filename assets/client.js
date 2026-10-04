@@ -171,7 +171,24 @@ function bindForms() {
       }
       if (leadSource) leadSource.value = sourcePath || currentUrl.searchParams.get("source") || "Direct demo request";
       const focusLabels={'crm-enquiries':'Enquiry capture and consultant ownership','crm-quotes':'Quotation history and follow-ups','crm-reporting':'Sales reporting and role permissions','crm-handover':'Sales-to-booking handover','erp-bookings':'Booking files and service tasks','erp-suppliers':'Supplier confirmations and costs','erp-finance':'Payment status and approval rules','erp-handover':'CRM-to-operations handover'};
+      Object.assign(focusLabels,{'website-journey':'Website pages and customer enquiry journey','website-portal':'Customer portal or app workflow','business-leads':'Lead ownership, quotations and follow-ups','business-operations':'Orders, approvals and operational reporting'});
       const focus=currentUrl.searchParams.get('focus'),teamLabels={'1-5':'1–5 users','6-20':'6–20 users','21-plus':'21 or more users','unsure':'Still deciding'},team=teamLabels[currentUrl.searchParams.get('team')];
+      const focusOptions={
+        'Website / App Development Package':['website-journey','website-portal'],
+        'CRM & ERP Package':['business-leads','business-operations'],
+        'Travel CRM Package':['crm-enquiries','crm-quotes','crm-reporting','crm-handover'],
+        'Travel ERP Package':['erp-bookings','erp-suppliers','erp-finance','erp-handover'],
+        'Complete Travel Website Package':['website-journey','website-portal']
+      };
+      const demoFocus=form.elements.demoFocus,note=form.querySelector('.demo-focus-note');
+      function updateDemoFocus(requestedFocus){
+        if(!demoFocus)return;
+        demoFocus.replaceChildren(new Option('Discuss with the team',''));
+        for(const key of focusOptions[interest.value]||[])demoFocus.add(new Option(focusLabels[key],key));
+        if(Array.from(demoFocus.options).some(o=>o.value===requestedFocus))demoFocus.value=requestedFocus;
+        if(note)note.textContent='Walkthrough topics for '+(interest.value||'your selected service')+'. Available modules and integrations are confirmed with the team.';
+      }
+      updateDemoFocus(focus);interest.addEventListener('change',()=>updateDemoFocus(''));form.addEventListener('reset',()=>queueMicrotask(()=>updateDemoFocus('')));
       const matches=focus && ((selectedSolution==='Travel CRM Package' && focus.startsWith('crm-')) || (selectedSolution==='Travel ERP Package' && focus.startsWith('erp-')));
       if (matches && focusLabels[focus] && !form.elements.message.value) {
         form.elements.message.value='Demo focus: '+focusLabels[focus]+(team?'\nExpected users: '+team:'')+'\nPlease show the workflow, role permissions and available modules, and discuss implementation scope and support.';
@@ -206,12 +223,13 @@ function bindForms() {
         if (form.dataset.sending === 'true') return;
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
-          interest: data.interest, message: data.message, website: data.website || '',
+          interest: data.interest, message: [(data.businessType ? 'Business type: '+data.businessType : ''),(data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: '+form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : ''),data.message].filter(Boolean).join('\n'), website: data.website || '',
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
-        const serialized = JSON.stringify(payload);
+        if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including the selected business type and demo focus, fits within 3,000 characters.";return;}
+      const serialized = JSON.stringify(payload);
         if (form.dataset.payload !== serialized) {
           form.dataset.requestId = crypto.randomUUID();
           form.dataset.payload = serialized;
