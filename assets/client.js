@@ -109,6 +109,8 @@ function bindNav() {
 }
 
 function bindForms() {
+  document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
+
   document.querySelectorAll("[data-form]").forEach((form) => {
     const type = form.dataset.form;
     if (type === "demo") {
@@ -169,6 +171,13 @@ function bindForms() {
         interest.value = selectedSolution;
       }
       if (leadSource) leadSource.value = sourcePath || currentUrl.searchParams.get("source") || "Direct demo request";
+      const focusLabels={'crm-enquiries':'Enquiry capture and consultant ownership','crm-quotes':'Quotation history and follow-ups','crm-reporting':'Sales reporting and role permissions','crm-handover':'Sales-to-booking handover','erp-bookings':'Booking files and service tasks','erp-suppliers':'Supplier confirmations and costs','erp-finance':'Payment status and approval rules','erp-handover':'CRM-to-operations handover'};
+      const focus=currentUrl.searchParams.get('focus'),teamLabels={'1-5':'1–5 users','6-20':'6–20 users','21-plus':'21 or more users','unsure':'Still deciding'},team=teamLabels[currentUrl.searchParams.get('team')];
+      const matches=focus && ((selectedSolution==='Travel CRM Package' && focus.startsWith('crm-')) || (selectedSolution==='Travel ERP Package' && focus.startsWith('erp-')));
+      if (matches && focusLabels[focus] && !form.elements.message.value) {
+        form.elements.message.value='Demo focus: '+focusLabels[focus]+(team?'\nExpected users: '+team:'')+'\nPlease show the workflow, role permissions and available modules, and discuss implementation scope and support.';
+      }
+
     }
 
     form.addEventListener("submit", async (event) => {
