@@ -1180,21 +1180,13 @@ const pageData = {
     eyebrow: "Software products",
     lede: "Clear product and service packages for websites, CRM, ERP, customer portals, travel websites, white-label websites, e-commerce, astrology booking, automation, and business dashboards."
   },
-  crmErp: {
-    title: "CRM & ERP Development Company",
-    eyebrow: "CRM and ERP software",
-    lede: "BANDEVI GLOBAL GROUP builds CRM and ERP software for lead management, sales pipelines, operations, finance, dashboards, automation, travel CRM, travel ERP, and business workflows."
-  },
+  crmErp: {"title":"CRM & ERP built around your daily work","eyebrow":"Sales, operations and reporting","lede":"Give sales, operations and finance a shared workflow. Plan a CRM for leads and follow-ups, an ERP for delivery and payments, or a connected system for both."},
   ecommerce: {
     title: "E-Commerce Website Development Company",
     eyebrow: "E-commerce development",
     lede: "BANDEVI GLOBAL GROUP builds e-commerce websites, online stores, product catalogues, cart and checkout flows, payment workflows, order management, inventory direction, CRM, dashboards, and campaigns."
   },
-  webApp: {
-    title: "Website & Mobile App Development Company",
-    eyebrow: "Website and app development",
-    lede: "BANDEVI GLOBAL GROUP builds corporate websites, business websites, landing pages, web apps, mobile apps, portals, dashboards, travel websites, and SEO-ready digital systems."
-  },
+  webApp: {"title":"Websites and apps with a clear next step","eyebrow":"Digital experiences for your customers and team","lede":"Help customers understand your business, make an enquiry or use your services. Choose a business website, a web application or a mobile app around the journey you need."},
   automation: {
     title: "Business Automation Company",
     eyebrow: "Workflow automation services",
@@ -1310,11 +1302,7 @@ const pageData = {
     eyebrow: "Customer and agent mobile experience",
     lede: "BANDEVI GLOBAL GROUP builds travel agency mobile app experiences for customers, agents, staff, and travel sales teams with enquiries, booking status, documents, payment reminders, notifications, customer support, Travel CRM, and Travel ERP connection."
   },
-  travelTech: {
-    title: "Travel Technology Company",
-    eyebrow: "Travel CRM, ERP, and websites",
-    lede: "BANDEVI GLOBAL GROUP builds travel technology for complete travel websites, white-label travel websites, Travel CRM, Travel ERP, booking workflows, supplier coordination, customer portals, automation, and dashboards."
-  },
+  travelTech: {"title":"Travel technology from enquiry to booking","eyebrow":"For agencies, tour operators and DMCs","lede":"Connect travel selling with booking operations. Plan a travel website, Travel CRM, Travel ERP or an agent portal around your customer, supplier and team workflows."},
   leadBooking: {
     title: "Lead & Booking Management Software",
     eyebrow: "Travel sales to booking control",
@@ -6897,321 +6885,14 @@ function contactForm(kind = "contact") {
 }
 
 function contactPage() {
-  return `
-    <section class="section">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Contact</span>
-          <h2>Contact BANDEVI GLOBAL GROUP for CRM, ERP, IT products, portals, websites, and automation.</h2>
-          <p class="muted">Use the official phone, WhatsApp, email, contact form, or demo request path to reach the BANDEVI GLOBAL GROUP sales desk for CRM, ERP, Travel CRM, Travel ERP, customer portals, IT products, website projects, e-commerce, automation, office support, and implementation planning.</p>
-          ${cards([
-            { icon: "mail", title: "Sales desk", text: contactInfo.email },
-            { icon: "phone", title: "Call or WhatsApp", text: contactInfo.phoneDisplay },
-            { icon: "message", title: "Demo requests", text: "Use the demo path for CRM, ERP, IT product, portal, travel technology, website, and automation walkthroughs." },
-            { icon: "globe", title: "Office network", text: "10 listed office and service-location references across India, Dubai, London, and the United States." },
-            { icon: "users", title: "Staff ecosystem", text: "1,289 staff worldwide as currently provided by the company." },
-            { icon: "shield", title: "Company strength", text: "INR 7,594 Cr current company-provided net worth and group strength figure." }
-          ], 3)}
-          <div class="inline-actions">
-            <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
-            <a class="button light" href="${contactInfo.phoneHref}">Call ${icons.phone}</a>
-            <a class="button light" href="/demo-request/">Request Demo</a>
-            <a class="button light" href="/proof-verification/">Verify Proof</a>
-          </div>
-        </div>
-        ${contactForm("contact")}
-      </div>
-    </section>
-    <section class="section gold-band">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Official contact routes</span>
-          <h2>Choose the right contact path.</h2>
-          <p>Contact requests work better when they are routed to the right product, proof, demo, office, or support path from the start.</p>
-        </div>
-        <div class="grid cols-3">
-          ${[
-            { icon: "stack", title: "IT Products", href: "/it-products/", text: "Review website, CRM, ERP, portal, commerce, travel tech, automation, and dashboard packages before contacting." },
-            { icon: "users", title: "CRM & ERP", href: "/crm-erp-solutions/", text: "Discuss CRM development, ERP software, lead management, operations, finance, dashboards, and multi-office reporting." },
-            { icon: "message", title: "Demo Request", href: "/demo-request/", text: "Request a focused walkthrough for CRM, ERP, portals, Travel CRM, Travel ERP, websites, automation, and dashboards." },
-            { icon: "plane", title: "Travel CRM", href: "/travel-crm/", text: "Contact for travel leads, quotation stages, follow-ups, customer records, and travel sales visibility." },
-            { icon: "stack", title: "Travel ERP", href: "/travel-erp/", text: "Contact for booking operations, suppliers, invoices, payments, documents, approvals, and travel reporting." },
-            { icon: "shield", title: "Customer Portal", href: "/customer-portal/", text: "Discuss customer login, documents, invoices, service status, support requests, and controlled account access." },
-            { icon: "chart", title: "Business Automation", href: "/business-automation/", text: "Discuss lead routing, reminders, task assignment, approvals, document requests, alerts, and dashboards." },
-            { icon: "globe", title: "Offices", href: "/offices/", text: "View Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and United States references." },
-            { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Verify company profile, staff size, net worth, office references, official phone, email, and proof links." }
-          ].map((item) => `
-            <a class="card industry-card" href="${item.href}">
-              ${iconTile(item.icon)}
-              <h3>${item.title}</h3>
-              <p>${item.text}</p>
-              <span>Open page ${icons.arrow}</span>
-            </a>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Public verification before contact</span>
-          <h2>Official contact details backed by company proof.</h2>
-          <p>Before discussing customer records, finance workflows, travel operations, CRM/ERP access, or internal dashboards, visitors can verify BANDEVI's public company facts and official contact channels.</p>
-        </div>
-        <div class="grid cols-3">
-          <article class="card metric-card"><strong>${contactInfo.phoneDisplay}</strong><p>Official phone and WhatsApp route for sales, demos, project enquiries, and support routing.</p></article>
-          <article class="card metric-card"><strong>${contactInfo.email}</strong><p>Official email for CRM, ERP, portals, websites, e-commerce, automation, IT products, and office-support enquiries.</p></article>
-          <article class="card metric-card"><strong>1,289</strong><p>Company-provided current staff count across the worldwide operating and support ecosystem.</p></article>
-          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided current net worth and group strength figure for public confidence and market context.</p></article>
-          <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
-          <article class="card metric-card"><strong>Official domain</strong><p>Use bandeviglobalgroup.com, the company profile PDF, proof page, and official social profiles for verification.</p></article>
-        </div>
-        <div class="inline-actions">
-          <a class="button primary" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
-          <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
-          <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Office and service locations.</h2>
-          <p>Choose the nearest office or request remote support. The sales team can route your enquiry to the right project, product, or support desk.</p>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Location</th><th>Address</th></tr></thead>
-            <tbody>
-              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">Response flow</span>
-          <h2>What happens after you contact us.</h2>
-        </div>
-        <div class="process">
-          ${[
-            ["Receive", "Your enquiry is captured with product interest, business type, office region, and contact preference."],
-            ["Review", "The sales team reviews whether you need CRM, ERP, portal, website, e-commerce, automation, or support help."],
-            ["Connect", "A callback, WhatsApp reply, or email response is prepared with the next action."],
-            ["Plan", "If needed, the team schedules a demo or discovery conversation around your workflow."]
-          ].map((item, index) => `
-            <div class="process-step">
-              <span>0${index + 1}</span>
-              <h3>${item[0]}</h3>
-              <p>${item[1]}</p>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Contact FAQ</span>
-          <h2>Answers for contact, phone, WhatsApp, email, office, CRM, ERP, and demo searches.</h2>
-          <p>These answers help visitors and search engines understand how to contact BANDEVI through official channels.</p>
-        </div>
-        <div class="article-layout">
-          <div class="article-body">
-            ${contactFaqs.map(([question, answer]) => `
-              <article class="article-block">
-                <h3>${question}</h3>
-                <p>${answer}</p>
-              </article>
-            `).join("")}
-          </div>
-          <aside class="article-aside">
-            <h3>Official contact checklist</h3>
-            ${list(["Phone and WhatsApp: +91 8287669022", "Email: sales@bandeviglobalgroup.com", "Website: bandeviglobalgroup.com", "Use demo request for product walkthroughs", "Use proof page for staff, net worth, and offices"])}
-            <a class="button dark" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
-            <a class="button light" href="/demo-request/">Request Demo</a>
-          </aside>
-        </div>
-      </div>
-    </section>
-  `;
+ return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Contact the team</span><h2>Tell us what you want to improve.</h2><p>Choose a service, describe your business problem and add your name and email. Your phone number is optional.</p><p>The form prepares a message. Send it in WhatsApp or email to complete your enquiry; preparing it alone does not deliver it to our team.</p><p><a class="text-link" href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a><br><a class="text-link" href="mailto:${contactInfo.email}">${contactInfo.email}</a></p><p>For a product walkthrough, <a class="text-link" href="/demo-request/">request a demo</a>.</p></div><div>${contactForm('contact')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">What happens next</span><h2>From your message to a project discussion.</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>Office and service locations.</h2><p>Confirm an appointment and the correct support location with the central desk before visiting.</p></div><div class="table-wrap"><table><thead><tr><th scope="col">Location</th><th scope="col">Published address</th></tr></thead><tbody>${officeLocations.map(([city,address])=>`<tr><th scope="row">${city}</th><td>${address}</td></tr>`).join('')}</tbody></table></div><p><a class="text-link" href="/offices/">Review office and service-location information</a></p><p><a class="text-link" href="/proof-verification/">Review company evidence and verification</a></p></div></section>`;
+}
+function cardsForEnquiry() {
+ return [['Send','Prepare your message, then send it using WhatsApp or email.'],['Review','The team reviews your service interest and the problem described.'],['Discuss','Agree a suitable follow-up or demo focus, then clarify scope and commercial terms.']].map(([title,text])=>`<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join('');
 }
 
 function demoPage() {
-  return `
-    <section class="section">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Demo request</span>
-          <h2>Request a CRM, ERP, portal, IT product, travel tech, website, or automation demo.</h2>
-          <p class="muted">Use this page to choose the closest package, explain your current problem, and send a clean WhatsApp-ready lead message to the BANDEVI sales team.</p>
-          ${list(["Select a CRM, ERP, customer portal, IT product, travel technology, website, e-commerce, astrology, or automation package", "Share business type, timeline, team scale, priority, budget direction, and current website or reference", "Ask for a focused demo around lead control, sales pipeline, operations, finance, customer access, dashboards, or automation", "Verify company profile, staff size, net worth, offices, and proof links before discussing internal workflows"])}
-          <div class="inline-actions">
-            <a class="button dark" href="#demo-form">Start Demo Request ${icons.arrow}</a>
-            <a class="button light" href="/it-products/#packages">View Packages</a>
-            <a class="button light" href="/proof-verification/">Verify BANDEVI</a>
-          </div>
-        </div>
-        <div id="demo-form">
-          ${contactForm("demo")}
-        </div>
-      </div>
-    </section>
-    <section class="section gold-band">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Choose demo focus</span>
-          <h2>Fast demo paths for BANDEVI products and systems.</h2>
-          <p>Start with the closest product, then the sales team can narrow the walkthrough around your actual business workflow.</p>
-        </div>
-        <div class="grid cols-3">
-          ${[
-            { icon: "users", title: "CRM & ERP Demo", href: "/crm-erp-solutions/", text: "Lead management, sales pipeline, operations workflows, finance, approvals, documents, dashboards, and multi-office reporting." },
-            { icon: "stack", title: "IT Products Demo", href: "/it-products/", text: "Website packages, CRM, ERP, customer portals, e-commerce, automation, travel tech, dashboards, and software suite planning." },
-            { icon: "plane", title: "Travel CRM Demo", href: "/travel-crm/", text: "Travel enquiries, quotation stages, customer records, follow-ups, sales owners, source tracking, and conversion reports." },
-            { icon: "stack", title: "Travel ERP Demo", href: "/travel-erp/", text: "Bookings, suppliers, invoices, payments, approvals, documents, margins, operations tasks, and travel reporting." },
-            { icon: "shield", title: "Customer Portal Demo", href: "/customer-portal/", text: "Customer login, documents, invoices, support requests, booking or order status, service updates, and controlled access." },
-            { icon: "chart", title: "Automation Demo", href: "/business-automation/", text: "Lead routing, reminders, task assignment, approvals, document requests, notifications, and dashboard automation." },
-            { icon: "globe", title: "Website & App Demo", href: "/website-mobile-app-development/", text: "Corporate websites, landing pages, web apps, mobile-first portals, admin panels, and CRM-ready lead flows." },
-            { icon: "plane", title: "Lead & Booking Demo", href: "/lead-booking-management/", text: "Website enquiries, WhatsApp handoff, booking files, source tracking, follow-ups, customer records, and team visibility." },
-            { icon: "shield", title: "Proof & Verification", href: "/proof-verification/", text: "Review company profile, staff size, net worth, offices, official contact channels, and public proof links." }
-          ].map((item) => `
-            <a class="card industry-card" href="${item.href}">
-              ${iconTile(item.icon)}
-              <h3>${item.title}</h3>
-              <p>${item.text}</p>
-              <span>Open page ${icons.arrow}</span>
-            </a>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Select the package closest to your requirement.</h2>
-          <p>You can choose one in the form, or use these cards to understand the best starting point before submitting.</p>
-        </div>
-        <div class="grid cols-3">
-          ${productPackages.map((item) => `
-            <article class="card case-card package-card">
-              <div class="case-meta">
-                ${iconTile(item.icon)}
-                <span>${item.tag}</span>
-              </div>
-              <h3>${item.title}</h3>
-              <p>${item.bestFor}</p>
-              <div class="pill-list">
-                ${item.addOns.slice(0, 3).map((addon) => `<span class="pill">${addon}</span>`).join("")}
-              </div>
-              <a href="${item.link}">Related solution ${icons.arrow}</a>
-            </article>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <h2>What your demo can cover.</h2>
-          <p>The walkthrough can focus on one urgent problem or show how the full BANDEVI product suite connects across the business.</p>
-        </div>
-        ${cards([
-          { icon: "globe", title: "Website and package plan", text: "Pages, content structure, package or product display, enquiry paths, WhatsApp handoff, SEO basics, and trust sections." },
-          { icon: "users", title: "Lead and sales flow", text: "Website enquiries, assignment, follow-ups, quotation stages, customer records, source tracking, and sales visibility." },
-          { icon: "stack", title: "Operations flow", text: "Orders, bookings, consultations, suppliers, service items, documents, approvals, invoices, stock, and status tracking." },
-          { icon: "shield", title: "Portal and service flow", text: "Customer access for updates, invoices, documents, tickets, project milestones, booking status, and service communication." },
-          { icon: "chart", title: "Automation and dashboards", text: "Reminders, lead routing, document requests, reporting summaries, conversion, workload, revenue, and support visibility." },
-          { icon: "message", title: "WhatsApp-first routing", text: "The submitted request opens as a structured WhatsApp message so the team can respond with the right context." }
-        ], 4)}
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Proof before the demo</span>
-          <h2>Verify BANDEVI before sharing project details.</h2>
-          <p>Demo requests can involve customer records, sales workflows, finance status, travel operations, documents, access control, and internal reporting. BANDEVI keeps public proof links close to the demo path.</p>
-        </div>
-        <div class="grid cols-3">
-          <article class="card metric-card"><strong>1,289</strong><p>Company-provided current staff count across the worldwide operating and support ecosystem.</p></article>
-          <article class="card metric-card"><strong>INR 7,594 Cr</strong><p>Company-provided current net worth and group strength figure for public confidence and market context.</p></article>
-          <article class="card metric-card"><strong>10 locations</strong><p>Listed office and service-location references across India, Dubai, London, and the United States.</p></article>
-        </div>
-        <div class="inline-actions">
-          <a class="button primary" href="/proof-verification/">Open Proof Page ${icons.arrow}</a>
-          <a class="button ghost" href="/staff-size-net-worth/">Staff & Net Worth</a>
-          <a class="button ghost" href="/offices/">Offices</a>
-          <a class="button ghost" href="${companyProfilePdf}">Company Profile PDF</a>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">Next steps</span>
-          <h2>A simple path after the request.</h2>
-        </div>
-        <div class="process">
-          ${[
-            ["Submit", "Your request captures package interest, business type, team scale, priority, timeline, budget, and contact preference."],
-            ["Route", "The form prepares a WhatsApp and email lead message so the sales team receives the request with proper context."],
-            ["Review", "BANDEVI reviews whether you need a website, CRM, ERP, portal, e-commerce, automation, or a complete first release."],
-            ["Plan", "You receive a practical next step: demo focus, first-release scope, timeline direction, and launch priorities."]
-          ].map((item, index) => `
-            <div class="process-step">
-              <span>0${index + 1}</span>
-              <h3>${item[0]}</h3>
-              <p>${item[1]}</p>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Before you submit, this helps us respond faster.</h2>
-          <p>You do not need everything ready, but these details help the team suggest the right package and first release.</p>
-        </div>
-        <div class="grid cols-4">
-          ${[
-            ["Current stage", "New website, redesign, CRM setup, ERP workflow, portal, e-commerce, or automation improvement."],
-            ["Business type", "Travel, masala, makhana, astrology, e-commerce, service business, corporate desk, or other project."],
-            ["Urgent problem", "Lead loss, weak website, manual operations, missing documents, repeated follow-ups, or low visibility."],
-            ["Launch direction", "Immediate launch, 15-day plan, 30-day plan, 60-90 day roadmap, or early planning."]
-          ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Demo request FAQ.</h2>
-          <p>Quick answers for prospects before they send a package or platform request.</p>
-        </div>
-        <div class="article-layout">
-          <div class="article-body">
-            ${demoRequestFaqs.map(([question, answer]) => `
-              <article class="article-block">
-                <h3>${question}</h3>
-                <p>${answer}</p>
-              </article>
-            `).join("")}
-          </div>
-          <aside class="article-aside">
-            <h3>Good demo details</h3>
-            ${list(["Product or package needed", "Business type and team scale", "Main priority and timeline", "Budget direction", "Current website or reference"])}
-            <a class="button dark" href="#demo-form">Start Demo Request ${icons.arrow}</a>
-            <a class="button light" href="/it-products/">View IT Products</a>
-          </aside>
-        </div>
-      </div>
-    </section>
-    ${cta("A good demo should feel like your business.", "Share your workflow and BANDEVI can focus the walkthrough on the package, modules, and first release that matter most.")}
-  `;
+ return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Request a walkthrough</span><h2>A demo focused on your business problem.</h2><p>Choose the service you want to explore and describe the workflow you need to improve. Add your name and email; a phone number is optional.</p><p>If useful, include your business type, existing website or current tools in the description. You can choose “Need guidance” if you are unsure.</p><p>Preparing the enquiry opens a WhatsApp message. Send it there to deliver the request, or choose the email link afterwards. The team can then agree the demo focus and timing.</p><p><a class="text-link" href="/proof-verification/">Review company information</a></p></div><div id="demo-form">${contactForm('demo')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><h2>Choose the conversation you need.</h2><p>Explore a service before requesting a walkthrough.</p></div><div class="grid cols-3">${[['Websites & Apps','Pages, customer journeys, enquiries, portals and app workflows.','/website-mobile-app-development/'],['CRM & ERP','Lead control, operational records, permissions and reporting.','/crm-erp-solutions/'],['Travel Technology','Travel websites, agency workflows, supplier dependencies and booking requirements.','/travel-technology/']].map(([title,text,href])=>`<article class="card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore service ${icons.arrow}</a></article>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>What happens after you send?</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div><details class="buyer-faq"><summary>Does a demo request commit me to a project?</summary><p>No. Project scope, pricing, payment milestones and support terms are agreed separately in writing.</p></details><details class="buyer-faq"><summary>Do I need to share customer data?</summary><p>A description of your workflow is enough for the first discussion. Use anonymized examples if they help explain your requirements.</p></details></div></section>`;
 }
 
 function feedbackPage() {
@@ -7555,6 +7236,228 @@ function footer() {
   return `<footer class="footer"><div class="footer-grid"><div><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><p><a href="tel:+918287669022">+91 8287669022</a><br><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><p>BANDEVI and The Holidays Group are separate sister brands.</p></div>${groups.map(([title,links])=>`<div><h4>${title}</h4><ul class="footer-links">${links.map(([label,href])=>`<li><a href="${href}">${label}</a></li>`).join('')}</ul></div>`).join('')}</div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms & Conditions</a></span></div></footer>`;
 }
 
+const improvedServices = {
+  "crmErp": {
+    "title": "CRM & ERP built around your daily work",
+    "eyebrow": "Sales, operations and reporting",
+    "lede": "Give sales, operations and finance a shared workflow. Plan a CRM for leads and follow-ups, an ERP for delivery and payments, or a connected system for both.",
+    "overview": "Choose the system your team needs first.",
+    "intro": "Use CRM when enquiries and follow-ups need structure. Use ERP when orders, bookings and operational records need coordination. Connect them when a sale needs a clear handover into delivery.",
+    "choices": [
+      [
+        "CRM: organize your sales",
+        "Lead ownership, customer history, quotation stages, follow-up reminders and pipeline reporting.",
+        "/custom-crm-development/"
+      ],
+      [
+        "ERP: coordinate your operations",
+        "Orders or bookings, supplier records, approvals, invoices, payment status and document workflows.",
+        "/erp-software-development/"
+      ],
+      [
+        "Connected CRM + ERP",
+        "Move agreed sales information into operations and give leadership a view across the customer journey.",
+        "/lead-booking-management/"
+      ]
+    ],
+    "modules": [
+      [
+        "Lead capture & ownership",
+        "Define required enquiry fields, lead sources, assignment rules and next actions."
+      ],
+      [
+        "Quotes & follow-ups",
+        "Track proposal versions, sales stages and reminders around your actual sales process."
+      ],
+      [
+        "Orders & delivery",
+        "Agree the status flow for orders, bookings, tasks, suppliers and operational exceptions."
+      ],
+      [
+        "Finance visibility",
+        "Specify invoices, receivables, payables, payment status and approval requirements."
+      ],
+      [
+        "Permissions & reporting",
+        "Define who can view or edit records, and which reports each role needs."
+      ],
+      [
+        "Customer access",
+        "Add document, invoice or service-status access through a portal when included in scope."
+      ]
+    ],
+    "example": [
+      "Illustrative workflow",
+      "Website enquiry → sales owner → quotation → accepted order → operations task → payment review",
+      "Use this as a starting point for requirements. Fields, permissions, integrations and exceptions are agreed for each project."
+    ],
+    "integrations": "Website forms, customer portals, existing data and communication tools can be considered during discovery. Confirm API availability, migration quality, licensing and third-party charges before committing to an integration.",
+    "faqs": [
+      [
+        "Should we start with CRM or ERP?",
+        "Start with your most costly workflow problem. Lost follow-ups usually point to CRM; disconnected order, supplier or delivery records usually point to ERP."
+      ],
+      [
+        "Can existing spreadsheets be migrated?",
+        "Share a sample structure during discovery. Field mapping, duplicates, validation, import scope and access must be agreed before migration."
+      ],
+      [
+        "Will it connect to our accounting software?",
+        "That depends on the accounting product, its APIs and the records you need to exchange. Ask for the integration and any license costs to be named in the proposal."
+      ]
+    ]
+  },
+  "webApp": {
+    "title": "Websites and apps with a clear next step",
+    "eyebrow": "Digital experiences for your customers and team",
+    "lede": "Help customers understand your business, make an enquiry or use your services. Choose a business website, a web application or a mobile app around the journey you need.",
+    "overview": "Choose the right type of build.",
+    "intro": "A website explains and attracts. A web app lets people complete tasks. A mobile app supports recurring use on a phone. Start with the customer or staff action you need to improve.",
+    "choices": [
+      [
+        "Business website",
+        "Company and service pages, clear enquiry paths, responsive layouts and search-ready content structure.",
+        "/it-products/"
+      ],
+      [
+        "Web app or customer portal",
+        "Accounts, role-based screens, forms, documents, status updates and business workflows.",
+        "/customer-portal/"
+      ],
+      [
+        "E-commerce website",
+        "Product catalogues, checkout planning, order workflows and payment-provider integration.",
+        "/ecommerce-website-development/"
+      ]
+    ],
+    "modules": [
+      [
+        "Pages & content",
+        "Agree the sitemap, page copy, product or service details, images and content responsibilities."
+      ],
+      [
+        "Responsive design",
+        "Review key journeys on phone, tablet and desktop, including menus, forms and readable content."
+      ],
+      [
+        "Enquiry journeys",
+        "Define contact fields, lead routing, communication channels and submission feedback."
+      ],
+      [
+        "Web & mobile workflows",
+        "Scope user roles, account screens, notifications and admin tools where needed."
+      ],
+      [
+        "Search & measurement",
+        "Specify page titles, metadata, indexing requirements and agreed analytics events."
+      ],
+      [
+        "Launch & handover",
+        "Confirm hosting, domain access, editing tools, credentials, documentation and support terms."
+      ]
+    ],
+    "example": [
+      "Illustrative customer journey",
+      "Service page → relevant example → enquiry → sales follow-up → customer portal",
+      "Choose the steps your customers actually need. Portal access and CRM integration are separate scope items."
+    ],
+    "integrations": "CRM, ERP, payment providers, booking tools and existing content systems may be connected where APIs and scope allow. Confirm content migration, app-store requirements, hosting and external subscription charges in the proposal.",
+    "faqs": [
+      [
+        "Do we need a mobile app or a responsive website?",
+        "A responsive website is often a useful first step. Consider an app when customers or staff have recurring tasks that benefit from app-specific capabilities."
+      ],
+      [
+        "Who provides the content?",
+        "Agree copywriting, photography, branding, product information and approval responsibilities in the scope before development starts."
+      ],
+      [
+        "Does the website include SEO?",
+        "Ask for the exact deliverables: technical setup, metadata, content planning or ongoing work. Search rankings and traffic outcomes cannot be guaranteed."
+      ]
+    ]
+  },
+  "travelTech": {
+    "title": "Travel technology from enquiry to booking",
+    "eyebrow": "For agencies, tour operators and DMCs",
+    "lede": "Connect travel selling with booking operations. Plan a travel website, Travel CRM, Travel ERP or an agent portal around your customer, supplier and team workflows.",
+    "overview": "Choose your travel workflow.",
+    "intro": "Start with a clear selling journey and add operational control where you need it. Define the difference between enquiry-based selling and live API booking before choosing modules.",
+    "choices": [
+      [
+        "Travel website",
+        "Destination and package pages, itinerary information, enquiry capture and sales handover.",
+        "/travel-agency-website-development/"
+      ],
+      [
+        "Travel CRM & ERP",
+        "Enquiries, quotations, follow-ups, bookings, suppliers, documents and payment tracking.",
+        "/crm-erp-solutions/"
+      ],
+      [
+        "Agent or booking portal",
+        "B2B and B2C requirements, supplier APIs, booking status, markup rules and payment flows.",
+        "/b2b-travel-portal/"
+      ]
+    ],
+    "modules": [
+      [
+        "Packages & enquiries",
+        "Define destinations, itineraries, enquiry fields, travel dates and lead sources."
+      ],
+      [
+        "Quotations & customers",
+        "Agree quote stages, traveller records, sales ownership and follow-up reminders."
+      ],
+      [
+        "Booking operations",
+        "Track confirmation status, supplier coordination, documents, changes and assigned tasks."
+      ],
+      [
+        "Supplier API planning",
+        "Confirm supplier contracts, credentials, sandbox access, supported products and API limits."
+      ],
+      [
+        "Payments & reconciliation",
+        "Specify payment-provider flows, failed transactions, refunds and reporting requirements."
+      ],
+      [
+        "Agents & management",
+        "Define agent roles, markups, commissions, permissions and branch reporting as required."
+      ]
+    ],
+    "example": [
+      "Illustrative booking journey",
+      "Package enquiry → quotation → customer approval → supplier confirmation → payment → travel documents",
+      "Live availability and booking confirmation depend on the supplier and integration selected. Define cancellation and failure handling during discovery."
+    ],
+    "integrations": "Flight, hotel and other supplier APIs require approved provider access and commercially agreed terms. Payment gateways require merchant onboarding. Confirm setup fees, transaction charges, deposits, API limits and operational responsibility in writing.",
+    "faqs": [
+      [
+        "Is a supplier API included automatically?",
+        "No. Confirm the provider, commercial agreement, available endpoints, access credentials and integration scope before development."
+      ],
+      [
+        "Can we start with enquiries instead of live booking?",
+        "Yes. A package website and CRM workflow can be planned first, with API booking evaluated as a later phase."
+      ],
+      [
+        "How are cancellations and refunds handled?",
+        "Define supplier rules, approval steps, payment-provider behaviour and reconciliation requirements for your chosen integrations."
+      ]
+    ]
+  }
+};
+function improvedServicePage(key) {
+  const d=improvedServices[key];
+  return `<section class="section service-overview"><div class="container"><div class="section-head single"><span class="eyebrow">Choose your starting point</span><h2>${d.overview}</h2><p>${d.intro}</p></div><div class="grid cols-3">${d.choices.map(([title,text,href])=>`<article class="card solution-card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore solution ${icons.arrow}</a></article>`).join('')}</div></div></section>
+  <section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">Build your scope</span><h2>What we can plan together.</h2><p>These are available scope areas, not a fixed bundle. Your proposal identifies the features, integrations and support included.</p></div><div class="grid cols-3">${d.modules.map(([title,text])=>`<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
+  <section class="section"><div class="container"><div class="service-example"><span class="eyebrow">${d.example[0]}</span><h2>${d.example[1]}</h2><p>${d.example[2]}</p><a class="button dark" href="/demo-request/?solution=${encodeURIComponent(key==='crmErp'?'CRM & ERP Package':key==='webApp'?'Website / App Development Package':'Complete Travel Website Package')}">Discuss this workflow ${icons.arrow}</a></div></div></section>
+  <section class="section mist"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Integrations</span><h2>Agree the connections before the build.</h2><p>${d.integrations}</p></div><article class="card"><h3>Your proposal should explain</h3>${list(['Included modules and acceptance criteria','Dependencies and information you need to supply','Milestones and an agreed delivery schedule','Setup cost, third-party fees and ongoing charges','Data ownership, access and handover','Training, warranty and support scope'])}<p>Pricing and timelines are confirmed after requirements review.</p></article></div></section>
+  <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Delivery</span><h2>A practical first release.</h2></div><div class="grid cols-4">${[['Discover','Map users, current tools and the workflow problem.'],['Scope','Agree modules, dependencies, cost and milestones.'],['Build & review','Review screens and test the agreed customer and staff journeys.'],['Launch & hand over','Confirm access, documentation, training and support arrangements.']].map(([title,text],i)=>`<article><span class="solution-number">0${i+1}</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
+  <section class="section mist"><div class="container"><div class="section-head single"><h2>Questions before you start.</h2></div>${d.faqs.map(([q,a])=>`<details class="buyer-faq"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div></section>${cta('Bring your workflow. Let’s plan the system.','Share your service interest and the problem you want to solve. We can discuss the scope and a suitable demo focus.')}`;
+}
+
 const pageRenderers = {
   home: homePage,
   about: aboutPage,
@@ -7574,9 +7477,9 @@ const pageRenderers = {
   erp: erpPage,
   products: productsPage,
   itProducts: () => landingPage("itProducts"),
-  crmErp: () => landingPage("crmErp"),
+  crmErp: () => improvedServicePage("crmErp"),
   ecommerce: () => landingPage("ecommerce"),
-  webApp: () => landingPage("webApp"),
+  webApp: () => improvedServicePage("webApp"),
   automation: () => landingPage("automation"),
   customCrmDevelopment: () => landingPage("customCrmDevelopment"),
   erpSoftwareDevelopment: () => landingPage("erpSoftwareDevelopment"),
@@ -7600,7 +7503,7 @@ const pageRenderers = {
   flightBookingEngine: () => landingPage("flightBookingEngine"),
   hotelBookingEngine: () => landingPage("hotelBookingEngine"),
   travelAgencyMobileApp: () => landingPage("travelAgencyMobileApp"),
-  travelTech: () => landingPage("travelTech"),
+  travelTech: () => improvedServicePage("travelTech"),
   leadBooking: () => landingPage("leadBooking"),
   it: itPage,
   cases: casesPage,
