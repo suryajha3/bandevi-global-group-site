@@ -1461,3 +1461,8 @@ body[data-page="home"] .hero-lede {margin-bottom:0;font-size:1.05rem}
 @media(max-width:760px){body[data-page="home"] .product-preview {margin-top:0}.preview-panel {min-height:260px}body[data-page="home"] .hero-grid {gap:24px}.preview-panel .button {width:auto;min-width:200px}}
 
 .deliverable-label{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:12px 0 6px;color:#c2e8e4}.product-preview [data-service-visual]{object-fit:contain;background:#eef5f4}.preview-panel{min-height:274px}@media(max-width:760px){.preview-panel{min-height:294px}}
+
+/* Reserve tab space before enhancement to avoid moving the demo action. */
+.preview-tabs[hidden]{display:flex;visibility:hidden}
+body[data-page="home"] .section:not(.delivery-section) .eyebrow,body[data-page="websiteProject"] .section .eyebrow{color:#856019}
+.new-hero .eyebrow,.hero .eyebrow{color:#a5dcd6}
