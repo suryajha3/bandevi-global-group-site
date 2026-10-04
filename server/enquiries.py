@@ -54,6 +54,21 @@ def initialize():
         initialize_dashboard(db)
     os.chmod(DB, 0o600)
 
+CHANNELS = ('organic_search','paid','campaign','referral','direct_unknown','unknown')
+def validate_attribution(value):
+    if value is None:
+        return {'channel':'unknown','landing_page':'','referrer_domain':'','utm_source':'','utm_medium':'','utm_campaign':''}
+    if not isinstance(value, dict) or value.get('channel') not in CHANNELS:
+        raise ValueError('Invalid source information.')
+    result={'channel':value['channel']}
+    for field in ('landing_page','referrer_domain','utm_source','utm_medium','utm_campaign'):
+        item=value.get(field,'')
+        if not isinstance(item,str): raise ValueError('Invalid source information.')
+        pattern=r'/(?:[a-zA-Z0-9_-]+/)*' if field=='landing_page' else r'[a-zA-Z0-9.-]{1,253}' if field=='referrer_domain' else r'[a-zA-Z0-9_-]{1,80}'
+        if item and (len(item)>253 or not re.fullmatch(pattern,item)):raise ValueError('Invalid source information.')
+        result[field]=item
+    return result
+
 def validate(data):
     if not isinstance(data, dict):
         raise ValueError('Invalid enquiry.')
@@ -62,6 +77,7 @@ def validate(data):
     if data.get('type') not in ('contact', 'demo'):
         raise ValueError('Invalid enquiry type.')
     result = {'type': data['type']}
+    if 'attribution' in data: result['attribution'] = validate_attribution(data['attribution'])
     for key, limit in FIELDS.items():
         value = data.get(key, '')
         if not isinstance(value, str) or len(value) > limit or any(ord(c) < 32 and c not in '\n\t' for c in value):

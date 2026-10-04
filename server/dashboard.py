@@ -107,12 +107,15 @@ def handle_get(handler, connect):
     if not authenticated:
         handler.respond(401, {'error':'Sign in to view the inbox.'})
         return True
+    if route == '/api/admin/attribution':
+        return attribution_report(handler, connect, parse_qs(parsed.query))
     if route != '/api/admin/enquiries':
         handler.respond(404, {'error':'Not found'})
         return True
     query = parse_qs(parsed.query)
     search = query.get('q', [''])[0][:120]
     stage = query.get('stage', [''])[0]
+    channel = query.get('channel', [''])[0]
     try:
         offset = max(0, min(1000000, int(query.get('offset',['0'])[0])))
     except ValueError:
@@ -120,6 +123,12 @@ def handle_get(handler, connect):
         return True
     where = "e.email_status!='qa-verified'"
     args = []
+    if channel:
+        if channel not in ('organic_search','paid','campaign','referral','direct_unknown','unknown'):
+            handler.respond(400, {'error':'Invalid source filter'})
+            return True
+        where += " AND COALESCE(json_extract(e.payload,'$.attribution.channel'),'unknown')=?"
+        args.append(channel)
     if search:
         where += ' AND (e.id LIKE ? OR e.payload LIKE ? OR w.owner LIKE ?)'
         # Bind all search input. '%' is allowed as a search wildcard.
@@ -138,6 +147,33 @@ def handle_get(handler, connect):
     entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
     handler.respond(200, {'items':entries, 'total':total, 'counts':{s:counts.get(s,0) for s in STAGES}, 'offset':offset,
                           'emailConfigured':all(os.environ.get(k) for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM'))})
+    return True
+
+
+def attribution_report(handler, connect, query):
+    try: days=int(query.get('days',['30'])[0])
+    except ValueError: days=0
+    if days not in (7,30,90):
+        handler.respond(400, {'error':'Choose 7, 30 or 90 days.'})
+        return True
+    channels={c:0 for c in ('organic_search','paid','campaign','referral','direct_unknown','unknown')}
+    stages={s:0 for s in STAGES};landings={};services={};total=0
+    with connect() as db:
+        rows=db.execute("SELECT e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id WHERE e.email_status!='qa-verified' AND e.created>=?",(int(time.time())-days*86400,))
+        for row in rows:
+            data=json.loads(row['payload']);a=data.get('attribution') or {};channel=a.get('channel','unknown')
+            if channel not in channels:channel='unknown'
+            channels[channel]+=1;total+=1
+            service=data.get('interest') or 'Not recorded'
+            counts=services.setdefault(service,{'service':service,'enquiries':0,'organic':0})
+            counts['enquiries']+=1
+            if channel=='organic_search':
+                stages[row['stage']]+=1;counts['organic']+=1
+                landing=a.get('landing_page') or 'Not recorded'
+                landings[landing]=landings.get(landing,0)+1
+    handler.respond(200, {'days':days,'enquiries':total,'channels':channels,'organicStages':stages,
+                         'organicLandingPages':[{'page':p,'enquiries':n} for p,n in sorted(landings.items(),key=lambda x:(-x[1],x[0]))[:20]],
+                         'services':sorted(services.values(),key=lambda x:(-x['enquiries'],x['service']))[:20]})
     return True
 
 def handle_post(handler, connect, origins, salt):
