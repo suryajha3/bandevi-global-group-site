@@ -1158,7 +1158,7 @@ textarea:focus {
   display: none !important;
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1180px) {
   .primary-nav {
     position: fixed;
     inset: 74px 0 auto 0;
@@ -1340,3 +1340,44 @@ textarea:focus {
     font-size: 0.9rem;
   }
 }
+.skip-link {position:fixed;top:8px;left:16px;z-index:100;background:white;color:#101418;padding:12px 18px;transform:translateY(-160%)}
+.skip-link:focus {transform:translateY(0)}
+:focus-visible {outline:3px solid #bd8530;outline-offset:4px}
+.new-hero {background:#102b30;color:#fff;padding:88px 0 72px;background-image:radial-gradient(ellipse at 100% 20%,#245860 0,transparent 65%)}
+.hero-grid {display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+.new-hero h1 {font-size:clamp(2.6rem,4.4vw,4.5rem);line-height:1.08;letter-spacing:-.045em;margin:20px 0 26px}
+.new-hero h1 span {color:#a5ded7}
+.new-hero .hero-lede {font-size:1.12rem;color:#d0e1e2;max-width:560px}
+.new-hero .eyebrow {color:#b4dbd7}
+.hero-small {font-size:.85rem;color:#c2d7d8;margin-top:24px}
+.product-preview {margin:0;background:#fff;border:1px solid #507076;border-radius:20px;overflow:hidden;box-shadow:0 25px 60px #0003;transform:rotate(1deg)}
+.product-preview img {width:100%;height:auto}
+.product-preview figcaption {padding:14px 20px;font-size:.8rem;color:#47575d;background:#f5f8f8}
+.solution-card {display:flex;flex-direction:column;border-top:3px solid var(--teal)}
+.solution-number {color:var(--teal);font-size:.9rem;letter-spacing:.15em;font-weight:700}
+.solution-card h4 {font-size:1.03rem;margin:0 0 8px}
+.solution-features {font-size:.85rem;border-top:1px solid var(--line);padding-top:20px}
+.text-link {display:inline-flex;align-items:center;gap:10px;font-weight:650;color:#04626c;text-decoration:underline;text-underline-offset:5px}
+.solution-card .text-link {margin-top:auto}
+.outcome-grid {display:grid;grid-template-columns:1fr 1.1fr;gap:70px;align-items:start}
+.workflow-list {list-style:none;counter-reset:flow;padding:0;margin:0}
+.workflow-list li {counter-increment:flow;position:relative;padding:0 0 26px 55px;margin:0 0 20px;border-bottom:1px solid var(--line)}
+.workflow-list li::before {content:counter(flow);position:absolute;left:0;top:0;background:#dcebea;color:#035963;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-weight:700}
+.workflow-list strong,.workflow-list span {display:block}
+.workflow-list span {color:var(--muted);margin-top:8px}
+.delivery-section {background:#102b30;color:#fff}
+.delivery-section p {color:#d0e1e2}
+.delivery-section .eyebrow,.delivery-section .solution-number {color:#a5ded7}
+.buyer-faq {border-bottom:1px solid var(--line);padding:20px 0}
+.buyer-faq summary {font-weight:650;cursor:pointer}
+.buyer-faq p {max-width:850px;color:var(--muted)}
+.buyer-faq a,.form-help a {text-decoration:underline;color:#04626c}
+.form-help {font-size:.86rem;color:var(--muted)}
+.primary-nav .mobile-nav-extra a[href="/crm-erp-solutions/"],.primary-nav .mobile-nav-extra a[href="/case-studies/"] {display:none}
+@media (max-width:1100px) {.hero-grid {gap:30px}.nav-wrap {gap:14px}.new-hero {padding:58px 0}.outcome-grid {gap:32px}}
+@media (max-width:760px) {.hero-grid,.outcome-grid {grid-template-columns:1fr}.new-hero h1 {font-size:clamp(2.5rem,9vw,3.8rem)}.product-preview {transform:none}.new-hero {padding:44px 0}.delivery-section .grid {gap:30px}.hero-small {line-height:1.8}.new-hero .hero-actions {display:flex;flex-wrap:wrap}.form-panel {min-width:0}}
+@media (prefers-reduced-motion:reduce) {html {scroll-behavior:auto}*,*::before,*::after {animation:none!important;transition:none!important}}
+
+body[data-page="home"] .section-head {display:block;max-width:760px;margin-bottom:36px}
+body[data-page="home"] .section-head h2 {margin:16px 0}
+body[data-page="home"] .section-head p {margin:16px 0}
