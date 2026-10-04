@@ -6874,25 +6874,25 @@ function supportPage() {
 }
 
 function contactForm(kind = "contact") {
-  return `<form class="form-panel" data-form="${kind}"><input type="hidden" name="leadSource" value=""><div class="form-grid">
+  return `<form class="form-panel" data-form="${kind}"><input type="hidden" name="leadSource" value=""><div class="enquiry-trap" aria-hidden="true"><label for="${kind}-website">Leave this blank</label><input id="${kind}-website" name="website" tabindex="-1" autocomplete="off"></div><div class="form-grid">
   <div class="field"><label for="${kind}-name">Your name</label><input id="${kind}-name" name="name" autocomplete="name" maxlength="120" required></div>
   <div class="field"><label for="${kind}-email">Email</label><input id="${kind}-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
   <div class="field"><label for="${kind}-phone">Phone / WhatsApp (optional)</label><input id="${kind}-phone" name="phone" type="tel" autocomplete="tel" maxlength="30"></div>
   <div class="field"><label for="${kind}-interest">Service needed</label><select id="${kind}-interest" name="interest" required><option value="">Choose a solution</option>${optionList(["Website / App Development Package", "CRM & ERP Package", "Travel CRM Package", "Travel ERP Package", "Complete Travel Website Package", "White-label Travel Website Package", "B2B Travel Portal Package", "Customer Portal Package", "E-Commerce Package", "Automation Package", "Need guidance"])}</select></div>
   <div class="field full"><label for="${kind}-message">What would you like to improve?</label><textarea id="${kind}-message" name="message" maxlength="3000" placeholder="Tell us about your business and the problem you want to solve." required></textarea></div></div>
-  <p class="form-help">This prepares a message in WhatsApp. Send it there to complete your enquiry, or use the email option shown after preparing it. <a href="/privacy-policy/">Privacy policy</a></p>
-  <button class="button dark" type="submit">Prepare enquiry ${icons.arrow}</button><p class="form-note" aria-live="polite"></p></form>`;
+  <p class="form-help">Send your enquiry directly to our website inbox. We use your details to respond to this request. <a href="/privacy-policy/">Privacy policy</a></p>
+  <button class="button dark" type="submit">Send enquiry ${icons.arrow}</button><p class="form-note" aria-live="polite"></p></form>`;
 }
 
 function contactPage() {
- return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Contact the team</span><h2>Tell us what you want to improve.</h2><p>Choose a service, describe your business problem and add your name and email. Your phone number is optional.</p><p>The form prepares a message. Send it in WhatsApp or email to complete your enquiry; preparing it alone does not deliver it to our team.</p><p><a class="text-link" href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a><br><a class="text-link" href="mailto:${contactInfo.email}">${contactInfo.email}</a></p><p>For a product walkthrough, <a class="text-link" href="/demo-request/">request a demo</a>.</p></div><div>${contactForm('contact')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">What happens next</span><h2>From your message to a project discussion.</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>Office and service locations.</h2><p>Confirm an appointment and the correct support location with the central desk before visiting.</p></div><div class="table-wrap"><table><thead><tr><th scope="col">Location</th><th scope="col">Published address</th></tr></thead><tbody>${officeLocations.map(([city,address])=>`<tr><th scope="row">${city}</th><td>${address}</td></tr>`).join('')}</tbody></table></div><p><a class="text-link" href="/offices/">Review office and service-location information</a></p><p><a class="text-link" href="/proof-verification/">Review company evidence and verification</a></p></div></section>`;
+ return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Contact the team</span><h2>Tell us what you want to improve.</h2><p>Choose a service, describe your business problem and add your name and email. Your phone number is optional.</p><p>Send the form to save your enquiry and receive a reference number. You can also contact us directly by WhatsApp or email.</p><p><a class="text-link" href="${contactInfo.phoneHref}">${contactInfo.phoneDisplay}</a><br><a class="text-link" href="mailto:${contactInfo.email}">${contactInfo.email}</a></p><p>For a product walkthrough, <a class="text-link" href="/demo-request/">request a demo</a>.</p></div><div>${contactForm('contact')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">What happens next</span><h2>From your message to a project discussion.</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>Office and service locations.</h2><p>Confirm an appointment and the correct support location with the central desk before visiting.</p></div><div class="table-wrap"><table><thead><tr><th scope="col">Location</th><th scope="col">Published address</th></tr></thead><tbody>${officeLocations.map(([city,address])=>`<tr><th scope="row">${city}</th><td>${address}</td></tr>`).join('')}</tbody></table></div><p><a class="text-link" href="/offices/">Review office and service-location information</a></p><p><a class="text-link" href="/proof-verification/">Review company evidence and verification</a></p></div></section>`;
 }
 function cardsForEnquiry() {
- return [['Send','Prepare your message, then send it using WhatsApp or email.'],['Review','The team reviews your service interest and the problem described.'],['Discuss','Agree a suitable follow-up or demo focus, then clarify scope and commercial terms.']].map(([title,text])=>`<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join('');
+ return [['Send','Submit the form and keep your enquiry reference, or contact us directly.'],['Review','The team reviews your service interest and the problem described.'],['Discuss','Agree a suitable follow-up or demo focus, then clarify scope and commercial terms.']].map(([title,text])=>`<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join('');
 }
 
 function demoPage() {
- return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Request a walkthrough</span><h2>A demo focused on your business problem.</h2><p>Choose the service you want to explore and describe the workflow you need to improve. Add your name and email; a phone number is optional.</p><p>If useful, include your business type, existing website or current tools in the description. You can choose “Need guidance” if you are unsure.</p><p>Preparing the enquiry opens a WhatsApp message. Send it there to deliver the request, or choose the email link afterwards. The team can then agree the demo focus and timing.</p><p><a class="text-link" href="/proof-verification/">Review company information</a></p></div><div id="demo-form">${contactForm('demo')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><h2>Choose the conversation you need.</h2><p>Explore a service before requesting a walkthrough.</p></div><div class="grid cols-3">${[['Websites & Apps','Pages, customer journeys, enquiries, portals and app workflows.','/website-mobile-app-development/'],['CRM & ERP','Lead control, operational records, permissions and reporting.','/crm-erp-solutions/'],['Travel Technology','Travel websites, agency workflows, supplier dependencies and booking requirements.','/travel-technology/']].map(([title,text,href])=>`<article class="card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore service ${icons.arrow}</a></article>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>What happens after you send?</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div><details class="buyer-faq"><summary>Does a demo request commit me to a project?</summary><p>No. Project scope, pricing, payment milestones and support terms are agreed separately in writing.</p></details><details class="buyer-faq"><summary>Do I need to share customer data?</summary><p>A description of your workflow is enough for the first discussion. Use anonymized examples if they help explain your requirements.</p></details></div></section>`;
+ return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Request a walkthrough</span><h2>A demo focused on your business problem.</h2><p>Choose the service you want to explore and describe the workflow you need to improve. Add your name and email; a phone number is optional.</p><p>If useful, include your business type, existing website or current tools in the description. You can choose “Need guidance” if you are unsure.</p><p>Submit your request directly and keep the reference number shown on screen. The team can then agree the demo focus and timing.</p><p><a class="text-link" href="/proof-verification/">Review company information</a></p></div><div id="demo-form">${contactForm('demo')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><h2>Choose the conversation you need.</h2><p>Explore a service before requesting a walkthrough.</p></div><div class="grid cols-3">${[['Websites & Apps','Pages, customer journeys, enquiries, portals and app workflows.','/website-mobile-app-development/'],['CRM & ERP','Lead control, operational records, permissions and reporting.','/crm-erp-solutions/'],['Travel Technology','Travel websites, agency workflows, supplier dependencies and booking requirements.','/travel-technology/']].map(([title,text,href])=>`<article class="card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore service ${icons.arrow}</a></article>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>What happens after you send?</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div><details class="buyer-faq"><summary>Does a demo request commit me to a project?</summary><p>No. Project scope, pricing, payment milestones and support terms are agreed separately in writing.</p></details><details class="buyer-faq"><summary>Do I need to share customer data?</summary><p>A description of your workflow is enough for the first discussion. Use anonymized examples if they help explain your requirements.</p></details></div></section>`;
 }
 
 function feedbackPage() {
@@ -7148,6 +7148,7 @@ function privacyPage() {
           ${list([
             "Contact details such as name, company, phone number, email address, and preferred contact method.",
             "Project details shared through contact forms, demo request forms, WhatsApp, email, phone calls, or meetings.",
+            "Contact and demo enquiries are stored in a private inbox on our hosting server with a reference number. Sales notifications may be delivered through our email provider. A hashed network identifier is temporarily used to limit automated abuse.",
             "Basic website analytics and technical information such as page visits, device type, browser type, and referral source when analytics tools are enabled."
           ])}
           <section class="article-block">
@@ -7589,7 +7590,7 @@ function bindForms() {
       if (leadSource) leadSource.value = sourcePath || currentUrl.searchParams.get("source") || "Direct demo request";
     }
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const note = form.querySelector(".form-note");
       if (type === "portal") {
@@ -7599,6 +7600,51 @@ function bindForms() {
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
+      if (type === "contact" || type === "demo") {
+        const button = form.querySelector('button[type="submit"]');
+        if (form.dataset.sending === 'true') return;
+        const payload = {
+          type, name: data.name, email: data.email, phone: data.phone || '',
+          interest: data.interest, message: data.message, website: data.website || '',
+          source: window.location.pathname,
+          campaign: ['utm_source','utm_medium','utm_campaign'].map(k => new URL(location.href).searchParams.get(k) || '').join(' / ').slice(0,500)
+        };
+        const serialized = JSON.stringify(payload);
+        if (form.dataset.payload !== serialized) {
+          form.dataset.requestId = crypto.randomUUID();
+          form.dataset.payload = serialized;
+        }
+        form.dataset.sending = 'true';
+        button.disabled = true;
+        note.textContent = 'Sending your enquiry…';
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+        try {
+          const response = await fetch('/api/enquiries', {
+            method: 'POST', credentials: 'same-origin', signal: controller.signal,
+            headers: {'Content-Type':'application/json', 'Idempotency-Key':form.dataset.requestId},
+            body: serialized
+          });
+          const result = await response.json();
+          if (!response.ok || result.ok !== true || !/^BG-[A-F0-9]{16}$/.test(result.reference || '')) {
+            if (response.status === 409) delete form.dataset.payload;
+            throw new Error(result.error || 'Unable to confirm your enquiry.');
+          }
+          note.textContent = 'Your enquiry has been saved. Reference: ' + result.reference + '. Keep this reference for follow-up.';
+          trackAnalyticsEvent('generate_lead', {lead_type:type, page_location:location.origin + location.pathname});
+          form.reset();
+          delete form.dataset.payload;
+          delete form.dataset.requestId;
+        } catch (error) {
+          note.textContent = (error.name === 'AbortError' ? 'We could not confirm receipt. Retry this form to check safely.' : error.message) + ' Your draft is retained. You can also ';
+          const email = document.createElement('a'); email.href = 'mailto:' + contactInfo.email; email.textContent = 'email the team';
+          const whatsapp = document.createElement('a'); whatsapp.href = contactInfo.whatsapp; whatsapp.target = '_blank'; whatsapp.rel = 'noopener noreferrer'; whatsapp.textContent = 'use WhatsApp';
+          note.append(email, ' or ', whatsapp, '.');
+        } finally {
+          clearTimeout(timeout); button.disabled = false; delete form.dataset.sending;
+        }
+        return;
+      }
       const label = type === "demo" ? "Demo request" : type === "review" ? "Client feedback and case study approval" : "Contact inquiry";
       const currentUrl = new URL(window.location.href);
       const campaignDetails = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
