@@ -1727,8 +1727,12 @@ function improvedHomeHero() {
     <div><span class="eyebrow">BANDEVI GLOBAL GROUP · Business technology</span>
     <h1>Websites, CRM &amp; ERP<br><span>built for your business.</span></h1>
     <p class="hero-lede">Connect your website, sales and operations. Build a clear workflow for enquiries, customer follow-ups and daily delivery.</p>
-    <div class="hero-actions"><a class="button primary" href="/demo-request/">Book a Demo ${icons.arrow}</a><a class="button secondary" href="/contact-us/">Discuss Your Project</a></div>
-    <nav class="demo-selector" aria-label="Choose your demo"><span>Choose your demo</span><a href="/demo-request/?solution=Website%20%2F%20App%20Development%20Package&amp;focus=website-journey">Website &amp; App</a><a href="/demo-request/?solution=CRM%20%26%20ERP%20Package&amp;focus=business-leads">CRM &amp; ERP</a><a href="/demo-request/?solution=Travel%20CRM&amp;focus=crm-quotes">Travel Technology</a></nav><p class="hero-small"><a href="#solutions">Explore solutions</a> · <a href="/trust-licences-certifications/">Company records &amp; verification</a></p></div>
+    <div class="service-preview" data-service-preview><p class="preview-label">Choose a service to explore</p><div class="preview-tabs" role="tablist" aria-label="Service previews" hidden>${['Website &amp; App','CRM &amp; ERP','Travel Technology'].map((label,i)=>`<button type="button" role="tab" id="service-tab-${i}" aria-controls="service-preview-${i}" aria-selected="${i===0}" tabindex="${i===0?0:-1}">${label}</button>`).join('')}</div>${[
+      ['Website &amp; App','Turn visits into useful enquiries.','Service pages and enquiry forms','Customer journeys and portal requirements','Website-to-sales handover','Website / App Development Package','website-journey'],
+      ['CRM &amp; ERP','Give sales and operations a shared workflow.','Lead ownership, quotations and follow-ups','Orders, approvals and operational records','Role permissions and management reporting','CRM & ERP Package','business-leads'],
+      ['Travel Technology','Connect travel enquiries with booking operations.','Customer enquiries and quotation history','Booking handover and supplier coordination','Travel CRM, ERP and website requirements','Travel CRM','crm-quotes']
+    ].map(([title,description,one,two,three,solution,focus],i)=>`<section class="preview-panel" id="service-preview-${i}" aria-labelledby="service-heading-${i}"><h2 id="service-heading-${i}">${title}</h2><p>${description}</p><ul><li>${one}</li><li>${two}</li><li>${three}</li></ul><a class="button primary" href="/demo-request/?solution=${encodeURIComponent(solution)}&amp;focus=${focus}">Request this demo ${icons.arrow}</a></section>`).join('')}<p class="preview-scope">Preview topics for discussion. Available modules and integrations are confirmed with the team.</p></div>
+    <div class="hero-project-link"><a href="/contact-us/">Discuss Your Project ${icons.arrow}</a></div><p class="hero-next">Share requirements → agree a demo focus → review scope.</p><p class="hero-small"><a href="/trust-licences-certifications/">Company records &amp; verification</a></p></div>
     <figure class="product-preview"><img src="/assets/travel-platform-dashboard.webp" width="1536" height="1024" alt="Illustrative travel software dashboard showing a proposed interface" fetchpriority="high"><figcaption>Illustrative interface concept. Request a walkthrough of the modules available for your project.</figcaption></figure>
   </div></section>`;
 }
@@ -7328,7 +7332,16 @@ blogArticles.forEach((article) => {
   pageRenderers[article.key] = () => blogArticlePage(article.key);
 });
 
+function bindServicePreview() {
+  document.querySelectorAll('[data-service-preview]').forEach(group=>{
+    const tabs=Array.from(group.querySelectorAll('[role="tab"]')),panels=Array.from(group.querySelectorAll('.preview-panel'));
+    group.querySelector('[role="tablist"]').hidden=false;
+    function select(index,focus=false){tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;panels[i].hidden=i!==index;panels[i].setAttribute('role','tabpanel');panels[i].setAttribute('aria-labelledby',tab.id);});if(focus)tabs[index].focus();}
+    tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>select(i));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(i+1)%tabs.length;else if(event.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});select(0);
+  });
+}
 function bindNav() {
+  bindServicePreview();
   const toggle = document.querySelector("[data-nav-toggle]");
   if (!toggle) return;
   function setOpen(open) {

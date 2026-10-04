@@ -92,7 +92,16 @@ const contactInfo = {
   whatsapp: "https://wa.me/918287669022"
 };
 
+function bindServicePreview() {
+  document.querySelectorAll('[data-service-preview]').forEach(group=>{
+    const tabs=Array.from(group.querySelectorAll('[role="tab"]')),panels=Array.from(group.querySelectorAll('.preview-panel'));
+    group.querySelector('[role="tablist"]').hidden=false;
+    function select(index,focus=false){tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;panels[i].hidden=i!==index;panels[i].setAttribute('role','tabpanel');panels[i].setAttribute('aria-labelledby',tab.id);});if(focus)tabs[index].focus();}
+    tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>select(i));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(i+1)%tabs.length;else if(event.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});select(0);
+  });
+}
 function bindNav() {
+  bindServicePreview();
   const toggle = document.querySelector("[data-nav-toggle]");
   if (!toggle) return;
   function setOpen(open) {
