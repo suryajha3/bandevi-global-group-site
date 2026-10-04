@@ -1391,3 +1391,40 @@ body[data-page="home"] .section-head p {margin:16px 0}
 
 .enquiry-trap { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
 .form-panel button:disabled { opacity:.65; cursor:wait; }
+
+/* Travel service pages: workflow overview and editable demo planning. */
+.travel-service-hero {background:#102b30;color:#fff;padding:64px 0 0}
+.travel-service-grid {display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:center}
+.travel-service-hero .eyebrow {color:#f7d47b}
+.travel-service-hero h1 {font-size:clamp(2.2rem,3.6vw,3.6rem);line-height:1.1;letter-spacing:-.035em;margin:20px 0}
+.travel-service-hero .hero-lede {color:#d5e4e5;font-size:1.05rem;max-width:650px}
+.travel-service-hero .hero-actions {display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.travel-service-hero .service-hero-note {font-size:.88rem;color:#bdd3d5;margin-top:22px}
+.workflow-preview {background:#f3f7f8;color:#102b30;border-radius:18px;padding:30px;min-width:0;box-shadow:0 18px 45px #0003}
+.workflow-preview .preview-caption {font-size:.7rem;letter-spacing:.15em;color:#04626c;font-weight:750;margin:0}
+.workflow-preview h2 {font-size:1.45rem;line-height:1.3;margin:12px 0 24px}
+.workflow-preview ol {list-style:none;margin:0;padding:0}
+.workflow-preview li {display:flex;gap:15px;padding:14px 0;border-top:1px solid var(--line)}
+.preview-step {background:#dcebea;color:#035963;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;flex:0 0 30px;font-weight:700}
+.workflow-preview h3 {font-size:.93rem;margin:2px 0 5px}
+.workflow-preview li p {font-size:.86rem;color:var(--muted);margin:0}
+.workflow-preview .preview-disclosure {font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+.workflow-preview>a {display:inline-flex;gap:9px;align-items:center;font-weight:700;font-size:.86rem;color:#04626c;text-decoration:underline;text-underline-offset:4px}
+.service-section-nav {display:flex;gap:28px;flex-wrap:wrap;margin-top:45px;border-top:1px solid #ffffff2b;padding-top:19px;padding-bottom:19px;font-size:.9rem;font-weight:650}
+.service-section-nav a:hover {color:#f7d47b}
+.delivery-milestones {gap:28px}
+.delivery-milestones article {border-top:1px solid #ffffff3b;padding-top:24px}
+.milestone-number {font-size:.8rem;letter-spacing:.1em;color:#a5ded7;font-weight:750}
+.delivery-milestones h3 {margin:10px 0;font-size:1.25rem}
+.delivery-milestones .milestone-output {font-size:.88rem;background:#ffffff0d;padding:16px;border-radius:8px}
+.service-trust-links {margin-top:28px}
+.service-trust-links a {color:#04626c;text-decoration:underline;text-underline-offset:4px}
+.demo-planner {display:flex;flex-direction:column;gap:12px}
+.demo-planner label {font-size:.9rem;font-weight:700}
+.demo-planner select {width:100%;padding:13px;background:#fff;border:1px solid #bdcdd0;border-radius:7px;color:var(--ink);font:inherit;min-width:0}
+.demo-planner button {margin-top:12px;justify-content:center}
+.demo-planner .form-help {margin:0}
+.demo-planner .text-link {font-size:.86rem;margin-top:8px}
+#delivery-plan,#project-agreement,#demo-planner,#service-modules {scroll-margin-top:100px}
+@media(max-width:1000px) {.travel-service-grid {gap:30px;grid-template-columns:1fr 1fr}.workflow-preview {padding:24px}}
+@media(max-width:760px) {.travel-service-hero {padding-top:36px}.travel-service-grid {grid-template-columns:1fr;gap:30px}.travel-service-hero h1 {font-size:clamp(2.15rem,9vw,3rem)}.service-section-nav {gap:16px;font-size:.84rem;margin-top:32px}.workflow-preview {padding:24px 20px}.delivery-milestones {grid-template-columns:1fr}.demo-planner {padding:24px 20px}}
