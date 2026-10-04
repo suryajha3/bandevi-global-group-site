@@ -35,3 +35,15 @@ Do not paste customer records into public logs or Git. For an approved deletion 
 ## Rollback
 
 Restore the saved Nginx configuration, validate and reload Nginx, and restore the previous frontend Git revision. Stop the service if needed. Preserve `/var/lib/bandevi-enquiries/` so rollback does not delete enquiries. Never deploy frontend success wording without a healthy backend.
+
+## Scheduled follow-up dates
+
+The sales inbox includes a next follow-up date, overdue/today/next-seven-days filters and an unassigned-owner filter. Calendar dates use Asia/Kolkata. Closed and QA records are excluded from due summaries. These dates organize the inbox; they do not send reminder emails. The schema migration is additive and preserves existing owner, notes, stage and version. Old clients that omit the new field preserve the stored date. Run `python3 server/test_followups.py` for isolated migration, date validation, access, audit and conflict tests.
+
+## Owner-operated GoDaddy Professional Email setup
+
+First confirm the mailbox product in GoDaddy. For Professional Email or Professional Email powered by Titan, the owner can run `python3 server/setup-professional-email.py` in the authenticated root console. The script requires explicit product and recipient confirmation, accepts the existing password through a hidden prompt, authenticates over verified TLS, sends a test to sales@bandeviglobalgroup.com and requires confirmation of receipt before saving credentials in the private root-only environment file. A private backup supports rollback on restart failure. No customer data is used in the setup test. Pending website notification emails begin after sender configuration is saved.
+
+Provider reference: https://www.godaddy.com/help/set-up-third-party-plugins-or-websites-using-smtp-settings-42788
+
+Microsoft 365 is not supported by this password-based configurator; use an approved OAuth-capable integration. Do not disable MFA or security defaults. Email remains pending until the account connection and receipt test are actually completed.

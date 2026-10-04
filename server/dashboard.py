@@ -1,4 +1,5 @@
 """Authenticated sales workflow; no customer data in static files."""
+import datetime
 import hashlib
 import hmac
 import json
@@ -28,6 +29,24 @@ def initialize_dashboard(db):
       id INTEGER PRIMARY KEY AUTOINCREMENT, enquiry_id TEXT NOT NULL, created INTEGER NOT NULL,
       actor TEXT NOT NULL, previous TEXT NOT NULL, changed TEXT NOT NULL);
     ''')
+
+    columns = {row[1] for row in db.execute('PRAGMA table_info(enquiry_workflow)')}
+    if 'follow_up_date' not in columns:
+        db.execute("ALTER TABLE enquiry_workflow ADD COLUMN follow_up_date TEXT NOT NULL DEFAULT ''")
+
+def business_today():
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).date()
+
+def valid_follow_up(value):
+    if not isinstance(value, str):
+        return False
+    if value == '':
+        return True
+    try:
+        parsed = datetime.date.fromisoformat(value)
+        return len(value) == 10 and parsed.isoformat() == value and 1900 <= parsed.year <= 2100
+    except ValueError:
+        return False
 
 def password_hash(password, salt=None):
     salt = salt or secrets.token_hex(16)
@@ -116,6 +135,11 @@ def handle_get(handler, connect):
     search = query.get('q', [''])[0][:120]
     stage = query.get('stage', [''])[0]
     channel = query.get('channel', [''])[0]
+    follow_up = query.get('followup', [''])[0]
+    today = business_today()
+    if follow_up not in ('', 'overdue', 'today', 'upcoming', 'unscheduled', 'unassigned'):
+        handler.respond(400, {'error':'Invalid follow-up filter'})
+        return True
     try:
         offset = max(0, min(1000000, int(query.get('offset',['0'])[0])))
     except ValueError:
@@ -139,13 +163,35 @@ def handle_get(handler, connect):
             return True
         where += " AND COALESCE(w.stage,'New')=?"
         args.append(stage)
+    if follow_up:
+        where += " AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"
+        if follow_up == 'overdue':
+            where += " AND COALESCE(w.follow_up_date,'')!='' AND w.follow_up_date<?"
+            args.append(today.isoformat())
+        elif follow_up == 'today':
+            where += " AND w.follow_up_date=?"
+            args.append(today.isoformat())
+        elif follow_up == 'upcoming':
+            where += " AND w.follow_up_date>? AND w.follow_up_date<=?"
+            args += [today.isoformat(), (today+datetime.timedelta(days=7)).isoformat()]
+        elif follow_up == 'unscheduled':
+            where += " AND COALESCE(w.follow_up_date,'')=''"
+        else:
+            where += " AND COALESCE(w.owner,'')=''"
     join = ' FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id '
     with connect() as db:
         total = db.execute('SELECT COUNT(*)' + join + 'WHERE ' + where, args).fetchone()[0]
-        rows = db.execute("SELECT e.*,COALESCE(w.stage,'New') AS stage,COALESCE(w.owner,'') AS owner,COALESCE(w.notes,'') AS notes,COALESCE(w.version,0) AS version,w.updated" + join + 'WHERE ' + where + ' ORDER BY e.created DESC,e.id DESC LIMIT 50 OFFSET ?', args + [offset]).fetchall()
+        rows = db.execute("SELECT e.*,COALESCE(w.stage,'New') AS stage,COALESCE(w.owner,'') AS owner,COALESCE(w.notes,'') AS notes,COALESCE(w.version,0) AS version,COALESCE(w.follow_up_date,'') AS follow_up_date,w.updated" + join + 'WHERE ' + where + ' ORDER BY e.created DESC,e.id DESC LIMIT 50 OFFSET ?', args + [offset]).fetchall()
         counts = {r[0]:r[1] for r in db.execute("SELECT COALESCE(w.stage,'New'),COUNT(*)" + join + "WHERE e.email_status!='qa-verified' GROUP BY COALESCE(w.stage,'New')")}
-    entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
-    handler.respond(200, {'items':entries, 'total':total, 'counts':{s:counts.get(s,0) for s in STAGES}, 'offset':offset,
+        active = "WHERE e.email_status!='qa-verified' AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"
+        followups = {
+            'overdue':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.follow_up_date,'')!='' AND w.follow_up_date<?",(today.isoformat(),)).fetchone()[0],
+            'today':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date=?",(today.isoformat(),)).fetchone()[0],
+            'upcoming':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date>? AND w.follow_up_date<=?",(today.isoformat(),(today+datetime.timedelta(days=7)).isoformat())).fetchone()[0],
+            'unassigned':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.owner,'')=''",()).fetchone()[0]
+        }
+    entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'followUpDate':r['follow_up_date'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
+    handler.respond(200, {'items':entries, 'total':total, 'counts':{s:counts.get(s,0) for s in STAGES}, 'offset':offset, 'followups':followups, 'businessDate':today.isoformat(), 'businessTimezone':'Asia/Kolkata',
                           'emailConfigured':all(os.environ.get(k) for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM'))})
     return True
 
@@ -235,6 +281,9 @@ def handle_post(handler, connect, origins, salt):
         return True
     reference, stage = data.get('reference'), data.get('stage')
     owner, notes, version = data.get('owner',''), data.get('notes',''), data.get('version')
+    if 'followUpDate' in data and not valid_follow_up(data['followUpDate']):
+        handler.respond(400, {'error':'Use a valid follow-up date or leave it blank.'})
+        return True
     if (not isinstance(reference,str) or len(reference)>30 or stage not in STAGES or
         not isinstance(owner,str) or len(owner)>120 or not isinstance(notes,str) or len(notes)>2000 or
         type(version) is not int or version < 0):
@@ -249,9 +298,11 @@ def handle_post(handler, connect, origins, salt):
         if version != (previous['version'] if previous else 0):
             handler.respond(409, {'error':'This enquiry was updated elsewhere. Refresh before saving.'})
             return True
-        changed = {'stage':stage, 'owner':owner.strip(), 'notes':notes.strip()}
-        db.execute('INSERT INTO enquiry_workflow(id,stage,owner,notes,version,updated) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET stage=excluded.stage,owner=excluded.owner,notes=excluded.notes,version=excluded.version,updated=excluded.updated', (reference,stage,owner.strip(),notes.strip(),version+1,now))
+        follow_up_date = data.get('followUpDate', previous['follow_up_date'] if previous else '')
+        changed = {'stage':stage, 'owner':owner.strip(), 'notes':notes.strip(), 'followUpDate':follow_up_date}
+        db.execute('INSERT INTO enquiry_workflow(id,stage,owner,notes,version,updated,follow_up_date) VALUES(?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET stage=excluded.stage,owner=excluded.owner,notes=excluded.notes,version=excluded.version,updated=excluded.updated,follow_up_date=excluded.follow_up_date', (reference,stage,owner.strip(),notes.strip(),version+1,now,follow_up_date))
         old = {k:previous[k] for k in ('stage','owner','notes')} if previous else {'stage':'New','owner':'','notes':''}
+        old['followUpDate'] = previous['follow_up_date'] if previous else ''
         db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)', (reference,now,USER,json.dumps(old),json.dumps(changed)))
     handler.respond(200, {'ok':True, 'version':version+1})
     return True
