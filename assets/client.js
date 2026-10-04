@@ -1,21 +1,53 @@
 const asset = (name) => `/assets/${name}`;
 
+
+const attributionChannels = ['organic_search','paid','campaign','referral','direct_unknown','unknown'];
+function publicPagePath() {
+  try { return new URL(document.querySelector('link[rel="canonical"]').href).pathname; } catch (_) { return '/'; }
+}
+function campaignLabel(value) { return /^[a-zA-Z0-9_-]{1,80}$/.test(value || '') ? value : ''; }
+function sourceAttribution() {
+  const key='bg_enquiry_attribution_v1', now=Date.now();
+  const url=new URL(location.href);const utm_source=campaignLabel(url.searchParams.get('utm_source'));
+  const utm_medium=campaignLabel(url.searchParams.get('utm_medium'));const utm_campaign=campaignLabel(url.searchParams.get('utm_campaign'));
+  const paid=['gclid','msclkid','wbraid','gbraid'].some(k=>url.searchParams.has(k)) || /^(cpc|ppc|paid|paid_search|paid_social|display|cpm)$/i.test(utm_medium);
+  let referrer_domain='',external=false,internal=false;
+  try { const r=new URL(document.referrer);external=r.origin!==url.origin;internal=!external;if(external)referrer_domain=r.hostname.toLowerCase(); } catch (_) {}
+  const tagged=paid||!!(utm_source||utm_medium||utm_campaign);
+  try { const saved=JSON.parse(sessionStorage.getItem(key));if(!external&&saved&&saved.expires>now&&attributionChannels.includes(saved.channel)&&/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(saved.landing_page)&&(!tagged||internal&&saved.utm_source===utm_source&&saved.utm_medium===utm_medium&&saved.utm_campaign===utm_campaign))return saved; } catch (_) {}
+  const organic=/^(www\.)?google\.(com|[a-z]{2}|co\.[a-z]{2}|com\.[a-z]{2})$/.test(referrer_domain) || /^(www\.)?(bing\.com|duckduckgo\.com|ecosia\.org)$/.test(referrer_domain) || ['search.yahoo.com','search.brave.com'].includes(referrer_domain);
+  const value={channel:paid?'paid':tagged?'campaign':organic?'organic_search':external?'referral':'direct_unknown',landing_page:publicPagePath(),referrer_domain,utm_source,utm_medium,utm_campaign,expires:now+30*60*1000};
+  try { sessionStorage.setItem(key,JSON.stringify(value)); } catch (_) {}
+  return value;
+}
+const enquiryAttribution=sourceAttribution();
+function safeReferrerOrigin() {try {return new URL(document.referrer).origin;}catch(_){return '';}}
+function enquiryAnalytics(form,type,reference) {
+  const key='bg_measured_enquiries_v1';let sent=[];
+  try {sent=JSON.parse(sessionStorage.getItem(key))||[];}catch(_){}
+  if(!Array.isArray(sent))sent=[];if(sent.includes(reference))return;
+  sent.push(reference);try {sessionStorage.setItem(key,JSON.stringify(sent.slice(-100)));}catch(_){}
+  const services={'Website / App Development Package':'website_app','CRM & ERP Package':'crm_erp','Travel CRM Package':'travel_crm','Travel ERP Package':'travel_erp','Complete Travel Website Package':'travel_website','White-label Travel Website Package':'white_label_website','B2B Travel Portal Package':'b2b_portal','Customer Portal Package':'customer_portal','E-Commerce Package':'ecommerce','Automation Package':'automation','Need guidance':'guidance'};
+  trackAnalyticsEvent('generate_lead',{lead_type:type,service_interest:services[form.elements.interest.value]||'other',acquisition_channel:enquiryAttribution.channel,landing_page:enquiryAttribution.landing_page,page_location:location.origin+publicPagePath()});
+}
+
 const googleAnalyticsId = "G-TGK7Z8VNJX";
 
 function trackAnalyticsEvent(eventName, parameters = {}) {
+  if (navigator.doNotTrack === "1") return;
   if (typeof window.gtag === "function") {
     window.gtag("event", eventName, parameters);
   }
 }
 
-if (googleAnalyticsId && !window.gtag) {
+if (googleAnalyticsId && !window.gtag && navigator.doNotTrack !== "1") {
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
     window.dataLayer.push(arguments);
   };
 
   window.gtag("js", new Date());
-  window.gtag("config", googleAnalyticsId);
+  window.gtag("config", googleAnalyticsId, {page_location:location.origin+publicPagePath(),page_referrer:safeReferrerOrigin(),allow_google_signals:false,allow_ad_personalization_signals:false});
 
   const analyticsScript = document.createElement("script");
   analyticsScript.async = true;
@@ -156,7 +188,8 @@ function bindForms() {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
           interest: data.interest, message: data.message, website: data.website || '',
           source: window.location.pathname,
-          campaign: ['utm_source','utm_medium','utm_campaign'].map(k => new URL(location.href).searchParams.get(k) || '').join(' / ').slice(0,500)
+          campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
+          attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
         const serialized = JSON.stringify(payload);
         if (form.dataset.payload !== serialized) {
@@ -180,7 +213,7 @@ function bindForms() {
             throw new Error(result.error || 'Unable to confirm your enquiry.');
           }
           note.textContent = 'Your enquiry has been saved. Reference: ' + result.reference + '. Keep this reference for follow-up.';
-          trackAnalyticsEvent('generate_lead', {lead_type:type, page_location:location.origin + location.pathname});
+          enquiryAnalytics(form,type,result.reference);
           form.reset();
           delete form.dataset.payload;
           delete form.dataset.requestId;
@@ -238,9 +271,9 @@ function bindForms() {
       const whatsappUrl = `${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
       const mailUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(label)}&body=${encodeURIComponent(message)}`;
 
-      trackAnalyticsEvent("generate_lead", {
+      trackAnalyticsEvent("enquiry_handoff", {
         lead_type: type,
-        page_location: window.location.href,
+        page_location: location.origin + publicPagePath(),
         page_title: document.title
       });
 
@@ -266,7 +299,7 @@ function bindAnalyticsEvents() {
 
       demoUrl.searchParams.set("source", currentUrl.pathname);
       campaignKeys.forEach((key) => {
-        const value = currentUrl.searchParams.get(key);
+        const value = campaignLabel(currentUrl.searchParams.get(key));
         if (value) demoUrl.searchParams.set(key, value);
       });
 
@@ -274,7 +307,7 @@ function bindAnalyticsEvents() {
       trackAnalyticsEvent("select_content", {
         content_type: "demo_cta",
         content_name: link.textContent.trim().replace(/\s+/g, " "),
-        page_location: window.location.href,
+        page_location: location.origin + publicPagePath(),
         page_title: document.title
       });
     }
@@ -288,10 +321,10 @@ function bindAnalyticsEvents() {
           : "";
 
     if (contactMethod) {
-      trackAnalyticsEvent("generate_lead", {
+      trackAnalyticsEvent("contact_click", {
         lead_type: `${contactMethod}_click`,
         contact_method: contactMethod,
-        page_location: window.location.href,
+        page_location: location.origin + publicPagePath(),
         page_title: document.title
       });
     }
