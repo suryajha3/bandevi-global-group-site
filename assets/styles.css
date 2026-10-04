@@ -1381,3 +1381,10 @@ textarea:focus {
 body[data-page="home"] .section-head {display:block;max-width:760px;margin-bottom:36px}
 body[data-page="home"] .section-head h2 {margin:16px 0}
 body[data-page="home"] .section-head p {margin:16px 0}
+
+.service-example {background:#102b30;color:#fff;padding:40px;border-radius:18px}
+.service-example .eyebrow {color:#a5ded7}
+.service-example h2 {max-width:950px;line-height:1.35}
+.service-example p {color:#d0e1e2;max-width:800px}
+.service-example .button {background:#fff;color:#102b30}
+@media(max-width:760px){.service-example {padding:26px 20px}.service-example h2 {font-size:1.5rem}}
