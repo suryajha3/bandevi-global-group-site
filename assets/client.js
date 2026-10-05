@@ -27,7 +27,7 @@ function enquiryAnalytics(form,type,reference) {
   try {sent=JSON.parse(sessionStorage.getItem(key))||[];}catch(_){}
   if(!Array.isArray(sent))sent=[];if(sent.includes(reference))return;
   sent.push(reference);try {sessionStorage.setItem(key,JSON.stringify(sent.slice(-100)));}catch(_){}
-  const services={'Website / App Development Package':'website_app','CRM & ERP Package':'crm_erp','Travel CRM Package':'travel_crm','Travel ERP Package':'travel_erp','Complete Travel Website Package':'travel_website','White-label Travel Website Package':'white_label_website','B2B Travel Portal Package':'b2b_portal','Customer Portal Package':'customer_portal','E-Commerce Package':'ecommerce','Automation Package':'automation','Need guidance':'guidance'};
+  const services={'Website / App Development Package':'website_app','CRM & ERP Package':'crm_erp','Travel CRM Package':'travel_crm','Travel ERP Package':'travel_erp','Complete Travel Website Package':'travel_website','White-label Travel Website Package':'white_label_website','B2B Travel Portal Package':'b2b_portal','Customer Portal Package':'customer_portal','E-Commerce Package':'ecommerce','Automation Package':'automation','Need guidance':'guidance','Travel Technology Planning':'travel_technology'};
   trackAnalyticsEvent('generate_lead',{lead_type:type,service_interest:services[form.elements.interest.value]||'other',acquisition_channel:enquiryAttribution.channel,landing_page:enquiryAttribution.landing_page,page_location:location.origin+publicPagePath()});
 }
 
@@ -175,7 +175,7 @@ function bindForms() {
       }
       const solutionAliases = {
         "ERP Software Demo": "Travel ERP Package", "Travel CRM": "Travel CRM Package", "Travel CRM Software": "Travel CRM Package", "Travel ERP": "Travel ERP Package",
-        "Travel Technology Suite": "Complete Travel Website Package", "Travel Website Package": "Complete Travel Website Package", "Travel Website Development": "Complete Travel Website Package", "Travel Agency Mobile App Package": "Complete Travel Website Package",
+        "Travel Technology Suite": "Travel Technology Planning", "Travel Website Package": "Complete Travel Website Package", "Travel Website Development": "Complete Travel Website Package", "Travel Agency Mobile App Package": "Complete Travel Website Package",
         "CRM + ERP Package": "CRM & ERP Package", "Custom CRM Development": "CRM & ERP Package", "ERP Software Development": "CRM & ERP Package", "White-label CRM Package": "CRM & ERP Package",
         "Website + Mobile App": "Website / App Development Package", "Custom Software Development": "Website / App Development Package",
         "E-Commerce Website Development": "E-Commerce Package", "E-commerce Solution": "E-Commerce Package",
@@ -192,6 +192,7 @@ function bindForms() {
       Object.assign(focusLabels,{'website-journey':'Website pages and customer enquiry journey','website-portal':'Customer portal or app workflow','business-leads':'Lead ownership, quotations and follow-ups','business-operations':'Orders, approvals and operational reporting'});
       const focus=currentUrl.searchParams.get('focus'),teamLabels={'1-5':'1–5 users','6-20':'6–20 users','21-plus':'21 or more users','unsure':'Still deciding'},team=teamLabels[currentUrl.searchParams.get('team')];
       const focusOptions={
+        'Travel Technology Planning':['website-journey','crm-enquiries','erp-bookings'],
         'Website / App Development Package':['website-journey','website-portal'],
         'CRM & ERP Package':['business-leads','business-operations'],
         'Travel CRM Package':['crm-enquiries','crm-quotes','crm-reporting','crm-handover'],
