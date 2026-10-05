@@ -1,4 +1,5 @@
 """Private, same-origin enquiry inbox. Python standard library only."""
+import datetime
 import hashlib
 import json
 import logging
@@ -89,6 +90,19 @@ def validate(data):
         raise ValueError('Please enter a valid email address.')
     if '\n' in result['email'] or '\r' in result['email']:
         raise ValueError('Please enter a valid email address.')
+    schedule = data.get('demoSchedule')
+    if schedule is not None:
+        if result['type'] != 'demo' or not isinstance(schedule, dict) or set(schedule) != {'date','time','timezone'}:
+            raise ValueError('Invalid demo time.')
+        day, clock = schedule.get('date'), schedule.get('time')
+        if not isinstance(day,str) or not isinstance(clock,str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',day) or not re.fullmatch(r'\d{2}:\d{2}',clock) or schedule.get('timezone')!='Asia/Kolkata':
+            raise ValueError('Invalid demo time.')
+        india=datetime.timezone(datetime.timedelta(hours=5,minutes=30))
+        selected=datetime.datetime.fromisoformat(day+'T'+clock).replace(tzinfo=india)
+        # Future bounds apply only to new requests, after retry lookup.
+        if selected.minute%15:
+            raise ValueError('Choose a future demo time within 180 days.')
+        result['demoSchedule']={'date':day,'time':clock,'timezone':'Asia/Kolkata'}
     return result
 
 def smtp_ready():
@@ -203,6 +217,12 @@ class Handler(BaseHTTPRequestHandler):
                     if existing['digest'] != digest:
                         return self.respond(409, {'error': 'This request changed. Please submit it again.'})
                     return self.respond(200, {'ok': True, 'reference': existing['enquiry_id']})
+                if data.get('demoSchedule'):
+                    schedule=data['demoSchedule'];india=datetime.timezone(datetime.timedelta(hours=5,minutes=30))
+                    selected=datetime.datetime.fromisoformat(schedule['date']+'T'+schedule['time']).replace(tzinfo=india)
+                    today=datetime.datetime.now(india)
+                    if selected<=today or selected.date()>today.date()+datetime.timedelta(days=180):
+                        return self.respond(400, {'error':'Choose a future demo time within 180 days, or leave both date and time blank.'})
                 count = db.execute('SELECT COUNT(*) FROM requests WHERE fingerprint=? AND created>?', (fingerprint, now - 3600)).fetchone()[0]
                 if count >= 5:
                     return self.respond(429, {'error': 'Too many enquiries. Please try later or contact us directly.'})

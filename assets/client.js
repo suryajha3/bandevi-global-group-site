@@ -122,6 +122,15 @@ function bindForms() {
   document.querySelectorAll("[data-form]").forEach((form) => {
     const type = form.dataset.form;
     if (type === "demo") {
+      const demoDate=form.elements.demoDate,demoTime=form.elements.demoTime;
+      function checkDemoTime(){
+        if(!demoDate||!demoTime)return;
+        const indiaNow=new Date(Date.now()+330*60000).toISOString().slice(0,10);
+        demoDate.min=indiaNow;demoDate.max=new Date(Date.now()+180*86400000+330*60000).toISOString().slice(0,10);
+        demoDate.required=!!demoTime.value;demoTime.required=!!demoDate.value;
+        demoTime.setCustomValidity(demoDate.value&&demoTime.value&&Date.parse(demoDate.value+'T'+demoTime.value+':00+05:30')<=Date.now()?'Choose a future date and time in IST.':'');
+      }
+      if(demoDate&&demoTime){for(const field of [demoDate,demoTime])field.addEventListener('input',checkDemoTime);form.addEventListener('reset',()=>queueMicrotask(checkDemoTime));checkDemoTime();}
       const interest = form.elements.interest;
       const leadSource = form.elements.leadSource;
       const solutionByPath = {
@@ -226,6 +235,10 @@ function bindForms() {
         return;
       }
 
+      if(type==='demo'){
+        const demoDate=form.elements.demoDate,demoTime=form.elements.demoTime;
+        if(demoDate&&demoTime){demoDate.dispatchEvent(new Event('input'));if(!form.reportValidity())return;}
+      }
       const data = Object.fromEntries(new FormData(form).entries());
       if (type === "contact" || type === "demo" || type === "home") {
         const button = form.querySelector('button[type="submit"]');
@@ -235,6 +248,7 @@ function bindForms() {
           interest: data.interest, message: [(data.businessType ? 'Business type: '+data.businessType : ''),(data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: '+form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : ''),data.message].filter(Boolean).join('\n'), website: data.website || '',
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
+          ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
         if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including the selected business type and demo focus, fits within 3,000 characters.";return;}
@@ -260,6 +274,7 @@ function bindForms() {
             throw new Error(result.error || 'Unable to confirm your enquiry.');
           }
           note.textContent = 'Your enquiry has been saved. Reference: ' + result.reference + '. Keep this reference for follow-up.';
+          if(type==='demo')note.textContent+=(payload.demoSchedule?' Preferred time: '+payload.demoSchedule.date+' at '+payload.demoSchedule.time+' IST (UTC+05:30).':'')+' Your demo time is not booked yet. The team will contact you to confirm availability and meeting details.';
           enquiryAnalytics(form,type,result.reference);
           form.reset();
           delete form.dataset.payload;

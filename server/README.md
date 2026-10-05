@@ -47,3 +47,9 @@ First confirm the mailbox product in GoDaddy. For Professional Email or Professi
 Provider reference: https://www.godaddy.com/help/set-up-third-party-plugins-or-websites-using-smtp-settings-42788
 
 Microsoft 365 is not supported by this password-based configurator; use an approved OAuth-capable integration. Do not disable MFA or security defaults. Email remains pending until the account connection and receipt test are actually completed.
+
+## Demo preferences and sales reporting
+
+Demo requests optionally store `demoSchedule` with a date, 15-minute time and `Asia/Kolkata` timezone. This is a preference, not an appointment; the sales team confirms availability and meeting details separately. The preference appears in the private inbox and existing sales notification. No calendar event or customer acknowledgement email is sent.
+
+The Qualified stage records a confirmed suitable need and agreed next step. The source report counts each enquiry in its current stage for the selected received-date period, excluding QA records. It does not infer skipped stages or send admin outcomes to GA4; the private database is the authority for sales progress. Existing version checks and audit records apply to the added stage.

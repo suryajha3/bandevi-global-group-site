@@ -1466,3 +1466,5 @@ body[data-page="home"] .hero-lede {margin-bottom:0;font-size:1.05rem}
 .preview-tabs[hidden]{display:flex;visibility:hidden}
 body[data-page="home"] .section:not(.delivery-section) .eyebrow,body[data-page="websiteProject"] .section .eyebrow{color:#856019}
 .new-hero .eyebrow,.hero .eyebrow{color:#a5dcd6}
+
+.demo-schedule{margin:8px 0;padding:18px;border:1px solid #bccdcd;border-radius:12px;min-width:0}.demo-schedule legend{font-weight:700;padding:0 6px}.demo-schedule p{font-size:.9rem;line-height:1.6;margin:0 0 14px}.demo-schedule .form-grid{gap:16px}.demo-schedule input{min-width:0}
