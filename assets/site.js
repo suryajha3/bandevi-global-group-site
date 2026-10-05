@@ -6687,6 +6687,7 @@ function contactForm(kind = "contact") {
   <div class="field"><label for="${kind}-interest">Service needed</label><select id="${kind}-interest" name="interest" required><option value="">Choose a solution</option>${optionList(["Website / App Development Package", "CRM & ERP Package", "Travel CRM Package", "Travel ERP Package", "Complete Travel Website Package", "White-label Travel Website Package", "B2B Travel Portal Package", "Customer Portal Package", "E-Commerce Package", "Automation Package", "Need guidance"])}</select></div>
   <div class="field"><label for="${kind}-business">Business type (optional)</label><select id="${kind}-business" name="businessType"><option value="">Choose your business type</option>${optionList(["Travel agency / tour operator", "Professional services", "Retail / e-commerce", "Manufacturing / distribution", "Other business", "Still deciding"])}</select></div>
   ${kind==='demo'?`<div class="field"><label for="${kind}-focus">Demo focus (optional)</label><select id="${kind}-focus" name="demoFocus"><option value="">Discuss with the team</option></select></div><p class="field full demo-focus-note" aria-live="polite">Select a service to see relevant walkthrough topics. Available modules and integrations are confirmed with the team.</p>`:''}
+  ${kind==='demo'?`<fieldset class="field full demo-schedule"><legend>Preferred demo time (optional)</legend><p id="demo-time-help">Choose a date and time in India Standard Time (UTC+05:30). Leave both blank to agree a time with the team. Availability is confirmed after review.</p><div class="form-grid"><div class="field"><label for="demo-date">Preferred date</label><input id="demo-date" name="demoDate" type="date" aria-describedby="demo-time-help"></div><div class="field"><label for="demo-time">Preferred time (IST)</label><input id="demo-time" name="demoTime" type="time" step="900" aria-describedby="demo-time-help"></div></div></fieldset>`:''}
   <div class="field full"><label for="${kind}-message">What would you like to improve?</label><textarea id="${kind}-message" name="message" maxlength="3000" placeholder="Tell us about your business and the problem you want to solve." required></textarea></div></div>
   <p class="form-help">Send your enquiry directly to our website inbox. We use your details to respond to this request. <a href="/privacy-policy/">Privacy policy</a></p>
   <button class="button dark" type="submit">Send enquiry ${icons.arrow}</button><p class="form-note" aria-live="polite"></p></form>`;
@@ -6700,7 +6701,7 @@ function cardsForEnquiry() {
 }
 
 function demoPage() {
- return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Request a walkthrough</span><h2>A demo focused on your business problem.</h2><p>Choose the service you want to explore and describe the workflow you need to improve. Add your name and email; a phone number is optional.</p><p>If useful, include your business type, existing website or current tools in the description. You can choose “Need guidance” if you are unsure.</p><p>Submit your request directly and keep the reference number shown on screen. The team can then agree the demo focus and timing.</p><p><a class="text-link" href="/proof-verification/">Review company information</a></p></div><div id="demo-form">${contactForm('demo')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><h2>Choose the conversation you need.</h2><p>Explore a service before requesting a walkthrough.</p></div><div class="grid cols-3">${[['Websites & Apps','Pages, customer journeys, enquiries, portals and app workflows.','/website-mobile-app-development/'],['CRM & ERP','Lead control, operational records, permissions and reporting.','/crm-erp-solutions/'],['Travel Technology','Travel websites, agency workflows, supplier dependencies and booking requirements.','/travel-technology/']].map(([title,text,href])=>`<article class="card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore service ${icons.arrow}</a></article>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>What happens after you send?</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div><details class="buyer-faq"><summary>Does a demo request commit me to a project?</summary><p>No. Project scope, pricing, payment milestones and support terms are agreed separately in writing.</p></details><details class="buyer-faq"><summary>Do I need to share customer data?</summary><p>A description of your workflow is enough for the first discussion. Use anonymized examples if they help explain your requirements.</p></details></div></section>`;
+ return `<section class="section"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Request a walkthrough</span><h2>A demo focused on your business problem.</h2><p>Choose the service you want to explore and describe the workflow you need to improve. Add your name and email; a phone number is optional.</p><p>If useful, include your business type, existing website or current tools in the description. You can choose “Need guidance” if you are unsure.</p><p>Submit your request directly and keep the reference number shown on screen. Choose a preferred time below, or agree it with the team. Your request is saved first; the team confirms availability and meeting details separately.</p><p><a class="text-link" href="/proof-verification/">Review company information</a></p></div><div id="demo-form">${contactForm('demo')}</div></div></section><section class="section mist"><div class="container"><div class="section-head single"><h2>Choose the conversation you need.</h2><p>Explore a service before requesting a walkthrough.</p></div><div class="grid cols-3">${[['Websites & Apps','Pages, customer journeys, enquiries, portals and app workflows.','/website-mobile-app-development/'],['CRM & ERP','Lead control, operational records, permissions and reporting.','/crm-erp-solutions/'],['Travel Technology','Travel websites, agency workflows, supplier dependencies and booking requirements.','/travel-technology/']].map(([title,text,href])=>`<article class="card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore service ${icons.arrow}</a></article>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head single"><h2>What happens after you send?</h2></div><div class="grid cols-3">${cardsForEnquiry()}</div><details class="buyer-faq"><summary>Does a demo request commit me to a project?</summary><p>No. Project scope, pricing, payment milestones and support terms are agreed separately in writing.</p></details><details class="buyer-faq"><summary>Do I need to share customer data?</summary><p>A description of your workflow is enough for the first discussion. Use anonymized examples if they help explain your requirements.</p></details></div></section>`;
 }
 
 function feedbackPage() {
@@ -7362,6 +7363,15 @@ function bindForms() {
   document.querySelectorAll("[data-form]").forEach((form) => {
     const type = form.dataset.form;
     if (type === "demo") {
+      const demoDate=form.elements.demoDate,demoTime=form.elements.demoTime;
+      function checkDemoTime(){
+        if(!demoDate||!demoTime)return;
+        const indiaNow=new Date(Date.now()+330*60000).toISOString().slice(0,10);
+        demoDate.min=indiaNow;demoDate.max=new Date(Date.now()+180*86400000+330*60000).toISOString().slice(0,10);
+        demoDate.required=!!demoTime.value;demoTime.required=!!demoDate.value;
+        demoTime.setCustomValidity(demoDate.value&&demoTime.value&&Date.parse(demoDate.value+'T'+demoTime.value+':00+05:30')<=Date.now()?'Choose a future date and time in IST.':'');
+      }
+      if(demoDate&&demoTime){for(const field of [demoDate,demoTime])field.addEventListener('input',checkDemoTime);form.addEventListener('reset',()=>queueMicrotask(checkDemoTime));checkDemoTime();}
       const interest = form.elements.interest;
       const leadSource = form.elements.leadSource;
       const solutionByPath = {
@@ -7466,6 +7476,10 @@ function bindForms() {
         return;
       }
 
+      if(type==='demo'){
+        const demoDate=form.elements.demoDate,demoTime=form.elements.demoTime;
+        if(demoDate&&demoTime){demoDate.dispatchEvent(new Event('input'));if(!form.reportValidity())return;}
+      }
       const data = Object.fromEntries(new FormData(form).entries());
       if (type === "contact" || type === "demo" || type === "home") {
         const button = form.querySelector('button[type="submit"]');
@@ -7475,6 +7489,7 @@ function bindForms() {
           interest: data.interest, message: [(data.businessType ? 'Business type: '+data.businessType : ''),(data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: '+form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : ''),data.message].filter(Boolean).join('\n'), website: data.website || '',
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
+          ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
         if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including the selected business type and demo focus, fits within 3,000 characters.";return;}
@@ -7500,6 +7515,7 @@ function bindForms() {
             throw new Error(result.error || 'Unable to confirm your enquiry.');
           }
           note.textContent = 'Your enquiry has been saved. Reference: ' + result.reference + '. Keep this reference for follow-up.';
+          if(type==='demo')note.textContent+=(payload.demoSchedule?' Preferred time: '+payload.demoSchedule.date+' at '+payload.demoSchedule.time+' IST (UTC+05:30).':'')+' Your demo time is not booked yet. The team will contact you to confirm availability and meeting details.';
           enquiryAnalytics(form,type,result.reference);
           form.reset();
           delete form.dataset.payload;

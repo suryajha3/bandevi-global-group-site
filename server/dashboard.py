@@ -11,7 +11,7 @@ from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
-STAGES = ('New', 'Contacted', 'Proposal', 'Won', 'Lost')
+STAGES = ('New', 'Contacted', 'Qualified', 'Proposal', 'Won', 'Lost')
 USER = 'sales@bandeviglobalgroup.com'
 COOKIE = 'bg_inbox_session'
 ASSETS = Path(__file__).parent / 'dashboard'
@@ -203,13 +203,14 @@ def attribution_report(handler, connect, query):
         handler.respond(400, {'error':'Choose 7, 30 or 90 days.'})
         return True
     channels={c:0 for c in ('organic_search','paid','campaign','referral','direct_unknown','unknown')}
-    stages={s:0 for s in STAGES};landings={};services={};total=0
+    stages={s:0 for s in STAGES};all_stages={s:0 for s in STAGES};channel_stages={c:{s:0 for s in STAGES} for c in channels};landings={};services={};total=0
     with connect() as db:
         rows=db.execute("SELECT e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id WHERE e.email_status!='qa-verified' AND e.created>=?",(int(time.time())-days*86400,))
         for row in rows:
             data=json.loads(row['payload']);a=data.get('attribution') or {};channel=a.get('channel','unknown')
             if channel not in channels:channel='unknown'
             channels[channel]+=1;total+=1
+            all_stages[row['stage']]+=1;channel_stages[channel][row['stage']]+=1
             service=data.get('interest') or 'Not recorded'
             counts=services.setdefault(service,{'service':service,'enquiries':0,'organic':0})
             counts['enquiries']+=1
@@ -217,7 +218,7 @@ def attribution_report(handler, connect, query):
                 stages[row['stage']]+=1;counts['organic']+=1
                 landing=a.get('landing_page') or 'Not recorded'
                 landings[landing]=landings.get(landing,0)+1
-    handler.respond(200, {'days':days,'enquiries':total,'channels':channels,'organicStages':stages,
+    handler.respond(200, {'days':days,'enquiries':total,'channels':channels,'organicStages':stages,'salesStages':all_stages,'channelStages':channel_stages,
                          'organicLandingPages':[{'page':p,'enquiries':n} for p,n in sorted(landings.items(),key=lambda x:(-x[1],x[0]))[:20]],
                          'services':sorted(services.values(),key=lambda x:(-x['enquiries'],x['service']))[:20]})
     return True
