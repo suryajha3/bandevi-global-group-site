@@ -1,0 +1,12 @@
+(() => {
+ const board=document.getElementById('sample-board');if(!board)return;
+ const lead=document.getElementById('sample-lead'),stage=document.getElementById('sample-stage'),status=document.getElementById('sample-status'),activity=document.getElementById('sample-activity');
+ const initial=board.innerHTML;
+ const tasks={New:'Clarify the requirements.',Contacted:'Confirm the workflow and next discussion.',Proposal:'Review the proposed scope.'};
+ function counts(){board.querySelectorAll('[data-stage]').forEach(col=>{const count=col.querySelectorAll('[data-lead]').length;board.querySelector('[data-count="'+col.dataset.stage+'"]').textContent=count;col.querySelector('.sample-empty')?.remove();if(!count){const p=document.createElement('p');p.className='sample-empty';p.textContent='No sample enquiries in this stage.';col.append(p);}});}
+ function selectedStage(){stage.value=board.querySelector('[data-lead="'+lead.value+'"]').parentElement.dataset.stage;}
+ lead.addEventListener('change',selectedStage);
+ document.getElementById('sample-move').addEventListener('click',()=>{const card=board.querySelector('[data-lead="'+lead.value+'"]'),previous=card.parentElement.dataset.stage,name=card.querySelector('h4').textContent;if(previous===stage.value){status.textContent=name+' is already in '+stage.value+'. Choose a different stage.';return;}board.querySelector('[data-stage="'+stage.value+'"]').append(card);card.querySelector('p:last-child').replaceChildren();const strong=document.createElement('strong');strong.textContent='Next action: ';card.querySelector('p:last-child').append(strong,document.createTextNode(tasks[stage.value]));counts();const message=name+' moved from '+previous+' to '+stage.value+'.';status.textContent=message;const item=document.createElement('li');item.textContent=message;activity.prepend(item);while(activity.children.length>6)activity.lastElementChild.remove();});
+ document.getElementById('sample-reset').addEventListener('click',()=>{board.innerHTML=initial;lead.value='1';selectedStage();activity.replaceChildren();const li=document.createElement('li');li.textContent='Sample enquiries loaded.';activity.append(li);status.textContent='Sample reset. All enquiries restored to their starting stages.';});
+ document.getElementById('sample-reset').hidden=false;document.getElementById('sample-update').hidden=false;selectedStage();
+})();
