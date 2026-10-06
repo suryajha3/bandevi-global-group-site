@@ -1211,13 +1211,13 @@ const pageData = {
     eyebrow: "Software products",
     lede: "Clear product and service packages for websites, CRM, ERP, customer portals, travel websites, white-label websites, e-commerce, astrology booking, automation, and business dashboards."
   },
-  crmErp: {"title":"CRM & ERP built around your daily work","eyebrow":"Sales, operations and reporting","lede":"Give sales, operations and finance a shared workflow. Plan a CRM for leads and follow-ups, an ERP for delivery and payments, or a connected system for both."},
+  crmErp: {"title":"Custom CRM and ERP development for sales and operations","eyebrow":"Sales, operations and reporting","lede":"Give sales, operations and finance a shared workflow. Plan a CRM for leads and follow-ups, an ERP for delivery and payments, or a connected system for both."},
   ecommerce: {
     title: "E-Commerce Website Development Company",
     eyebrow: "E-commerce development",
     lede: "BANDEVI GLOBAL GROUP builds e-commerce websites, online stores, product catalogues, cart and checkout flows, payment workflows, order management, inventory direction, CRM, dashboards, and campaigns."
   },
-  webApp: {"title":"Websites and apps with a clear next step","eyebrow":"Digital experiences for your customers and team","lede":"Help customers understand your business, make an enquiry or use your services. Choose a business website, a web application or a mobile app around the journey you need."},
+  webApp: {"title":"Website and mobile app development for business","eyebrow":"Digital experiences for your customers and team","lede":"Help customers understand your business, make an enquiry or use your services. Choose a business website, a web application or a mobile app around the journey you need."},
   automation: {
     title: "Business Automation Company",
     eyebrow: "Workflow automation services",
@@ -1333,7 +1333,7 @@ const pageData = {
     eyebrow: "Customer and agent mobile experience",
     lede: "BANDEVI GLOBAL GROUP builds travel agency mobile app experiences for customers, agents, staff, and travel sales teams with enquiries, booking status, documents, payment reminders, notifications, customer support, Travel CRM, and Travel ERP connection."
   },
-  travelTech: {"title":"Travel technology from enquiry to booking","eyebrow":"For agencies, tour operators and DMCs","lede":"Connect travel selling with booking operations. Plan a travel website, Travel CRM, Travel ERP or an agent portal around your customer, supplier and team workflows."},
+  travelTech: {"title":"Travel technology for agencies and tour operators","eyebrow":"For agencies, tour operators and DMCs","lede":"Connect travel selling with booking operations. Plan a travel website, Travel CRM, Travel ERP or an agent portal around your customer, supplier and team workflows."},
   leadBooking: {
     title: "Lead & Booking Management Software",
     eyebrow: "Travel sales to booking control",
@@ -6310,7 +6310,7 @@ const blogArticles = [
     key: "blogTravelErp",
     slug: "travel-erp-system-for-tour-operators",
     tag: "Travel ERP",
-    title: "Tour Operator Back Office Software: Travel ERP Guide",
+    title: "Travel ERP Systems for Tour Operators: Modules and Rollout",
     description: "A practical guide to tour operator back office software and Travel ERP for bookings, suppliers, payments, documents, margins, and operations.",
     demoHref: "/demo-request/?solution=ERP%20Software%20Demo&source=tour-operator-back-office-guide",
     intro: "Tour operators need more than lead tracking. Once a trip is confirmed, the business must coordinate services, suppliers, passenger details, documents, invoices, payments, approvals, and delivery status. Tour operator back office software brings that operational work into a controlled Travel ERP system.",
@@ -6578,14 +6578,16 @@ function blogPage() {
   `;
 }
 
+function travelErpGuideWorkshop(){return `<section class="article-block" id="travel-erp-workbook"><h3>Start with one confirmed booking file</h3><p>A Travel ERP scope should connect the records needed after a trip is accepted. Use a fictional or anonymised booking to identify the fields, owners and exceptions your team must handle. The examples below are a planning worksheet, not a delivered customer case study.</p><div class="table-wrap" role="region" tabindex="0" aria-label="Travel ERP booking worksheet"><table><caption>Booking records to map before development</caption><thead><tr><th scope="col">Record</th><th scope="col">Minimum information to discuss</th><th scope="col">Review responsibility</th></tr></thead><tbody><tr><th scope="row">Accepted quotation</th><td>Version, itinerary, travellers, travel dates and acceptance reference.</td><td>Sales confirms the version that operations should use.</td></tr><tr><th scope="row">Supplier service</th><td>Booking reference, provider, service dates, confirmation status and agreed cost.</td><td>Operations checks pending confirmations and changes.</td></tr><tr><th scope="row">Customer and supplier payments</th><td>Due amount, payment reference, due date, status and reconciliation notes.</td><td>Finance reviews receipts and obligations against source records.</td></tr><tr><th scope="row">Tasks and documents</th><td>Owner, deadline, required document and readiness status.</td><td>The assigned team reviews outstanding work before delivery.</td></tr></tbody></table></div><h3>Test exceptions as well as a completed booking</h3><ul><li><strong>Partial payment:</strong> record a receipt and confirm the remaining amount stays visible against the booking.</li><li><strong>Unconfirmed supplier:</strong> keep a pending service visible in the operations queue instead of marking the booking ready.</li><li><strong>Booking change:</strong> retain the earlier itinerary or cost version and record who approved the revision.</li><li><strong>Repeated integration event:</strong> agree how duplicate notifications are recognised so a receipt or task is not created twice.</li><li><strong>Restricted role:</strong> test which records a consultant, operations user and finance user can view, change or export.</li></ul><p>Payment-provider status, operational payment records and bank settlement need an agreed reconciliation process. Read the <a href="/blog/automate-payment-workflows-in-travel-agencies/">travel-agency payment workflow planning guide</a> for approval and retry questions.</p><h3>Plan a Travel ERP rollout around acceptance gates</h3><ol><li>Map one booking journey and name the sales, operations and finance owners.</li><li>Agree the booking identifier, supplier fields, permissions and first-release reports.</li><li>Review an anonymised migration sample and document missing or duplicated records.</li><li>Test booking changes, incomplete confirmations and payment exceptions against the agreed scope.</li><li>Confirm training, access, exports, backups and support before handover.</li></ol><p>A pilot can begin with booking files and tasks, with supplier APIs or financial integrations added only when included in the proposal. Dates depend on scope, provider access, migration quality and review availability.</p><p>Comparing systems? Read <a href="/blog/travel-crm-vs-erp-for-travel-agencies/">Travel CRM versus Travel ERP</a>. For a proposed build, review <a href="/travel-erp/">Travel ERP development and back-office modules</a>, then <a href="/project-brief/">prepare your project brief</a>.</p></section>`;}
+
 function blogArticlePage(key) {
   const article = blogArticles.find((item) => item.key === key) || blogArticles[0];
   return `
     <section class="section">
       <div class="container article-layout">
-        <article class="article-body">
+        <article class="article-body" ${key==='blogTravelErp'?'style="min-width:0"':''}>
           <span class="eyebrow">${article.tag} guide</span>
-          <h2>${article.title}</h2>
+          <h2>${key==='blogTravelErp'?'How Travel ERP supports tour operator operations':article.title}</h2>
           <p class="muted article-intro">${article.intro}</p>
           ${list(article.highlights)}
           ${article.sections.map((section) => `
@@ -6595,6 +6597,7 @@ function blogArticlePage(key) {
               ${list(section.bullets)}
             </section>
           `).join("")}
+          ${key==='blogTravelErp'?travelErpGuideWorkshop():''}
         </article>
         <aside class="article-aside card">
           <span class="eyebrow">Next step</span>
@@ -6635,7 +6638,7 @@ function blogArticlePage(key) {
               <time>Related page</time>
               <h3>${label}</h3>
               <p>Open the matching BANDEVI GLOBAL GROUP page and continue the conversation.</p>
-              <a href="${href}">Open page ${icons.arrow}</a>
+              <a href="${href}">${key==='blogTravelErp'?label:'Open page'} ${icons.arrow}</a>
             </article>
           `).join("")}
           <article class="card blog-card">
@@ -7059,7 +7062,7 @@ function footer() {
 
 const improvedServices = {
   "crmErp": {
-    "title": "CRM & ERP built around your daily work",
+    "title": "Custom CRM and ERP development for sales and operations",
     "eyebrow": "Sales, operations and reporting",
     "lede": "Give sales, operations and finance a shared workflow. Plan a CRM for leads and follow-ups, an ERP for delivery and payments, or a connected system for both.",
     "overview": "Choose the system your team needs first.",
@@ -7129,7 +7132,7 @@ const improvedServices = {
     ]
   },
   "webApp": {
-    "title": "Websites and apps with a clear next step",
+    "title": "Website and mobile app development for business",
     "eyebrow": "Digital experiences for your customers and team",
     "lede": "Help customers understand your business, make an enquiry or use your services. Choose a business website, a web application or a mobile app around the journey you need.",
     "overview": "Choose the right type of build.",
@@ -7199,7 +7202,7 @@ const improvedServices = {
     ]
   },
   "travelTech": {
-    "title": "Travel technology from enquiry to booking",
+    "title": "Travel technology for agencies and tour operators",
     "eyebrow": "For agencies, tour operators and DMCs",
     "lede": "Connect travel selling with booking operations. Plan a travel website, Travel CRM, Travel ERP or an agent portal around your customer, supplier and team workflows.",
     "overview": "Choose your travel workflow.",
@@ -7269,14 +7272,20 @@ const improvedServices = {
     ]
   }
 };
+const serviceBuyerChecks = {"webApp": {"heading": "Agree how your website or app will work", "intro": "Use a customer journey to define the build. These examples help you check the proposal and the first release, rather than choosing features from a generic list.", "rows": [["Enquiry capture", "Required fields, routing and confirmation text.", "Submit a valid enquiry and check the saved record, sales destination and customer feedback."], ["Content and migration", "Page inventory, content owner and redirects for replaced URLs.", "Review the approved pages and follow old links to their agreed destinations."], ["Accounts and handover", "Customer roles, editing access, backups and ownership.", "Test restricted screens and confirm who receives access, documentation and recovery instructions."]], "links": [["Our own website project", "/projects/bandevi-website/", "Review BANDEVI\u2019s documented website scope and enquiry workflow. This is our internal project, not a client testimonial."], ["Customer portal planning", "/customer-portal/", "Explore account access, documents and service-status requirements."], ["Prepare a website or app brief", "/project-brief/", "Organise requirements, budget preference and launch timing before sending."]]}, "crmErp": {"heading": "Define the CRM-to-ERP handover", "intro": "Choose the records and decisions your team needs to share. Start with one complete sales or operations workflow, then agree the interfaces and acceptance checks for later modules.", "rows": [["Enquiry and follow-up", "Owner, sales stages, next action and overdue rules.", "Assign an enquiry, move its follow-up date and confirm the correct queue and report."], ["Accepted quotation to operations", "Confirmation criteria, order fields and responsibility for changes.", "Hand over an accepted quote once, then check how revisions and cancellations are recorded."], ["Data and integrations", "Field mapping, duplicate handling, roles and API responsibilities.", "Import an anonymised sample and test a failed integration, retry and restricted user account."]], "links": [["Try the sample CRM workflow", "/sample-crm/", "Explore an interactive prototype with fictional enquiries. It demonstrates a workflow, not a delivered customer system."], ["White-label or custom CRM?", "/blog/white-label-crm-vs-custom-crm/", "Compare workflow fit, licensing, ownership, extensibility and support."], ["Prepare your CRM or ERP brief", "/project-brief/", "Describe the business problem, modules and integrations your team needs."]]}, "travelTech": {"heading": "Plan the travel workflow before choosing APIs", "intro": "An enquiry website, a sales CRM and a booking operations ERP serve different steps. Use these checks to decide what belongs in your first release and which provider dependencies need approval.", "rows": [["Travel enquiry and quotation", "Trip fields, quote versions, consultant ownership and follow-up.", "Capture a package enquiry and review a revised quotation with its next action."], ["Confirmed booking operations", "Booking identifier, suppliers, service tasks and document requirements.", "Track a partial supplier confirmation and show which tasks block delivery readiness."], ["Payments and exceptions", "Customer receipts, supplier balances, approvals and reconciliation.", "Review a partial payment, a duplicate provider event and a cancellation using agreed rules."]], "links": [["Travel ERP modules and rollout guide", "/blog/travel-erp-system-for-tour-operators/", "Use a booking-file worksheet and acceptance checks to prepare an operations scope."], ["Travel CRM or Travel ERP?", "/blog/travel-crm-vs-erp-for-travel-agencies/", "Compare sales follow-up with confirmed-booking operations."], ["Payment workflow planning", "/blog/automate-payment-workflows-in-travel-agencies/", "Review reminders, approvals, duplicate-event handling and reconciliation."]]}};
+function serviceBuyerChecklist(key){const d=serviceBuyerChecks[key];return `<section class="section" id="service-planning-checks"><div class="container"><div class="section-head single"><span class="proof-kind">Practical acceptance checks</span><h2>${d.heading}</h2><p>${d.intro}</p></div><div class="table-wrap" role="region" tabindex="0" aria-label="Scope and acceptance checklist"><table><caption>Example checks to agree for your project</caption><thead><tr><th scope="col">Workflow</th><th scope="col">What to agree</th><th scope="col">How to check it</th></tr></thead><tbody>${d.rows.map(([topic,scope,check])=>`<tr><th scope="row">${topic}</th><td>${scope}</td><td>${check}</td></tr>`).join('')}</tbody></table></div><p>These are planning examples. Your written proposal confirms the deliverables and acceptance criteria.</p><div class="grid cols-3">${d.links.map(([label,href,description])=>`<article class="card"><h3>${label}</h3><p>${description}</p><a class="text-link" href="${href}">${label} ${icons.arrow}</a></article>`).join('')}</div></div></section>`;}
+
+improvedServices.webApp.faqs.push(...[["What affects website or app development cost?", "Page and screen count, content preparation, account workflows, integrations, migration and support all affect scope. Share your requirements and budget preference in the project brief; the proposal identifies build costs and recurring hosting or provider charges."], ["What should we agree before launch?", "Confirm content approval, responsive checks, enquiry delivery, access permissions, redirects, backups and the handover owner. Agree how issues are reported and which support is included after launch."]]);
+improvedServices.crmErp.faqs.push(...[["How should CRM and ERP development be phased?", "Choose a complete workflow for the first release: enquiry to follow-up for CRM, or an accepted order to operations for ERP. Agree shared identifiers and data ownership so later modules can connect without rebuilding the handover."], ["What affects a custom CRM or ERP quote?", "Modules, user roles, data cleanup, migration, reporting, integration access and training affect the effort. Confirm licensing, hosting and support separately, and use acceptance criteria to define each delivery milestone."]]);
+improvedServices.travelTech.faqs.push(...[["Does travel technology include live flight or hotel booking?", "Only when the named supplier integration is included in scope and provider access is approved. Confirm the supported booking actions, commercial terms, failure handling and cancellation rules; a package enquiry website can be a separate first release."], ["How do we plan payment automation for a travel agency?", "Map customer receipts and supplier obligations to a booking reference. Define approval roles, provider status checks, reminders, duplicate-event handling and reconciliation. Record which tasks stay with staff and which integrations are included."]]);
 function improvedServicePage(key) {
   const d=improvedServices[key];
-  return `<section class="section service-overview"><div class="container"><div class="section-head single"><span class="eyebrow">Choose your starting point</span><h2>${d.overview}</h2><p>${d.intro}</p></div><div class="grid cols-3">${d.choices.map(([title,text,href])=>`<article class="card solution-card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore solution ${icons.arrow}</a></article>`).join('')}</div></div></section>
+  return `<section class="section service-overview"><div class="container"><div class="section-head single"><span class="eyebrow">Choose your starting point</span><h2>${d.overview}</h2><p>${d.intro}</p></div><div class="grid cols-3">${d.choices.map(([title,text,href])=>`<article class="card solution-card"><h3>${title}</h3><p>${text}</p><a class="text-link" href="${href}">Explore ${title} ${icons.arrow}</a></article>`).join('')}</div></div></section>
   <section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">Build your scope</span><h2>What we can plan together.</h2><p>These are available scope areas, not a fixed bundle. Your proposal identifies the features, integrations and support included.</p></div><div class="grid cols-3">${d.modules.map(([title,text])=>`<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
-  <section class="section"><div class="container"><div class="service-example"><span class="eyebrow">${d.example[0]}</span><h2>${d.example[1]}</h2><p>${d.example[2]}</p><a class="button dark" href="/demo-request/?solution=${encodeURIComponent(key==='crmErp'?'CRM & ERP Package':key==='webApp'?'Website / App Development Package':'Complete Travel Website Package')}">Discuss this workflow ${icons.arrow}</a></div></div></section>
+  <section class="section"><div class="container"><div class="service-example"><span class="eyebrow">${d.example[0]}</span><h2>${d.example[1]}</h2><p>${d.example[2]}</p><a class="button dark" href="/demo-request/?solution=${encodeURIComponent(key==='crmErp'?'CRM & ERP Package':key==='webApp'?'Website / App Development Package':'Travel Technology Planning')}">Discuss this workflow ${icons.arrow}</a></div></div></section>
   <section class="section mist"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Integrations</span><h2>Agree the connections before the build.</h2><p>${d.integrations}</p></div><article class="card"><h3>Your proposal should explain</h3>${list(['Included modules and acceptance criteria','Dependencies and information you need to supply','Milestones and an agreed delivery schedule','Setup cost, third-party fees and ongoing charges','Data ownership, access and handover','Training, warranty and support scope'])}<p>Pricing and timelines are confirmed after requirements review.</p></article></div></section>
   <section class="section"><div class="container"><div class="section-head single"><span class="eyebrow">Delivery</span><h2>A practical first release.</h2></div><div class="grid cols-4">${[['Discover','Map users, current tools and the workflow problem.'],['Scope','Agree modules, dependencies, cost and milestones.'],['Build & review','Review screens and test the agreed customer and staff journeys.'],['Launch & hand over','Confirm access, documentation, training and support arrangements.']].map(([title,text],i)=>`<article><span class="solution-number">0${i+1}</span><h3>${title}</h3><p>${text}</p></article>`).join('')}</div></div></section>
-  <section class="section mist"><div class="container"><div class="section-head single"><h2>Questions before you start.</h2></div>${d.faqs.map(([q,a])=>`<details class="buyer-faq"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div></section><section class="section"><div class="container"><h2>Review the supplier before your project starts.</h2><p>Check <a href="/trust-licences-certifications/">company identity, registration status and the buyer checklist</a>. Ask for the applicable legal documents and agree ownership, support and commercial terms in writing.</p></div></section>${cta('Bring your workflow. Let’s plan the system.','Share your service interest and the problem you want to solve. We can discuss the scope and a suitable demo focus.')}`;
+  ${serviceBuyerChecklist(key)}<section class="section mist"><div class="container"><div class="section-head single"><h2>Questions before you start.</h2></div>${d.faqs.map(([q,a])=>`<details class="buyer-faq"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div></section><section class="section"><div class="container"><h2>Review the supplier before your project starts.</h2><p>Check <a href="/trust-licences-certifications/">company identity, registration status and the buyer checklist</a>. Ask for the applicable legal documents and agree ownership, support and commercial terms in writing.</p></div></section>${cta('Bring your workflow. Let’s plan the system.','Share your service interest and the problem you want to solve. We can discuss the scope and a suitable demo focus.')}`;
 }
 
 const pageRenderers = {
