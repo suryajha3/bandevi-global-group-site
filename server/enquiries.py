@@ -70,6 +70,27 @@ def validate_attribution(value):
         result[field]=item
     return result
 
+BRIEF_SERVICES = {'Website or app':'Website / App Development Package','CRM':'CRM & ERP Package','ERP':'CRM & ERP Package','Travel technology':'Travel Technology Planning','Help me choose':'Need guidance'}
+BRIEF_BUDGETS = ('Not sure yet','Under ₹50,000','₹50,000–₹2 lakh','₹2–₹5 lakh','Above ₹5 lakh')
+
+def validate_project_brief(value, enquiry):
+    fields = {'service':60,'businessType':120,'problem':1100,'features':1100,'budget':60,'launchDate':10}
+    if enquiry['type'] != 'contact' or enquiry['source'] != '/project-brief/' or not isinstance(value,dict) or set(value) != set(fields):
+        raise ValueError('Invalid project brief.')
+    result = {}
+    for field,limit in fields.items():
+        item=value[field]
+        if not isinstance(item,str) or len(item)>limit or any(ord(c)<32 and c not in '\n\t' for c in item):
+            raise ValueError('Invalid project brief.')
+        result[field]=item.strip()
+    if BRIEF_SERVICES.get(result['service']) != enquiry['interest'] or result['budget'] not in BRIEF_BUDGETS or not result['problem']:
+        raise ValueError('Invalid project brief.')
+    if result['launchDate']:
+        day=datetime.date.fromisoformat(result['launchDate'])
+        if day.isoformat()!=result['launchDate'] or not 1900<=day.year<=2100:
+            raise ValueError('Invalid project launch preference.')
+    return result
+
 def validate(data):
     if not isinstance(data, dict):
         raise ValueError('Invalid enquiry.')
@@ -90,6 +111,8 @@ def validate(data):
         raise ValueError('Please enter a valid email address.')
     if '\n' in result['email'] or '\r' in result['email']:
         raise ValueError('Please enter a valid email address.')
+    if 'projectBrief' in data:
+        result['projectBrief'] = validate_project_brief(data['projectBrief'], result)
     schedule = data.get('demoSchedule')
     if schedule is not None:
         if result['type'] != 'demo' or not isinstance(schedule, dict) or set(schedule) != {'date','time','timezone'}:
