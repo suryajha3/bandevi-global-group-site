@@ -22,4 +22,22 @@
  handover.addEventListener('click',()=>{if(stage!==2||!accept.checked)return;stage=3;tasks.hidden=false;resetFinance();status.textContent='Step 3 of 3: sample booking handed to operations. 0 of 3 checklist tasks reviewed.';});
  root.querySelectorAll('[data-travel-task]').forEach(t=>t.addEventListener('change',()=>{if(stage!==3)return;const count=root.querySelectorAll('[data-travel-task]:checked').length;status.textContent='Step 3 of 3: '+count+' of 3 checklist tasks reviewed.'+(count===3?' Sample walkthrough complete. No supplier booking or payment has been made.':'');}));
  reset.addEventListener('click',()=>{option.value='standard';clear();quote.focus();});
+ function renderDashboard(){
+  const count=root.querySelectorAll('[data-travel-task]:checked').length,net=gross-refunded,remaining=total()-net;
+  root.querySelector('#dashboard-sales').textContent='TR-DEMO-01 · '+(stage===1?'quotation not prepared':('Q-DEMO-01 · '+money(total())+' · '+(accept.checked?'sample acceptance recorded':'awaiting sample acceptance')));
+  root.querySelector('#dashboard-operations').textContent=stage===3?'BK-DEMO-01 · '+count+' of 3 tasks reviewed · '+(3-count)+' outstanding.':'Awaiting accepted quotation and handover.';
+  root.querySelector('#dashboard-finance').textContent=stage===3?'Net received '+money(net)+' · remaining '+money(remaining)+' · pending payment '+money(pending)+' · pending refund '+money(refundPending)+' · settled refunds '+money(refunded)+'.':'Payment tracking unlocks after handover.';
+  let message='Sales: prepare the sample quotation.',target='travel-demo-quote';
+  if(stage===2){message=accept.checked?'Sales: create the sample booking handover.':'Sales: review the quotation and simulate customer acceptance.';target=accept.checked?'travel-demo-handover':'travel-demo-approved';}
+  if(stage===3){
+   if(refundPending){message='Finance: review the sample refund request before simulating settlement.';target='finance-refund-settle';}
+   else if(pending){message='Finance: review the pending sample payment before simulating settlement.';target='finance-settle';}
+   else if(count<3){message='Operations: review '+(3-count)+' outstanding sample checklist task'+(3-count===1?'':'s')+'.';target='travel-demo-tasks';}
+   else if(remaining>0){message='Finance: review the remaining sample balance of '+money(remaining)+'.';target='travel-finance';}
+   else{message='Sample review complete: checklist reviewed and balance settled. No real booking or transaction was made.';target='travel-demo-reset';}
+  }
+  root.querySelector('#dashboard-next').textContent=message;root.querySelector('#dashboard-action').href='#'+target;
+ }
+ root.addEventListener('click',renderDashboard);root.addEventListener('change',renderDashboard);renderDashboard();
+
 })();
