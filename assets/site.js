@@ -6734,7 +6734,7 @@ function feedbackPage() {
             "Describe the service, product, website, CRM, ERP, portal, automation, or support work you actually received",
             "State only facts you are comfortable approving for a public review or case study",
             "Choose whether your organisation name may be mentioned",
-            "Send the completed request through the official WhatsApp or email route"
+            "Review your draft, then choose whether to send it by WhatsApp or email"
           ])}
           <div class="inline-actions">
             <a class="button dark" href="#client-feedback-form">Share Feedback ${icons.arrow}</a>
@@ -6742,18 +6742,18 @@ function feedbackPage() {
             <a class="button light" href="/proof-verification/">Verify BANDEVI</a>
           </div>
         </div>
-        <form class="lead-form" data-form="review" id="client-feedback-form">
+        <form class="lead-form" data-feedback-draft="true" id="client-feedback-form">
           <div class="form-grid">
             <div class="field"><label for="review-name">Your name</label><input id="review-name" name="name" autocomplete="name" required></div>
             <div class="field"><label for="review-company">Company or organisation</label><input id="review-company" name="company" autocomplete="organization" required></div>
             <div class="field"><label for="review-email">Work email</label><input id="review-email" name="email" type="email" autocomplete="email" required></div>
             <div class="field"><label for="review-service">Service received</label><select id="review-service" name="service" required><option value="">Choose one</option><option>CRM or ERP</option><option>Travel technology</option><option>Website or mobile app</option><option>Customer portal</option><option>E-commerce</option><option>Business automation</option><option>Support or enhancement</option><option>Other</option></select></div>
             <div class="field full"><label for="review-project">Project or engagement reference</label><input id="review-project" name="project" placeholder="Example: CRM implementation, travel website, portal, or support project" required></div>
-            <div class="field full"><label for="review-feedback">Your feedback</label><textarea id="review-feedback" name="feedback" placeholder="Please share only your genuine experience, delivered work, and approved outcomes." required></textarea></div>
-            <div class="field full"><label for="review-approval">Publication approval</label><select id="review-approval" name="approval" required><option value="">Choose one</option><option>I approve publication with my company name</option><option>I approve an anonymised case-study mention only</option><option>Please contact me before any publication</option></select></div>
+            <div class="field"><label for="review-role">Your role</label><input id="review-role" name="role" maxlength="120" required></div><div class="field full"><label for="review-scope">Work BANDEVI delivered</label><textarea id="review-scope" name="scope" maxlength="1500" placeholder="Describe the pages, modules or support you personally received." required></textarea></div><div class="field full"><label for="review-feedback">Your feedback</label><textarea id="review-feedback" name="feedback" placeholder="Please share only your genuine experience, delivered work, and approved outcomes." required></textarea></div>
+            <div class="field full"><label for="review-approval">Publication approval</label><select id="review-approval" name="approval" required><option value="">Choose one</option><option>I approve my name, role, company and feedback for publication</option><option>I approve an anonymised case-study mention only</option><option>Please contact me before any publication</option></select></div>
             <div class="field full"><label><input name="consent" type="checkbox" value="yes" required> I confirm this feedback is genuine and I am authorised to share it.</label></div>
           </div>
-          <button class="button dark" type="submit">Prepare Feedback Request ${icons.arrow}</button>
+          <p class="form-note">Preparing this draft does not send it or publish a review. Check the wording, then choose email or WhatsApp. Your email is used for verification and will not be included in a public testimonial.</p><noscript><p>To share feedback, email <a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a> with your name, role, company, project, delivered work, feedback and publication preference. This form needs JavaScript to prepare a draft.</p></noscript><button class="button dark" type="submit">Prepare feedback draft ${icons.arrow}</button>
           <p class="form-note" aria-live="polite"></p>
         </form>
       </div>
