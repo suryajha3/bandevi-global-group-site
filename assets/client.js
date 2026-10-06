@@ -247,6 +247,7 @@ function bindForms() {
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
           interest: data.interest, message: [(data.businessType ? 'Business type: '+data.businessType : ''),(data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: '+form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : ''),data.message].filter(Boolean).join('\n'), website: data.website || '',
+          ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
