@@ -3,6 +3,7 @@
  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());date.min=['year','month','day'].map(k=>parts.find(p=>p.type===k).value).join('-');
 
  const workflows={
+  'travel-finance':{service:'ERP',label:'Travel payment and balance tracking',features:'Travel finance starting scope: booking amount, received and pending payment records, remaining balances, refund requests and settlement status, finance review and reconciliation. Agree payment provider access, accounting rules and approval responsibilities separately.'},
   'travel-handover':{service:'Travel technology',label:'Travel enquiry to booking handover',features:'Travel workflow starting scope: enquiry requirements, consultant ownership, versioned quotations, customer acceptance record, booking handover and assigned operations checklist. Confirm supplier and payment dependencies separately.'},
   'travel-website':{service:'Travel technology',label:'Travel website',features:'Travel website starting scope: package or destination pages, responsive layout, trip enquiry form and sales handover.'},
   'travel-crm':{service:'CRM',label:'Travel CRM',features:'Travel CRM starting scope: trip enquiry fields, consultant ownership, quotation stages and follow-up tasks.'},
