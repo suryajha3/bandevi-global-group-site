@@ -12,12 +12,13 @@
  const workflowKey=new URL(location.href).searchParams.get('workflow'),context=Object.prototype.hasOwnProperty.call(workflows,workflowKey)?workflows[workflowKey]:null;
  if(context){const e=form.elements;if(!e.interest.value){const option=[...e.interest.options].find(o=>o.text===context.service);if(option)option.selected=true;}if(!e.briefFeatures.value)e.briefFeatures.value=context.features;const note=document.createElement('p');note.className='brief-help';note.id='brief-context';note.textContent='Starting point: '+context.label+'. Edit the suggested features to match your team; your business problem, budget and timing still need your input.';document.getElementById('brief-status').after(note);}
 
+ const demoEntry=new URL(location.href).searchParams.get('source')==='travel-demo'&&['travel-crm','travel-handover','travel-finance'].includes(workflowKey);
  const portfolioProjects={trip_sarathi:'Trip Sarathi',maximtrip:'MaximTrip',tripodeal:'TripOdeal'};
  const projectKey=new URL(location.href).searchParams.get('project');
  let portfolioProject=workflowKey==='travel-website'&&Object.prototype.hasOwnProperty.call(portfolioProjects,projectKey)?projectKey:'none',submissionProject='none';
  let briefStarted=false,submissionService='guidance';const measuredSteps=new Set(),savedReferences=new Set();
  function serviceCode(){const codes={'Website or app':'website_app','CRM':'crm','ERP':'erp','Travel technology':'travel_technology','Help me choose':'guidance'};return codes[form.elements.interest.options[form.elements.interest.selectedIndex].text]||'guidance';}
- function measureBrief(name,extra={}){try{if(typeof trackAnalyticsEvent==='function')trackAnalyticsEvent(name,{page_location:location.origin+'/project-brief/',service_interest:serviceCode(),entry_workflow:context?workflowKey:'general',portfolio_project:portfolioProject,...extra});}catch(_){/* Analytics must not interrupt the brief. */}}
+ function measureBrief(name,extra={}){try{if(typeof trackAnalyticsEvent==='function')trackAnalyticsEvent(name,{page_location:location.origin+'/project-brief/',service_interest:serviceCode(),entry_workflow:context?workflowKey:'general',portfolio_project:portfolioProject,...(demoEntry?{demo_id:'travel_workflow'}:{}),...extra});}catch(_){/* Analytics must not interrupt the brief. */}}
  function startBrief(){if(briefStarted)return;briefStarted=true;measureBrief('project_brief_start');}
  function measureStep(n){if(measuredSteps.has(n))return;measuredSteps.add(n);measureBrief('project_brief_step',{step_number:n});if(n===2)measureBrief('project_brief_requirements_complete');if(n===3)measureBrief('project_brief_review_reached');}
  form.addEventListener('input',startBrief);form.addEventListener('change',startBrief);

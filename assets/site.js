@@ -1745,6 +1745,8 @@ function deliveryReviewSection(){return `<section class="section mist" id="deliv
 
 function travelPortfolioLink(){return `<section class="section mist" id="travel-portfolio-link"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Explore our travel work</span><h2>See the portals behind the possibilities.</h2><p>Browse three featured B2C travel portals and the full directory of project websites supplied by BANDEVI.</p></div><div><a class="button dark" href="/travel-technology/#travel-projects">View our travel projects ${icons.arrow}</a><p>Use these examples to discuss the customer journey and features you need.</p></div></div></section>`;}
 
+function travelDemoLink(){return `<section class="section mist" id="travel-demo-link" style="scroll-margin-top:100px"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Explore the workflow</span><h2>Try the travel demo.</h2><p>Follow one fictional enquiry through quotation, booking handover and payment tracking. See how sales, operations and finance share the next action.</p></div><div><a class="button dark" data-travel-demo-entry href="/sample-crm/#travel-demo-guide">Try the Travel Demo</a><p>Fictional data · no login · no real booking or payment. Your proposal confirms the system we build for your team.</p></div></div></section>`;}
+
 function homePage() {
   const solutions = [
     ["01", "Websites & Apps", "Make your first impression count.", "Corporate websites, e-commerce, customer portals and apps with clear journeys from browsing to enquiry.", "/website-mobile-app-development/", "Service pages · Enquiries · Customer access"],
@@ -1754,6 +1756,7 @@ function homePage() {
   return `
   ${buyerConfidenceSection()}
   ${travelPortfolioLink()}
+  ${travelDemoLink()}
   ${deliveryReviewSection()}
   <section class="section" id="solutions"><div class="container"><div class="section-head"><span class="eyebrow">Find your starting point</span><h2>The right system for your next stage.</h2><p>Start with the problem you need to solve. Expand the system as your business grows.</p></div>
   <div class="grid cols-3">${solutions.map(([n,title,headline,text,href,features])=>`<article class="card solution-card"><span class="solution-number">${n}</span><h3>${title}</h3><h4>${headline}</h4><p>${text}</p><p class="solution-features">${features}</p><a class="text-link" href="${href}">Explore ${title} ${icons.arrow}</a></article>`).join('')}</div></div></section>
@@ -7674,6 +7677,7 @@ function render() {
       ${header(page)}
       <main id="main-content" tabindex="-1">
         ${hero(page, data)}
+        ${['/travel-technology/','/travel-website-development/','/travel-agency-website-development/','/b2b-travel-portal/','/white-label-travel-website/','/white-label-travel-portal/','/travel-mobile-app-development/','/travel-agency-mobile-app/','/travel-booking-software/','/travel-crm-software/','/travel-crm/','/travel-erp/'].includes(publicPagePath())?travelDemoLink():""}
         ${["travelWebsite","travelAgencyWebsite","b2bTravelPortal"].includes(page)?travelPortfolioLink():""}
         ${main()}
       </main>
