@@ -1433,6 +1433,7 @@ function header(page) {
 
 function hero(page, data) {
   if (page === "home") return improvedHomeHero();
+  if (page === "about") return improvedAboutHero();
   if (page === "crm" || page === "erp") return travelServiceHero(page, data);
   const actions = data.home ? `
     <div class="hero-actions">
@@ -1740,167 +1741,14 @@ function homePage(){return `<section class="section home-selected-work" id="sele
       ['Travel Technology','Connect travel enquiries with booking operations.','Customer enquiries and quotation history','Booking handover and supplier coordination','Travel CRM, ERP and website requirements','Travel CRM','crm-quotes']
     ].map(([title,description,one,two,three,solution,focus],i)=>`<section class="preview-panel" id="service-preview-${i}" aria-labelledby="service-heading-${i}"><div class="preview-actions"><a class="button primary" href="/demo-request/?solution=${encodeURIComponent(solution)}&amp;focus=${focus}">Request ${title} Demo ${icons.arrow}</a><a class="preview-project" href="/projects/bandevi-website/">View our website project ${icons.arrow}</a></div><p class="preview-next-step">Discuss your workflow, scope and implementation needs. Timing confirmed by our team.</p><h2 id="service-heading-${i}">${title}</h2><p>${description}</p><p class="deliverable-label">Scope to agree</p><ul><li>${one}</li><li>${two}</li></ul><a class="preview-details" href="${['/website-mobile-app-development/','/crm-erp-solutions/','/travel-technology/'][i]}">Explore full service ${icons.arrow}</a></section>`).join('')}<p class="preview-scope">Demo: review your workflow, discuss these deliverables and agree the next scope. Bring your main business problem and the tools you use. Modules and integrations are confirmed with the team.</p></div></div><figure class="product-preview"><img data-service-visual src="/assets/service-website.svg" width="800" height="520" alt="Illustrative website and app workflow from service discovery to enquiry and sales handover" loading="lazy"><figcaption data-service-caption>Website &amp; App workflow concept. Your proposal confirms the pages, forms and handover included.</figcaption></figure></div></section><section class="section home-delivery" id="buyer-confidence"><div class="container"><div class="home-section-heading" id="delivery-plan"><div><span class="eyebrow">A process you can review</span><h2>Clear scope. Visible progress. Agreed handover.</h2></div><p>Each project starts with your business problem and a written proposal covering deliverables, responsibilities and commercial terms.</p></div><div class="grid cols-4"><article><span class="home-step">01</span><h3>Understand</h3><p>Map your users, current tools and the workflow that needs attention.</p></article><article><span class="home-step">02</span><h3>Agree</h3><p>Confirm scope, acceptance checks, dependencies and payment milestones.</p></article><article><span class="home-step">03</span><h3>Build &amp; review</h3><p>Review the screens and test the customer and team journeys.</p></article><article><span class="home-step">04</span><h3>Launch &amp; hand over</h3><p>Agree access, documentation, training and support responsibilities.</p></article></div><div class="home-review-links" id="delivery-review"><a href="/how-we-work/">Review the delivery guide</a><a href="/trust-licences-certifications/">Review company record status</a><a href="/contact-us/?request=company-records">Request company records</a></div></div></section><section class="section home-planning" id="plan-project"><div class="container"><div class="home-section-heading"><div><span class="eyebrow">Plan your project</span><h2>Start with what your team needs.</h2></div><p>Share your requirements before choosing a package. Pricing and dates follow scope review.</p></div><div class="grid cols-3"><article class="card"><h3>Website &amp; App</h3><p>Pages, customer journeys, enquiry forms and portal or app requirements.</p><a class="text-link" href="/demo-request/?solution=Website%20%2F%20App%20Development%20Package">Plan Website &amp; App ↗</a></article><article class="card"><h3>CRM &amp; ERP</h3><p>Sales stages, operational records, user roles, reports and integrations.</p><a class="text-link" href="/demo-request/?solution=CRM%20%26%20ERP%20Package">Plan CRM &amp; ERP ↗</a></article><article class="card"><h3>Travel Technology</h3><p>Travel websites, enquiries, quotations, booking handover and finance workflows.</p><a class="text-link" href="/demo-request/?solution=Travel%20Technology%20Planning">Plan Travel Technology ↗</a></article></div><div class="home-planning-actions" id="travel-demo-link"><a class="button dark" href="/project-brief/">Build your project brief</a><a class="text-link" data-travel-demo-entry href="/sample-crm/#travel-demo-guide">Try the Travel Demo</a></div><p class="home-small-note">Confirm development costs, recurring fees, ownership and support in your written proposal. The interactive demo uses fictional records.</p></div></section><section class="section mist" id="start-project"><div class="container outcome-grid"><div class="section-head"><span class="eyebrow">Tell us what you need</span><h2>Tell us about your project.</h2><p>Tell us what your team needs to improve. We will review your requirements and discuss a suitable next step.</p><p><a class="text-link" href="tel:+918287669022">+91 8287669022</a><br><a class="text-link" href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p></div>${contactForm("home")}</div></section>`;}
 
-function aboutPage() {
-  return `
-    <section class="section">
-      <div class="container split">
-        <div>
-          <span class="eyebrow">Who we are</span>
-          <h2>A trusted IT and software development company for serious business growth.</h2>
-          <p class="muted">The company is searched and referenced as Bandevi Global Group, Bandevi Global, Bandevi, and BANDEVI GLOBAL GROUP. The official website is bandeviglobalgroup.com.</p>
-          <p class="muted">BANDEVI GLOBAL GROUP builds premium websites, CRM, ERP, customer portals, e-commerce platforms, automation, and business software for brands that need a stronger digital presence and cleaner operational control.</p>
-          <p class="muted">Our advantage is practical operating exposure. BANDEVI remains the IT and development company, while sister brands such as The Holidays Group stay separate. That gives our systems a real-world view of trust, documentation, customer support, multi-location coordination, and long-term service quality.</p>
-          ${list(["Premium website presence that builds confidence before the first enquiry", "CRM and ERP workflows that protect leads, orders, bookings, documents, finance, and follow-ups", "Customer portals, dashboards, and automation for professional service delivery", "Separate project structure for sister brands, outside clients, and new business lines", "Long-term improvement support after launch, not only one-time website delivery"])}
-          <div class="inline-actions">
-            <a class="button primary" href="/demo-request/">Request Demo ${icons.arrow}</a>
-            <a class="button ghost" href="/contact-us/">Contact Us</a>
-          </div>
-        </div>
-        <div class="media-frame"><img src="${heroImage}" alt="Travel technology operations center"></div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Sister-brand trust signals that make our technology stronger.</h2>
-          <p>The Holidays Group public profile gives BANDEVI a real operating reference for travel-grade systems, premium support, documentation discipline, and multi-location customer service.</p>
-        </div>
-        <div class="grid cols-4">
-          ${sisterBrandTrustStats.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Client confidence</span>
-          <h2>Trust should be visible before the first payment.</h2>
-          <p>Before a project starts, BANDEVI can align the company identity, scope, timeline, access ownership, support path, and brand separation so the client knows exactly what is being built and who is responsible.</p>
-        </div>
-        <div class="proof-grid">
-          ${trustVerificationCards.map((item) => `
-            <article class="proof-card">
-              <span class="status-label">${item.status}</span>
-              <h3>${item.title}</h3>
-              <p>${item.text}</p>
-            </article>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    ${brandIdentityPanel()}
-    <section class="section dark">
-      <div class="container">
-        <div class="section-head">
-          <h2>Built around the systems a growing business actually needs.</h2>
-          <p>Instead of treating design, software, and support as separate pieces, BANDEVI GLOBAL GROUP brings them into one practical digital growth stack.</p>
-        </div>
-        <div class="grid cols-4">
-          ${[
-            ["CRM", "Lead capture, follow-ups, quotation tracking, customer history, and sales visibility."],
-            ["ERP", "Orders, bookings, suppliers, stock, operations, payments, approvals, and reporting control."],
-            ["Portal", "Customer access for service status, documents, invoices, support requests, and updates."],
-            ["Web", "Corporate websites, landing pages, product pages, and conversion-focused contact paths."]
-          ].map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Licences, memberships and travel-network references.</h2>
-          <p>THG's public travel ecosystem references recognized tourism, airline, travel association, supplier, and quality networks. BANDEVI uses this sister-brand operating knowledge to build better travel websites, CRM, ERP, customer portals, and booking workflows while keeping each brand separate.</p>
-        </div>
-        <div class="grid cols-4">
-          ${travelTrustNetworks.map(([title, text]) => `<article class="card metric-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}
-        </div>
-        <div class="inline-actions">
-          <a class="button dark" href="/trust-licences-certifications/">Trust & Licences ${icons.arrow}</a>
-          <a class="button dark" href="/travel-website-development/">Travel Website Development ${icons.arrow}</a>
-          <a class="button light" href="https://theholidaysgroup.com/about-us" target="_blank" rel="noopener noreferrer">THG Reference</a>
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">What we build</span>
-          <h2>Technology that feels premium outside and disciplined inside.</h2>
-        </div>
-        ${cards([
-          { icon: "users", title: "CRM systems", text: "A sales workspace for enquiries, campaigns, owner assignment, follow-up reminders, proposals, and conversion reporting." },
-          { icon: "stack", title: "ERP systems", text: "An operations backbone for orders, bookings, stock, suppliers, finance, approvals, documents, team workload, and management reports." },
-          { icon: "globe", title: "Premium websites", text: "Company pages, product pages, travel websites, white-label websites, blogs, demo requests, and search-friendly lead generation." },
-          { icon: "shield", title: "Portals and automation", text: "Customer portals, internal dashboards, WhatsApp handoffs, task routing, and repeatable workflows for service teams." }
-        ], 4)}
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Trust-first delivery practices.</h2>
-          <p>We build websites and software around the things customers notice most: clear promises, fast response, proper records, secure access, and reliable post-launch service.</p>
-        </div>
-        <div class="process">
-          ${[
-            ["Discover", "Understand services, users, lead sources, operations, reporting needs, trust gaps, and launch priorities."],
-            ["Document", "Turn business requirements into clear pages, modules, workflows, roles, permissions, and handoff rules."],
-            ["Build", "Create responsive pages, CRM/ERP workflows, portal experiences, integrations, and admin controls."],
-            ["Support", "Refine content, train teams, review usage, improve conversion paths, and add new modules."]
-          ].map((item, index) => `
-            <div class="process-step">
-              <span>0${index + 1}</span>
-              <h3>${item[0]}</h3>
-              <p>${item[1]}</p>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="section dark">
-      <div class="container split reverse">
-        <div class="media-frame"><img src="${productImage}" alt="Travel CRM and ERP dashboard screens"></div>
-        <div>
-          <span class="eyebrow">Who we serve</span>
-          <h2>For teams where trust, speed, and service quality directly affect revenue.</h2>
-          <p class="muted">BANDEVI is built for organizations that need a stronger first impression, cleaner sales control, reliable operations, and a more professional customer experience.</p>
-          ${list(["Group and sister-company technology projects", "Masala and food-product businesses that need e-commerce, CRM, stock, and order visibility", "Makhana brands that need product catalogs, commerce, distribution, and customer systems", "Astrology service brands that need websites, booking flows, consultation portals, CRM, and payments", "Travel, service, and corporate teams that need CRM, ERP, portals, websites, and automation"])}
-        </div>
-      </div>
-    </section>
-    <section class="section mist">
-      <div class="container">
-        <div class="section-head">
-          <h2>Office and service-location confidence.</h2>
-          <p>The shared business network gives clients a stronger support story across India, Dubai, London, and the United States while each project remains separately managed.</p>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Location</th><th>Address</th></tr></thead>
-            <tbody>
-              ${officeLocations.map(([city, address]) => `<tr><td>${city}</td><td>${address}</td></tr>`).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="section-head single">
-          <span class="eyebrow">Operating principles</span>
-          <h2>Clear systems, practical delivery, and long-term trust.</h2>
-        </div>
-        ${cards([
-          { icon: "shield", title: "Trust by design", text: "Clear data flows, permissions, auditability, customer communication, and operational controls are treated as product essentials." },
-          { icon: "chart", title: "Measurable outcomes", text: "Projects are mapped to response speed, conversion visibility, staff productivity, support quality, and customer satisfaction." },
-          { icon: "users", title: "Team adoption", text: "Interfaces are designed for daily users so sales, support, operations, finance, and leadership can work with confidence." },
-          { icon: "stack", title: "Separate project control", text: "Each brand, website, portal, CRM, ERP, and campaign can stay separate with its own access, content, workflows, and roadmap." }
-        ], 4)}
-      </div>
-    </section>
-    ${cta("Let your About page prove trust before the first call.", "Create a premium corporate presence backed by systems that can support sales, orders, service, delivery, documentation, and long-term support.")}
-  `;
-}
+function improvedAboutHero(){return `<section class="about-intro"><div class="container about-intro-grid"><div><span class="eyebrow">About BANDEVI GLOBAL GROUP</span><h1>People, projects and a clear way of working.</h1><p class="about-lede">We develop websites, CRM, ERP and travel technology around the way your team sells, delivers and supports customers.</p><div class="about-actions"><a class="button primary" href="#about-projects">Explore our work</a><a class="button secondary" href="/contact-us/">Talk to our team</a></div><div class="about-jump-links"><a href="#about-leadership">Leadership</a><a href="#about-delivery">How we work</a><a href="#about-company-records">Company records</a></div></div><figure class="about-workspace"><img src="/assets/office-gallery/bandevi-live-office-team-01.jpg" width="3120" height="4160" alt="Company-submitted workspace photo showing people at shared desks" fetchpriority="high"><figcaption>Company-submitted workspace photo, already published in our <a href="/offices/">office gallery</a>.</figcaption></figure></div></section>`;}
+
+function aboutPage(){return `<section class="section about-capabilities"><div class="container"><div class="about-section-heading"><div><span class="eyebrow">What we do</span><h2>Connect the customer journey with the team's workflow.</h2></div><p>Start with the business problem. Agree the pages, records, users and integrations needed for a useful first release.</p></div><div class="grid cols-3"><article class="card"><h3>Websites &amp; apps</h3><p>Service pages, enquiry journeys, customer portals and responsive interfaces.</p><a class="text-link" href="/website-mobile-app-development/">Explore website &amp; app development</a></article><article class="card"><h3>CRM &amp; ERP</h3><p>Lead ownership, quotations, operational records, approvals and reporting.</p><a class="text-link" href="/crm-erp-solutions/">Explore CRM &amp; ERP</a></article><article class="card"><h3>Travel technology</h3><p>Travel websites, sales workflows, booking handover and payment-tracking requirements.</p><a class="text-link" href="/travel-technology/">Explore travel technology</a></article></div><p class="about-source-note">BANDEVI is the IT and software development brand. The Holidays Group is a separate sister brand; project scope and responsibilities are agreed for your contracting entity.</p></div></section>
+<section class="section about-leadership" id="about-leadership"><div class="container about-person-grid"><figure class="about-person-photo"><img src="/assets/surya-kant-jha/surya-kant-jha-chairman-headshot.webp" width="1200" height="1200" alt="Surya Kant Jha portrait from the published BANDEVI leadership profile" loading="lazy"><figcaption>Portrait from the company-published leadership profile.</figcaption></figure><div><span class="eyebrow">Published leadership profile</span><h2>Surya Kant Jha</h2><p class="about-role">Chairman · as listed in BANDEVI's company-published profile</p><p>Our existing leadership page brings the published name, portrait and company contact routes together. Read the profile and use the official business channels for your project discussion.</p><a class="text-link" href="/surya-kant-jha/">Read the leadership profile</a><div class="about-project-owners"><h3>Know who is responsible for your project.</h3><p>Ask for a named project contact, review and approval owners, and the support contact in your written proposal.</p></div></div></div></section>
+<section class="section about-projects" id="about-projects"><div class="container"><div class="about-section-heading"><div><span class="eyebrow">Work you can review</span><h2>Explore three travel project records.</h2></div><p>B2C travel portal development attributed to BANDEVI by the company owner. The project pages show the public interfaces and scope information available for review.</p></div><div class="grid cols-3"><article class="about-project-card"><a href="/projects/trip-sarathi/"><img src="/assets/portfolio-trip-sarathi.jpg" width="1239" height="578" alt="Trip Sarathi public homepage screenshot" loading="lazy"></a><div><h3>Trip Sarathi</h3><p>Flight search and travel-service navigation.</p><a class="text-link" href="/projects/trip-sarathi/">Explore Trip Sarathi project</a></div></article><article class="about-project-card"><a href="/projects/maximtrip/"><img src="/assets/portfolio-maximtrip.jpg" width="1239" height="532" alt="MaximTrip public homepage screenshot" loading="lazy"></a><div><h3>MaximTrip</h3><p>Flight and holiday pages with booking-management navigation.</p><a class="text-link" href="/projects/maximtrip/">Explore MaximTrip project</a></div></article><article class="about-project-card"><a href="/projects/tripodeal/"><img src="/assets/portfolio-tripodeal.jpg" width="1239" height="532" alt="TripOdeal public homepage screenshot" loading="lazy"></a><div><h3>TripOdeal</h3><p>Travel search, services and booking lookup.</p><a class="text-link" href="/projects/tripodeal/">Explore TripOdeal project</a></div></article></div><p class="about-source-note">Public screenshots captured 6 October 2026. Project references do not imply customer endorsements or verified business results.</p><div class="about-actions"><a class="text-link" href="/travel-technology/#travel-projects">View all travel project links</a><a class="text-link" href="/contact-us/?request=client-reference">Request an approved customer reference</a></div></div></section>
+<section class="section about-delivery" id="about-delivery"><div class="container"><div class="about-section-heading"><div><span class="eyebrow">How we work</span><h2>A delivery process with clear responsibilities.</h2></div><p>Your written proposal confirms deliverables, review points, costs, dependencies and handover items.</p></div><ol class="grid cols-4 about-steps"><li><span>01</span><h3>Understand</h3><p>Map the business problem, users and current workflow with you.</p></li><li><span>02</span><h3>Agree the scope</h3><p>Confirm modules, exclusions, acceptance checks and named review owners.</p></li><li><span>03</span><h3>Build &amp; review</h3><p>Review the screens and test the agreed customer and staff journeys.</p></li><li><span>04</span><h3>Launch &amp; hand over</h3><p>Agree access, documentation, training, recovery and ongoing support responsibilities.</p></li></ol><div class="about-actions"><a class="text-link" href="/how-we-work/">Read the project delivery guide</a><a class="text-link" href="/sample-crm/#travel-demo-guide">Try the fictional travel workflow demo</a></div></div></section>
+<section class="section about-records" id="about-company-records"><div class="container"><div class="about-section-heading"><div><span class="eyebrow">Before you contract</span><h2>Review the business details and agreement.</h2></div><p>Confirm who will contract and invoice your project, alongside the scope, ownership and support terms.</p></div><div class="grid cols-2"><article class="card"><h3>Company identity &amp; registrations</h3><p>Verified contracting-entity details and registration credentials are awaiting supplied records. Request the exact legal name, business address and applicable supporting documents for your proposal and invoice.</p><a class="text-link" href="/trust-licences-certifications/">Review credential publication status</a><p><a class="text-link" href="/contact-us/?request=company-records">Request company records</a></p></article><article class="card"><h3>What to agree in writing</h3><ul><li>Deliverables, exclusions and acceptance checks</li><li>Review owners, dependencies and payment milestones</li><li>Source-code and data rights, third-party fees and account access</li><li>Handover items, support coverage and escalation contact</li></ul><a class="text-link" href="/how-we-work/">Review the delivery and handover guide</a></article></div></div></section>
+<section class="section about-contact" id="about-contact"><div class="container about-contact-grid"><div><span class="eyebrow">Talk to BANDEVI</span><h2>Use our published business contacts.</h2><p>Share your business problem and the workflow you want to improve. For an existing project, include its reference and a brief description of the issue.</p><a class="button primary" href="/project-brief/">Prepare your project brief</a></div><article class="about-contact-card"><h3>Sales &amp; project enquiries</h3><p><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a><br><a href="tel:+918287669022">+91 8287669022</a></p><a class="text-link" href="/contact-us/">Send a website enquiry</a><div class="about-support-note"><h3>Support after launch</h3><p>Support hours, response expectations, coverage and the assigned contact are agreed in your project arrangement.</p><a class="text-link" href="/support/">Review support options</a></div></article></div></section>`;}
 
 function companyProfilePage() {
   return `
