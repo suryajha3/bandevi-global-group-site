@@ -22,7 +22,22 @@
  handover.addEventListener('click',()=>{if(stage!==2||!accept.checked)return;stage=3;tasks.hidden=false;resetFinance();status.textContent='Step 3 of 3: sample booking handed to operations. 0 of 3 checklist tasks reviewed.';});
  root.querySelectorAll('[data-travel-task]').forEach(t=>t.addEventListener('change',()=>{if(stage!==3)return;const count=root.querySelectorAll('[data-travel-task]:checked').length;status.textContent='Step 3 of 3: '+count+' of 3 checklist tasks reviewed.'+(count===3?' Sample walkthrough complete. No supplier booking or payment has been made.':'');}));
  reset.addEventListener('click',()=>{option.value='standard';clear();quote.focus();});
+ const measuredTravelSteps=new Set();let travelStarted=false,travelCompleted=false;
+ function measureTravel(name,extra={}){try{if(typeof trackAnalyticsEvent==='function')trackAnalyticsEvent(name,{demo_id:'travel_workflow',page_location:location.origin+'/sample-crm/',...extra});}catch(_){/* Demo controls remain usable without analytics. */}}
+ function renderTravelGuide(){
+  const current=stage===1?1:stage===2?2:gross>0?4:3;
+  root.querySelectorAll('[data-travel-guide-step]').forEach(el=>{const n=Number(el.dataset.travelGuideStep);el.classList.toggle('guide-done',n<current);if(n===current)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});
+  root.querySelector('#travel-guide-progress').textContent=['','Step 1 of 3: prepare the sample quotation.','Step 2 of 3: simulate acceptance and create the sample handover.','Step 3 of 3: record a fictional deposit and review the remaining balance.','Guided demo complete: quotation, handover and a sample payment record explored. Operations tasks and payment exceptions can still be reviewed.'][current];
+  const action=root.querySelector('#travel-guide-action');action.href='#'+(current===1?'travel-demo-enquiry':current===2?'travel-quotation':current===3?'travel-finance':'travel-demo-brief');action.textContent=current===4?'Choose your project workflow':'Go to step '+current;
+  if(stage>=2&&!travelStarted){travelStarted=true;measureTravel('sample_demo_start');}
+  const reached=[stage>=2,stage===3,stage===3&&gross>0];reached.forEach((done,i)=>{if(done&&!measuredTravelSteps.has(i+1)){measuredTravelSteps.add(i+1);measureTravel('sample_demo_step',{step_number:i+1,demo_step:['quotation','handover','payment_record'][i]});}});
+  if(current===4&&!travelCompleted){travelCompleted=true;measureTravel('sample_walkthrough_complete');}
+ }
+ const briefFocus=root.querySelector('#travel-demo-focus'),briefLink=root.querySelector('#travel-demo-brief-link');
+ const briefWorkflows=new Set(['travel-crm','travel-handover','travel-finance']);
+ briefFocus.addEventListener('change',()=>{if(briefWorkflows.has(briefFocus.value))briefLink.href='/project-brief/?workflow='+briefFocus.value+'&source=travel-demo';});
  function renderDashboard(){
+  renderTravelGuide();
   const count=root.querySelectorAll('[data-travel-task]:checked').length,net=gross-refunded,remaining=total()-net;
   root.querySelector('#dashboard-sales').textContent='TR-DEMO-01 · '+(stage===1?'quotation not prepared':('Q-DEMO-01 · '+money(total())+' · '+(accept.checked?'sample acceptance recorded':'awaiting sample acceptance')));
   root.querySelector('#dashboard-operations').textContent=stage===3?'BK-DEMO-01 · '+count+' of 3 tasks reviewed · '+(3-count)+' outstanding.':'Awaiting accepted quotation and handover.';
