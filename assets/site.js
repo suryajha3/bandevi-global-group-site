@@ -226,17 +226,17 @@ const liveOfficeGallery = [
 const liveOfficeWalkthroughs = [
   {
     src: asset("office-gallery/bandevi-live-office-walkthrough-01.mp4"),
-    poster: asset("office-gallery/bandevi-live-office-workstations-03.jpg"),
+    poster: asset("office-gallery/bandevi-live-office-workstations-03-800.webp"),
     label: "Live office walkthrough 1"
   },
   {
     src: asset("office-gallery/bandevi-live-office-walkthrough-02.mp4"),
-    poster: asset("office-gallery/bandevi-live-office-workstations-01.jpg"),
+    poster: asset("office-gallery/bandevi-live-office-workstations-01-800.webp"),
     label: "Live office walkthrough 2"
   },
   {
     src: asset("office-gallery/bandevi-live-office-walkthrough-03.mp4"),
-    poster: asset("office-gallery/bandevi-live-office-workstations-02.jpg"),
+    poster: asset("office-gallery/bandevi-live-office-workstations-02-800.webp"),
     label: "Live office walkthrough 3"
   }
 ];
@@ -3161,16 +3161,9 @@ function officesPage() {
         <div class="section-head">
           <span class="eyebrow">Live workspace gallery</span>
           <h2>Company-submitted photos from a live BANDEVI office workspace.</h2>
-          <p>These photos show a working office environment and team desks supplied by BANDEVI GLOBAL GROUP. They support the company workspace story; address-level and city-level confirmation remains available through the office verification sheet and official contact route.</p>
+          <p>Explore five photos supplied by BANDEVI showing desks, work areas and people at work. Select a photo to see the full frame. These images do not independently verify a registered address or every listed location; contact us for location-specific records.</p>
         </div>
-        <div class="office-gallery" aria-label="BANDEVI office workspace photo gallery">
-          ${liveOfficeGallery.map((item) => `
-            <figure class="office-gallery-card">
-              <img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async">
-              <figcaption>${item.caption}</figcaption>
-            </figure>
-          `).join("")}
-        </div>
+        <div class="office-gallery" id="workspace-gallery" aria-label="BANDEVI office workspace photo gallery"><figure class="office-gallery-card"><a class="office-photo-open" href="/assets/office-gallery/bandevi-live-office-workstations-01-1200.webp" data-office-photo data-original="/assets/office-gallery/bandevi-live-office-workstations-01.jpg" aria-label="View larger photo: Shared desks and workstations." data-caption="Shared desks and workstations."><img src="/assets/office-gallery/bandevi-live-office-workstations-01-480.webp" srcset="/assets/office-gallery/bandevi-live-office-workstations-01-480.webp 480w, /assets/office-gallery/bandevi-live-office-workstations-01-800.webp 800w, /assets/office-gallery/bandevi-live-office-workstations-01-1200.webp 1200w" sizes="(max-width:760px) calc(100vw - 48px), (max-width:1100px) 45vw, 370px" width="1599" height="899" alt="Shared desks and workstations." loading="lazy" decoding="async"><span>View larger photo</span></a><figcaption><strong>Shared desks and workstations.</strong><br>Company-submitted workspace photo.</figcaption></figure><figure class="office-gallery-card"><a class="office-photo-open" href="/assets/office-gallery/bandevi-live-office-workstations-02-1200.webp" data-office-photo data-original="/assets/office-gallery/bandevi-live-office-workstations-02.jpg" aria-label="View larger photo: Desks arranged with workspace partitions." data-caption="Desks arranged with workspace partitions."><img src="/assets/office-gallery/bandevi-live-office-workstations-02-480.webp" srcset="/assets/office-gallery/bandevi-live-office-workstations-02-480.webp 480w, /assets/office-gallery/bandevi-live-office-workstations-02-800.webp 800w, /assets/office-gallery/bandevi-live-office-workstations-02-1200.webp 1200w" sizes="(max-width:760px) calc(100vw - 48px), (max-width:1100px) 45vw, 370px" width="1599" height="899" alt="Desks arranged with workspace partitions." loading="lazy" decoding="async"><span>View larger photo</span></a><figcaption><strong>Desks arranged with workspace partitions.</strong><br>Company-submitted workspace photo.</figcaption></figure><figure class="office-gallery-card"><a class="office-photo-open" href="/assets/office-gallery/bandevi-live-office-workstations-03-1200.webp" data-office-photo data-original="/assets/office-gallery/bandevi-live-office-workstations-03.jpg" aria-label="View larger photo: A wider view of the working area." data-caption="A wider view of the working area."><img src="/assets/office-gallery/bandevi-live-office-workstations-03-480.webp" srcset="/assets/office-gallery/bandevi-live-office-workstations-03-480.webp 480w, /assets/office-gallery/bandevi-live-office-workstations-03-800.webp 800w, /assets/office-gallery/bandevi-live-office-workstations-03-1200.webp 1200w" sizes="(max-width:760px) calc(100vw - 48px), (max-width:1100px) 45vw, 370px" width="1599" height="899" alt="A wider view of the working area." loading="lazy" decoding="async"><span>View larger photo</span></a><figcaption><strong>A wider view of the working area.</strong><br>Company-submitted workspace photo.</figcaption></figure><figure class="office-gallery-card"><a class="office-photo-open" href="/assets/office-gallery/bandevi-live-office-team-01-1200.webp" data-office-photo data-original="/assets/office-gallery/bandevi-live-office-team-01.jpg" aria-label="View larger photo: People working at shared desks." data-caption="People working at shared desks."><img src="/assets/office-gallery/bandevi-live-office-team-01-480.webp" srcset="/assets/office-gallery/bandevi-live-office-team-01-480.webp 480w, /assets/office-gallery/bandevi-live-office-team-01-800.webp 800w, /assets/office-gallery/bandevi-live-office-team-01-1200.webp 1200w" sizes="(max-width:760px) calc(100vw - 48px), (max-width:1100px) 45vw, 370px" width="3120" height="4160" alt="People working at shared desks." loading="lazy" decoding="async"><span>View larger photo</span></a><figcaption><strong>People working at shared desks.</strong><br>Company-submitted workspace photo.</figcaption></figure><figure class="office-gallery-card"><a class="office-photo-open" href="/assets/office-gallery/bandevi-live-office-team-02-1200.webp" data-office-photo data-original="/assets/office-gallery/bandevi-live-office-team-02.jpg" aria-label="View larger photo: A team area with shared workstations." data-caption="A team area with shared workstations."><img src="/assets/office-gallery/bandevi-live-office-team-02-480.webp" srcset="/assets/office-gallery/bandevi-live-office-team-02-480.webp 480w, /assets/office-gallery/bandevi-live-office-team-02-800.webp 800w, /assets/office-gallery/bandevi-live-office-team-02-1200.webp 1200w" sizes="(max-width:760px) calc(100vw - 48px), (max-width:1100px) 45vw, 370px" width="3120" height="4160" alt="A team area with shared workstations." loading="lazy" decoding="async"><span>View larger photo</span></a><figcaption><strong>A team area with shared workstations.</strong><br>Company-submitted workspace photo.</figcaption></figure></div>
         <div class="inline-actions">
           <a class="button primary" href="${asset("bandevi-global-group-office-verification-sheet.txt")}">Open Office Verification Sheet ${icons.arrow}</a>
           <a class="button ghost" href="/proof-verification/">Open Proof & Verification</a>
@@ -7594,3 +7587,5 @@ pageRenderers.astrology = () => landingPage("astrology") + astrologyScopeSection
 ['crm','erp'].forEach(key=>{const original=pageRenderers[key];pageRenderers[key]=()=>original()+travelSpecialistLinks();});
 
 render();
+
+if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}
