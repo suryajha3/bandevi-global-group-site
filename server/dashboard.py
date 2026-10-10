@@ -8,6 +8,7 @@ import secrets
 import sqlite3
 import time
 import operations
+import task_center
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -38,6 +39,7 @@ def initialize_dashboard(db):
     CREATE INDEX IF NOT EXISTS lead_activity_reference ON lead_activity(enquiry_id,created);
     ''')
     operations.initialize(db)
+    task_center.initialize(db)
     columns = {row[1] for row in db.execute('PRAGMA table_info(enquiry_workflow)')}
     if 'follow_up_date' not in columns:
         db.execute("ALTER TABLE enquiry_workflow ADD COLUMN follow_up_date TEXT NOT NULL DEFAULT ''")
@@ -185,6 +187,7 @@ def handle_get(handler, connect):
         send_asset(handler, assets[route])
         return True
     authenticated = session(handler, connect)
+    if task_center.get(handler, connect, authenticated):return True
     if operations.get(handler, connect, authenticated):return True
     if not route.startswith('/api/admin/'):
         return False
@@ -369,6 +372,7 @@ def handle_post(handler, connect, origins, salt):
         handler.respond(200, {'ok':True}, {'Set-Cookie':cookie('', True)})
         return True
     if route == '/api/admin/activity':return activity_post(handler,connect,authenticated,data,now)
+    if task_center.post(handler,connect,authenticated,data):return True
     if operations.post_admin(handler, connect, authenticated, data):return True
     if route != '/api/admin/update':
         handler.respond(404, {'error':'Not found'})
