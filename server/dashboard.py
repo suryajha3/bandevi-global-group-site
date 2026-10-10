@@ -207,6 +207,9 @@ def handle_get(handler, connect):
     channel = query.get('channel', [''])[0]
     follow_up = query.get('followup', [''])[0]
     today = business_today()
+    assigned=query.get('assigned',[''])[0]
+    if assigned not in ('','me'):
+        handler.respond(400,{'error':'Choose all accessible enquiries or your assigned leads.'});return True
     if follow_up not in ('', 'overdue', 'today', 'upcoming', 'unscheduled', 'unassigned', 'attention'):
         handler.respond(400, {'error':'Invalid follow-up filter'})
         return True
@@ -217,7 +220,7 @@ def handle_get(handler, connect):
         return True
     where = "e.email_status!='qa-verified'"
     args = []
-    if authenticated['role']=='agent':
+    if authenticated['role']=='agent' or assigned=='me':
         where+=' AND w.owner=?';args.append(authenticated['actor'])
     if channel:
         if channel not in ('organic_search','paid','campaign','referral','direct_unknown','unknown'):
