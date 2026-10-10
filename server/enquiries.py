@@ -1,6 +1,8 @@
 """Private, same-origin enquiry inbox. Python standard library only."""
 import datetime
 import hashlib
+import hmac
+import operations
 import json
 import logging
 import os
@@ -113,7 +115,12 @@ def validate(data):
         raise ValueError('Please enter a valid email address.')
     if 'projectBrief' in data:
         result['projectBrief'] = validate_project_brief(data['projectBrief'], result)
+    if data.get('slotId') is not None:
+        if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
+        result['slotId']=data['slotId']
     schedule = data.get('demoSchedule')
+    if schedule is not None and result.get('slotId'):
+        raise ValueError('Choose an available slot or a preferred time, not both.')
     if schedule is not None:
         if result['type'] != 'demo' or not isinstance(schedule, dict) or set(schedule) != {'date','time','timezone'}:
             raise ValueError('Invalid demo time.')
@@ -131,6 +138,17 @@ def validate(data):
 def smtp_ready():
     return all(os.environ.get(k) for k in ('SMTP_HOST', 'SMTP_USER', 'SMTP_PASSWORD', 'SMTP_FROM'))
 
+def send_message(message):
+    host, port = os.environ['SMTP_HOST'], int(os.environ.get('SMTP_PORT', '587'))
+    context = ssl.create_default_context()
+    mode=os.environ.get('SMTP_TLS','starttls')
+    if mode not in ('ssl','starttls'):raise ValueError('TLS is required.')
+    client=smtplib.SMTP_SSL(host,port,timeout=20,context=context) if mode=='ssl' else smtplib.SMTP(host,port,timeout=20)
+    with client:
+        if mode=='starttls':client.starttls(context=context)
+        client.login(os.environ['SMTP_USER'],os.environ['SMTP_PASSWORD'])
+        client.send_message(message)
+
 def notify(row):
     data = json.loads(row['payload'])
     message = EmailMessage()
@@ -140,21 +158,27 @@ def notify(row):
     message['Subject'] = f"Website {data['type']} enquiry — {row['id']}"
     message.set_content('\n'.join([f"Reference: {row['id']}", f"Received (UTC epoch): {row['created']}"] +
                                  [f'{key}: {value}' for key, value in data.items()]))
-    host, port = os.environ['SMTP_HOST'], int(os.environ.get('SMTP_PORT', '587'))
-    context = ssl.create_default_context()
-    if os.environ.get('SMTP_TLS', 'starttls') == 'ssl':
-        client = smtplib.SMTP_SSL(host, port, timeout=20, context=context)
-    else:
-        client = smtplib.SMTP(host, port, timeout=20)
-    with client:
-        if os.environ.get('SMTP_TLS', 'starttls') != 'ssl':
-            client.starttls(context=context)
-        client.login(os.environ['SMTP_USER'], os.environ['SMTP_PASSWORD'])
-        client.send_message(message)
+    send_message(message)
+
+def process_outbox():
+    if not smtp_ready():return
+    with connect() as db:
+        rows=db.execute("SELECT * FROM notification_outbox WHERE status='pending' AND next_attempt<=? ORDER BY id LIMIT 20",(int(time.time()),)).fetchall()
+    for row in rows:
+        try:
+            message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']
+            message['Subject']=row['subject'];message.set_content(row['body']);send_message(message)
+            with connect() as db:db.execute("UPDATE notification_outbox SET status='sent',sent=? WHERE id=?",(int(time.time()),row['id']))
+        except Exception:
+            LOG.warning('Outbox delivery deferred: %s',row['id'])
+            with connect() as db:db.execute('UPDATE notification_outbox SET attempts=attempts+1,next_attempt=? WHERE id=?',(int(time.time())+min(3600,60*2**min(row['attempts'],6)),row['id']))
+
 
 def notification_worker():
     while True:
         try:
+            operations.reminders(connect)
+            process_outbox()
             if smtp_ready():
                 with connect() as db:
                     rows = db.execute("SELECT * FROM enquiries WHERE email_status='pending' AND next_attempt<=? LIMIT 10", (int(time.time()),)).fetchall()
@@ -201,11 +225,16 @@ class Handler(BaseHTTPRequestHandler):
         except sqlite3.Error:
             LOG.error('Dashboard storage unavailable')
             return self.respond(503, {'error':'Inbox temporarily unavailable. Please try again.'})
-        self.respond(200 if self.path == '/health' else 404,
-                     {'ok': True} if self.path == '/health' else {'error': 'Not found'})
+        if self.path=='/health':
+            try:
+                with connect() as db:db.execute('SELECT 1 FROM enquiries LIMIT 1').fetchone()
+                return self.respond(200,{'ok':True})
+            except sqlite3.Error:return self.respond(503,{'ok':False})
+        self.respond(404,{'error':'Not found'})
 
     def do_POST(self):
         try:
+            if operations.post_public(self,connect,ORIGINS):return
             if handle_post(self, connect, ORIGINS, SALT):
                 return
         except sqlite3.Error:
@@ -232,6 +261,7 @@ class Handler(BaseHTTPRequestHandler):
         ip = self.headers.get('X-Real-IP', self.client_address[0])
         fingerprint = hashlib.sha256((SALT + ip).encode()).hexdigest()
         now = int(time.time())
+        management_token=hmac.new(SALT.encode(),('demo:'+key).encode(),hashlib.sha256).hexdigest()
         try:
             with connect() as db:
                 db.execute('BEGIN IMMEDIATE')
@@ -239,7 +269,7 @@ class Handler(BaseHTTPRequestHandler):
                 if existing:
                     if existing['digest'] != digest:
                         return self.respond(409, {'error': 'This request changed. Please submit it again.'})
-                    return self.respond(200, {'ok': True, 'reference': existing['enquiry_id']})
+                    return self.respond(200, {'ok': True, 'reference': existing['enquiry_id'], 'appointment':operations.receipt(db,existing['enquiry_id'],management_token)})
                 if data.get('demoSchedule'):
                     schedule=data['demoSchedule'];india=datetime.timezone(datetime.timedelta(hours=5,minutes=30))
                     selected=datetime.datetime.fromisoformat(schedule['date']+'T'+schedule['time']).replace(tzinfo=india)
@@ -251,9 +281,16 @@ class Handler(BaseHTTPRequestHandler):
                     return self.respond(429, {'error': 'Too many enquiries. Please try later or contact us directly.'})
                 reference = 'BG-' + uuid.uuid4().hex[:16].upper()
                 db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)', (reference, now, payload))
+                appointment=None
+                if data.get('slotId'):
+                    try:appointment=operations.create_booking(db,reference,data['slotId'],management_token)
+                    except ValueError:
+                        db.rollback();return self.respond(409,{'error':'That demo time is no longer available. Choose another slot.'})
+                elif os.environ.get('CUSTOMER_ACK_ENABLED','1')=='1':
+                    operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com')
                 db.execute('INSERT INTO requests VALUES(?,?)', (fingerprint, now))
                 db.execute('INSERT INTO idempotency VALUES(?,?,?,?)', (key, digest, reference, now))
-            return self.respond(201, {'ok': True, 'reference': reference})
+            return self.respond(201, {'ok': True, 'reference': reference,'appointment':appointment})
         except sqlite3.Error:
             LOG.error('Enquiry storage unavailable')
             return self.respond(503, {'error': 'Unable to save right now. Please use email or WhatsApp.'})

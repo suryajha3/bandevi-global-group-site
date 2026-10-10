@@ -7,6 +7,7 @@ import os
 import secrets
 import sqlite3
 import time
+import operations
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -30,6 +31,7 @@ def initialize_dashboard(db):
       actor TEXT NOT NULL, previous TEXT NOT NULL, changed TEXT NOT NULL);
     ''')
 
+    operations.initialize(db)
     columns = {row[1] for row in db.execute('PRAGMA table_info(enquiry_workflow)')}
     if 'follow_up_date' not in columns:
         db.execute("ALTER TABLE enquiry_workflow ADD COLUMN follow_up_date TEXT NOT NULL DEFAULT ''")
@@ -57,8 +59,8 @@ def configured():
     value = os.environ.get('DASHBOARD_PASSWORD_HASH', '')
     return value.startswith('scrypt1:') and len(value.split(':')) == 3
 
-def check_password(password):
-    stored = os.environ.get('DASHBOARD_PASSWORD_HASH', '')
+def check_password(password, stored=None):
+    stored = stored or os.environ.get('DASHBOARD_PASSWORD_HASH', '')
     try:
         _, salt, _ = stored.split(':')
         return hmac.compare_digest(stored, password_hash(password, salt))
@@ -80,7 +82,11 @@ def session(handler, connect):
         digest = hashlib.sha256(token.encode()).hexdigest()
         with connect() as db:
             row = db.execute('SELECT * FROM inbox_sessions WHERE digest=? AND expires>?', (digest, int(time.time()))).fetchone()
-        return row
+        if not row:return None
+        with connect() as db:
+            user=db.execute('SELECT role,active FROM team_users WHERE email=?',(row['actor'],)).fetchone()
+        if row['actor']!=USER and (not user or not user['active']):return None
+        return {**dict(row), 'role':'admin' if row['actor']==USER else user['role']}
     except (KeyError, ValueError, CookieError):
         return None
 
@@ -99,7 +105,7 @@ def send_asset(handler, name):
     file = ASSETS / name
     data = file.read_bytes()
     handler.send_response(200)
-    handler.send_header('Content-Type', {'index.html':'text/html; charset=utf-8','app.js':'application/javascript; charset=utf-8','styles.css':'text/css; charset=utf-8'}[name])
+    handler.send_header('Content-Type', {'index.html':'text/html; charset=utf-8','app.js':'application/javascript; charset=utf-8','styles.css':'text/css; charset=utf-8','operations.js':'application/javascript; charset=utf-8'}[name])
     handler.send_header('Cache-Control', 'no-store')
     handler.send_header('X-Robots-Tag', 'noindex, nofollow, noarchive')
     handler.send_header('X-Content-Type-Options', 'nosniff')
@@ -113,21 +119,22 @@ def send_asset(handler, name):
 def handle_get(handler, connect):
     parsed = urlsplit(handler.path)
     route = parsed.path
-    assets = {'/team-inbox/':'index.html', '/team-inbox/app.js':'app.js', '/team-inbox/styles.css':'styles.css'}
+    assets = {'/team-inbox/':'index.html', '/team-inbox/app.js':'app.js', '/team-inbox/styles.css':'styles.css','/team-inbox/operations.js':'operations.js'}
     if route in assets:
         send_asset(handler, assets[route])
         return True
+    authenticated = session(handler, connect)
+    if operations.get(handler, connect, authenticated):return True
     if not route.startswith('/api/admin/'):
         return False
-    authenticated = session(handler, connect)
     if route == '/api/admin/session':
-        handler.respond(200, {'authenticated':bool(authenticated), 'configured':configured(), 'user':USER if authenticated else None, 'csrf':authenticated['csrf'] if authenticated else None})
+        handler.respond(200, {'authenticated':bool(authenticated), 'configured':configured(), 'user':authenticated['actor'] if authenticated else None, 'role':authenticated['role'] if authenticated else None, 'csrf':authenticated['csrf'] if authenticated else None})
         return True
     if not authenticated:
         handler.respond(401, {'error':'Sign in to view the inbox.'})
         return True
     if route == '/api/admin/attribution':
-        return attribution_report(handler, connect, parse_qs(parsed.query))
+        return attribution_report(handler, connect, parse_qs(parsed.query), authenticated)
     if route != '/api/admin/enquiries':
         handler.respond(404, {'error':'Not found'})
         return True
@@ -147,6 +154,8 @@ def handle_get(handler, connect):
         return True
     where = "e.email_status!='qa-verified'"
     args = []
+    if authenticated['role']=='agent':
+        where+=' AND w.owner=?';args.append(authenticated['actor'])
     if channel:
         if channel not in ('organic_search','paid','campaign','referral','direct_unknown','unknown'):
             handler.respond(400, {'error':'Invalid source filter'})
@@ -182,21 +191,28 @@ def handle_get(handler, connect):
     with connect() as db:
         total = db.execute('SELECT COUNT(*)' + join + 'WHERE ' + where, args).fetchone()[0]
         rows = db.execute("SELECT e.*,COALESCE(w.stage,'New') AS stage,COALESCE(w.owner,'') AS owner,COALESCE(w.notes,'') AS notes,COALESCE(w.version,0) AS version,COALESCE(w.follow_up_date,'') AS follow_up_date,w.updated" + join + 'WHERE ' + where + ' ORDER BY e.created DESC,e.id DESC LIMIT 50 OFFSET ?', args + [offset]).fetchall()
-        counts = {r[0]:r[1] for r in db.execute("SELECT COALESCE(w.stage,'New'),COUNT(*)" + join + "WHERE e.email_status!='qa-verified' GROUP BY COALESCE(w.stage,'New')")}
-        active = "WHERE e.email_status!='qa-verified' AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"
+        access=" AND COALESCE(w.owner,'')=?" if authenticated['role']=='agent' else ''
+        access_args=[authenticated['actor']] if access else []
+        counts = {r[0]:r[1] for r in db.execute("SELECT COALESCE(w.stage,'New'),COUNT(*)" + join + "WHERE e.email_status!='qa-verified' "+access+" GROUP BY COALESCE(w.stage,'New')",access_args)}
+        active = "WHERE e.email_status!='qa-verified' AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"+access
         followups = {
-            'overdue':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.follow_up_date,'')!='' AND w.follow_up_date<?",(today.isoformat(),)).fetchone()[0],
-            'today':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date=?",(today.isoformat(),)).fetchone()[0],
-            'upcoming':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date>? AND w.follow_up_date<=?",(today.isoformat(),(today+datetime.timedelta(days=7)).isoformat())).fetchone()[0],
-            'unassigned':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.owner,'')=''",()).fetchone()[0]
+            'overdue':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.follow_up_date,'')!='' AND w.follow_up_date<?",access_args+[today.isoformat()]).fetchone()[0],
+            'today':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date=?",access_args+[today.isoformat()]).fetchone()[0],
+            'upcoming':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date>? AND w.follow_up_date<=?",access_args+[today.isoformat(),(today+datetime.timedelta(days=7)).isoformat()]).fetchone()[0],
+            'unassigned':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.owner,'')=''",access_args).fetchone()[0]
         }
     entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'followUpDate':r['follow_up_date'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
+    with connect() as db:
+        for entry in entries:
+            value=db.execute('SELECT minor_units,currency FROM deal_values WHERE enquiry_id=?',(entry['reference'],)).fetchone()
+            entry['deal']=dict(value) if value else None
+            entry['appointment']=operations.receipt(db,entry['reference'])
     handler.respond(200, {'items':entries, 'total':total, 'counts':{s:counts.get(s,0) for s in STAGES}, 'offset':offset, 'followups':followups, 'businessDate':today.isoformat(), 'businessTimezone':'Asia/Kolkata',
                           'emailConfigured':all(os.environ.get(k) for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM'))})
     return True
 
 
-def attribution_report(handler, connect, query):
+def attribution_report(handler, connect, query, authenticated):
     try: days=int(query.get('days',['30'])[0])
     except ValueError: days=0
     if days not in (7,30,90):
@@ -205,7 +221,8 @@ def attribution_report(handler, connect, query):
     channels={c:0 for c in ('organic_search','paid','campaign','referral','direct_unknown','unknown')}
     stages={s:0 for s in STAGES};all_stages={s:0 for s in STAGES};channel_stages={c:{s:0 for s in STAGES} for c in channels};landings={};services={};total=0
     with connect() as db:
-        rows=db.execute("SELECT e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id WHERE e.email_status!='qa-verified' AND e.created>=?",(int(time.time())-days*86400,))
+        access=" AND w.owner=?" if authenticated['role']=='agent' else ''
+        rows=db.execute("SELECT e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id WHERE e.email_status!='qa-verified' AND e.created>=?"+access,[int(time.time())-days*86400]+([authenticated['actor']] if access else []))
         for row in rows:
             data=json.loads(row['payload']);a=data.get('attribution') or {};channel=a.get('channel','unknown')
             if channel not in channels:channel='unknown'
@@ -256,14 +273,17 @@ def handle_post(handler, connect, origins, salt):
                 handler.respond(429, {'error':'Too many sign-in attempts. Try again in 15 minutes.'})
                 return True
             db.execute('INSERT INTO inbox_logins VALUES(?,?)', (fingerprint, now))
-        correct = check_password(password)
-        if not correct or username.strip().lower() != USER:
+        username=username.strip().lower()
+        with connect() as db:
+            user=db.execute('SELECT * FROM team_users WHERE email=? AND active=1',(username,)).fetchone()
+        correct=check_password(password, user['password_hash'] if user else None)
+        if not correct or (username!=USER and not user):
             handler.respond(401, {'error':'Email or password is incorrect.'})
             return True
         token, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
         with connect() as db:
-            db.execute('INSERT INTO inbox_sessions VALUES(?,?,?)', (hashlib.sha256(token.encode()).hexdigest(), csrf, now+28800))
-        handler.respond(200, {'ok':True, 'csrf':csrf, 'user':USER}, {'Set-Cookie':cookie(token)})
+            db.execute('INSERT INTO inbox_sessions(digest,csrf,expires,actor) VALUES(?,?,?,?)', (hashlib.sha256(token.encode()).hexdigest(), csrf, now+28800,username))
+        handler.respond(200, {'ok':True, 'csrf':csrf, 'user':username,'role':'admin' if username==USER else user['role']}, {'Set-Cookie':cookie(token)})
         return True
     authenticated = session(handler, connect)
     if not authenticated:
@@ -277,6 +297,7 @@ def handle_post(handler, connect, origins, salt):
             db.execute('DELETE FROM inbox_sessions WHERE digest=?', (authenticated['digest'],))
         handler.respond(200, {'ok':True}, {'Set-Cookie':cookie('', True)})
         return True
+    if operations.post_admin(handler, connect, authenticated, data):return True
     if route != '/api/admin/update':
         handler.respond(404, {'error':'Not found'})
         return True
@@ -296,14 +317,34 @@ def handle_post(handler, connect, origins, salt):
             handler.respond(404, {'error':'Enquiry not found'})
             return True
         previous = db.execute('SELECT * FROM enquiry_workflow WHERE id=?', (reference,)).fetchone()
+        if authenticated['role']=='agent' and (not previous or previous['owner']!=authenticated['actor'] or owner.strip()!=authenticated['actor']):
+            handler.respond(403,{'error':'You may update only your assigned enquiries.'});return True
+        if owner.strip() and owner.strip()!=USER and not db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(owner.strip(),)).fetchone():
+            if authenticated['actor']!=USER:
+                handler.respond(400,{'error':'Choose an active team member.'});return True
         if version != (previous['version'] if previous else 0):
             handler.respond(409, {'error':'This enquiry was updated elsewhere. Refresh before saving.'})
             return True
+        previous_deal=db.execute('SELECT minor_units,currency FROM deal_values WHERE enquiry_id=?',(reference,)).fetchone()
+        if 'dealValue' in data:
+            try:
+                minor=operations.money(data['dealValue']);currency=data.get('currency','INR')
+                if currency not in ('INR','USD','GBP','EUR','AED'):raise ValueError()
+            except ValueError:
+                handler.respond(400,{'error':'Enter a valid deal value and currency.'});return True
+            db.execute('INSERT INTO deal_values VALUES(?,?,?) ON CONFLICT(enquiry_id) DO UPDATE SET minor_units=excluded.minor_units,currency=excluded.currency',(reference,minor,currency))
         follow_up_date = data.get('followUpDate', previous['follow_up_date'] if previous else '')
         changed = {'stage':stage, 'owner':owner.strip(), 'notes':notes.strip(), 'followUpDate':follow_up_date}
         db.execute('INSERT INTO enquiry_workflow(id,stage,owner,notes,version,updated,follow_up_date) VALUES(?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET stage=excluded.stage,owner=excluded.owner,notes=excluded.notes,version=excluded.version,updated=excluded.updated,follow_up_date=excluded.follow_up_date', (reference,stage,owner.strip(),notes.strip(),version+1,now,follow_up_date))
         old = {k:previous[k] for k in ('stage','owner','notes')} if previous else {'stage':'New','owner':'','notes':''}
         old['followUpDate'] = previous['follow_up_date'] if previous else ''
-        db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)', (reference,now,USER,json.dumps(old),json.dumps(changed)))
+        if 'dealValue' in data:
+            old['deal']=dict(previous_deal) if previous_deal else None
+            changed['deal']={'minor_units':minor,'currency':currency}
+        db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)', (reference,now,authenticated['actor'],json.dumps(old),json.dumps(changed)))
+        if stage!=old['stage']:
+            db.execute('INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,?,?,?)',(reference,stage,authenticated['actor'],now))
+        if owner.strip()!=old['owner'] and (owner.strip()==USER or db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(owner.strip(),)).fetchone()):
+            operations.enqueue(db,'assignment:'+reference+':'+str(version+1),owner.strip(),'Bandevi enquiry assigned',f'Reference: {reference}\nReview: https://bandeviglobalgroup.com/team-inbox/')
     handler.respond(200, {'ok':True, 'version':version+1})
     return True
