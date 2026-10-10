@@ -1,0 +1,24 @@
+name: Verify published evidence form
+on:
+  push:
+    branches: [verify-public-pr71-20261010]
+permissions: {}
+jobs:
+  public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check the published feedback form without submitting data
+        run: |
+          node <<'NODE'
+          (async()=>{
+            const response=await fetch('https://bandeviglobalgroup.com/client-feedback/?release=4c469de6108f49b4097dbff68271c5dbd25133b3',{headers:{'Cache-Control':'no-cache','User-Agent':'BGG-Public-Release-Check'},signal:AbortSignal.timeout(20000)});
+            const html=await response.text();
+            const fields=['results','resultPeriod','resultSource','mediaReferences','mediaApproval'];
+            const missing=fields.filter(name=>!html.includes('name="'+name+'"'));
+            const scriptV2=html.includes('/assets/client-feedback.js?v=2');
+            console.log(JSON.stringify({http:response.status,missingFields:missing,scriptV2}));
+            if(!response.ok||missing.length||!scriptV2)throw Error('The PR71 evidence form is not confirmed live.');
+            console.log('PASS: published evidence form includes result references and separate media permission.');
+          })().catch(e=>{console.error(e.message);process.exitCode=1});
+          NODE
