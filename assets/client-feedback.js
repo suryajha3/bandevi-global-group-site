@@ -10,6 +10,7 @@
  function validateEvidence(){
   const e=form.elements,hasResult=!!e.results.value.trim();
   e.resultPeriod.required=hasResult;e.resultSource.required=hasResult;
+  e.resultPeriod.setCustomValidity(hasResult&&!e.resultPeriod.value.trim()?'State the measurement period for this result.':'');e.resultSource.setCustomValidity(hasResult&&!e.resultSource.value.trim()?'Identify the evidence supporting this result.':'');
   e.mediaReferences.setCustomValidity(e.mediaApproval.value==='approved'&&!e.mediaReferences.value.trim()?'List the exact screenshots or references you approve.':'');
  }
  form.addEventListener('submit',event=>{event.preventDefault();validateEvidence();if(!form.reportValidity())return;
