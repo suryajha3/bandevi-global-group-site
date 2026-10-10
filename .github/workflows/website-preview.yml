@@ -40,7 +40,9 @@ jobs:
       - name: Check desktop, mobile and local enquiry journeys
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
-        run: node scripts/qa-website.cjs
+        run: |
+          node scripts/qa-website.cjs
+          node scripts/qa-inbox.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
