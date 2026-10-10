@@ -92,6 +92,25 @@ class LeadActionsTests(unittest.TestCase):
         events=self.request('/api/admin/activity?reference='+ref,cookie=cookie)[1]['items']
         self.assertEqual(len(events),100);self.assertEqual(events[0]['kind'],'proposal')
 
+    def test_my_leads_exact_owner_and_agent_scope(self):
+        cookie,csrf=self.login();mine=self.enquiry();other=self.enquiry();unassigned=self.enquiry()
+        agent='personal-agent@qa.example';password=secrets.token_urlsafe(24)
+        with isolated.enquiries.connect() as db:
+            db.execute('INSERT OR REPLACE INTO team_users VALUES(?,?,?,?,1)',(agent,'QA agent','agent',isolated.dashboard.password_hash(password)))
+            row=db.execute('SELECT payload FROM enquiries WHERE id=?',(unassigned,)).fetchone()
+            payload=json.loads(row[0]);payload['email']=isolated.dashboard.USER
+            db.execute('UPDATE enquiries SET payload=? WHERE id=?',(json.dumps(payload),unassigned))
+        self.change(mine,cookie,csrf);self.change(other,cookie,csrf,owner=agent)
+        result=self.request('/api/admin/enquiries?assigned=me',cookie=cookie)[1]
+        self.assertEqual([r['reference'] for r in result['items']],[mine])
+        self.assertEqual(self.request('/api/admin/enquiries?assigned=me&stage=New',cookie=cookie)[1]['total'],0)
+        self.assertEqual(self.request('/api/admin/enquiries?assigned=someone',cookie=cookie)[0],400)
+        self.assertEqual(self.request('/api/admin/enquiries?assigned=me')[0],401)
+        status,state,headers=self.request('/api/admin/login',{'email':agent,'password':password})
+        self.assertEqual(status,200);ac=headers['Set-Cookie'].split(';')[0]
+        for query in ('','?assigned=me'):
+            self.assertEqual([r['reference'] for r in self.request('/api/admin/enquiries'+query,cookie=ac)[1]['items']],[other])
+
 if __name__=='__main__':
     try:result=unittest.main(exit=False).result
     finally:isolated.server.shutdown();isolated.server.server_close();isolated.temporary.cleanup()
