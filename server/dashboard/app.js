@@ -1,6 +1,7 @@
 'use strict';
 const channelLabels={organic_search:'Organic search',paid:'Paid',campaign:'Tagged campaign',referral:'Referral',direct_unknown:'Direct / unknown',unknown:'Not recorded'};
 const $=id=>document.getElementById(id), stages=['New','Contacted','Qualified','Proposal','Won','Lost'];
+$('search').value=(new URLSearchParams(location.search).get('q')||'').slice(0,120);
 let preferenceUser='',savedViews=[];
 let activityKey='',activityGeneration=0;
 let csrf='',offset=0,total=0,current=null,loading=false,reloadPending=false,businessDate='',viewerRole='agent',view='inbox';

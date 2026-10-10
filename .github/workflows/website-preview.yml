@@ -22,7 +22,7 @@ jobs:
       - name: Run isolated enquiry and upgrade regressions
         run: |
           cd server
-          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py; do
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py; do
             python3 -B "$suite"
           done
   browser:
@@ -48,6 +48,7 @@ jobs:
           node scripts/qa-website.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-proposals.cjs
+          node scripts/qa-tasks.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
