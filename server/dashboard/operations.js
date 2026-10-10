@@ -1,18 +1,20 @@
 'use strict';
 let teamRole='agent',teamUser='',demoSlots=[];
 async function refreshOperations(){
+  const requestIdentity=csrf;
   try{
-    const identity=await api('/api/admin/session');if(!identity.authenticated)return;
+    const identity=await api('/api/admin/session');if(!identity.authenticated||!csrf||csrf!==requestIdentity)return;
     teamRole=identity.role;teamUser=identity.user;
     $('team-tools').hidden=teamRole!=='admin';$('slot-tools').hidden=teamRole==='agent';$('operations-tools').hidden=teamRole==='agent';
     $('owner').readOnly=teamRole==='agent';
     const conversion=await api('/api/admin/conversion?days='+$('report-days').value);
+    if(csrf!==requestIdentity)return;
     const table=document.createElement('table'),caption=text('caption','Recorded milestones and current outcomes by source');table.append(caption);
     const tr=document.createElement('tr');for(const title of ['Source','Enquiries','Reached Qualified','Reached Proposal','Currently Won','Currently Lost','Won / enquiries'])tr.append(text('th',title));table.append(tr);
     for(const [channel,c]of Object.entries(conversion.channels)){const row=document.createElement('tr');for(const value of [channelLabels[channel]||channel,c.enquiries,c.qualified,c.proposal,c.won,c.lost,c.enquiries?(100*c.won/c.enquiries).toFixed(1)+'%':'—'])row.append(text('td',String(value)));table.append(row);}
     $('conversion-table').replaceChildren(table);$('won-value').textContent=Object.entries(conversion.wonValueMinorUnits).map(([currency,value])=>new Intl.NumberFormat(undefined,{style:'currency',currency}).format(value/100)).join(' · ')||'No won deal values recorded.';
     if(teamRole==='agent')return;
-    const [users,status,slots]=await Promise.all([api('/api/admin/team'),api('/api/admin/operations'),api('/api/admin/slots')]);demoSlots=slots.slots;
+    const [users,status,slots]=await Promise.all([api('/api/admin/team'),api('/api/admin/operations'),api('/api/admin/slots')]);if(csrf!==requestIdentity)return;demoSlots=slots.slots;
     $('team-owner-list').replaceChildren(...users.users.filter(u=>u.active).map(u=>{const o=document.createElement('option');o.value=u.email;o.label=u.name;return o;}));
     $('slot-host').replaceChildren(...users.users.filter(u=>u.active).map(u=>{const o=text('option',u.name+' · '+u.email);o.value=u.email;return o;}));
     $('team-list').replaceChildren(...users.users.map(u=>{const row=text('p',u.name+' · '+u.email+' · '+u.role+(u.active?'':' · disabled'));if(u.email!=='sales@bandeviglobalgroup.com'&&teamRole==='admin'){const edit=text('button','Edit access');edit.type='button';edit.addEventListener('click',()=>{$('staff-email').value=u.email;$('staff-name').value=u.name;$('staff-role').value=u.role;$('staff-active').checked=!!u.active;$('staff-password').value='';$('staff-email').focus();});row.append(' ',edit);}return row;}));
