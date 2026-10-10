@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 import time
+import shlex
 
 def deploy():
     if not hasattr(os,'geteuid') or os.geteuid()!=0:raise SystemExit('Run in the authenticated Bandevi VPS root console.')
@@ -12,13 +13,25 @@ def deploy():
     text=config.read_text()
     if 'bandeviglobalgroup.com' not in text or 'root /srv/bandeviglobalgroup/app;' not in text:
         raise SystemExit('Bandevi production root could not be verified. No configuration changed.')
-    if not Path('/etc/bandevi-enquiries.env').is_file():raise SystemExit('Set up the existing enquiry service and administrator first.')
+    environment=Path('/etc/bandevi-enquiries.env')
+    if not environment.is_file():raise SystemExit('Set up the existing enquiry service and administrator first.')
     if '127.0.0.1:8766' not in text:raise SystemExit('Existing Bandevi enquiry routing could not be verified.')
+    if 'location ^~ /server/' not in text or 'location ^~ /api/admin/' not in text:
+        raise SystemExit('Private backend protection and admin routing must already be configured.')
+    source_db=Path('/var/lib/bandevi-enquiries/inbox.sqlite3')
+    for line in environment.read_text().splitlines():
+        if line.startswith('ENQUIRY_DB='):
+            value=shlex.split(line.split('=',1)[1])
+            if len(value)!=1:raise SystemExit('Database path configuration is invalid.')
+            source_db=Path(value[0]).resolve()
+    if not source_db.is_file() or not source_db.is_relative_to(Path('/var/lib/bandevi-enquiries')):
+        raise SystemExit('Existing Bandevi database could not be verified; no configuration changed.')
     marker='    location / {'
     if marker not in text:raise SystemExit('Routing differs from the saved baseline. No configuration changed.')
     stamp=str(int(time.time()));backup=Path('/srv/bandeviglobalgroup')/('upgrade-rollback-'+stamp);backup.mkdir(mode=0o700)
     shutil.copy2(config,backup/'nginx.conf')
-    with __import__('sqlite3').connect('/var/lib/bandevi-enquiries/inbox.sqlite3') as db,__import__('sqlite3').connect(backup/'inbox-before.sqlite3') as copy:db.backup(copy)
+    with __import__('sqlite3').connect('file:'+source_db.as_posix()+'?mode=ro',uri=True) as db,__import__('sqlite3').connect(backup/'inbox-before.sqlite3') as copy:db.backup(copy)
+    (backup/'inbox-before.sqlite3').chmod(0o600)
     new=text
     if '# Bandevi demo reservations' not in text:
         new=text.replace(marker,'''    # Bandevi demo reservations
