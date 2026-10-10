@@ -27,12 +27,12 @@
     {
       "@type": "Thing",
       "name": "Company-provided staff size",
-      "description": "1,289 staff worldwide as currently provided by the company."
+      "description": "Staff totals require current supporting records. Confirm the team assigned to your project."
     },
     {
       "@type": "Thing",
       "name": "Company-provided net worth and group strength",
-      "description": "INR 7,594 Cr as currently provided by the company."
+      "description": "No verified financial figure is published here. Request applicable records for the contracting business."
     },
     {
       "@type": "Thing",
@@ -103,7 +103,7 @@
         "@type": "ListItem",
         "position": 10,
         "name": "First target proof post",
-        "description": "Priority proof update focused on 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, and all listed office references."
+        "description": "Staff and financial figures require supporting records. Confirm the business handling your project."
       },
       {
         "@type": "ListItem",
@@ -132,10 +132,10 @@
     "https://bandeviglobalgroup.com/company-profile/",
     "https://bandeviglobalgroup.com/offices/",
     "https://bandeviglobalgroup.com/directory-listing-profile/",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf",
+    "https://bandeviglobalgroup.com/company-profile/",
     "https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-net-worth-group-strength-note.txt",
+    "https://bandeviglobalgroup.com/staff-size-net-worth/",
+    "https://bandeviglobalgroup.com/staff-size-net-worth/",
     "https://bandeviglobalgroup.com/assets/bandevi-global-group-office-verification-sheet.txt",
     "https://bandeviglobalgroup.com/white-label-crm/",
     "https://bandeviglobalgroup.com/travel-crm-software/",
@@ -148,5 +148,6 @@
     "https://bandeviglobalgroup.com/custom-software-development/",
     "https://bandeviglobalgroup.com/ecommerce-website-development/",
     "https://bandeviglobalgroup.com/business-process-automation/"
-  ]
+  ],
+  "publicationStatusNotice": "Company-authored material and existing external posts are not independent credential verification. No verified staff total or financial figure is published. Review current record status at https://bandeviglobalgroup.com/proof-verification/."
 }

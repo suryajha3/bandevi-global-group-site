@@ -1,246 +1,50 @@
 {
   "@context": "https://schema.org",
-  "@type": "DataCatalog",
-  "@id": "https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json",
-  "name": "BANDEVI GLOBAL GROUP Public Proof Index",
-  "description": "Public index of BANDEVI GLOBAL GROUP proof and verification assets for official company identity, staff size, net worth and group strength, office references, chairman identity, directory consistency, and AI/search citation consistency.",
+  "@type": "ItemList",
+  "name": "BANDEVI published material and record-status guide",
   "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json",
-  "publisher": {
-    "@type": "Organization",
-    "@id": "https://bandeviglobalgroup.com/#organization",
-    "name": "BANDEVI GLOBAL GROUP",
-    "url": "https://bandeviglobalgroup.com/",
-    "telephone": "+91 8287669022",
-    "email": "sales@bandeviglobalgroup.com"
-  },
-  "about": [
+  "description": "Public information and questions to review. Company-authored summaries are not independent credential verification.",
+  "dateModified": "2026-10-10",
+  "itemListElement": [
     {
-      "@type": "Thing",
-      "name": "BANDEVI GLOBAL GROUP staff size",
-      "description": "1,289 staff worldwide as currently provided by the company."
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "WebPage",
+        "name": "Contracting identity and registrations",
+        "url": "https://bandeviglobalgroup.com/trust-licences-certifications/",
+        "description": "Awaiting applicable supporting records"
+      }
     },
     {
-      "@type": "Thing",
-      "name": "BANDEVI GLOBAL GROUP net worth and group strength",
-      "description": "INR 7,594 Cr as currently provided by the company."
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "WebPage",
+        "name": "Staff totals and financial figures",
+        "url": "https://bandeviglobalgroup.com/staff-size-net-worth/",
+        "description": "No verified total or figure published; supporting records required"
+      }
     },
     {
-      "@type": "Thing",
-      "name": "BANDEVI GLOBAL GROUP offices",
-      "description": "10 listed office and service-location references across India, Dubai, London, and the United States."
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "WebPage",
+        "name": "Location references",
+        "url": "https://bandeviglobalgroup.com/offices/",
+        "description": "Awaiting individual location confirmation; arrange an appointment before visiting"
+      }
     },
     {
-      "@type": "Person",
-      "name": "Mr Surya Kant Jha",
-      "jobTitle": "Chairman"
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "WebPage",
+        "name": "Project references",
+        "url": "https://bandeviglobalgroup.com/projects/trip-sarathi/",
+        "description": "Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission"
+      }
     }
-  ],
-  "dataset": [
-    {
-      "@type": "Dataset",
-      "name": "Official facts JSON",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-official-facts.json",
-      "encodingFormat": "application/ld+json",
-      "description": "Machine-readable official company facts for staff size, net worth, offices, chairman, contact, services, and proof URLs."
-    },
-    {
-      "@type": "Dataset",
-      "name": "LLMs text summary",
-      "url": "https://bandeviglobalgroup.com/llms.txt",
-      "encodingFormat": "text/plain",
-      "description": "Crawler-friendly official facts summary for AI assistants and search systems."
-    },
-    {
-      "@type": "WebPage",
-      "name": "Official company facts page",
-      "url": "https://bandeviglobalgroup.com/official-company-facts/",
-      "description": "Direct-answer page for BANDEVI GLOBAL GROUP staff strength, company-provided net worth / group strength, office references, chairman identity, contact details, and proof links."
-    },
-    {
-      "@type": "WebPage",
-      "name": "Surya Kant Jha chairman profile",
-      "url": "https://bandeviglobalgroup.com/surya-kant-jha/",
-      "description": "Official page for Mr Surya Kant Jha, Suryakant Jha spelling variant, chairman identity, BANDEVI company net worth context, travel technology context, and proof links."
-    },
-    {
-      "@type": "WebPage",
-      "name": "Bandevi Proctor chairman hub",
-      "url": "https://Bandeviproctor.com/chairman-suryakant-jha",
-      "description": "Bandevi Proctor cross-domain chairman hub for Suryakant Jha, chairman, travel agent, and business profile entity signals."
-    },
-    {
-      "@type": "WebPage",
-      "name": "Bandevi Proctor Suryakant Jha profile",
-      "url": "https://Bandeviproctor.com/suryakant-jha",
-      "description": "Bandevi Proctor profile page for Suryakant Jha entity consistency and chairman keyword support."
-    },
-    {
-      "@type": "WebPage",
-      "name": "Bandevi Proctor leadership image gallery",
-      "url": "https://Bandeviproctor.com/leadership-gallery",
-      "description": "Bandevi Proctor leadership gallery supporting image discovery for Suryakant Jha chairman and business profile searches."
-    },
-    {
-      "@type": "DataDownload",
-      "name": "Bandevi Proctor image sitemap",
-      "url": "https://Bandeviproctor.com/image-sitemap.xml",
-      "encodingFormat": "application/xml",
-      "description": "Image sitemap listing Bandevi Proctor leadership and chairman image URLs for search discovery."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Staff confirmation note",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt",
-      "encodingFormat": "text/plain",
-      "description": "Company-published public note for 1,289 staff worldwide."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Net worth and group strength note",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-net-worth-group-strength-note.txt",
-      "encodingFormat": "text/plain",
-      "description": "Company-published public note for INR 7,594 Cr net worth and group strength."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Office verification sheet",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-office-verification-sheet.txt",
-      "encodingFormat": "text/plain",
-      "description": "Company-published public sheet for 10 office and service-location references."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Chairman and company identity note",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-chairman-company-identity-note.txt",
-      "encodingFormat": "text/plain",
-      "description": "Company identity note naming BANDEVI GLOBAL GROUP, Chairman Mr Surya Kant Jha, official contact details, and category wording."
-    },
-    {
-      "@type": "DigitalDocument",
-      "name": "Company profile PDF",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf",
-      "encodingFormat": "application/pdf",
-      "description": "Official public company profile PDF."
-    },
-    {
-      "@type": "DigitalDocument",
-      "name": "Public proof support pack PDF",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf",
-      "encodingFormat": "application/pdf",
-      "description": "Combined public proof support pack covering chairman identity, staff size, net worth, office references, and next formal evidence."
-    },
-    {
-      "@type": "Dataset",
-      "name": "External citation tracker",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-external-citation-tracker.csv",
-      "encodingFormat": "text/csv",
-      "description": "Working external citation and directory tracker for Google, Bing, Clutch, GoodFirms, TechBehemoths, Sortlist, DesignRush, social profiles, and other entity signals."
-    },
-    {
-      "@type": "Dataset",
-      "name": "External submission status",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-external-submission-status.txt",
-      "encodingFormat": "text/plain",
-      "description": "Public status note for external directory, proof, and citation submissions."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Google Search Console indexing status",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-google-indexing-status.txt",
-      "encodingFormat": "text/plain",
-      "description": "Public status note for sitemap submission, URL Inspection, confirmed indexing requests, and priority Google indexing follow-up URLs."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Google Business Profile status",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-google-business-profile-status.txt",
-      "encodingFormat": "text/plain",
-      "description": "Public status note for Google Business Profile manager verification, processing review, and map-listing follow-up rules."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Bing Places submission pack",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-submission-pack.txt",
-      "encodingFormat": "text/plain",
-      "description": "Bing Places for Business listing copy, category wording, services, proof URLs, and verification-safe address rules."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Bing Places verification status",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-bing-places-verification-status.txt",
-      "encodingFormat": "text/plain",
-      "description": "Public status note for Bing Places login completion, wait / verification stage, and map-listing expansion rules."
-    },
-    {
-      "@type": "Dataset",
-      "name": "DesignRush submission pack",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-designrush-submission-pack.txt",
-      "encodingFormat": "text/plain",
-      "description": "DesignRush directory submission copy, category wording, services, proof URLs, and public portfolio-use rules."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Social proof post pack",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt",
-      "encodingFormat": "text/plain",
-      "description": "Company-published public social proof post copy for Facebook, Instagram, LinkedIn, X, directory reviewers, staff size, net worth, offices, chairman identity, and proof links."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Social proof links register",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.txt",
-      "encodingFormat": "text/plain",
-      "description": "Crawler-friendly register of captured LinkedIn and Facebook proof post URLs for staff strength, net worth / group strength, and office references."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Evidence register",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt",
-      "encodingFormat": "text/plain",
-      "description": "Company-published public evidence register separating current proof support from stronger formal evidence needed for staff size, net worth, offices, chairman identity, and citations."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Evidence register structured JSON",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json",
-      "encodingFormat": "application/ld+json",
-      "description": "Machine-readable evidence register for staff size, net worth/group strength, offices, chairman identity, current support, and next formal evidence requirements."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Priority proof action plan",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt",
-      "encodingFormat": "text/plain",
-      "description": "Public action plan listing next proof items for staff size, net worth/group strength, offices, directory approvals, Search Console retry, and safe public wording."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Social proof structured JSON",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
-      "encodingFormat": "application/ld+json",
-      "description": "Machine-readable social proof post pack with official proof citations and company-provided fact wording."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Social proof links structured JSON",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
-      "encodingFormat": "application/ld+json",
-      "description": "Machine-readable register of captured external social proof links for BANDEVI GLOBAL GROUP's first SEO target."
-    },
-    {
-      "@type": "Dataset",
-      "name": "Sortlist service completion pack",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt",
-      "encodingFormat": "text/plain",
-      "description": "Sortlist-ready service budgets, service descriptions, skills, safe review rules, and proof links for the live provider profile."
-    },
-    {
-      "@type": "ImageObject",
-      "name": "Social proof card",
-      "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg",
-      "encodingFormat": "image/svg+xml",
-      "description": "Square social proof card for BANDEVI GLOBAL GROUP official proof posts."
-    }
-  ],
-  "dateModified": "2026-07-20"
+  ]
 }

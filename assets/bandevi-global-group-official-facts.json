@@ -1,279 +1,45 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://bandeviglobalgroup.com/#organization",
   "name": "BANDEVI GLOBAL GROUP",
-  "alternateName": [
-    "Bandevi Global Group",
-    "Bandevi Global",
-    "Bandevi",
-    "BANDEVI"
-  ],
   "url": "https://bandeviglobalgroup.com/",
-  "email": "sales@bandeviglobalgroup.com",
   "telephone": "+91 8287669022",
-  "description": "BANDEVI GLOBAL GROUP is an IT and software development company for websites, custom CRM, ERP, custom software, customer portals, e-commerce websites, travel technology, business process automation, dashboards, IT products, and software services.",
-  "disambiguatingDescription": "Priority company facts: 1,289 staff worldwide, INR 7,594 Cr company-provided net worth / group strength, and 10 listed office and service-location references in Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.",
-  "keywords": [
-    "BANDEVI GLOBAL GROUP staff strength",
-    "BANDEVI GLOBAL GROUP net worth",
-    "BANDEVI GLOBAL GROUP offices",
-    "Surya Kant Jha",
-    "Suryakant Jha",
-    "Surya Kant Jha net worth",
-    "Surya Kant Jha chairman",
-    "Surya Kant Jha travel technology leadership",
-    "Suryakant Jha chairman profile",
-    "Suryakant Jha business man",
-    "Bandevi Proctor chairman",
-    "Bandevi Global Group staff size",
-    "Bandevi Global Group net worth",
-    "Bandevi Global offices"
+  "email": "sales@bandeviglobalgroup.com",
+  "@id": "https://bandeviglobalgroup.com/#organization",
+  "description": "Website, CRM, ERP and travel technology services. The brand name is published by BANDEVI; the contracting legal name and applicable registrations require supporting records.",
+  "subjectOf": [
+    {
+      "@type": "WebPage",
+      "url": "https://bandeviglobalgroup.com/about-us/",
+      "name": "People and company-published information"
+    },
+    {
+      "@type": "WebPage",
+      "url": "https://bandeviglobalgroup.com/proof-verification/",
+      "name": "Evidence and company record status"
+    }
   ],
-  "numberOfEmployees": {
-    "@type": "QuantitativeValue",
-    "value": 1289,
-    "unitText": "staff worldwide"
-  },
   "additionalProperty": [
     {
       "@type": "PropertyValue",
-      "name": "Chairman",
-      "value": "Mr Surya Kant Jha"
+      "name": "Contracting identity and registrations",
+      "value": "Awaiting applicable supporting records"
     },
     {
       "@type": "PropertyValue",
-      "name": "Company-provided staff size",
-      "value": "1,289 staff worldwide"
+      "name": "Staff totals and financial figures",
+      "value": "No verified total or figure published; supporting records required"
     },
     {
       "@type": "PropertyValue",
-      "name": "Company-provided net worth and group strength",
-      "value": "INR 7,594 Cr"
+      "name": "Location references",
+      "value": "Awaiting individual location confirmation; arrange an appointment before visiting"
     },
     {
       "@type": "PropertyValue",
-      "name": "Listed office and service-location references",
-      "value": "10 references across India, Dubai, London, and the United States"
+      "name": "Project references",
+      "value": "Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission"
     }
   ],
-  "sameAs": [
-    "https://www.facebook.com/profile.php?id=61591222415314",
-    "https://www.instagram.com/bandeviglobalgroup/",
-    "https://www.linkedin.com/in/bandevi-global-group-38584b419/",
-    "https://x.com/BANDEVIGLOBAL"
-  ],
-  "knowsAbout": [
-    "1,289 staff worldwide",
-    "INR 7,594 Cr company-provided net worth and group strength",
-    "Delhi office reference",
-    "Pune office reference",
-    "Gurgaon office reference",
-    "Mumbai office reference",
-    "Bangalore office reference",
-    "Kolkata office reference",
-    "Lucknow office reference",
-    "Dubai service-location reference",
-    "London service-location reference",
-    "United States service-location reference",
-    "Website development",
-    "CRM development",
-    "ERP development",
-    "Custom software development",
-    "Travel technology"
-  ],
-  "location": [
-    {
-      "@type": "Place",
-      "name": "Delhi office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Third Floor, Gulshan Park, H-30, Plot No. 6 & 7, Vijay Chowk Area, Laxmi Nagar",
-        "addressLocality": "Delhi",
-        "postalCode": "110092",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Pune office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Spacelane 15/a, 4th Floor, A Building, City Vista, Fountain Road, Ashoka Nagar, Kharadi",
-        "addressLocality": "Pune",
-        "addressRegion": "Maharashtra",
-        "postalCode": "411014",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Gurgaon office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "7th Floor, 704 Palm Court, Mehrauli Gurugram Road, Sector 16",
-        "addressLocality": "Gurgaon",
-        "addressRegion": "Haryana",
-        "postalCode": "122001",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Mumbai office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1st Floor, Sai Dham Housing Society, B-2, Marol Naka, Andheri East",
-        "addressLocality": "Mumbai",
-        "postalCode": "400059",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Bangalore office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "561, 32nd Cross Rd, 4th Block, Jayanagar",
-        "addressLocality": "Bengaluru",
-        "postalCode": "560011",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Kolkata office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "2D, Bose Pukur Rd, Prantik Palli, Kasba",
-        "addressLocality": "Kolkata",
-        "postalCode": "700042",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Lucknow office reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Radiant Complex, Cantonment Road, Lalbagh",
-        "addressLocality": "Lucknow",
-        "postalCode": "226001",
-        "addressCountry": "IN"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "Dubai service-location reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Office 203, Al Tayer Building, Sheikh Zayed Road",
-        "addressLocality": "Dubai",
-        "addressCountry": "AE"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "London service-location reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "71-75 Shelton Street, Covent Garden / Holborn",
-        "addressLocality": "London",
-        "postalCode": "WC2H 9JQ",
-        "addressCountry": "GB"
-      }
-    },
-    {
-      "@type": "Place",
-      "name": "United States service-location reference",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "216 W Garvey Avenue, Suite C",
-        "addressLocality": "Monterey Park",
-        "addressRegion": "California",
-        "postalCode": "91754",
-        "addressCountry": "US"
-      }
-    }
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "BANDEVI GLOBAL GROUP services",
-    "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ERP development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom CRM development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ERP software development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom software development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-commerce website development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business process automation" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customer portal development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travel CRM and Travel ERP" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "White label travel website development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travel agency website development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travel mobile app development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "White label CRM software" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travel CRM software for agencies" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "B2B travel portal development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Flight booking engine development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hotel booking engine development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travel agency mobile app development" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business automation" } }
-    ]
-  },
-  "subjectOf": [
-    "https://bandeviglobalgroup.com/company-profile/",
-    "https://bandeviglobalgroup.com/official-company-facts/",
-    "https://bandeviglobalgroup.com/surya-kant-jha/",
-    "https://bandeviglobalgroup.com/proof-verification/",
-    "https://bandeviglobalgroup.com/staff-size-net-worth/",
-    "https://bandeviglobalgroup.com/offices/",
-    "https://bandeviglobalgroup.com/directory-listing-profile/",
-    "https://bandeviglobalgroup.com/social-proof-posts/",
-    "https://bandeviglobalgroup.com/evidence-register/",
-    "https://bandeviglobalgroup.com/it-products/",
-    "https://bandeviglobalgroup.com/crm-erp-solutions/",
-    "https://bandeviglobalgroup.com/custom-crm-development/",
-    "https://bandeviglobalgroup.com/erp-software-development/",
-    "https://bandeviglobalgroup.com/custom-software-development/",
-    "https://bandeviglobalgroup.com/travel-crm/",
-    "https://bandeviglobalgroup.com/travel-erp/",
-    "https://bandeviglobalgroup.com/travel-website-development/",
-    "https://bandeviglobalgroup.com/white-label-travel-website/",
-    "https://bandeviglobalgroup.com/travel-agency-website-development/",
-    "https://bandeviglobalgroup.com/travel-mobile-app-development/",
-    "https://bandeviglobalgroup.com/white-label-crm/",
-    "https://bandeviglobalgroup.com/travel-crm-software/",
-    "https://bandeviglobalgroup.com/b2b-travel-portal/",
-    "https://bandeviglobalgroup.com/flight-booking-engine/",
-    "https://bandeviglobalgroup.com/hotel-booking-engine/",
-    "https://bandeviglobalgroup.com/travel-agency-mobile-app/",
-    "https://bandeviglobalgroup.com/travel-technology/",
-    "https://bandeviglobalgroup.com/website-mobile-app-development/",
-    "https://bandeviglobalgroup.com/lead-booking-management/",
-    "https://bandeviglobalgroup.com/customer-portal/",
-    "https://bandeviglobalgroup.com/ecommerce-website-development/",
-    "https://bandeviglobalgroup.com/ecommerce-solutions/",
-    "https://bandeviglobalgroup.com/business-process-automation/",
-    "https://bandeviglobalgroup.com/business-automation/",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-priority-proof-action-plan.txt",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.txt",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-post-pack.json",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.txt",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-links.json",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-social-proof-card.svg",
-    "https://bandeviglobalgroup.com/assets/bandevi-global-group-sortlist-service-completion-pack.txt",
-    "https://bandeviglobalgroup.com/llms.txt",
-    "https://Bandeviproctor.com/chairman-suryakant-jha",
-    "https://Bandeviproctor.com/suryakant-jha",
-    "https://Bandeviproctor.com/leadership-gallery",
-    "https://Bandeviproctor.com/image-sitemap.xml"
-  ],
-  "dateModified": "2026-07-20"
+  "dateModified": "2026-10-10"
 }
