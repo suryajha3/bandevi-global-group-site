@@ -1,0 +1,32 @@
+name: Verify published PR70
+on:
+  push:
+    branches: [verify-public-pr70-20261010]
+permissions: {}
+jobs:
+  public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify fresh public pages
+        run: |
+          node <<'NODE'
+          const cases=[
+            ['company-profile/','Company profile'],
+            ['staff-size-net-worth/','Company record status'],
+            ['offices/','Confirm the location before visiting.'],
+            ['proof-verification/','Review evidence before engaging us.'],
+            ['official-company-facts/','Published information and record status']
+          ];
+          (async()=>{
+            for(const [route,expected] of cases){
+              const url='https://bandeviglobalgroup.com/'+route+'?release=671f98c95312d577c3607ed030aca32863a9dd41';
+              const response=await fetch(url,{headers:{'Cache-Control':'no-cache','User-Agent':'BGG-Public-Release-Check'},signal:AbortSignal.timeout(20000)});
+              const html=await response.text();
+              const h1=html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g,'').trim();
+              if(!response.ok||h1!==expected||/1,289|7,594/.test(html))throw Error(route+': status='+response.status+', H1='+h1+', oldFigures='+/1,289|7,594/.test(html));
+              if(route==='offices/'&&!html.includes('Awaiting location-specific confirmation'))throw Error('Missing location status');
+              console.log('PASS '+route+' HTTP '+response.status+' H1='+h1);
+            }
+          })().catch(e=>{console.error(e.message);process.exitCode=1});
+          NODE
