@@ -1,7 +1,9 @@
 name: Website preview checks
 on:
   push:
-    branches: [main, trust-content-record-status-20261010]
+    branches: [main]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
 jobs:
