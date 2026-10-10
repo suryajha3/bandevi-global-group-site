@@ -194,6 +194,9 @@ def post_public(handler, connect, origins):
             booking=db.execute('SELECT * FROM demo_bookings WHERE token_digest=?',(hashlib.sha256(token.encode()).hexdigest(),)).fetchone()
             if not booking:handler.respond(404,{'error':'Appointment link not found.'});return True
             action=data.get('action','view')
+            if action=='calendar':
+                from client_workflow import calendar
+                handler.respond(200,{'calendar':calendar(db,booking['enquiry_id'])});return True
             if action not in ('view','cancel','reschedule'):raise ValueError('Invalid action.')
             if action!='view':
                 if type(data.get('version'))!=int or data['version']!=booking['version']:handler.respond(409,{'error':'Appointment changed. Reload before trying again.'});return True
@@ -203,13 +206,15 @@ def post_public(handler, connect, origins):
                     slot_id=data.get('slotId');slot=db.execute('SELECT * FROM demo_slots WHERE id=? AND active=1 AND starts>?',(slot_id,int(time.time()))).fetchone()
                     if not slot or db.execute('SELECT 1 FROM demo_bookings WHERE slot_id=?',(slot_id,)).fetchone():handler.respond(409,{'error':'That slot is no longer available.'});return True
                     db.execute("UPDATE demo_bookings SET slot_id=?,state='confirmed',version=version+1 WHERE enquiry_id=?",(slot_id,booking['enquiry_id']))
+                    db.execute('DELETE FROM demo_meetings WHERE reference=?',(booking['enquiry_id'],))
                     db.execute('INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,?,?,?,?,?)',
                                (booking['enquiry_id'],slot_id,'rescheduled',slot['starts'],slot['duration'],'customer',int(time.time())))
                     payload=json.loads(db.execute('SELECT payload FROM enquiries WHERE id=?',(booking['enquiry_id'],)).fetchone()[0])
                     when=datetime.datetime.fromtimestamp(slot['starts'],INDIA).strftime('%d %B %Y %H:%M IST')
                     enqueue(db,'appointment:'+booking['enquiry_id']+':'+str(booking['version']+1),payload['email'],'Bandevi demo rescheduled',f'Your new demo time: {when}.\nManage: https://bandeviglobalgroup.com/demo-booking/#'+token)
             row=db.execute('SELECT b.state,b.version,b.enquiry_id,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE token_digest=?',(hashlib.sha256(token.encode()).hexdigest(),)).fetchone()
-        handler.respond(200,dict(row))
+            meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(booking['enquiry_id'],)).fetchone()
+        handler.respond(200,{**dict(row),'meetingUrl':meeting[0] if meeting else None})
     except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Check your appointment link and details.'})
     return True
 

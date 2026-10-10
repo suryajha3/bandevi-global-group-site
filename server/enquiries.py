@@ -3,6 +3,7 @@ import datetime
 import hashlib
 import hmac
 import operations
+import client_workflow
 import json
 import logging
 import os
@@ -55,6 +56,7 @@ def initialize():
           created INTEGER NOT NULL);
         ''')
         initialize_dashboard(db)
+        client_workflow.initialize(db)
     os.chmod(DB, 0o600)
 
 CHANNELS = ('organic_search','paid','campaign','referral','direct_unknown','unknown')
@@ -167,7 +169,11 @@ def process_outbox():
     for row in rows:
         try:
             message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']
-            message['Subject']=row['subject'];message.set_content(row['body']);send_message(message)
+            message['Subject']=row['subject'];message.set_content(row['body'])
+            if row['dedupe'].startswith(('booking:','appointment:','demo-reminder:')):
+                with connect() as db:calendar=client_workflow.calendar(db,row['dedupe'].split(':')[1])
+                if calendar:message.add_attachment(calendar.encode(),maintype='text',subtype='calendar',filename='bandevi-demo.ics')
+            send_message(message)
             with connect() as db:db.execute("UPDATE notification_outbox SET status='sent',sent=? WHERE id=?",(int(time.time()),row['id']))
         except Exception:
             LOG.warning('Outbox delivery deferred: %s',row['id'])
@@ -178,6 +184,7 @@ def notification_worker():
     while True:
         try:
             operations.reminders(connect)
+            client_workflow.reminders(connect)
             process_outbox()
             if smtp_ready():
                 with connect() as db:
@@ -220,6 +227,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         try:
+            if client_workflow.handle_get(self,connect):return
             if handle_get(self, connect):
                 return
         except sqlite3.Error:
@@ -234,6 +242,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+            if client_workflow.handle_post(self,connect,ORIGINS,SALT):return
             if operations.post_public(self,connect,ORIGINS):return
             if handle_post(self, connect, ORIGINS, SALT):
                 return

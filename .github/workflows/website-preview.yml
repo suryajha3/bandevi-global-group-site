@@ -20,7 +20,7 @@ jobs:
       - name: Run isolated enquiry and upgrade regressions
         run: |
           cd server
-          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py; do
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py; do
             python3 -B "$suite"
           done
   browser:

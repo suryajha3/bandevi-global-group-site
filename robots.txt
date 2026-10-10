@@ -8,3 +8,5 @@ Disallow: /demo-booking/
 Disallow: /team-inbox/
 Disallow: /api/
 Disallow: /server/
+
+Disallow: /client-workspace/
