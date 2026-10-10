@@ -1,0 +1,13 @@
+[Unit]
+Description=Check Bandevi enquiry health and delivery backlog
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+EnvironmentFile=/etc/bandevi-enquiries.env
+ExecStart=/usr/bin/python3 /srv/bandeviglobalgroup/app/server/monitor.py
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/bandevi-enquiries

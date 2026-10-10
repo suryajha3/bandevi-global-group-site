@@ -1,0 +1,13 @@
+[Unit]
+Description=Verify and back up the Bandevi enquiry database
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+EnvironmentFile=/etc/bandevi-enquiries.env
+ExecStart=/usr/bin/python3 /srv/bandeviglobalgroup/app/server/recovery.py
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/bandevi-enquiries

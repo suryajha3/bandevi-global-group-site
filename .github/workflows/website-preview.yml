@@ -10,6 +10,19 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Run isolated enquiry and upgrade regressions
+        run: |
+          cd server
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py; do
+            python3 -B "$suite"
+          done
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 12
