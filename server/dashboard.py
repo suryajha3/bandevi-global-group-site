@@ -31,10 +31,71 @@ def initialize_dashboard(db):
       actor TEXT NOT NULL, previous TEXT NOT NULL, changed TEXT NOT NULL);
     ''')
 
+    db.executescript('''
+    CREATE TABLE IF NOT EXISTS lead_activity (
+      id TEXT PRIMARY KEY, enquiry_id TEXT NOT NULL, created INTEGER NOT NULL,
+      actor TEXT NOT NULL, kind TEXT NOT NULL, body TEXT NOT NULL);
+    CREATE INDEX IF NOT EXISTS lead_activity_reference ON lead_activity(enquiry_id,created);
+    ''')
     operations.initialize(db)
     columns = {row[1] for row in db.execute('PRAGMA table_info(enquiry_workflow)')}
     if 'follow_up_date' not in columns:
         db.execute("ALTER TABLE enquiry_workflow ADD COLUMN follow_up_date TEXT NOT NULL DEFAULT ''")
+
+    if 'next_action' not in columns:
+        db.execute("ALTER TABLE enquiry_workflow ADD COLUMN next_action TEXT NOT NULL DEFAULT ''")
+
+def attention_sql():
+    return "(COALESCE(w.owner,'')='' OR COALESCE(w.follow_up_date,'')='' OR COALESCE(w.next_action,'')='' OR w.follow_up_date<? OR (COALESCE(w.stage,'New')='New' AND e.created<=?))"
+
+def attention_reasons(entry, today, now):
+    if entry['stage'] in ('Won','Lost'): return []
+    reasons=[]
+    if not entry['owner']: reasons.append('Unassigned')
+    if not entry['followUpDate']: reasons.append('No follow-up date')
+    elif entry['followUpDate']<today: reasons.append('Overdue')
+    if not entry['nextAction']: reasons.append('No next action')
+    if entry['stage']=='New' and entry['created']<=now-48*3600: reasons.append('New for 48+ hours')
+    return reasons
+
+def lead_access(db, reference, identity):
+    return db.execute("SELECT e.*,COALESCE(w.owner,'') AS owner FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id WHERE e.id=? AND e.email_status!='qa-verified'"+(' AND w.owner=?' if identity['role']=='agent' else ''),[reference]+([identity['actor']] if identity['role']=='agent' else [])).fetchone()
+
+def activity_get(handler, connect, query, identity):
+    reference=query.get('reference',[''])[0]
+    with connect() as db:
+        db.execute('BEGIN')
+        row=lead_access(db,reference,identity)
+        if not row:
+            handler.respond(404,{'error':'Enquiry not available.'});return True
+        events=[{'created':row['created'],'actor':'Customer','kind':'received','body':'Enquiry received.'}]
+        labels={'stage':'Stage','owner':'Owner','notes':'Workflow notes','followUpDate':'Follow-up date','nextAction':'Next action','deal':'Deal value'}
+        for audit in db.execute('SELECT * FROM inbox_audit WHERE enquiry_id=? ORDER BY id DESC LIMIT 100',(reference,)):
+            old,changed=json.loads(audit['previous']),json.loads(audit['changed'])
+            lines=[labels.get(k,k)+': '+str(old.get(k) or 'Not set')+' → '+str(v or 'Not set') for k,v in changed.items() if v!=old.get(k,'')]
+            if lines:events.append({'created':audit['created'],'actor':audit['actor'],'kind':'workflow','body':'\n'.join(lines)})
+        events += [dict(r) for r in db.execute('SELECT created,actor,kind,body FROM lead_activity WHERE enquiry_id=? ORDER BY created DESC,id DESC LIMIT 100',(reference,))]
+        proposal_labels={'proposal':'Proposal draft created','publish':'Proposal published','withdraw':'Proposal withdrawn','proposal-accepted':'Proposal accepted'}
+        for r in db.execute("SELECT created,actor,action FROM client_audit WHERE reference=? AND action IN ('proposal','publish','withdraw','proposal-accepted') ORDER BY id DESC LIMIT 100",(reference,)):
+            events.append({'created':r['created'],'actor':r['actor'],'kind':'proposal','body':proposal_labels[r['action']]})
+        events.sort(key=lambda e:e['created'],reverse=True)
+    handler.respond(200,{'items':events[:100],'limit':100})
+    return True
+
+def activity_post(handler, connect, identity, data, now):
+    reference,kind,body,key=data.get('reference'),data.get('kind'),data.get('body'),data.get('id')
+    if (not isinstance(reference,str) or len(reference)>30 or kind not in ('note','call-connected','call-no-answer','call-voicemail','email-sent') or not isinstance(body,str) or not 1<=len(body.strip())<=2000 or not isinstance(key,str) or not 16<=len(key)<=80):
+        handler.respond(400,{'error':'Choose an activity and enter a note (up to 2,000 characters).'});return True
+    with connect() as db:
+        db.execute('BEGIN IMMEDIATE')
+        if not lead_access(db,reference,identity):
+            handler.respond(404,{'error':'Enquiry not available.'});return True
+        existing=db.execute('SELECT * FROM lead_activity WHERE id=?',(key,)).fetchone()
+        if existing:
+            if any(existing[k]!=v for k,v in [('enquiry_id',reference),('actor',identity['actor']),('kind',kind),('body',body.strip())]):
+                handler.respond(409,{'error':'Activity identifier already used. Refresh before retrying.'});return True
+        else:db.execute('INSERT INTO lead_activity VALUES(?,?,?,?,?,?)',(key,reference,now,identity['actor'],kind,body.strip()))
+    handler.respond(200,{'ok':True});return True
 
 def business_today():
     return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).date()
@@ -133,6 +194,8 @@ def handle_get(handler, connect):
     if not authenticated:
         handler.respond(401, {'error':'Sign in to view the inbox.'})
         return True
+    if route == '/api/admin/activity':
+        return activity_get(handler, connect, parse_qs(parsed.query), authenticated)
     if route == '/api/admin/attribution':
         return attribution_report(handler, connect, parse_qs(parsed.query), authenticated)
     if route != '/api/admin/enquiries':
@@ -144,7 +207,7 @@ def handle_get(handler, connect):
     channel = query.get('channel', [''])[0]
     follow_up = query.get('followup', [''])[0]
     today = business_today()
-    if follow_up not in ('', 'overdue', 'today', 'upcoming', 'unscheduled', 'unassigned'):
+    if follow_up not in ('', 'overdue', 'today', 'upcoming', 'unscheduled', 'unassigned', 'attention'):
         handler.respond(400, {'error':'Invalid follow-up filter'})
         return True
     try:
@@ -185,12 +248,15 @@ def handle_get(handler, connect):
             args += [today.isoformat(), (today+datetime.timedelta(days=7)).isoformat()]
         elif follow_up == 'unscheduled':
             where += " AND COALESCE(w.follow_up_date,'')=''"
+        elif follow_up == 'attention':
+            where += ' AND '+attention_sql()
+            args += [today.isoformat(),int(time.time())-48*3600]
         else:
             where += " AND COALESCE(w.owner,'')=''"
     join = ' FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id '
     with connect() as db:
         total = db.execute('SELECT COUNT(*)' + join + 'WHERE ' + where, args).fetchone()[0]
-        rows = db.execute("SELECT e.*,COALESCE(w.stage,'New') AS stage,COALESCE(w.owner,'') AS owner,COALESCE(w.notes,'') AS notes,COALESCE(w.version,0) AS version,COALESCE(w.follow_up_date,'') AS follow_up_date,w.updated" + join + 'WHERE ' + where + ' ORDER BY e.created DESC,e.id DESC LIMIT 50 OFFSET ?', args + [offset]).fetchall()
+        rows = db.execute("SELECT e.*,COALESCE(w.stage,'New') AS stage,COALESCE(w.owner,'') AS owner,COALESCE(w.notes,'') AS notes,COALESCE(w.version,0) AS version,COALESCE(w.follow_up_date,'') AS follow_up_date,COALESCE(w.next_action,'') AS next_action,w.updated" + join + 'WHERE ' + where + (' ORDER BY '+("CASE WHEN COALESCE(w.follow_up_date,'')!='' AND w.follow_up_date<'"+today.isoformat()+"' THEN 0 ELSE 1 END,e.created ASC," if follow_up=='attention' else '')+'e.created DESC,e.id DESC LIMIT 50 OFFSET ?'), args + [offset]).fetchall()
         access=" AND COALESCE(w.owner,'')=?" if authenticated['role']=='agent' else ''
         access_args=[authenticated['actor']] if access else []
         counts = {r[0]:r[1] for r in db.execute("SELECT COALESCE(w.stage,'New'),COUNT(*)" + join + "WHERE e.email_status!='qa-verified' "+access+" GROUP BY COALESCE(w.stage,'New')",access_args)}
@@ -199,11 +265,13 @@ def handle_get(handler, connect):
             'overdue':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.follow_up_date,'')!='' AND w.follow_up_date<?",access_args+[today.isoformat()]).fetchone()[0],
             'today':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date=?",access_args+[today.isoformat()]).fetchone()[0],
             'upcoming':db.execute("SELECT COUNT(*)"+join+active+" AND w.follow_up_date>? AND w.follow_up_date<=?",access_args+[today.isoformat(),(today+datetime.timedelta(days=7)).isoformat()]).fetchone()[0],
+            'attention':db.execute('SELECT COUNT(*)'+join+active+' AND '+attention_sql(),access_args+[today.isoformat(),int(time.time())-48*3600]).fetchone()[0],
             'unassigned':db.execute("SELECT COUNT(*)"+join+active+" AND COALESCE(w.owner,'')=''",access_args).fetchone()[0]
         }
-    entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'followUpDate':r['follow_up_date'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
+    entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'followUpDate':r['follow_up_date'], 'nextAction':r['next_action'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
     with connect() as db:
         for entry in entries:
+            entry['attentionReasons']=attention_reasons(entry,today.isoformat(),int(time.time()))
             value=db.execute('SELECT minor_units,currency FROM deal_values WHERE enquiry_id=?',(entry['reference'],)).fetchone()
             entry['deal']=dict(value) if value else None
             entry['appointment']=operations.receipt(db,entry['reference'])
@@ -297,12 +365,15 @@ def handle_post(handler, connect, origins, salt):
             db.execute('DELETE FROM inbox_sessions WHERE digest=?', (authenticated['digest'],))
         handler.respond(200, {'ok':True}, {'Set-Cookie':cookie('', True)})
         return True
+    if route == '/api/admin/activity':return activity_post(handler,connect,authenticated,data,now)
     if operations.post_admin(handler, connect, authenticated, data):return True
     if route != '/api/admin/update':
         handler.respond(404, {'error':'Not found'})
         return True
     reference, stage = data.get('reference'), data.get('stage')
     owner, notes, version = data.get('owner',''), data.get('notes',''), data.get('version')
+    if 'nextAction' in data and (not isinstance(data['nextAction'],str) or len(data['nextAction'])>300):
+        handler.respond(400,{'error':'Keep the next action within 300 characters.'});return True
     if 'followUpDate' in data and not valid_follow_up(data['followUpDate']):
         handler.respond(400, {'error':'Use a valid follow-up date or leave it blank.'})
         return True
@@ -334,9 +405,12 @@ def handle_post(handler, connect, origins, salt):
                 handler.respond(400,{'error':'Enter a valid deal value and currency.'});return True
             db.execute('INSERT INTO deal_values VALUES(?,?,?) ON CONFLICT(enquiry_id) DO UPDATE SET minor_units=excluded.minor_units,currency=excluded.currency',(reference,minor,currency))
         follow_up_date = data.get('followUpDate', previous['follow_up_date'] if previous else '')
-        changed = {'stage':stage, 'owner':owner.strip(), 'notes':notes.strip(), 'followUpDate':follow_up_date}
+        next_action=data.get('nextAction',previous['next_action'] if previous else '').strip()
+        changed = {'nextAction':next_action, 'stage':stage, 'owner':owner.strip(), 'notes':notes.strip(), 'followUpDate':follow_up_date}
         db.execute('INSERT INTO enquiry_workflow(id,stage,owner,notes,version,updated,follow_up_date) VALUES(?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET stage=excluded.stage,owner=excluded.owner,notes=excluded.notes,version=excluded.version,updated=excluded.updated,follow_up_date=excluded.follow_up_date', (reference,stage,owner.strip(),notes.strip(),version+1,now,follow_up_date))
+        db.execute('UPDATE enquiry_workflow SET next_action=? WHERE id=?',(next_action,reference))
         old = {k:previous[k] for k in ('stage','owner','notes')} if previous else {'stage':'New','owner':'','notes':''}
+        old['nextAction']=previous['next_action'] if previous else ''
         old['followUpDate'] = previous['follow_up_date'] if previous else ''
         if 'dealValue' in data:
             old['deal']=dict(previous_deal) if previous_deal else None

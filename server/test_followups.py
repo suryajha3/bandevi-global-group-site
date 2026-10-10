@@ -35,7 +35,7 @@ class FollowupTests(unittest.TestCase):
             result = self.request('/api/admin/enquiries?followup='+name,cookie=cookie)[1]
             self.assertEqual([r['reference'] for r in result['items']],[reference])
         summary = self.request('/api/admin/enquiries',cookie=cookie)[1]
-        self.assertEqual(summary['followups'],{'overdue':1,'today':1,'upcoming':1,'unassigned':0})
+        self.assertEqual(summary['followups'],{'overdue':1,'today':1,'upcoming':1,'unassigned':0,'attention':5})
         self.assertEqual(summary['businessTimezone'],'Asia/Kolkata')
         self.assertEqual(self.request('/api/admin/enquiries?followup=invalid',cookie=cookie)[0],400)
 
@@ -68,6 +68,7 @@ class FollowupTests(unittest.TestCase):
             isolated.dashboard.initialize_dashboard(db)
             isolated.dashboard.initialize_dashboard(db)
             self.assertEqual(db.execute('SELECT stage,owner,notes,version,follow_up_date FROM enquiry_workflow').fetchone(),('Proposal','Sales','Keep this note',5,''))
+            self.assertEqual(db.execute('SELECT next_action FROM enquiry_workflow').fetchone(),('',))
 
 if __name__ == '__main__':
     try:
