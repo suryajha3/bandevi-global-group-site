@@ -1,7 +1,12 @@
 name: Website preview checks
 on:
   push:
-    branches: [main, trust-content-record-status-20261010]
+    branches: [main]
+  pull_request:
+    branches: [main]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
