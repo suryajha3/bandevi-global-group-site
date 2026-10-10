@@ -2,6 +2,7 @@
 import datetime
 import importlib.util
 import json
+import tempfile
 import os
 from pathlib import Path
 import sqlite3
@@ -125,6 +126,19 @@ class UpgradeTests(unittest.TestCase):
         good={'clientApproved':True,'slug':'synthetic-project','client':'Synthetic <client>','title':'Test','scope':'Test scope','delivered':'Test delivery','period':'2026','evidenceUrl':'https://example.com/','approvedBy':'Owner','approvalRecord':'Private record','outcomes':[]}
         self.assertIn('&lt;client&gt;',module.render(good));good['outcomes']=[{'result':'Test'}]
         with self.assertRaises(ValueError):module.render(good)
+
+    def test_deployment_refuses_unverified_root_routes_or_database(self):
+        spec=importlib.util.spec_from_file_location('deploy_upgrade',Path(__file__).with_name('deploy-upgrades.py'));module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as folder:
+            folder=Path(folder);config=folder/'nginx.conf';environment=folder/'settings.env';environment.write_text('ENQUIRY_DB=/var/lib/bandevi-enquiries/inbox.sqlite3\n')
+            def paths(value):
+                return {'/etc/nginx/sites-enabled/bandeviglobalgroup.com':config,'/etc/bandevi-enquiries.env':environment,'/var/lib/bandevi-enquiries/inbox.sqlite3':folder/'missing.sqlite3','/var/lib/bandevi-enquiries':folder}.get(str(value),Path(value))
+            for text in ('server_name unrelated.example;', 'server_name bandeviglobalgroup.com; root /srv/bandeviglobalgroup/app; proxy_pass http://127.0.0.1:8766; location / {', 'server_name bandeviglobalgroup.com; root /srv/bandeviglobalgroup/app; proxy_pass http://127.0.0.1:8766; location ^~ /server/ { return 404; } location ^~ /api/admin/ { } location / {'):
+                config.write_text(text)
+                with patch.object(module.os,'geteuid',return_value=0,create=True),patch.object(module,'Path',side_effect=paths),patch.object(module.subprocess,'run') as runner:
+                    with self.assertRaises(SystemExit):module.deploy()
+                    runner.assert_not_called()
+                self.assertEqual(config.read_text(),text);self.assertFalse((folder/'missing.sqlite3').exists())
 
 if __name__=='__main__':
     try:result=unittest.main(exit=False).result
