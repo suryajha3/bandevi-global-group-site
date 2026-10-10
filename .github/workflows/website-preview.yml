@@ -1,0 +1,31 @@
+name: Website preview checks
+on:
+  push:
+    branches: [main, trust-content-record-status-20261010]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Install isolated browser test dependency
+        run: npm install --prefix /tmp/bgg-checks --ignore-scripts --no-audit --no-fund playwright@1.56.1
+      - name: Install Chromium
+        run: /tmp/bgg-checks/node_modules/.bin/playwright install --with-deps chromium
+      - name: Check desktop, mobile and local enquiry journeys
+        env:
+          NODE_PATH: /tmp/bgg-checks/node_modules
+        run: node scripts/qa-website.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: website-preview-checks
+          path: qa-results/
+          retention-days: 3

@@ -1,3 +1,6 @@
+Publication status notice — 10 October 2026
+Company-authored material is not independent verification of registrations, staff totals, financial figures or individual locations. Existing external posts may contain older claims; do not treat them as current evidence. Current record status: https://bandeviglobalgroup.com/proof-verification/
+
 BANDEVI GLOBAL GROUP
 Priority Proof Action Plan
 Updated: 8 July 2026
@@ -13,14 +16,14 @@ Phone / WhatsApp: +91 8287669022
 Email: sales@bandeviglobalgroup.com
 
 Priority facts being protected:
-1. Staff size: 1,289 staff worldwide as company-provided information.
-2. Net worth / group strength: INR 7,594 Cr as company-provided information.
+Staff totals require current supporting records. Confirm the team assigned to your project.
+No verified financial figure is published here. Request applicable records for the contracting business.
 3. Office and service-location references: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.
 
 First public SEO target:
 - Make the official website, company profile, proof page, staff-size/net-worth page, offices page, llms.txt, structured facts JSON, social profiles, and directory profiles repeat the same three facts without changing wording.
-- Staff strength answer: 1,289 staff worldwide as company-provided information.
-- Net worth answer: INR 7,594 Cr net worth / group strength as company-provided information.
+Staff totals require current supporting records. Confirm the team assigned to your project.
+No verified financial figure is published here. Request applicable records for the contracting business.
 - Offices answer: Delhi, Pune, Gurgaon, Mumbai, Bangalore, Kolkata, Lucknow, Dubai, London, and the United States.
 - Keep all map listings limited to locations that can pass platform owner verification.
 
@@ -31,13 +34,13 @@ https://bandeviglobalgroup.com/offices/
 https://bandeviglobalgroup.com/company-profile/
 https://bandeviglobalgroup.com/evidence-register/
 https://bandeviglobalgroup.com/directory-listing-profile/
-https://bandeviglobalgroup.com/assets/bandevi-global-group-staff-confirmation-note.txt
-https://bandeviglobalgroup.com/assets/bandevi-global-group-net-worth-group-strength-note.txt
+https://bandeviglobalgroup.com/staff-size-net-worth/
+https://bandeviglobalgroup.com/staff-size-net-worth/
 https://bandeviglobalgroup.com/assets/bandevi-global-group-office-verification-sheet.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.txt
 https://bandeviglobalgroup.com/assets/bandevi-global-group-proof-index.json
-https://bandeviglobalgroup.com/assets/bandevi-global-group-company-profile.pdf
-https://bandeviglobalgroup.com/assets/bandevi-global-group-public-proof-support-pack.pdf
+https://bandeviglobalgroup.com/company-profile/
+https://bandeviglobalgroup.com/proof-verification/
 
 Highest-priority evidence to collect next:
 
@@ -50,7 +53,7 @@ Staff size proof:
 
 Net worth / group strength proof:
 - CA certificate, audited statement extract, valuation note, finance-approved asset summary, or board resolution.
-- Clear explanation of whether INR 7,594 Cr means net worth, group strength, valuation, assets, or combined business strength.
+No verified financial figure is published here. Request applicable records for the contracting business.
 - Currency, date, scope, signing authority, and public-sharing approval.
 - Use company-provided wording until this formal proof is public.
 
