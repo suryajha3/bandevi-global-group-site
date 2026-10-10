@@ -76,12 +76,43 @@ def active_owner(db,owner):
     from dashboard import USER
     return owner==USER or bool(db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(owner,)).fetchone())
 
+def proposal_status(p,now):
+    if p['status']=='accepted':return 'Accepted'
+    if p['status']=='published':return 'Expired' if p['expires']<=now else 'Awaiting acceptance'
+    if p['status']=='draft':return 'Draft (expired)' if p['expires']<=now else 'Draft'
+    return p['status'].capitalize()
+
+def proposal_queue(handler,db,identity,query):
+    buckets={'drafts':"cp.status='draft'",'awaiting':"cp.status='published' AND cp.expires>?",'expiring':"cp.status='published' AND cp.expires>? AND cp.expires<=?",'expired':"cp.status='published' AND cp.expires<=?",'accepted':"cp.status='accepted'",'withdrawn':"cp.status='withdrawn'",'superseded':"cp.status='superseded'",'all':'1=1'}
+    bucket=query.get('bucket',['awaiting'])[0];search=query.get('q',[''])[0][:120]
+    try:offset=int(query.get('offset',['0'])[0])
+    except ValueError:raise Problem(400,'Invalid page.')
+    if bucket not in buckets or not 0<=offset<=1000000:raise Problem(400,'Choose a valid proposal filter.')
+    now=int(time.time());week=now+7*86400
+    join=' FROM client_proposals cp JOIN client_projects p ON p.reference=cp.reference JOIN enquiries e ON e.id=p.reference LEFT JOIN enquiry_workflow w ON w.id=p.reference '
+    base="e.email_status!='qa-verified'";args=[]
+    if identity['role']=='agent':base+=' AND w.owner=?';args=[identity['actor']]
+    def params(key):return [now,week] if key=='expiring' else [now] if key in ('awaiting','expired') else []
+    db.execute('BEGIN')
+    counts={key:db.execute('SELECT COUNT(*)'+join+'WHERE '+base+' AND ('+condition+')',args+params(key)).fetchone()[0] for key,condition in buckets.items()}
+    where=base+' AND ('+buckets[bucket]+')';filters=args+params(bucket)
+    if search:where+=' AND (cp.title LIKE ? OR p.title LIKE ? OR p.reference LIKE ? OR p.email LIKE ?)';filters+=['%'+search+'%']*4
+    total=db.execute('SELECT COUNT(*)'+join+'WHERE '+where,filters).fetchone()[0]
+    rows=db.execute("SELECT cp.id,cp.reference,cp.revision,cp.title,cp.status,cp.minor_units,cp.currency,cp.created,cp.expires,cp.accepted,p.title AS projectTitle,p.email AS clientEmail,COALESCE(w.owner,'') AS owner"+join+'WHERE '+where+' ORDER BY '+('cp.expires ASC,' if bucket in ('awaiting','expiring','expired') else '')+'cp.created DESC,cp.id DESC LIMIT 25 OFFSET ?',filters+[offset]).fetchall()
+    items=[]
+    for row in rows:
+        item=dict(row);item['displayStatus']=proposal_status(item,now);item['expiresSoon']=item['status']=='published' and now<item['expires']<=week;items.append(item)
+    handler.respond(200,{'items':items,'counts':counts,'total':total,'offset':offset,'limit':25,'now':now,'timezone':'Asia/Kolkata'})
+    return True
+
+
 def detail(db,row,staff):
     ref=row['reference'];result=dict(row)
     proposals=[]
     for item in db.execute('SELECT * FROM client_proposals WHERE reference=? ORDER BY revision DESC',(ref,)):
-        if not staff and item['status']=='draft':continue
+        if not staff and (item['status']=='draft' or not item['published'] and item['status']!='accepted'):continue
         p=dict(item)
+        p['displayStatus']=proposal_status(p,int(time.time()))
         if not staff:p.pop('actor',None)
         proposals.append(p)
     result['proposals']=proposals
@@ -166,6 +197,20 @@ def get(handler,connect):
                 for t in db.execute("SELECT due FROM client_tickets WHERE reference=? AND status IN ('Open','In progress')",(ref,)):
                     stats['openTickets']+=1;stats['overdueTickets']+=t[0]<now
             handler.respond(200,{'days':days,'counts':stats,'lostReasons':losses,'basis':'Received-date enquiry cohort. Demo reservations and published/accepted proposals require recorded events. Support counts are limited to this cohort.'});return True
+        if action=='proposal-queue' and staff:return proposal_queue(handler,db,identity,query)
+        if action=='proposal-pdf':
+            db.execute('BEGIN')
+            proposal=db.execute('SELECT * FROM client_proposals WHERE id=?',(query.get('id',[''])[0],)).fetchone()
+            if not proposal:raise Problem(404,'Proposal not found.')
+            row=project(db,proposal['reference'],identity,staff)
+            if not staff and (proposal['status']=='draft' or not proposal['published'] and proposal['status']!='accepted'):raise Problem(404,'Proposal not found.')
+            try:
+                from proposal_pdf import generate
+                content=generate(dict(row),dict(proposal),int(time.time()))
+            except ValueError as error:raise Problem(422,str(error))
+            except ImportError:raise Problem(503,'PDF export is temporarily unavailable. The recorded proposal remains in your workspace.')
+            filename='Bandevi-'+re.sub(r'[^a-zA-Z0-9_-]','_',row['reference'])+'-revision-'+str(proposal['revision'])+'.pdf'
+            send_file(handler,content,'application/pdf',filename);return True
         if action=='project':handler.respond(200,detail(db,project(db,query.get('reference',[''])[0],identity,staff),staff));return True
         if action=='document':
             doc=db.execute('SELECT * FROM client_documents WHERE id=? AND deleted=0',(query.get('id',[''])[0],)).fetchone()

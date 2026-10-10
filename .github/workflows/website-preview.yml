@@ -17,10 +17,12 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Install pinned PDF runtime
+        run: python3 -m pip install -r server/requirements-test.txt
       - name: Run isolated enquiry and upgrade regressions
         run: |
           cd server
-          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py; do
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py; do
             python3 -B "$suite"
           done
   browser:
@@ -37,12 +39,15 @@ jobs:
         run: npm install --prefix /tmp/bgg-checks --ignore-scripts --no-audit --no-fund playwright@1.56.1
       - name: Install Chromium
         run: /tmp/bgg-checks/node_modules/.bin/playwright install --with-deps chromium
+      - name: Install pinned PDF runtime
+        run: python3 -m pip install -r server/requirements-test.txt
       - name: Check desktop, mobile and local enquiry journeys
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
           node scripts/qa-website.cjs
           node scripts/qa-inbox.cjs
+          node scripts/qa-proposals.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
