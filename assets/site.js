@@ -7740,7 +7740,7 @@ hero=function(page,data){return Object.prototype.hasOwnProperty.call(trustPageCo
 const gurugramOfficeAddress = 'SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017';
 const gurugramOfficeSection = `<section class="section mist" id="gurugram-office"><div class="container"><h2>Gurugram office</h2><p>${gurugramOfficeAddress}</p><div class="inline-actions"><a class="button dark" href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(gurugramOfficeAddress)}" target="_blank" rel="noopener noreferrer">Get directions</a><a class="text-link" href="tel:+917011040474">Call our team</a></div></div></section>`;
 const contactBeforeOfficeAddress = pageRenderers.contact;
-pageRenderers.contact = () => gurugramOfficeSection + contactBeforeOfficeAddress();
+pageRenderers.contact = () => contactBeforeOfficeAddress().replace('</section>', '</section>' + gurugramOfficeSection);
 trustPageContent.offices = trustPageContent.offices.replace('</section>', '</section>' + gurugramOfficeSection);
 trustPageContent.offices = trustPageContent.offices.replace('Confirm the location before visiting.', 'Gurugram office and location references.');
 
