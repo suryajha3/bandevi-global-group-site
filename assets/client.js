@@ -86,10 +86,10 @@ const socialLinks = [
 ];
 
 const contactInfo = {
-  phoneDisplay: "+91 8287669022",
-  phoneHref: "tel:+918287669022",
+  phoneDisplay: "+91 7011040474",
+  phoneHref: "tel:+917011040474",
   email: "sales@bandeviglobalgroup.com",
-  whatsapp: "https://wa.me/918287669022"
+  whatsapp: "https://wa.me/917011040474"
 };
 
 function bindServicePreview() {

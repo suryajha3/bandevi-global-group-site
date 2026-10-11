@@ -21,7 +21,7 @@
  downloadURL=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));
  const download=document.createElement('a');download.textContent='Download draft (.txt)';download.href=downloadURL;download.download='bandevi-client-evidence-draft.txt';
  const email=document.createElement('a');email.textContent='Send draft by email';email.href='mailto:sales@bandeviglobalgroup.com?subject='+encodeURIComponent('Client feedback for '+e.project.value.trim())+'&body='+encodeURIComponent(text);
- const whatsapp=document.createElement('a');whatsapp.textContent='Send draft on WhatsApp';whatsapp.href='https://wa.me/918287669022?text='+encodeURIComponent(text);whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+ const whatsapp=document.createElement('a');whatsapp.textContent='Send draft on WhatsApp';whatsapp.href='https://wa.me/917011040474?text='+encodeURIComponent(text);whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
  note.append(heading,preview,download,document.createTextNode(' · '),email,document.createTextNode(' · '),whatsapp);
  });
  form.addEventListener('input',()=>{clear();validateEvidence();});
