@@ -1,0 +1,48 @@
+BANDEVI WEBSITE DEVELOPMENT — INTERNAL PROJECT CASE STUDY
+Reviewed 11 October 2026
+
+Project: BANDEVI’s own website, bandeviglobalgroup.com.
+This is an internal project, not a customer testimonial.
+
+THE PURPOSE
+Help visitors understand the available software services, inspect relevant
+workflows and prepare a useful enquiry. For US and UK buyers, make remote
+delivery from Gurugram, India explicit and explain what to agree before work.
+
+DELIVERED WORK
+- Service previews with focused demo journeys.
+- An editable project brief with requirements, budget/timing and review.
+- Travel website, CRM and ERP comparison and a fictional sample CRM.
+- US and UK pages covering all current software services.
+- Accurate US/UK remote-service coverage on the locations page.
+- Saved-enquiry measurement with entry-page attribution.
+- Fixed categories for phone, WhatsApp and email link clicks.
+
+PUBLIC EVIDENCE
+https://bandeviglobalgroup.com/projects/bandevi-website/
+https://bandeviglobalgroup.com/us/software-development/
+https://bandeviglobalgroup.com/uk/software-development/
+https://bandeviglobalgroup.com/project-brief/
+https://bandeviglobalgroup.com/offices/#us-uk-services
+
+VALIDATION
+Desktop/mobile layouts, readable content, internal links and regional SEO
+metadata were checked. The deployed regional files matched the release.
+Google accepted both regional-page indexing requests on 11 October 2026.
+Saved-enquiry collection and key-event configuration were checked in
+Analytics. Contact-method reporting was registered on 11 October 2026
+for future processed reporting.
+
+WHAT THESE RESULTS MEAN
+The evidence establishes implemented pages, workflows and measurement
+configuration. It does not establish completed Google indexing, ranking
+gains, US/UK enquiry growth, conversion uplift or customer revenue.
+A contact-link click is not proof of a completed call, enquiry or sale.
+Screenshots in the project record show public interfaces; no customer
+records are exposed. The sample CRM uses fictional records.
+
+PLANNING A SIMILAR PROJECT
+Agree your pages, user journeys, integrations, access, scope, acceptance
+criteria and handover. Currency and delivery commitments belong in the
+written proposal. Share requirements at:
+https://bandeviglobalgroup.com/project-brief/
