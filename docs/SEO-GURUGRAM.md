@@ -6,7 +6,7 @@ BANDEVI GLOBAL GROUP
 
 SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017
 
-Phone: +91 8287669022
+Phone: +91 7011040474
 
 Email: sales@bandeviglobalgroup.com
 
