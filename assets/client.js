@@ -121,6 +121,11 @@ function bindForms() {
 
   document.querySelectorAll("[data-form]").forEach((form) => {
     const type = form.dataset.form;
+    if (type === "contact") {
+      const requestedChoice = new URL(window.location.href).searchParams.get("solution");
+      const interest = form.elements.interest;
+      if (interest && !interest.value && Array.from(interest.options).some(option => option.value === requestedChoice)) interest.value = requestedChoice;
+    }
     if (type === "demo") {
       const demoDate=form.elements.demoDate,demoTime=form.elements.demoTime;
       function checkDemoTime(){
