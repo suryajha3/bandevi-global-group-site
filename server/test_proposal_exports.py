@@ -95,6 +95,23 @@ class ExportTests(unittest.TestCase):
         with isolated.enquiries.connect() as db:db.execute('UPDATE enquiry_workflow SET owner=? WHERE id=?',(isolated.dashboard.USER,mine))
         self.assertEqual(self.download(pid,cookie)[0],404)
 
+    def test_international_quote_currency_snapshots(self):
+        ref,email=self.create()
+        snapshots=[]
+        for currency in ('INR','USD','GBP','EUR'):
+            with self.subTest(currency=currency):
+                response=self.change(ref,'proposal',title=currency+' quote',scope='Synthetic international scope.',terms='Amount agreed in '+currency+'. No automatic conversion.',value='1234.56',currency=currency,expires=int(time.time())+86400)
+                self.assertEqual(response[0],200)
+                pid=response[1]['proposalId'];snapshots.append((pid,currency))
+                with isolated.enquiries.connect() as db:
+                    record=db.execute('SELECT minor_units,currency FROM client_proposals WHERE id=?',(pid,)).fetchone()
+                    self.assertEqual((record['minor_units'],record['currency']),(123456,currency))
+                status,pdf,_=self.download(pid,self.admin)
+                self.assertEqual(status,200);self.assertIn(currency+' 1,234.56',self.text(pdf))
+        for pid,currency in snapshots:
+            self.assertIn(currency+' 1,234.56',self.text(self.download(pid,self.admin)[1]))
+        self.assertEqual(self.change(ref,'proposal',title='Unsupported',scope='Scope',terms='Terms',value='1.00',currency='XYZ',expires=int(time.time())+86400)[0],400)
+
     def test_long_literal_text_multipage_and_unsupported_glyphs(self):
         ref,email=self.create();body='Scope <tag> & exact commercial text. '+('A'*100)+'\n\n'
         response=self.change(ref,'proposal',title='Café proposal',scope=body*12,terms=body*12,value='0.01',currency='EUR',expires=int(time.time())+86400)

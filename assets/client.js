@@ -121,7 +121,25 @@ function bindMobileContact() {
   update();
 }
 
+function bindProjectFilters() {
+  const section = document.querySelector('.project-directory');
+  if (!section) return;
+  const filters = section.querySelector('.project-filters');
+  filters.hidden = false;
+  filters.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+    filters.querySelectorAll('button').forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+    let count = 0;
+    section.querySelectorAll('[data-project-category]').forEach(card => {
+      card.hidden = button.dataset.projectFilter !== 'all' && card.dataset.projectCategory !== button.dataset.projectFilter;
+      if (!card.hidden) count++;
+    });
+    section.querySelector('.project-filter-count').textContent = count + ' documented project reference' + (count === 1 ? '' : 's');
+    section.querySelector('.project-filter-empty').hidden = count > 0;
+  }));
+}
+
 function bindNav() {
+  bindProjectFilters();
   bindMobileContact();
   bindServicePreview();
 
@@ -170,6 +188,7 @@ function bindNav() {
 
 function enquiryMessage(form, data) {
   return [
+    ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
     data.businessType ? 'Business type: ' + data.businessType : '',
     data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: ' + form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : '',
     form.dataset.projectReference ? 'Project reference: ' + form.dataset.projectReference + ' (public interface example)' : '',
@@ -199,12 +218,12 @@ function bindEnquiryJourney(form) {
     'Customer Portal Package': 'portal', 'E-Commerce Package': 'commerce',
     'Automation Package': 'automation', 'Need guidance': 'guidance'
   };
-  const projects = { trip_sarathi: ['Trip Sarathi', '/projects/trip-sarathi/'], maximtrip: ['MaximTrip', '/projects/maximtrip/'], tripodeal: ['TripOdeal', '/projects/tripodeal/'] };
+  const projects = { bandevi_website: ['BANDEVI website', '/projects/bandevi-website/', 'Website / App Development Package'], trip_sarathi: ['Trip Sarathi', '/projects/trip-sarathi/'], maximtrip: ['MaximTrip', '/projects/maximtrip/'], tripodeal: ['TripOdeal', '/projects/tripodeal/'] };
   const requestedProject = new URL(location.href).searchParams.get('project');
   const project = Object.hasOwn(projects, requestedProject) ? projects[requestedProject] : null;
   if (project) {
     form.dataset.projectReference = project[0];
-    if (!interest.value) interest.value = 'Complete Travel Website Package';
+    if (!interest.value) interest.value = project[2] || 'Complete Travel Website Package';
     const context = form.querySelector('[data-enquiry-project]');
     context.hidden = false;
     const link = document.createElement('a'); link.href = project[1]; link.textContent = project[0];
