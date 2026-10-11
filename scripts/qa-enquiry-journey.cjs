@@ -86,6 +86,14 @@ let browser, server;
     assert.equal(await page.locator('#contact-interest').inputValue(), '');
     assert.equal(await page.locator('[data-enquiry-project]').evaluate(element => element.hidden), true);
     checks.push({ unknownQueryIgnored: true });
+    for (const source of [false, ...(!live ? [true] : [])]) {
+      await page.goto(base + '/contact-us/?request=client-reference' + (source ? '&source=1' : ''));
+      assert.equal(await page.locator('#contact-interest').inputValue(), 'Need guidance');
+      assert((await page.locator('#contact-message').inputValue()).includes('client-approved project reference'));
+      assert.equal(await page.locator('[data-enquiry-questions]').evaluate(element => element.disabled), false);
+      assert.equal(await page.locator('#contact-message').evaluate(element => element.validity.valid), true);
+      checks.push({ source, existingReferenceRequestPrefill: true, optionalQuestionsSynced: true });
+    }
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(base + '/contact.html');
