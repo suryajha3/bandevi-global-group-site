@@ -6893,7 +6893,7 @@ function footer() {
     ["Company", [["About Bandevi", "/about-us/"], ["Company Profile", "/company-profile/"], ["Project Models", "/case-studies/"], ["Trust & Registrations", "/trust-licences-certifications/"], ["Evidence & Verification", "/proof-verification/"], ["Office & Service Locations", "/offices/"], ["Blog", "/blog/"]]],
     ["Connect", [["Book a Demo", "/demo-request/"], ["Contact", "/contact-us/"], ["Support", "/support/"], ...socialLinks]]
   ];
-  return `<footer class="footer"><div class="footer-grid"><div><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><p><a href="tel:+918287669022">+91 8287669022</a><br><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><p>BANDEVI and The Holidays Group are separate sister brands.</p></div>${groups.map(([title,links])=>`<div><h4>${title}</h4><ul class="footer-links">${links.map(([label,href])=>`<li><a href="${href}">${label}</a></li>`).join('')}${title==="Company"&&document.body.dataset.page==="home"?'<li><a href="#our-brands">Our brands &amp; group product</a></li>':""}</ul></div>`).join('')}</div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms & Conditions</a></span></div></footer>`;
+  return `<footer class="footer"><div class="footer-grid"><div><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><p><a href="tel:+918287669022">+91 8287669022</a><br><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><p><strong>Gurugram office</strong><br>${gurugramOfficeAddress}</p><p>BANDEVI and The Holidays Group are separate sister brands.</p></div>${groups.map(([title,links])=>`<div><h4>${title}</h4><ul class="footer-links">${links.map(([label,href])=>`<li><a href="${href}">${label}</a></li>`).join('')}${title==="Company"&&document.body.dataset.page==="home"?'<li><a href="#our-brands">Our brands &amp; group product</a></li>':""}</ul></div>`).join('')}</div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms & Conditions</a></span></div></footer>`;
 }
 
 const improvedServices = {
@@ -7651,6 +7651,13 @@ const trustPageData = {"profile":{"eyebrow":"Company information","title":"Compa
 for(const key of Object.keys(trustPageContent)){pageData[key]={...pageData[key],...trustPageData[key]};pageRenderers[key]=()=>trustPageContent[key];}
 const beforeTrustHero=hero;
 hero=function(page,data){return Object.prototype.hasOwnProperty.call(trustPageContent,page)?"":beforeTrustHero(page,data);};
+
+const gurugramOfficeAddress = 'SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017';
+const gurugramOfficeSection = `<section class="section mist" id="gurugram-office"><div class="container"><h2>Gurugram office</h2><p>${gurugramOfficeAddress}</p><div class="inline-actions"><a class="button dark" href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(gurugramOfficeAddress)}" target="_blank" rel="noopener noreferrer">Get directions</a><a class="text-link" href="tel:+918287669022">Call our team</a></div></div></section>`;
+const contactBeforeOfficeAddress = pageRenderers.contact;
+pageRenderers.contact = () => gurugramOfficeSection + contactBeforeOfficeAddress();
+trustPageContent.offices = trustPageContent.offices.replace('</section>', '</section>' + gurugramOfficeSection);
+trustPageContent.offices = trustPageContent.offices.replace('Confirm the location before visiting.', 'Gurugram office and location references.');
 
 render();
 
