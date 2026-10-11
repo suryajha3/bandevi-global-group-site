@@ -1,0 +1,52 @@
+TRAVEL PAYMENT-WORKFLOW PROJECT BRIEF
+BANDEVI GLOBAL GROUP | Planning checklist | 11 October 2026
+
+Use fictional or anonymised records for the initial discussion.
+Do not include card information, credentials or customer bank details.
+
+1. FIRST RELEASE
+Booking type:
+Currency:
+Approved payment provider and account owner:
+Current accounting or booking software:
+Included workflow and exclusions:
+
+2. BOOKING AND PAYMENT RECORDS
+Booking reference and accepted quotation version:
+Deposit, balance and due-date rules:
+Customer receipt reference and supplier obligation reference:
+Source used to verify payment status:
+Rules for fees, changes and refunds:
+
+3. CUSTOMER HANDOFF
+Payment link or provider-supported embedded checkout:
+Who checks the requested amount and expiry:
+What customers see while verification is pending:
+Recovery route if the customer closes or returns to the page:
+
+4. OWNERS AND EXCEPTIONS
+Who records, approves and reconciles:
+Who may change beneficiary details:
+Exception owner, due time and escalation:
+Handling of unmatched receipts and pending refunds:
+Audit history and access requirements:
+
+5. ACCEPTANCE SCENARIOS
+- Partial deposit leaves the correct balance due.
+- Repeated provider event creates no duplicate receipt.
+- Delayed or out-of-order event does not overwrite a verified later state.
+- Failed notification creates a review task with a responsible owner.
+- Cancellation and refund retain their original payment references.
+- Reconciliation explains source-record differences.
+- Agreed peak volume and interruption recovery are reviewed in testing.
+
+6. HANDOVER
+Provider documentation and dependencies:
+Reporting definitions and review frequency:
+Access, training, support and recovery responsibilities:
+Acceptance owner and target review date:
+
+This checklist describes requirements to agree, not included deliverables.
+Integrations, charges, dates and responsibilities follow your written proposal.
+Discuss your scope: https://bandeviglobalgroup.com/demo-request/?solution=Travel%20ERP%20Package&focus=erp-finance
+Guide: https://bandeviglobalgroup.com/blog/automate-payment-workflows-in-travel-agencies/
