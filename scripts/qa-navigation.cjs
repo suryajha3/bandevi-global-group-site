@@ -37,7 +37,7 @@ let server, browser;
       assert.equal(await page.locator('.footer-social a').count(), 4);
       assert((await page.locator('.footer-office').textContent()).includes('SCO 63'));
       assert.equal(await page.locator('.primary-nav a[href="/#selected-work"]').count(), 1);
-      assert.equal(await page.locator('.brand-line').textContent(), 'Software development for international businesses');
+      assert.equal(await page.locator('.brand-line').textContent(), 'Your international software partner');
       assert((await page.locator('.nav-solutions summary').textContent()).includes('Services'));
       for (const width of [360, 390, 768, 1180, 1181, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
