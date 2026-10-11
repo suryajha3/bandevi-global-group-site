@@ -42,7 +42,7 @@ let server, browser;
         // Let both responsive footer and navigation listeners finish before keyboard actions.
         await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
         await page.waitForFunction(compact => Array.from(document.querySelectorAll('.footer-disclosure')).every(element => element.open === !compact), width <= 540);
-        assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+        assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), JSON.stringify({route, width, layout: await page.evaluate(() => ({scrollWidth:document.documentElement.scrollWidth, overflow:[...document.querySelectorAll('body *')].filter(el=>el.getBoundingClientRect().right>innerWidth+1).map(el=>({tag:el.tagName, class:el.className, text:el.textContent.slice(0,80), right:el.getBoundingClientRect().right})).slice(0,12)}))}));
         if (width <= 390) {
           assert.equal(await page.locator('.footer-disclosure[open]').count(), 0);
           const summary = page.locator('.footer-disclosure summary').first();
