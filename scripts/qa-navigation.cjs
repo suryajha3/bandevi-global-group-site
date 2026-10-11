@@ -39,6 +39,8 @@ let server, browser;
       assert.equal(await page.locator('.primary-nav a[href="/#selected-work"]').count(), 1);
       for (const width of [390, 768, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
+        // Let both responsive footer and navigation listeners finish before keyboard actions.
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
         await page.waitForFunction(compact => Array.from(document.querySelectorAll('.footer-disclosure')).every(element => element.open === !compact), width <= 540);
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
         if (width === 390) {
@@ -53,6 +55,7 @@ let server, browser;
         if (width < 1181) assert.equal(await page.locator('[data-nav-toggle]').getAttribute('aria-expanded'), 'true');
         const solutions = page.locator('.nav-solutions');
         await solutions.locator('summary').focus(); await solutions.locator('summary').press('Enter');
+        await page.waitForFunction(() => document.querySelector('.nav-solutions').open);
         assert(await solutions.evaluate(element => element.open));
         assert.equal(await solutions.locator('.solutions-menu a:visible').count(), 6);
         if (route === '/') await page.screenshot({ path: path.join(output, (live ? 'live' : 'local') + '-menu-' + width + '.png') });
