@@ -14,6 +14,7 @@ fs.mkdirSync(out,{recursive:true});let server,browser;
  {value:'Need guidance',project:null,copy:'right starting point',link:'/case-studies/#project-directory'}
  ];
  for(const route of ['/',...(!live?['/?source=1']:[])])for(const width of [360,768,1440]){
+  await p.setViewportSize({width,height:1000});await p.goto(base+route);const crm=p.locator('#bandevi-crm');assert.equal(await crm.locator('li').count(),4);assert(await crm.getByRole('link',{name:'Explore BANDEVI CRM'}).isVisible());assert.equal(await crm.getByRole('link',{name:'Try the illustrative CRM demo'}).getAttribute('href'),'/sample-crm/');await Promise.all([p.waitForURL(u=>u.pathname==='/demo-request/'),crm.getByRole('link',{name:'Request a CRM Demo'}).click()]);assert.equal(await p.locator('form[data-form] [name="interest"]').inputValue(),'CRM & ERP Package');checks.push({route,width,crmPromotionAndDemo:true});
   for(const choice of choices){
    await p.setViewportSize({width,height:1000});await p.goto(base+route);const service=p.locator('#home-project-service');await p.locator('[data-featured-index]').first().waitFor();await service.focus();await service.selectOption(choice.value);
    assert(await service.evaluate(e=>e===document.activeElement));
