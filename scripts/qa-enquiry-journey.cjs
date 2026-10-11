@@ -106,6 +106,26 @@ let browser, server;
       checks.push({ legacyContactAlias: true, width, optionalQuestionsAvailable: true });
     }
     if (!live) {
+      for (const confirmed of [false, true]) {
+        await page.goto(base + '/demo-request/');
+        let calls = 0;
+        const manageUrl = '/demo-booking/#' + 'a'.repeat(64);
+        await page.route('**/api/enquiries', async route => {
+          calls++;
+          await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ ok: true, reference: 'BG-0123456789ABCDEF', appointment: confirmed ? { confirmed: true, starts: Math.floor(Date.now() / 1000) + 7200, manageUrl } : { confirmed: false } }) });
+        });
+        const form = page.locator('form[data-form=demo]');
+        await form.locator('[name=name]').fill('Fictional QA'); await form.locator('[name=email]').fill('qa@example.invalid');
+        await form.locator('[name=interest]').selectOption({ index: 1 }); await form.locator('[name=message]').fill('Fictional local demo receipt check');
+        await form.locator('button[type=submit]').click();
+        await form.locator('.form-note').filter({ hasText: confirmed ? 'Demo confirmed for' : 'not booked yet' }).waitFor();
+        await form.getByRole('button', { name: 'Copy reference', exact: true }).click();
+        assert.equal(await page.evaluate(() => window.__copiedReference), 'BG-0123456789ABCDEF');
+        assert.equal(calls, 1);
+        if (confirmed) assert.equal(await form.getByRole('link', { name: 'Manage or reschedule your demo' }).getAttribute('href'), manageUrl);
+        await page.unroute('**/api/enquiries');
+        checks.push({ confirmed, demoStatusAndCopyReferencePreserved: true, submissions: 'mocked' });
+      }
       for (const source of [false, true]) {
         await page.goto(base + '/contact-us/?project=trip_sarathi' + (source ? '&source=1' : ''));
         const form = page.locator('form[data-form=contact]'), calls = [];

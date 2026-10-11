@@ -7486,9 +7486,9 @@ function bindForms() {
           savedEnquiryReceipt(note, result.reference, type);
           if(type==='demo'){
             if(result.appointment?.confirmed){
-              note.textContent+=' Demo confirmed for '+new Date(result.appointment.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. Joining details follow separately.';
+              note.append(' Demo confirmed for '+new Date(result.appointment.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. Joining details follow separately.');
               if(/^\/demo-booking\/#[a-f0-9]{64}$/.test(result.appointment.manageUrl||'')){const link=document.createElement('a');link.href=result.appointment.manageUrl;link.textContent='Manage or reschedule your demo';note.append(' ',link);}
-            }else note.textContent+=(payload.demoSchedule?' Preferred time: '+payload.demoSchedule.date+' at '+payload.demoSchedule.time+' IST (UTC+05:30).':'')+' Your demo time is not booked yet. The team will contact you to confirm availability and meeting details.';
+            }else note.append((payload.demoSchedule?' Preferred time: '+payload.demoSchedule.date+' at '+payload.demoSchedule.time+' IST (UTC+05:30).':'')+' Your demo time is not booked yet. The team will contact you to confirm availability and meeting details.');
           }
           form.dispatchEvent(new CustomEvent('enquiry-saved',{detail:result}));
           enquiryAnalytics(form,type,result.reference);
