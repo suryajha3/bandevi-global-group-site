@@ -1,0 +1,10 @@
+#meeting-request[hidden] { display: none; }
+#meeting-result { min-height: 3.5rem; margin: 1rem 0; }
+#international-meeting-planner { max-width: 900px; }
+#international-meeting-planner .field { min-width: 0; }
+#international-meeting-planner input,
+#international-meeting-planner select { width: 100%; max-width: 100%; }
+@media (max-width: 760px) {
+  #meeting-result { min-height: 6rem; }
+  #international-meeting-planner .button { white-space: normal; }
+}
