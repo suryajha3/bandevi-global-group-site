@@ -102,10 +102,34 @@ function bindServicePreview() {
 }
 function bindNav() {
   bindServicePreview();
+
+  const solutions = document.querySelector(".nav-solutions");
+  const canonical = document.querySelector('link[rel="canonical"]');
+  const currentPath = canonical ? new URL(canonical.href).pathname : location.pathname;
+  document.querySelectorAll('.primary-nav a').forEach(link => {
+    const target = new URL(link.href);
+    if (!target.hash && target.pathname === currentPath) {
+      link.classList.add('is-active');
+      link.setAttribute('aria-current', 'page');
+      if (solutions && solutions.contains(link)) solutions.querySelector('summary').classList.add('is-active');
+    }
+  });
+  if (solutions) {
+    document.addEventListener('click', event => { if (!solutions.contains(event.target)) solutions.open = false; });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && solutions.open) { solutions.open = false; solutions.querySelector('summary').focus(); event.stopImmediatePropagation(); } });
+    solutions.addEventListener('focusout', () => queueMicrotask(() => { if (!solutions.contains(document.activeElement)) solutions.open = false; }));
+  }
+  const compactFooter = window.matchMedia('(max-width: 540px)');
+  const disclosures = document.querySelectorAll('.footer-disclosure');
+  function sizeFooter() { disclosures.forEach(detail => { detail.open = !compactFooter.matches; }); }
+  sizeFooter();
+  compactFooter.addEventListener('change', sizeFooter);
+  disclosures.forEach(detail => detail.querySelector('summary').addEventListener('click', event => { if (!compactFooter.matches) event.preventDefault(); }));
   const toggle = document.querySelector("[data-nav-toggle]");
   if (!toggle) return;
   function setOpen(open) {
     document.body.classList.toggle("nav-open", open);
+    if (!open && solutions) solutions.open = false;
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     toggle.innerHTML = open ? icons.close : icons.menu;

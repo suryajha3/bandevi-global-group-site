@@ -1396,10 +1396,6 @@ function activePage() {
 }
 
 function header(page) {
-  const links = navItems.map(([label, href, key]) => (
-    `<a class="nav-link ${key === page ? "is-active" : ""}" href="${href}">${label}</a>`
-  )).join("");
-
   return `
     <header class="topbar">
       <div class="nav-wrap">
@@ -1410,20 +1406,10 @@ function header(page) {
             <span class="brand-line">IT & software development company</span>
           </span>
         </a>
-        <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-          ${links}
-          <div class="mobile-nav-extra">
-            <a class="nav-link ${page === "crmErp" ? "is-active" : ""}" href="/crm-erp-solutions/">CRM & ERP</a>
-            <a class="nav-link ${page === "automation" ? "is-active" : ""}" href="/business-automation/">Automation</a>
-            <a class="nav-link ${page === "cases" ? "is-active" : ""}" href="/case-studies/">Case Studies</a>
-            <a class="nav-link ${page === "support" ? "is-active" : ""}" href="/support/">Support</a>
-            <a class="nav-link ${page === "portal" ? "is-active" : ""}" href="/customer-portal/">Customer Portal</a>
-            <a class="nav-link ${page === "demo" ? "is-active" : ""}" href="/demo-request/">Demo Request</a>
-          </div>
-        </nav>
+        <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation"><details class="nav-solutions"><summary class="nav-link">Solutions <span aria-hidden="true">⌄</span></summary><div class="solutions-menu"><a class="nav-link" href="/website-mobile-app-development/">Websites &amp; Apps</a><a class="nav-link" href="/crm-erp-solutions/">CRM &amp; ERP</a><a class="nav-link" href="/travel-technology/">Travel Technology</a><a class="nav-link" href="/customer-portal/">Customer Portals</a><a class="nav-link" href="/business-automation/">Business Automation</a><a class="nav-link" href="/it-products/">All Products</a></div></details><a class="nav-link" href="/#selected-work">Our Work</a><a class="nav-link" href="/about-us/">Company</a><a class="nav-link" href="/contact-us/">Contact</a><div class="mobile-nav-extra"><a class="nav-link" href="/support/">Support</a><a class="nav-link" href="/demo-request/">Request a Demo</a></div></nav>
         <div class="nav-actions">
           <a class="button secondary" href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
-          <a class="button primary" href="/demo-request/">${["home","crmErp"].includes(page)?"Request a Demo":"Demo"} ${icons.arrow}</a>
+          <a class="button primary" href="/demo-request/">Request a Demo ${icons.arrow}</a>
           <button class="icon-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>${icons.menu}</button>
         </div>
       </div>
@@ -6878,17 +6864,10 @@ function termsPage() {
   `;
 }
 
-function quickContact() {
-  return `
-    <div class="quick-contact" aria-label="Quick contact options">
-      <a href="${contactInfo.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp ${icons.message}</a>
-      <a href="${contactInfo.phoneHref}">Call ${icons.phone}</a>
-    </div>
-  `;
-}
+function quickContact() { return ""; }
 
 function footer() {
-  return `<footer class="footer footer-compact"><div class="footer-grid"><div class="footer-brand"><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><div class="footer-contact-actions"><a href="tel:+917011040474"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M8 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-4l-5-2-2 3a14 14 0 0 1-7-7l3-2-2-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Call</a><a href="mailto:sales@bandeviglobalgroup.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="m3 6 9 7 9-7" stroke="currentColor" stroke-width="1.8"/></svg>Email</a><a href="https://wa.me/917011040474" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4 4h16v12H8l-4 4V4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.8"/></svg>WhatsApp</a></div><p class="footer-contact-details"><a href="tel:+917011040474">+91 7011040474</a><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><nav class="footer-social" aria-label="Social media"><a href="https://www.facebook.com/profile.php?id=61591222415314" aria-label="Facebook" title="Facebook" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M14 21v-8h3l.5-4H14V7c0-1 .4-2 2-2h2V2h-3c-3 0-5 2-5 5v2H7v4h3v8" fill="currentColor"/></svg></a><a href="https://www.instagram.com/bandeviglobalgroup/" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/bandevi-global-group-38584b419/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="1.7" fill="currentColor"/><path d="M3.5 9h3v12h-3V9ZM10 9h3v2c1-3 7-3 7 3v7h-3v-6c0-3-4-3-4 0v6h-3V9Z" fill="currentColor"/></svg></a><a href="https://x.com/BANDEVIGLOBAL" aria-label="X" title="X" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4 3h4l12 18h-4L4 3ZM20 3 4 21" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></a></nav><p class="footer-brand-note">BANDEVI and The Holidays Group are separate sister brands.</p></div><div class="footer-office"><h4>Gurugram office</h4><address><span>SCO 63, Huda Market, First Floor</span><span>Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump</span><span>Cartarpuri Alias Daulatpur Nas, Sector 23A</span><span>Gurugram, Haryana 122017</span></address><a class="footer-direction" href="https://www.google.com/maps/search/?api=1&amp;query=SCO%2063%2C%20Huda%20Market%2C%20First%20Floor%2C%20Bijwasan%20-%20Palam%20Vihar%20Rd%2C%20opposite%20HP%20Petrol%20Pump%2C%20Cartarpuri%20Alias%20Daulatpur%20Nas%2C%20Sector%2023A%2C%20Gurugram%2C%20Haryana%20122017" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8"/></svg>Get directions</a><p><a href="/offices/">Office &amp; service locations</a></p></div><nav aria-label="Footer solutions"><h4>Solutions</h4><ul class="footer-links"><li><a href="/website-mobile-app-development/">Websites &amp; Apps</a></li><li><a href="/crm-erp-solutions/">CRM &amp; ERP</a></li><li><a href="/travel-technology/">Travel Technology</a></li><li><a href="/customer-portal/">Customer Portals</a></li><li><a href="/it-products/">All Products</a></li></ul></nav><nav aria-label="Footer company"><h4>Company</h4><ul class="footer-links"><li><a href="/about-us/">About Bandevi</a></li><li><a href="/company-profile/">Company Profile</a></li><li><a href="/case-studies/">Project Models</a></li><li><a href="/trust-licences-certifications/">Trust &amp; Registrations</a></li><li><a href="/blog/">Blog</a></li></ul><p><a href="/demo-request/">Book a demo</a> · <a href="/support/">Support</a></p></nav></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP</span><span><a href="/contact-us/">Contact</a> · <a href="/proof-verification/">Evidence &amp; verification</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms &amp; Conditions</a></span></div></footer>`;
+  return `<footer class="footer footer-compact"><div class="footer-grid"><div class="footer-brand"><h3>BANDEVI GLOBAL GROUP</h3><p>Websites, CRM, ERP and travel technology built around your business.</p><div class="footer-contact-actions"><a href="tel:+917011040474"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M8 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-4l-5-2-2 3a14 14 0 0 1-7-7l3-2-2-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Call</a><a href="mailto:sales@bandeviglobalgroup.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="m3 6 9 7 9-7" stroke="currentColor" stroke-width="1.8"/></svg>Email</a><a href="https://wa.me/917011040474" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4 4h16v12H8l-4 4V4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.8"/></svg>WhatsApp</a></div><p class="footer-contact-details"><a href="tel:+917011040474">+91 7011040474</a><a href="mailto:sales@bandeviglobalgroup.com">sales@bandeviglobalgroup.com</a></p><nav class="footer-social" aria-label="Social media"><a href="https://www.facebook.com/profile.php?id=61591222415314" aria-label="Facebook" title="Facebook" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M14 21v-8h3l.5-4H14V7c0-1 .4-2 2-2h2V2h-3c-3 0-5 2-5 5v2H7v4h3v8" fill="currentColor"/></svg></a><a href="https://www.instagram.com/bandeviglobalgroup/" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/in/bandevi-global-group-38584b419/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="1.7" fill="currentColor"/><path d="M3.5 9h3v12h-3V9ZM10 9h3v2c1-3 7-3 7 3v7h-3v-6c0-3-4-3-4 0v6h-3V9Z" fill="currentColor"/></svg></a><a href="https://x.com/BANDEVIGLOBAL" aria-label="X" title="X" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4 3h4l12 18h-4L4 3ZM20 3 4 21" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></a></nav><p class="footer-brand-note">BANDEVI and The Holidays Group are separate sister brands.</p></div><div class="footer-office"><h4>Gurugram office</h4><address><span>SCO 63, Huda Market, First Floor</span><span>Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump</span><span>Cartarpuri Alias Daulatpur Nas, Sector 23A</span><span>Gurugram, Haryana 122017</span></address><a class="footer-direction" href="https://www.google.com/maps/search/?api=1&amp;query=SCO%2063%2C%20Huda%20Market%2C%20First%20Floor%2C%20Bijwasan%20-%20Palam%20Vihar%20Rd%2C%20opposite%20HP%20Petrol%20Pump%2C%20Cartarpuri%20Alias%20Daulatpur%20Nas%2C%20Sector%2023A%2C%20Gurugram%2C%20Haryana%20122017" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8"/></svg>Get directions</a><p><a href="/offices/">Office &amp; service locations</a></p></div><nav aria-label="Footer solutions"><details class="footer-disclosure" open><summary>Solutions</summary><ul class="footer-links"><li><a href="/website-mobile-app-development/">Websites &amp; Apps</a></li><li><a href="/crm-erp-solutions/">CRM &amp; ERP</a></li><li><a href="/travel-technology/">Travel Technology</a></li><li><a href="/customer-portal/">Customer Portals</a></li><li><a href="/it-products/">All Products</a></li></ul></details></nav><nav aria-label="Footer company"><details class="footer-disclosure" open><summary>Company</summary><ul class="footer-links"><li><a href="/about-us/">About Bandevi</a></li><li><a href="/company-profile/">Company Profile</a></li><li><a href="/case-studies/">Project Models</a></li><li><a href="/trust-licences-certifications/">Trust &amp; Registrations</a></li><li><a href="/blog/">Blog</a></li></ul><p><a href="/demo-request/">Request a Demo</a> · <a href="/support/">Support</a></p></details></nav></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} BANDEVI GLOBAL GROUP <a class="footer-top" href="#page-top">Back to top <span aria-hidden="true">↑</span></a></span><span><a href="/contact-us/">Contact</a> · <a href="/proof-verification/">Evidence &amp; verification</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-and-conditions/">Terms &amp; Conditions</a></span></div></footer>`;
 }
 
 const improvedServices = {
@@ -7218,10 +7197,34 @@ function bindServicePreview() {
 }
 function bindNav() {
   bindServicePreview();
+
+  const solutions = document.querySelector(".nav-solutions");
+  const canonical = document.querySelector('link[rel="canonical"]');
+  const currentPath = canonical ? new URL(canonical.href).pathname : location.pathname;
+  document.querySelectorAll('.primary-nav a').forEach(link => {
+    const target = new URL(link.href);
+    if (!target.hash && target.pathname === currentPath) {
+      link.classList.add('is-active');
+      link.setAttribute('aria-current', 'page');
+      if (solutions && solutions.contains(link)) solutions.querySelector('summary').classList.add('is-active');
+    }
+  });
+  if (solutions) {
+    document.addEventListener('click', event => { if (!solutions.contains(event.target)) solutions.open = false; });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && solutions.open) { solutions.open = false; solutions.querySelector('summary').focus(); event.stopImmediatePropagation(); } });
+    solutions.addEventListener('focusout', () => queueMicrotask(() => { if (!solutions.contains(document.activeElement)) solutions.open = false; }));
+  }
+  const compactFooter = window.matchMedia('(max-width: 540px)');
+  const disclosures = document.querySelectorAll('.footer-disclosure');
+  function sizeFooter() { disclosures.forEach(detail => { detail.open = !compactFooter.matches; }); }
+  sizeFooter();
+  compactFooter.addEventListener('change', sizeFooter);
+  disclosures.forEach(detail => detail.querySelector('summary').addEventListener('click', event => { if (!compactFooter.matches) event.preventDefault(); }));
   const toggle = document.querySelector("[data-nav-toggle]");
   if (!toggle) return;
   function setOpen(open) {
     document.body.classList.toggle("nav-open", open);
+    if (!open && solutions) solutions.open = false;
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     toggle.innerHTML = open ? icons.close : icons.menu;
@@ -7528,7 +7531,7 @@ function render() {
   const data = pageData[page] || pageData.home;
   const main = pageRenderers[page] || homePage;
   if (!document.getElementById("site").dataset.prerendered) document.getElementById("site").innerHTML = cleanCompanyHtml(`
-    <div class="site-shell"><a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="site-shell" id="page-top" tabindex="-1"><a class="skip-link" href="#main-content">Skip to content</a>
       ${header(page)}
       <main id="main-content" tabindex="-1">
         ${hero(page, data)}
@@ -7659,7 +7662,7 @@ pageRenderers.contact = () => gurugramOfficeSection + contactBeforeOfficeAddress
 trustPageContent.offices = trustPageContent.offices.replace('</section>', '</section>' + gurugramOfficeSection);
 trustPageContent.offices = trustPageContent.offices.replace('Confirm the location before visiting.', 'Gurugram office and location references.');
 
-const footerStyle = document.createElement('link');footerStyle.rel='stylesheet';footerStyle.href='/assets/footer.css?v=20261011';if(!document.querySelector('link[href^="/assets/footer.css"]'))document.head.appendChild(footerStyle);
+const footerStyle = document.createElement('link');footerStyle.rel='stylesheet';footerStyle.href='/assets/footer.css?v=20261011-navigation';if(!document.querySelector('link[href^="/assets/footer.css"]'))document.head.appendChild(footerStyle);
 render();
 
 if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}
