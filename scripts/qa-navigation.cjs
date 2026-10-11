@@ -55,6 +55,7 @@ let server, browser;
         await solutions.locator('summary').focus(); await solutions.locator('summary').press('Enter');
         assert(await solutions.evaluate(element => element.open));
         assert.equal(await solutions.locator('.solutions-menu a:visible').count(), 6);
+        if (route === '/') await page.screenshot({ path: path.join(output, (live ? 'live' : 'local') + '-menu-' + width + '.png') });
         if (width === 1440 && route === '/crm-erp-solutions/') {
           assert.equal(await solutions.locator('a[aria-current="page"]').getAttribute('href'), route);
           assert(await solutions.locator('summary').evaluate(element => element.classList.contains('is-active')));
@@ -72,6 +73,8 @@ let server, browser;
           assert.equal(await page.locator('.footer-disclosure[open]').count(), 2);
         }
         if (route === '/') {
+          await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+          await page.waitForFunction(() => scrollY < 10);
           await page.locator('.topbar').screenshot({ path: path.join(output, (live ? 'live' : 'local') + '-header-' + width + '.png') });
           await page.locator('.footer').screenshot({ path: path.join(output, (live ? 'live' : 'local') + '-footer-' + width + '.png') });
         }
