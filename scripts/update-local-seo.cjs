@@ -21,7 +21,8 @@ function enrich(o) {
  if (!o || typeof o !== 'object') return;
  if (['Organization','ProfessionalService'].includes(o['@type']) && /bandevi/i.test(o.name || '')) {
   o['@id']='https://bandeviglobalgroup.com/#organization'; o.address=postal;
-  o.hasMap='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(address);
+  if(o['@type']==='ProfessionalService') o.hasMap='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(address);
+  else delete o.hasMap;
  }
  for (const v of Object.values(o)) if (v && typeof v==='object') Array.isArray(v)?v.forEach(enrich):enrich(v);
 }
