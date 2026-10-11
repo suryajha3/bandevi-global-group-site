@@ -36,6 +36,8 @@ body[data-page="cases"] main .card .button{display:block;overflow-wrap:anywhere}
 
 body[data-page="cases"] main .outcome-grid>*,body[data-page="cases"] main .section-head{min-width:0;max-width:100%;overflow-wrap:anywhere}body[data-page="cases"] main .section-head .button{display:block;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center}@media(max-width:760px){body[data-page="cases"] main .outcome-grid{grid-template-columns:minmax(0,1fr)}}
 
+.footer-contact-details .footer-international{min-height:44px;padding:5px 0}.footer-international span{display:block;font-size:.72rem;color:#acccc9;line-height:1.5}.footer-international:focus-visible{outline:3px solid #f3cd76;outline-offset:3px}
+
 /* Charcoal and champagne header. Keep native navigation and focus states. */
 .topbar{--header-gold:#e4cda3;--header-ink:#191a1c;background:rgba(25,26,28,.97);border-bottom:1px solid #e4cda329;box-shadow:0 4px 24px #00000012}
 .topbar .nav-wrap{width:min(1280px,calc(100% - 48px));min-height:88px}
