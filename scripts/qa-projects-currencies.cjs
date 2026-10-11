@@ -41,7 +41,7 @@ let server, browser;
           assert((await section.locator('.project-filter-count').textContent()).startsWith(String(count)));
           assert(await button.evaluate(el=>el===document.activeElement));
         }
-        assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+        const overflow=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,items:Array.from(document.querySelectorAll('main *')).filter(el=>el.getBoundingClientRect().right>innerWidth+1).slice(0,5).map(el=>({tag:el.tagName,cls:el.className,right:el.getBoundingClientRect().right}))}));assert(overflow.scrollWidth<=overflow.width+1,JSON.stringify({route,...overflow}));
         if(route==='/case-studies/'){
           const hide=await page.addStyleTag({content:'.topbar,.skip-link,.mobile-contact-bar{visibility:hidden!important}'});
           await section.screenshot({path:path.join(output,(live?'live':'local')+'-projects-'+width+'.png')});await hide.evaluate(el=>el.remove());

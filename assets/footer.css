@@ -21,3 +21,5 @@
 body[data-page="cases"] main .card .button{max-width:100%;white-space:normal;text-align:center}
 
 .home-work-footer{flex-wrap:wrap}
+
+body[data-page="cases"] main .card .button{display:block;overflow-wrap:anywhere}body[data-page="cases"] main .card{min-width:0}@media(max-width:900px){body[data-page="cases"] main .grid.cols-3{grid-template-columns:1fr}}
