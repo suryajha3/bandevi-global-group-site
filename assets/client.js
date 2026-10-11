@@ -141,6 +141,86 @@ function bindNav() {
   window.matchMedia("(min-width: 1181px)").addEventListener("change", event => { if (event.matches) setOpen(false); });
 }
 
+function enquiryMessage(form, data) {
+  return [
+    data.businessType ? 'Business type: ' + data.businessType : '',
+    data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: ' + form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : '',
+    form.dataset.projectReference ? 'Project reference: ' + form.dataset.projectReference + ' (public interface example)' : '',
+    data.projectContext ? form.querySelector('[data-enquiry-context-label]').textContent + ': ' + data.projectContext.trim() : '',
+    data.projectPriority ? form.querySelector('[data-enquiry-priority-label]').textContent + ': ' + data.projectPriority.trim() : '',
+    data.message
+  ].filter(Boolean).join('\n');
+}
+
+function bindEnquiryJourney(form) {
+  const questions = form.querySelector('[data-enquiry-questions]');
+  if (!questions) return;
+  const interest = form.elements.interest, message = form.elements.message;
+  const plans = {
+    website: ['Which pages or app screens do you need? What should visitors be able to do?', 'Current website or app (optional)', 'Pages or features to prioritise (optional)'],
+    crm: ['Which sales or operations task is hardest to manage today? What would improve it?', 'Current CRM, spreadsheets or tools (optional)', 'Workflow or reporting priorities (optional)'],
+    travel: ['Who will use your portal, and which enquiry or booking steps do you need?', 'Travel business and current tools (optional)', 'Services and journey to prioritise (optional)'],
+    portal: ['Who needs access, and what should they be able to view or do?', 'Portal users and current tools (optional)', 'Customer actions to prioritise (optional)'],
+    commerce: ['What do you sell, and how should customers browse, order or pay?', 'Current store and product range (optional)', 'Shopping features to prioritise (optional)'],
+    automation: ['Which repeated task takes the most time? Describe its inputs and expected result.', 'Current tools and repeated task (optional)', 'Automation outcome to prioritise (optional)'],
+    guidance: ['Describe the problem and what a useful first release would do.', 'Current process or tools (optional)', 'Most important improvement (optional)']
+  };
+  const services = {
+    'Website / App Development Package': 'website', 'CRM & ERP Package': 'crm',
+    'Travel CRM Package': 'crm', 'Travel ERP Package': 'crm', 'Complete Travel Website Package': 'travel',
+    'White-label Travel Website Package': 'travel', 'B2B Travel Portal Package': 'travel',
+    'Customer Portal Package': 'portal', 'E-Commerce Package': 'commerce',
+    'Automation Package': 'automation', 'Need guidance': 'guidance'
+  };
+  const projects = { trip_sarathi: ['Trip Sarathi', '/projects/trip-sarathi/'], maximtrip: ['MaximTrip', '/projects/maximtrip/'], tripodeal: ['TripOdeal', '/projects/tripodeal/'] };
+  const requestedProject = new URL(location.href).searchParams.get('project');
+  const project = Object.hasOwn(projects, requestedProject) ? projects[requestedProject] : null;
+  if (project) {
+    form.dataset.projectReference = project[0];
+    if (!interest.value) interest.value = 'Complete Travel Website Package';
+    const context = form.querySelector('[data-enquiry-project]');
+    context.hidden = false;
+    const link = document.createElement('a'); link.href = project[1]; link.textContent = project[0];
+    context.append('Your chosen example: ', link, '. We’ll discuss your own scope separately.');
+  }
+  function countMessage() {
+    const data = Object.fromEntries(new FormData(form).entries());
+    const length = enquiryMessage(form, data).length;
+    const available = Math.max(0, 3000 - (length - message.value.length));
+    message.maxLength = available;
+    message.setCustomValidity(length > 3000 ? 'Shorten your description or optional details to fit within 3,000 characters.' : '');
+    form.querySelector('[data-enquiry-count]').textContent = length > 3000 ? (length - 3000) + ' characters over the limit. Shorten your description or optional details.' : (3000 - length).toLocaleString('en-IN') + ' characters remaining, including optional details.';
+  }
+  function selectService(clearAnswers) {
+    if (clearAnswers) { form.elements.projectContext.value = ''; form.elements.projectPriority.value = ''; }
+    const plan = plans[services[interest.value] || 'guidance'];
+    questions.hidden = !interest.value;
+    questions.disabled = !interest.value;
+    form.querySelector('#contact-service-hint').textContent = plan[0];
+    form.querySelector('[data-enquiry-context-label]').textContent = plan[1];
+    form.querySelector('[data-enquiry-priority-label]').textContent = plan[2];
+    countMessage();
+  }
+  interest.addEventListener('change', () => selectService(true));
+  form.addEventListener('input', countMessage);
+  form.addEventListener('reset', () => queueMicrotask(() => { form.querySelector('.enquiry-optional').open = false; selectService(false); }));
+  selectService(false);
+  form.querySelector('[data-enquiry-submit]').disabled = false;
+}
+
+function savedEnquiryReceipt(note, reference, type) {
+  note.textContent = 'Your enquiry has been saved. Reference: ';
+  const savedReference = document.createElement('strong'); savedReference.textContent = reference;
+  const copy = document.createElement('button'); copy.type = 'button'; copy.className = 'button light receipt-copy'; copy.textContent = 'Copy reference';
+  const feedback = document.createElement('span'); feedback.className = 'receipt-copy-feedback';
+  copy.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(reference); feedback.textContent = ' Reference copied.'; }
+    catch (_) { const selection = window.getSelection(), range = document.createRange(); range.selectNodeContents(savedReference); selection.removeAllRanges(); selection.addRange(range); feedback.textContent = ' Copy the selected reference.'; }
+  });
+  note.append(savedReference, ' ', copy, feedback, document.createElement('br'));
+  note.append(type === 'demo' ? 'Keep this reference for follow-up.' : 'The team will review your requirements and contact you using the details provided. Quote this reference when you follow up.');
+}
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
@@ -150,6 +230,7 @@ function bindForms() {
       const requestedChoice = new URL(window.location.href).searchParams.get("solution");
       const interest = form.elements.interest;
       if (interest && !interest.value && Array.from(interest.options).some(option => option.value === requestedChoice)) interest.value = requestedChoice;
+      bindEnquiryJourney(form);
     }
     if (type === "demo") {
       const demoDate=form.elements.demoDate,demoTime=form.elements.demoTime;
@@ -276,7 +357,7 @@ function bindForms() {
         if (form.dataset.sending === 'true') return;
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
-          interest: data.interest, message: [(data.businessType ? 'Business type: '+data.businessType : ''),(data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: '+form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : ''),data.message].filter(Boolean).join('\n'), website: data.website || '',
+          interest: data.interest, message: enquiryMessage(form, data), website: data.website || '',
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
@@ -284,7 +365,7 @@ function bindForms() {
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
-        if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including the selected business type and demo focus, fits within 3,000 characters.";return;}
+        if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
       const serialized = JSON.stringify(payload);
         if (form.dataset.payload !== serialized) {
           form.dataset.requestId = crypto.randomUUID();
@@ -306,7 +387,7 @@ function bindForms() {
             if (response.status === 409) delete form.dataset.payload;
             throw new Error(result.error || 'Unable to confirm your enquiry.');
           }
-          note.textContent = 'Your enquiry has been saved. Reference: ' + result.reference + '. Keep this reference for follow-up.';
+          savedEnquiryReceipt(note, result.reference, type);
           if(type==='demo'){
             if(result.appointment?.confirmed){
               note.textContent+=' Demo confirmed for '+new Date(result.appointment.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. Joining details follow separately.';
