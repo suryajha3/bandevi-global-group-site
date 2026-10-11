@@ -86,6 +86,17 @@ let browser, server;
     assert.equal(await page.locator('#contact-interest').inputValue(), '');
     assert.equal(await page.locator('[data-enquiry-project]').evaluate(element => element.hidden), true);
     checks.push({ unknownQueryIgnored: true });
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(base + '/contact.html');
+      await page.waitForFunction(() => !document.querySelector('[data-enquiry-submit]').disabled);
+      assert.equal(await page.locator('form[data-form=contact] [required]').count(), 4);
+      await page.locator('#contact-interest').selectOption('CRM & ERP Package');
+      await page.locator('.enquiry-optional summary').click();
+      assert.equal(await page.locator('[data-enquiry-questions]').isVisible(), true);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      checks.push({ legacyContactAlias: true, width, optionalQuestionsAvailable: true });
+    }
     if (!live) {
       for (const source of [false, true]) {
         await page.goto(base + '/contact-us/?project=trip_sarathi' + (source ? '&source=1' : ''));
