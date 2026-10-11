@@ -28,7 +28,7 @@ function enquiryAnalytics(form,type,reference) {
   if(!Array.isArray(sent))sent=[];if(sent.includes(reference))return;
   sent.push(reference);try {sessionStorage.setItem(key,JSON.stringify(sent.slice(-100)));}catch(_){}
   const services={'Website / App Development Package':'website_app','CRM & ERP Package':'crm_erp','Travel CRM Package':'travel_crm','Travel ERP Package':'travel_erp','Complete Travel Website Package':'travel_website','White-label Travel Website Package':'white_label_website','B2B Travel Portal Package':'b2b_portal','Customer Portal Package':'customer_portal','E-Commerce Package':'ecommerce','Automation Package':'automation','Need guidance':'guidance','Travel Technology Planning':'travel_technology'};
-  trackAnalyticsEvent('generate_lead',{lead_type:type,service_interest:services[form.elements.interest.value]||'other',acquisition_channel:enquiryAttribution.channel,landing_page:enquiryAttribution.landing_page,page_location:location.origin+publicPagePath()});
+  trackAnalyticsEvent('generate_lead',{...(['GB','US','other'].includes(form.elements.projectCountry?.value)?{project_market:form.elements.projectCountry.value}:{}),lead_type:type,service_interest:services[form.elements.interest.value]||'other',acquisition_channel:enquiryAttribution.channel,landing_page:enquiryAttribution.landing_page,page_location:location.origin+publicPagePath()});
 }
 
 const googleAnalyticsId = "G-TGK7Z8VNJX";
@@ -189,6 +189,9 @@ function bindNav() {
 function enquiryMessage(form, data) {
   return [
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
+    ['GB','US','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',other:'Another country'})[data.projectCountry] : '',
+    data.projectBudget ? 'Planning budget: ' + data.projectBudget.trim() : '',
+    ['Within 1 month','1–3 months','3–6 months','More than 6 months','Exploring options'].includes(data.projectLaunch) ? 'Target launch window: ' + data.projectLaunch : '',
     data.businessType ? 'Business type: ' + data.businessType : '',
     data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: ' + form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : '',
     form.dataset.projectReference ? 'Project reference: ' + form.dataset.projectReference + ' (public interface example)' : '',
