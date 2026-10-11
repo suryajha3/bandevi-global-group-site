@@ -16,7 +16,7 @@
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
   root.addEventListener('click',event=>{const link=event.target.closest('[data-featured-image-link],[data-featured-larger]');if(!link||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
    const selected=root.querySelector('[data-featured-index][aria-selected="true"]');const project=projects[Number(selected?.dataset.featuredIndex)];if(!project)return;
-   event.preventDefault();opener=link;title.textContent=project.name+' · public homepage';image.src='/assets/portfolio-'+project.slug+'.jpg';image.alt=project.name+' public homepage screenshot';image.width=1239;image.height=project.height;projectLink.href='/projects/'+project.slug+'/';raw.href=image.src;applyZoom(1);viewport.scrollTo(0,0);dialog.showModal();document.documentElement.classList.add('featured-viewer-open');close.focus();
+   event.preventDefault();opener=link;title.textContent=project.name+' · public homepage';image.src=project.image||'/assets/portfolio-'+project.slug+'.jpg';image.alt=project.name+' public homepage screenshot';image.width=1239;image.height=project.height;projectLink.href='/projects/'+project.slug+'/';raw.href=image.src;note.textContent=project.source||'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.';applyZoom(1);viewport.scrollTo(0,0);dialog.showModal();document.documentElement.classList.add('featured-viewer-open');close.focus();
   });
   return true;
  }
@@ -26,18 +26,20 @@
   const projects=[
    {name:'Trip Sarathi',slug:'trip-sarathi',height:578,description:'Flight search and travel-service navigation.'},
    {name:'MaximTrip',slug:'maximtrip',height:532,description:'Flight and holiday pages with booking-management navigation.'},
-   {name:'TripOdeal',slug:'tripodeal',height:532,description:'Travel search, services and booking lookup.'}
+   {name:'TripOdeal',slug:'tripodeal',height:532,description:'Travel search, services and booking lookup.'},
+   {name:'BANDEVI website',slug:'bandevi-website',height:532,image:'/assets/bandevi-website-project.png',category:'Internal website project',description:'Service pages, project enquiries and a private sales workspace.',source:'BANDEVI’s own website project. Public interface captured 4 October 2026; the current website has continued to evolve.'}
   ];
   const tabs=[...root.querySelectorAll('[data-featured-index]')],panel=root.querySelector('#featured-project-panel'),image=root.querySelector('[data-featured-image]');
   function select(index,focus=false){
    const project=projects[index];if(!project)return;
    tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
    panel.setAttribute('aria-labelledby',tabs[index].id);
-   const record='/projects/'+project.slug+'/',screenshot='/assets/portfolio-'+project.slug+'.jpg';
+   const record='/projects/'+project.slug+'/',screenshot=project.image||'/assets/portfolio-'+project.slug+'.jpg';
    image.src=screenshot;image.height=project.height;image.alt=project.name+' public homepage showing '+project.description.toLowerCase().replace(/\.$/,'');
    root.querySelector('[data-featured-image-link]').href=screenshot;root.querySelector('[data-featured-image-link]').setAttribute('aria-label','View larger '+project.name+' screenshot ('+(viewerEnabled?'opens screenshot viewer':'opens new tab')+')');
    root.querySelector('[data-featured-project-link]').href=record;root.querySelector('[data-featured-project-link]').textContent=project.name+' ↗';
-   root.querySelector('[data-featured-name]').textContent=project.name+' · B2C travel portal';root.querySelector('[data-featured-description]').textContent=project.description;
+   root.querySelector('[data-featured-name]').textContent=project.name+' · '+(project.category||'B2C travel portal');root.querySelector('[data-featured-description]').textContent=project.description;
+   root.querySelector('[data-featured-source]').textContent=project.source||"Public interface captured 6 October 2026. Development attribution supplied by BANDEVI's owner; no customer endorsement implied.";
    root.querySelector('[data-featured-explore]').href=record;root.querySelector('[data-featured-larger]').href=screenshot;
    if(focus)tabs[index].focus();
   }
