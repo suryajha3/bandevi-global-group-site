@@ -48,6 +48,7 @@ jobs:
           node scripts/qa-website.cjs
           node scripts/qa-navigation.cjs
           node scripts/qa-mobile-contact.cjs
+          node scripts/qa-hero-balance.cjs
           node scripts/qa-service-comparison.cjs
           node scripts/qa-projects-currencies.cjs
           node scripts/qa-enquiry-journey.cjs
