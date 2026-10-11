@@ -100,7 +100,29 @@ function bindServicePreview() {
     tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>select(i));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(i+1)%tabs.length;else if(event.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});select(0);
   });
 }
+function bindMobileContact() {
+  const bar = document.querySelector('.mobile-contact-bar');
+  if (!bar) return;
+  document.body.classList.add('has-mobile-contact');
+  // Keep focused controls and visible forms/footer clear of the fixed bar.
+  const visible = new Set();
+  function update() {
+    const editing = document.activeElement && document.activeElement.matches('input, textarea, select, [contenteditable="true"]');
+    bar.hidden = visible.size > 0 || Boolean(editing);
+  }
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) visible.add(entry.target); else visible.delete(entry.target); });
+    update();
+  });
+  document.querySelectorAll('main form[data-form], .footer').forEach(element => observer.observe(element));
+  document.addEventListener('focusin', update);
+  document.addEventListener('focusout', () => setTimeout(update, 0));
+  if (document.body.dataset.page === 'demo') bar.querySelector('.mobile-contact-demo').href = '#demo-form';
+  update();
+}
+
 function bindNav() {
+  bindMobileContact();
   bindServicePreview();
 
   const dropdowns = Array.from(document.querySelectorAll(".nav-dropdown"));
