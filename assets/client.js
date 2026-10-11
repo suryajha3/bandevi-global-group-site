@@ -117,7 +117,7 @@ function bindNav() {
   if (solutions) {
     document.addEventListener('click', event => { if (!solutions.contains(event.target)) solutions.open = false; });
     document.addEventListener('keydown', event => { if (event.key === 'Escape' && solutions.open) { solutions.open = false; solutions.querySelector('summary').focus(); event.stopImmediatePropagation(); } });
-    solutions.addEventListener('focusout', () => queueMicrotask(() => { if (!solutions.contains(document.activeElement)) solutions.open = false; }));
+    solutions.addEventListener('keydown', event => { if (event.key === 'Tab') setTimeout(() => { if (!solutions.contains(document.activeElement)) solutions.open = false; }, 0); });
   }
   const compactFooter = window.matchMedia('(max-width: 540px)');
   const disclosures = document.querySelectorAll('.footer-disclosure');
@@ -136,7 +136,8 @@ function bindNav() {
   }
   toggle.addEventListener("click", () => setOpen(!document.body.classList.contains("nav-open")));
   document.addEventListener("keydown", event => { if (event.key === "Escape" && document.body.classList.contains("nav-open")) { setOpen(false); toggle.focus(); } });
-  document.querySelectorAll(".primary-nav a").forEach(link => link.addEventListener("click", () => setOpen(false)));
+  // Let the native link navigate before closing its details container.
+  document.querySelectorAll(".primary-nav a").forEach(link => link.addEventListener("click", () => setTimeout(() => setOpen(false), 0)));
   window.matchMedia("(min-width: 1181px)").addEventListener("change", event => { if (event.matches) setOpen(false); });
 }
 
