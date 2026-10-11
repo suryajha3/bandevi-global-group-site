@@ -37,13 +37,13 @@ let server, browser;
       assert.equal(await page.locator('.footer-social a').count(), 4);
       assert((await page.locator('.footer-office').textContent()).includes('SCO 63'));
       assert.equal(await page.locator('.primary-nav a[href="/#selected-work"]').count(), 1);
-      for (const width of [390, 768, 1440]) {
+      for (const width of [360, 390, 768, 1180, 1181, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
         // Let both responsive footer and navigation listeners finish before keyboard actions.
         await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
         await page.waitForFunction(compact => Array.from(document.querySelectorAll('.footer-disclosure')).every(element => element.open === !compact), width <= 540);
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-        if (width === 390) {
+        if (width <= 390) {
           assert.equal(await page.locator('.footer-disclosure[open]').count(), 0);
           const summary = page.locator('.footer-disclosure summary').first();
           await summary.focus(); await summary.press('Enter');
@@ -51,8 +51,20 @@ let server, browser;
           await summary.press('Enter');
           await page.locator('[data-nav-toggle]').click();
         }
-        if (width === 768) await page.locator('[data-nav-toggle]').click();
+        if (width === 768 || width === 1180) await page.locator('[data-nav-toggle]').click();
         if (width < 1181) assert.equal(await page.locator('[data-nav-toggle]').getAttribute('aria-expanded'), 'true');
+        assert.equal(await page.locator('.mobile-demo').isVisible(), width < 1181);
+        if (width < 1181) {
+          assert.equal(await page.locator('.mobile-demo').getAttribute('href'), '/demo-request/');
+          assert.equal(await page.locator('.mobile-contact-actions a[href="tel:+917011040474"]').count(), 1);
+          assert.equal(await page.locator('.mobile-contact-actions a[href="https://wa.me/917011040474"]').count(), 1);
+        }
+        const company = page.locator('.nav-company');
+        await company.locator('summary').click();
+        assert.equal(await company.locator('a:visible').count(), 4);
+        await company.locator('a').first().focus(); await page.keyboard.press('Escape');
+        assert.equal(await company.evaluate(el => el.open), false);
+        assert(await company.locator('summary').evaluate(el => el === document.activeElement));
         const solutions = page.locator('.nav-solutions');
         await solutions.locator('summary').focus(); await solutions.locator('summary').press('Enter');
         await page.waitForFunction(() => document.querySelector('.nav-solutions').open);
@@ -97,6 +109,16 @@ let server, browser;
     await Promise.all([page.waitForURL('**/customer-portal/'), page.locator('.solutions-menu a[href="/customer-portal/"]').click()]);
     assert.equal(await page.locator('.primary-nav a[aria-current="page"]').getAttribute('href'), '/customer-portal/');
     assert.equal(await page.locator('[data-nav-toggle]').getAttribute('aria-expanded'), 'false');
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(base + '/about-us/');
+    await page.locator('.nav-company summary').click();
+    assert.equal(await page.locator('.nav-company a[aria-current="page"]').getAttribute('href'), '/about-us/');
+    assert(await page.locator('.nav-company summary').evaluate(el => el.classList.contains('is-active')));
+    await page.locator('.nav-solutions summary').click();
+    assert.equal(await page.locator('.nav-company').evaluate(el => el.open), false);
+    await page.locator('.nav-company summary').click();
+    assert.equal(await page.locator('.nav-solutions').evaluate(el => el.open), false);
+    await Promise.all([page.waitForURL('**/offices/'), page.locator('.nav-company a[href="/offices/"]').click()]);
     const nojs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
     const plain = await nojs.newPage();
     await plain.goto(base + '/');
