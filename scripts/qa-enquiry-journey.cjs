@@ -62,15 +62,17 @@ let browser, server;
         await form.locator('[name=interest]').selectOption('Website / App Development Package');
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
         await form.locator('.enquiry-optional').evaluate(element => { element.open = false; });
-        if (!source) await page.locator('#contact-form').screenshot({ path: path.join(output, (live ? 'live' : 'local') + '-contact-' + width + '.png') });
+        if (!source) await page.locator('#contact-form').screenshot({ style: '.topbar,.skip-link{visibility:hidden!important}', path: path.join(output, (live ? 'live' : 'local') + '-contact-' + width + '.png') });
         checks.push({ source, width, mobileForm: true });
       }
     }
     for (const [slug, code, label] of [['trip-sarathi', 'trip_sarathi', 'Trip Sarathi'], ['maximtrip', 'maximtrip', 'MaximTrip'], ['tripodeal', 'tripodeal', 'TripOdeal']]) {
       await page.setViewportSize({ width: 390, height: 900 });
       await page.goto(base + '/projects/' + slug + '/');
-      assert((await page.locator('main').textContent()).includes('Awaiting confirmation'));
-      assert((await page.locator('main').textContent()).includes('not a customer endorsement'));
+      const projectText = await page.locator('main').textContent();
+      assert(projectText.includes('6 October 2026'));
+      if (slug === 'trip-sarathi') assert(projectText.includes('No measured business outcome or customer testimonial is included'));
+      else { assert(projectText.includes('Awaiting confirmation')); assert(projectText.includes('not a customer endorsement')); }
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       await page.getByRole('link', { name: 'Send a short enquiry about ' + label, exact: true }).click();
       await page.waitForFunction(() => document.querySelector('[data-enquiry-project]')?.hidden === false);
@@ -112,6 +114,7 @@ let browser, server;
         assert((await form.locator('.form-note').textContent()).includes('The team will review'));
         const copy = form.getByRole('button', { name: 'Copy reference', exact: true });
         await copy.click(); assert.equal(await page.evaluate(() => window.__copiedReference), 'BG-0123456789ABCDEF');
+        assert(await copy.evaluate(element => element === document.activeElement));
         assert.equal(calls.length, 2);
         assert.equal(await form.locator('[name=name]').inputValue(), '');
         assert.equal(await form.locator('.enquiry-optional').evaluate(element => element.open), false);
