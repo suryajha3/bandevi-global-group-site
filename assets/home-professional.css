@@ -92,3 +92,57 @@ body[data-page="home"] .home-professional-hero{padding:36px 0}.home-professional
 .home-trust-actions .text-link{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px;line-height:1.5}
 .home-buyer-trust a:focus-visible{outline:3px solid #087982;outline-offset:3px}
 @media(max-width:900px){.home-trust-heading{grid-template-columns:1fr;gap:16px}.home-trust-grid{grid-template-columns:1fr;gap:16px}.home-trust-review{align-items:stretch;flex-direction:column;gap:20px}.home-trust-grid article{padding:20px}}
+
+/* Charcoal and champagne presentation for the homepage hero and CRM offer. */
+body[data-page="home"] .home-professional-hero{background:#1c1d1f;background-image:radial-gradient(ellipse at 85% 0,#37332c 0,transparent 65%);color:#f8f4ed;border-bottom:1px solid #bfa67855;padding:40px 0}
+.home-professional-hero .eyebrow{color:#e4cda3;letter-spacing:.12em}
+.home-professional-hero h1{color:#faf7f1;letter-spacing:-.035em;font-weight:700}
+.home-professional-hero h1 span{color:#e4cda3}
+.home-professional-hero .home-intro-copy{color:#d9d5ce;line-height:1.75;max-width:550px}
+.home-professional-hero .home-project-choice label{color:#ede5d7;font-weight:650}
+.home-professional-hero .home-project-choice select{background:#f6f2ea;color:#292824;border-color:#c8b38b;border-radius:8px;min-height:50px}
+.home-professional-hero .home-service-guide{color:#d9d5ce}
+.home-professional-hero .home-service-guide a,.home-professional-hero .home-intro-note a{color:#e4cda3;text-underline-offset:4px}
+.home-professional-hero .home-intro-note{color:#c8c1b5;line-height:1.75}
+.home-professional-hero .home-primary-actions .primary,.home-crm-promotion .home-crm-actions .button{background:#e4cda3;color:#1c1d1f;border:1px solid #ead9bb;box-shadow:0 4px 16px #0002;border-radius:8px}
+.home-professional-hero .home-primary-actions .primary:hover,.home-crm-promotion .home-crm-actions .button:hover{background:#efdfc1;box-shadow:0 6px 20px #0003;transform:none}
+.home-professional-hero .home-primary-actions .secondary{background:#ffffff04;color:#f3ede2;border:1px solid #a08d6c;border-radius:8px;box-shadow:none}
+.home-professional-hero .home-primary-actions .secondary:hover{background:#e4cda310;border-color:#e4cda3;transform:none}
+.home-professional-hero .home-featured-project{background:#faf8f3;border-color:#bfa67880;border-radius:14px;box-shadow:0 20px 48px #0003}
+.home-professional-hero .home-project-bar{background:#eee8dc;color:#383329}
+.home-professional-hero .home-project-bar a{color:#705324}
+.home-professional-hero .home-project-tabs{background:#f5f1e8;border-color:#d6c9b1;gap:8px}
+.home-professional-hero .home-project-tabs button{background:#faf8f3;color:#51432d;border-color:#cdbb98;border-radius:6px}
+.home-professional-hero .home-project-tabs button:hover{background:#eee5d4}
+.home-professional-hero .home-project-tabs button[aria-selected="true"]{background:#292a2c;color:#eeddbb;border-color:#292a2c}
+.home-professional-hero .home-featured-project [data-featured-image]{background:#eee8dc}
+.home-professional-hero .home-featured-project figcaption{color:#625d54;background:#faf8f3}
+.home-professional-hero .home-featured-project figcaption strong{color:#292824;font-size:.95rem}
+.home-professional-hero .home-featured-project figcaption a{color:#705324}
+.home-professional-hero .home-project-context{border-color:#ded4c2}
+.home-professional-hero .home-project-context summary{color:#5d4b2f}
+.home-professional-hero .home-project-enquiry{background:#292a2c;border-color:#292a2c;color:#f5e8ce!important}
+.home-professional-hero .home-project-enquiry:hover{background:#3b3832}
+.home-professional-hero .home-project-fallback a{color:#705324}
+.home-professional-hero a:focus-visible,.home-professional-hero button:focus-visible,.home-professional-hero select:focus-visible,.home-professional-hero summary:focus-visible{outline:3px solid #b88b3d;outline-offset:3px}
+.home-professional-hero .home-project-choice select:focus-visible,.home-professional-hero .home-primary-actions a:focus-visible,.home-professional-hero .home-primary-actions button:focus-visible,.home-professional-hero .home-service-guide a:focus-visible,.home-professional-hero .home-intro-note a:focus-visible{outline-color:#e4cda3}
+body[data-page="home"] .home-crm-promotion{background:#f5f1e8;border-bottom:1px solid #ded4c2;padding:56px 0}
+.home-crm-promotion .eyebrow{color:#705324;letter-spacing:.12em}
+.home-crm-promotion .home-crm-grid{gap:48px;align-items:center}
+.home-crm-promotion .home-crm-grid h2{color:#292824;letter-spacing:-.025em;font-weight:700}
+.home-crm-promotion .home-crm-grid p{color:#625d54;line-height:1.8}
+.home-crm-promotion .home-crm-actions{gap:12px 24px;margin-top:24px}
+.home-crm-promotion .home-crm-actions .button{min-height:50px;padding:12px 18px}
+.home-crm-promotion .home-crm-actions .text-link{color:#705324}
+.home-crm-promotion .home-crm-workflow{background:#fffdf9;border:1px solid #d5c5a7;border-radius:14px;padding:28px;box-shadow:0 12px 30px #44331b08}
+.home-crm-promotion .home-crm-workflow ol{counter-reset:crm-step;gap:24px}
+.home-crm-promotion .home-crm-workflow li{counter-increment:crm-step;position:relative;padding-top:34px}
+.home-crm-promotion .home-crm-workflow li::before{content:"0" counter(crm-step);position:absolute;top:0;left:0;color:#80612e;font-size:.75rem;font-weight:700;letter-spacing:.12em;border-bottom:1px solid #d5c5a7;padding-bottom:4px}
+.home-crm-promotion .home-crm-workflow strong{color:#292824;font-size:.95rem;margin-bottom:6px}
+.home-crm-promotion .home-crm-workflow span{color:#625d54}
+.home-crm-promotion .home-crm-workflow a{color:#705324}
+.home-crm-promotion .home-crm-workflow p{border-top:1px solid #e4daca;padding-top:14px;margin-top:12px}
+.home-crm-promotion a:focus-visible{outline:3px solid #8b682e;outline-offset:3px}
+@media(max-width:1000px){.home-crm-promotion .home-crm-grid{gap:28px}}
+@media(max-width:760px){body[data-page="home"] .home-professional-hero{padding:28px 0}.home-professional-hero .home-intro-copy{font-size:.95rem}.home-professional-hero .home-project-tabs{gap:6px}body[data-page="home"] .home-crm-promotion{padding:40px 0}.home-crm-promotion .home-crm-grid{gap:24px}.home-crm-promotion .home-crm-workflow{padding:22px}.home-crm-promotion .home-crm-workflow ol{gap:20px}.home-crm-promotion .home-crm-actions{align-items:stretch;flex-direction:column;gap:10px}.home-crm-promotion .home-crm-actions .text-link{align-self:flex-start}}
+@media(prefers-reduced-motion:reduce){.home-professional-hero .button,.home-crm-promotion .button{transition:none}}
