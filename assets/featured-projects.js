@@ -30,6 +30,15 @@
    {name:'BANDEVI website',slug:'bandevi-website',height:532,image:'/assets/bandevi-website-project.png',category:'Internal website project',description:'Service pages, project enquiries and a private sales workspace.',source:'BANDEVI’s own website project. Public interface captured 4 October 2026; the current website has continued to evolve.'}
   ];
   const tabs=[...root.querySelectorAll('[data-featured-index]')],panel=root.querySelector('#featured-project-panel'),image=root.querySelector('[data-featured-image]');
+  const chooser=document.querySelector('#home-project-service'),projectInput=document.querySelector('[data-home-project]');
+  const website='Website / App Development Package',travel='Complete Travel Website Package';
+  const services={
+   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references'},
+   [website]:{text:'Plan your pages, app screens and customer enquiries. The BANDEVI website is an internal website reference; app scope is discussed separately.',href:'/website-mobile-app-development/',label:'Explore websites and apps',project:3},
+   'CRM & ERP Package':{text:'Plan lead ownership, follow-ups, approvals and reporting. Explore our illustrative CRM demo; a matching completed CRM or ERP case study is not published yet.',href:'/sample-crm/',label:'Explore the illustrative CRM demo'},
+   [travel]:{text:'Plan travel search, enquiries and booking workflows. Review a travel portal reference, then discuss provider approvals and integrations for your scope.',href:'/travel-technology/',label:'Explore travel technology',project:0},
+   'Customer Portal Package':{text:'Plan customer accounts, document access and request tracking. Discuss your access rules and workflow; a matching completed portal case study is not published yet.',href:'/customer-portal/',label:'Explore customer portals'}
+  };
   function select(index,focus=false){
    const project=projects[index];if(!project)return;
    tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
@@ -41,11 +50,24 @@
    root.querySelector('[data-featured-name]').textContent=project.name+' · '+(project.category||'B2C travel portal');root.querySelector('[data-featured-description]').textContent=project.description;
    root.querySelector('[data-featured-source]').textContent=project.source||"Public interface captured 6 October 2026. Development attribution supplied by BANDEVI's owner; no customer endorsement implied.";
    root.querySelector('[data-featured-explore]').href=record;root.querySelector('[data-featured-larger]').href=screenshot;
+   const solution=project.slug==='bandevi-website'?website:travel;
+   const code=project.slug.replaceAll('-','_'),discuss=root.querySelector('[data-featured-discuss]');
+   const query=new URLSearchParams({solution,project:code,source:'/'});
+   discuss.href='/contact-us/?'+query.toString()+'#contact-form';discuss.setAttribute('aria-label','Discuss a similar '+project.name+' project');
+   if(projectInput){projectInput.disabled=!chooser||chooser.value!==solution;projectInput.value=projectInput.disabled?'':code;}
    if(focus)tabs[index].focus();
   }
   tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});
   const viewerEnabled=installScreenshotViewer(root,projects);
   panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(0);
+  function guide(){
+   const service=services[chooser.value]||services['Need guidance'];
+   document.querySelector('[data-home-service-summary]').textContent=service.text;
+   const link=document.querySelector('[data-home-service-link]');link.href=service.href;link.textContent=service.label+' ↗';
+   if(service.project!==undefined)select(service.project);
+   else if(projectInput){projectInput.disabled=true;projectInput.value='';}
+  }
+  if(chooser){chooser.addEventListener('change',guide);guide();}
  }
  if(document.readyState!=='complete')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
