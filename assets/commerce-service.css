@@ -1,0 +1,9 @@
+body[data-page="ecommerce"] .quick-contact {
+  position: static;
+  justify-content: flex-end;
+  padding: 16px;
+}
+body[data-page="ecommerce"] #commerce-first-release,
+body[data-page="ecommerce"] #commerce-delivery {
+  scroll-margin-top: 110px;
+}
