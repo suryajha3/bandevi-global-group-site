@@ -22,6 +22,16 @@ body[data-page="cases"] main .card .button{max-width:100%;white-space:normal;tex
 
 .home-work-footer{flex-wrap:wrap}
 
+/* International header: keep the brand and primary project action easy to scan. */
+.topbar .brand-mark{border:1px solid #b4d4c65c;box-shadow:inset 0 1px 0 #ffffff24,0 6px 18px #0002}
+.topbar .brand-copy{min-width:0}
+.topbar .brand-line{max-width:195px;font-size:11px;line-height:1.45}
+.topbar .nav-markets .solutions-menu{width:270px}
+.topbar .nav-actions>.secondary{border-color:transparent;background:transparent;font-size:13px;padding:0 8px}
+.topbar .nav-actions>.secondary svg{width:18px;height:18px}
+@media(min-width:1181px){.topbar .nav-wrap{gap:12px}.topbar .nav-actions{gap:6px;margin-left:0}.topbar .nav-actions>.primary{font-size:13px;padding:0 13px}.topbar .nav-actions>.primary svg{width:18px;height:18px}.topbar .primary-nav{gap:0}.topbar .nav-link{font-size:13px;padding:10px 7px}}
+@media(max-width:1180px){.topbar .nav-markets .solutions-menu{width:100%}}
+
 body[data-page="cases"] main .card .button{display:block;overflow-wrap:anywhere}body[data-page="cases"] main .card{min-width:0}@media(max-width:900px){body[data-page="cases"] main .grid.cols-3{grid-template-columns:1fr}}
 
 body[data-page="cases"] main .outcome-grid>*,body[data-page="cases"] main .section-head{min-width:0;max-width:100%;overflow-wrap:anywhere}body[data-page="cases"] main .section-head .button{display:block;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center}@media(max-width:760px){body[data-page="cases"] main .outcome-grid{grid-template-columns:minmax(0,1fr)}}

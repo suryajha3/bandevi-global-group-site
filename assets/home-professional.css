@@ -60,3 +60,9 @@ body[data-page="home"] .home-professional-hero{padding:36px 0}.home-professional
 .home-intro-grid{align-items:start}.home-intro-grid>div{min-width:0}.home-featured-project [data-featured-image]{aspect-ratio:3.05;object-fit:cover;object-position:top}.home-project-tabs button{flex:0 1 auto}.home-project-tabs{gap:6px}.home-project-actions a{min-height:44px}
 @media(min-width:761px){.home-intro-grid>div{padding-top:12px}.home-featured-project [data-featured-image]{max-height:260px}}
 @media(max-width:760px){.home-project-tabs button{flex:1 1 calc(50% - 6px)}.home-featured-project [data-featured-image]{aspect-ratio:2.5}}
+
+/* International positioning stays readable beside the existing project showcase. */
+.home-professional-hero h1{font-size:clamp(2rem,2.8vw,2.7rem)}
+.home-intro-copy{max-width:580px}
+.home-intro-note{color:#bddedb;line-height:1.7}
+@media(max-width:760px){.home-professional-hero h1{font-size:clamp(1.95rem,7.4vw,3rem)}}
