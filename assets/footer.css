@@ -23,3 +23,5 @@ body[data-page="cases"] main .card .button{max-width:100%;white-space:normal;tex
 .home-work-footer{flex-wrap:wrap}
 
 body[data-page="cases"] main .card .button{display:block;overflow-wrap:anywhere}body[data-page="cases"] main .card{min-width:0}@media(max-width:900px){body[data-page="cases"] main .grid.cols-3{grid-template-columns:1fr}}
+
+body[data-page="cases"] main .outcome-grid>*,body[data-page="cases"] main .section-head{min-width:0;max-width:100%;overflow-wrap:anywhere}body[data-page="cases"] main .section-head .button{display:block;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center}@media(max-width:760px){body[data-page="cases"] main .outcome-grid{grid-template-columns:minmax(0,1fr)}}
