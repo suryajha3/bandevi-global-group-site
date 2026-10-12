@@ -5,6 +5,7 @@ import hmac
 import json
 import os
 import secrets
+import re
 import sqlite3
 import time
 import operations
@@ -295,7 +296,7 @@ def attribution_report(handler, connect, query, authenticated):
         handler.respond(400, {'error':'Choose 7, 30 or 90 days.'})
         return True
     channels={c:0 for c in ('organic_search','paid','campaign','referral','direct_unknown','unknown')}
-    stages={s:0 for s in STAGES};all_stages={s:0 for s in STAGES};channel_stages={c:{s:0 for s in STAGES} for c in channels};landings={};services={};total=0
+    stages={s:0 for s in STAGES};all_stages={s:0 for s in STAGES};channel_stages={c:{s:0 for s in STAGES} for c in channels};landings={};services={};campaigns={};total=0
     with connect() as db:
         access=" AND w.owner=?" if authenticated['role']=='agent' else ''
         rows=db.execute("SELECT e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON e.id=w.id WHERE e.email_status!='qa-verified' AND e.created>=?"+access,[int(time.time())-days*86400]+([authenticated['actor']] if access else []))
@@ -304,6 +305,15 @@ def attribution_report(handler, connect, query, authenticated):
             if channel not in channels:channel='unknown'
             channels[channel]+=1;total+=1
             all_stages[row['stage']]+=1;channel_stages[channel][row['stage']]+=1
+            tag=a.get('utm_campaign','')
+            if isinstance(tag,str) and re.fullmatch(r'[a-zA-Z0-9_-]{1,80}',tag):
+                source=a.get('utm_source','');medium=a.get('utm_medium','');landing=a.get('landing_page','')
+                source=source if isinstance(source,str) and re.fullmatch(r'[a-zA-Z0-9_-]{1,80}',source) else 'not_recorded'
+                medium=medium if isinstance(medium,str) and re.fullmatch(r'[a-zA-Z0-9_-]{1,80}',medium) else 'not_recorded'
+                landing=landing if isinstance(landing,str) and re.fullmatch(r'/(?:[a-zA-Z0-9_-]+/)*',landing) else 'Not recorded'
+                group=campaigns.setdefault((tag,source,medium,landing),{'campaign':tag,'source':source,'medium':medium,'landingPage':landing,'enquiries':0,'qualified':0,'proposal':0,'won':0})
+                group['enquiries']+=1
+                if row['stage'] in ('Qualified','Proposal','Won'):group[row['stage'].lower()]+=1
             service=data.get('interest') or 'Not recorded'
             counts=services.setdefault(service,{'service':service,'enquiries':0,'organic':0})
             counts['enquiries']+=1
@@ -313,6 +323,7 @@ def attribution_report(handler, connect, query, authenticated):
                 landings[landing]=landings.get(landing,0)+1
     handler.respond(200, {'days':days,'enquiries':total,'channels':channels,'organicStages':stages,'salesStages':all_stages,'channelStages':channel_stages,
                          'organicLandingPages':[{'page':p,'enquiries':n} for p,n in sorted(landings.items(),key=lambda x:(-x[1],x[0]))[:20]],
+                         'campaigns':sorted(campaigns.values(),key=lambda x:(-x['enquiries'],x['campaign'],x['source'],x['medium'],x['landingPage']))[:20],
                          'services':sorted(services.values(),key=lambda x:(-x['enquiries'],x['service']))[:20]})
     return True
 
