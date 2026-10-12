@@ -46,6 +46,95 @@ class ClientTests(unittest.TestCase):
         response=self.change(ref,'proposal',title='Scope revision',scope='Deliver private workflow.',terms='Agreed acceptance checks; payment milestone on delivery.',value='1234.56',currency='INR',expires=int(time.time())+86400)
         self.assertEqual(response[0],200);return response[1]['proposalId']
 
+    def demo_slot(self,starts=None):
+        slot=uuid.uuid4().hex;starts=starts or int(time.time())+3600+int(slot[:5],16)
+        with enquiries.connect() as db:db.execute('INSERT INTO demo_slots VALUES(?,?,?,?,1)',(slot,starts,30,dashboard.USER))
+        return slot
+
+    def journey(self,ref,cookie=None):
+        return self.request('/api/admin/sales-journey?reference='+ref,cookie=cookie or self.admin)
+
+    def demo_change(self,ref,action='record',cookie=None,csrf=None,**data):
+        state=self.journey(ref,cookie)[1]['record']
+        return self.request('/api/admin/sales-journey',{'reference':ref,'version':state['version'],'scheduleEvent':state['scheduleEvent'],'action':action,'requirements':'Sales workflow, named owners and quoted integrations.','outcome':'Not recorded',**data},cookie or self.admin,csrf or self.admin_csrf)
+
+    def test_enquiry_demo_booking_confirmation_conflict_and_private_boundary(self):
+        with urllib.request.urlopen(isolated.base+'/team-inbox/sales-journey.js') as response:
+            self.assertIn('application/javascript',response.headers['Content-Type'])
+            self.assertIn(b'loadSalesJourney',response.read())
+        ref,email=self.create();slot=self.demo_slot()
+        self.assertEqual(self.demo_change(ref,'book',slotId=slot,customerAgreed=False)[0],400)
+        self.assertEqual(self.demo_change(ref,'book',slotId=slot,customerAgreed=True)[0],200)
+        state=self.journey(ref)[1];self.assertEqual(state['appointment']['state'],'confirmed')
+        self.assertNotIn('token_digest',state['appointment']);self.assertNotIn(slot,[s['id'] for s in state['slots']])
+        self.assertEqual(self.demo_change(ref,'book',slotId=slot,customerAgreed=True)[0],409)
+        with enquiries.connect() as db:
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM enquiries WHERE id=?',(ref,)).fetchone()[0],1)
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM notification_outbox WHERE dedupe=? AND recipient=?',('booking:'+ref+':0',email)).fetchone()[0],1)
+        self.assertEqual(self.request('/api/admin/sales-journey?reference='+ref)[0],401)
+        self.assertEqual(self.request('/api/admin/sales-funnel')[0],401)
+        client,_,_=self.client(ref)
+        self.assertEqual(self.journey(ref,client)[0],401)
+        self.assertEqual(self.request('/api/admin/sales-journey',{'reference':ref,'action':'record','version':1},self.admin,'')[0],403)
+
+    def test_demo_requirements_outcomes_schedule_conflicts_and_proposal_privacy(self):
+        ref,_=self.create();self.assertEqual(self.demo_change(ref)[0],200)
+        self.assertEqual(self.demo_change(ref,outcome='Completed')[0],409)
+        slot=self.demo_slot();self.assertEqual(self.demo_change(ref,'book',slotId=slot,customerAgreed=True)[0],200)
+        self.assertEqual(self.demo_change(ref,outcome='Completed')[0],400)
+        with enquiries.connect() as db:db.execute('UPDATE demo_slots SET starts=? WHERE id=?',(int(time.time())-3600,slot))
+        self.assertEqual(self.demo_change(ref,outcome='Completed',requirements='')[0],400)
+        self.assertEqual(self.demo_change(ref,outcome='Completed',requirements='PRIVATE DEMO DISCOVERY')[0],200)
+        stale=self.journey(ref)[1]['record']
+        self.assertEqual(self.p(ref)['salesJourney']['requirements'],'PRIVATE DEMO DISCOVERY')
+        client,_,_=self.client(ref)
+        self.assertNotIn('salesJourney',self.request('/api/client/project?reference='+ref,cookie=client)[1])
+        newslot=self.demo_slot()
+        with enquiries.connect() as db:
+            db.execute('UPDATE demo_bookings SET slot_id=?,version=version+1 WHERE enquiry_id=?',(newslot,ref))
+            db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,'rescheduled',?,30,'customer',?)",(ref,newslot,int(time.time())+3600,int(time.time())))
+        state=self.journey(ref)[1]['record'];self.assertEqual(state['outcome'],'Not recorded');self.assertEqual(state['requirements'],'PRIVATE DEMO DISCOVERY')
+        self.assertEqual(self.demo_change(ref,scheduleEvent=stale['scheduleEvent'],outcome='No show')[0],400)
+        self.assertEqual(self.demo_change(ref,scheduleEvent=stale['scheduleEvent'])[0],409)
+        self.assertEqual(self.demo_change(ref,version=0)[0],409)
+        for invalid in (None,'x'*2501):self.assertEqual(self.demo_change(ref,requirements=invalid)[0],400)
+
+    def test_agent_demo_scope_and_qa_closed_exclusions(self):
+        ref,_=self.create();other,_=self.create();qa,_=self.create()
+        email='demo-agent-'+uuid.uuid4().hex+'@example.com';password='Synthetic-agent-'+uuid.uuid4().hex
+        self.assertEqual(self.request('/api/admin/team',{'email':email,'name':'Demo agent','role':'agent','password':password,'active':True},self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(self.request('/api/admin/update',{'reference':ref,'stage':'New','owner':email,'notes':'','version':0},self.admin,self.admin_csrf)[0],200)
+        _,identity,headers=self.request('/api/admin/login',{'email':email,'password':password});cookie=headers['Set-Cookie'].split(';')[0]
+        self.assertEqual(self.journey(other,cookie)[0],404)
+        self.assertEqual(self.request('/api/admin/sales-journey',{'reference':other,'version':0,'action':'record','requirements':'Forbidden','outcome':'Not recorded','scheduleEvent':0},cookie,identity['csrf'])[0],404)
+        self.assertEqual(self.demo_change(ref,cookie=cookie,csrf=identity['csrf'])[0],200)
+        counts=self.request('/api/admin/sales-funnel?days=7',cookie=cookie)[1]['counts'];self.assertEqual(counts['enquiries'],1)
+        with enquiries.connect() as db:db.execute("UPDATE enquiries SET email_status='qa-verified' WHERE id=?",(qa,))
+        self.assertEqual(self.journey(qa)[0],404)
+        self.assertEqual(self.request('/api/admin/update',{'reference':ref,'stage':'Lost','owner':email,'notes':'','version':1},self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(self.demo_change(ref,'book',slotId=self.demo_slot(),customerAgreed=True)[0],409)
+        self.assertEqual(self.request('/api/admin/sales-funnel?days=1',cookie=self.admin)[0],400)
+
+    def test_demo_funnel_chronology_unique_enquiries_and_recorded_won(self):
+        refs=[self.create()[0] for _ in range(3)];now=int(time.time())
+        with enquiries.connect() as db:
+            for ref in refs:
+                db.execute("INSERT INTO enquiry_workflow(id,stage) VALUES(?,'Won')",(ref,))
+                db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,'confirmed',?,30,'Test',?)",(ref,'synthetic-'+ref,now,now-100))
+            for index,ref in enumerate(refs):
+                db.execute("INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,published) VALUES(?,?,1,'Test','Test','Test',100,'USD',?,'published',?,'Test',?)",(uuid.uuid4().hex,ref,now+86400,now-200,now-150 if index==2 else now-50))
+            db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won','Test',?)",(refs[0],now-10))
+            db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won','Test',?)",(refs[1],now-70))
+            db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,'repeat','rescheduled',?,30,'Test',?)",(refs[0],now,now-90))
+            agent={'role':'agent','actor':'funnel-test@example.com'}
+            for ref in refs:db.execute('UPDATE enquiry_workflow SET owner=? WHERE id=?',(agent['actor'],ref))
+            import sales_journey
+            r=sales_journey.funnel(db,agent,7)
+            empty=sales_journey.funnel(db,{'role':'agent','actor':'no-owned-leads@example.com'},7)
+        self.assertEqual(r['counts'],{'enquiries':3,'demoBooked':3,'demoCompleted':0,'publishedProposals':3,'proposalAfterDemo':2,'wonAfterDemoProposal':1,'currentlyWon':3})
+        self.assertEqual(r['rates'],{'enquiryToDemo':100.0,'demoToProposal':66.7,'proposalToWon':50.0})
+        self.assertEqual(empty['rates'],{'enquiryToDemo':None,'demoToProposal':None,'proposalToWon':None})
+
     def test_client_staff_cookie_and_project_boundaries(self):
         ref,email=self.create();other,_=self.create();cookie,csrf,_=self.client(ref)
         self.assertEqual(self.request('/api/client/project?reference='+ref,cookie=cookie)[0],200)

@@ -108,6 +108,9 @@ def proposal_queue(handler,db,identity,query):
 
 def detail(db,row,staff):
     ref=row['reference'];result=dict(row)
+    if staff:
+        import sales_journey
+        result['salesJourney']=sales_journey.record(db,ref)
     proposals=[]
     for item in db.execute('SELECT * FROM client_proposals WHERE reference=? ORDER BY revision DESC',(ref,)):
         if not staff and (item['status']=='draft' or not item['published'] and item['status']!='accepted'):continue
