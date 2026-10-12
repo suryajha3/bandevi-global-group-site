@@ -56,3 +56,12 @@ Allowlisted project_market analytics excludes contact details and free text.
 mocked submissions. Deployed public files matched the release. Both regional
 URLs were confirmed indexed; recrawl requests were accepted on 12 October.
 No ranking, conversion or sales improvement is claimed.
+
+12 OCTOBER CRM OFFER AND CAMPAIGN HANDOVER
+https://bandeviglobalgroup.com/projects/bandevi-website/#crm-enquiry-case-study
+Delivered: focused CRM scope offer, fictional walkthrough, service-prefilled enquiry
+links, source-specific draft promotion links and private saved-enquiry campaign reports.
+Backend and browser release checks passed. Live mobile 390px and desktop 1440px
+checks verified copy, attribution prefill, layout and unauthenticated report protection.
+Zero production enquiries were submitted by these checks. No social posts or paid ads
+were launched. Enquiry growth, conversion uplift and revenue are not established.
