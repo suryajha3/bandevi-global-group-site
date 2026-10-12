@@ -16,7 +16,7 @@
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
   root.addEventListener('click',event=>{const link=event.target.closest('[data-featured-image-link],[data-featured-larger]');if(!link||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
    const selected=root.querySelector('[data-featured-index][aria-selected="true"]');const project=projects[Number(selected?.dataset.featuredIndex)];if(!project)return;
-   event.preventDefault();opener=link;title.textContent=project.name+' · public homepage';image.src=project.image||'/assets/portfolio-'+project.slug+'.webp';image.alt=project.name+' public homepage screenshot';image.width=1239;image.height=project.height;projectLink.href='/projects/'+project.slug+'/';raw.href=image.src;note.textContent=project.source||'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.';applyZoom(1);viewport.scrollTo(0,0);dialog.showModal();document.documentElement.classList.add('featured-viewer-open');close.focus();
+   event.preventDefault();opener=link;title.textContent=project.name+' · '+(project.category||'public homepage');image.src=project.image||'/assets/portfolio-'+project.slug+'.webp';image.alt=project.alt||project.name+' public homepage screenshot';image.width=project.width||1239;image.height=project.height;projectLink.href=project.record||'/projects/'+project.slug+'/';projectLink.textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';raw.href=image.src;note.textContent=project.source||'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.';applyZoom(1);viewport.scrollTo(0,0);dialog.showModal();document.documentElement.classList.add('featured-viewer-open');close.focus();
   });
   return true;
  }
@@ -27,15 +27,16 @@
    {name:'Trip Sarathi',slug:'trip-sarathi',height:578,description:'Flight search and travel-service navigation.'},
    {name:'MaximTrip',slug:'maximtrip',height:532,description:'Flight and holiday pages with booking-management navigation.'},
    {name:'TripOdeal',slug:'tripodeal',height:532,description:'Travel search, services and booking lookup.'},
-   {name:'BANDEVI website',slug:'bandevi-website',height:532,image:'/assets/bandevi-website-project.webp',category:'Internal website project',description:'Service pages, project enquiries and a private sales workspace.',source:'BANDEVI’s own website project. Public interface captured 4 October 2026; the current website has continued to evolve.'}
+   {name:'BANDEVI website',slug:'bandevi-website',height:532,image:'/assets/bandevi-website-project.webp',category:'Internal website project',description:'Service pages, project enquiries and a private sales workspace.',source:'BANDEVI’s own website project. Public interface captured 4 October 2026; the current website has continued to evolve.'},
+   {name:'BANDEVI CRM',slug:'bandevi-crm-demo',width:1280,height:720,image:'/assets/crm-walkthrough-poster.png',category:'Illustrative demo',record:'/crm-demo/#crm-video',solution:'CRM & ERP Package',alt:'BANDEVI CRM illustrative demo showing fictional enquiries, named owners and next actions',description:'Enquiries, named owners and next actions — shown with fictional records.',source:'Illustrative CRM demo with fictional records and named owners. No customer enquiry, booking or payment is sent; this is not a completed customer case study.'}
   ];
   const tabs=[...root.querySelectorAll('[data-featured-index]')],panel=root.querySelector('#featured-project-panel'),image=root.querySelector('[data-featured-image]');
   const chooser=document.querySelector('#home-project-service'),projectInput=document.querySelector('[data-home-project]');
   const website='Website / App Development Package',travel='Complete Travel Website Package';
   const services={
-   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references'},
+   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references',project:4},
    [website]:{text:'Plan your pages, app screens and customer enquiries. The BANDEVI website is an internal website reference; app scope is discussed separately.',href:'/website-mobile-app-development/',label:'Explore websites and apps',project:3},
-   'CRM & ERP Package':{text:'Plan lead ownership, follow-ups, approvals and reporting. Explore our illustrative CRM demo; a matching completed CRM or ERP case study is not published yet.',href:'/sample-crm/',label:'Explore the illustrative CRM demo'},
+   'CRM & ERP Package':{text:'Plan lead ownership, follow-ups, approvals and reporting. Explore our illustrative CRM demo; a matching completed CRM or ERP case study is not published yet.',href:'/sample-crm/',label:'Explore the illustrative CRM demo',project:4},
    [travel]:{text:'Plan travel search, enquiries and booking workflows. Review a travel portal reference, then discuss provider approvals and integrations for your scope.',href:'/travel-technology/',label:'Explore travel technology',project:0},
    'Customer Portal Package':{text:'Plan customer accounts, document access and request tracking. Discuss your access rules and workflow; a matching completed portal case study is not published yet.',href:'/customer-portal/',label:'Explore customer portals'}
   };
@@ -43,23 +44,25 @@
    const project=projects[index];if(!project)return;
    tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
    panel.setAttribute('aria-labelledby',tabs[index].id);
-   const record='/projects/'+project.slug+'/',screenshot=project.image||'/assets/portfolio-'+project.slug+'.webp';
-   image.src=screenshot;image.height=project.height;image.alt=project.name+' public homepage showing '+project.description.toLowerCase().replace(/\.$/,'');
+   root.dataset.previewKind=project.record?'demo':'project';
+   const record=project.record||'/projects/'+project.slug+'/',screenshot=project.image||'/assets/portfolio-'+project.slug+'.webp';
+   image.src=screenshot;image.width=project.width||1239;image.height=project.height;image.alt=project.alt||project.name+' public homepage showing '+project.description.toLowerCase().replace(/\.$/,'');
    root.querySelector('[data-featured-image-link]').href=screenshot;root.querySelector('[data-featured-image-link]').setAttribute('aria-label','View larger '+project.name+' screenshot ('+(viewerEnabled?'opens screenshot viewer':'opens new tab')+')');
    root.querySelector('[data-featured-project-link]').href=record;root.querySelector('[data-featured-project-link]').textContent=project.name+' ↗';
    root.querySelector('[data-featured-name]').textContent=project.name+' · '+(project.category||'B2C travel portal');root.querySelector('[data-featured-description]').textContent=project.description;
    root.querySelector('[data-featured-source]').textContent=project.source||"Public interface captured 6 October 2026. Development attribution supplied by BANDEVI's owner; no customer endorsement implied.";
-   root.querySelector('[data-featured-explore]').href=record;root.querySelector('[data-featured-larger]').href=screenshot;
-   const solution=project.slug==='bandevi-website'?website:travel;
+   root.querySelector('[data-featured-explore]').href=record;root.querySelector('[data-featured-explore]').textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';root.querySelector('[data-featured-larger]').href=screenshot;
+   const solution=project.solution||(project.slug==='bandevi-website'?website:travel);
    const code=project.slug.replaceAll('-','_'),discuss=root.querySelector('[data-featured-discuss]');
-   const query=new URLSearchParams({solution,project:code,source:'/'});
-   discuss.href='/contact-us/?'+query.toString()+'#contact-form';discuss.setAttribute('aria-label','Discuss a similar project ↗: '+project.name);
-   if(projectInput){projectInput.disabled=!chooser||chooser.value!==solution;projectInput.value=projectInput.disabled?'':code;}
+   const query=new URLSearchParams({solution,source:'/'});if(!project.record)query.set('project',code);
+   discuss.textContent=project.record?'Discuss your CRM requirements ↗':'Discuss a similar project ↗';
+   discuss.href='/contact-us/?'+query.toString()+'#contact-form';discuss.setAttribute('aria-label',(project.record?'Discuss your CRM requirements: ':'Discuss a similar project ↗: ')+project.name);
+   if(projectInput){projectInput.disabled=Boolean(project.record)||!chooser||chooser.value!==solution;projectInput.value=projectInput.disabled?'':code;}
    if(focus)tabs[index].focus();
   }
   tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});
   const viewerEnabled=installScreenshotViewer(root,projects);
-  panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(0);
+  panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(4);
   function guide(){
    const service=services[chooser.value]||services['Need guidance'];
    document.querySelector('[data-home-service-summary]').textContent=service.text;
