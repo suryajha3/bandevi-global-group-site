@@ -1,5 +1,5 @@
 BANDEVI WEBSITE DEVELOPMENT — INTERNAL PROJECT CASE STUDY
-Reviewed 11 October 2026
+Reviewed 12 October 2026
 
 Project: BANDEVI’s own website, bandeviglobalgroup.com.
 This is an internal project, not a customer testimonial.
@@ -46,3 +46,13 @@ Agree your pages, user journeys, integrations, access, scope, acceptance
 criteria and handover. Currency and delivery commitments belong in the
 written proposal. Share requirements at:
 https://bandeviglobalgroup.com/project-brief/
+
+12 OCTOBER IMPLEMENTATION WALKTHROUGH
+UK/US scope and enquiry walkthrough with actual public interface screenshots:
+https://bandeviglobalgroup.com/projects/bandevi-website/#regional-walkthrough
+Optional country, budget and launch fields enter the existing enquiry message.
+Allowlisted project_market analytics excludes contact details and free text.
+10 regional, 25 enquiry journey and 8 content/responsive checks passed using
+mocked submissions. Deployed public files matched the release. Both regional
+URLs were confirmed indexed; recrawl requests were accepted on 12 October.
+No ranking, conversion or sales improvement is claimed.
