@@ -1,0 +1,48 @@
+{
+  "campaign": "crm_workflow_launch_202610",
+  "status": "Draft materials; no social posts or paid ads have been published.",
+  "evidence": "CRM records and walkthrough are fictional. No customer endorsement or completed customer CRM case study is claimed.",
+  "posts": [
+    {
+      "source": "linkedin",
+      "medium": "social",
+      "title": "Give every enquiry a next step",
+      "caption": "Who owns the next follow-up? Plan a CRM around your enquiries, named owners, sales stages and quotations. Start with one workflow, review the fictional BANDEVI CRM demo, and request a walkthrough for your team.\n\nhttps://bandeviglobalgroup.com/crm-demo/?utm_source=linkedin&utm_medium=social&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "url": "https://bandeviglobalgroup.com/crm-demo/?utm_source=linkedin&utm_medium=social&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "status": "draft"
+    },
+    {
+      "source": "facebook",
+      "medium": "social",
+      "title": "Bring your sales workflow into focus",
+      "caption": "Enquiries in one place. Clear ownership. A visible next action. Explore BANDEVI’s fictional CRM demonstration and discuss a first release built around the way your team works.\n\nhttps://bandeviglobalgroup.com/crm-demo/?utm_source=facebook&utm_medium=social&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "url": "https://bandeviglobalgroup.com/crm-demo/?utm_source=facebook&utm_medium=social&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "status": "draft"
+    },
+    {
+      "source": "instagram",
+      "medium": "social",
+      "title": "From enquiry to next action",
+      "caption": "Capture. Assign. Follow up. Review. See these four steps in BANDEVI’s fictional CRM walkthrough. Bring your own workflow to the discussion; features and pricing follow scope review.\n\nhttps://bandeviglobalgroup.com/crm-demo/?utm_source=instagram&utm_medium=social&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "url": "https://bandeviglobalgroup.com/crm-demo/?utm_source=instagram&utm_medium=social&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "status": "draft"
+    },
+    {
+      "source": "whatsapp",
+      "medium": "messaging",
+      "title": "An invitation to explore BANDEVI CRM",
+      "caption": "Looking for a clearer way to manage sales enquiries and follow-ups? Explore the fictional BANDEVI CRM example and request a focused walkthrough. Your project scope and quotation are agreed separately.\n\nhttps://bandeviglobalgroup.com/crm-demo/?utm_source=whatsapp&utm_medium=messaging&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "url": "https://bandeviglobalgroup.com/crm-demo/?utm_source=whatsapp&utm_medium=messaging&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "status": "draft"
+    },
+    {
+      "source": "email",
+      "medium": "newsletter",
+      "title": "Review one sales workflow with BANDEVI",
+      "caption": "Subject: Give every sales enquiry a clear next step\n\nBring one sales workflow you want to improve. We can discuss enquiry capture, named owners, follow-ups and quotation stages, starting with a fictional CRM example. Request a focused walkthrough to plan your requirements. Scope, timing and pricing are confirmed in a written proposal.\n\nhttps://bandeviglobalgroup.com/crm-demo/?utm_source=email&utm_medium=newsletter&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "url": "https://bandeviglobalgroup.com/crm-demo/?utm_source=email&utm_medium=newsletter&utm_campaign=crm_workflow_launch_202610#crm-starting-scope",
+      "status": "draft"
+    }
+  ],
+  "measurement": "Saved enquiries by tagged campaign and landing page; private Reports shows current stages. Tagged links do not measure ad spend or prove causation."
+}
