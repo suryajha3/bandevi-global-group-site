@@ -227,3 +227,33 @@ def reminders(connect):
             recipient=row['owner'] if row['owner']==USER or db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(row['owner'],)).fetchone() else USER
             enqueue(db,'followup:'+row['id']+':'+today+':'+recipient,recipient,'Bandevi follow-up due',
                     f'Reference: {row["id"]}\nFollow-up date: {row["follow_up_date"]}\nReview: https://bandeviglobalgroup.com/team-inbox/')
+        waiting=db.execute("""SELECT e.id,COALESCE(w.owner,'') AS owner FROM enquiries e
+            LEFT JOIN enquiry_workflow w ON w.id=e.id
+            WHERE e.email_status!='qa-verified' AND e.created<=?
+            AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')
+            AND NOT EXISTS (SELECT 1 FROM lead_activity a WHERE a.enquiry_id=e.id
+                AND a.created>=e.created AND a.kind IN ('call-connected','email-sent'))
+            AND NOT EXISTS (SELECT 1 FROM sales_events s WHERE s.enquiry_id=e.id
+                AND s.created>=e.created AND s.stage IN ('Contacted','Qualified','Proposal','Won'))""",(int(time.time())-48*3600,)).fetchall()
+        for row in waiting:
+            recipient=row['owner'] if row['owner']==USER or db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(row['owner'],)).fetchone() else USER
+            enqueue(db,'response:'+row['id']+':'+today+':'+recipient,recipient,'Bandevi first contact needs attention',
+                    f'Reference: {row["id"]}\nNo first contact has been recorded after 48 hours.\n'
+                    'Review the enquiry, assign an active owner if needed, and record contact after replying.\n'
+                    'Review: https://bandeviglobalgroup.com/team-inbox/')
+
+def response_alert_current(db, notification):
+    """Recheck queued alerts so retries cannot notify a former owner or a resolved lead."""
+    from dashboard import USER
+    reference=notification['dedupe'].split(':')[1]
+    row=db.execute("""SELECT e.created,COALESCE(w.owner,'') AS owner FROM enquiries e
+        LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.id=? AND e.email_status!='qa-verified'
+        AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')
+        AND NOT EXISTS (SELECT 1 FROM lead_activity a WHERE a.enquiry_id=e.id
+            AND a.created>=e.created AND a.kind IN ('call-connected','email-sent'))
+        AND NOT EXISTS (SELECT 1 FROM sales_events s WHERE s.enquiry_id=e.id
+            AND s.created>=e.created AND s.stage IN ('Contacted','Qualified','Proposal','Won'))""",(reference,)).fetchone()
+    if not row or row['created']>int(time.time())-48*3600:return False
+    recipient=row['owner'] if row['owner']==USER or db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(row['owner'],)).fetchone() else USER
+    today=datetime.datetime.now(INDIA).date().isoformat()
+    return notification['recipient']==recipient and notification['dedupe'].split(':')[2]==today
