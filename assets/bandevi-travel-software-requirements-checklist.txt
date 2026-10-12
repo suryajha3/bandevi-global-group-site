@@ -1,0 +1,58 @@
+BANDEVI TRAVEL SOFTWARE REQUIREMENTS CHECKLIST
+12 October 2026 | UK and US project planning
+
+Mark each item: ready / needs discussion / not applicable. Use fictional examples.
+
+1. BUSINESS GOAL AND FIRST RELEASE
+[ ] Describe one booking-to-operation bottleneck and the desired change.
+[ ] List customer, agent and staff users; specify separate access and ownership.
+[ ] Choose first-release workflows: enquiry, quotation, booking, fulfilment or reporting.
+[ ] List must-have features separately from later-phase requests.
+[ ] Define a fictional example that demonstrates successful acceptance.
+Notes / owner / open dependency: __________________________
+
+2. BOOKINGS, SUPPLIERS AND INTEGRATIONS
+[ ] Name required products: flights, hotels, transfers, packages or other services.
+[ ] Document each supplier/API, commercial approval, sandbox access and dependency.
+[ ] Define availability, quote expiry, price changes and confirmation rules.
+[ ] Specify cancellation, amendment and refund ownership and exception review.
+[ ] List existing CRM, accounting, email and messaging tools to connect.
+Notes / owner / open dependency: __________________________
+
+3. PAYMENTS, CURRENCIES AND RECONCILIATION
+[ ] Choose customer payment methods and the provider; confirm access separately.
+[ ] Keep customer collections and supplier obligations as separate records.
+[ ] Record deposits, balances, provider references, fees and settlement status.
+[ ] Specify original and settlement currencies; agree finance-team treatment of differences.
+[ ] Define duplicate/failed payment handling, refunds and approval responsibilities.
+Notes / owner / open dependency: __________________________
+
+4. PEOPLE, DATA AND REPORTING
+[ ] Assign roles for sales, operations, finance and administration; define permissions.
+[ ] List reports, their owners, filters and source records before quoting.
+[ ] Inventory data to migrate; use anonymised samples during discovery.
+[ ] Agree retention, access logging, backups and recovery responsibilities.
+[ ] Keep enquiry submissions, qualified opportunities and won projects distinct.
+Notes / owner / open dependency: __________________________
+
+5. UK/US ROLLOUT AND DELIVERY PLANNING
+[ ] Confirm business markets and buyer preferences: GBP/USD displays and quote currency.
+[ ] Specify date formats and GMT/BST or relevant US team time zones.
+[ ] List procurement, hosting, data-processing and accessibility requirements for review.
+[ ] Record budget direction, target launch window and dependencies; these are planning inputs.
+[ ] Agree remote review availability, decision makers and milestone approvals.
+Notes / owner / open dependency: __________________________
+
+6. ACCEPTANCE, OWNERSHIP AND HANDOVER
+[ ] Write test examples for happy paths, price changes, failed requests and exceptions.
+[ ] Agree migration checks, training and launch readiness before acceptance.
+[ ] Specify source-code/data ownership and access handover in the written proposal.
+[ ] Separate development cost from hosting, licences and ongoing support charges.
+[ ] Confirm support scope, response arrangements and change-request handling.
+Notes / owner / open dependency: __________________________
+
+Remote delivery from India. Scope, integrations, price and timing are agreed in writing.
+Planning aid; no compliance certification or guaranteed integration availability.
+Preparing this checklist does not submit an enquiry.
+Next step: https://bandeviglobalgroup.com/project-brief/
+Contact: sales@bandeviglobalgroup.com
