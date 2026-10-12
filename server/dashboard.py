@@ -8,6 +8,7 @@ import secrets
 import sqlite3
 import time
 import operations
+import journey_measurement
 import task_center
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
@@ -187,6 +188,7 @@ def handle_get(handler, connect):
         send_asset(handler, assets[route])
         return True
     authenticated = session(handler, connect)
+    if journey_measurement.get(handler,connect,authenticated):return True
     if task_center.get(handler, connect, authenticated):return True
     if operations.get(handler, connect, authenticated):return True
     if not route.startswith('/api/admin/'):

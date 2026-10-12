@@ -21,6 +21,7 @@ function sourceAttribution() {
   return value;
 }
 const enquiryAttribution=sourceAttribution();
+if(!document.querySelector('script[data-journey-measurement]')){const measurementScript=document.createElement('script');measurementScript.src='/assets/enquiry-measurement.js?v=20261012-funnel';measurementScript.dataset.journeyMeasurement='true';document.head.append(measurementScript);}
 function safeReferrerOrigin() {try {return new URL(document.referrer).origin;}catch(_){return '';}}
 function enquiryAnalytics(form,type,reference) {
   const key='bg_measured_enquiries_v1';let sent=[];
@@ -435,7 +436,7 @@ function bindForms() {
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
-        if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
+        if(payload.message.length>3000){form.dispatchEvent(new CustomEvent('enquiry-invalid'));note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
       const serialized = JSON.stringify(payload);
         if (form.dataset.payload !== serialized) {
           form.dataset.requestId = crypto.randomUUID();
@@ -455,7 +456,7 @@ function bindForms() {
           const result = await response.json();
           if (!response.ok || result.ok !== true || !/^BG-[A-F0-9]{16}$/.test(result.reference || '')) {
             if (response.status === 409) delete form.dataset.payload;
-            throw new Error(result.error || 'Unable to confirm your enquiry.');
+            const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';throw failure;
           }
           savedEnquiryReceipt(note, result.reference, type);
           if(type==='demo'){
@@ -470,6 +471,7 @@ function bindForms() {
           delete form.dataset.payload;
           delete form.dataset.requestId;
         } catch (error) {
+          form.dispatchEvent(new CustomEvent('enquiry-failed',{detail:{reason:error.measurementReason||'network'}}));
           note.textContent = (error.name === 'AbortError' ? 'We could not confirm receipt. Retry this form to check safely.' : error.message) + ' Your draft is retained. You can also ';
           const email = document.createElement('a'); email.href = 'mailto:' + contactInfo.email; email.textContent = 'email the team';
           const whatsapp = document.createElement('a'); whatsapp.href = contactInfo.whatsapp; whatsapp.target = '_blank'; whatsapp.rel = 'noopener noreferrer'; whatsapp.textContent = 'use WhatsApp';
@@ -558,7 +560,7 @@ function bindAnalyticsEvents() {
       link.href = `${demoUrl.pathname}${demoUrl.search}${demoUrl.hash}`;
       trackAnalyticsEvent("select_content", {
         content_type: "demo_cta",
-        content_name: link.textContent.trim().replace(/\s+/g, " "),
+        content_name: "request_demo",
         page_location: location.origin + publicPagePath(),
         page_title: document.title
       });

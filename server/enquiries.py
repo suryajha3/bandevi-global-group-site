@@ -4,6 +4,7 @@ import hashlib
 import hmac
 import operations
 import client_workflow
+import journey_measurement
 import json
 import logging
 import os
@@ -55,6 +56,7 @@ def initialize():
           key TEXT PRIMARY KEY, digest TEXT NOT NULL, enquiry_id TEXT NOT NULL,
           created INTEGER NOT NULL);
         ''')
+        journey_measurement.initialize(db)
         initialize_dashboard(db)
         client_workflow.initialize(db)
     os.chmod(DB, 0o600)
@@ -208,6 +210,7 @@ def notification_worker():
                             db.execute('UPDATE enquiries SET attempts=attempts+1,next_attempt=? WHERE id=?', (int(time.time()) + delay, row['id']))
             with connect() as db:
                 now = int(time.time())
+                journey_measurement.prune(db,now)
                 db.execute('DELETE FROM requests WHERE created<?', (now - 3600,))
                 db.execute('DELETE FROM idempotency WHERE created<?', (now - 86400,))
         except Exception:
@@ -248,6 +251,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+            if journey_measurement.post(self,connect,ORIGINS,SALT):return
             if client_workflow.handle_post(self,connect,ORIGINS,SALT):return
             if operations.post_public(self,connect,ORIGINS):return
             if handle_post(self, connect, ORIGINS, SALT):
