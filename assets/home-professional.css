@@ -146,3 +146,12 @@ body[data-page="home"] .home-crm-promotion{background:#f5f1e8;border-bottom:1px 
 @media(max-width:1000px){.home-crm-promotion .home-crm-grid{gap:28px}}
 @media(max-width:760px){body[data-page="home"] .home-professional-hero{padding:28px 0}.home-professional-hero .home-intro-copy{font-size:.95rem}.home-professional-hero .home-project-tabs{gap:6px}body[data-page="home"] .home-crm-promotion{padding:40px 0}.home-crm-promotion .home-crm-grid{gap:24px}.home-crm-promotion .home-crm-workflow{padding:22px}.home-crm-promotion .home-crm-workflow ol{gap:20px}.home-crm-promotion .home-crm-actions{align-items:stretch;flex-direction:column;gap:10px}.home-crm-promotion .home-crm-actions .text-link{align-self:flex-start}}
 @media(prefers-reduced-motion:reduce){.home-professional-hero .button,.home-crm-promotion .button{transition:none}}
+
+/* Keep the enquiry action ahead of optional service guidance. */
+.home-professional-hero .home-project-choice .home-primary-actions{margin:0 0 16px}
+.home-process{display:flex;gap:0;list-style:none;padding:12px 0;margin:0 0 18px;border-top:1px solid #bfa67855;border-bottom:1px solid #bfa67855;color:#e4cda3;font-size:.78rem;line-height:1.5}
+.home-process li{flex:1}
+.home-process li+li::before{content:"→";padding-right:12px;color:#bfa678}
+.home-choice-optional{font-weight:400;color:#c8c1b5;margin-left:6px;font-size:.75rem}
+.home-featured-project[data-preview-kind="demo"] [data-featured-image]{object-fit:contain;aspect-ratio:1280/720;max-height:260px;object-position:center}
+@media(max-width:760px){.home-process{font-size:.72rem}.home-process li+li::before{padding-right:6px}.home-professional-hero .home-intro-copy{line-height:1.6}.home-featured-project[data-preview-kind="demo"] [data-featured-image]{max-height:none}}
