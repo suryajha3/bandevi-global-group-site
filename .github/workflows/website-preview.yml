@@ -61,6 +61,7 @@ jobs:
           node scripts/qa-consultation-timezones.cjs
           node scripts/qa-regional-leads.cjs
           node scripts/qa-inbox.cjs
+          node scripts/qa-sales-journey.cjs
           node scripts/qa-proposals.cjs
           node scripts/qa-tasks.cjs
       - uses: actions/upload-artifact@v4

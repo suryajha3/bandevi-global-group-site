@@ -25,6 +25,10 @@ with enquiries.connect() as db:
         db.execute('INSERT INTO enquiry_workflow(id,stage,owner,notes,version,updated,follow_up_date) VALUES(?,?,?,?,0,?,?)',(ref,stage,owner,'',int(time.time()),due))
     db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',('BG-QA-TODAY','bg-qa-today@qa.example','Correct enquiry project',int(time.time())))
     db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',('BG-QA-WON','bg-qa-won@qa.example','Different enquiry project',int(time.time())+1))
+    db.execute('INSERT INTO demo_slots VALUES(?,?,?,?,1)',('synthetic-future',int(time.time())+86400,30,dashboard.USER))
+    db.execute('INSERT INTO demo_slots VALUES(?,?,?,?,1)',('synthetic-past',int(time.time())-3600,30,'agent@qa.example'))
+    db.execute("INSERT INTO demo_bookings(enquiry_id,slot_id,token_digest) VALUES('BG-QA-TODAY','synthetic-past','synthetic-private-token')")
+    db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES('BG-QA-TODAY','synthetic-past','confirmed',?,30,'Synthetic',?)",(int(time.time())-3600,int(time.time())-7200))
 server=enquiries.ThreadingHTTPServer(('127.0.0.1',0),enquiries.Handler)
 server.daemon_threads=True
 enquiries.ORIGINS.add('http://127.0.0.1:'+str(server.server_port))
