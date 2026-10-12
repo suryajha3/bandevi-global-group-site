@@ -7,7 +7,7 @@
   const header=element('div','viewer-header'),title=element('h2',null,'Project screenshot');title.id='featured-viewer-title';const close=button('Close');close.setAttribute('aria-label','Close screenshot viewer');header.append(title,close);
   const tools=element('div','viewer-tools'),out=button('Zoom out'),zoom=element('span','viewer-zoom','100%'),inside=button('Zoom in'),fit=button('Reset zoom');zoom.setAttribute('aria-live','polite');tools.append(out,zoom,inside,fit);
   const viewport=element('div','viewer-image-wrap');viewport.tabIndex=0;viewport.setAttribute('aria-label','Project screenshot; scroll to inspect when zoomed');const image=element('img','viewer-image');viewport.append(image);
-  const footer=element('div','viewer-footer'),note=element('p',null,'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.');note.id='featured-viewer-note';const links=element('div','viewer-links'),projectLink=element('a',null,'Explore this project ↗'),raw=element('a',null,'Open image in a new tab ↗');raw.target='_blank';raw.rel='noopener noreferrer';links.append(projectLink,raw);footer.append(note,links);dialog.append(header,tools,viewport,footer);document.body.append(dialog);
+  const footer=element('div','viewer-footer'),note=element('p',null,'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.');note.id='featured-viewer-note';const links=element('div','viewer-links'),projectLink=element('a',null,'Explore this project ↗'),raw=element('a',null,'Open image in a new tab ↗');projectLink.href='/projects/trip-sarathi/';raw.href='/assets/portfolio-trip-sarathi.webp';raw.target='_blank';raw.rel='noopener noreferrer';links.append(projectLink,raw);footer.append(note,links);dialog.append(header,tools,viewport,footer);document.body.append(dialog);
   let scale=1,opener=null;
   function applyZoom(next){scale=Math.max(1,Math.min(2.5,next));image.style.width=(scale*100)+'%';zoom.textContent=Math.round(scale*100)+'%';out.disabled=scale===1;inside.disabled=scale===2.5;fit.disabled=scale===1;}
   out.addEventListener('click',()=>applyZoom(scale-.25));inside.addEventListener('click',()=>applyZoom(scale+.25));fit.addEventListener('click',()=>{applyZoom(1);viewport.scrollTo(0,0);});close.addEventListener('click',()=>dialog.close());
@@ -16,7 +16,7 @@
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
   root.addEventListener('click',event=>{const link=event.target.closest('[data-featured-image-link],[data-featured-larger]');if(!link||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
    const selected=root.querySelector('[data-featured-index][aria-selected="true"]');const project=projects[Number(selected?.dataset.featuredIndex)];if(!project)return;
-   event.preventDefault();opener=link;title.textContent=project.name+' · public homepage';image.src=project.image||'/assets/portfolio-'+project.slug+'.jpg';image.alt=project.name+' public homepage screenshot';image.width=1239;image.height=project.height;projectLink.href='/projects/'+project.slug+'/';raw.href=image.src;note.textContent=project.source||'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.';applyZoom(1);viewport.scrollTo(0,0);dialog.showModal();document.documentElement.classList.add('featured-viewer-open');close.focus();
+   event.preventDefault();opener=link;title.textContent=project.name+' · public homepage';image.src=project.image||'/assets/portfolio-'+project.slug+'.webp';image.alt=project.name+' public homepage screenshot';image.width=1239;image.height=project.height;projectLink.href='/projects/'+project.slug+'/';raw.href=image.src;note.textContent=project.source||'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.';applyZoom(1);viewport.scrollTo(0,0);dialog.showModal();document.documentElement.classList.add('featured-viewer-open');close.focus();
   });
   return true;
  }
@@ -27,7 +27,7 @@
    {name:'Trip Sarathi',slug:'trip-sarathi',height:578,description:'Flight search and travel-service navigation.'},
    {name:'MaximTrip',slug:'maximtrip',height:532,description:'Flight and holiday pages with booking-management navigation.'},
    {name:'TripOdeal',slug:'tripodeal',height:532,description:'Travel search, services and booking lookup.'},
-   {name:'BANDEVI website',slug:'bandevi-website',height:532,image:'/assets/bandevi-website-project.png',category:'Internal website project',description:'Service pages, project enquiries and a private sales workspace.',source:'BANDEVI’s own website project. Public interface captured 4 October 2026; the current website has continued to evolve.'}
+   {name:'BANDEVI website',slug:'bandevi-website',height:532,image:'/assets/bandevi-website-project.webp',category:'Internal website project',description:'Service pages, project enquiries and a private sales workspace.',source:'BANDEVI’s own website project. Public interface captured 4 October 2026; the current website has continued to evolve.'}
   ];
   const tabs=[...root.querySelectorAll('[data-featured-index]')],panel=root.querySelector('#featured-project-panel'),image=root.querySelector('[data-featured-image]');
   const chooser=document.querySelector('#home-project-service'),projectInput=document.querySelector('[data-home-project]');
@@ -43,7 +43,7 @@
    const project=projects[index];if(!project)return;
    tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
    panel.setAttribute('aria-labelledby',tabs[index].id);
-   const record='/projects/'+project.slug+'/',screenshot=project.image||'/assets/portfolio-'+project.slug+'.jpg';
+   const record='/projects/'+project.slug+'/',screenshot=project.image||'/assets/portfolio-'+project.slug+'.webp';
    image.src=screenshot;image.height=project.height;image.alt=project.name+' public homepage showing '+project.description.toLowerCase().replace(/\.$/,'');
    root.querySelector('[data-featured-image-link]').href=screenshot;root.querySelector('[data-featured-image-link]').setAttribute('aria-label','View larger '+project.name+' screenshot ('+(viewerEnabled?'opens screenshot viewer':'opens new tab')+')');
    root.querySelector('[data-featured-project-link]').href=record;root.querySelector('[data-featured-project-link]').textContent=project.name+' ↗';
@@ -53,7 +53,7 @@
    const solution=project.slug==='bandevi-website'?website:travel;
    const code=project.slug.replaceAll('-','_'),discuss=root.querySelector('[data-featured-discuss]');
    const query=new URLSearchParams({solution,project:code,source:'/'});
-   discuss.href='/contact-us/?'+query.toString()+'#contact-form';discuss.setAttribute('aria-label','Discuss a similar '+project.name+' project');
+   discuss.href='/contact-us/?'+query.toString()+'#contact-form';discuss.setAttribute('aria-label','Discuss a similar project ↗: '+project.name);
    if(projectInput){projectInput.disabled=!chooser||chooser.value!==solution;projectInput.value=projectInput.disabled?'':code;}
    if(focus)tabs[index].focus();
   }
