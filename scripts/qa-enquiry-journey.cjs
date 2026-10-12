@@ -43,7 +43,7 @@ let browser, server;
       await page.goto(base + '/contact-us/' + (source ? '?source=1' : ''));
       const form = page.locator('form[data-form="contact"]');
       await page.waitForFunction(() => !document.querySelector('[data-enquiry-submit]').disabled);
-      assert.deepEqual(await form.locator('[required]').evaluateAll(elements => elements.map(element => element.name).sort()), ['email', 'interest', 'message', 'name']);
+      assert.deepEqual(await form.locator('[required]').evaluateAll(elements => elements.map(element => element.name).sort()), ['email', 'message', 'name']);
       assert.equal(await form.locator('.enquiry-optional').evaluate(element => element.open), false);
       assert.equal(await form.locator('[data-enquiry-questions]').evaluate(element => element.disabled), true);
       for (const [service, hint, label] of services) {
@@ -56,7 +56,7 @@ let browser, server;
         assert.equal(await form.locator('[name=projectContext]').inputValue(), '');
         assert.equal(await form.locator('[data-enquiry-questions]').evaluate(element => element.disabled), true);
       }
-      checks.push({ source, essentialFields: 4, serviceGuidance: services.length, staleAnswersCleared: true });
+      checks.push({ source, essentialFields: 3, serviceGuidance: services.length, staleAnswersCleared: true });
       for (const width of [360, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
         await form.locator('[name=interest]').selectOption('Website / App Development Package');
@@ -98,7 +98,7 @@ let browser, server;
       await page.setViewportSize({ width, height: 900 });
       await page.goto(base + '/contact.html');
       await page.waitForFunction(() => !document.querySelector('[data-enquiry-submit]').disabled);
-      assert.equal(await page.locator('form[data-form=contact] [required]').count(), 4);
+      assert.equal(await page.locator('form[data-form=contact] [required]').count(), 3);
       await page.locator('#contact-interest').selectOption('CRM & ERP Package');
       await page.locator('.enquiry-optional summary').click();
       assert.equal(await page.locator('[data-enquiry-questions]').isVisible(), true);
@@ -181,6 +181,12 @@ let browser, server;
     assert.equal(await plain.locator('form[data-form=contact]').getAttribute('method'), 'post');
     assert((await plain.locator('noscript').textContent()).includes('email our team'));
     await nojs.close(); checks.push({ noJavaScriptContactAlternative: true, noDetailsInUrl: true });
+    if(!live)for(const source of [false,true])for(const width of [360,1440]){
+      await page.setViewportSize({width,height:950});await page.goto(base+'/contact-us/'+(source?'?source=1':''));const form=page.locator('form[data-form=contact]');await page.waitForFunction(()=>!document.querySelector('[data-enquiry-submit]').disabled);let captured;
+      await page.route('**/api/enquiries',async route=>{captured=route.request().postDataJSON();await route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({ok:true,reference:'BG-ABCDEF0123456789'})});});
+      await form.locator('[name=name]').fill('Fictional phone-only QA');await form.locator('[name=message]').fill('Synthetic project request.');await form.locator('[name=phone]').fill('123');assert.equal(await form.locator('[name=phone]').evaluate(e=>e.validity.valid),false);assert.equal(captured,undefined);
+      await form.locator('[name=phone]').fill('+1 202 555 0148');assert.equal(await form.locator('[name=email]').evaluate(e=>e.required),false);await form.locator('button[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-ABCDEF0123456789'}).waitFor();assert.equal(captured.email,'');assert.equal(captured.phone,'+1 202 555 0148');assert.equal(captured.interest,'Need guidance');assert.equal(await form.locator('.receipt-next li').count(),3);assert(new URL(await form.locator('.receipt-actions a').first().getAttribute('href')).searchParams.get('subject').includes('BG-ABCDEF0123456789'));assert((await form.locator('.receipt-delivery').textContent()).includes('saved'));assert.equal(await form.locator('[name=email]').evaluate(e=>e.required),true);await page.evaluate(()=>document.activeElement.blur());await form.locator('.form-note').screenshot({path:path.join(output,'phone-receipt-'+width+'.png')});await page.unroute('**/api/enquiries');checks.push({source,width,phoneOnlyContact:true,optionalService:true,structuredReceipt:true});
+    }
     assert.deepEqual(errors, []);
     fs.writeFileSync(path.join(output, (live ? 'live' : 'local') + '-checks.json'), JSON.stringify({ checks, errors, submissions: live ? 'none' : 'local mocks only' }, null, 2));
     console.log('PASS: ' + checks.length + ' enquiry journey cases; ' + (live ? 'read-only live checks' : 'all submissions mocked locally') + '.');
