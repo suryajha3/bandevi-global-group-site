@@ -57,6 +57,7 @@ jobs:
           node scripts/qa-journey-measurement.cjs
           node scripts/qa-demo-local-time.cjs
           node scripts/qa-enquiry-journey.cjs
+          node scripts/qa-consultation-timezones.cjs
           node scripts/qa-regional-leads.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-proposals.cjs
