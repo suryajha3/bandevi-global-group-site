@@ -7894,3 +7894,5 @@ render();
 if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}
 
 if(document.body.dataset.page==="feedback"&&!document.querySelector('script[src^="/assets/client-feedback.js"]')){const e=document.createElement("script");e.src="/assets/client-feedback.js?v=2";e.defer=true;document.head.appendChild(e);}
+
+if(document.querySelector('form[data-form="demo"]')&&!document.querySelector('script[src*="appointments.js"]')){const style=document.createElement("link");style.rel="stylesheet";style.href="/assets/upgrade.css?v=20261012-local";document.head.append(style);const time=document.createElement("script");time.src="/assets/demo-time.js?v=20261012-local";time.onload=()=>{const appointments=document.createElement("script");appointments.src="/assets/appointments.js?v=20261012-local";document.head.append(appointments);};document.head.append(time);}
