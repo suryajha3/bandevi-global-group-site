@@ -272,6 +272,7 @@ def post(handler,connect,origins,salt):
                 if not enquiry:raise Problem(404,'Enquiry not found.')
                 if identity['role']=='agent' and not db.execute('SELECT 1 FROM enquiry_workflow WHERE id=? AND owner=?',(ref,actor)).fetchone():raise Problem(404,'Enquiry not found.')
                 email=json.loads(enquiry[0])['email'].strip().lower()
+                if not email:raise Problem(400,'An email address is required before creating a client workspace.')
                 if db.execute('SELECT 1 FROM client_projects WHERE reference=?',(ref,)).fetchone():raise Problem(409,'This enquiry already has a project.')
                 db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',(ref,email,value(data,'title',160),int(time.time())))
                 audit(db,ref,'project-created',actor);result['reference']=ref
