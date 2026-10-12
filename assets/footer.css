@@ -63,3 +63,8 @@ body[data-page="cases"] main .outcome-grid>*,body[data-page="cases"] main .secti
 @media(max-width:1180px){.topbar .nav-wrap{min-height:74px;width:calc(100% - 32px)}.topbar .primary-nav{inset:74px 0 auto;background:#191a1c;border-color:#e4cda329}.topbar .solutions-menu{background:#222325;box-shadow:none;padding:8px}.topbar .primary-nav>.nav-link,.topbar .nav-dropdown>summary{font-size:15px}.topbar .mobile-nav-extra,.topbar .mobile-contact-actions .nav-link{border-color:#e4cda333}.topbar .mobile-demo{min-height:44px;font-size:13px}}
 @media(max-width:540px){.topbar .nav-wrap{width:calc(100% - 24px);gap:8px}.topbar .brand{gap:9px;flex:1}.topbar .brand-mark{width:36px;height:36px;font-size:17px;border-radius:8px}.topbar .brand-name{font-size:10px;letter-spacing:.065em;max-width:135px}.topbar .brand-line{display:none}.topbar .brand-copy{gap:0}.topbar .mobile-demo{padding:8px 11px}.topbar .nav-actions{gap:7px}}
 @media(prefers-reduced-motion:reduce){.topbar .nav-link,.topbar .nav-actions>.primary,.topbar .mobile-demo{transition:none}}
+
+/* Measured mobile readability and tap-target corrections, 12 October 2026. */
+body[data-page="ukSoftwareServices"] main .eyebrow,body[data-page="usSoftwareServices"] main .eyebrow,body[data-page="contact"] main .eyebrow,body[data-page="demo"] main .eyebrow,.evidence-upgrade .eyebrow{color:#73562a}
+.footer-contact-details a,.footer-office p a{min-height:44px;display:flex;align-items:center}
+#regional-questions p a{display:inline-flex;align-items:center;min-height:44px}
