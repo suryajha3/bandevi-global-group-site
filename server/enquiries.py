@@ -109,12 +109,18 @@ def validate(data):
         if not isinstance(value, str) or len(value) > limit or any(ord(c) < 32 and c not in '\n\t' for c in value):
             raise ValueError('Please check your enquiry fields and their length.')
         result[key] = value.strip()
-    if not all(result[k] for k in ('name', 'email', 'interest', 'message')):
-        raise ValueError('Please enter your name, email, service and message.')
-    if not re.fullmatch(r"[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+", result['email']):
+    if result['type'] == 'contact' and not result['interest']:
+        result['interest'] = 'Need guidance'
+    if not all(result[k] for k in ('name', 'interest', 'message')):
+        raise ValueError('Please enter your name and project description.')
+    if result['email'] and not re.fullmatch(r"[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+", result['email']):
         raise ValueError('Please enter a valid email address.')
-    if '\n' in result['email'] or '\r' in result['email']:
-        raise ValueError('Please enter a valid email address.')
+    if not result['email']:
+        if result['type'] == 'demo':
+            raise ValueError('An email address is required for demo requests.')
+        phone = result['phone']
+        if not re.fullmatch(r"\+?[0-9 () .-]+", phone) or not 7 <= len(re.sub(r"\D", "", phone)) <= 15:
+            raise ValueError('Enter an email address or a valid phone number with country code.')
     if 'projectBrief' in data:
         result['projectBrief'] = validate_project_brief(data['projectBrief'], result)
     if data.get('slotId') is not None:
@@ -156,7 +162,7 @@ def notify(row):
     message = EmailMessage()
     message['From'] = os.environ['SMTP_FROM']
     message['To'] = os.environ.get('SMTP_TO', 'sales@bandeviglobalgroup.com')
-    message['Reply-To'] = data['email']
+    if data['email']: message['Reply-To'] = data['email']
     message['Subject'] = f"Website {data['type']} enquiry — {row['id']}"
     message.set_content('\n'.join([f"Reference: {row['id']}", f"Received (UTC epoch): {row['created']}"] +
                                  [f'{key}: {value}' for key, value in data.items()]))
@@ -295,7 +301,7 @@ class Handler(BaseHTTPRequestHandler):
                     try:appointment=operations.create_booking(db,reference,data['slotId'],management_token)
                     except ValueError:
                         db.rollback();return self.respond(409,{'error':'That demo time is no longer available. Choose another slot.'})
-                elif os.environ.get('CUSTOMER_ACK_ENABLED','1')=='1':
+                elif data['email'] and os.environ.get('CUSTOMER_ACK_ENABLED','1')=='1':
                     operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com')
                 db.execute('INSERT INTO requests VALUES(?,?)', (fingerprint, now))
                 db.execute('INSERT INTO idempotency VALUES(?,?,?,?)', (key, digest, reference, now))

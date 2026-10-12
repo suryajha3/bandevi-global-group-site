@@ -268,6 +268,14 @@ function savedEnquiryReceipt(note, reference, type) {
   });
   note.append(savedReference, ' ', copy, feedback, document.createElement('br'));
   note.append(type === 'demo' ? 'Keep this reference for follow-up.' : 'The team will review your requirements and contact you using the details provided. Quote this reference when you follow up.');
+  const next = document.createElement('ol'); next.className='receipt-next';
+  for(const text of ['Keep your reference for any follow-up.','The team will review your requirements and reply using the details you provided.','Discuss scope and next steps before agreeing to work.']){const item=document.createElement('li');item.textContent=text;next.append(item);}
+  if(type!=='demo')note.append(next);
+  const actions=document.createElement('div');actions.className='receipt-actions';
+  const mail=document.createElement('a');mail.href='mailto:sales@bandeviglobalgroup.com?subject='+encodeURIComponent('Enquiry '+reference);mail.textContent='Email about this enquiry';
+  const whatsapp=document.createElement('a');whatsapp.href='https://wa.me/917011040474?text='+encodeURIComponent('Hello BANDEVI, I would like to follow up on enquiry '+reference+'.');whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';whatsapp.textContent='Follow up on WhatsApp';
+  actions.append(mail,whatsapp);note.append(actions);
+  const delivery=document.createElement('p');delivery.className='receipt-delivery';delivery.textContent=type==='demo'?'This confirms your enquiry was saved. Check the booking status below for meeting confirmation; email delivery is separate.':'This confirms your enquiry was saved. Email delivery and a meeting time are not confirmed by this receipt.';note.append(delivery);
 }
 
 function bindForms() {
@@ -386,7 +394,19 @@ function bindForms() {
       }
     }
 
-    if (type === "contact") bindEnquiryJourney(form);
+    if (type === "contact") {
+      const email = form.elements.email, phone = form.elements.phone;
+      function checkContactChannel() {
+        const digits = phone.value.replace(/\D/g, '').length;
+        const validPhone = /^\+?[0-9 () .-]+$/.test(phone.value.trim()) && digits >= 7 && digits <= 15;
+        email.required = !validPhone;
+        phone.setCustomValidity(!email.value.trim() && phone.value.trim() && !validPhone ? 'Enter a valid phone number with country code, or provide an email address.' : '');
+      }
+      for (const field of [email,phone]) field.addEventListener('input',checkContactChannel);
+      form.addEventListener('reset',()=>queueMicrotask(checkContactChannel));
+      checkContactChannel();
+      bindEnquiryJourney(form);
+    }
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -407,7 +427,7 @@ function bindForms() {
         if (form.dataset.sending === 'true') return;
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
-          interest: data.interest, message: enquiryMessage(form, data), website: data.website || '',
+          interest: data.interest || (type==='contact'?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
