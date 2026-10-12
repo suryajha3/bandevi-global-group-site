@@ -1,6 +1,6 @@
 {
   "campaign": "crm_workflow_launch_202610",
-  "status": "Draft materials; no social posts or paid ads have been published.",
+  "status": "Reusable caption drafts. LinkedIn and Facebook posts published 12 October 2026. Instagram, WhatsApp and email remain unpublished; no paid ads launched.",
   "evidence": "CRM records and walkthrough are fictional. No customer endorsement or completed customer CRM case study is claimed.",
   "posts": [
     {
@@ -44,5 +44,21 @@
       "status": "draft"
     }
   ],
-  "measurement": "Saved enquiries by tagged campaign and landing page; private Reports shows current stages. Tagged links do not measure ad spend or prove causation."
+  "measurement": "Saved enquiries by tagged campaign and landing page; private Reports shows current stages. Tagged links do not measure ad spend or prove causation.",
+  "publications": [
+    {
+      "source": "linkedin",
+      "account": "Bandevi Global Group",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7515285328857870336/",
+      "publishedDate": "2026-10-12",
+      "verification": "Post successful confirmation and live post content inspected"
+    },
+    {
+      "source": "facebook",
+      "account": "Bandeviglobalgroup",
+      "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid07dj3A13kaFSuHvyUvt8zsfAviWSYPRsdPuq96DQhbvr3iE3QHmRp7uKZqNtsbRaKl&id=61591222415314",
+      "publishedDate": "2026-10-12",
+      "verification": "Your post has been published confirmation and timeline content inspected"
+    }
+  ]
 }
