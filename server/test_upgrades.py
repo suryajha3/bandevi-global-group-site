@@ -16,6 +16,59 @@ import operations
 import recovery
 import monitor
 
+class ResponseAlertTests(unittest.TestCase):
+    def setUp(self):
+        self.db=sqlite3.connect(':memory:');self.db.row_factory=sqlite3.Row
+        self.db.executescript('''CREATE TABLE inbox_sessions(digest TEXT);
+            CREATE TABLE enquiries(id TEXT PRIMARY KEY,created INTEGER,email_status TEXT);
+            CREATE TABLE enquiry_workflow(id TEXT PRIMARY KEY,owner TEXT,stage TEXT,follow_up_date TEXT);
+            CREATE TABLE lead_activity(enquiry_id TEXT,created INTEGER,kind TEXT);''')
+        operations.initialize(self.db)
+        self.now=int(time.time())
+        self.db.execute("INSERT INTO team_users VALUES('active@example.com','Test','agent','unused',1)")
+        self.db.execute("INSERT INTO team_users VALUES('inactive@example.com','Test','agent','unused',0)")
+        self.addCleanup(self.db.close)
+
+    def lead(self,ref,owner='active@example.com',stage='New',age=48*3600,status='sent'):
+        self.db.execute('INSERT INTO enquiries VALUES(?,?,?)',(ref,self.now-age,status))
+        self.db.execute('INSERT INTO enquiry_workflow VALUES(?,?,?,?)',(ref,owner,stage,''))
+        self.db.commit()
+
+    def alerts(self):
+        operations.reminders(lambda:self.db)
+        return self.db.execute("SELECT * FROM notification_outbox WHERE dedupe LIKE 'response:%'").fetchall()
+
+    def test_threshold_recipients_deduplication_and_exclusions(self):
+        self.lead('assigned');self.lead('unassigned',owner='');self.lead('inactive',owner='inactive@example.com')
+        self.lead('recent',age=48*3600-60);self.lead('won',stage='Won');self.lead('lost',stage='Lost');self.lead('qa',status='qa-verified')
+        self.lead('contacted');self.db.execute('INSERT INTO lead_activity VALUES(?,?,?)',('contacted',self.now,'email-sent'))
+        self.lead('stage-event');self.db.execute('INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,?,?,?)',('stage-event','Contacted','Test',self.now))
+        rows=self.alerts();self.assertEqual(len(rows),3);self.assertEqual(len(self.alerts()),3)
+        recipients={r['dedupe'].split(':')[1]:r['recipient'] for r in rows}
+        self.assertEqual(recipients,{'assigned':'active@example.com','unassigned':isolated.dashboard.USER,'inactive':isolated.dashboard.USER})
+        self.assertTrue(all(operations.response_alert_current(self.db,r) for r in rows))
+        self.assertTrue(all('qa@example' not in r['body'] for r in rows))
+
+    def test_retry_rechecks_contact_owner_closure_qa_and_date(self):
+        for ref in ('contact','owner','closed','qa','day','disabled'):self.lead(ref)
+        rows={r['dedupe'].split(':')[1]:r for r in self.alerts()}
+        self.db.execute('INSERT INTO lead_activity VALUES(?,?,?)',('contact',self.now,'call-connected'))
+        self.db.execute("UPDATE enquiry_workflow SET owner='' WHERE id='owner'")
+        self.db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id='closed'")
+        self.db.execute("UPDATE enquiries SET email_status='qa-verified' WHERE id='qa'")
+        old=dict(rows['day']);old['dedupe']=old['dedupe'].replace(datetime.datetime.now(operations.INDIA).date().isoformat(),'2000-01-01')
+        self.assertFalse(operations.response_alert_current(self.db,old))
+        for ref in ('contact','owner','closed','qa'):self.assertFalse(operations.response_alert_current(self.db,rows[ref]))
+        self.db.execute("UPDATE team_users SET active=0 WHERE email='active@example.com'")
+        self.assertFalse(operations.response_alert_current(self.db,rows['disabled']))
+
+    def test_delivery_cancels_stale_alert_without_sending(self):
+        self.lead('stale');self.alerts();self.db.execute("UPDATE enquiry_workflow SET stage='Lost' WHERE id='stale'");self.db.commit()
+        with patch.object(enquiries,'connect',lambda:self.db),patch.object(enquiries,'smtp_ready',return_value=True),patch.object(enquiries,'send_message') as sender:
+            enquiries.process_outbox();sender.assert_not_called()
+        self.assertEqual(self.db.execute('SELECT status FROM notification_outbox').fetchone()[0],'cancelled')
+
+
 class UpgradeTests(unittest.TestCase):
     request=isolated.DashboardTests.request
     login=isolated.DashboardTests.login

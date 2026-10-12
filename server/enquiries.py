@@ -176,6 +176,11 @@ def process_outbox():
         rows=db.execute("SELECT * FROM notification_outbox WHERE status='pending' AND next_attempt<=? ORDER BY id LIMIT 20",(int(time.time()),)).fetchall()
     for row in rows:
         try:
+            if row['dedupe'].startswith('response:'):
+                with connect() as db:
+                    if not operations.response_alert_current(db,row):
+                        db.execute("UPDATE notification_outbox SET status='cancelled' WHERE id=?",(row['id'],))
+                        continue
             message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']
             message['Subject']=row['subject'];message.set_content(row['body'])
             if row['dedupe'].startswith(('booking:','appointment:','demo-reminder:')):
