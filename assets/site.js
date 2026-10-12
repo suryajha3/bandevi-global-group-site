@@ -21,6 +21,7 @@ function sourceAttribution() {
   return value;
 }
 const enquiryAttribution=sourceAttribution();
+if(!document.querySelector('script[data-journey-measurement]')){const measurementScript=document.createElement('script');measurementScript.src='/assets/enquiry-measurement.js?v=20261012-funnel';measurementScript.dataset.journeyMeasurement='true';document.head.append(measurementScript);}
 function safeReferrerOrigin() {try {return new URL(document.referrer).origin;}catch(_){return '';}}
 function enquiryAnalytics(form,type,reference) {
   const key='bg_measured_enquiries_v1';let sent=[];
@@ -6796,7 +6797,7 @@ function privacyPage() {
             "Contact and demo enquiries are stored in a private inbox on our hosting server with a reference number. Sales notifications may be delivered through our email provider. A hashed network identifier is temporarily used to limit automated abuse.",
             "Basic website analytics and technical information such as page visits, device type, browser type, and referral source when analytics tools are enabled.",
             "For enquiry measurement, this browser tab may retain a source category, landing page, referring hostname and campaign labels for up to 30 minutes. Submitted enquiries include those source details in the private inbox. Referrers and campaign information may be unavailable or incomplete; organic-search attribution is inferred, not independently verified.",
-            "Our saved-enquiry analytics event contains only the form category, a predefined service category and page/source categories. It does not include your name, email, phone, message or enquiry reference. Contact-link clicks are measured separately from saved enquiries. Analytics blockers and Do Not Track can limit these measurements."
+            "Our saved-enquiry analytics event contains only the form category, a predefined service category and page/source categories. It does not include your name, email, phone, message or enquiry reference. Contact-link clicks are measured separately from saved enquiries. Analytics blockers and Do Not Track can limit these measurements. Anonymous form-journey measurement records starts, fixed error categories, saved confirmations and contact-button clicks using a random identifier held only in page memory. It does not record form contents, contact details or enquiry references, and cannot be linked to customer records. These measurements are retained for up to 90 days in the active database; temporary hashed abuse-limit identifiers expire after one hour. Do Not Track disables this measurement."
           ])}
           <section class="article-block">
             <h3>How information is used</h3>
@@ -7534,7 +7535,7 @@ function bindForms() {
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
-        if(payload.message.length>3000){note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
+        if(payload.message.length>3000){form.dispatchEvent(new CustomEvent('enquiry-invalid'));note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
       const serialized = JSON.stringify(payload);
         if (form.dataset.payload !== serialized) {
           form.dataset.requestId = crypto.randomUUID();
@@ -7554,7 +7555,7 @@ function bindForms() {
           const result = await response.json();
           if (!response.ok || result.ok !== true || !/^BG-[A-F0-9]{16}$/.test(result.reference || '')) {
             if (response.status === 409) delete form.dataset.payload;
-            throw new Error(result.error || 'Unable to confirm your enquiry.');
+            const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';throw failure;
           }
           savedEnquiryReceipt(note, result.reference, type);
           if(type==='demo'){
@@ -7569,6 +7570,7 @@ function bindForms() {
           delete form.dataset.payload;
           delete form.dataset.requestId;
         } catch (error) {
+          form.dispatchEvent(new CustomEvent('enquiry-failed',{detail:{reason:error.measurementReason||'network'}}));
           note.textContent = (error.name === 'AbortError' ? 'We could not confirm receipt. Retry this form to check safely.' : error.message) + ' Your draft is retained. You can also ';
           const email = document.createElement('a'); email.href = 'mailto:' + contactInfo.email; email.textContent = 'email the team';
           const whatsapp = document.createElement('a'); whatsapp.href = contactInfo.whatsapp; whatsapp.target = '_blank'; whatsapp.rel = 'noopener noreferrer'; whatsapp.textContent = 'use WhatsApp';
@@ -7657,7 +7659,7 @@ function bindAnalyticsEvents() {
       link.href = `${demoUrl.pathname}${demoUrl.search}${demoUrl.hash}`;
       trackAnalyticsEvent("select_content", {
         content_type: "demo_cta",
-        content_name: link.textContent.trim().replace(/\s+/g, " "),
+        content_name: "request_demo",
         page_location: location.origin + publicPagePath(),
         page_title: document.title
       });
