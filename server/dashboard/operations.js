@@ -32,6 +32,10 @@ async function refreshJourneyReport(identity){
     const duration=n=>n===null?'Not recorded':n<3600?Math.round(n/60)+' min':(n/3600).toFixed(1)+' hours';
     const c=r.response;
     $('response-counts').replaceChildren(...[['Saved enquiries',c.enquiries],['Recorded first contact',c.recordedContact],['No recorded contact',c.noRecordedContact],['Contact within 24 hours',c.within24Hours],['Median time to contact',duration(c.medianSeconds)],['Oldest without recorded contact',duration(c.oldestUncontactedSeconds)]].map(([label,value])=>{const card=text('div',label,'count');card.append(text('strong',String(value)));return card;}));
+    $('response-action-counts').replaceChildren(...[['Active unassigned',c.activeUnassigned],['Active without recorded contact',c.activeWaiting],['Waiting at least 24 hours',c.waitingOver24Hours]].map(([label,value])=>{const card=text('div',label,'count');card.append(text('strong',String(value)));return card;}));
+    const queue=document.createElement('table'),header=document.createElement('tr');for(const title of ['Enquiry','Stage','Owner','Waiting','Review'])header.append(text('th',title));queue.append(header);
+    for(const lead of r.waiting||[]){const row=document.createElement('tr');for(const value of [lead.reference,lead.stage,lead.owner||'Unassigned',lead.noRecordedContact?duration(lead.ageSeconds)+' · no recorded contact':'Contact recorded'])row.append(text('td',value));const cell=document.createElement('td'),button=text('button','Review enquiry');button.type='button';button.addEventListener('click',()=>{chooseFilter('stage','');$('search').value=lead.reference;offset=0;load();});cell.append(button);row.append(cell);queue.append(row);}
+    $('response-queue').replaceChildren(r.waiting?.length?queue:text('p','No active enquiries awaiting action in this cohort.'));
     $('response-basis').textContent=r.basis;$('website-journeys').hidden=!r.websiteVisible;
     if(r.websiteVisible){
       const table=document.createElement('table');table.append(text('caption','Measured form journeys by starting page, form and source'));const header=document.createElement('tr');for(const label of ['Page','Form','Source','Started','Saved','No measured save yet','Validation issue','Submission failed','Saved / started'])header.append(text('th',label));table.append(header);
@@ -42,5 +46,5 @@ async function refreshJourneyReport(identity){
       $('journey-errors').replaceChildren(...(r.errors.length?r.errors.map(x=>text('p',(x.event==='invalid'?'Validation':'Submission')+' · '+x.reason+': '+x.count)):[text('p','No measured issues in this period.')]));
     }else for(const id of ['journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();
     $('journey-message').textContent='';
-  }catch(error){if(csrf&&csrf===identity){$('journey-message').textContent='Journey report unavailable. Refresh to try again.';for(const id of ['response-counts','response-basis','journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();$('website-journeys').hidden=true;}}
+  }catch(error){if(csrf&&csrf===identity){$('journey-message').textContent='Journey report unavailable. Refresh to try again.';for(const id of ['response-counts','response-basis','response-action-counts','response-queue','journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();$('website-journeys').hidden=true;}}
 }

@@ -74,7 +74,7 @@ def get(handler,connect,identity):
         prune(db,now)
         # A recorded first contact is not proof the customer replied or the email was delivered.
         access=' AND w.owner=?' if identity['role']=='agent' else ''
-        rows=db.execute("""SELECT e.id,e.created,MIN(c.created) AS first_contact FROM enquiries e
+        rows=db.execute("""SELECT e.id,e.created,COALESCE(w.owner,'') AS owner,COALESCE(w.stage,'New') AS stage,MIN(c.created) AS first_contact FROM enquiries e
           LEFT JOIN enquiry_workflow w ON w.id=e.id LEFT JOIN (
             SELECT enquiry_id,created FROM lead_activity WHERE kind IN ('call-connected','email-sent')
             UNION ALL SELECT enquiry_id,created FROM sales_events WHERE stage IN ('Contacted','Qualified','Proposal','Won')
@@ -82,11 +82,15 @@ def get(handler,connect,identity):
           WHERE e.email_status!='qa-verified' AND e.created>=?"""+access+' GROUP BY e.id,e.created',[since]+([identity['actor']] if access else [])).fetchall()
         times=[r['first_contact']-r['created'] for r in rows if r['first_contact'] is not None]
         response={'enquiries':len(rows),'recordedContact':len(times),'noRecordedContact':len(rows)-len(times),'within24Hours':sum(t<=86400 for t in times),'medianSeconds':round(statistics.median(times)) if times else None,'averageSeconds':round(statistics.mean(times)) if times else None,'oldestUncontactedSeconds':max((max(0,now-r['created']) for r in rows if r['first_contact'] is None),default=None)}
+        active=[r for r in rows if r['stage'] not in ('Won','Lost')]
+        waiting=[r for r in active if r['first_contact'] is None]
+        response.update(activeUnassigned=sum(not r['owner'].strip() for r in active),activeWaiting=len(waiting),waitingOver24Hours=sum(now-r['created']>=86400 for r in waiting))
+        queue=[{'reference':r['id'],'created':r['created'],'ageSeconds':max(0,now-r['created']),'owner':r['owner'],'stage':r['stage'],'noRecordedContact':r['first_contact'] is None} for r in sorted(active,key=lambda r:r['created']) if r['first_contact'] is None or not r['owner'].strip()][:20]
         pages=[];clicks={e:0 for e in EVENTS if e.endswith('_click')};errors=[]
         if identity['role']!='agent':
             starts=db.execute("SELECT s.page,s.form,s.channel,COUNT(*) AS started,SUM(EXISTS(SELECT 1 FROM journey_events x WHERE x.journey=s.journey AND x.event='saved')) AS saved,SUM(EXISTS(SELECT 1 FROM journey_events x WHERE x.journey=s.journey AND x.event='invalid')) AS validation,SUM(EXISTS(SELECT 1 FROM journey_events x WHERE x.journey=s.journey AND x.event='failed')) AS failed FROM journey_events s WHERE s.event='start' AND s.created>=? GROUP BY s.page,s.form,s.channel ORDER BY started DESC,s.page,s.form,s.channel LIMIT 100",(since,)).fetchall()
             pages=[dict(r,notSaved=r['started']-r['saved']) for r in starts]
             clicks.update({r['event']:r['count'] for r in db.execute("SELECT event,COUNT(*) AS count FROM journey_events WHERE created>=? AND event LIKE '%_click' GROUP BY event",(since,))})
             errors=[dict(r) for r in db.execute("SELECT event,reason,COUNT(*) AS count FROM journey_events WHERE created>=? AND event IN ('invalid','failed') GROUP BY event,reason ORDER BY count DESC",(since,))]
-    handler.respond(200,{'days':days,'websiteVisible':identity['role']!='agent','pages':pages,'clicks':clicks,'errors':errors,'response':response,'basis':'Anonymous form journeys started during this period, not unique customers. Not saved means no measured success yet; journeys may still be in progress. Blockers, Do Not Track, offline requests and lost telemetry affect counts. Clicks are not enquiries. Response times use the earliest recorded connected call, staff-reported sent email, or Contacted/Qualified/Proposal/Won stage change; they do not prove email delivery or a customer reply. Agents see assigned-lead response times only.'})
+    handler.respond(200,{'days':days,'websiteVisible':identity['role']!='agent','pages':pages,'clicks':clicks,'errors':errors,'response':response,'waiting':queue,'basis':'Anonymous form journeys started during this period, not unique customers. Not saved means no measured success yet; journeys may still be in progress. Blockers, Do Not Track, offline requests and lost telemetry affect counts. Clicks are not enquiries. Response times use the earliest recorded connected call, staff-reported sent email, or Contacted/Qualified/Proposal/Won stage change; they do not prove email delivery or a customer reply. Agents see assigned-lead response times only.'})
     return True

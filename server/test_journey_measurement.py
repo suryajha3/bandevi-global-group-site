@@ -69,6 +69,21 @@ class JourneyTests(unittest.TestCase):
         self.assertEqual(status,200);agent=headers['Set-Cookie'].split(';')[0]
         r=self.request('/api/admin/journey-report?days=30',cookie=agent)[1]
         self.assertFalse(r['websiteVisible']);self.assertEqual(r['pages'],[]);self.assertEqual(r['response']['enquiries'],1)
+        self.assertEqual(r['waiting'],[])
+    def test_waiting_queue_excludes_closed_and_scopes_agents(self):
+        cookie,csrf=self.login();now=int(time.time())
+        with enquiries.connect() as db:
+            db.execute('DELETE FROM enquiries');db.execute('DELETE FROM enquiry_workflow');db.execute('DELETE FROM lead_activity');db.execute('DELETE FROM sales_events')
+            for ref,stage,owner,age in [('BG-WAIT','New','agent@example.test',90000),('BG-UNASSIGNED','New','',3600),('BG-CLOSED','Won','',120000),('BG-OTHER','New','other@example.test',7200)]:
+                db.execute('INSERT INTO enquiries(id,created,payload,email_status) VALUES(?,?,?,?)',(ref,now-age,'{}','pending'))
+                db.execute('INSERT INTO enquiry_workflow(id,stage,owner,updated) VALUES(?,?,?,?)',(ref,stage,owner,now))
+        r=self.request('/api/admin/journey-report?days=30',cookie=cookie)[1]
+        self.assertEqual([x['reference'] for x in r['waiting']],['BG-WAIT','BG-OTHER','BG-UNASSIGNED'])
+        self.assertEqual((r['response']['activeUnassigned'],r['response']['activeWaiting'],r['response']['waitingOver24Hours']),(1,3,1))
+        self.request('/api/admin/team',dict(email='agent@example.test',name='Agent',role='agent',password='Long-test-password-1234',active=True),cookie,csrf)
+        status,identity,headers=self.request('/api/admin/login',dict(email='agent@example.test',password='Long-test-password-1234'))
+        r=self.request('/api/admin/journey-report?days=30',cookie=headers['Set-Cookie'].split(';')[0])[1]
+        self.assertEqual([x['reference'] for x in r['waiting']],['BG-WAIT']);self.assertEqual(r['response']['activeUnassigned'],0)
     def test_do_not_track_ignores_measurement(self):
         import urllib.request
         p=self.payload();req=urllib.request.Request(fixture.base+'/api/measurement',data=json.dumps(p).encode(),headers={'Origin':'http://127.0.0.1:8765','Content-Type':'application/json','DNT':'1'})
