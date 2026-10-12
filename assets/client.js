@@ -275,7 +275,7 @@ function savedEnquiryReceipt(note, reference, type) {
   const mail=document.createElement('a');mail.href='mailto:sales@bandeviglobalgroup.com?subject='+encodeURIComponent('Enquiry '+reference);mail.textContent='Email about this enquiry';
   const whatsapp=document.createElement('a');whatsapp.href='https://wa.me/917011040474?text='+encodeURIComponent('Hello BANDEVI, I would like to follow up on enquiry '+reference+'.');whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';whatsapp.textContent='Follow up on WhatsApp';
   actions.append(mail,whatsapp);note.append(actions);
-  const delivery=document.createElement('p');delivery.className='receipt-delivery';delivery.textContent='This confirms your enquiry was saved. Email delivery and a meeting time are not confirmed by this receipt.';note.append(delivery);
+  const delivery=document.createElement('p');delivery.className='receipt-delivery';delivery.textContent=type==='demo'?'This confirms your enquiry was saved. Check the booking status below for meeting confirmation; email delivery is separate.':'This confirms your enquiry was saved. Email delivery and a meeting time are not confirmed by this receipt.';note.append(delivery);
 }
 
 function bindForms() {
