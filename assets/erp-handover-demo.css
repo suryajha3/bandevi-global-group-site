@@ -1,0 +1,26 @@
+#erp-handover-walkthrough { scroll-margin-top:110px; }
+#erp-handover-walkthrough .eyebrow { color:#73562a; }
+#erp-handover-walkthrough .erp-demo-shell { border:1px solid #cbd6d7; border-radius:20px; background:#fff; overflow:hidden; }
+#erp-handover-walkthrough .erp-demo-toolbar { display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:16px; padding:24px; background:#f2f6f6; }
+#erp-handover-walkthrough label { display:block; font-weight:650; }
+#erp-handover-walkthrough select { display:block; max-width:100%; margin-top:6px; min-height:44px; padding:9px 12px; border:1px solid #809596; border-radius:8px; color:#101418; background:white; font:inherit; }
+#erp-handover-walkthrough .erp-demo-steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; padding:16px 24px; }
+#erp-handover-walkthrough .erp-demo-steps button { min-height:48px; padding:12px; border:1px solid #809596; border-radius:8px; background:white; color:#163b3e; font:inherit; font-weight:650; cursor:pointer; }
+#erp-handover-walkthrough .erp-demo-steps button[aria-pressed=true] { background:#183f42; border-color:#183f42; color:white; }
+#erp-handover-walkthrough [data-erp-panel] { padding:8px 24px 24px; }
+#erp-handover-walkthrough [hidden] { display:none!important; }
+#erp-handover-walkthrough .erp-demo-ledger { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:16px 0; }
+#erp-handover-walkthrough .erp-demo-ledger div { padding:16px; background:#f2f6f6; border-radius:10px; }
+#erp-handover-walkthrough dt { font-size:.9rem; }
+#erp-handover-walkthrough dd { margin:8px 0 0; font-size:1.25rem; font-weight:750; font-variant-numeric:tabular-nums; }
+#erp-handover-walkthrough .erp-demo-check { display:flex; align-items:start; gap:10px; margin:16px 0; padding:14px; border:1px solid #ccd9da; border-radius:10px; font-weight:500; cursor:pointer; }
+#erp-handover-walkthrough input[type=checkbox] { width:22px; height:22px; flex-shrink:0; margin:0; accent-color:#183f42; }
+#erp-handover-walkthrough .erp-demo-status { padding:18px 24px; background:#fbf4e6; border-top:1px solid #dfd5bf; font-weight:650; }
+#erp-handover-walkthrough .erp-demo-status[data-state=reviewed] { background:#e7f4eb; color:#17432a; }
+#erp-handover-walkthrough .erp-demo-foot { padding:16px 24px; border-top:1px solid #dce3e3; }
+#erp-handover-walkthrough :is(button,a,select,input):focus-visible { outline:3px solid #9a6f29; outline-offset:3px; }
+@media(max-width:640px) {
+ #erp-handover-walkthrough .erp-demo-steps { grid-template-columns:repeat(2,minmax(0,1fr)); padding:16px; }
+ #erp-handover-walkthrough .erp-demo-ledger { grid-template-columns:1fr; }
+ #erp-handover-walkthrough :is(.erp-demo-toolbar,[data-erp-panel],.erp-demo-foot) { padding:16px; }
+}
