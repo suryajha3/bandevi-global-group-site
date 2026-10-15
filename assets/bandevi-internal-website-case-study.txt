@@ -1,5 +1,5 @@
 BANDEVI WEBSITE DEVELOPMENT — INTERNAL PROJECT CASE STUDY
-Reviewed 12 October 2026
+Reviewed 15 October 2026
 
 Project: BANDEVI’s own website, bandeviglobalgroup.com.
 This is an internal project, not a customer testimonial.
@@ -65,3 +65,14 @@ Backend and browser release checks passed. Live mobile 390px and desktop 1440px
 checks verified copy, attribution prefill, layout and unauthenticated report protection.
 Zero production enquiries were submitted by these checks. No social posts or paid ads
 were launched. Enquiry growth, conversion uplift and revenue are not established.
+
+15 OCTOBER CONSULTATION WALKTHROUGH
+https://bandeviglobalgroup.com/projects/bandevi-website/#consultation-walkthrough
+Refreshed the homepage evidence with a 15 October capture and documented the
+public brief-to-consultation journey with a blank consultation-form screenshot.
+Verified published slots, Europe/London time-zone display and a 390px layout.
+Confirmed team hours: Monday–Saturday, 10:30 am–7:30 pm IST.
+Availability changes as slots are reserved. Only successful submission reserves
+a published slot; preferred times require team confirmation. Joining details
+follow separately. Public checks submitted no forms and created no bookings.
+This remains an internal project record, without claimed customer outcomes.
