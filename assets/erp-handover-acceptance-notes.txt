@@ -1,0 +1,51 @@
+BANDEVI INTERNAL ERP HANDOVER WALKTHROUGH
+Implementation and acceptance notes - 15 October 2026
+Public demonstration: https://bandeviglobalgroup.com/travel-erp/#erp-handover-walkthrough
+
+Purpose
+An internally built browser prototype for reviewing supplier confirmations,
+financial exceptions and handover requirements. All records and amounts are
+fictional. It is not a customer case study, a deployed ERP, a booking service,
+bank reconciliation evidence or a claim about included commercial features.
+
+Implemented scope
+- Four views: accepted quotation, supplier checks, finance review, handover.
+- Two supplier confirmation checks plus finance and document review checks.
+- A visible list of unresolved checks and a handover-review readiness summary.
+- Fictional USD/GBP scenario labels. Amounts are relabelled, not converted.
+- A regional Travel ERP enquiry link with the service preselected.
+- Reset; semantic keyboard-operable controls; readable content without JavaScript.
+
+Fictional records
+Customer agreed amount: 6,000
+Recorded received amount: 1,800
+Customer balance: 4,200
+Supplier obligation: 4,000
+Recorded supplier payment: 1,000
+Supplier balance: 3,000
+The customer and supplier balances are separate. These amounts do not establish
+bank settlement, cancellation rules, taxes, margin or accounting treatment.
+
+Acceptance scenarios
+1. Initial state has four unresolved checks.
+2. Confirming accommodation alone leaves transfer, finance and documents open.
+3. Completing all checks changes the summary to ready for internal handover review.
+4. Reopening any check restores the unresolved state and names the open item.
+5. Selecting UK uses GBP labels and opens the UK enquiry with Travel ERP selected.
+6. Selecting US uses USD labels and opens the US enquiry with Travel ERP selected.
+7. Reset returns the US scenario and clears all four checks.
+8. Keyboard users can operate steps, checks, market selection and reset.
+9. Without JavaScript all four sample views and direct market links remain readable.
+10. No demo control submits an enquiry, booking, supplier request or payment.
+
+Implementation boundary
+Files: assets/erp-handover-demo.js and assets/erp-handover-demo.css.
+Controls use fixed page data and in-memory state. Reload resets the checks.
+No database, account authentication, supplier integration, accounting connection,
+live inventory, payment collection or production booking was implemented here.
+
+Before commissioning a production system
+Agree record identifiers, roles and permissions, evidence behind each status,
+provider access, retry and duplicate rules, migration, exports, audit records,
+acceptance owners, hosting, source/data rights, training and support in writing.
+The demonstration files and these notes are not a substitute for that agreement.
