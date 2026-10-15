@@ -103,9 +103,10 @@ const officeLocations = [
   ["Bangalore", "561, 32nd Cross Rd, 4th Block, Jayanagar, Bengaluru 560011"],
   ["Kolkata", "2D, Bose Pukur Rd, Prantik Palli, Kasba, Kolkata 700042"],
   ["Lucknow", "Radiant Complex, Cantonment Road, Lalbagh, Lucknow 226001"],
-  ["Dubai", "Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE"],
-  ["United Kingdom remote service coverage", "Remote delivery from India"],
-  ["United States remote service coverage", "Remote delivery from India"]
+  ["Dubai / UAE service coverage", "Remote delivery from Gurugram, India"],
+  ["Singapore service coverage", "Remote delivery from Gurugram, India"],
+  ["United Kingdom service coverage", "Remote delivery from Gurugram, India"],
+  ["United States service coverage", "Remote delivery from Gurugram, India"]
 ];
 
 const priorityCompanyFacts = [
@@ -7904,6 +7905,12 @@ for(const key of ['ukSoftwareServices','usSoftwareServices','erp']){const before
 .replaceAll("₹60,000","£600")
 .replaceAll("₹20,000","£200")
 .replaceAll("₹40,000","£400");}
+// Confirmed office hours and remote enquiry coverage, 15 October 2026.
+const businessContactDetails = "<section class=\"section mist\" id=\"business-contact-details\"><div class=\"container\"><h2>Office hours and international enquiries</h2><p><strong>Monday–Saturday, 10:30 am–7:30 pm India Standard Time (IST, UTC+05:30).</strong> Sunday closed. Arrange an appointment before visiting.</p><address>SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017</address><p><a href=\"tel:+917011040474\">+91 70110 40474</a> · <a href=\"https://wa.me/917011040474\" target=\"_blank\" rel=\"noopener noreferrer\">WhatsApp our team</a> · <a href=\"mailto:sales@bandeviglobalgroup.com\">sales@bandeviglobalgroup.com</a></p><p>UK, US, Dubai/UAE and Singapore projects are served remotely from India. Consultations use the same team hours; choose your time zone when requesting a meeting.</p><a class=\"button dark\" href=\"/demo-request/\">Request a consultation</a></div></section>";
+const contactBeforeBusinessDetails = pageRenderers.contact;
+pageRenderers.contact = () => contactBeforeBusinessDetails() + businessContactDetails;
+trustPageContent.offices += businessContactDetails;
+
 render();
 
 if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}
