@@ -5,6 +5,7 @@ import hmac
 import operations
 import client_workflow
 import journey_measurement
+import lead_qualification
 import json
 import logging
 import os
@@ -89,7 +90,7 @@ def validate_project_brief(value, enquiry):
         if not isinstance(item,str) or len(item)>limit or any(ord(c)<32 and c not in '\n\t' for c in item):
             raise ValueError('Invalid project brief.')
         result[field]=item.strip()
-    if BRIEF_SERVICES.get(result['service']) != enquiry['interest'] or result['budget'] not in BRIEF_BUDGETS or not result['problem']:
+    if BRIEF_SERVICES.get(result['service']) != enquiry['interest'] or (not enquiry.get('qualification') and result['budget'] not in BRIEF_BUDGETS) or not result['problem']:
         raise ValueError('Invalid project brief.')
     if result['launchDate']:
         day=datetime.date.fromisoformat(result['launchDate'])
@@ -123,6 +124,9 @@ def validate(data):
         phone = result['phone']
         if not re.fullmatch(r"\+?[0-9 () .-]+", phone) or not 7 <= len(re.sub(r"\D", "", phone)) <= 15:
             raise ValueError('Enter an email address or a valid phone number with country code.')
+    if 'qualification' in data:
+        result['qualification']=lead_qualification.validate(data['qualification'],result)
+        result['country']=result['qualification']['country']
     if 'projectBrief' in data:
         result['projectBrief'] = validate_project_brief(data['projectBrief'], result)
     if data.get('slotId') is not None:
@@ -300,6 +304,9 @@ class Handler(BaseHTTPRequestHandler):
                     today=datetime.datetime.now(india)
                     if selected<=today or selected.date()>today.date()+datetime.timedelta(days=180):
                         return self.respond(400, {'error':'Choose a future demo time within 180 days, or leave both date and time blank.'})
+                if data.get('qualification'):
+                    try: lead_qualification.check_future(data['qualification'])
+                    except ValueError as error: return self.respond(400,{'error':str(error)})
                 count = db.execute('SELECT COUNT(*) FROM requests WHERE fingerprint=? AND created>?', (fingerprint, now - 3600)).fetchone()[0]
                 if count >= 5:
                     return self.respond(429, {'error': 'Too many enquiries. Please try later or contact us directly.'})

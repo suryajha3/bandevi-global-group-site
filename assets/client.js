@@ -29,7 +29,7 @@ function enquiryAnalytics(form,type,reference) {
   if(!Array.isArray(sent))sent=[];if(sent.includes(reference))return;
   sent.push(reference);try {sessionStorage.setItem(key,JSON.stringify(sent.slice(-100)));}catch(_){}
   const services={'Website / App Development Package':'website_app','CRM & ERP Package':'crm_erp','Travel CRM Package':'travel_crm','Travel ERP Package':'travel_erp','Complete Travel Website Package':'travel_website','White-label Travel Website Package':'white_label_website','B2B Travel Portal Package':'b2b_portal','Customer Portal Package':'customer_portal','E-Commerce Package':'ecommerce','Automation Package':'automation','Need guidance':'guidance','Travel Technology Planning':'travel_technology'};
-  trackAnalyticsEvent('generate_lead',{...(['GB','US','other'].includes(form.elements.projectCountry?.value)?{project_market:form.elements.projectCountry.value}:{}),lead_type:type,service_interest:services[form.elements.interest.value]||'other',acquisition_channel:enquiryAttribution.channel,landing_page:enquiryAttribution.landing_page,page_location:location.origin+publicPagePath()});
+  trackAnalyticsEvent('generate_lead',{...(['GB','US','IN','other'].includes(form.elements.projectCountry?.value)?{project_market:form.elements.projectCountry.value}:{}),lead_type:type,service_interest:services[form.elements.interest.value]||'other',acquisition_channel:enquiryAttribution.channel,landing_page:enquiryAttribution.landing_page,page_location:location.origin+publicPagePath()});
 }
 
 const googleAnalyticsId = "G-TGK7Z8VNJX";
@@ -239,8 +239,11 @@ function bindNav() {
 function enquiryMessage(form, data) {
   return [
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
-    ['GB','US','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',other:'Another country'})[data.projectCountry] : '',
+    ['GB','US','IN','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',IN:'India',other:'Another country'})[data.projectCountry] : '',
     data.projectBudget ? 'Planning budget: ' + data.projectBudget.trim() : '',
+    data.contactChannel && data.contactChannel!=='Discuss' ? 'Preferred contact method: '+data.contactChannel : '',
+    data.contactDate && data.contactTime ? 'Preferred contact (not confirmed): '+data.contactDate+' '+data.contactTime+' '+data.contactTimezone : '',
+    data.contactTimezone ? 'Customer time zone: '+data.contactTimezone : '',
     ['Within 1 month','1–3 months','3–6 months','More than 6 months','Exploring options'].includes(data.projectLaunch) ? 'Target launch window: ' + data.projectLaunch : '',
     data.businessType ? 'Business type: ' + data.businessType : '',
     data.demoFocus && form.elements.demoFocus ? 'Requested walkthrough: ' + form.elements.demoFocus.options[form.elements.demoFocus.selectedIndex].text : '',
@@ -265,7 +268,7 @@ function bindEnquiryJourney(form) {
     guidance: ['Describe the problem and what a useful first release would do.', 'Current process or tools (optional)', 'Most important improvement (optional)']
   };
   const services = {
-    'Website / App Development Package': 'website', 'CRM & ERP Package': 'crm',
+    'Website / App Development Package': 'website', 'CRM & ERP Package': 'crm', 'Website development':'website','Mobile app development':'website','Custom CRM development':'crm','ERP & business software':'crm','E-commerce development':'commerce','Custom software & integrations':'automation','Maintenance & support':'guidance',
     'Travel CRM Package': 'crm', 'Travel ERP Package': 'crm', 'Complete Travel Website Package': 'travel',
     'White-label Travel Website Package': 'travel', 'B2B Travel Portal Package': 'travel',
     'Customer Portal Package': 'portal', 'E-Commerce Package': 'commerce',
@@ -328,10 +331,56 @@ function savedEnquiryReceipt(note, reference, type) {
   const delivery=document.createElement('p');delivery.className='receipt-delivery';delivery.textContent=type==='demo'?'This confirms your enquiry was saved. Check the booking status below for meeting confirmation; email delivery is separate.':'This confirms your enquiry was saved. Email delivery and a meeting time are not confirmed by this receipt.';note.append(delivery);
 }
 
+function bindLeadQualification(form) {
+  if (!['contact','demo','home'].includes(form.dataset.form)) return;
+  const regional=form.elements.projectCountry?.value||'',oldBudget=form.elements.projectBudget?.value||'';
+  if(!form.querySelector('[data-lead-qualification]')){
+    for(const name of ['projectCountry','projectBudget','quoteCurrency']){const field=form.elements[name];if(field)field.closest('.field').remove();}
+    const box=document.createElement('fieldset');box.className='field full enquiry-qualification';box.dataset.leadQualification='1';
+    const id='qualification-'+(form.id||form.dataset.form);
+    box.innerHTML=`<legend>Your country & contact preferences</legend><p class="form-help">Choose your country so we can handle your enquiry in the right market. Budget and contact-time preferences are optional and do not confirm a price or appointment.</p><div class="form-grid"><div class="field"><label for="${id}-country">Business country *</label><select id="${id}-country" name="projectCountry" autocomplete="country" required><option value="">Choose your country</option><option value="GB" ${regional==='GB'?'selected':''}>United Kingdom</option><option value="US" ${regional==='US'?'selected':''}>United States</option><option value="IN">India</option><option value="other">Another country</option></select></div><div class="field"><label for="${id}-currency">Budget / quote currency</label><select id="${id}-currency" name="quoteCurrency"><option value="">Agree with the team</option><option value="GBP">GBP - British pound</option><option value="USD">USD - US dollar</option><option value="INR">INR - Indian rupee</option><option value="EUR">EUR - Euro</option></select></div><div class="field full"><label for="${id}-budget">Planning budget or range (optional)</label><input id="${id}-budget" name="projectBudget" maxlength="120" placeholder="Enter a range, or leave blank if unsure"><p class="form-help">Your spending preference, not a published package price. Final pricing follows a custom quotation.</p></div><div class="field"><label for="${id}-channel">Preferred contact method</label><select id="${id}-channel" name="contactChannel"><option value="Discuss">Agree with the team</option><option>Email</option><option value="Phone">Phone call</option><option>WhatsApp</option></select></div><div class="field"><label for="${id}-zone">Your contact time zone *</label><select id="${id}-zone" name="contactTimezone" required><option value="">Choose your time zone</option><option value="Europe/London">UK - London</option><option value="America/New_York">US - Eastern</option><option value="America/Chicago">US - Central</option><option value="America/Denver">US - Mountain</option><option value="America/Los_Angeles">US - Pacific</option><option value="America/Phoenix">US - Arizona</option><option value="America/Anchorage">US - Alaska</option><option value="Pacific/Honolulu">US - Hawaii</option><option value="Asia/Kolkata">India - IST</option><option value="Asia/Dubai">UAE - Dubai</option><option value="Asia/Singapore">Singapore</option><option value="UTC">UTC / discuss with the team</option></select></div><div class="field"><label for="${id}-date">Best date to contact you (optional)</label><input id="${id}-date" name="contactDate" type="date"></div><div class="field"><label for="${id}-time">Best contact time (your time zone)</label><input id="${id}-time" name="contactTime" type="time"></div></div>`;
+    if(form.id==='project-brief')form.querySelector('[data-brief-step="3"] .form-grid').append(box);
+    else {const message=form.elements.message;message?.closest('.field')?.before(box);}
+    if(form.id==='project-brief')box.querySelector('[name=projectBudget]').closest('.field').remove();
+    else form.elements.projectBudget.value=oldBudget;
+  }
+  const e=form.elements,currencyByCountry={GB:'GBP',US:'USD',IN:'INR'},zoneByCountry={GB:'Europe/London',IN:'Asia/Kolkata'};
+  if(!form.id||form.id!=='project-brief'){
+    const interest=e.interest;
+    for(const title of ['Website development','Mobile app development','Custom CRM development','ERP & business software','E-commerce development','Custom software & integrations','Maintenance & support'])if(interest&&!Array.from(interest.options).some(o=>o.value===title))interest.add(new Option(title,title));
+  }
+  function countryChanged(resetZone=false){
+    const currency=currencyByCountry[e.projectCountry.value];
+    if(currency)e.quoteCurrency.value=currency;
+    for(const option of e.quoteCurrency.options)option.disabled=!!currency&&option.value!==currency;
+    if(resetZone)e.contactTimezone.value=zoneByCountry[e.projectCountry.value]||'';
+    if(!e.contactTimezone.value&&zoneByCountry[e.projectCountry.value])e.contactTimezone.value=zoneByCountry[e.projectCountry.value];
+    e.contactTimezone.setCustomValidity(e.projectCountry.value==='US'&&!e.contactTimezone.value?'Choose your US time zone.':'');
+  }
+  function contactChanged(){
+    e.contactDate.required=!!e.contactTime.value;e.contactTime.required=!!e.contactDate.value;
+    if(e.email)e.email.setCustomValidity(e.contactChannel.value==='Email'&&!e.email.value.trim()?'Enter an email address for email contact.':'');
+    if(e.phone){const digits=e.phone.value.replace(/\D/g,'').length;e.phone.setCustomValidity(['Phone','WhatsApp'].includes(e.contactChannel.value)&&(!/^\+?[0-9 () .-]+$/.test(e.phone.value.trim())||digits<7||digits>15)?'Enter a valid phone number for your preferred contact method.':'');}
+  }
+  e.projectCountry.addEventListener('change',()=>countryChanged(true));
+  for(const field of [e.contactChannel,e.email,e.phone,e.contactDate,e.contactTime])if(field)field.addEventListener('input',contactChanged);
+  e.contactTimezone.addEventListener('change',()=>e.contactTimezone.setCustomValidity(''));
+  form.addEventListener('reset',()=>queueMicrotask(()=>{countryChanged(true);contactChanged();}));
+  form.addEventListener('submit',event=>{contactChanged();if(!form.reportValidity()){event.preventDefault();event.stopImmediatePropagation();}},true);
+  countryChanged();contactChanged();
+}
+
+function enquiryQualification(form,data){
+  if(!form.querySelector('[data-lead-qualification]'))return {};
+  const country=form.elements.projectCountry.value;
+  return {qualification:{version:1,country,currency:({GB:'GBP',US:'USD',IN:'INR'})[country]||form.elements.quoteCurrency.value,budget:(form.elements.projectBudget||form.elements.briefBudget).value.trim(),contact:{channel:data.contactChannel,date:data.contactDate,time:data.contactTime,timezone:data.contactTimezone}}};
+}
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
   document.querySelectorAll("[data-form]").forEach((form) => {
+    bindLeadQualification(form);
     const type = form.dataset.form;
     if (type === "contact") {
       const requestedChoice = new URL(window.location.href).searchParams.get("solution");
@@ -479,6 +528,7 @@ function bindForms() {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
           interest: data.interest || (type==='contact'?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
+          ...enquiryQualification(form,data),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),

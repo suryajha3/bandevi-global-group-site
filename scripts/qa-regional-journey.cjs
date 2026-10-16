@@ -1,3 +1,4 @@
+const completeRouting=require('./qa-qualification-fields.cjs');
 // Public-site checks only. All enquiry/measurement writes are intercepted, including live mode.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'qa-results/regional-journey');fs.mkdirSync(out,{recursive:true});
@@ -23,9 +24,9 @@ let server,browser;
   assert.equal(new URL(p.url()).pathname,regional);const form=p.locator('#regional-enquiry form');
   assert.equal(await form.locator('[name=projectCountry]').inputValue(),market);assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),currency);assert.equal(await form.locator('[name=interest]').inputValue(),'Travel ERP Package');
   assert.equal(await form.locator('[name=name]').inputValue(),'');assert.equal(await form.locator('[name=email]').inputValue(),'');
-  await form.locator('[name=name]').fill('Synthetic QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic handover review only');await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'Synthetic retry check'}).waitFor();assert.equal(await form.locator('[name=message]').inputValue(),'Synthetic handover review only');
+  await form.locator('[name=name]').fill('Synthetic QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic handover review only');await completeRouting(form);await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'Synthetic retry check'}).waitFor();assert.equal(await form.locator('[name=message]').inputValue(),'Synthetic handover review only');
   assert.equal(await p.evaluate(()=>window.__events.filter(e=>e[1]==='generate_lead').length),0);
-  fail=false;await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();
+  fail=false;await completeRouting(form);await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();
   const submissions=writes.filter(w=>w.url.endsWith('/api/enquiries'));assert.equal(submissions.length,2);assert.equal(submissions[0].data.attribution.channel,'organic_search');assert.equal(submissions[1].data.attribution.landing_page,landing);assert.equal(submissions[1].data.source,regional);assert.match(submissions[1].data.message,new RegExp('Preferred quote currency: '+currency));
   const events=await p.evaluate(()=>window.__events.filter(e=>e[1]==='generate_lead'));assert.equal(events.length,1);assert.equal(events[0][2].project_market,market);assert.equal(events[0][2].service_interest,'travel_erp');assert(!JSON.stringify(events).includes('qa@example.test'));
   assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);

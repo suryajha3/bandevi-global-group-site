@@ -1,3 +1,4 @@
+const completeRouting=require('./qa-qualification-fields.cjs');
 const {chromium}=require('playwright'),{spawn}=require('node:child_process'),http=require('node:http'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..'),output=process.env.QA_OUTPUT||path.join(root,'qa-results/journey-measurement');fs.mkdirSync(output,{recursive:true});
 let server,browser,service;const checks=[];
@@ -11,10 +12,10 @@ for(const source of [false,true])for(const width of [390,1440]){
  await c.route('**/api/measurement',async r=>{sent.push(r.request().postDataJSON());await r.fulfill({status:200,json:{ok:true}});});
  let reject=true;await c.route('**/api/enquiries',r=>r.fulfill({status:reject?503:201,json:reject?{error:'Synthetic rejection'}:{ok:true,reference:'BG-1234567890ABCDEF'}}));
  const p=await c.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(base+'/contact-us/'+(source?'?source=1':'?email=private@example.test'));
- await p.waitForFunction(()=>window.__bgJourneyMeasurement);const f=p.locator('form[data-form=contact]');await f.locator('[name=name]').fill('Private person');await f.locator('[name=name]').fill('Private person again');await f.locator('[type=submit]').click();await p.waitForTimeout(100);
+ await p.waitForFunction(()=>window.__bgJourneyMeasurement);const f=p.locator('form[data-form=contact]');await f.locator('[name=name]').fill('Private person');await f.locator('[name=name]').fill('Private person again');await completeRouting(f);await f.locator('[type=submit]').click();await p.waitForTimeout(100);
  assert.equal(sent.filter(x=>x.event==='start').length,1);assert.equal(sent.filter(x=>x.event==='invalid'&&x.reason==='required').length,1);
- await f.locator('[name=email]').fill('private@example.test');await f.locator('[name=message]').fill('Private customer description');await f.locator('[type=submit]').click();await f.locator('.form-note').filter({hasText:'Synthetic rejection'}).waitFor();await p.waitForTimeout(100);assert.equal(sent.filter(x=>x.event==='failed'&&x.reason==='server').length,1);
- reject=false;await f.locator('[type=submit]').click();await f.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();await p.waitForTimeout(100);assert.equal(sent.filter(x=>x.event==='saved').length,1);assert.equal(sent.filter(x=>x.event==='start').length,1);
+ await f.locator('[name=email]').fill('private@example.test');await f.locator('[name=message]').fill('Private customer description');await completeRouting(f);await f.locator('[type=submit]').click();await f.locator('.form-note').filter({hasText:'Synthetic rejection'}).waitFor();await p.waitForTimeout(100);assert.equal(sent.filter(x=>x.event==='failed'&&x.reason==='server').length,1);
+ reject=false;await completeRouting(f);await f.locator('[type=submit]').click();await f.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();await p.waitForTimeout(100);assert.equal(sent.filter(x=>x.event==='saved').length,1);assert.equal(sent.filter(x=>x.event==='start').length,1);
  await f.evaluate(el=>el.dispatchEvent(new CustomEvent('enquiry-saved',{detail:{reference:'BG-1234567890ABCDEF'}})));await p.waitForTimeout(50);assert.equal(sent.filter(x=>x.event==='saved').length,1);
  await p.locator('.receipt-actions a').last().evaluate(a=>a.addEventListener('click',e=>e.preventDefault()));await p.locator('.receipt-actions a').last().click();await p.waitForTimeout(100);assert.equal(sent.filter(x=>x.event==='whatsapp_click').length,1);
  await f.locator('[name=name]').fill('Next private enquiry');await p.waitForTimeout(100);assert.equal(sent.filter(x=>x.event==='start').length,2);

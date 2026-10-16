@@ -22,7 +22,7 @@ jobs:
       - name: Run isolated enquiry and upgrade regressions
         run: |
           cd server
-          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py test_contact_channels.py test_journey_measurement.py; do
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py test_contact_channels.py test_journey_measurement.py test_lead_qualification.py; do
             python3 -B "$suite"
           done
   browser:
@@ -45,6 +45,12 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-qualified-enquiries.cjs
+          node scripts/qa-enquiry-journey.cjs
+          node scripts/qa-regional-leads.cjs
+          node scripts/qa-regional-journey.cjs
+          node scripts/qa-guide-service-journey.cjs
+          node scripts/qa-erp-finance-planning.cjs
           node scripts/qa-website.cjs
           node scripts/qa-navigation.cjs
           node scripts/qa-mobile-contact.cjs
@@ -58,14 +64,9 @@ jobs:
           node scripts/qa-journey-measurement.cjs
           node scripts/qa-analytics-consent.cjs
           node scripts/qa-demo-local-time.cjs
-          node scripts/qa-enquiry-journey.cjs
           node scripts/qa-consultation-timezones.cjs
-          node scripts/qa-regional-leads.cjs
-          node scripts/qa-regional-journey.cjs
-          node scripts/qa-guide-service-journey.cjs
           node scripts/qa-commercial-service-pages.cjs
           node scripts/qa-erp-handover.cjs
-          node scripts/qa-erp-finance-planning.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-sales-journey.cjs
           node scripts/qa-proposals.cjs

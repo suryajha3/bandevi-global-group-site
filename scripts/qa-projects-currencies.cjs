@@ -55,7 +55,7 @@ let server, browser;
       await Promise.all([page.waitForURL(url=>url.pathname==='/contact-us/'),target.click()]);
       assert.equal(await page.locator('#contact-interest').inputValue(),service);
       assert((await page.locator('[data-enquiry-project]').textContent()).includes(name));
-      const currency=page.locator('[name=quoteCurrency]');assert.deepEqual(await currency.locator('option').evaluateAll(items=>items.map(el=>el.value)),['','INR','USD','GBP','EUR']);
+      const currency=page.locator('[name=quoteCurrency]');assert.deepEqual(await currency.locator('option').evaluateAll(items=>items.map(el=>el.value)),['','GBP','USD','INR','EUR']);
       await page.locator('.enquiry-optional summary').click();for(const value of ['INR','USD','GBP','EUR']){await currency.selectOption(value);assert.equal(await currency.inputValue(),value);}
       assert.equal(await currency.getAttribute('required'),null);
       checks.push({code,projectPrefill:true,quoteCurrencies:true});
