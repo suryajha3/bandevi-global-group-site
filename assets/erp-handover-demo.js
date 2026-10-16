@@ -5,6 +5,8 @@
   if (!root || root.dataset.ready) return;
   root.dataset.ready = 'true';
   const market = root.querySelector('[data-erp-market]');
+  // An explicit regional link chooses the example; it does not infer buyer location.
+  const entryMarket = new URL(location.href).searchParams.get('market') === 'GB' ? 'GB' : 'US';
   const checks = [...root.querySelectorAll('[data-erp-check]')];
   const buttons = [...root.querySelectorAll('[data-erp-step]')];
   const panels = [...root.querySelectorAll('[data-erp-panel]')];
@@ -34,11 +36,11 @@
   }
   root.querySelectorAll('button, input, select').forEach(el => { el.disabled = false; });
   checks.forEach(c => { c.checked = false; });
-  market.value = 'US';
+  market.value = entryMarket;
   root.classList.add('erp-demo-enhanced');
   buttons.forEach((b, i) => b.addEventListener('click', () => showStep(i)));
   checks.forEach(c => c.addEventListener('change', update));
   market.addEventListener('change', update);
-  reset.addEventListener('click', () => { checks.forEach(c => { c.checked = false; }); market.value = 'US'; showStep(0); update(); status.textContent = 'Sample reset. Four checks pending; start with the accepted quotation.'; });
+  reset.addEventListener('click', () => { checks.forEach(c => { c.checked = false; }); market.value = entryMarket; showStep(0); update(); status.textContent = 'Sample reset. Four checks pending; start with the accepted quotation.'; });
   showStep(0); update();
 })();
