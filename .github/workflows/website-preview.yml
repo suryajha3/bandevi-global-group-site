@@ -64,6 +64,7 @@ jobs:
           node scripts/qa-guide-service-journey.cjs
           node scripts/qa-commercial-service-pages.cjs
           node scripts/qa-erp-handover.cjs
+          node scripts/qa-erp-finance-planning.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-sales-journey.cjs
           node scripts/qa-proposals.cjs
