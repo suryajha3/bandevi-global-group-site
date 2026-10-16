@@ -16,6 +16,6 @@ const server=http.createServer((req,res)=>{let p=path.join(root,new URL(req.url,
   h=h.replace(/client\.js\?v=[^"']*/g,'client.js?v='+clientVersion);fs.writeFileSync(f,h);count++;
  }
  if(errors.length)throw Error(errors.join('\n'));
- const source=fs.readFileSync(path.join(root,'assets/site.js'),'utf8');const client=source.slice(0,source.indexOf('const brandAliases'))+source.slice(source.indexOf('function bindNav()'),source.indexOf('function render()'))+'\nbindNav();\nbindForms();\nbindAnalyticsEvents();\n';fs.writeFileSync(path.join(root,'assets/client.js'),client);
+ const source=fs.readFileSync(path.join(root,'assets/site.js'),'utf8');const client=source.slice(0,source.indexOf('const brandAliases'))+source.slice(source.indexOf('function bindServicePreview()'),source.indexOf('function render()'))+'\nbindNav();\nbindForms();\nbindAnalyticsEvents();\n';fs.writeFileSync(path.join(root,'assets/client.js'),client);
  console.log('Prerendered '+count+' HTML pages. Client JS '+Buffer.byteLength(client)+' bytes.');
  }finally{if(browser)await browser.close();server.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,3 +1,4 @@
+const completeRouting=require('./qa-qualification-fields.cjs');
 // Exercise real navigation and captured API payloads; never send production writes.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'qa-results/erp-finance-planning');fs.mkdirSync(out,{recursive:true});
@@ -29,7 +30,7 @@ let server,browser;
    assert.equal(await form.locator('[name=name]').inputValue(),'');assert.equal(await form.locator('[name=email]').inputValue(),'');
    if(journey==='demo')assert.equal(await form.locator('[name=demoFocus]').inputValue(),focus);
    else {assert.equal(await form.locator('[name=projectCountry]').inputValue(),journey==='uk'?'GB':'US');assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),journey==='uk'?'GBP':'USD');}
-   await form.locator('[name=name]').fill('Synthetic guide QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic guide enquiry; intercepted, never sent.');await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();
+   await form.locator('[name=name]').fill('Synthetic guide QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic guide enquiry; intercepted, never sent.');await completeRouting(form);await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();
    const saved=writes.filter(w=>w.url.endsWith('/api/enquiries'));assert.equal(saved.length,1);assert.equal(saved[0].data.attribution.channel,'organic_search');assert.equal(saved[0].data.attribution.landing_page,landing);assert.equal(saved[0].data.attribution.utm_source,'');assert.equal(saved[0].data.source,new URL(p.url()).pathname);
    const events=await p.evaluate(()=>window.__events.filter(e=>e[1]==='generate_lead'));assert.equal(events.length,1);assert.equal(events[0][2].landing_page,landing);assert(!JSON.stringify(events).includes('qa@example.test'));assert.deepEqual(errors,[]);
    results.push({slug,width,source,journey,originalLandingAndOrganicChannel:true,servicePrefill:true});await c.close();
