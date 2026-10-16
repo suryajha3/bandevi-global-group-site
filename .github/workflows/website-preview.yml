@@ -45,6 +45,12 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-qualified-enquiries.cjs
+          node scripts/qa-enquiry-journey.cjs
+          node scripts/qa-regional-leads.cjs
+          node scripts/qa-regional-journey.cjs
+          node scripts/qa-guide-service-journey.cjs
+          node scripts/qa-erp-finance-planning.cjs
           node scripts/qa-website.cjs
           node scripts/qa-navigation.cjs
           node scripts/qa-mobile-contact.cjs
@@ -57,15 +63,9 @@ jobs:
           node scripts/qa-projects-currencies.cjs
           node scripts/qa-journey-measurement.cjs
           node scripts/qa-demo-local-time.cjs
-          node scripts/qa-enquiry-journey.cjs
           node scripts/qa-consultation-timezones.cjs
-          node scripts/qa-qualified-enquiries.cjs
-          node scripts/qa-regional-leads.cjs
-          node scripts/qa-regional-journey.cjs
-          node scripts/qa-guide-service-journey.cjs
           node scripts/qa-commercial-service-pages.cjs
           node scripts/qa-erp-handover.cjs
-          node scripts/qa-erp-finance-planning.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-sales-journey.cjs
           node scripts/qa-proposals.cjs
