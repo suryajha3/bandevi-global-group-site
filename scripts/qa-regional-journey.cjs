@@ -12,7 +12,7 @@ let server,browser;
   await c.route('**/*',r=>{const req=r.request(),url=req.url();if(!url.startsWith(base))return r.abort();if(req.method()!=='GET'){writes.push({url,data:req.postDataJSON()});if(url.endsWith('/api/enquiries'))return r.fulfill({status:fail?503:201,json:fail?{ok:false,error:'Synthetic retry check'}:{ok:true,reference:'BG-1234567890ABCDEF'}});return r.fulfill({status:200,json:{ok:true}});}return r.continue();});
   p.on('pageerror',e=>errors.push(e.message));
   const regional='/'+slug+'/software-development/',landing=width===390?'/blog/automate-payment-workflows-in-travel-agencies/':regional;await p.goto(base+landing+(source?'?source=1':''),{referer:'https://www.google.com/'});
-  if(landing!==regional)await p.locator('main a[href="'+regional+'#regional-enquiry"]').click();
+  if(landing!==regional){const link=p.locator('#guide-project-path a[href="'+regional+'?solution=Travel%20ERP%20Package#regional-enquiry"]');assert.equal(await link.count(),1);await link.click();}
   const walkthrough=p.locator('#project-evidence a[href*="erp-handover-walkthrough"]');
   assert.equal(await walkthrough.count(),1);const href=await walkthrough.getAttribute('href');assert.equal(new URL(href,base).searchParams.get('market'),market,'Regional walkthrough link must explicitly retain market');
   await walkthrough.click();await p.waitForFunction(()=>document.querySelector('#erp-handover-walkthrough')?.dataset.ready==='true');
