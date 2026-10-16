@@ -33,7 +33,8 @@ Acceptance scenarios
 4. Reopening any check restores the unresolved state and names the open item.
 5. Selecting UK uses GBP labels and opens the UK enquiry with Travel ERP selected.
 6. Selecting US uses USD labels and opens the US enquiry with Travel ERP selected.
-7. Reset returns the US scenario and clears all four checks.
+7. Reset returns the entry market and clears all four checks. Explicit regional
+   links select GB or US; an absent or unrecognised market defaults to US.
 8. Keyboard users can operate steps, checks, market selection and reset.
 9. Without JavaScript all four sample views and direct market links remain readable.
 10. No demo control submits an enquiry, booking, supplier request or payment.
