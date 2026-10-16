@@ -12,6 +12,7 @@
     return {page,form,channel};
   }
   function send(data, google = true) {
+    if (!window.bgAnalyticsConsent?.allowed()) return;
     try {
       fetch('/api/measurement',{method:'POST',credentials:'omit',keepalive:true,referrerPolicy:'no-referrer',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(()=>{});
       if (google && typeof trackAnalyticsEvent==='function') trackAnalyticsEvent('enquiry_'+data.event,{lead_type:data.form,error_category:data.reason||'none',acquisition_channel:data.channel,page_location:location.origin+data.page});
@@ -21,10 +22,12 @@
   function state(form) {let s=forms.get(form);if(!s){s={journey:crypto.randomUUID(),...context(form.dataset.form),events:new Set()};forms.set(form,s);}return s;}
   function event(form, name, reason='') {
     const s=state(form),key=name+':'+reason;
+    if (!window.bgAnalyticsConsent?.allowed()) return;
     if(s.events.has(key))return;s.events.add(key);
     send({journey:s.journey,event:name,reason,page:s.page,form:s.form,channel:s.channel});
   }
   function start(form) {event(form,'start');}
+  document.addEventListener('bg-analytics-consent-change',()=>{document.querySelectorAll('form[data-form]').forEach(f=>forms.delete(f));});
   for(const name of ['input','change'])document.addEventListener(name,e=>{const f=target(e.target);if(f){if(forms.get(f)?.complete)forms.delete(f);start(f);}},true);
   document.addEventListener('submit',e=>{const f=target(e.target);if(f){if(forms.get(f)?.complete)forms.delete(f);start(f);}},true);
   document.addEventListener('invalid',e=>{const f=target(e.target);if(!f)return;start(f);const v=e.target.validity;event(f,'invalid',v.valueMissing?'required':v.tooLong?'length':v.typeMismatch||v.patternMismatch||v.customError?'format':'other');},true);

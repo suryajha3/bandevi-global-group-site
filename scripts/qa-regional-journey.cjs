@@ -9,7 +9,7 @@ let server,browser;
  browser=await chromium.launch(process.env.QA_CHROME?{executablePath:process.env.QA_CHROME}:{});const results=[];
  for(const source of live?[false]:[false,true])for(const width of [390,1440])for(const [slug,market,currency] of [['uk','GB','GBP'],['us','US','USD']]){
   const c=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),p=await c.newPage(),writes=[],errors=[];let fail=true;
-  await c.addInitScript(()=>{window.__events=[];window.gtag=(...args)=>window.__events.push(args);});
+  await c.addInitScript(()=>{window.__events=[];localStorage.setItem('bg_analytics_consent_v1',JSON.stringify({choice:'granted',expires:Date.now()+86400000}));window.gtag=(...args)=>window.__events.push(args);});
   await c.route('**/*',r=>{const req=r.request(),url=req.url();if(!url.startsWith(base))return r.abort();if(req.method()!=='GET'){writes.push({url,data:req.postDataJSON()});if(url.endsWith('/api/enquiries'))return r.fulfill({status:fail?503:201,json:fail?{ok:false,error:'Synthetic retry check'}:{ok:true,reference:'BG-1234567890ABCDEF'}});return r.fulfill({status:200,json:{ok:true}});}return r.continue();});
   p.on('pageerror',e=>errors.push(e.message));
   const regional='/'+slug+'/software-development/',landing=width===390?'/blog/automate-payment-workflows-in-travel-agencies/':regional;await p.goto(base+landing+(source?'?source=1':''),{referer:'https://www.google.com/'});

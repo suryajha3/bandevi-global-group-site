@@ -12,7 +12,7 @@ let server,browser;
   let canonicalText;
   for(const journey of ['demo','uk','us','service']){
    const c=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),p=await c.newPage(),writes=[],errors=[];
-   await c.addInitScript(()=>{window.__events=[];window.gtag=(...a)=>window.__events.push(a);});
+   await c.addInitScript(()=>{window.__events=[];localStorage.setItem('bg_analytics_consent_v1',JSON.stringify({choice:'granted',expires:Date.now()+86400000}));window.gtag=(...a)=>window.__events.push(a);});
    await c.route('**/*',r=>{const req=r.request();if(!req.url().startsWith(base))return r.abort();if(req.method()!=='GET'){writes.push({url:req.url(),data:req.postDataJSON()});return r.fulfill({status:req.url().endsWith('/api/enquiries')?201:200,json:req.url().endsWith('/api/enquiries')?{ok:true,reference:'BG-1234567890ABCDEF'}:{ok:true}});}return r.continue();});p.on('pageerror',e=>errors.push(e.message));
    const landing='/blog/'+slug+'/';await p.goto(base+landing+(source?'?source=1':''),{referer:'https://www.google.com/'});await p.locator('#guide-project-path').waitFor();
    assert.equal(await p.locator('h1').count(),1);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));

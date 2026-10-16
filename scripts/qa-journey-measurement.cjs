@@ -7,7 +7,7 @@ server=http.createServer((req,res)=>{const u=new URL(req.url,'http://local');let
 browser=await chromium.launch(process.env.QA_CHROME?{executablePath:process.env.QA_CHROME}:{});
 for(const source of [false,true])for(const width of [390,1440]){
  const c=await browser.newContext({viewport:{width,height:950}});const sent=[],ga=[],errors=[];
- await c.addInitScript(()=>{window.__ga=[];window.gtag=(...a)=>window.__ga.push(a);});
+ await c.addInitScript(()=>{window.__ga=[];localStorage.setItem('bg_analytics_consent_v1',JSON.stringify({choice:'granted',expires:Date.now()+86400000}));window.gtag=(...a)=>window.__ga.push(a);});
  await c.route('**/*',r=>r.request().url().startsWith(base)?r.continue():r.abort());
  await c.route('**/api/measurement',async r=>{sent.push(r.request().postDataJSON());await r.fulfill({status:200,json:{ok:true}});});
  let reject=true;await c.route('**/api/enquiries',r=>r.fulfill({status:reject?503:201,json:reject?{error:'Synthetic rejection'}:{ok:true,reference:'BG-1234567890ABCDEF'}}));
