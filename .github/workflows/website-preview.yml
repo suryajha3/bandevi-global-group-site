@@ -56,6 +56,7 @@ jobs:
           node scripts/qa-service-comparison.cjs
           node scripts/qa-projects-currencies.cjs
           node scripts/qa-journey-measurement.cjs
+          node scripts/qa-analytics-consent.cjs
           node scripts/qa-demo-local-time.cjs
           node scripts/qa-enquiry-journey.cjs
           node scripts/qa-consultation-timezones.cjs

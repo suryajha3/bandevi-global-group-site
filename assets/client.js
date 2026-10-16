@@ -21,7 +21,7 @@ function sourceAttribution() {
   return value;
 }
 const enquiryAttribution=sourceAttribution();
-if(!document.querySelector('script[data-journey-measurement]')){const measurementScript=document.createElement('script');measurementScript.src='/assets/enquiry-measurement.js?v=20261012-funnel';measurementScript.dataset.journeyMeasurement='true';document.head.append(measurementScript);}
+if(!document.querySelector('script[data-journey-measurement]')){const measurementScript=document.createElement('script');measurementScript.src='/assets/enquiry-measurement.js?v=20261016-consent';measurementScript.dataset.journeyMeasurement='true';document.head.append(measurementScript);}
 function safeReferrerOrigin() {try {return new URL(document.referrer).origin;}catch(_){return '';}}
 function enquiryAnalytics(form,type,reference) {
   const key='bg_measured_enquiries_v1';let sent=[];
@@ -34,26 +34,75 @@ function enquiryAnalytics(form,type,reference) {
 
 const googleAnalyticsId = "G-TGK7Z8VNJX";
 
-function trackAnalyticsEvent(eventName, parameters = {}) {
-  if (navigator.doNotTrack === "1") return;
-  if (typeof window.gtag === "function") {
-    window.gtag("event", eventName, parameters);
+// Basic opt-in: no Google tag or anonymous journey requests before permission.
+const analyticsConsent = (() => {
+  const key = 'bg_analytics_consent_v1';
+  const maxAge = 180 * 86400000;
+  let choice = 'unknown', loaded = false, panel, settings;
+  try {
+    const saved = JSON.parse(localStorage.getItem(key));
+    if (saved && ['granted','denied'].includes(saved.choice) && saved.expires > Date.now() && saved.expires <= Date.now()+maxAge) choice = saved.choice;
+  } catch (_) {}
+  const allowed = () => choice === 'granted' && navigator.doNotTrack !== '1';
+  function clearAnalyticsCookies() {
+    const host = location.hostname.split('.');
+    for (const cookie of document.cookie.split(';')) {
+      const name = cookie.trim().split('=')[0];
+      if (!/^_ga(?:_|$)|^_gid$|^_gat(?:_|$)/.test(name)) continue;
+      document.cookie = name+'=; Max-Age=0; path=/; SameSite=Lax';
+      for (let i=0;i<host.length-1;i++) document.cookie = name+'=; Max-Age=0; path=/; domain=.'+host.slice(i).join('.')+'; SameSite=Lax';
+    }
   }
-}
+  function apply() {
+    window['ga-disable-'+googleAnalyticsId] = !allowed();
+    if (allowed()) {
+      if (!loaded) {
+        loaded = true;
+        window.dataLayer = window.dataLayer || [];
+        if (typeof window.gtag !== 'function') window.gtag = function(){window.dataLayer.push(arguments);};
+        window.gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+        window.gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+        window.gtag('js',new Date());
+        window.gtag('config',googleAnalyticsId,{page_location:location.origin+publicPagePath(),page_referrer:safeReferrerOrigin(),allow_google_signals:false,allow_ad_personalization_signals:false});
+        if (!document.querySelector('script[data-bg-google-analytics]')) {
+          const script=document.createElement('script');script.async=true;script.dataset.bgGoogleAnalytics='true';script.src='https://www.googletagmanager.com/gtag/js?id='+googleAnalyticsId;document.head.append(script);
+        }
+      } else window.gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+    } else {
+      // The disable flag stops the loaded tag, including future automatic events.
+      // Do not issue a consent update here: the library sends a status ping on withdrawal.
+      clearAnalyticsCookies();
+    }
+    document.dispatchEvent(new CustomEvent('bg-analytics-consent-change'));
+  }
+  function choose(value) {
+    choice=value;
+    try {localStorage.setItem(key,JSON.stringify({choice,expires:Date.now()+maxAge}));}catch(_){}
+    apply();panel.hidden=true;document.getElementById('main-content')?.focus({preventScroll:true});
+  }
+  function init() {
+    if (!document.body.hasAttribute('data-page')) return;
+    const style=document.createElement('style');
+    style.textContent='#bg-analytics-choice{background:#202427;color:#fff;border-bottom:1px solid #bda578;padding:20px max(20px,calc((100% - 1180px)/2));font:16px/1.5 system-ui,sans-serif}#bg-analytics-choice[hidden]{display:none}#bg-analytics-choice h2{font-size:20px;color:#f1dfbb;margin:0 0 8px}#bg-analytics-choice p{max-width:850px;margin:0 0 12px}#bg-analytics-choice a{color:#f1dfbb;text-decoration:underline}#bg-analytics-choice .bg-consent-actions{display:flex;flex-wrap:wrap;gap:12px}#bg-analytics-choice button{padding:12px 18px;min-height:44px;border:1px solid #e5cea2;border-radius:6px;background:#e5cea2;color:#161b1e;font:600 15px/1.4 system-ui,sans-serif;cursor:pointer}#bg-analytics-choice button:disabled{opacity:.65;cursor:not-allowed}#bg-analytics-choice button:focus-visible,#bg-analytics-settings:focus-visible{outline:3px solid #55cbd4;outline-offset:3px}#bg-analytics-settings{display:block;margin:16px auto 88px;padding:12px 18px;border:1px solid #515b61;border-radius:6px;background:#202427;color:#fff;font:600 15px/1.4 system-ui,sans-serif;cursor:pointer}';document.head.append(style);
+    panel=document.createElement('section');panel.id='bg-analytics-choice';panel.setAttribute('aria-labelledby','bg-analytics-heading');
+    panel.innerHTML='<h2 id="bg-analytics-heading">Your analytics choice</h2><p>With your permission, we use Google Analytics and anonymous form-journey measurement to understand how this website is used. You can send an enquiry with analytics off. We remember your choice for six months. <a href="/privacy-policy/#analytics-choice">Privacy information</a>.</p><p data-bg-consent-status></p><div class="bg-consent-actions"><button type="button" data-bg-consent="denied">Decline analytics</button><button type="button" data-bg-consent="granted">Allow analytics</button></div>';
+    panel.hidden=true;document.body.append(panel);
+    settings=document.createElement('button');settings.type='button';settings.id='bg-analytics-settings';settings.textContent='Analytics preferences';settings.setAttribute('aria-controls',panel.id);document.body.append(settings);
+    settings.addEventListener('click',()=>{panel.querySelector('[data-bg-consent-status]').textContent=navigator.doNotTrack==='1'?'Do Not Track is enabled in your browser. Analytics will remain off.':choice==='granted'?'Analytics is currently allowed.':'Analytics is currently off.';panel.hidden=false;panel.querySelector('button').focus();panel.scrollIntoView({block:'start'});});
+    panel.querySelector('[data-bg-consent-status]').textContent=navigator.doNotTrack==='1'?'Do Not Track is enabled in your browser. Analytics will remain off.':choice==='granted'?'Analytics is currently allowed.':choice==='denied'?'Analytics is currently off.':'';
+    panel.querySelector('[data-bg-consent="granted"]').disabled=navigator.doNotTrack==='1';
+    panel.querySelectorAll('[data-bg-consent]').forEach(button=>button.addEventListener('click',()=>choose(button.dataset.bgConsent)));
+    apply();
+  }
+  window.addEventListener('storage',e=>{if(e.key!==key)return;try{const saved=JSON.parse(e.newValue);choice=saved&&['granted','denied'].includes(saved.choice)&&saved.expires>Date.now()?saved.choice:'unknown';}catch(_){choice='unknown';}apply();if(panel)panel.hidden=true;});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  return {allowed};
+})();
+window.bgAnalyticsConsent=analyticsConsent;
 
-if (googleAnalyticsId && !window.gtag && navigator.doNotTrack !== "1") {
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() {
-    window.dataLayer.push(arguments);
-  };
-
-  window.gtag("js", new Date());
-  window.gtag("config", googleAnalyticsId, {page_location:location.origin+publicPagePath(),page_referrer:safeReferrerOrigin(),allow_google_signals:false,allow_ad_personalization_signals:false});
-
-  const analyticsScript = document.createElement("script");
-  analyticsScript.async = true;
-  analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
-  document.head.appendChild(analyticsScript);
+function trackAnalyticsEvent(eventName, parameters = {}) {
+  if (!analyticsConsent.allowed()) return;
+  if (typeof window.gtag === 'function') window.gtag('event',eventName,parameters);
 }
 
 const icons = {
