@@ -61,6 +61,7 @@ jobs:
           node scripts/qa-consultation-timezones.cjs
           node scripts/qa-regional-leads.cjs
           node scripts/qa-regional-journey.cjs
+          node scripts/qa-commercial-service-pages.cjs
           node scripts/qa-erp-handover.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-sales-journey.cjs
