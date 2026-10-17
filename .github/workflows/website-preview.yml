@@ -45,6 +45,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-guide-hero-image.cjs
           node scripts/qa-qualified-enquiries.cjs
           node scripts/qa-enquiry-journey.cjs
           node scripts/qa-market-offers.cjs
@@ -56,7 +57,6 @@ jobs:
           node scripts/qa-regional-travel-choices.cjs
           node scripts/qa-regional-journey.cjs
           node scripts/qa-guide-service-journey.cjs
-          node scripts/qa-guide-hero-image.cjs
           node scripts/qa-erp-finance-planning.cjs
           node scripts/qa-website.cjs
           node scripts/qa-navigation.cjs
