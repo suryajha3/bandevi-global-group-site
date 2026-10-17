@@ -243,6 +243,12 @@ textarea {
   opacity: 1;
 }
 
+/* These guides already declare the smaller WebP as their intended hero. */
+body[data-page="paymentWorkflow"] .hero::before,
+body[data-page="blogTravelErp"] .hero::before {
+  background-image: var(--hero-image, url("travel-operations-hero.webp"));
+}
+
 .hero::after {
   content: "";
   position: absolute;
