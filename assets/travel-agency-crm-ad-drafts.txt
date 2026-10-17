@@ -1,0 +1,125 @@
+Travel agency CRM — US, UK and India advertising drafts
+DRAFT — not uploaded, scheduled or launched
+The walkthrough is a silent, captioned recording of the public fictional sample CRM. No customer case study, endorsement, live booking or payment is claimed.
+
+REVIEW WORKSHEET: the CSV is not an Ads Editor import or a live campaign. Ad-account currency and budgets are unset.
+
+United States · quotation currency USD
+Campaign: travel_agency_crm_us_202610
+Landing page: https://bandeviglobalgroup.com/us/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm
+Budget: not set. Advertising account currency: not set.
+SEARCH VARIANT: Workflow
+Headline: CRM For Travel Agencies
+Headline: Give Every Lead An Owner
+Headline: Organise Agency Follow-Ups
+Headline: Plan Your Travel CRM
+Headline: Enquiries To Next Actions
+Headline: Review Our Fictional Demo
+Headline: Custom Scope For Your Team
+Headline: USD Project Quotations
+Description: Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.
+Description: Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.
+Description: Remote delivery from India. Discuss USD project quotations and your review time zone.
+Description: Give agency enquiries a clear next action. Share your workflow to plan a first release.
+SEARCH VARIANT: Planning
+Headline: Travel Agency CRM Planning
+Headline: Review Your Sales Workflow
+Headline: Keep Quotations In View
+Headline: Name The Next Action Owner
+Headline: Start With One Workflow
+Headline: Discuss Your Agency CRM
+Headline: Scope Before Development
+Headline: USD Quotes By Agreement
+Description: Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.
+Description: Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.
+Description: Remote delivery from India. Discuss USD project quotations and your review time zone.
+Description: Give agency enquiries a clear next action. Share your workflow to plan a first release.
+Keyword suggestions: [travel agency crm], [crm for travel agents], [travel crm software], "tour operator crm", "custom travel crm", "travel sales crm"
+Negative suggestions: "travel agent jobs", "crm jobs", "crm training course", "crm certification", "free crm download", "cracked crm", "cheap flights", "holiday packages"
+LinkedIn headline: Plan a CRM around your travel agency
+LinkedIn text: Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your United States team. Scope, integrations and USD project quotations are agreed in writing.
+LinkedIn URL: https://bandeviglobalgroup.com/us/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm
+
+United Kingdom · quotation currency GBP
+Campaign: travel_agency_crm_uk_202610
+Landing page: https://bandeviglobalgroup.com/uk/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm
+Budget: not set. Advertising account currency: not set.
+SEARCH VARIANT: Workflow
+Headline: CRM For Travel Agencies
+Headline: Give Every Lead An Owner
+Headline: Organise Agency Follow-Ups
+Headline: Plan Your Travel CRM
+Headline: Enquiries To Next Actions
+Headline: Review Our Fictional Demo
+Headline: Custom Scope For Your Team
+Headline: GBP Project Quotations
+Description: Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.
+Description: Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.
+Description: Remote delivery from India. Discuss GBP project quotations and your review time zone.
+Description: Give agency enquiries a clear next action. Share your workflow to plan a first release.
+SEARCH VARIANT: Planning
+Headline: Travel Agency CRM Planning
+Headline: Review Your Sales Workflow
+Headline: Keep Quotations In View
+Headline: Name The Next Action Owner
+Headline: Start With One Workflow
+Headline: Discuss Your Agency CRM
+Headline: Scope Before Development
+Headline: GBP Quotes By Agreement
+Description: Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.
+Description: Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.
+Description: Remote delivery from India. Discuss GBP project quotations and your review time zone.
+Description: Give agency enquiries a clear next action. Share your workflow to plan a first release.
+Keyword suggestions: [travel agency crm], [crm for travel agents], [travel crm software], "tour operator crm", "custom travel crm", "travel sales crm"
+Negative suggestions: "travel agent jobs", "crm jobs", "crm training course", "crm certification", "free crm download", "cracked crm", "cheap flights", "holiday packages"
+LinkedIn headline: Plan a CRM around your travel agency
+LinkedIn text: Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your United Kingdom team. Scope, integrations and GBP project quotations are agreed in writing.
+LinkedIn URL: https://bandeviglobalgroup.com/uk/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm
+
+India · quotation currency INR
+Campaign: travel_agency_crm_india_202610
+Landing page: https://bandeviglobalgroup.com/india/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm
+Budget: not set. Advertising account currency: not set.
+SEARCH VARIANT: Workflow
+Headline: CRM For Travel Agencies
+Headline: Give Every Lead An Owner
+Headline: Organise Agency Follow-Ups
+Headline: Plan Your Travel CRM
+Headline: Enquiries To Next Actions
+Headline: Review Our Fictional Demo
+Headline: Custom Scope For Your Team
+Headline: INR Project Quotations
+Description: Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.
+Description: Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.
+Description: Remote delivery from India. Discuss INR project quotations and your review time zone.
+Description: Give agency enquiries a clear next action. Share your workflow to plan a first release.
+SEARCH VARIANT: Planning
+Headline: Travel Agency CRM Planning
+Headline: Review Your Sales Workflow
+Headline: Keep Quotations In View
+Headline: Name The Next Action Owner
+Headline: Start With One Workflow
+Headline: Discuss Your Agency CRM
+Headline: Scope Before Development
+Headline: INR Quotes By Agreement
+Description: Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.
+Description: Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.
+Description: Remote delivery from India. Discuss INR project quotations and your review time zone.
+Description: Give agency enquiries a clear next action. Share your workflow to plan a first release.
+Keyword suggestions: [travel agency crm], [crm for travel agents], [travel crm software], "tour operator crm", "custom travel crm", "travel sales crm"
+Negative suggestions: "travel agent jobs", "crm jobs", "crm training course", "crm certification", "free crm download", "cracked crm", "cheap flights", "holiday packages"
+LinkedIn headline: Plan a CRM around your travel agency
+LinkedIn text: Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your India team. Scope, integrations and INR project quotations are agreed in writing.
+LinkedIn URL: https://bandeviglobalgroup.com/india/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm
+
+BEFORE LAUNCH
+Confirm the advertising account and its currency; choose a budget per market.
+Review destinations, keyword suggestions, negative keywords and location presence settings. No search-volume or ROI claim is supplied.
+Check the account-specific ad policies, assets and tracking setup before upload.
+Use consent-aware attribution and validate saved enquiry, qualified lead and Won definitions before bidding on conversions.
+Publish only the meeting times the team can reliably cover; confirm response and support windows.
+Review real lead quality, demo attendance and proposals by campaign and business country before increasing spend.
+
+SPECIFICATION REFERENCES
+https://support.google.com/google-ads/answer/12159014?hl=en
+https://support.google.com/google-ads/answer/1722038?hl=en

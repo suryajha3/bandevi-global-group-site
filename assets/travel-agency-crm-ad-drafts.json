@@ -1,0 +1,317 @@
+{
+  "title": "Travel agency CRM — US, UK and India advertising drafts",
+  "prepared": "2026-10-17",
+  "status": "DRAFT — not uploaded, scheduled or launched",
+  "evidence": "The walkthrough is a silent, captioned recording of the public fictional sample CRM. No customer case study, endorsement, live booking or payment is claimed.",
+  "video": {
+    "mp4": "/assets/travel-agency-crm-walkthrough.mp4",
+    "webm": "/assets/travel-agency-crm-walkthrough.webm",
+    "poster": "/assets/travel-agency-crm-walkthrough.png",
+    "captions": "/assets/travel-agency-crm-captions.vtt",
+    "transcript": "/assets/travel-agency-crm-transcript.txt",
+    "durationSeconds": 66,
+    "silent": true
+  },
+  "launchChecklist": [
+    "Confirm the advertising account and its currency; choose a budget per market.",
+    "Review destinations, keyword suggestions, negative keywords and location presence settings. No search-volume or ROI claim is supplied.",
+    "Check the account-specific ad policies, assets and tracking setup before upload.",
+    "Use consent-aware attribution and validate saved enquiry, qualified lead and Won definitions before bidding on conversions.",
+    "Publish only the meeting times the team can reliably cover; confirm response and support windows.",
+    "Review real lead quality, demo attendance and proposals by campaign and business country before increasing spend."
+  ],
+  "sources": [
+    {
+      "title": "Google responsive search ad limits",
+      "url": "https://support.google.com/google-ads/answer/12159014?hl=en"
+    },
+    {
+      "title": "Google advanced location options",
+      "url": "https://support.google.com/google-ads/answer/1722038?hl=en"
+    }
+  ],
+  "markets": [
+    {
+      "country": "US",
+      "market": "United States",
+      "slug": "us",
+      "quoteCurrency": "USD",
+      "campaign": "travel_agency_crm_us_202610",
+      "status": "draft",
+      "dailyBudget": null,
+      "adAccountCurrency": null,
+      "finalUrl": "https://bandeviglobalgroup.com/us/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm",
+      "suggestedLocation": "United States",
+      "suggestedLocationOption": "Presence: people in or regularly in the selected country; review account availability and delivery reports.",
+      "searchAds": [
+        {
+          "variant": "Workflow",
+          "headlines": [
+            "CRM For Travel Agencies",
+            "Give Every Lead An Owner",
+            "Organise Agency Follow-Ups",
+            "Plan Your Travel CRM",
+            "Enquiries To Next Actions",
+            "Review Our Fictional Demo",
+            "Custom Scope For Your Team",
+            "USD Project Quotations"
+          ],
+          "descriptions": [
+            "Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.",
+            "Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.",
+            "Remote delivery from India. Discuss USD project quotations and your review time zone.",
+            "Give agency enquiries a clear next action. Share your workflow to plan a first release."
+          ]
+        },
+        {
+          "variant": "Planning",
+          "headlines": [
+            "Travel Agency CRM Planning",
+            "Review Your Sales Workflow",
+            "Keep Quotations In View",
+            "Name The Next Action Owner",
+            "Start With One Workflow",
+            "Discuss Your Agency CRM",
+            "Scope Before Development",
+            "USD Quotes By Agreement"
+          ],
+          "descriptions": [
+            "Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.",
+            "Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.",
+            "Remote delivery from India. Discuss USD project quotations and your review time zone.",
+            "Give agency enquiries a clear next action. Share your workflow to plan a first release."
+          ]
+        }
+      ],
+      "suggestedKeywords": [
+        "[travel agency crm]",
+        "[crm for travel agents]",
+        "[travel crm software]",
+        "\"tour operator crm\"",
+        "\"custom travel crm\"",
+        "\"travel sales crm\""
+      ],
+      "negativeKeywordSuggestions": [
+        "\"travel agent jobs\"",
+        "\"crm jobs\"",
+        "\"crm training course\"",
+        "\"crm certification\"",
+        "\"free crm download\"",
+        "\"cracked crm\"",
+        "\"cheap flights\"",
+        "\"holiday packages\""
+      ],
+      "linkedinDraft": {
+        "headline": "Plan a CRM around your travel agency",
+        "text": "Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your United States team. Scope, integrations and USD project quotations are agreed in writing.",
+        "url": "https://bandeviglobalgroup.com/us/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm"
+      },
+      "sitelinks": [
+        {
+          "text": "Watch CRM Walkthrough",
+          "url": "https://bandeviglobalgroup.com/us/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm"
+        },
+        {
+          "text": "Compare Starting Scope",
+          "url": "https://bandeviglobalgroup.com/service-offers/#offer-crm"
+        },
+        {
+          "text": "Share Agency Requirements",
+          "url": "https://bandeviglobalgroup.com/project-brief/?workflow=travel-crm"
+        },
+        {
+          "text": "How We Work",
+          "url": "https://bandeviglobalgroup.com/how-we-work/"
+        }
+      ]
+    },
+    {
+      "country": "GB",
+      "market": "United Kingdom",
+      "slug": "uk",
+      "quoteCurrency": "GBP",
+      "campaign": "travel_agency_crm_uk_202610",
+      "status": "draft",
+      "dailyBudget": null,
+      "adAccountCurrency": null,
+      "finalUrl": "https://bandeviglobalgroup.com/uk/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm",
+      "suggestedLocation": "United Kingdom",
+      "suggestedLocationOption": "Presence: people in or regularly in the selected country; review account availability and delivery reports.",
+      "searchAds": [
+        {
+          "variant": "Workflow",
+          "headlines": [
+            "CRM For Travel Agencies",
+            "Give Every Lead An Owner",
+            "Organise Agency Follow-Ups",
+            "Plan Your Travel CRM",
+            "Enquiries To Next Actions",
+            "Review Our Fictional Demo",
+            "Custom Scope For Your Team",
+            "GBP Project Quotations"
+          ],
+          "descriptions": [
+            "Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.",
+            "Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.",
+            "Remote delivery from India. Discuss GBP project quotations and your review time zone.",
+            "Give agency enquiries a clear next action. Share your workflow to plan a first release."
+          ]
+        },
+        {
+          "variant": "Planning",
+          "headlines": [
+            "Travel Agency CRM Planning",
+            "Review Your Sales Workflow",
+            "Keep Quotations In View",
+            "Name The Next Action Owner",
+            "Start With One Workflow",
+            "Discuss Your Agency CRM",
+            "Scope Before Development",
+            "GBP Quotes By Agreement"
+          ],
+          "descriptions": [
+            "Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.",
+            "Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.",
+            "Remote delivery from India. Discuss GBP project quotations and your review time zone.",
+            "Give agency enquiries a clear next action. Share your workflow to plan a first release."
+          ]
+        }
+      ],
+      "suggestedKeywords": [
+        "[travel agency crm]",
+        "[crm for travel agents]",
+        "[travel crm software]",
+        "\"tour operator crm\"",
+        "\"custom travel crm\"",
+        "\"travel sales crm\""
+      ],
+      "negativeKeywordSuggestions": [
+        "\"travel agent jobs\"",
+        "\"crm jobs\"",
+        "\"crm training course\"",
+        "\"crm certification\"",
+        "\"free crm download\"",
+        "\"cracked crm\"",
+        "\"cheap flights\"",
+        "\"holiday packages\""
+      ],
+      "linkedinDraft": {
+        "headline": "Plan a CRM around your travel agency",
+        "text": "Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your United Kingdom team. Scope, integrations and GBP project quotations are agreed in writing.",
+        "url": "https://bandeviglobalgroup.com/uk/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm"
+      },
+      "sitelinks": [
+        {
+          "text": "Watch CRM Walkthrough",
+          "url": "https://bandeviglobalgroup.com/uk/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm"
+        },
+        {
+          "text": "Compare Starting Scope",
+          "url": "https://bandeviglobalgroup.com/service-offers/#offer-crm"
+        },
+        {
+          "text": "Share Agency Requirements",
+          "url": "https://bandeviglobalgroup.com/project-brief/?workflow=travel-crm"
+        },
+        {
+          "text": "How We Work",
+          "url": "https://bandeviglobalgroup.com/how-we-work/"
+        }
+      ]
+    },
+    {
+      "country": "IN",
+      "market": "India",
+      "slug": "india",
+      "quoteCurrency": "INR",
+      "campaign": "travel_agency_crm_india_202610",
+      "status": "draft",
+      "dailyBudget": null,
+      "adAccountCurrency": null,
+      "finalUrl": "https://bandeviglobalgroup.com/india/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm",
+      "suggestedLocation": "India",
+      "suggestedLocationOption": "Presence: people in or regularly in the selected country; review account availability and delivery reports.",
+      "searchAds": [
+        {
+          "variant": "Workflow",
+          "headlines": [
+            "CRM For Travel Agencies",
+            "Give Every Lead An Owner",
+            "Organise Agency Follow-Ups",
+            "Plan Your Travel CRM",
+            "Enquiries To Next Actions",
+            "Review Our Fictional Demo",
+            "Custom Scope For Your Team",
+            "INR Project Quotations"
+          ],
+          "descriptions": [
+            "Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.",
+            "Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.",
+            "Remote delivery from India. Discuss INR project quotations and your review time zone.",
+            "Give agency enquiries a clear next action. Share your workflow to plan a first release."
+          ]
+        },
+        {
+          "variant": "Planning",
+          "headlines": [
+            "Travel Agency CRM Planning",
+            "Review Your Sales Workflow",
+            "Keep Quotations In View",
+            "Name The Next Action Owner",
+            "Start With One Workflow",
+            "Discuss Your Agency CRM",
+            "Scope Before Development",
+            "INR Quotes By Agreement"
+          ],
+          "descriptions": [
+            "Plan enquiries, owners and follow-ups around your agency. Request a CRM walkthrough.",
+            "Watch a fictional travel CRM demo. Agree modules, integrations and scope before delivery.",
+            "Remote delivery from India. Discuss INR project quotations and your review time zone.",
+            "Give agency enquiries a clear next action. Share your workflow to plan a first release."
+          ]
+        }
+      ],
+      "suggestedKeywords": [
+        "[travel agency crm]",
+        "[crm for travel agents]",
+        "[travel crm software]",
+        "\"tour operator crm\"",
+        "\"custom travel crm\"",
+        "\"travel sales crm\""
+      ],
+      "negativeKeywordSuggestions": [
+        "\"travel agent jobs\"",
+        "\"crm jobs\"",
+        "\"crm training course\"",
+        "\"crm certification\"",
+        "\"free crm download\"",
+        "\"cracked crm\"",
+        "\"cheap flights\"",
+        "\"holiday packages\""
+      ],
+      "linkedinDraft": {
+        "headline": "Plan a CRM around your travel agency",
+        "text": "Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your India team. Scope, integrations and INR project quotations are agreed in writing.",
+        "url": "https://bandeviglobalgroup.com/india/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm"
+      },
+      "sitelinks": [
+        {
+          "text": "Watch CRM Walkthrough",
+          "url": "https://bandeviglobalgroup.com/india/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm"
+        },
+        {
+          "text": "Compare Starting Scope",
+          "url": "https://bandeviglobalgroup.com/service-offers/#offer-crm"
+        },
+        {
+          "text": "Share Agency Requirements",
+          "url": "https://bandeviglobalgroup.com/project-brief/?workflow=travel-crm"
+        },
+        {
+          "text": "How We Work",
+          "url": "https://bandeviglobalgroup.com/how-we-work/"
+        }
+      ]
+    }
+  ]
+}
