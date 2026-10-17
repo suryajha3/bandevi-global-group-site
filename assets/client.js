@@ -236,6 +236,24 @@ function bindNav() {
   window.matchMedia("(min-width: 1181px)").addEventListener("change", event => { if (event.matches) setOpen(false); });
 }
 
+function crmWorkflowReviewPayload(form) {
+  if(!form.elements.crmReviewRequested?.checked)return {};
+  return {crmReview:{version:1,tools:form.elements.crmReviewTools.value.trim(),teamSize:form.elements.crmReviewTeam.value,challenge:form.elements.crmReviewChallenge.value.trim(),integrations:form.elements.crmReviewIntegrations.value.trim()}};
+}
+function crmWorkflowReviewSummary(review){
+  return ['CRM workflow review requested','Current tools: '+review.tools,'Team size: '+review.teamSize,'Main workflow problem: '+review.challenge,'Integrations: '+(review.integrations||'To discuss'),'Review request only; scope, meeting availability and commercial terms require confirmation.'].join('\n');
+}
+function bindCrmWorkflowReview(form){
+  const choice=form.elements.crmReviewRequested;if(!choice)return;
+  const fields=[form.elements.crmReviewTools,form.elements.crmReviewTeam,form.elements.crmReviewChallenge,form.elements.crmReviewIntegrations],status=form.querySelector('[data-crm-review-status]');
+  function update(){form.querySelector('.crm-review-fields').hidden=!choice.checked;fields.forEach((field,i)=>{field.disabled=!choice.checked;field.required=choice.checked&&i<3;});status.textContent=choice.checked?'CRM workflow review selected. Your details will be sent only when you submit the enquiry.':'Your existing service enquiry remains available without a workflow review.';}
+  function activate(){if(choice.checked){form.elements.interest.value='CRM & ERP Package';form.elements.interest.dispatchEvent(new Event('change',{bubbles:true}));if(!form.elements.message.value.trim())form.elements.message.value='Please review our CRM workflow and discuss a suitable first release.';}update();form.dispatchEvent(new Event('input',{bubbles:true}));}
+  choice.addEventListener('change',activate);
+  form.elements.interest.addEventListener('change',()=>{if(choice.checked&&form.elements.interest.value!=='CRM & ERP Package'){choice.checked=false;update();}});
+  document.querySelectorAll('[data-crm-review-start]').forEach(link=>link.addEventListener('click',()=>{choice.checked=true;activate();requestAnimationFrame(()=>form.elements.crmReviewTools.focus({preventScroll:true}));}));
+  form.addEventListener('reset',()=>queueMicrotask(update));update();
+}
+
 function enquiryMessage(form, data) {
   return [
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
@@ -287,7 +305,8 @@ function bindEnquiryJourney(form) {
   }
   function countMessage() {
     const data = Object.fromEntries(new FormData(form).entries());
-    const length = enquiryMessage(form, data).length;
+    const review=crmWorkflowReviewPayload(form).crmReview;
+    const length = enquiryMessage(form, data).length+(review?crmWorkflowReviewSummary(review).length+2:0);
     const available = Math.max(0, 3000 - (length - message.value.length));
     message.maxLength = available;
     message.setCustomValidity(length > 3000 ? 'Shorten your description or optional details to fit within 3,000 characters.' : '');
@@ -403,6 +422,7 @@ function bindForms() {
 
   document.querySelectorAll("[data-form]").forEach((form) => {
     bindLeadQualification(form);
+    bindCrmWorkflowReview(form);
     const type = form.dataset.form;
     if (type === "contact") {
       const requestedChoice = new URL(window.location.href).searchParams.get("solution");
@@ -551,13 +571,14 @@ function bindForms() {
           interest: data.interest || (type==='contact'?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           ...enquiryQualification(form,data),
+          ...crmWorkflowReviewPayload(form),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
         };
-        if(payload.message.length>3000){form.dispatchEvent(new CustomEvent('enquiry-invalid'));note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
+        if(payload.message.length+(payload.crmReview?crmWorkflowReviewSummary(payload.crmReview).length+2:0)>3000){form.dispatchEvent(new CustomEvent('enquiry-invalid'));note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
       const serialized = JSON.stringify(payload);
         if (form.dataset.payload !== serialized) {
           form.dataset.requestId = crypto.randomUUID();

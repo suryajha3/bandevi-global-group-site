@@ -1,5 +1,6 @@
 """Private enquiry-to-demo records. No customer access to staff discovery notes."""
 import json
+import re
 import secrets
 import time
 from urllib.parse import parse_qs, urlsplit
@@ -97,10 +98,12 @@ def funnel(db,identity,days):
     rows=db.execute("SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified' AND e.created>=?"+access,args).fetchall()
     counts={'enquiries':len(rows),'demoBooked':0,'demoCompleted':0,'publishedProposals':0,'proposalAfterDemo':0,'wonAfterDemoProposal':0,'currentlyWon':0}
     markets={code:{'country':code,'label':label,'counts':{**dict.fromkeys(counts,0),'qualified':0}} for code,label in [('US','United States'),('GB','United Kingdom'),('IN','India'),('other','Another country'),('unknown','Country not recorded')]}
+    campaigns={}
     for row in rows:
         payload=json.loads(row['payload']);qualification=payload.get('qualification')
         country=qualification.get('country') if isinstance(qualification,dict) and qualification.get('version')==1 else None
-        market=markets[country if country in ('US','GB','IN','other') else 'unknown']['counts']
+        country=country if country in ('US','GB','IN','other') else 'unknown'
+        market=markets[country]['counts']
         before=dict(counts);market['enquiries']+=1
         ref=row['id'];booking=db.execute("SELECT MIN(created) FROM appointment_events WHERE enquiry_id=? AND event IN ('confirmed','rescheduled')",(ref,)).fetchone()[0]
         published=db.execute('SELECT MIN(published) FROM client_proposals WHERE reference=? AND published>0',(ref,)).fetchone()[0]
@@ -110,11 +113,43 @@ def funnel(db,identity,days):
         counts['wonAfterDemoProposal']+=bool(row['stage']=='Won' and after is not None and db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Won' AND created>=?",(ref,after)).fetchone())
         for key in counts:
             if key!='enquiries':market[key]+=counts[key]-before[key]
-        market['qualified']+=bool(db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Qualified' AND created>=?",(ref,row['created'])).fetchone())
+        qualified=bool(db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Qualified' AND created>=?",(ref,row['created'])).fetchone())
+        market['qualified']+=qualified
+        attribution=payload.get('attribution')
+        attribution=attribution if isinstance(attribution,dict) else {}
+        def tag(key):
+            value=attribution.get(key,'')
+            return value if isinstance(value,str) and re.fullmatch(r'[a-zA-Z0-9_-]{1,80}',value) else ''
+        channel=attribution.get('channel')
+        channel=channel if channel in ('organic_search','paid','campaign','referral','direct_unknown','unknown') else 'unknown'
+        landing=attribution.get('landing_page','')
+        landing=landing if isinstance(landing,str) and re.fullmatch(r'/(?:[a-zA-Z0-9_-]+/)*',landing) else ''
+        key=(country,tag('utm_campaign'),tag('utm_source'),tag('utm_medium'),channel,landing)
+        group=campaigns.setdefault(key,{'country':country,'label':markets[country]['label'],'campaign':key[1],
+            'source':key[2],'medium':key[3],'channel':channel,'landingPage':landing,
+            'counts':{**dict.fromkeys(counts,0),'qualified':0,'crmReviewRequests':0},'wonValueByCurrency':{},'wonWithoutValue':0})
+        group['counts']['enquiries']+=1
+        for name in counts:
+            if name!='enquiries':group['counts'][name]+=counts[name]-before[name]
+        group['counts']['qualified']+=qualified
+        review=payload.get('crmReview')
+        group['counts']['crmReviewRequests']+=isinstance(review,dict) and review.get('version')==1
+        if row['stage']=='Won':
+            deal=db.execute('SELECT currency,minor_units FROM deal_values WHERE enquiry_id=?',(ref,)).fetchone()
+            if deal and deal['currency'] in ('INR','USD','GBP','EUR','AED') and type(deal['minor_units']) is int and deal['minor_units']>=0:
+                values=group['wonValueByCurrency'].setdefault(deal['currency'],{'currency':deal['currency'],'minorUnits':0,'deals':0})
+                values['minorUnits']+=deal['minor_units'];values['deals']+=1
+            else:group['wonWithoutValue']+=1
     def rate(n,d):return round(100*n/d,1) if d else None
     for market in markets.values():
         c=market['counts'];market['rates']={'enquiryToDemo':rate(c['demoBooked'],c['enquiries']),'demoToProposal':rate(c['proposalAfterDemo'],c['demoBooked']),'proposalToWon':rate(c['wonAfterDemoProposal'],c['proposalAfterDemo']),'enquiryToWon':rate(c['currentlyWon'],c['enquiries'])}
+    for group in campaigns.values():
+        c=group['counts'];group['rates']={'enquiryToQualified':rate(c['qualified'],c['enquiries']),
+            'enquiryToCompletedDemo':rate(c['demoCompleted'],c['enquiries']),'enquiryToWon':rate(c['currentlyWon'],c['enquiries'])}
+        group['wonValueByCurrency']=[value for _,value in sorted(group['wonValueByCurrency'].items())]
     return {'days':days,'counts':counts,'rates':{'enquiryToDemo':rate(counts['demoBooked'],counts['enquiries']),
         'demoToProposal':rate(counts['proposalAfterDemo'],counts['demoBooked']),'proposalToWon':rate(counts['wonAfterDemoProposal'],counts['proposalAfterDemo'])},
-        'markets':list(markets.values()),'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
+        'markets':list(markets.values()),'campaigns':sorted(campaigns.values(),key=lambda g:(-g['counts']['enquiries'],g['country'],g['campaign'],g['source'],g['medium'],g['channel'],g['landingPage'])),
+        'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not connected; CPA and ROAS are not calculated. QA records and enquiries outside your staff access are excluded.',
+        'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}
