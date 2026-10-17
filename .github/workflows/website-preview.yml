@@ -53,6 +53,7 @@ jobs:
           node scripts/qa-growth-workbench.cjs
           node scripts/qa-regional-leads.cjs
           node scripts/qa-regional-buyer-choices.cjs
+          node scripts/qa-regional-travel-choices.cjs
           node scripts/qa-regional-journey.cjs
           node scripts/qa-guide-service-journey.cjs
           node scripts/qa-erp-finance-planning.cjs
