@@ -250,7 +250,11 @@ function bindCrmWorkflowReview(form){
   function activate(){if(choice.checked){form.elements.interest.value='CRM & ERP Package';form.elements.interest.dispatchEvent(new Event('change',{bubbles:true}));if(!form.elements.message.value.trim())form.elements.message.value='Please review our CRM workflow and discuss a suitable first release.';}update();form.dispatchEvent(new Event('input',{bubbles:true}));}
   choice.addEventListener('change',activate);
   form.elements.interest.addEventListener('change',()=>{if(choice.checked&&form.elements.interest.value!=='CRM & ERP Package'){choice.checked=false;update();}});
-  document.querySelectorAll('[data-crm-review-start]').forEach(link=>link.addEventListener('click',()=>{choice.checked=true;activate();requestAnimationFrame(()=>form.elements.crmReviewTools.focus({preventScroll:true}));}));
+  document.querySelectorAll('[data-crm-review-start]').forEach(link=>{
+    // Retain the editing focus through pointer-up so the mobile bar cannot cover this click.
+    link.addEventListener('mousedown',event=>{if(event.button===0)event.preventDefault();});
+    link.addEventListener('click',()=>{choice.checked=true;activate();requestAnimationFrame(()=>form.elements.crmReviewTools.focus({preventScroll:true}));});
+  });
   form.addEventListener('reset',()=>queueMicrotask(update));update();
 }
 
