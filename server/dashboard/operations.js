@@ -14,6 +14,7 @@ async function refreshOperations(){
     for(const [channel,c]of Object.entries(conversion.channels)){const row=document.createElement('tr');for(const value of [channelLabels[channel]||channel,c.enquiries,c.qualified,c.proposal,c.won,c.lost,c.enquiries?(100*c.won/c.enquiries).toFixed(1)+'%':'—'])row.append(text('td',String(value)));table.append(row);}
     $('conversion-table').replaceChildren(table);$('won-value').textContent=Object.entries(conversion.wonValueMinorUnits).map(([currency,value])=>new Intl.NumberFormat(undefined,{style:'currency',currency}).format(value/100)).join(' · ')||'No won deal values recorded.';
     await refreshSalesFunnel(requestIdentity);await refreshJourneyReport(requestIdentity);
+    if(typeof refreshGrowthCosts==='function')await refreshGrowthCosts();
     if(teamRole==='agent')return;
     const [users,status,slots]=await Promise.all([api('/api/admin/team'),api('/api/admin/operations'),api('/api/admin/slots')]);if(csrf!==requestIdentity)return;demoSlots=slots.slots;
     $('team-owner-list').replaceChildren(...users.users.filter(u=>u.active).map(u=>{const o=document.createElement('option');o.value=u.email;o.label=u.name;return o;}));
