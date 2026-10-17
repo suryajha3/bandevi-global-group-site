@@ -7353,7 +7353,13 @@ function bindCrmWorkflowReview(form){
   document.querySelectorAll('[data-crm-review-start]').forEach(link=>{
     // Retain the editing focus through pointer-up so the mobile bar cannot cover this click.
     link.addEventListener('mousedown',event=>{if(event.button===0)event.preventDefault();});
-    link.addEventListener('click',()=>{choice.checked=true;activate();requestAnimationFrame(()=>form.elements.crmReviewTools.focus({preventScroll:true}));});
+    link.addEventListener('click',event=>{
+      event.preventDefault();choice.checked=true;activate();
+      history.replaceState(history.state,'','#regional-enquiry');
+      document.getElementById('regional-enquiry').scrollIntoView({behavior:'instant',block:'start'});
+      // Focus now; a later animation-frame callback can steal focus from the customer's next input.
+      form.elements.crmReviewTools.focus({preventScroll:true});
+    });
   });
   form.addEventListener('reset',()=>queueMicrotask(update));update();
 }
