@@ -6,6 +6,7 @@ import operations
 import client_workflow
 import journey_measurement
 import lead_qualification
+import crm_review
 import json
 import logging
 import os
@@ -129,6 +130,11 @@ def validate(data):
         result['country']=result['qualification']['country']
     if 'projectBrief' in data:
         result['projectBrief'] = validate_project_brief(data['projectBrief'], result)
+    if 'crmReview' in data:
+        result['crmReview'] = crm_review.validate(data['crmReview'], result)
+        result['message'] += '\n\n'+crm_review.summary(result['crmReview'])
+        if len(result['message']) > FIELDS['message']:
+            raise ValueError('Please shorten your description or workflow details to fit the enquiry limit.')
     if data.get('slotId') is not None:
         if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
         result['slotId']=data['slotId']
