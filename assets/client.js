@@ -331,6 +331,27 @@ function savedEnquiryReceipt(note, reference, type) {
   const delivery=document.createElement('p');delivery.className='receipt-delivery';delivery.textContent=type==='demo'?'This confirms your enquiry was saved. Check the booking status below for meeting confirmation; email delivery is separate.':'This confirms your enquiry was saved. Email delivery and a meeting time are not confirmed by this receipt.';note.append(delivery);
 }
 
+// Regional buyer choices keep existing submitted service codes and inbound aliases.
+const regionalBuyerServices = [["Website / App Development Package", "Websites and mobile apps"], ["CRM & ERP Package", "Custom CRM and business ERP"], ["Travel CRM Package", "Travel CRM"], ["Travel ERP Package", "Travel ERP"], ["Complete Travel Website Package", "Travel portal"], ["White-label Travel Website Package", "White-label travel website"], ["B2B Travel Portal Package", "Partner travel portal"], ["Customer Portal Package", "Customer portal"], ["E-Commerce Package", "E-commerce"], ["Automation Package", "Workflow automation"], ["Custom software & integrations", "Custom software and integrations"], ["Maintenance & support", "Maintenance and support"], ["Need guidance", "Help me choose"]];
+const regionalBuyerLegacyServices = ["Website development", "Mobile app development", "Custom CRM development", "ERP & business software", "E-commerce development"];
+function regionalBuyerMarkup(html) {
+  const options = '<option value="">Choose a service</option>' + regionalBuyerServices.map(([value,label])=>new Option(label,value).outerHTML).join('');
+  return html.replace(/(<select[^>]*name="interest"[^>]*>)[\s\S]*?<\/select>/,(_,open)=>open+options+'</select>')
+    .replace(/<option[^>]*value="EUR"[^>]*>[\s\S]*?<\/option>/g,'')
+    .replace('Quotes can be agreed in INR, USD, GBP or EUR.','Quotes can be agreed in USD, GBP or INR.');
+}
+function bindRegionalBuyerChoices(form) {
+  if(!['ukSoftwareServices','usSoftwareServices'].includes(document.body.dataset.page)||!form.closest('#regional-enquiry'))return;
+  const interest=form.elements.interest, requested=new URL(location.href).searchParams.get('solution');
+  const selected=interest.value||requested;
+  interest.replaceChildren(new Option('Choose a service',''),...regionalBuyerServices.map(([value,label])=>new Option(label,value)));
+  if(regionalBuyerLegacyServices.includes(selected)){
+    const legacy=new Option(selected+' (from your link)',selected);legacy.hidden=true;interest.add(legacy);
+  }
+  if(Array.from(interest.options).some(option=>option.value===selected))interest.value=selected;
+  for(const option of Array.from(form.elements.quoteCurrency.options))if(option.value==='EUR')option.remove();
+}
+
 function bindLeadQualification(form) {
   if (!['contact','demo','home'].includes(form.dataset.form)) return;
   const regional=form.elements.projectCountry?.value||'',oldBudget=form.elements.projectBudget?.value||'';
@@ -349,6 +370,7 @@ function bindLeadQualification(form) {
     const interest=e.interest;
     for(const title of ['Website development','Mobile app development','Custom CRM development','ERP & business software','E-commerce development','Custom software & integrations','Maintenance & support'])if(interest&&!Array.from(interest.options).some(o=>o.value===title))interest.add(new Option(title,title));
   }
+  bindRegionalBuyerChoices(form);
   function countryChanged(resetZone=false){
     const currency=currencyByCountry[e.projectCountry.value];
     if(currency)e.quoteCurrency.value=currency;
