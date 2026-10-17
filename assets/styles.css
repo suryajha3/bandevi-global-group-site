@@ -249,6 +249,14 @@ body[data-page="blogTravelErp"] .hero::before {
   background-image: var(--hero-image, url("travel-operations-hero.webp"));
 }
 
+body[data-page="paymentWorkflow"] main .button,
+body[data-page="blogTravelErp"] main .button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  text-align: center;
+}
+
 .hero::after {
   content: "";
   position: absolute;
