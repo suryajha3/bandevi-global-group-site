@@ -3826,7 +3826,13 @@ const landingPages = {
       { icon: "chart", title: "Automation dashboard", text: "Track overdue actions, workload, response speed, conversion, exceptions, reminders, and team performance." },
       { icon: "globe", title: "Website trigger paths", text: "Use website forms, demo requests, WhatsApp actions, customer portals, and campaign pages as automation triggers." }
     ],
-    process: ["Identify repeated work", "Set triggers and rules", "Build automation flow", "Track outcomes and improve"]
+    process: ["Map one workflow", "Agree triggers and permissions", "Rehearse the first release", "Hand over monitoring and ownership"],
+    processDetails: [
+      "Your process owner reviews the current steps, inputs, repeated work and desired outcome. The output is a workflow map with a named owner for each decision.",
+      "Review the source of each trigger, access rules, approval points and missing-data or retry behaviour. Record provider access and integration dependencies before including a connection.",
+      "Use representative test records to review a normal task, a repeated trigger, a restricted user and an unresolved exception. Agree the acceptance evidence before rollout.",
+      "Review the agreed deployment, recovery checks, documentation and staff training. Name the person responsible for alerts, failed tasks and future changes."
+    ]
   },
   masala: {
     tag: "Masala & food products",
@@ -4129,7 +4135,7 @@ function landingPage(key) {
     : key === "customSoftwareDevelopment" ? customSoftwareSeoSections()
     : key === "ecommerce" || key === "ecommerceWebsiteDevelopment" ? ecommerceSeoSections()
     : key === "webApp" ? webAppSeoSections()
-    : key === "automation" || key === "businessProcessAutomation" ? automationSeoSections()
+    : key === "automation" || key === "businessProcessAutomation" ? automationSeoSections(key)
     : "";
   return `
     <section class="section">
@@ -4167,7 +4173,7 @@ function landingPage(key) {
             <div class="process-step">
               <span>0${index + 1}</span>
               <h3>${item}</h3>
-              <p>Keep the rollout clear, controlled, and useful for the team that will use it every day.</p>
+              <p>${page.processDetails?.[index] || "Keep the rollout clear, controlled, and useful for the team that will use it every day."}</p>
             </div>
           `).join("")}
         </div>
@@ -4942,8 +4948,36 @@ function ecommerceSeoSections() {
   `;
 }
 
-function automationSeoSections() {
-  return `
+function automationBuyerScopeSection() {
+  return `<section class="section dark" id="automation-scope"><div class="container">
+    <div class="section-head single"><span class="eyebrow">Plan a reviewable first release</span><h2>Start with one workflow your team can check.</h2><p>Bring one repeated task and an anonymised record. Agree what starts the workflow, who reviews it, what happens when information is missing, and the report that shows the next action.</p></div>
+    <div class="grid cols-4">
+      <article class="card metric-card"><h3>Inputs and trigger</h3><p>Identify the source record and the change that should create work. Confirm access to the source system before including an integration.</p></article>
+      <article class="card metric-card"><h3>Owner and approval</h3><p>Name the person responsible for the task and the decision requiring review. Define who can approve, reassign or reject it.</p></article>
+      <article class="card metric-card"><h3>Exceptions and retries</h3><p>Agree how missing data, repeated events and failed updates enter a visible queue. A failed step must not appear complete.</p></article>
+      <article class="card metric-card"><h3>Evidence and handover</h3><p>Choose the report and acceptance records the team will review. Agree alert ownership, documentation and support responsibilities.</p></article>
+    </div><p><a class="button light" href="#automation-enquiry">Discuss an automation workflow ${icons.arrow}</a></p>
+  </div></section>
+  <section class="section mist" id="automation-travel-example"><div class="container">
+    <div class="section-head single"><span class="eyebrow" style="color:#73562a">Illustrative travel workflow</span><h2>Turn a booking update into a reviewed task.</h2><p>This fictional planning example is not a connected system or a customer result. The same trigger, owner and exception questions can be applied to service requests, orders or document collection.</p></div>
+    <ol class="automation-workflow-example">
+      <li><strong>Record the change.</strong> An agreed source reports a payment-record update against fictional booking EXAMPLE-01. Confirm which events and identifiers the source can actually provide.</li>
+      <li><strong>Create the review task.</strong> Link the booking reference, proposed action and evidence to a named operations or finance owner. Repeated events should not create duplicate work.</li>
+      <li><strong>Keep approval explicit.</strong> The authorised reviewer checks the record before an approval-dependent status can change. Restricted users cannot approve it.</li>
+      <li><strong>Queue the exception.</strong> If a reference is missing or an update fails, keep the task open with a failure reason and a responsible owner rather than marking it complete.</li>
+      <li><strong>Report the reviewed state.</strong> Show the last checked record, decision and next action. A review task or payment-status record does not establish a transfer or bank settlement.</li>
+    </ol>
+    <p>Provider access, available events, permissions, retry rules and any responsibility for moving money must be assessed and agreed in the proposal. No bank, payment or messaging integration is implied by this example.</p>
+    <div class="inline-actions"><a class="text-link" href="/blog/automate-payment-workflows-in-travel-agencies/">Read the travel payment-workflow planning guide ${icons.arrow}</a><a class="text-link" href="/travel-erp/#erp-finance">Explore Travel ERP payment records and approvals ${icons.arrow}</a></div>
+  </div></section>`;
+}
+
+function automationBuyerEnquirySection() {
+  return `<section class="section" id="automation-enquiry"><div class="container"><div class="section-head single"><span class="eyebrow" style="color:#73562a">Discuss your requirements</span><h2>Discuss an automation workflow.</h2><p>Share the repeated task, current tools, review roles and first-release priorities. Use anonymised examples and leave credentials or customer records out of your enquiry.</p></div><p>Delivery is remote from Gurugram, India. Quotations are available in USD, GBP and INR; the written proposal confirms scope, dependencies, acceptance, costs and support. A preferred conversation time is not a confirmed appointment.</p><div class="inline-actions"><a class="button dark" data-automation-enquiry href="/uk/software-development/?solution=Automation%20Package#regional-enquiry">Discuss a UK automation project ${icons.arrow}</a><a class="button light" data-automation-enquiry href="/us/software-development/?solution=Automation%20Package#regional-enquiry">Discuss a US automation project ${icons.arrow}</a></div><p>Automation is selected when you open the enquiry. Check your market, quotation currency and contact time zone before sending. For another market, <a href="/contact-us/?solution=Automation%20Package">discuss your automation requirements</a>.</p></div></section>`;
+}
+
+function automationSeoSections(key) {
+  const sections = `
     <section class="section dark">
       <div class="container">
         <div class="section-head">
@@ -5046,6 +5080,11 @@ function automationSeoSections() {
       </div>
     </section>
   `;
+  if (key !== "businessProcessAutomation") return sections;
+  return sections.replace(/<section class="section dark">[\s\S]*?<\/section>/, automationBuyerScopeSection())
+    .replace("Answers for workflow automation, CRM automation, and dashboard searches.", "Questions to settle before a first release.")
+    .replace("These answers help customers and search engines understand the automation work BANDEVI can support.", "Use these questions to agree a useful starting scope, dependencies and review responsibilities.")
+    + automationBuyerEnquirySection();
 }
 
 function webAppSeoSections() {
