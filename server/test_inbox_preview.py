@@ -21,6 +21,9 @@ with enquiries.connect() as db:
         ('BG-QA-TODAY','Due today synthetic enquiry','Qualified','agent@qa.example',dashboard.business_today().isoformat()),
         ('BG-QA-WON','Closed synthetic enquiry','Won','sales@bandeviglobalgroup.com','')]):
         payload={'type':'contact','name':name,'email':ref.lower()+'@qa.example','phone':'','interest':'CRM','message':'Synthetic browser enquiry.','source':'/contact-us/','campaign':''}
+        country={'BG-QA-NEW':'US','BG-QA-TODAY':'IN','BG-QA-WON':'GB'}[ref]
+        payload['qualification']={'version':1,'country':country,'currency':{'US':'USD','IN':'INR','GB':'GBP'}[country],'budget':'','contact':{'channel':'Email','date':'','time':'','timezone':'Asia/Kolkata'}}
+        payload['country']=country
         db.execute('INSERT INTO enquiries(id,created,payload,email_status) VALUES(?,?,?,?)',(ref,int(time.time())+index,json.dumps(payload),'sent'))
         db.execute('INSERT INTO enquiry_workflow(id,stage,owner,notes,version,updated,follow_up_date) VALUES(?,?,?,?,0,?,?)',(ref,stage,owner,'',int(time.time()),due))
     db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',('BG-QA-TODAY','bg-qa-today@qa.example','Correct enquiry project',int(time.time())))
