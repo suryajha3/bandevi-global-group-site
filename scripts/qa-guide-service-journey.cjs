@@ -19,7 +19,7 @@ let server,browser;
    const schemas=(await p.locator('script[type="application/ld+json"]').allTextContents()).map(JSON.parse);assert(schemas.some(s=>['Article','BlogPosting'].includes(s['@type'])&&s.dateModified==='2026-10-16'));
    for(const a of await p.locator('#guide-project-path a').all()){const href=await a.getAttribute('href');assert(!href.includes('utm_'));assert.equal((await c.request.get(base+href)).status(),200);}
    if(journey==='demo'){const hero=p.locator('main .hero-actions a').first();assert.equal(new URL(await hero.getAttribute('href'),base).searchParams.get('focus'),focus);await hero.click();}
-   else if(journey==='service'){await p.locator('#guide-project-path a[href="/travel-erp/"]').click();await p.locator('#us-travel-erp-planning a[href^="/us/software-development/"]').click();}
+   else if(journey==='service'){await p.locator('#guide-project-path a[href="/travel-erp/#erp-finance"]').click();await p.locator('#erp-finance').waitFor({state:'visible'});assert.equal(new URL(p.url()).hash,'#erp-finance');await p.locator('.service-section-nav a[href="#erp-finance"]').click();assert.equal(await p.locator('.service-section-nav a[href="#erp-finance"]').innerText(),'Finance planning');await p.locator('#us-travel-erp-planning a[href^="/us/software-development/"]').click();}
    else await p.locator('#guide-project-path a[href^="/'+journey+'/software-development/"]').click();
    if(journey==='demo')await p.locator('[name=demoFocus] option[value="'+focus+'"]').waitFor({state:'attached'});
    else await p.waitForFunction(()=>document.querySelector('[data-enquiry-submit]')&&!document.querySelector('[data-enquiry-submit]').disabled);
