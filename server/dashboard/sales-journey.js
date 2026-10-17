@@ -51,5 +51,11 @@ async function refreshSalesFunnel(identity){
   $('sales-funnel-counts').replaceChildren(...Object.entries(r.counts).map(([key,value])=>{const card=text('div',labels[key],'count');card.append(text('strong',String(value)));return card;}));
   const rate=n=>n===null?'No denominator':n+'%';$('sales-funnel-rates').textContent='Enquiry → demo booking: '+rate(r.rates.enquiryToDemo)+' · Demo booking → published proposal: '+rate(r.rates.demoToProposal)+' · Published proposal after demo → recorded Won: '+rate(r.rates.proposalToWon);
   $('sales-funnel-basis').textContent=r.basis;
+  const table=document.createElement('table');table.append(text('caption','US, UK and India sales performance · received-date cohort'));
+  const head=document.createElement('thead'),headers=document.createElement('tr');
+  for(const label of ['Business country','Enquiries','Reached Qualified','Demo booked','Demo completed','All published proposals','Proposal after demo','Currently Won','Demo / enquiry','Proposal / demo','Won / proposal after demo','Won / enquiry']){const cell=text('th',label);cell.scope='col';headers.append(cell);}head.append(headers);table.append(head);
+  const body=document.createElement('tbody'),percent=value=>value===null?'—':value+'%';
+  for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
+  $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value)$('sales-funnel-basis').textContent=error.message;}
 }

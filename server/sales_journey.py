@@ -94,16 +94,27 @@ def funnel(db,identity,days):
     now=int(time.time());args=[now-days*86400]
     access=' AND w.owner=?' if identity['role']=='agent' else ''
     if access:args.append(identity['actor'])
-    rows=db.execute("SELECT e.id,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified' AND e.created>=?"+access,args).fetchall()
+    rows=db.execute("SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified' AND e.created>=?"+access,args).fetchall()
     counts={'enquiries':len(rows),'demoBooked':0,'demoCompleted':0,'publishedProposals':0,'proposalAfterDemo':0,'wonAfterDemoProposal':0,'currentlyWon':0}
+    markets={code:{'country':code,'label':label,'counts':{**dict.fromkeys(counts,0),'qualified':0}} for code,label in [('US','United States'),('GB','United Kingdom'),('IN','India'),('other','Another country'),('unknown','Country not recorded')]}
     for row in rows:
+        payload=json.loads(row['payload']);qualification=payload.get('qualification')
+        country=qualification.get('country') if isinstance(qualification,dict) and qualification.get('version')==1 else None
+        market=markets[country if country in ('US','GB','IN','other') else 'unknown']['counts']
+        before=dict(counts);market['enquiries']+=1
         ref=row['id'];booking=db.execute("SELECT MIN(created) FROM appointment_events WHERE enquiry_id=? AND event IN ('confirmed','rescheduled')",(ref,)).fetchone()[0]
         published=db.execute('SELECT MIN(published) FROM client_proposals WHERE reference=? AND published>0',(ref,)).fetchone()[0]
         after=db.execute('SELECT MIN(published) FROM client_proposals WHERE reference=? AND published>0 AND published>=?',(ref,booking)).fetchone()[0] if booking is not None else None
         counts['demoBooked']+=booking is not None;counts['demoCompleted']+=record(db,ref)['outcome']=='Completed'
         counts['publishedProposals']+=published is not None;counts['proposalAfterDemo']+=after is not None;counts['currentlyWon']+=row['stage']=='Won'
         counts['wonAfterDemoProposal']+=bool(row['stage']=='Won' and after is not None and db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Won' AND created>=?",(ref,after)).fetchone())
+        for key in counts:
+            if key!='enquiries':market[key]+=counts[key]-before[key]
+        market['qualified']+=bool(db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Qualified' AND created>=?",(ref,row['created'])).fetchone())
     def rate(n,d):return round(100*n/d,1) if d else None
+    for market in markets.values():
+        c=market['counts'];market['rates']={'enquiryToDemo':rate(c['demoBooked'],c['enquiries']),'demoToProposal':rate(c['proposalAfterDemo'],c['demoBooked']),'proposalToWon':rate(c['wonAfterDemoProposal'],c['proposalAfterDemo']),'enquiryToWon':rate(c['currentlyWon'],c['enquiries'])}
     return {'days':days,'counts':counts,'rates':{'enquiryToDemo':rate(counts['demoBooked'],counts['enquiries']),
         'demoToProposal':rate(counts['proposalAfterDemo'],counts['demoBooked']),'proposalToWon':rate(counts['wonAfterDemoProposal'],counts['proposalAfterDemo'])},
+        'markets':list(markets.values()),'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}
