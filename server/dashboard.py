@@ -12,6 +12,7 @@ import operations
 import journey_measurement
 import task_center
 import sales_journey
+import growth_workbench
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -43,6 +44,7 @@ def initialize_dashboard(db):
     ''')
     operations.initialize(db)
     sales_journey.initialize(db)
+    growth_workbench.initialize(db)
     task_center.initialize(db)
     columns = {row[1] for row in db.execute('PRAGMA table_info(enquiry_workflow)')}
     if 'follow_up_date' not in columns:
@@ -172,7 +174,7 @@ def send_asset(handler, name):
     file = ASSETS / name
     data = file.read_bytes()
     handler.send_response(200)
-    handler.send_header('Content-Type', {'index.html':'text/html; charset=utf-8','app.js':'application/javascript; charset=utf-8','styles.css':'text/css; charset=utf-8','operations.js':'application/javascript; charset=utf-8','sales-journey.js':'application/javascript; charset=utf-8'}[name])
+    handler.send_header('Content-Type', {'index.html':'text/html; charset=utf-8','app.js':'application/javascript; charset=utf-8','styles.css':'text/css; charset=utf-8','operations.js':'application/javascript; charset=utf-8','sales-journey.js':'application/javascript; charset=utf-8','growth.js':'application/javascript; charset=utf-8'}[name])
     handler.send_header('Cache-Control', 'no-store')
     handler.send_header('X-Robots-Tag', 'noindex, nofollow, noarchive')
     handler.send_header('X-Content-Type-Options', 'nosniff')
@@ -186,7 +188,7 @@ def send_asset(handler, name):
 def handle_get(handler, connect):
     parsed = urlsplit(handler.path)
     route = parsed.path
-    assets = {'/team-inbox/':'index.html', '/team-inbox/app.js':'app.js', '/team-inbox/styles.css':'styles.css','/team-inbox/operations.js':'operations.js','/team-inbox/sales-journey.js':'sales-journey.js'}
+    assets = {'/team-inbox/':'index.html', '/team-inbox/app.js':'app.js', '/team-inbox/styles.css':'styles.css','/team-inbox/operations.js':'operations.js','/team-inbox/sales-journey.js':'sales-journey.js','/team-inbox/growth.js':'growth.js'}
     if route in assets:
         send_asset(handler, assets[route])
         return True
@@ -195,6 +197,7 @@ def handle_get(handler, connect):
     if task_center.get(handler, connect, authenticated):return True
     if operations.get(handler, connect, authenticated):return True
     if sales_journey.get(handler, connect, authenticated):return True
+    if growth_workbench.get(handler,connect,authenticated):return True
     if not route.startswith('/api/admin/'):
         return False
     if route == '/api/admin/session':
@@ -391,6 +394,7 @@ def handle_post(handler, connect, origins, salt):
     if task_center.post(handler,connect,authenticated,data):return True
     if operations.post_admin(handler, connect, authenticated, data):return True
     if sales_journey.post(handler, connect, authenticated, data):return True
+    if growth_workbench.post(handler,connect,authenticated,data):return True
     if route != '/api/admin/update':
         handler.respond(404, {'error':'Not found'})
         return True

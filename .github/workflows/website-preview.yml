@@ -22,7 +22,7 @@ jobs:
       - name: Run isolated enquiry and upgrade regressions
         run: |
           cd server
-          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py test_contact_channels.py test_journey_measurement.py test_lead_qualification.py test_market_reporting.py test_crm_review_campaigns.py; do
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py test_contact_channels.py test_journey_measurement.py test_lead_qualification.py test_market_reporting.py test_crm_review_campaigns.py test_growth_workbench.py; do
             python3 -B "$suite"
           done
   browser:
@@ -50,6 +50,7 @@ jobs:
           node scripts/qa-market-offers.cjs
           node scripts/qa-travel-crm-campaign.cjs
           node scripts/qa-crm-review-campaigns.cjs
+          node scripts/qa-growth-workbench.cjs
           node scripts/qa-regional-leads.cjs
           node scripts/qa-regional-buyer-choices.cjs
           node scripts/qa-regional-journey.cjs
