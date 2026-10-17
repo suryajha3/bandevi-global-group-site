@@ -4,3 +4,5 @@
 .crm-workflow-review{scroll-margin-top:110px}
 
 .crm-review-fields[hidden]{display:none}
+
+[data-crm-review-start]{scroll-margin-block:130px 110px}
