@@ -1484,6 +1484,11 @@ body[data-page="blogTravelErp"] .article-aside > .eyebrow,
 body[data-page="blogTravelErp"] .blog-card time {
   color: #856019;
 }
+/* Native validation must not compete with an in-flight smooth form scroll. */
+html:has(body[data-page="ukSoftwareServices"] #regional-enquiry:focus-within),
+html:has(body[data-page="usSoftwareServices"] #regional-enquiry:focus-within) {
+  scroll-behavior: auto;
+}
 /* Leave room for the sticky header, field label and mobile contact bar. */
 body[data-page="ukSoftwareServices"] #regional-enquiry :is(input, select, textarea),
 body[data-page="usSoftwareServices"] #regional-enquiry :is(input, select, textarea) {

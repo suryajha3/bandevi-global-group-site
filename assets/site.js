@@ -7570,10 +7570,26 @@ function enquiryQualification(form,data){
   return {qualification:{version:1,country,currency:({GB:'GBP',US:'USD',IN:'INR'})[country]||form.elements.quoteCurrency.value,budget:(form.elements.projectBudget||form.elements.briefBudget).value.trim(),contact:{channel:data.contactChannel,date:data.contactDate,time:data.contactTime,timezone:data.contactTimezone}}};
 }
 
+function bindRegionalValidationScroll(form) {
+  if (!['ukSoftwareServices', 'usSoftwareServices'].includes(document.body.dataset.page) || !form.closest('#regional-enquiry')) return;
+  let pending = false;
+  form.addEventListener('invalid', event => {
+    if (pending || !event.target.matches('input, select, textarea')) return;
+    const field = event.target;
+    pending = true;
+    // Native validation focuses the first invalid field after dispatching the batch.
+    requestAnimationFrame(() => {
+      pending = false;
+      if (document.activeElement === field) field.scrollIntoView({ behavior: 'instant', block: 'center' });
+    });
+  }, true);
+}
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
   document.querySelectorAll("[data-form]").forEach((form) => {
+    bindRegionalValidationScroll(form);
     bindLeadQualification(form);
     bindCrmWorkflowReview(form);
     const type = form.dataset.form;
