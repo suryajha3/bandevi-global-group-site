@@ -1490,6 +1490,17 @@ body[data-page="usSoftwareServices"] #regional-enquiry :is(input, select, textar
   scroll-margin-top: 10rem;
   scroll-margin-bottom: 6rem;
 }
+body[data-page="ukSoftwareServices"] :is(#software-services, #regional-enquiry),
+body[data-page="usSoftwareServices"] :is(#software-services, #regional-enquiry) {
+  scroll-margin-top: 7rem;
+}
+body[data-page="ukSoftwareServices"] :is(#offer-website, #offer-crm, #offer-travel) > a,
+body[data-page="usSoftwareServices"] :is(#offer-website, #offer-crm, #offer-travel) > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 12px;
+}
 .new-hero .eyebrow,.hero .eyebrow{color:#a5dcd6}
 
 .demo-schedule{margin:8px 0;padding:18px;border:1px solid #bccdcd;border-radius:12px;min-width:0}.demo-schedule legend{font-weight:700;padding:0 6px}.demo-schedule p{font-size:.9rem;line-height:1.6;margin:0 0 14px}.demo-schedule .form-grid{gap:16px}.demo-schedule input{min-width:0}
