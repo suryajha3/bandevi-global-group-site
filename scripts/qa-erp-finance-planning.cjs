@@ -8,7 +8,7 @@ let server,browser;
  let base=process.argv[2],live=!!base;
  if(!base){server=http.createServer((req,res)=>{const u=new URL(req.url,'http://local');let f=path.resolve(root,'.'+u.pathname);if(!f.startsWith(root+path.sep)){res.writeHead(403);return res.end();}if(fs.existsSync(f)&&fs.statSync(f).isDirectory())f=path.join(f,'index.html');if(!fs.existsSync(f)){res.writeHead(404);return res.end();}let data=fs.readFileSync(f);if(f.endsWith('.html')&&u.searchParams.has('source'))data=Buffer.from(data.toString().replace(/<body([\s\S]*?)>[\s\S]*?<\/body>/,'<body$1><div id="site"></div><script src="/assets/site.js" defer></script><script src="/assets/erp-handover-demo.js" defer></script></body>'));res.setHeader('Content-Type',({'.html':'text/html','.js':'application/javascript','.css':'text/css','.svg':'image/svg+xml','.webp':'image/webp'})[path.extname(f)]||'application/octet-stream');res.end(data);});await new Promise(r=>server.listen(0,'127.0.0.1',r));base='http://127.0.0.1:'+server.address().port;}
  browser=await chromium.launch(process.env.QA_CHROME?{executablePath:process.env.QA_CHROME}:{});const results=[];
- for(const [slug,focus] of guides)for(const width of [390,1440])for(const source of live?[false]:[false,true]){
+ for(const [slug,focus] of guides)for(const width of [320,390,1440])for(const source of live?[false]:[false,true]){
   let canonicalText;
   for(const journey of ['demo','uk','us']){
    const c=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),p=await c.newPage(),writes=[],errors=[];
@@ -22,6 +22,10 @@ let server,browser;
    await p.locator('#erp-finance').waitFor();
    assert.equal(await p.locator('#erp-finance-title').innerText(),'Plan your travel payment records and approval workflow');
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+   await p.locator('#erp-software-fit a[href="#erp-finance-enquiry"]').click();
+   assert.equal(new URL(p.url()).hash,'#erp-finance-enquiry');
+   const clearance=await p.locator('#erp-finance-enquiry').evaluate(e=>({top:e.getBoundingClientRect().top,headerBottom:document.querySelector('header').getBoundingClientRect().bottom}));
+   assert(clearance.top>=clearance.headerBottom,'Finance enquiry heading hidden behind header');
    for(const a of await p.locator('#erp-finance a').all()){const href=await a.getAttribute('href');assert(!href.includes('utm_'));if(href.startsWith('#'))assert.equal(await p.locator(href).count(),1);else assert.equal((await c.request.get(base+href)).status(),200);}
    await p.locator('[data-finance-enquiry="'+journey+'"]').click();
    if(journey==='demo')await p.locator('[name=demoFocus] option[value="'+focus+'"]').waitFor({state:'attached'});
@@ -36,7 +40,15 @@ let server,browser;
    results.push({slug,width,source,journey,originalLandingAndOrganicChannel:true,servicePrefill:true});await c.close();
   }
   const c=await browser.newContext({viewport:{width,height:1000}}),p=await c.newPage();await c.route('**/*',r=>!r.request().url().startsWith(base)?r.abort():r.request().method()!=='GET'?r.fulfill({status:200,json:{ok:true}}):r.continue());await p.goto(base+'/travel-erp/');await p.locator('#erp-finance').screenshot({style:'header,.skip-link,.mobile-contact-bar{visibility:hidden!important}',path:path.join(out,(live?'live':'local')+'-'+focus+'-'+width+'.png')});
-  if(!live){const text=await p.locator('#erp-finance').innerText();await p.goto(base+'/travel-erp/?source=1');await p.locator('#erp-finance').waitFor();assert.equal((await p.locator('#erp-finance').innerText()).replace(/\s+/g,' '),text.replace(/\s+/g,' '),'Static/source parity');}await c.close();
+  if(!live){await p.locator('#erp-software-fit').screenshot({style:'header,.skip-link,.mobile-contact-bar{visibility:hidden!important}',path:path.join(out,'software-fit-'+width+'.png')});const text=await p.locator('#erp-finance').innerText();await p.goto(base+'/travel-erp/?source=1');await p.locator('#erp-finance').waitFor();assert.equal((await p.locator('#erp-finance').innerText()).replace(/\s+/g,' '),text.replace(/\s+/g,' '),'Static/source parity');}await c.close();
  }
- const report={status:'PASS',mode:live?'live':'local',cases:results.length,results,productionSubmissions:0};fs.writeFileSync(path.join(out,(live?'live':'local')+'-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:'PASS',cases:results.length,productionSubmissions:0}));
+ // A wide fallback font exposed clipped ERP enquiry labels at 320px in CI.
+ const fontContext=await browser.newContext({viewport:{width:320,height:1000}}),fontPage=await fontContext.newPage();
+ await fontContext.route('**/*',r=>r.request().url().startsWith(base)&&r.request().method()==='GET'?r.continue():r.abort());
+ await fontPage.goto(base+'/travel-erp/');await fontPage.addStyleTag({content:':root{font-family:Verdana,Arial,sans-serif!important}'});
+ assert(await fontPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'ERP page overflows with fallback font');
+ const buttonGeometry=await fontPage.locator('main .button').evaluateAll(es=>es.filter(e=>e.getBoundingClientRect().width>0).map(e=>({text:e.textContent.trim(),client:e.clientWidth,scroll:e.scrollWidth})));
+ assert(buttonGeometry.length>0);assert(buttonGeometry.every(e=>e.scroll<=e.client+1),'ERP button text is clipped: '+JSON.stringify(buttonGeometry));
+ await fontPage.locator('#erp-finance-enquiry').screenshot({style:'header,.skip-link,.mobile-contact-bar{visibility:hidden!important}',path:path.join(out,'fallback-font-enquiry-320.png')});await fontContext.close();
+ const report={status:'PASS',mode:live?'live':'local',cases:results.length,results,fallbackFontCheck:{width:320,buttonGeometry},productionSubmissions:0};fs.writeFileSync(path.join(out,(live?'live':'local')+'-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:'PASS',cases:results.length,fallbackFontButtons:buttonGeometry.length,productionSubmissions:0}));
 }finally{if(browser)await browser.close();if(server){server.closeAllConnections();server.close();}}})().catch(e=>{console.error(e);process.exitCode=1;});
