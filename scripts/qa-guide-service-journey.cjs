@@ -10,7 +10,7 @@ let server,browser;
  browser=await chromium.launch(process.env.QA_CHROME?{executablePath:process.env.QA_CHROME}:{});const results=[];
  for(const [slug,focus] of guides)for(const width of [390,1440])for(const source of live?[false]:[false,true]){
   let canonicalText;
-  for(const journey of ['demo','uk','us','service']){
+  for(const journey of ['demo','uk','us','service',...(focus==='erp-finance'?['closing-uk','closing-us']:[])]){
    const c=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),p=await c.newPage(),writes=[],errors=[];
    await c.addInitScript(()=>{window.__events=[];localStorage.setItem('bg_analytics_consent_v1',JSON.stringify({choice:'granted',expires:Date.now()+86400000}));window.gtag=(...a)=>window.__events.push(a);});
    await c.route('**/*',r=>{const req=r.request();if(!req.url().startsWith(base))return r.abort();if(req.method()!=='GET'){writes.push({url:req.url(),data:req.postDataJSON()});return r.fulfill({status:req.url().endsWith('/api/enquiries')?201:200,json:req.url().endsWith('/api/enquiries')?{ok:true,reference:'BG-1234567890ABCDEF'}:{ok:true}});}return r.continue();});p.on('pageerror',e=>errors.push(e.message));
@@ -20,13 +20,18 @@ let server,browser;
    for(const a of await p.locator('#guide-project-path a').all()){const href=await a.getAttribute('href');assert(!href.includes('utm_'));assert.equal((await c.request.get(base+href)).status(),200);}
    if(journey==='demo'){const hero=p.locator('main .hero-actions a').first();assert.equal(new URL(await hero.getAttribute('href'),base).searchParams.get('focus'),focus);await hero.click();}
    else if(journey==='service'){await p.locator('#guide-project-path a[href="/travel-erp/#erp-finance"]').click();await p.locator('#erp-finance').waitFor({state:'visible'});assert.equal(new URL(p.url()).hash,'#erp-finance');await p.locator('.service-section-nav a[href="#erp-finance"]').click();assert.equal(await p.locator('.service-section-nav a[href="#erp-finance"]').innerText(),'Finance planning');await p.locator('#us-travel-erp-planning a[href^="/us/software-development/"]').click();}
+   else if(journey.startsWith('closing-')){
+    assert.equal(await p.locator('#payment-project-next-step a[href^="/demo-request/"]').innerText(),'Request a payment-workflow demo ↗');
+    if(journey==='closing-uk'&&!source)await p.locator('#payment-project-next-step').screenshot({path:path.join(out,'payment-closing-'+width+'.png')});
+    await p.locator('#payment-project-next-step a[href^="/'+journey.slice(8)+'/software-development/"]').click();
+   }
    else await p.locator('#guide-project-path a[href^="/'+journey+'/software-development/"]').click();
    if(journey==='demo')await p.locator('[name=demoFocus] option[value="'+focus+'"]').waitFor({state:'attached'});
    else await p.waitForFunction(()=>document.querySelector('[data-enquiry-submit]')&&!document.querySelector('[data-enquiry-submit]').disabled);
    const form=journey==='demo'?p.locator('form[data-form=demo]'):p.locator('#regional-enquiry form');assert.equal(await form.locator('[name=interest]').inputValue(),'Travel ERP Package');
    assert.equal(await form.locator('[name=name]').inputValue(),'');assert.equal(await form.locator('[name=email]').inputValue(),'');
    if(journey==='demo')assert.equal(await form.locator('[name=demoFocus]').inputValue(),focus);
-   else {assert.equal(await form.locator('[name=projectCountry]').inputValue(),journey==='uk'?'GB':'US');assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),journey==='uk'?'GBP':'USD');}
+   else {const uk=journey==='uk'||journey==='closing-uk';assert.equal(await form.locator('[name=projectCountry]').inputValue(),uk?'GB':'US');assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),uk?'GBP':'USD');}
    await form.locator('[name=name]').fill('Synthetic guide QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic guide enquiry; intercepted, never sent.');await completeRouting(form);await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();
    const saved=writes.filter(w=>w.url.endsWith('/api/enquiries'));assert.equal(saved.length,1);assert.equal(saved[0].data.attribution.channel,'organic_search');assert.equal(saved[0].data.attribution.landing_page,landing);assert.equal(saved[0].data.attribution.utm_source,'');assert.equal(saved[0].data.source,new URL(p.url()).pathname);
    const events=await p.evaluate(()=>window.__events.filter(e=>e[1]==='generate_lead'));assert.equal(events.length,1);assert.equal(events[0][2].landing_page,landing);assert(!JSON.stringify(events).includes('qa@example.test'));assert.deepEqual(errors,[]);
