@@ -445,9 +445,11 @@ function bindRegionalValidationScroll(form) {
 
 // Keep the first enquiry short; scheduling remains an explicit optional choice.
 function bindCompactEnquiry(form) {
-  if(!['home','contact','usSoftwareServices','ukSoftwareServices','indiaSoftwareServices'].includes(document.body.dataset.page) || !['home','contact'].includes(form.dataset.form) || form._compactEnquiryBound)return;
+  if(!['home','contact','usSoftwareServices','ukSoftwareServices','indiaSoftwareServices','crmCampaignUS','crmCampaignGB','crmCampaignIN'].includes(document.body.dataset.page) || !['home','contact'].includes(form.dataset.form) || form._compactEnquiryBound)return;
   form._compactEnquiryBound=true;form.dataset.compactEnquiry='1';
+  if(document.body.dataset.page.startsWith('crmCampaign'))for(const link of document.querySelectorAll('.topbar a[href^="/demo-request/"],.mobile-contact-demo'))link.href='#regional-enquiry';
   const e=form.elements,grid=form.querySelector('.form-grid'),qualification=form.querySelector('[data-lead-qualification]');
+  const defaultInterest=document.body.dataset.page.startsWith('crmCampaign')?'CRM & ERP Package':'Need guidance';
   if(!qualification||!grid)return;
   let optional=form.querySelector('.enquiry-optional');
   if(!optional){optional=document.createElement('details');optional.className='enquiry-optional';const summary=document.createElement('summary');optional.append(summary);const note=[...form.children].find(node=>node.classList.contains('form-help'));if(note)note.before(optional);else grid.after(optional);}
@@ -459,7 +461,7 @@ function bindCompactEnquiry(form) {
   qualification.querySelector('legend').textContent='Your business country';
   qualification.querySelector(':scope > .form-help')?.remove();
   const message=e.message.closest('.field');message.before(qualification);
-  if(!e.interest.value){e.interest.value='Need guidance';e.interest.dispatchEvent(new Event('change'));}e.interest.required=false;
+  if(!e.interest.value){e.interest.value=defaultInterest;e.interest.dispatchEvent(new Event('change'));}e.interest.required=false;
   e.name.required=true;
   if(!optional.querySelector('.compact-contact-note')){const note=document.createElement('p');note.className='form-help compact-contact-note';note.textContent='A contact time is optional. If you request one, choose your time zone. Availability and project pricing are confirmed with the team.';optional.append(note);}
   e.contactTimezone.closest('.field').querySelector('label').textContent='Contact time zone (for a preferred time)';
@@ -478,7 +480,7 @@ function bindCompactEnquiry(form) {
   form.addEventListener('invalid',event=>{let node=event.target.parentElement;while(node&&node!==form){if(node.tagName==='DETAILS')node.open=true;node=node.parentElement;}},true);
   // Keep keyboard focus and its label clear of the sticky header and contact bar.
   form.addEventListener('focusin',event=>{const field=event.target;if(!field.matches('input:not([type=hidden]),select,textarea'))return;requestAnimationFrame(()=>{if(document.activeElement!==field)return;const rect=field.getBoundingClientRect(),header=document.querySelector('header')?.getBoundingClientRect(),bar=document.querySelector('.mobile-contact-bar'),bottom=bar&&getComputedStyle(bar).display!=='none'?Math.min(innerHeight,bar.getBoundingClientRect().top):innerHeight,top=Math.min(rect.top,...[...field.labels||[]].map(label=>label.getBoundingClientRect().top));if(top<(header?.bottom||0)+8||rect.bottom>bottom-8)field.scrollIntoView({behavior:'instant',block:'center'});});});
-  form.addEventListener('reset',()=>queueMicrotask(()=>{optional.open=false;if(!e.interest.value)e.interest.value='Need guidance';sync(true);}));
+  form.addEventListener('reset',()=>queueMicrotask(()=>{optional.open=false;if(!e.interest.value)e.interest.value=defaultInterest;sync(true);}));
   const submit=form.querySelector('button[type=submit]');submit.dataset.enquirySubmit='';submit.disabled=false;
   sync();
 }
@@ -670,6 +672,7 @@ function bindForms() {
             const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';throw failure;
           }
           savedEnquiryReceipt(note, result.reference, type);
+          if(type!=='demo'&&/^\/demo-booking\/#review\.BG-[A-F0-9]{16}\.[a-f0-9]{64}$/.test(result.demoBookingUrl||'')){const book=document.createElement('a');book.className='button dark receipt-book-review';book.href=result.demoBookingUrl;book.textContent='Book your demo review';note.append(book);const help=document.createElement('p');help.textContent='Your enquiry is already saved. Choose an available slot without entering your details again. This private link is valid for 7 days; a meeting is confirmed only after reservation.';note.append(help);}
           if(type==='demo'){
             if(result.appointment?.confirmed){
               note.append(' Demo confirmed for '+new Date(result.appointment.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. Joining details follow separately.');

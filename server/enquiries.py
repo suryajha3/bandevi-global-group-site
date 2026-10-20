@@ -7,6 +7,7 @@ import client_workflow
 import journey_measurement
 import lead_qualification
 import crm_review
+import demo_handoff
 import json
 import logging
 import os
@@ -268,6 +269,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if journey_measurement.post(self,connect,ORIGINS,SALT):return
             if client_workflow.handle_post(self,connect,ORIGINS,SALT):return
+            if demo_handoff.post(self,connect,ORIGINS,SALT):return
             if operations.post_public(self,connect,ORIGINS):return
             if handle_post(self, connect, ORIGINS, SALT):
                 return
@@ -303,7 +305,7 @@ class Handler(BaseHTTPRequestHandler):
                 if existing:
                     if existing['digest'] != digest:
                         return self.respond(409, {'error': 'This request changed. Please submit it again.'})
-                    return self.respond(200, {'ok': True, 'reference': existing['enquiry_id'], 'appointment':operations.receipt(db,existing['enquiry_id'],management_token)})
+                    return self.respond(200, {'ok': True, 'reference': existing['enquiry_id'], 'appointment':operations.receipt(db,existing['enquiry_id'],management_token),'demoBookingUrl':demo_handoff.offer(db,existing['enquiry_id'],SALT)})
                 if data.get('demoSchedule'):
                     schedule=data['demoSchedule'];india=datetime.timezone(datetime.timedelta(hours=5,minutes=30))
                     selected=datetime.datetime.fromisoformat(schedule['date']+'T'+schedule['time']).replace(tzinfo=india)
@@ -319,15 +321,16 @@ class Handler(BaseHTTPRequestHandler):
                 reference = 'BG-' + uuid.uuid4().hex[:16].upper()
                 db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)', (reference, now, payload))
                 appointment=None
+                booking_url=demo_handoff.offer(db,reference,SALT)
                 if data.get('slotId'):
                     try:appointment=operations.create_booking(db,reference,data['slotId'],management_token)
                     except ValueError:
                         db.rollback();return self.respond(409,{'error':'That demo time is no longer available. Choose another slot.'})
                 elif data['email'] and os.environ.get('CUSTOMER_ACK_ENABLED','1')=='1':
-                    operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com')
+                    operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com'+('\nBook a review within 7 days: https://bandeviglobalgroup.com'+booking_url+'\nOnly a successful available-slot reservation confirms a meeting. Keep this private link safe.' if booking_url else ''))
                 db.execute('INSERT INTO requests VALUES(?,?)', (fingerprint, now))
                 db.execute('INSERT INTO idempotency VALUES(?,?,?,?)', (key, digest, reference, now))
-            return self.respond(201, {'ok': True, 'reference': reference,'appointment':appointment})
+            return self.respond(201, {'ok': True, 'reference': reference,'appointment':appointment,'demoBookingUrl':booking_url})
         except sqlite3.Error:
             LOG.error('Enquiry storage unavailable')
             return self.respond(503, {'error': 'Unable to save right now. Please use email or WhatsApp.'})
