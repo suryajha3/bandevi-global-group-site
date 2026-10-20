@@ -1,3 +1,4 @@
+const revealOptional=require('./qa-qualification-fields.cjs').revealOptional;
 // Exercise native invalid-field recovery and keyboard scrolling. All writes/external requests blocked.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'qa-results/regional-validation-scroll');fs.mkdirSync(out,{recursive:true});let server,browser;
@@ -18,9 +19,9 @@ for(const spec of cases){
  states.push(await assertVisible(p,'name'));assert.equal(await form.locator('[name=name]').inputValue(),'');assert.equal(await form.locator(':invalid').count()>0,true);
  if(js){
   const values={name:'Synthetic local focus QA',email:'qa@example.test',interest:'Travel ERP Package',projectCountry:slug==='uk'?'GB':'US',contactTimezone:slug==='uk'?'Europe/London':'America/New_York',message:'Local native validation check; never sent.'};
-  for(const [name,value] of Object.entries(values)){const field=form.locator('[name='+name+']');if(await field.evaluate(e=>e.tagName==='SELECT'))await field.selectOption(value);else await field.fill(value);}
+  for(const [name,value] of Object.entries(values)){const field=form.locator('[name='+name+']');await revealOptional(field);if(await field.evaluate(e=>e.tagName==='SELECT'))await field.selectOption(value);else await field.fill(value);}
   // Repeat the rapid validation sequence without waiting before clicks: this caught the scroll race.
-  for(let round=0;round<2;round++)for(const name of Object.keys(values)){
+  for(let round=0;round<2;round++)for(const name of ['name','email','projectCountry','message']){
    const field=form.locator('[name='+name+']'),select=await field.evaluate(e=>e.tagName==='SELECT');if(select)await field.selectOption('');else await field.fill('');
    await form.locator('[type=submit]').click();try{states.push(await assertVisible(p,name));}catch(e){await p.screenshot({path:path.join(out,slug+'-'+width+'-failure.png')});console.error(JSON.stringify({spec,expected:name,actual:await p.evaluate(visibleField)}));throw e;}
    assert.equal(await field.inputValue(),'');assert.equal(new URL(p.url()).pathname,'/'+slug+'/software-development/');
