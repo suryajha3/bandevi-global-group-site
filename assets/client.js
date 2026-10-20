@@ -476,6 +476,8 @@ function bindCompactEnquiry(form) {
   e.contactTimezone.addEventListener('change',()=>{implicitZone=false;sync();});
   for(const field of [e.contactDate,e.contactTime])field.addEventListener('input',()=>sync());
   form.addEventListener('invalid',event=>{let node=event.target.parentElement;while(node&&node!==form){if(node.tagName==='DETAILS')node.open=true;node=node.parentElement;}},true);
+  // Keep keyboard focus and its label clear of the sticky header and contact bar.
+  form.addEventListener('focusin',event=>{const field=event.target;if(!field.matches('input:not([type=hidden]),select,textarea'))return;requestAnimationFrame(()=>{if(document.activeElement!==field)return;const rect=field.getBoundingClientRect(),header=document.querySelector('header')?.getBoundingClientRect(),bar=document.querySelector('.mobile-contact-bar'),bottom=bar&&getComputedStyle(bar).display!=='none'?Math.min(innerHeight,bar.getBoundingClientRect().top):innerHeight,top=Math.min(rect.top,...[...field.labels||[]].map(label=>label.getBoundingClientRect().top));if(top<(header?.bottom||0)+8||rect.bottom>bottom-8)field.scrollIntoView({behavior:'instant',block:'center'});});});
   form.addEventListener('reset',()=>queueMicrotask(()=>{optional.open=false;if(!e.interest.value)e.interest.value='Need guidance';sync(true);}));
   const submit=form.querySelector('button[type=submit]');submit.dataset.enquirySubmit='';submit.disabled=false;
   sync();
