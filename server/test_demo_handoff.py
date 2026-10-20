@@ -26,8 +26,12 @@ class HandoffTests(unittest.TestCase):
         return result,payload,key
 
     def slot(self,active=1,offset=3600):
-        slot=secrets.token_hex(12);starts=int(time.time())+offset+secrets.randbelow(300)
-        with enquiries.connect() as db:db.execute('INSERT INTO demo_slots VALUES(?,?,?,?,?)',(slot,starts,30,'sales@example.test',active))
+        slot=secrets.token_hex(12);starts=int(time.time())+offset
+        with enquiries.connect() as db:
+            # Multiple tests share this temporary DB. Allocate an unused timestamp
+            # deterministically rather than relying on random offsets to be unique.
+            while db.execute('SELECT 1 FROM demo_slots WHERE starts=?',(starts,)).fetchone():starts+=1
+            db.execute('INSERT INTO demo_slots VALUES(?,?,?,?,?)',(slot,starts,30,'sales@example.test',active))
         return slot
 
     def call(self,lead,action='view',**data):
