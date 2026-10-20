@@ -445,8 +445,9 @@ function bindRegionalValidationScroll(form) {
 
 // Keep the first enquiry short; scheduling remains an explicit optional choice.
 function bindCompactEnquiry(form) {
-  if(!['home','contact','usSoftwareServices','ukSoftwareServices','indiaSoftwareServices'].includes(document.body.dataset.page) || !['home','contact'].includes(form.dataset.form) || form._compactEnquiryBound)return;
+  if(!['home','contact','usSoftwareServices','ukSoftwareServices','indiaSoftwareServices','crmCampaignUS','crmCampaignGB','crmCampaignIN'].includes(document.body.dataset.page) || !['home','contact'].includes(form.dataset.form) || form._compactEnquiryBound)return;
   form._compactEnquiryBound=true;form.dataset.compactEnquiry='1';
+  if(document.body.dataset.page.startsWith('crmCampaign'))for(const link of document.querySelectorAll('.topbar a[href^="/demo-request/"],.mobile-contact-demo'))link.href='#regional-enquiry';
   const e=form.elements,grid=form.querySelector('.form-grid'),qualification=form.querySelector('[data-lead-qualification]');
   if(!qualification||!grid)return;
   let optional=form.querySelector('.enquiry-optional');
@@ -670,6 +671,7 @@ function bindForms() {
             const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';throw failure;
           }
           savedEnquiryReceipt(note, result.reference, type);
+          if(type!=='demo'&&/^\/demo-booking\/#review\.BG-[A-F0-9]{16}\.[a-f0-9]{64}$/.test(result.demoBookingUrl||'')){const book=document.createElement('a');book.className='button dark receipt-book-review';book.href=result.demoBookingUrl;book.textContent='Book your demo review';note.append(book);const help=document.createElement('p');help.textContent='Your enquiry is already saved. Choose an available slot without entering your details again. This private link is valid for 7 days; a meeting is confirmed only after reservation.';note.append(help);}
           if(type==='demo'){
             if(result.appointment?.confirmed){
               note.append(' Demo confirmed for '+new Date(result.appointment.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. Joining details follow separately.');

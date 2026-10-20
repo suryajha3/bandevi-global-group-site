@@ -1,7 +1,7 @@
 """Optional regional CRM workflow review. No automatic qualification or appointment."""
 FIELDS = {'tools': 200, 'teamSize': 20, 'challenge': 500, 'integrations': 300}
 TEAMS = ('1-5', '6-20', '21-50', '51-plus', 'Not sure')
-ROUTES = tuple('/'+market+'/software-development/' for market in ('us', 'uk', 'india'))
+ROUTES = tuple('/'+market+'/'+route+'/' for market in ('us', 'uk', 'india') for route in ('software-development', 'travel-agency-crm'))
 
 
 def validate(value, enquiry):
