@@ -257,6 +257,15 @@ body[data-page="blogTravelErp"] main .button {
   text-align: center;
 }
 
+/* ERP enquiry labels must fit narrow screens and wider fallback fonts. */
+body[data-page="erp"] main .button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  max-width: 100%;
+  text-align: center;
+}
+
 .hero::after {
   content: "";
   position: absolute;

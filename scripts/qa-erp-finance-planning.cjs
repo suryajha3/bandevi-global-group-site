@@ -42,5 +42,13 @@ let server,browser;
   const c=await browser.newContext({viewport:{width,height:1000}}),p=await c.newPage();await c.route('**/*',r=>!r.request().url().startsWith(base)?r.abort():r.request().method()!=='GET'?r.fulfill({status:200,json:{ok:true}}):r.continue());await p.goto(base+'/travel-erp/');await p.locator('#erp-finance').screenshot({style:'header,.skip-link,.mobile-contact-bar{visibility:hidden!important}',path:path.join(out,(live?'live':'local')+'-'+focus+'-'+width+'.png')});
   if(!live){await p.locator('#erp-software-fit').screenshot({style:'header,.skip-link,.mobile-contact-bar{visibility:hidden!important}',path:path.join(out,'software-fit-'+width+'.png')});const text=await p.locator('#erp-finance').innerText();await p.goto(base+'/travel-erp/?source=1');await p.locator('#erp-finance').waitFor();assert.equal((await p.locator('#erp-finance').innerText()).replace(/\s+/g,' '),text.replace(/\s+/g,' '),'Static/source parity');}await c.close();
  }
- const report={status:'PASS',mode:live?'live':'local',cases:results.length,results,productionSubmissions:0};fs.writeFileSync(path.join(out,(live?'live':'local')+'-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:'PASS',cases:results.length,productionSubmissions:0}));
+ // A wide fallback font exposed clipped ERP enquiry labels at 320px in CI.
+ const fontContext=await browser.newContext({viewport:{width:320,height:1000}}),fontPage=await fontContext.newPage();
+ await fontContext.route('**/*',r=>r.request().url().startsWith(base)&&r.request().method()==='GET'?r.continue():r.abort());
+ await fontPage.goto(base+'/travel-erp/');await fontPage.addStyleTag({content:':root{font-family:Verdana,Arial,sans-serif!important}'});
+ assert(await fontPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'ERP page overflows with fallback font');
+ const buttonGeometry=await fontPage.locator('main .button').evaluateAll(es=>es.filter(e=>e.getBoundingClientRect().width>0).map(e=>({text:e.textContent.trim(),client:e.clientWidth,scroll:e.scrollWidth})));
+ assert(buttonGeometry.length>0);assert(buttonGeometry.every(e=>e.scroll<=e.client+1),'ERP button text is clipped: '+JSON.stringify(buttonGeometry));
+ await fontPage.locator('#erp-finance-enquiry').screenshot({style:'header,.skip-link,.mobile-contact-bar{visibility:hidden!important}',path:path.join(out,'fallback-font-enquiry-320.png')});await fontContext.close();
+ const report={status:'PASS',mode:live?'live':'local',cases:results.length,results,fallbackFontCheck:{width:320,buttonGeometry},productionSubmissions:0};fs.writeFileSync(path.join(out,(live?'live':'local')+'-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:'PASS',cases:results.length,fallbackFontButtons:buttonGeometry.length,productionSubmissions:0}));
 }finally{if(browser)await browser.close();if(server){server.closeAllConnections();server.close();}}})().catch(e=>{console.error(e);process.exitCode=1;});
