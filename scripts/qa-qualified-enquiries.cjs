@@ -1,3 +1,4 @@
+const revealOptional=require('./qa-qualification-fields.cjs').revealOptional;
 const fs=require('fs'),path=require('path'),http=require('http'),assert=require('assert/strict'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..');let server,browser;
 (async()=>{try{
@@ -8,10 +9,10 @@ const root=path.resolve(__dirname,'..');let server,browser;
   const context=await browser.newContext({viewport:{width,height:1000}});await context.route('**/*',r=>r.request().url().startsWith(origin)?r.continue():r.abort());const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(origin+'/contact-us/'+(source?'?source=1':''));const form=page.locator('[data-form=contact]');let payloads=[];
   await page.route('**/api/enquiries',r=>{payloads.push(r.request().postDataJSON());return r.fulfill({status:201,json:{ok:true,reference:'BG-1234567890ABCDEF'}});});
   for(const [country,currency,zone] of [['US','USD','America/Chicago'],['GB','GBP','Europe/London'],['IN','INR','Asia/Kolkata']]){
-   await form.locator('[name=name]').fill('Synthetic contact');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=interest]').selectOption('Website development');await form.locator('[name=message]').fill('Synthetic project for local QA only.');
+   await form.locator('[name=name]').fill('Synthetic contact');await form.locator('[name=email]').fill('qa@example.test');await revealOptional(form.locator('[name=interest]'));await form.locator('[name=interest]').selectOption('Website development');await form.locator('[name=message]').fill('Synthetic project for local QA only.');
    const before=payloads.length;await form.locator('[type=submit]').click();assert.equal(payloads.length,before,'Missing country must not submit');
-   await form.locator('[name=projectCountry]').selectOption(country);if(country==='US'){await form.locator('[type=submit]').click();assert.equal(payloads.length,before,'US time zone must be explicit');await form.locator('[name=contactTimezone]').selectOption(zone);}
-   assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),currency);await form.locator('[name=projectBudget]').fill('Private planning range');await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();assert.equal(payloads.length,before+1);assert.deepEqual(payloads.at(-1).qualification,{version:1,country,currency,budget:'Private planning range',contact:{channel:'Discuss',date:'',time:'',timezone:zone}});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));cases++;
+   await form.locator('[name=projectCountry]').selectOption(country);if(country==='US'){assert.equal(await form.locator('[name=contactTimezone]').inputValue(),'UTC');assert.equal(await form.locator('[name=contactTimezone]').getAttribute('required'),null);await revealOptional(form.locator('[name=contactTimezone]'));await form.locator('[name=contactTimezone]').selectOption(zone);}
+   assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),currency);await revealOptional(form.locator('[name=projectBudget]'));await form.locator('[name=projectBudget]').fill('Private planning range');await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();assert.equal(payloads.length,before+1);assert.deepEqual(payloads.at(-1).qualification,{version:1,country,currency,budget:'Private planning range',contact:{channel:'Discuss',date:'',time:'',timezone:zone}});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));cases++;
   }
   assert.deepEqual(errors,[]);await context.close();
  }

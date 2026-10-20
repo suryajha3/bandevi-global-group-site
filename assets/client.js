@@ -442,6 +442,47 @@ function bindRegionalValidationScroll(form) {
   }, true);
 }
 
+
+// Keep the first enquiry short; scheduling remains an explicit optional choice.
+function bindCompactEnquiry(form) {
+  if(!['home','contact','usSoftwareServices','ukSoftwareServices','indiaSoftwareServices'].includes(document.body.dataset.page) || !['home','contact'].includes(form.dataset.form) || form._compactEnquiryBound)return;
+  form._compactEnquiryBound=true;form.dataset.compactEnquiry='1';
+  const e=form.elements,grid=form.querySelector('.form-grid'),qualification=form.querySelector('[data-lead-qualification]');
+  if(!qualification||!grid)return;
+  let optional=form.querySelector('.enquiry-optional');
+  if(!optional){optional=document.createElement('details');optional.className='enquiry-optional';const summary=document.createElement('summary');optional.append(summary);const note=[...form.children].find(node=>node.classList.contains('form-help'));if(note)note.before(optional);else grid.after(optional);}
+  optional.querySelector('summary').textContent='Add service, budget or contact preferences (optional)';
+  let optionalGrid=optional.querySelector('.form-grid');if(!optionalGrid){optionalGrid=document.createElement('div');optionalGrid.className='form-grid';optional.append(optionalGrid);}
+  const country=e.projectCountry.closest('.field');
+  for(const name of ['interest','phone','businessType','quoteCurrency','projectBudget','contactChannel','contactTimezone','contactDate','contactTime']){const field=e[name]?.closest('.field');if(field&&field!==country)optionalGrid.append(field);}
+  for(const field of [...grid.children])if(field.tagName==='FIELDSET'&&field!==qualification&&!field.classList.contains('crm-workflow-review'))optionalGrid.append(field);
+  qualification.querySelector('legend').textContent='Your business country';
+  qualification.querySelector(':scope > .form-help')?.remove();
+  const message=e.message.closest('.field');message.before(qualification);
+  if(!e.interest.value){e.interest.value='Need guidance';e.interest.dispatchEvent(new Event('change'));}e.interest.required=false;
+  e.name.required=true;
+  if(!optional.querySelector('.compact-contact-note')){const note=document.createElement('p');note.className='form-help compact-contact-note';note.textContent='A contact time is optional. If you request one, choose your time zone. Availability and project pricing are confirmed with the team.';optional.append(note);}
+  e.contactTimezone.closest('.field').querySelector('label').textContent='Contact time zone (for a preferred time)';
+  let implicitZone=false;
+  function sync(reset=false){
+    const scheduled=!!(e.contactDate.value||e.contactTime.value);
+    if(reset)implicitZone=false;
+    if(!e.contactTimezone.value&&!scheduled){e.contactTimezone.value='UTC';implicitZone=true;}
+    if(scheduled&&implicitZone){e.contactTimezone.value='';implicitZone=false;}
+    e.contactTimezone.required=scheduled;
+    e.contactTimezone.setCustomValidity(scheduled&&!e.contactTimezone.value?'Choose the time zone for your preferred contact time.':'');
+  }
+  e.projectCountry.addEventListener('change',()=>sync(true));
+  e.contactTimezone.addEventListener('change',()=>{implicitZone=false;sync();});
+  for(const field of [e.contactDate,e.contactTime])field.addEventListener('input',()=>sync());
+  form.addEventListener('invalid',event=>{let node=event.target.parentElement;while(node&&node!==form){if(node.tagName==='DETAILS')node.open=true;node=node.parentElement;}},true);
+  // Keep keyboard focus and its label clear of the sticky header and contact bar.
+  form.addEventListener('focusin',event=>{const field=event.target;if(!field.matches('input:not([type=hidden]),select,textarea'))return;requestAnimationFrame(()=>{if(document.activeElement!==field)return;const rect=field.getBoundingClientRect(),header=document.querySelector('header')?.getBoundingClientRect(),bar=document.querySelector('.mobile-contact-bar'),bottom=bar&&getComputedStyle(bar).display!=='none'?Math.min(innerHeight,bar.getBoundingClientRect().top):innerHeight,top=Math.min(rect.top,...[...field.labels||[]].map(label=>label.getBoundingClientRect().top));if(top<(header?.bottom||0)+8||rect.bottom>bottom-8)field.scrollIntoView({behavior:'instant',block:'center'});});});
+  form.addEventListener('reset',()=>queueMicrotask(()=>{optional.open=false;if(!e.interest.value)e.interest.value='Need guidance';sync(true);}));
+  const submit=form.querySelector('button[type=submit]');submit.dataset.enquirySubmit='';submit.disabled=false;
+  sync();
+}
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
@@ -575,6 +616,8 @@ function bindForms() {
       bindEnquiryJourney(form);
     }
 
+    bindCompactEnquiry(form);
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const note = form.querySelector(".form-note");
@@ -594,7 +637,7 @@ function bindForms() {
         if (form.dataset.sending === 'true') return;
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
-          interest: data.interest || (type==='contact'?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
+          interest: data.interest || (['contact','home'].includes(type)?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           ...enquiryQualification(form,data),
           ...crmWorkflowReviewPayload(form),
