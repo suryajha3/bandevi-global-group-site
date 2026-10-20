@@ -99,6 +99,7 @@ const analyticsConsent = (() => {
   return {allowed};
 })();
 window.bgAnalyticsConsent=analyticsConsent;
+if(document.body.hasAttribute('data-page')){const s=document.createElement('script');s.src='/assets/crm-qualified-analytics.js?v=20261020-review';s.defer=true;document.head.append(s);}
 
 function trackAnalyticsEvent(eventName, parameters = {}) {
   if (!analyticsConsent.allowed()) return;
@@ -616,10 +617,13 @@ function bindForms() {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 15000);
         try {
+          let analyticsContext=null;
+          try{analyticsContext=await window.bgQualifiedAnalytics?.context(form.dataset.requestId);}catch(_){}
+          const analyticsBody=analyticsContext?JSON.stringify({...payload,analyticsContext}):serialized;
           const response = await fetch('/api/enquiries', {
             method: 'POST', credentials: 'same-origin', signal: controller.signal,
             headers: {'Content-Type':'application/json', 'Idempotency-Key':form.dataset.requestId},
-            body: serialized
+            body: new TextEncoder().encode(analyticsBody).length<=16384?analyticsBody:serialized
           });
           const result = await response.json();
           if (!response.ok || result.ok !== true || !/^BG-[A-F0-9]{16}$/.test(result.reference || '')) {
