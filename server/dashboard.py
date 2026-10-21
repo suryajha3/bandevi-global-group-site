@@ -14,6 +14,7 @@ import task_center
 import sales_journey
 import growth_workbench
 import demo_recovery
+import response_coverage
 import ads_measurement
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
@@ -177,7 +178,7 @@ def send_asset(handler, name):
     file = ASSETS / name
     data = file.read_bytes()
     handler.send_response(200)
-    handler.send_header('Content-Type', {'index.html':'text/html; charset=utf-8','app.js':'application/javascript; charset=utf-8','styles.css':'text/css; charset=utf-8','operations.js':'application/javascript; charset=utf-8','sales-journey.js':'application/javascript; charset=utf-8','growth.js':'application/javascript; charset=utf-8','acquisition.js':'application/javascript; charset=utf-8'}[name])
+    handler.send_header('Content-Type', {'index.html':'text/html; charset=utf-8','app.js':'application/javascript; charset=utf-8','styles.css':'text/css; charset=utf-8','operations.js':'application/javascript; charset=utf-8','sales-journey.js':'application/javascript; charset=utf-8','growth.js':'application/javascript; charset=utf-8','acquisition.js':'application/javascript; charset=utf-8','response-coverage.js':'application/javascript; charset=utf-8'}[name])
     handler.send_header('Cache-Control', 'no-store')
     handler.send_header('X-Robots-Tag', 'noindex, nofollow, noarchive')
     handler.send_header('X-Content-Type-Options', 'nosniff')
@@ -191,7 +192,7 @@ def send_asset(handler, name):
 def handle_get(handler, connect):
     parsed = urlsplit(handler.path)
     route = parsed.path
-    assets = {'/team-inbox/':'index.html', '/team-inbox/app.js':'app.js', '/team-inbox/styles.css':'styles.css','/team-inbox/operations.js':'operations.js','/team-inbox/sales-journey.js':'sales-journey.js','/team-inbox/growth.js':'growth.js','/team-inbox/acquisition.js':'acquisition.js'}
+    assets = {'/team-inbox/':'index.html', '/team-inbox/app.js':'app.js', '/team-inbox/styles.css':'styles.css','/team-inbox/operations.js':'operations.js','/team-inbox/sales-journey.js':'sales-journey.js','/team-inbox/growth.js':'growth.js','/team-inbox/acquisition.js':'acquisition.js','/team-inbox/response-coverage.js':'response-coverage.js'}
     if route in assets:
         send_asset(handler, assets[route])
         return True
@@ -203,6 +204,7 @@ def handle_get(handler, connect):
     if growth_workbench.get(handler,connect,authenticated):return True
     if demo_recovery.get(handler,connect,authenticated):return True
     if ads_measurement.get(handler,connect,authenticated):return True
+    if response_coverage.get(handler,connect,authenticated):return True
     if not route.startswith('/api/admin/'):
         return False
     if route == '/api/admin/session':
