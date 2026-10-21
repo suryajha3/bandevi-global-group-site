@@ -65,6 +65,7 @@ jobs:
           node scripts/qa-hero-balance.cjs
           node scripts/qa-home-conversion.cjs
           node scripts/qa-crm-acquisition.cjs
+          node scripts/qa-crm-buyer.cjs
           node scripts/qa-recovery-proof-ads.cjs
           node scripts/qa-guided-enquiry.cjs
           node scripts/qa-crm-campaign.cjs

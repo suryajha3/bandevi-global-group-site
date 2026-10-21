@@ -266,6 +266,7 @@ function bindCrmWorkflowReview(form){
 
 function enquiryMessage(form, data) {
   return [
+    form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
     ['GB','US','IN','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',IN:'India',other:'Another country'})[data.projectCountry] : '',
     data.projectBudget ? 'Planning budget: ' + data.projectBudget.trim() : '',
