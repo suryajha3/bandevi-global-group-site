@@ -8,6 +8,7 @@ import journey_measurement
 import lead_qualification
 import crm_review
 import demo_handoff
+import ads_measurement
 import json
 import logging
 import os
@@ -136,6 +137,7 @@ def validate(data):
         result['message'] += '\n\n'+crm_review.summary(result['crmReview'])
         if len(result['message']) > FIELDS['message']:
             raise ValueError('Please shorten your description or workflow details to fit the enquiry limit.')
+    if 'adsMeasurement' in data:result['adsMeasurement']=ads_measurement.validate(data['adsMeasurement'],result)
     if data.get('slotId') is not None:
         if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
         result['slotId']=data['slotId']
@@ -207,6 +209,7 @@ def process_outbox():
 def notification_worker():
     while True:
         try:
+            with connect() as db:ads_measurement.purge(db)
             operations.reminders(connect)
             client_workflow.reminders(connect)
             process_outbox()
@@ -252,6 +255,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         try:
+            if ads_measurement.public_get(self,connect):return
             if client_workflow.handle_get(self,connect):return
             if handle_get(self, connect):
                 return
@@ -291,8 +295,11 @@ class Handler(BaseHTTPRequestHandler):
             uuid.UUID(key)
         except (ValueError, TypeError, UnicodeError):
             return self.respond(400, {'error': 'Please check the required fields and try again.'})
-        payload = json.dumps(data, sort_keys=True)
-        digest = hashlib.sha256(payload.encode()).hexdigest()
+        digest = hashlib.sha256(json.dumps(data,sort_keys=True).encode()).hexdigest()
+        # Click identifiers have their own retention and withdrawal controls.
+        # Never include them in the enquiry payload, acknowledgements or reports.
+        ads_data=data.get('adsMeasurement')
+        payload = json.dumps({key:value for key,value in data.items() if key!='adsMeasurement'},sort_keys=True)
         # Nginx overwrites this header; the server listens only on loopback.
         ip = self.headers.get('X-Real-IP', self.client_address[0])
         fingerprint = hashlib.sha256((SALT + ip).encode()).hexdigest()
@@ -320,6 +327,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self.respond(429, {'error': 'Too many enquiries. Please try later or contact us directly.'})
                 reference = 'BG-' + uuid.uuid4().hex[:16].upper()
                 db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)', (reference, now, payload))
+                ads_measurement.capture(db,reference,ads_data,data,self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1',now)
                 appointment=None
                 booking_url=demo_handoff.offer(db,reference,SALT)
                 if data.get('slotId'):

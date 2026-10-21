@@ -6881,7 +6881,7 @@ function privacyPage() {
         <article class="article-body">
           <span class="eyebrow">Privacy policy</span>
           <h2>Information we collect.</h2>
-          <p class="muted article-intro">BANDEVI GLOBAL GROUP collects only the information needed to respond to inquiries, demo requests, support requests, and project discussions.</p>
+          <p class="muted article-intro">BANDEVI GLOBAL GROUP handles information to respond to inquiries, demo requests, support requests and project discussions. Optional analytics and advertising measurement use the separate choices described below.</p>
           ${list([
             "Contact details such as name, company, phone number, email address, and preferred contact method.",
             "Project details shared through contact forms, demo request forms, WhatsApp, email, phone calls, or meetings.",
@@ -7628,12 +7628,24 @@ function bindCompactEnquiry(form) {
   sync();
 }
 
+
+// A separate, optional permission applies only to configured CRM ad landing pages.
+let adsCapabilityPromise=null;
+function bindAdsMeasurement(form){
+ const routes={'/us/travel-agency-crm/':'US','/uk/travel-agency-crm/':'GB','/india/travel-agency-crm/':'IN'},market=routes[location.pathname],gclid=new URL(location.href).searchParams.get('gclid');
+ if(!market||form.dataset.form!=='contact'||!gclid||!/^[-A-Za-z0-9_]{1,512}$/.test(gclid)||navigator.doNotTrack==='1'||navigator.globalPrivacyControl===true)return;
+ if(!adsCapabilityPromise)adsCapabilityPromise=(async()=>{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);try{const response=await fetch('/api/enquiries?capabilities=ads-measurement',{credentials:'same-origin',cache:'no-store',signal:controller.signal});if(!response.ok)return null;return await response.json();}catch(_){return null;}finally{clearTimeout(timer);}})();
+ adsCapabilityPromise.then(config=>{if(!config?.markets?.[market]||config.policy!=='ads-click-v1'||form._adsChoice)return;const box=document.createElement('div');box.className='ads-measurement-choice';const label=document.createElement('label'),choice=document.createElement('input');choice.type='checkbox';choice.name='adsMeasurementConsent';label.append(choice,document.createTextNode(' Allow BANDEVI to share this advertising click and any qualified-lead or won-project outcome with Google to measure advertising. Optional; your enquiry works without this permission.'));const help=document.createElement('p');help.className='form-help';help.append('Separate from analytics permission. Active click records expire after 90 days. ');const link=document.createElement('a');link.href='/privacy-policy/#advertising-measurement';link.textContent='Details and withdrawal';help.append(link);box.append(label,help);form.querySelector('button[type=submit]').before(box);form._adsChoice={choice,gclid};});
+}
+function adsMeasurementPayload(form){const state=form._adsChoice;return state?.choice.checked&&navigator.doNotTrack!=='1'&&navigator.globalPrivacyControl!==true?{adsMeasurement:{version:1,consent:true,policy:'ads-click-v1',gclid:state.gclid}}:{};}
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
   document.querySelectorAll("[data-form]").forEach((form) => {
     bindRegionalValidationScroll(form);
     bindLeadQualification(form);
+    bindAdsMeasurement(form);
     bindCrmWorkflowReview(form);
     const type = form.dataset.form;
     if (type === "contact") {
@@ -7786,6 +7798,7 @@ function bindForms() {
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           ...enquiryQualification(form,data),
           ...crmWorkflowReviewPayload(form),
+          ...adsMeasurementPayload(form),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),
@@ -8265,6 +8278,10 @@ for(const [code,slug,label,currency,regional] of crmCampaignMarkets){
 for(const [slug,key] of [['us','usSoftwareServices'],['uk','ukSoftwareServices'],['india','indiaSoftwareServices']]){
  const previous=pageRenderers[key];pageRenderers[key]=()=>previous().replace('<section class="section" id="project-proof"',`<section class="section"><div class="container"><a class="button dark" href="/${slug}/travel-agency-crm/">Explore CRM for travel agencies ↗</a></div></section><section class="section" id="project-proof"`);
 }
+
+
+const privacyBeforeAdsMeasurement=pageRenderers.privacy;
+pageRenderers.privacy=()=>privacyBeforeAdsMeasurement()+'<section class="section" id="advertising-measurement"><div class="container"><h2>Optional advertising measurement</h2><p>On configured US, UK and India CRM campaign pages, a visitor arriving with a Google advertising click identifier may choose a separate, unchecked permission to share that click and later qualified-lead or won-project outcomes with Google. You can send an enquiry and book a demo without agreeing. Analytics permission alone does not enable this sharing. Do Not Track and Global Privacy Control prevent this collection.</p><p>When you agree, the click identifier is kept separately from your enquiry in our protected operational database for up to 90 days, then removed by routine cleanup. Protected backup copies age out under the existing backup retention process. A reviewed Google Ads import may include the click identifier, conversion action, milestone time, stable order identifier and recorded deal value and currency. This setup does not export your name, email address, phone number or project requirements, enable ad personalisation, or automatically upload data to Google.</p><p>To withdraw, email sales@bandeviglobalgroup.com with your enquiry reference. The team can remove its stored click identifier and exclude the enquiry from future exports. Files already downloaded or data already shared with Google require separate handling; withdrawing here does not automatically retract external copies. These advertising records are separate from the information we retain to respond to your enquiry and deliver agreed work.</p></div></section>';
 
 render();
 
