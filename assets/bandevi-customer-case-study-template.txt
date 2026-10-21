@@ -1,0 +1,64 @@
+BANDEVI GLOBAL GROUP — CUSTOMER CASE-STUDY WORKSHEET
+INTERNAL DRAFT. NOT APPROVED FOR PUBLICATION.
+
+Market: [United States / United Kingdom / India / explain other]
+Customer / company: [Use a name only with permission]
+Industry and audience: [Verified description]
+Delivery and review dates: [Dates]
+Approved attribution: [Named / anonymous / do not publish]
+
+1. THE STARTING PROBLEM
+[Describe the customer's actual workflow and the problem to solve.]
+
+2. AGREED SCOPE AND WHAT WAS DELIVERED
+[List delivered features, roles, milestones and acceptance checks. Distinguish
+delivered functions from demonstrations, proposals and future work.]
+
+3. INTEGRATIONS AND LIMITATIONS
+[Identify approved integrations, dependencies, exclusions and support scope.
+Do not publish credentials, supplier terms or confidential customer records.]
+
+4. EVIDENCE
+[Link or identify dated delivery records, acceptance evidence and approved
+screenshots. Keep supporting files in approved storage.]
+
+5. OPTIONAL VERIFIED RESULTS
+Metric definition: [Define exactly what was measured]
+Baseline: [Value, unit, date range and sample size]
+Result: [Value, unit, date range and sample size]
+Evidence owner and reference: [Who verified it, when and where]
+Limitations: [Other changes, missing data or reasons comparison is uncertain]
+
+If evidence is unavailable, state: "No verified numeric outcome supplied."
+Describe demonstrated functionality instead of inventing sales, savings,
+conversion uplift, customer counts or a claim of causation.
+
+6. OPTIONAL CUSTOMER QUOTATION
+[Exact wording, approved attribution, permission reference and approval date.]
+If none is approved, omit this section. Do not invent or paraphrase a testimonial
+as if it were the customer's exact quotation.
+
+7. PUBLICATION PERMISSION — CHECK EACH ITEM
+[ ] Customer approved the exact name, logo and attribution used.
+[ ] Customer approved each screenshot; personal/confidential data is redacted.
+[ ] Customer approved any metric and the supporting evidence was checked.
+[ ] Customer approved the exact quotation and attribution, if included.
+[ ] Any third-party rights and approvals have been checked.
+[ ] Customer reviewed the final draft and approved the intended channels.
+
+Permission reference: [Written approval reference]
+Customer approver / role: [Name and authority]
+Approval date and permitted channels: [Details]
+Internal reviewer and review date: [Details]
+Restrictions, expiry or withdrawal contact: [Details]
+
+8. FINAL REVIEW
+[ ] Every claim is supported by retained, dated evidence.
+[ ] The draft identifies internal projects and fictional demonstrations correctly.
+[ ] Pricing, if included, is specifically approved with its original currency.
+[ ] No unverified endorsement, geographic office claim or guaranteed result appears.
+[ ] A separate explicit publication instruction has been received.
+
+Completing or downloading this worksheet does not approve or publish a case study.
+Request permission and a separate review before adding it to any public page,
+advertisement, social post or sales material.
