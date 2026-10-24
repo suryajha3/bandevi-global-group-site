@@ -142,7 +142,7 @@ let server, browser;
     await nojs.close();
     await page.setViewportSize({width:390,height:844});
     await page.goto(base+'/');
-    assert((await page.locator('h1').textContent()).includes('Built around your business.'));
+    assert.equal(await page.locator('h1').textContent(),'Custom software for yoursales and operations.');
     await page.locator('[data-nav-toggle]').click();
     await page.locator('.nav-markets summary').click();
     await Promise.all([page.waitForURL('**/sg/software-development/'),page.locator('.nav-markets a[href="/sg/software-development/"]').click()]);
