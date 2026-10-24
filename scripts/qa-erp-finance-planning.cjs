@@ -20,7 +20,7 @@ let server,browser;
    for(const a of await p.locator('#guide-project-path a').all()){const href=await a.getAttribute('href');assert(!href.includes('utm_'));assert.equal((await c.request.get(base+href)).status(),200);}
    await p.locator('#guide-project-path a[href="/travel-erp/"]').click();
    await p.locator('#erp-finance').waitFor();
-   assert.equal(await p.locator('#erp-finance-title').innerText(),'Plan your travel payment records and approval workflow');
+   assert.equal(await p.locator('#erp-finance-title').innerText(),'Supplier-payment records your team can review');
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    await p.locator('#erp-software-fit a[href="#erp-finance-enquiry"]').click();
    assert.equal(new URL(p.url()).hash,'#erp-finance-enquiry');
