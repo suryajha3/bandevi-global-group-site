@@ -1,8 +1,10 @@
 # Homepage market discovery and proof
 
+The existing international charcoal and champagne layout, native optional service disclosure, below-hero project gallery, five-market coverage strip and delivery process are retained.
+
 The homepage leads with custom software for sales and operations. United States, United Kingdom and India links follow the primary actions and use the existing market pages, country defaults and quote currencies.
 
-The compact CRM preview describes three steps and links to the browser-local interactive example and captioned walkthrough. Fictional demo records remain labelled. The first section after the hero presents BANDEVI’s own implementation record, a dated blank consultation capture and a downloadable delivery record. It claims implemented functionality, not customer sales results.
+The compact fictional CRM concept retains three example leads and links to the browser-local interactive example and captioned walkthrough. Fictional demo records remain labelled. The proof section before the service comparison presents BANDEVI’s own implementation record, a dated blank consultation capture and a downloadable delivery record. It claims implemented functionality, not customer sales results.
 
 Only the corporate homepage, its renderer and scoped styles change. Existing enquiry submission, booking handoff, featured-project controls, private reporting and all travel/HR applications remain outside this change.
 
