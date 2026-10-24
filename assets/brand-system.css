@@ -24,3 +24,20 @@ body main :is(.form-panel,.field,fieldset,.enquiry-guidance){min-width:0;max-wid
 body main :is(p,li,dd,.form-help),body .enquiry-guidance{overflow-wrap:anywhere}
 
 @media(prefers-reduced-motion:reduce){body .button:hover{transform:none}}
+
+/* Compact public navigation, with restrained pointer and keyboard feedback. */
+body[data-page] .topbar .nav-wrap{min-height:82px;gap:18px}
+body[data-page] .topbar .brand{gap:12px;min-width:230px}
+body[data-page] .topbar .brand-mark{width:44px;height:48px;font-size:25px;flex-shrink:0}
+body[data-page] .topbar .brand-name{font-size:11px;letter-spacing:.11em}
+body[data-page] .topbar .brand-line{font-size:10px}
+body[data-page] .topbar .nav-actions{gap:12px}
+body[data-page] .topbar .nav-actions>.primary{min-height:46px;padding:12px 16px}
+body[data-page] .topbar .primary-nav>.nav-link,body[data-page] .topbar .nav-dropdown>summary{position:relative;text-decoration:none;background:transparent}
+body[data-page] .topbar .primary-nav>.nav-link:after,body[data-page] .topbar .nav-dropdown>summary:after{content:"";position:absolute;bottom:5px;left:10px;right:10px;height:1px;background:#e4cea1;transform:scaleX(0);transform-origin:left;transition:transform 180ms ease}
+body[data-page] .topbar .primary-nav>.nav-link:is(:hover,:focus-visible,[aria-current=page],.is-active):after,body[data-page] .topbar .nav-dropdown>summary:is(:hover,:focus-visible,.is-active):after,body[data-page] .topbar .nav-dropdown[open]>summary:after{transform:scaleX(1)}
+body[data-page] .topbar :is(a,summary,button):focus-visible{outline-color:#e4cea1;outline-offset:3px}
+@media(max-width:1180px){body[data-page] .topbar .nav-wrap{min-height:74px;gap:12px}body[data-page] .topbar .brand{min-width:0}body[data-page] .topbar .primary-nav{inset:74px 0 auto}body[data-page] .topbar .brand-mark{width:40px;height:44px;font-size:23px}}
+@media(max-width:540px){body[data-page] .topbar .nav-wrap{gap:8px}body[data-page] .topbar .brand{gap:9px}body[data-page] .topbar .brand-mark{width:36px;height:40px;font-size:22px}body[data-page] .topbar .brand-name{font-size:10px;letter-spacing:.065em}body[data-page] .topbar .nav-actions{gap:7px}}
+@media(hover:hover) and (pointer:fine){body main .button:hover{transform:translateY(-1px)}}
+@media(prefers-reduced-motion:reduce){body[data-page] .topbar .primary-nav>.nav-link:after,body[data-page] .topbar .nav-dropdown>summary:after{transition:none}body main .button:hover{transform:none}}
