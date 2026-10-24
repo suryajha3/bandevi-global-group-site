@@ -8,4 +8,4 @@ The compact fictional CRM concept retains three example leads and links to the b
 
 Only the corporate homepage, its renderer and scoped styles change. Existing enquiry submission, booking handoff, featured-project controls, private reporting and all travel/HR applications remain outside this change.
 
-Validation: `node scripts/qa-home-market-proof.cjs`, `node scripts/qa-home-conversion.cjs`, `node scripts/qa-hero-balance.cjs` and the existing website CI gate. The focused QA checks source and prerendered layouts at five widths, native email fallback, all three market defaults, evidence links and horizontal overflow. `--live` uses GET requests only and submits no enquiry.
+Validation: `node scripts/qa-home-market-proof.cjs`, `node scripts/qa-home-conversion.cjs`, `node scripts/qa-hero-balance.cjs` and the existing website CI gate. The focused QA checks source and prerendered layouts at six widths, native email fallback, all three market defaults, evidence links and horizontal overflow. `--live` uses GET requests only and submits no enquiry.
