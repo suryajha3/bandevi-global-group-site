@@ -1,5 +1,5 @@
-/* Shared public-site brand system. Data/status colours and private application styles are preserved. */
-:root:root{--brand-ink:#252622;--brand-charcoal:#202120;--brand-champagne:#e4cea1;--brand-ivory:#f5f1e9;--brand-paper:#fffdf8;--brand-border:#d5c8af;--brand-text-gold:#775622;--ink:var(--brand-ink);--charcoal:var(--brand-charcoal);--charcoal-2:#2d2e2b;--teal:var(--brand-text-gold);--teal-dark:#503c1d;--gold:#94702f;--mist:var(--brand-ivory);--paper:var(--brand-paper);--muted:#625e55;--line:#d5c8af;--shadow:0 16px 40px #2927200c}
+/* Shared public-site brand system. Private application colours and genuine evidence assets are preserved. */
+:root:root{--brand-ink:#222b27;--brand-charcoal:#191d1b;--brand-graphite:#252c28;--brand-emerald:#16483c;--brand-champagne:#e4cea1;--brand-ivory:#f7f4ec;--brand-paper:#fffdf8;--brand-border:#ccd6cd;--brand-text-gold:#775622;--ink:var(--brand-ink);--charcoal:var(--brand-charcoal);--charcoal-2:var(--brand-graphite);--teal:var(--brand-text-gold);--teal-dark:#503c1d;--gold:#94702f;--mist:var(--brand-ivory);--paper:var(--brand-paper);--muted:#625e55;--line:var(--brand-border);--shadow:0 16px 40px #102c1f0c}
 body .site-shell{background:var(--brand-paper)}body main :is(h1,h2,h3){text-wrap:pretty}body main :is(p,li,dd){text-wrap:pretty}body main .section{--line:var(--brand-border)}body main .card{border-color:var(--brand-border);border-radius:12px;box-shadow:0 6px 22px #29272005}body main :is(.proof-kind,.text-link,.project-filter-count){color:var(--brand-text-gold)}
 body:not([data-page="home"]) :is(.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.new-hero,.travel-service-hero,.crm-campaign-hero){background:linear-gradient(120deg,#202120,#33332d);color:#fff9ee}body:not([data-page="home"]) :is(.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.new-hero,.travel-service-hero,.crm-campaign-hero) .eyebrow{color:var(--brand-champagne)}body :is(.web-lede,.crm-lede,.travel-lede,.enquiry-intro p,.new-hero .hero-lede,.travel-service-hero .hero-lede){color:#ded9cf}body :is(.web-jump,.crm-jump,.travel-jump) a{color:var(--brand-champagne)}
 body main :is(.web-next,.crm-next,.travel-next,.enquiry-start,.crm-concept,.web-project-image,.travel-real-work,.project-facts,.crm-dependency-note,.web-dependency-note,.travel-dependency-note,.enquiry-expectation){background:var(--brand-ivory);border-color:var(--brand-border);color:var(--brand-ink)}body main :is(.web-step,.crm-step,.travel-step,.journey-number,.project-facts dt,.project-facts dd,.project-evidence-note,.crm-evidence-note,.web-evidence-note){color:var(--brand-text-gold)}body .enquiry-guidance li:before{background:#eee3ce;color:#5e4420}body .enquiry-guidance li span,body .enquiry-form-intro{color:#625e55}
@@ -41,3 +41,29 @@ body[data-page] .topbar :is(a,summary,button):focus-visible{outline-color:#e4cea
 @media(max-width:540px){body[data-page] .topbar .nav-wrap{gap:8px}body[data-page] .topbar .brand{gap:9px}body[data-page] .topbar .brand-mark{width:36px;height:40px;font-size:22px}body[data-page] .topbar .brand-name{font-size:10px;letter-spacing:.065em}body[data-page] .topbar .nav-actions{gap:7px}}
 @media(hover:hover) and (pointer:fine){body main .button:hover{transform:translateY(-1px)}}
 @media(prefers-reduced-motion:reduce){body[data-page] .topbar .primary-nav>.nav-link:after,body[data-page] .topbar .nav-dropdown>summary:after{transition:none}body main .button:hover{transform:none}}
+
+/* Emerald supports the champagne primary actions; surface changes preserve geometry. */
+body[data-page] .topbar{--header-gold:var(--brand-champagne);background:var(--brand-graphite);border-bottom-color:#45554a}
+body[data-page] .topbar .solutions-menu{background:#26372d;border-color:#526b59}
+body[data-page] .topbar .nav-actions>.secondary{color:#d5e0d6}
+body:not([data-page="home"]) :is(.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.new-hero,.travel-service-hero,.crm-campaign-hero){background:radial-gradient(ellipse at 85% 35%,#16483c99,transparent 70%),var(--brand-charcoal)}
+body .button.dark{background:var(--brand-emerald);border-color:var(--brand-emerald);color:#f7f4ec}
+body .button.dark:hover{background:#1c5948;border-color:#1c5948}
+body .footer.footer-compact{background:var(--brand-charcoal);border-top-color:#45594b}
+body .footer-compact .footer-contact-actions a{background:#25372d;border-color:#526b59}
+body .footer-compact .footer-contact-actions a:last-child{background:var(--brand-emerald);border-color:#688c75;color:#f2e4c8}
+body .mobile-contact-bar{background:var(--brand-charcoal);border-color:#526b59}
+body .mobile-contact-bar .mobile-contact-whatsapp{background:var(--brand-emerald);border-color:#73917b;color:#f7f4ec}
+body main .project-browser,body main .project-browser-bar{background:#edf1e9;border-color:#c5d2c6}
+body main .project-directory-grid article{background:#fffdf8;border-color:#ccd6cd;box-shadow:0 8px 24px #123b2708}
+body main .workflow-visual li{background:#edf3eb;border-color:#c8d8c9}
+body main .workflow-visual .workflow-number{color:#24533e}
+body main .comparison-scope{border-color:var(--brand-border)}
+body main .enquiry-summary{background:#edf3eb;border-color:#b4c8b7;color:var(--brand-ink)}
+body main .enquiry-summary h3,body main .enquiry-summary .summary-value{color:var(--brand-ink)}
+body main .enquiry-summary :is(dt,.summary-currency-rule,.summary-note){color:#4b6152}
+body main .enquiry-summary .summary-edit{color:var(--brand-emerald)}
+body[data-page="home"] #start-project .form-panel .form-help{color:#4b6152}
+body main .walkthrough-note{background:#fcfdf7;border-color:#c2d1c3}
+body main .walkthrough-number{color:#24533e;border-color:#a6bfad}
+@media(max-width:1180px){body[data-page] .topbar .primary-nav{background:#202d25;border-color:#526b59}}
