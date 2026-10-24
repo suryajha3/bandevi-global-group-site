@@ -179,7 +179,7 @@ body[data-page="home"] .intl-showcase-caption .intl-try-demo{font-size:12px;font
 .hero-lead-dialog .button{min-height:46px;font-size:14px}
 .hero-lead-dialog :is(button,a):focus-visible{outline:3px solid #997234;outline-offset:3px}
 @keyframes front-panel-enter{from{opacity:.65;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:no-preference){body[data-page="home"] .home-intro-grid>div:first-child{animation:front-panel-enter 420ms ease both}body[data-page="home"] .intl-showcase{animation:front-panel-enter 480ms ease both}.hero-lead-dialog[open]{animation:front-panel-enter 180ms ease}}
+@media(prefers-reduced-motion:no-preference){body[data-page="home"].front-motion-ready .intl-showcase{animation:front-panel-enter 480ms ease both}.hero-lead-dialog[open]{animation:front-panel-enter 180ms ease}}
 @media(hover:hover) and (pointer:fine){body[data-page="home"] .home-hero-markets a:hover{transform:translateY(-2px)}}
 @media(max-width:900px){body[data-page="home"] .home-professional-hero{padding:32px 0}body[data-page="home"] .home-intro-grid{gap:28px}}
 @media(max-width:760px){body[data-page="home"] .intl-lead{min-height:0}body[data-page="home"] .intl-showcase{padding:12px}body[data-page="home"] .intl-pipeline{padding:12px 10px}body[data-page="home"] .intl-owner{margin-top:4px}body[data-page="home"] .home-hero-markets a{padding:10px 8px}.home-market-context{font-size:9px}body[data-page="home"] .intl-showcase .intl-fiction{margin-top:10px}}

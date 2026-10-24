@@ -83,6 +83,7 @@
     });
     preview.querySelector('.intl-interaction-help').hidden = false;
     preview.dataset.interactivePreview = '1';
+    document.body.classList.add('front-motion-ready');
   }
   if (document.readyState === 'complete') init();
   else document.addEventListener('DOMContentLoaded', init, {once: true});
