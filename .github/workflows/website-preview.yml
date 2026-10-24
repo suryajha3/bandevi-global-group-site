@@ -1,5 +1,6 @@
 name: Website preview checks
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
@@ -64,6 +65,7 @@ jobs:
           node scripts/qa-mobile-contact.cjs
           node scripts/qa-hero-balance.cjs
           node scripts/qa-home-conversion.cjs
+          node scripts/qa-home-international.cjs
           node scripts/qa-crm-acquisition.cjs
           node scripts/qa-crm-buyer.cjs
           node scripts/qa-recovery-proof-ads.cjs
