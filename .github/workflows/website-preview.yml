@@ -46,6 +46,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-home-market-proof.cjs
           node scripts/qa-guide-hero-image.cjs
           node scripts/qa-qualified-enquiries.cjs
           node scripts/qa-enquiry-journey.cjs
