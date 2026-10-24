@@ -63,6 +63,7 @@ body main .enquiry-summary{background:#edf3eb;border-color:#b4c8b7;color:var(--b
 body main .enquiry-summary h3,body main .enquiry-summary .summary-value{color:var(--brand-ink)}
 body main .enquiry-summary :is(dt,.summary-currency-rule,.summary-note){color:#4b6152}
 body main .enquiry-summary .summary-edit{color:var(--brand-emerald)}
+body[data-page="home"] #start-project .form-panel .form-help{color:#4b6152}
 body main .walkthrough-note{background:#fcfdf7;border-color:#c2d1c3}
 body main .walkthrough-number{color:#24533e;border-color:#a6bfad}
 @media(max-width:1180px){body[data-page] .topbar .primary-nav{background:#202d25;border-color:#526b59}}
