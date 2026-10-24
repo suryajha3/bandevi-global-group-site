@@ -20,3 +20,5 @@ body .button:focus-visible,body .project-filters button:focus-visible,body .view
 body main .button{max-width:100%;min-width:0;white-space:normal;text-align:center;overflow-wrap:anywhere}body main .card{min-width:0}
 
 body main :is(.form-panel,.field,fieldset,.enquiry-guidance){min-width:0;max-width:100%}body main .field :is(input,select,textarea){min-width:0;max-width:100%}body main :is(.outcome-grid,.enquiry-layout,.web-intro-grid,.crm-intro-grid,.travel-intro-grid)>*{min-width:0}
+
+body main :is(p,li,dd,.form-help),body .enquiry-guidance{overflow-wrap:anywhere}
