@@ -1,0 +1,11 @@
+# Public visual consistency — 24 October 2026
+
+A cache-versioned shared brand stylesheet is loaded last on 98 existing public pages using the corporate site stylesheet. It aligns charcoal, champagne and warm ivory surfaces; button hierarchy; cards; form controls; table headers; navigation surfaces; footer and mobile contact actions. Dark-context text and semantic success/error states retain their purpose. Standalone booking capabilities, private staff applications, document delivery and all THG/HR applications remain outside this change.
+
+The home layout, headline, country links and source/prerendered content remain intact. At mobile widths the illustrative CRM uses three full-width readable rows: 14px sample names, 12px next actions, 11px owners and stage badges. Redundant caption text is removed; the existing interactive link and labelled walkthrough play control remain. Desktop keeps its three-column concept. Fictional-record labels remain visible.
+
+The documented project directory adds keyboard-accessible project links and decorative browser frames around the four existing screenshots. The home reference gallery gives more width to the preview and contains the full project screenshot instead of cropping it. Existing project filters, tabs, keyboard controls, screenshot zoom/focus restoration, service/project prefills and native links are retained. The existing illustrative CRM SVG receives the same palette, with its text and fictional scope unchanged. Actual project screenshots are not recoloured. No project ownership, endorsement or result claims change.
+
+No public forms, validation, consent, attribution, booking handlers, backend state or customer records change. The source renderer gains the shared stylesheet fallback; the existing client bundle is unchanged. HTML edits retain metadata and forms and add only the new style link, except the home caption and four directory image wrappers.
+
+Validation: shared-style inclusion across the public shell, source/static representative pages at 320/390/1440px, mobile type sizes and row layout, no horizontal overflow, gallery filter/viewer behavior, native fallback and the existing full website CI. Review screenshots for home, CRM, contact, market and project directory pages. Production browser checks use GET requests only.
