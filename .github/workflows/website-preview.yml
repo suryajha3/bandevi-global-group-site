@@ -46,6 +46,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-home-market-proof.cjs
           node scripts/qa-guide-hero-image.cjs
           node scripts/qa-qualified-enquiries.cjs
           node scripts/qa-enquiry-journey.cjs
@@ -66,7 +67,6 @@ jobs:
           node scripts/qa-hero-balance.cjs
           node scripts/qa-home-conversion.cjs
           node scripts/qa-home-international.cjs
-          node scripts/qa-home-market-proof.cjs
           node scripts/qa-crm-acquisition.cjs
           node scripts/qa-crm-buyer.cjs
           node scripts/qa-recovery-proof-ads.cjs
