@@ -30,3 +30,24 @@ body .public-media-status button:focus-visible,body .project-device-controls but
 @keyframes public-busy{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){body form[aria-busy="true"] button[type="submit"]:after{animation:none}}
 @media(max-width:520px){body .project-device-controls{padding:8px 12px}body .project-device-controls>span{width:100%;font-size:12px}body .project-device-controls button{flex:1}body .public-media-status{padding:12px}}
+
+/* Interaction states do not move cards or change their resting colours. */
+body[data-page] main .interaction-card{outline:2px solid transparent;outline-offset:3px;transform:none;transition:outline-color 160ms ease,box-shadow 160ms ease,background-color 160ms ease,border-color 160ms ease}
+body[data-page] main .interaction-card:is(:hover,:focus-within,:active){transform:none}
+body .interaction-card:focus-within{outline-color:var(--brand-text-gold)}
+body a.interaction-card:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
+body a.interaction-card:active,body .interaction-card:has(a:active,button:active,summary:active){box-shadow:inset 0 0 0 1px var(--brand-text-gold)}
+@media(hover:hover) and (pointer:fine){body .interaction-card:hover{outline-color:var(--brand-text-gold)}}
+body :is(.project-device-controls button,.home-project-tabs button,.viewer-control){transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease}
+body :is(.project-device-controls button,.home-project-tabs button,.viewer-control):active{box-shadow:inset 0 0 0 1px var(--brand-text-gold)}
+body .nav-dropdown[open]>.solutions-menu{animation:public-menu-reveal 160ms ease-out}
+@keyframes public-menu-reveal{from{opacity:.75}to{opacity:1}}
+body .viewer-project-navigation{display:flex;align-items:center;gap:8px;margin-right:auto;min-width:0}
+body .viewer-position{min-width:84px;text-align:center;font-size:12px;font-weight:600;color:var(--brand-ink)}
+body .viewer-project-navigation .viewer-control{min-width:0}
+body .enquiry-prompts{margin-top:10px;padding:8px 12px;border-left:2px solid var(--brand-border);min-width:0}
+body[data-page] form[data-form] .enquiry-prompts small{display:block;font-size:12px;line-height:1.5;font-weight:650;color:var(--brand-ink);margin-bottom:4px}
+body[data-page] form[data-form] .enquiry-prompts p{margin:0;font-size:13px;line-height:1.6;color:var(--brand-ink);overflow-wrap:anywhere}
+@media(max-width:760px){body .viewer-project-navigation{width:100%;margin:0}body .viewer-project-navigation .viewer-control{flex:1;padding-inline:8px}}
+@media(max-height:620px){body .home-project-viewer{overflow:auto}body .home-project-viewer :is(.viewer-header,.viewer-tools,.viewer-footer){flex-shrink:0}body .home-project-viewer .viewer-image-wrap{flex:1 0 180px;min-height:180px}body .home-project-viewer .viewer-header{position:sticky;top:0;z-index:3;background:inherit}}
+@media(prefers-reduced-motion:reduce){body[data-page] main .interaction-card,body :is(.project-device-controls button,.home-project-tabs button,.viewer-control){transition:none}body .nav-dropdown[open]>.solutions-menu{animation:none}}
