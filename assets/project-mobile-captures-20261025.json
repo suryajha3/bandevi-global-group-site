@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "trip-sarathi",
+    "sourceUrl": "https://tripsarathi.com/",
+    "finalUrl": "https://tripsarathi.com/",
+    "asset": "assets/project-trip-sarathi-mobile-20261025.jpg",
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 1
+    },
+    "capturedAt": "2026-10-25T04:24:49.975Z",
+    "captureDate": "2026-10-25",
+    "sha256": "066228e94f68cb20e9e58ac4f16e7fdbe06426cdb466de23bf285c1b43691ee5",
+    "title": "TripSarathi | Holidays, Activities & Visa Assistance",
+    "limitations": "Public mobile viewport capture only; no search, booking, supplier integration or customer endorsement is verified."
+  },
+  {
+    "slug": "maximtrip",
+    "sourceUrl": "https://www.maximtrip.in/",
+    "finalUrl": "https://www.maximtrip.in/",
+    "asset": "assets/project-maximtrip-mobile-20261025.jpg",
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 1
+    },
+    "capturedAt": "2026-10-25T04:24:56.507Z",
+    "captureDate": "2026-10-25",
+    "sha256": "45be490c49ed5deffcc0310d3ad63d6f9a68fe8f52b5c26d16ca2e71904bd8a5",
+    "title": "MaximTrip",
+    "limitations": "Public mobile viewport capture only; no search, booking, supplier integration or customer endorsement is verified."
+  },
+  {
+    "slug": "tripodeal",
+    "sourceUrl": "https://www.tripodeal.com/",
+    "finalUrl": "https://www.tripodeal.com/",
+    "asset": "assets/project-tripodeal-mobile-20261025.jpg",
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 1
+    },
+    "capturedAt": "2026-10-25T04:25:01.492Z",
+    "captureDate": "2026-10-25",
+    "sha256": "23d17e88660fb01f905d763595483bc67b172733f4dbc420236c63c2d4718e3c",
+    "title": "Book Cheap Flights, Hotels, Train Tickets, Bus & Vacation Packages - tripOdeal.com",
+    "limitations": "Public mobile viewport capture only; no search, booking, supplier integration or customer endorsement is verified."
+  },
+  {
+    "slug": "bandevi-website",
+    "sourceUrl": "https://bandeviglobalgroup.com/",
+    "finalUrl": "https://bandeviglobalgroup.com/",
+    "asset": "assets/project-bandevi-website-mobile-20261025.jpg",
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 1
+    },
+    "capturedAt": "2026-10-25T04:25:04.988Z",
+    "captureDate": "2026-10-25",
+    "sha256": "2778929ed079be58e39cd9208e40472961c948937cddf78c2754f9e49c1fc612",
+    "title": "Bandevi Global Group | Software Company in Gurugram",
+    "limitations": "Public mobile viewport capture only; no search, booking, supplier integration or customer endorsement is verified."
+  }
+]
