@@ -56,6 +56,7 @@ jobs:
           node scripts/qa-visual-polish.cjs
           node scripts/qa-buyer-readiness.cjs
           node scripts/qa-home-market-proof.cjs
+          node scripts/qa-home-demo-summary.cjs
           node scripts/qa-guide-hero-image.cjs
           node scripts/qa-qualified-enquiries.cjs
           node scripts/qa-enquiry-journey.cjs
