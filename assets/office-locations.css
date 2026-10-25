@@ -29,6 +29,8 @@
 .office-enquiry-context p{margin:8px 0;font-size:.95rem;line-height:1.6}
 .office-enquiry-context a{display:inline-flex;align-items:center;min-height:44px;color:#315b48;font-weight:700}
 .office-directory tr[id]{scroll-margin-top:160px}
+html:has(body[data-page="offices"] .office-directory:focus-within),html:has(body[data-page="offices"] .office-location-filters:focus-within),html:has(body[data-page="contact"] .office-enquiry-context:focus-within){scroll-behavior:auto}
+.office-directory .office-location-action{scroll-margin-top:160px;scroll-margin-bottom:110px}
 body[data-page="offices"]:has(.office-directory:focus-within,.office-location-filters:focus-within) .mobile-contact-bar{display:none!important}
 @media(max-width:760px){
  .office-location-filters{padding:14px;gap:12px;align-items:stretch}.office-location-filters>div{flex:1 1 100%}.office-location-filters button{width:100%}
