@@ -1,0 +1,11 @@
+# Clearer demo controls, proof and Services navigation
+
+The charcoal, emerald, champagne and ivory palette, two-column desktop hero, mobile stacking and nine homepage sections remain. Existing form fields, routes and interactions are retained.
+
+- The illustrative preview has one product label, “BANDEVI CRM”, plus its visible “Illustrative demo” notice. Repeated Workspace/Sales workspace/Demo data headings and the redundant footer heading are removed. The fictional-record disclosure remains visible.
+- Existing interactive-demo and video destinations become two labelled, outlined controls at least 44px high. The video control says “Watch 28-sec demo”: metadata confirms the existing asset rounds to 28 seconds. Its controls, captions, transcript, no-autoplay policy and URL are retained. The gallery duration caption is corrected to match.
+- Desktop service labels are 10px, lead titles 13px and owner/supporting text 11px. Existing phone lead titles (14px), next actions (12px) and owners (11px) remain readable. The preview stays within its existing 560px compactness limit.
+- A “Delivered internal project” link sits alongside the existing main actions and opens the documented BANDEVI website case study. It identifies internal evidence rather than implying a customer endorsement or sales result. Its anchor leaves room for the sticky header.
+- All 97 shared public Services headers retain their seven destinations, with concise descriptions and separate accessible link names/descriptions. The standalone photo gallery keeps its existing layout. Desktop dropdowns scroll within short viewports; mobile uses the existing navigation scroller and Escape/focus handling. The shared stylesheet reference is refreshed on all 98 public templates.
+
+`node scripts/qa-demo-clarity.cjs` covers 26 local static/source, responsive, proof navigation, modal-independent demo routing, actual video metadata, menu scrolling/keyboard and native fallback cases. `--live` runs eight GET-only production cases. Existing home/navigation suites retain their checks; their selectors follow the explicit gallery link and updated accessible demo label. The full release workflow remains required. No private application, submission payload, HR, travel booking product or B2B code changes are included.
