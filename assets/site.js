@@ -8326,7 +8326,7 @@ pageRenderers.crmPlanning=()=>"<section class=\"section crm-planning crm-plannin
 
 {const previous=pageRenderers.serviceOffers;pageRenderers.serviceOffers=()=>previous()+"<section class=\"section crm-planning\" id=\"service-planning-next\"><div class=\"container\"><h2>Prepare the data and workflow before the quote.</h2><p>Use the <a href=\"/crm-project-planning/\">CRM project planning guide</a> to inspect review deliverables, migration checks and provider dependencies.</p></div></section>";}
 
-if(document.querySelector('link[href^="/assets/styles.css"]')&&!document.querySelector('link[href^="/assets/brand-system.css"]')){const style=document.createElement("link");style.rel="stylesheet";style.href="/assets/brand-system.css?v=20261025-demo-clarity";document.head.append(style);}
+if(document.querySelector('link[href^="/assets/styles.css"]')&&!document.querySelector('link[href^="/assets/brand-system.css"]')){const style=document.createElement("link");style.rel="stylesheet";style.href="/assets/brand-system.css?v=20261025-brand-polish";document.head.append(style);}
 render();
 
 if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}

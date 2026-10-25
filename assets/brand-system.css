@@ -1,5 +1,5 @@
 /* Shared public-site brand system. Private application colours and genuine evidence assets are preserved. */
-:root:root{--brand-ink:#222b27;--brand-charcoal:#191d1b;--brand-graphite:#252c28;--brand-emerald:#16483c;--brand-champagne:#e4cea1;--brand-ivory:#f7f4ec;--brand-paper:#fffdf8;--brand-border:#ccd6cd;--brand-text-gold:#775622;--ink:var(--brand-ink);--charcoal:var(--brand-charcoal);--charcoal-2:var(--brand-graphite);--teal:var(--brand-text-gold);--teal-dark:#503c1d;--gold:#94702f;--mist:var(--brand-ivory);--paper:var(--brand-paper);--muted:#625e55;--line:var(--brand-border);--shadow:0 16px 40px #102c1f0c}
+:root:root{--brand-ink:#222b27;--brand-charcoal:#142b23;--brand-graphite:#1c352c;--brand-emerald:#20523f;--brand-champagne:#dcc58f;--brand-ivory:#f7f4eb;--brand-paper:#fffdf8;--brand-border:#ccd6cd;--brand-text-gold:#775622;--ink:var(--brand-ink);--charcoal:var(--brand-charcoal);--charcoal-2:var(--brand-graphite);--teal:var(--brand-text-gold);--teal-dark:#503c1d;--gold:#94702f;--mist:var(--brand-ivory);--paper:var(--brand-paper);--muted:#625e55;--line:var(--brand-border);--shadow:0 16px 40px #102c1f0c}
 body .site-shell{background:var(--brand-paper)}body main :is(h1,h2,h3){text-wrap:pretty}body main :is(p,li,dd){text-wrap:pretty}body main .section{--line:var(--brand-border)}body main .card{border-color:var(--brand-border);border-radius:12px;box-shadow:0 6px 22px #29272005}body main :is(.proof-kind,.text-link,.project-filter-count){color:var(--brand-text-gold)}
 body:not([data-page="home"]) :is(.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.new-hero,.travel-service-hero,.crm-campaign-hero){background:linear-gradient(120deg,#202120,#33332d);color:#fff9ee}body:not([data-page="home"]) :is(.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.new-hero,.travel-service-hero,.crm-campaign-hero) .eyebrow{color:var(--brand-champagne)}body :is(.web-lede,.crm-lede,.travel-lede,.enquiry-intro p,.new-hero .hero-lede,.travel-service-hero .hero-lede){color:#ded9cf}body :is(.web-jump,.crm-jump,.travel-jump) a{color:var(--brand-champagne)}
 body main :is(.web-next,.crm-next,.travel-next,.enquiry-start,.crm-concept,.web-project-image,.travel-real-work,.project-facts,.crm-dependency-note,.web-dependency-note,.travel-dependency-note,.enquiry-expectation){background:var(--brand-ivory);border-color:var(--brand-border);color:var(--brand-ink)}body main :is(.web-step,.crm-step,.travel-step,.journey-number,.project-facts dt,.project-facts dd,.project-evidence-note,.crm-evidence-note,.web-evidence-note){color:var(--brand-text-gold)}body .enquiry-guidance li:before{background:#eee3ce;color:#5e4420}body .enquiry-guidance li span,body .enquiry-form-intro{color:#625e55}
@@ -76,3 +76,33 @@ body[data-page] .topbar .nav-service-description{display:block;color:#c1cbbf;fon
 body[data-page] .topbar .nav-service-link:is(:hover,:focus-visible,[aria-current="page"]) .nav-service-title{text-decoration:underline;text-underline-offset:4px}
 @media(max-width:1180px){body[data-page] .topbar .nav-solutions .solutions-menu{width:100%;max-height:none;overflow:visible;overscroll-behavior:auto}body[data-page] .topbar .nav-service-title{font-size:14px}}
 body #crm-enquiry-case-study{scroll-margin-top:110px}
+
+/* Public BGG brand polish. This stylesheet is not loaded by private applications. */
+body[data-page]{font-family:Inter,"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body[data-page] .topbar .brand{gap:13px}
+body[data-page] .topbar .brand-mark{width:48px;height:48px;flex:0 0 48px;padding:0;border:0;outline:0;border-radius:13px;background:transparent url('/assets/bgg-monogram.svg?v=20261025-brand-polish') center/contain no-repeat;box-shadow:none;color:transparent;font-size:0;letter-spacing:0}
+body[data-page] .topbar .brand-copy{gap:3px}
+body[data-page] .topbar .brand-name{font-size:12px;font-weight:700;letter-spacing:.09em;line-height:1.4;color:#f7f4eb}
+body[data-page] .topbar .brand-line{font-size:11px;line-height:1.45;margin:0;color:#bfcec3}
+body[data-page] .topbar .nav-link{font-weight:550}
+body[data-page] main :is(h1,h2,h3){font-weight:650}
+body[data-page] main h2{letter-spacing:-.035em;line-height:1.22}
+body[data-page] main h3{line-height:1.35}
+body[data-page="home"]{--gold:var(--brand-champagne);--cream:var(--brand-ivory)}
+body[data-page="home"] .home-professional-hero{background:radial-gradient(ellipse at 78% 42%,#20523f80,transparent 68%),var(--brand-charcoal)}
+body[data-page="home"] .home-professional-hero h1{font-weight:650;line-height:1.12;letter-spacing:-.035em}
+body[data-page="home"] .home-professional-hero .home-intro-copy{color:#d8e1d9;line-height:1.75}
+body[data-page="home"] .home-professional-hero h1 span,body[data-page="home"] .home-delivered-proof{color:var(--brand-champagne)}
+body[data-page="home"] .intl-showcase{background:linear-gradient(135deg,#294336,#1c352c);border-color:#59715e}
+body[data-page="home"] .intl-workspace,body .hero-lead-dialog{background:var(--brand-ivory)}
+body[data-page="home"] .intl-sample{color:var(--brand-champagne)}
+body[data-page] main .button{min-height:48px;font-size:14px;font-weight:650;line-height:1.4;border-radius:8px;padding:12px 19px}
+body[data-page] .topbar .nav-actions>.primary,body:not([data-page="home"]) .button.primary,body[data-page="home"] .home-project-choice .home-primary-actions .primary,body[data-page="home"] .nav-actions .primary{background:var(--brand-champagne);border-color:var(--brand-champagne);color:#142b23;box-shadow:0 3px 10px #0e221b12}
+body[data-page] .topbar .nav-actions>.primary:hover,body:not([data-page="home"]) .button.primary:hover,body[data-page="home"] .home-project-choice .home-primary-actions .primary:hover{background:#e9d8b2;border-color:#e9d8b2;color:#142b23;box-shadow:0 5px 16px #0e221b1c}
+body[data-page] .button:active{box-shadow:none}
+body[data-page] .button:disabled{opacity:.65;cursor:not-allowed;transform:none;box-shadow:none}
+body[data-page] .button:focus-visible{outline:3px solid #806027;outline-offset:4px}
+body[data-page] .topbar .button:focus-visible,body[data-page] :is(.home-professional-hero,.new-hero,.crm-professional-intro,.web-professional-intro,.travel-professional-intro,.enquiry-intro) .button:focus-visible{outline-color:#f0dcae}
+@media(max-width:1180px){body[data-page] .topbar .brand-mark{width:42px;height:42px;flex-basis:42px;border-radius:11px}}
+@media(max-width:540px){body[data-page] .topbar .brand{gap:9px}body[data-page] .topbar .brand-mark{width:40px;height:40px;flex-basis:40px}body[data-page] .topbar .brand-name{font-size:10px;letter-spacing:.065em}body[data-page] .topbar .brand-line{font-size:10px}body[data-page] main .button{padding:12px 16px}body[data-page="home"] .home-professional-hero .home-intro-copy{line-height:1.7}}
+@media(prefers-reduced-motion:reduce){body[data-page] .button{transition:none;transform:none}body[data-page] .button:hover{transform:none}}
