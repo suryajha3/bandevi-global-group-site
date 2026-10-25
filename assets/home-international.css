@@ -282,7 +282,7 @@ body[data-page="home"] .intl-showcase-caption>.intl-watch-demo:is(:hover,:focus-
 
 /* One fictional enquiry, three local steps; the existing hero grid and palette stay in place. */
 body[data-page="home"] .home-hero-markets .home-market-currency{display:inline;font-size:12px;line-height:1.5;font-weight:500;color:#dcc58f;white-space:nowrap}
-body[data-page="home"] .home-hero-markets a{gap:5px}
+body[data-page="home"] .home-hero-markets a{gap:5px;flex-direction:row}
 body[data-page="home"] .intl-showcase{padding:16px}
 body[data-page="home"] .intl-showcase-top{margin-bottom:12px}
 body[data-page="home"] .intl-showcase .intl-pipeline{padding:16px}
