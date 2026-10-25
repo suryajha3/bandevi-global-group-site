@@ -37,7 +37,7 @@ jobs:
         with:
           node-version: '24'
       - name: Install isolated browser test dependency
-        run: npm install --prefix /tmp/bgg-checks --ignore-scripts --no-audit --no-fund playwright@1.56.1
+        run: npm install --prefix /tmp/bgg-checks --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
       - name: Install Chromium
         run: /tmp/bgg-checks/node_modules/.bin/playwright install --with-deps chromium
       - name: Install pinned PDF runtime
@@ -46,6 +46,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-public-experience.cjs
           node scripts/qa-brand-polish.cjs
           node scripts/qa-demo-clarity.cjs
           node scripts/qa-emerald-palette.cjs
