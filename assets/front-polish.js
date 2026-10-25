@@ -1,4 +1,4 @@
-/* The homepage preview inspects its three existing fictional records locally. No writes or tracking. */
+/* Fictional homepage previews only. No saved records, writes or tracking. */
 (() => {
   'use strict';
   function node(tag, className, text) {
@@ -7,8 +7,32 @@
     if (text) element.textContent = text;
     return element;
   }
+  const stepPreviews = new WeakSet();
+  function initSteps(preview) {
+    if (stepPreviews.has(preview)) return;
+    const controls=preview.querySelector('.home-crm-steps'),buttons=[...preview.querySelectorAll('[data-home-crm-step]')],stage=preview.querySelector('[data-home-step-stage]'),owner=preview.querySelector('[data-home-step-owner]'),next=preview.querySelector('[data-home-step-next]'),board=preview.querySelector('#home-crm-step-example');
+    if (!controls||buttons.length!==3||!stage||!owner||!next||!board) return;
+    const steps=new Map([
+      ['capture',{stage:'New',kind:'new',owner:'Unassigned · Fictional example',next:'Review the enquiry details'}],
+      ['assign',{stage:'New',kind:'new',owner:'Ravi · Demo owner',next:'Review the sales workflow'}],
+      ['followup',{stage:'Contacted',kind:'contacted',owner:'Ravi · Demo owner',next:'Discuss the CRM workflow with Example Tours'}]
+    ]);
+    if (buttons.some(button=>!steps.has(button.dataset.homeCrmStep))) return;
+    stepPreviews.add(preview);
+    board.setAttribute('role','status');board.setAttribute('aria-live','polite');board.setAttribute('aria-atomic','true');
+    for (const button of buttons) button.addEventListener('click',()=>{
+      if(button.getAttribute('aria-pressed')==='true')return;
+      const step=steps.get(button.dataset.homeCrmStep),dot=node('i');dot.setAttribute('aria-hidden','true');
+      for(const other of buttons)other.setAttribute('aria-pressed',String(other===button));
+      stage.replaceChildren(dot,document.createTextNode(step.stage));stage.closest('.intl-lane').dataset.homeStage=step.kind;
+      owner.textContent=step.owner;next.replaceChildren(node('span',null,'Next action'),document.createTextNode(step.next));
+    });
+    preview.querySelector('.intl-summary-help').hidden=true;
+    controls.hidden=false;
+  }
   function init() {
     const preview = document.querySelector('#intl-crm-preview');
+    if (preview?.querySelector('[data-home-demo-summary]')) { initSteps(preview); return; }
     if (!preview || preview.dataset.interactivePreview) return;
     const buttons = [...preview.querySelectorAll('[data-preview-lead]')];
     if (buttons.length !== 3 || !preview.querySelector('.intl-fiction')?.textContent.includes('Fictional records')) return;
