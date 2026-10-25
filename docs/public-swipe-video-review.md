@@ -25,3 +25,5 @@ Edit controls close the dialog, reveal existing optional fields when necessary a
 These are bounded browser/accessibility checks, not a complete assistive-technology certification. No travel booking, B2B, HR, routing or live customer-data changes are included.
 
 The existing public proposal-prefill check waits for its established CRM selection before asserting the same label. Isolated baseline/candidate comparison confirmed identical final selection; this removes an early-read race without changing routing or relaxing the assertion.
+
+A production touch trace exposed the loading overlay as a nested native scroll container: an immediate reverse swipe was cancelled before the next image arrived. The overlay now uses the same vertical/pinch touch policy as its fitted viewer. The regression holds the next image request pending and requires the reverse swipe to work in both static/source rendering at 390px and 768px. Zoomed-image native panning is retained. Public template edits refresh only the stylesheet cache version.
