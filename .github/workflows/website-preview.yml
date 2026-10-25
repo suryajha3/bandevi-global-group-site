@@ -46,6 +46,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-swipe-video-review.cjs
           node scripts/qa-interaction-polish.cjs
           node scripts/qa-public-experience.cjs
           node scripts/qa-brand-polish.cjs
