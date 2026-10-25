@@ -23,3 +23,5 @@ Edit controls close the dialog, reveal existing optional fields when necessary a
 `scripts/qa-swipe-video-review.cjs` uses Chromium's trusted touch events, real local video streams, interrupted/recovered media routes, alternate codecs and locally mocked submissions. It checks static/source parity, US/UK/India review values, edit focus, no new required fields, safe text, unchanged retry bodies/keys, keyboard traps, short windows and native fallbacks. Pinned axe-core audits cover open review dialogs and video error feedback. Existing video/playback regressions and the full backend/browser CI suite remain gates. `--live` uses GET-only browser checks and never submits a production enquiry.
 
 These are bounded browser/accessibility checks, not a complete assistive-technology certification. No travel booking, B2B, HR, routing or live customer-data changes are included.
+
+The existing public proposal-prefill check waits for its established CRM selection before asserting the same label. Isolated baseline/candidate comparison confirmed identical final selection; this removes an early-read race without changing routing or relaxing the assertion.
