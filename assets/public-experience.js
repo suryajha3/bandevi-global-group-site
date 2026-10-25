@@ -1,7 +1,12 @@
 /* Public presentation only. Existing enquiry transport, fields and receipts remain authoritative. */
 (() => {
  'use strict';
- const media = new WeakMap(), forms = new WeakSet();
+ const media = new WeakMap(), forms = new WeakSet(), promptForms=new WeakSet(), motions=new WeakMap();let promptSequence=0;
+ function transition(element){
+  if(!element?.animate||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  motions.get(element)?.cancel();const motion=element.animate([{opacity:.9},{opacity:1}],{duration:160,easing:'ease-out'});motions.set(element,motion);motion.onfinish=()=>{if(motions.get(element)===motion)motions.delete(element);};
+ }
+ window.bgPublicTransition=transition;
  function enhanceMedia(img, frame) {
   if (media.has(img)) return media.get(img);
   if (!frame) {
@@ -15,9 +20,11 @@
   retry.type = 'button'; retry.textContent = 'Retry image'; status.append(title,detail,retry); frame.append(status);
   let retryFocus=false;
   function set(state) {
+   const changed=frame.dataset.mediaState!==state;
    frame.dataset.mediaState = state; frame.setAttribute('aria-busy',String(state === 'loading')); status.hidden = state === 'ready'; retry.hidden = state !== 'error';
    title.textContent = state === 'error' ? 'Preview image unavailable' : state === 'loading' ? 'Loading preview…' : '';
    detail.textContent = state === 'error' ? 'You can retry or use the project and image links below.' : '';
+   if(changed&&state==='ready')transition(img);
    if(state!=='loading'&&retryFocus&&document.activeElement===frame){const target=state==='error'?retry:frame.querySelector('a[href]')||frame.closest('.viewer-image-wrap')||frame;frame.setAttribute('aria-label',img.alt);target.focus({preventScroll:true});retryFocus=false;}
   }
   function settle() { if (img.complete) set(img.naturalWidth > 0 ? 'ready' : 'error'); }
@@ -83,9 +90,20 @@
   for(const event of ['input','change']) form.addEventListener(event,e=>queueMicrotask(()=>{if(e.target.validity?.valid)clear(e.target);}));
   form.addEventListener('reset',()=>{ for(const field of [...errors.keys()])clear(field); });
  }
+ function enquiryPrompts(form){
+  const message=form.elements.message,interest=form.elements.interest;if(!message||!interest||promptForms.has(form))return;
+  const field=message.closest('.field');if(!field)return;promptForms.add(form);
+  const box=document.createElement('div');box.className='enquiry-prompts';
+  const label=document.createElement('small');label.textContent='Example to help you start (optional)';const example=document.createElement('p');example.id='enquiry-example-'+(++promptSequence);box.append(label,example);field.append(box);
+  const ids=(message.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);ids.push(example.id);message.setAttribute('aria-describedby',ids.join(' '));
+  const examples={web:'We need a website for [business type], with [pages or features]. Our main goal is [what visitors should do].',crm:'We manage enquiries in [current tool]. We need clearer [lead ownership, follow-ups or reporting] for [team size].',travel:'We run a travel business and need [a website, portal or CRM] for [customers or agents], with [workflow or integration needs].',portal:'Our customers need to [view documents, track requests or manage accounts]. We want to improve [the current process].',general:'Tell us what your business does, what is difficult today, and the first thing you want the new system to improve.'};
+  function update(){const value=interest.value.toLowerCase(),kind=/travel|flight|hotel|tour|dmc/.test(value)?'travel':/crm|erp|lead/.test(value)?'crm':/web|app|e-commerce|ecommerce/.test(value)?'web':/portal/.test(value)?'portal':'general';if(box.dataset.promptKind===kind)return;box.dataset.promptKind=kind;example.textContent=examples[kind];transition(example);}
+  update();example.setAttribute('aria-live','polite');example.setAttribute('aria-atomic','true');interest.addEventListener('change',update);form.addEventListener('reset',()=>queueMicrotask(update));
+ }
  function init() {
   decorateServices();
-  document.querySelectorAll('form[data-form="home"],form[data-form="contact"],form[data-form="demo"]').forEach(feedback);
+  document.querySelectorAll('form[data-form="home"],form[data-form="contact"],form[data-form="demo"]').forEach(form=>{feedback(form);enquiryPrompts(form);});
+  document.querySelectorAll('.home-hero-markets a,.home-region-grid a,.project-directory-grid article,.service-comparison-grid article,#service-comparison article,#service-offers article').forEach(card=>{if(!card.classList.contains('interaction-card'))card.classList.add('interaction-card');});
   document.querySelectorAll('.project-directory-grid img,.project-walkthrough img,.home-proof-case img,.web-project-image img,.travel-real-work img,.crm-concept img').forEach(img=>{ if(!img.closest('picture')&&!img.srcset)enhanceMedia(img); });
  }
  function start(){init();const source=document.getElementById('site');if(source)new MutationObserver(init).observe(source,{childList:true,subtree:true});}

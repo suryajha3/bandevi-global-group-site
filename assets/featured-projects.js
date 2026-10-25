@@ -3,28 +3,36 @@
   if(device==='mobile'&&project.mobile)return {image:'/assets/project-'+project.slug+'-mobile-20261025.jpg',width:390,height:844,alt:project.name+' public mobile homepage captured 25 October 2026 at 390 by 844 pixels',source:'Mobile viewport captured 25 October 2026 at 390 × 844 pixels. '+project.mobile+' Public interface reference only; no customer endorsement, supplier integration or business results verified.'};
   return {image:project.image||'/assets/portfolio-'+project.slug+'.webp',width:project.width||1239,height:project.height,alt:project.alt||project.name+' public homepage screenshot',source:project.source||"Public interface captured 6 October 2026. Development attribution supplied by BANDEVI's owner; no customer endorsement implied."};
  }
- function installScreenshotViewer(root,projects){
+ function installScreenshotViewer(root,projects,onSelect){
   if(typeof HTMLDialogElement==='undefined'||typeof HTMLDialogElement.prototype.showModal!=='function')return false;
   const dialog=document.createElement('dialog');dialog.className='home-project-viewer';dialog.setAttribute('aria-labelledby','featured-viewer-title');dialog.setAttribute('aria-describedby','featured-viewer-note');
   function element(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text)node.textContent=text;return node;}
   function button(label){const node=element('button','viewer-control',label);node.type='button';return node;}
   const header=element('div','viewer-header'),title=element('h2',null,'Project screenshot');title.id='featured-viewer-title';const close=button('Close');close.setAttribute('aria-label','Close screenshot viewer');header.append(title,close);
   const tools=element('div','viewer-tools'),out=button('Zoom out'),zoom=element('span','viewer-zoom','100%'),inside=button('Zoom in'),fit=button('Reset zoom');zoom.setAttribute('aria-live','polite');tools.append(out,zoom,inside,fit);
+  const navigation=element('div','viewer-project-navigation'),previous=button('← Previous'),position=element('span','viewer-position'),next=button('Next →');navigation.setAttribute('role','group');navigation.setAttribute('aria-label','Browse project previews');previous.setAttribute('aria-label','Previous project');next.setAttribute('aria-label','Next project');previous.setAttribute('aria-keyshortcuts','ArrowLeft');next.setAttribute('aria-keyshortcuts','ArrowRight');position.setAttribute('role','status');position.setAttribute('aria-live','polite');position.setAttribute('aria-atomic','true');navigation.append(previous,position,next);tools.prepend(navigation);
   const viewport=element('div','viewer-image-wrap');viewport.tabIndex=0;viewport.setAttribute('aria-label','Project screenshot; scroll to inspect when zoomed');const image=element('img','viewer-image');viewport.append(image);
   const footer=element('div','viewer-footer'),note=element('p',null,'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.');note.id='featured-viewer-note';const links=element('div','viewer-links'),projectLink=element('a',null,'Explore this project ↗'),raw=element('a',null,'Open image in a new tab ↗');projectLink.href='/projects/trip-sarathi/';raw.href='/assets/portfolio-trip-sarathi.webp';raw.target='_blank';raw.rel='noopener noreferrer';links.append(projectLink,raw);footer.append(note,links);dialog.append(header,tools,viewport,footer);document.body.append(dialog);
   if(window.bgPublicMedia)window.bgPublicMedia(image);
-  let scale=1,opener=null,baseWidth=0;
+  let scale=1,opener=null,baseWidth=0,current=0;
+  function showProject(index){
+   current=(index+projects.length)%projects.length;onSelect(current);
+   const project=projects[current],view=preview(project,root.dataset.device),kind=root.dataset.device==='mobile'&&!project.record?'Mobile preview':project.category||'public homepage';
+   title.textContent=project.name+' · '+kind;position.textContent='Project '+(current+1)+' of '+projects.length;position.setAttribute('aria-label',position.textContent+': '+project.name+', '+kind);
+   image.src=view.image;image.alt=view.alt;image.width=view.width;image.height=view.height;projectLink.href=project.record||'/projects/'+project.slug+'/';projectLink.textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';raw.href=view.image;note.textContent=view.source;scale=1;viewport.scrollTo(0,0);if(dialog.open)measure();
+  }
+  previous.addEventListener('click',()=>showProject(current-1));next.addEventListener('click',()=>showProject(current+1));
   function applyZoom(next){scale=Math.max(1,Math.min(2.5,next));image.style.width=(baseWidth*scale)+'px';zoom.textContent=Math.round(scale*100)+'%';out.disabled=scale===1;inside.disabled=scale===2.5;fit.disabled=scale===1;}
   function measure(){baseWidth=Math.min(viewport.clientWidth,viewport.clientHeight*Number(image.getAttribute('width'))/Number(image.getAttribute('height')));applyZoom(scale);}
   new ResizeObserver(()=>{if(dialog.open)measure();}).observe(viewport);
   out.addEventListener('click',()=>applyZoom(scale-.25));inside.addEventListener('click',()=>applyZoom(scale+.25));fit.addEventListener('click',()=>{applyZoom(1);viewport.scrollTo(0,0);});close.addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('close',()=>{document.documentElement.classList.remove('featured-viewer-open');if(opener&&opener.isConnected)opener.focus({preventScroll:true});});
+  dialog.addEventListener('close',()=>{document.documentElement.classList.remove('featured-viewer-open');if(opener&&opener.isConnected){opener.focus({preventScroll:true});const box=opener.getBoundingClientRect();if(box.top<90||box.bottom>innerHeight)opener.scrollIntoView({block:'center',behavior:'instant'});}});
+  dialog.addEventListener('keydown',event=>{if(event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||!['ArrowLeft','ArrowRight'].includes(event.key))return;if(scale>1&&event.target.closest('.viewer-image-wrap'))return;event.preventDefault();showProject(current+(event.key==='ArrowLeft'?-1:1));});
   dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not(:disabled),a[href],[tabindex="0"]')].filter(node=>node.getClientRects().length);const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
   root.addEventListener('click',event=>{const link=event.target.closest('[data-featured-image-link],[data-featured-larger]');if(!link||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
    const selected=root.querySelector('[data-featured-index][aria-selected="true"]');const project=projects[Number(selected?.dataset.featuredIndex)];if(!project)return;
-   const view=preview(project,root.dataset.device);
-   event.preventDefault();opener=link;title.textContent=project.name+' · '+(root.dataset.device==='mobile'&&!project.record?'Mobile preview':project.category||'public homepage');image.src=view.image;image.alt=view.alt;image.width=view.width;image.height=view.height;projectLink.href=project.record||'/projects/'+project.slug+'/';projectLink.textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';raw.href=image.src;note.textContent=view.source;scale=1;viewport.scrollTo(0,0);dialog.showModal();measure();document.documentElement.classList.add('featured-viewer-open');close.focus();
+   event.preventDefault();opener=link;showProject(Number(selected.dataset.featuredIndex));dialog.showModal();measure();document.documentElement.classList.add('featured-viewer-open');close.focus();
   });
   return true;
  }
@@ -74,10 +82,11 @@
    discuss.textContent=project.record?'Discuss your CRM requirements ↗':'Discuss a similar project ↗';
    discuss.href='/contact-us/?'+query.toString()+'#contact-form';discuss.setAttribute('aria-label',(project.record?'Discuss your CRM requirements: ':'Discuss a similar project ↗: ')+project.name);
    if(projectInput){projectInput.disabled=Boolean(project.record)||!chooser||chooser.value!==solution;projectInput.value=projectInput.disabled?'':code;}
+   if(window.bgPublicTransition)window.bgPublicTransition(root.querySelector('figcaption'));
    if(focus)tabs[index].focus();
   }
   tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});
-  const viewerEnabled=installScreenshotViewer(root,projects);
+  const viewerEnabled=installScreenshotViewer(root,projects,select);
   panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(4);
   function guide(){
    const service=services[chooser.value]||services['Need guidance'];
