@@ -81,5 +81,14 @@ body .public-video-state strong,body .public-video-state>span{flex-basis:100%;co
 body .public-video-links{display:flex;gap:8px 16px;flex-wrap:wrap}
 body .public-video-links a,body .public-video-transcript-link{display:inline-flex;align-items:center;min-height:44px;color:var(--brand-text-gold);text-decoration:underline;text-underline-offset:3px;font-size:13px}
 body .public-video-transcript-target{scroll-margin-top:110px}
+body .form-note[data-feedback-state="saved"]{font-weight:400}
+body .receipt-summary{display:block;padding:16px;margin:18px 0;border:1px solid var(--brand-border);border-radius:9px;background:var(--brand-paper);color:var(--brand-ink);font-size:14px;line-height:1.6;font-weight:400}
+body .receipt-summary-title,body .receipt-next-title{display:block;font-size:15px;line-height:1.6}
+body .receipt-summary-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:12px 0}
+body .receipt-summary-field,body .receipt-summary-label,body .receipt-summary-field b,body .receipt-summary-help{display:block;overflow-wrap:anywhere}
+body .receipt-summary-label{font-size:12px;color:var(--brand-ink)}
+body .receipt-summary-field b{font-size:14px;font-weight:650}
+body .receipt-summary-help{font-size:12px;line-height:1.6}
+@media(max-width:540px){body .receipt-summary-fields{grid-template-columns:1fr;gap:10px}body .receipt-summary{padding:14px}}
 body .public-review-control:focus-visible,body .public-review-body:focus-visible,body .public-video-state:focus-visible,body video[data-public-video]:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
 @media(max-width:540px){body .public-review-header h2{font-size:17px}body .public-review-control{padding-inline:10px}body .public-review-header,body .public-review-footer{padding:12px}body .public-review-note{padding:10px 12px}body .public-review-body{padding-inline:12px}}

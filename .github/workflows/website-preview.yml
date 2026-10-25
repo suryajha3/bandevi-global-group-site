@@ -11,6 +11,30 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  public-cross-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Install pinned public browser checks
+        run: npm install --prefix /tmp/bgg-public-cross-browser --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Install browser engines
+        run: /tmp/bgg-public-cross-browser/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check sharing previews and submitted enquiry receipts
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-sharing-receipt.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-sharing-receipt-checks
+          path: qa-results/sharing-receipt/
+          retention-days: 3
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 5
