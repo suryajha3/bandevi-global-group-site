@@ -46,6 +46,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-demo-clarity.cjs
           node scripts/qa-emerald-palette.cjs
           node scripts/qa-front-polish.cjs
           node scripts/qa-buyer-guidance.cjs
