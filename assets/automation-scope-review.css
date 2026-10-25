@@ -1,0 +1,12 @@
+/* This service's review copy and outputs only; preserve shared automation layout. */
+body[data-page="businessProcessAutomation"] :is(#automation-scope,#automation-travel-example,#automation-enquiry){scroll-margin-top:130px}
+body[data-page="businessProcessAutomation"] .automation-review-boundary{font-size:15px;line-height:1.8;color:#40565e;margin:20px 0}
+body[data-page="businessProcessAutomation"] .automation-review-outputs{gap:20px}
+body[data-page="businessProcessAutomation"] .automation-review-outputs .card{min-width:0;background:#fffdf8;border:1px solid #d9cbae;border-radius:8px;padding:24px}
+body[data-page="businessProcessAutomation"] .automation-review-outputs h3{font-size:19px;line-height:1.4;margin:0 0 12px;color:#263c43}
+body[data-page="businessProcessAutomation"] .automation-review-outputs p{font-size:15px;line-height:1.75;color:#40565e;margin:0}
+body[data-page="businessProcessAutomation"] .automation-review-note{font-size:14px;line-height:1.8;color:#dce6e2;margin:24px 0}
+body[data-page="businessProcessAutomation"] .automation-workflow-example li{font-size:16px;line-height:1.8;margin-bottom:18px}
+body[data-page="businessProcessAutomation"] :is(.hero-actions,.cta-band,.inline-actions,#automation-scope) .button{white-space:normal;max-width:100%;min-width:0;text-align:left;overflow-wrap:anywhere}
+@media(max-width:760px){body[data-page="businessProcessAutomation"] .automation-review-outputs{grid-template-columns:1fr}body[data-page="businessProcessAutomation"] .automation-review-outputs .card{padding:20px}body[data-page="businessProcessAutomation"] .hero-actions .button{font-size:15px;line-height:1.5}}
+
