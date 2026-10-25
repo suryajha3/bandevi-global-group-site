@@ -44,7 +44,7 @@
   products:'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z'
  };
  function icon(key) {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg'); svg.setAttribute('viewBox','0 0 24 24'); svg.setAttribute('aria-hidden','true'); svg.setAttribute('focusable','false'); svg.classList.add('service-symbol');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg'); svg.setAttribute('viewBox','0 0 24 24'); svg.setAttribute('width','18');svg.setAttribute('height','18');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.7');svg.setAttribute('aria-hidden','true'); svg.setAttribute('focusable','false'); svg.classList.add('service-symbol');
   const path = document.createElementNS(svg.namespaceURI,'path'); path.setAttribute('d',paths[key] || paths.crm); svg.append(path); return svg;
  }
  function decorateServices() {
