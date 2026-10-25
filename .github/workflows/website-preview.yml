@@ -90,6 +90,7 @@ jobs:
           node scripts/qa-consultation-timezones.cjs
           node scripts/qa-commercial-service-pages.cjs
           node scripts/qa-automation-buyer-journey.cjs
+          node scripts/qa-automation-scope-review.cjs
           node scripts/qa-erp-handover.cjs
           node scripts/qa-inbox.cjs
           node scripts/qa-sales-journey.cjs
