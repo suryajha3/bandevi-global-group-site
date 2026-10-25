@@ -279,3 +279,28 @@ body[data-page="home"] .intl-showcase-caption>.intl-watch-demo:is(:hover,:focus-
 
 @media(max-width:1100px){body[data-page="home"] .home-intro-grid{grid-template-columns:minmax(0,1fr)}body[data-page="home"] .intl-showcase{width:100%;max-width:680px;margin-inline:auto}}
 @media(max-width:540px){body[data-page="home"] .intl-summary-help{margin:8px 0 12px;font-size:12px}body[data-page="home"] .intl-showcase .intl-lead{padding:14px}body[data-page="home"] .intl-showcase .intl-owner{margin-top:12px}body[data-page="home"] .intl-showcase-caption{padding-top:12px;gap:2px}}
+
+/* One fictional enquiry, three local steps; the existing hero grid and palette stay in place. */
+body[data-page="home"] .home-hero-markets .home-market-currency{display:inline;font-size:12px;line-height:1.5;font-weight:500;color:#dcc58f;white-space:nowrap}
+body[data-page="home"] .home-hero-markets a{gap:5px}
+body[data-page="home"] .intl-showcase{padding:16px}
+body[data-page="home"] .intl-showcase-top{margin-bottom:12px}
+body[data-page="home"] .intl-showcase .intl-pipeline{padding:16px}
+body[data-page="home"] .intl-summary-help{margin:8px 0 10px;font-size:13px}
+body[data-page="home"] .intl-summary-help[hidden]{display:none}
+body[data-page="home"] .home-crm-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 12px}
+body[data-page="home"] .home-crm-steps[hidden]{display:none}
+body[data-page="home"] .home-crm-steps button{min-width:0;min-height:44px;padding:6px;font:inherit;font-size:13px;font-weight:600;line-height:1.3;border:1px solid #a8bbaa;border-radius:6px;background:#fffdf8;color:#315749;cursor:pointer}
+body[data-page="home"] .home-crm-steps button[aria-pressed="true"]{background:#20523f;color:#fffdf8;border-color:#20523f}
+body[data-page="home"] .home-crm-steps button:hover{border-color:#315749}
+body[data-page="home"] .home-crm-steps button:focus-visible{outline:3px solid #775622;outline-offset:2px}
+body[data-page="home"] .intl-board>.intl-lane>h3{margin-bottom:8px}
+body[data-page="home"] .intl-board>.intl-lane[data-home-stage="new"]>h3{--stage-bg:#e4ece8;--stage-ink:#315749;--stage-line:#b5c9bf}
+body[data-page="home"] .intl-showcase .intl-lead{padding:12px}
+body[data-page="home"] .intl-showcase .intl-lead h4{margin:0 0 6px}
+body[data-page="home"] .intl-showcase .intl-lead hr{margin:8px 0}
+body[data-page="home"] .intl-showcase .intl-owner{margin-top:8px}
+body[data-page="home"] .intl-showcase .intl-fiction{margin-top:10px}
+body[data-page="home"] .intl-showcase-caption{padding-top:10px;gap:4px}
+@media(min-width:541px){body[data-page="home"] .intl-showcase-caption{grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}}
+@media(max-width:540px){body[data-page="home"] .intl-showcase{padding:12px}body[data-page="home"] .intl-showcase .intl-pipeline{padding:12px}body[data-page="home"] .home-hero-markets{gap:2px 12px}}

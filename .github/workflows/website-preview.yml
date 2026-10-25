@@ -21,6 +21,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
+      - name: Check out the homepage production comparison
+        uses: actions/checkout@v6
+        with:
+          ref: 8b18898865fe79c5103577c5c2495f7ce97ed7a2
+          path: qa-home-baseline
+          persist-credentials: false
       - name: Install pinned public browser checks
         run: npm install --prefix /tmp/bgg-public-cross-browser --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
       - name: Install browser engines
@@ -29,11 +35,18 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
         run: node scripts/qa-sharing-receipt.cjs --all-browsers
+      - name: Check homepage fictional steps against the production layout
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+          QA_BASELINE_DIR: ${{ github.workspace }}/qa-home-baseline
+        run: node scripts/qa-home-crm-steps.cjs --all-browsers
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: public-sharing-receipt-checks
-          path: qa-results/sharing-receipt/
+          path: |
+            qa-results/sharing-receipt/
+            qa-results/home-crm-steps/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest
