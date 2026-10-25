@@ -55,6 +55,7 @@ body[data-page] form[data-form] .enquiry-prompts p{margin:0;font-size:13px;line-
 
 body .viewer-image-wrap[data-viewer-fit="true"]{touch-action:pan-y pinch-zoom}
 body .viewer-image-wrap[data-viewer-fit="false"]{touch-action:auto}
+body .viewer-image-wrap[data-viewer-fit="true"] .public-media-status{touch-action:pan-y pinch-zoom}
 body .viewer-swipe-hint{display:none;font-size:12px;color:var(--brand-ink)}
 @media(pointer:coarse){body .viewer-swipe-hint{display:block;flex-basis:100%}}
 html.public-review-open{overflow:hidden}
