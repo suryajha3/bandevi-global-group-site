@@ -12,6 +12,8 @@ Controls remain at least 44 pixels high. Short windows allow the dialog itself t
 
 Service, project and market cards gain consistent outlines for hover and keyboard focus, plus pressed feedback. Cards are not moved, recoloured at rest, made into extra tab stops, or assigned artificial button roles. Existing card links remain the actions. Preview images and captions fade over 160 ms after user selection/loading; dropdowns and control states use similarly brief transitions. Reduced-motion preferences disable these additions. Image dimensions and zoom are never animated. There is no timed carousel or automatic project advance.
 
+Outlines use existing champagne on dark market links and existing dark gold on light service/project cards. Focus and pressed-state contrast are checked; the existing public palette test now expects the requested champagne focus state while retaining its contrast assertions.
+
 ## Enquiry guidance
 
 An optional example appears beneath the existing message field for websites/apps, CRM/ERP, travel, customer portals or general guidance. Changing the service changes only the example. It does not overwrite the message, add named fields or required fields, alter the saved payload, or store a draft. The example is associated with the message through `aria-describedby`; existing help and validation descriptions are preserved. Source-rendered and static pages use the same enhancement.
