@@ -76,16 +76,16 @@ function renderCampaignSalesRows(){
  const country=$('campaign-sales-country').value,query=$('campaign-sales-search').value.trim().toLowerCase();
  const groups=campaignSalesState.groups.filter(g=>(country==='all'||g.country===country)&&(g.campaign||'Unattributed').toLowerCase().includes(query));
  const enquiryCount=groups.reduce((sum,g)=>sum+g.counts.enquiries,0);
- $('campaign-sales-summary').textContent=groups.length+' campaign '+(groups.length===1?'group':'groups')+' · '+enquiryCount+' '+(enquiryCount===1?'enquiry':'enquiries');
+ $('campaign-sales-summary').textContent=groups.length+' campaign '+(groups.length===1?'group':'groups')+' · '+enquiryCount+' '+(enquiryCount===1?'enquiry':'enquiries')+' · Qualified: '+groups.reduce((n,g)=>n+g.counts.qualified,0)+' · Completed demos: '+groups.reduce((n,g)=>n+g.counts.demoCompleted,0)+' · Published proposals: '+groups.reduce((n,g)=>n+g.counts.publishedProposals,0)+' · Currently Won: '+groups.reduce((n,g)=>n+g.counts.currentlyWon,0);
  const table=document.createElement('table');table.append(text('caption','Campaign-to-sales · saved enquiry cohort'));
  const head=document.createElement('thead'),header=document.createElement('tr');
- for(const title of ['Business country','Campaign','Source / medium','Channel','Landing page','Enquiries','CRM reviews','Reached Qualified','Demo booked','Demo completed','Published proposals','Currently Won','Qualified / enquiry','Won / enquiry','Recorded won value (not payments)','Won without value']){const th=text('th',title);th.scope='col';header.append(th);}head.append(header);table.append(head);
+ for(const title of ['Business country','Campaign','Source / medium','Channel','Landing page','Enquiries','CRM reviews','Reached Qualified','Demo booked','Demo completed','Published proposals','Currently Won','Qualified / enquiry','Won / enquiry','Recorded won value (not payments)','Won without value','Demo completed / enquiry']){const th=text('th',title);th.scope='col';header.append(th);}head.append(header);table.append(head);
  const body=document.createElement('tbody'),percent=v=>v===null?'—':v+'%';
  for(const g of groups){const row=document.createElement('tr'),label=text('th',g.label);label.scope='row';row.append(label);const c=g.counts;
   const money=g.wonValueByCurrency.map(v=>new Intl.NumberFormat('en',{style:'currency',currency:v.currency,currencyDisplay:'code',minimumFractionDigits:2,maximumFractionDigits:2}).format(v.minorUnits/100)+' ('+v.deals+' deals)').join(' · ')||'No recorded value';
-  for(const value of [g.campaign||'Unattributed',(g.source||'Not recorded')+' / '+(g.medium||'Not recorded'),channelLabels[g.channel]||'Not recorded',g.landingPage||'Not recorded',c.enquiries,c.crmReviewRequests,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.currentlyWon,percent(g.rates.enquiryToQualified),percent(g.rates.enquiryToWon),money,g.wonWithoutValue])row.append(text('td',String(value)));body.append(row);
+  for(const value of [g.campaign||'Unattributed',(g.source||'Not recorded')+' / '+(g.medium||'Not recorded'),channelLabels[g.channel]||'Not recorded',g.landingPage||'Not recorded',c.enquiries,c.crmReviewRequests,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.currentlyWon,percent(g.rates.enquiryToQualified),percent(g.rates.enquiryToWon),money,g.wonWithoutValue,percent(g.rates.enquiryToCompletedDemo)])row.append(text('td',String(value)));body.append(row);
  }
- if(!groups.length){const row=document.createElement('tr'),cell=text('td','No enquiries match these filters in the selected received-date period.');cell.colSpan=16;row.append(cell);body.append(row);}table.append(body);$('campaign-sales-report').replaceChildren(table);
+ if(!groups.length){const row=document.createElement('tr'),cell=text('td','No enquiries match these filters in the selected received-date period.');cell.colSpan=17;row.append(cell);body.append(row);}table.append(body);$('campaign-sales-report').replaceChildren(table);
 }
 $('campaign-sales-country').addEventListener('change',renderCampaignSalesRows);
 $('campaign-sales-search').addEventListener('input',renderCampaignSalesRows);

@@ -1,0 +1,35 @@
+BANDEVI CRM WORKFLOW REVIEW - FICTIONAL DELIVERABLE EXAMPLE
+Not a customer assessment, fixed quote or commitment to deliver this scope.
+Agree review scope, fees, timing and available evidence with BANDEVI first.
+
+Example business: Example Tours; six staff; fictional spreadsheets and email.
+Requirement: give each enquiry a named owner and visible next action.
+Current process to validate: form > spreadsheet > consultant > quote > follow-up.
+No actual audit or measured sales improvement has been performed.
+
+1. WORKFLOW ASSESSMENT
+Confirm enquiry fields, assignment owner, quotation approval and handover rules.
+Questions: who owns unassigned leads? What defines Qualified? Who handles rejects?
+Evidence required: anonymised workflow description and sample export.
+
+2. PROPOSED FIRST RELEASE FOR DISCUSSION
+Enquiry record: source ID, received date/zone, service, owner, stage and next action.
+Permissions: consultant sees assigned leads; manager reviews the authorised queue.
+Acceptance: save once on retry; assign owner; show due follow-up; restrict access.
+Agree reporting denominators, completed-demo outcomes and deal-value currency.
+
+3. DATA AND DEPENDENCY CHECKLIST
+Use the accompanying fictional CSV mapping example as a discussion aid.
+Confirm export rights, identifiers, duplicates, required fields, owner mapping,
+record counts, rejected rows, original currency and date/time-zone meanings.
+Reconcile a limited sample in an isolated environment before approving cutover.
+Provider APIs, messaging sender access, licences and usage costs need approval.
+
+4. EXCLUSIONS AND OPEN DECISIONS
+No supplier booking, live messaging, payment processing, fixed launch date,
+24/7 support or recurring provider subscription is included by this example.
+Agree cleanup, migration volume, integration tests and support separately.
+
+5. NEXT STEP
+Record decision owner, missing evidence, agreed first release, acceptance checks,
+commercial terms and the next review. The customer approves before build/cutover.
