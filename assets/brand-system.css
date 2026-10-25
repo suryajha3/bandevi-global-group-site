@@ -67,3 +67,12 @@ body[data-page="home"] #start-project .form-panel .form-help{color:#4b6152}
 body main .walkthrough-note{background:#fcfdf7;border-color:#c2d1c3}
 body main .walkthrough-number{color:#24533e;border-color:#a6bfad}
 @media(max-width:1180px){body[data-page] .topbar .primary-nav{background:#202d25;border-color:#526b59}}
+
+/* The existing seven Services destinations, now with concise purpose descriptions. */
+body[data-page] .topbar .nav-solutions .solutions-menu{width:328px;max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain;scroll-padding-block:8px}
+body[data-page] .topbar .nav-solutions .nav-service-link{display:grid;grid-template-columns:minmax(0,1fr);gap:3px;align-items:start;min-height:56px;text-decoration:none}
+body[data-page] .topbar .nav-service-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;line-height:1.4}
+body[data-page] .topbar .nav-service-description{display:block;color:#c1cbbf;font-size:12px;font-weight:400;line-height:1.5}
+body[data-page] .topbar .nav-service-link:is(:hover,:focus-visible,[aria-current="page"]) .nav-service-title{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:1180px){body[data-page] .topbar .nav-solutions .solutions-menu{width:100%;max-height:none;overflow:visible;overscroll-behavior:auto}body[data-page] .topbar .nav-service-title{font-size:14px}}
+body #crm-enquiry-case-study{scroll-margin-top:110px}
