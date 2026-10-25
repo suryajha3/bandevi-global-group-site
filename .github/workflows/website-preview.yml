@@ -40,6 +40,10 @@ jobs:
           NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
           QA_BASELINE_DIR: ${{ github.workspace }}/qa-home-baseline
         run: node scripts/qa-home-crm-steps.cjs --all-browsers
+      - name: Check homepage proof and optional service help
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-home-trust-help.cjs --all-browsers
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -47,6 +51,7 @@ jobs:
           path: |
             qa-results/sharing-receipt/
             qa-results/home-crm-steps/
+            qa-results/home-trust-help/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest

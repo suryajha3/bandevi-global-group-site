@@ -31,6 +31,8 @@
     controls.hidden=false;
   }
   function init() {
+    const teamPhoto=document.querySelector('.home-team-photo img');
+    if(teamPhoto&&typeof window.bgPublicMedia==='function')window.bgPublicMedia(teamPhoto,teamPhoto.closest('.home-team-photo-media'));
     const preview = document.querySelector('#intl-crm-preview');
     if (preview?.querySelector('[data-home-demo-summary]')) { initSteps(preview); return; }
     if (!preview || preview.dataset.interactivePreview) return;
