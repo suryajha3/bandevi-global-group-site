@@ -1,7 +1,7 @@
 /* Public presentation only. Existing enquiry transport, fields and receipts remain authoritative. */
 (() => {
  'use strict';
- const media = new WeakMap(), forms = new WeakSet(), promptForms=new WeakSet(), motions=new WeakMap();let promptSequence=0;
+ const media = new WeakMap(), forms = new WeakSet(), promptForms=new WeakSet(), reviewForms=new WeakSet(), videos=new WeakSet(), motions=new WeakMap();let promptSequence=0,reviewSequence=0,videoSequence=0;
  function transition(element){
   if(!element?.animate||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   motions.get(element)?.cancel();const motion=element.animate([{opacity:.9},{opacity:1}],{duration:160,easing:'ease-out'});motions.set(element,motion);motion.onfinish=()=>{if(motions.get(element)===motion)motions.delete(element);};
@@ -100,9 +100,53 @@
   function update(){const value=interest.value.toLowerCase(),kind=/travel|flight|hotel|tour|dmc/.test(value)?'travel':/crm|erp|lead/.test(value)?'crm':/web|app|e-commerce|ecommerce/.test(value)?'web':/portal/.test(value)?'portal':'general';if(box.dataset.promptKind===kind)return;box.dataset.promptKind=kind;example.textContent=examples[kind];transition(example);}
   update();example.setAttribute('aria-live','polite');example.setAttribute('aria-atomic','true');interest.addEventListener('change',update);form.addEventListener('reset',()=>queueMicrotask(update));
  }
+ function node(tag,cls,text){const item=document.createElement(tag);if(cls)item.className=cls;if(text)item.textContent=text;return item;}
+ function action(cls,text){const item=node('button',cls,text);item.type='button';return item;}
+ function enquiryReview(form){
+  const submit=form.querySelector('button[type="submit"]');if(!submit||reviewForms.has(form)||typeof HTMLDialogElement==='undefined'||!HTMLDialogElement.prototype.showModal)return;reviewForms.add(form);
+  const id='enquiry-review-'+(++reviewSequence),trigger=action('button light public-review-trigger','Review enquiry (optional)'),dialog=node('dialog','public-review-dialog');dialog.id=id;trigger.setAttribute('aria-haspopup','dialog');trigger.setAttribute('aria-controls',id);submit.after(trigger);
+  const head=node('div','public-review-header'),title=node('h2',null,'Review your main enquiry details'),close=action('public-review-control','Close');title.id=id+'-title';close.setAttribute('aria-label','Close enquiry review');head.append(title,close);
+  const note=node('p','public-review-note','Check these main details. Other optional choices remain in the form. This review does not send your enquiry or book a demo.');note.id=id+'-note';dialog.setAttribute('aria-labelledby',title.id);dialog.setAttribute('aria-describedby',note.id);
+  const body=node('div','public-review-body');body.tabIndex=0;body.setAttribute('aria-label','Enquiry details; scroll to review');const foot=node('div','public-review-footer'),back=action('public-review-control','Back to form');foot.append(node('p',null,'Return to the form and choose Send enquiry when you are ready.'),back);dialog.append(head,note,body,foot);document.body.append(dialog);
+  const fields=[['name','Name'],['email','Email'],['phone','Phone / WhatsApp'],['interest','Service'],['projectCountry','Business country'],['quoteCurrency','Quote currency'],['message','Message']];let editTarget=null;
+  function sync(){trigger.disabled=form.dataset.sending==='true';}
+  new MutationObserver(sync).observe(form,{attributes:true,attributeFilter:['data-sending']});sync();
+  trigger.addEventListener('click',()=>{
+   if(form.dataset.sending==='true')return;editTarget=null;body.replaceChildren();const list=node('dl','public-review-values');
+   for(const [name,label] of fields){const field=form.elements[name];if(!field)continue;const row=node('div','public-review-row'),term=node('dt',null,label),description=node('dd'),edit=action('public-review-control public-review-edit','Edit');let value=String(field.value||'').trim();if(value&&field.tagName==='SELECT')value=field.selectedOptions[0]?.textContent.trim()||value;if(!value)value=name==='quoteCurrency'?'Agree with the team':'Not provided';description.textContent=value;edit.setAttribute('aria-label','Edit '+label.toLowerCase());edit.addEventListener('click',()=>{editTarget=field;dialog.close();});row.dataset.reviewField=name;if(field.type!=='hidden'&&!field.disabled)term.append(edit);row.append(term,description);list.append(row);}body.append(list);
+   dialog.showModal();document.documentElement.classList.add('public-review-open');close.focus();
+  });
+  close.addEventListener('click',()=>dialog.close());back.addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>{document.documentElement.classList.remove('public-review-open');const target=editTarget?.isConnected?editTarget:trigger;editTarget=null;body.replaceChildren();if(target!==trigger){for(let parent=target.parentElement;parent&&parent!==form;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;}if(target.isConnected){target.focus({preventScroll:true});const bounds=target.getBoundingClientRect();if(bounds.top<90||bounds.bottom>innerHeight)target.scrollIntoView({block:'center',behavior:'instant'});}});
+  dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not(:disabled),[tabindex="0"]')].filter(e=>e.getClientRects().length),first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
+  form.addEventListener('reset',()=>{if(dialog.open)dialog.close();else body.replaceChildren();});
+ }
+ function videoFeedback(video){
+  if(videos.has(video))return;videos.add(video);video.dataset.publicVideo='1';
+  const figure=video.closest('figure')||video.parentElement,section=video.closest('section'),transcript=section?.querySelector('details[class*="transcript"]'),sources=[...video.querySelectorAll('source')],originals=sources.map(source=>source.getAttribute('src')),panel=node('div','public-video-state'),title=node('strong'),detail=node('span'),retry=action('public-review-control','Retry video'),links=node('div','public-video-links');
+  panel.hidden=true;panel.setAttribute('role','status');panel.setAttribute('aria-live','polite');panel.tabIndex=-1;panel.append(title,detail,retry,links);video.after(panel);
+  function transcriptLink(){if(!transcript)return null;if(!transcript.id)transcript.id='public-video-transcript-'+(++videoSequence);const link=node('a',null,'Read transcript');link.href='#'+transcript.id;link.addEventListener('click',()=>{transcript.open=true;transcript.querySelector('summary')?.focus();transcript.scrollIntoView({block:'center',behavior:'instant'});});return link;}
+  const fallback=transcriptLink();if(fallback){links.append(fallback);let caption=figure.querySelector('figcaption');if(!caption){caption=node('p','public-video-caption');panel.after(caption);}const shortcut=transcriptLink();shortcut.className='public-video-transcript-link';if(caption.textContent.trim())caption.append(document.createTextNode(' · '));caption.append(shortcut);}
+  const file=originals.find((src,i)=>video.canPlayType(sources[i].type))||originals[0]||video.getAttribute('src');if(file){const url=new URL(file,location.href);if(['http:','https:'].includes(url.protocol)){const raw=node('a',null,'Open video file');raw.href=url.href;raw.target='_blank';raw.rel='noopener noreferrer';links.append(raw);}}
+  let state='idle',armed=false,reloading=false,retryFocus=false;const failed=new Set();
+  function set(next){if(state===next)return;state=next;video.dataset.videoState=next;panel.hidden=next==='idle';video.setAttribute('aria-busy',String(next==='loading'));retry.hidden=next!=='error';retry.disabled=next==='loading';title.textContent=next==='error'?'Video unavailable':next==='loading'?'Loading video…':next==='ready'?'Video reloaded':'';detail.textContent=next==='error'?'Try again, or use the available alternatives.':next==='ready'?'Press Play to continue.':'';
+   if(retryFocus&&document.activeElement===panel&&next!=='loading'){const target=next==='error'?retry:video;if(target===video&&!video.hasAttribute('tabindex'))video.tabIndex=0;target.focus({preventScroll:true});retryFocus=false;}
+  }
+  function ready(){if(video.readyState<1)return;failed.clear();if(reloading&&video.paused){reloading=false;set('ready');}else if(!video.paused||state!=='ready')set('idle');}
+  video.addEventListener('pointerdown',()=>armed=true,{passive:true});video.addEventListener('keydown',()=>armed=true);
+  video.addEventListener('play',()=>{armed=true;if(video.readyState<3)set('loading');});
+  for(const event of ['waiting','stalled'])video.addEventListener(event,()=>{if(armed&&!video.paused)set('loading');});
+  video.addEventListener('loadstart',()=>{if(armed&&(!video.paused||reloading))set('loading');});
+  for(const event of ['loadedmetadata','loadeddata','canplay','seeked'])video.addEventListener(event,ready);
+  video.addEventListener('playing',()=>{reloading=false;failed.clear();set('idle');});
+  video.addEventListener('pause',()=>{if(state!=='error'&&!reloading)set('idle');});video.addEventListener('ended',()=>set('idle'));
+  video.addEventListener('error',event=>{if(event.target.tagName==='SOURCE')failed.add(event.target);queueMicrotask(()=>{if(video.error&&video.error.code!==1||sources.length&&sources.every(source=>failed.has(source))&&video.networkState===3)set('error');});},true);
+  retry.addEventListener('click',()=>{retryFocus=document.activeElement===retry;if(retryFocus)panel.focus({preventScroll:true});armed=true;reloading=true;failed.clear();video.pause();for(let i=0;i<sources.length;i++){const url=new URL(originals[i],location.href);if(url.origin===location.origin&&url.pathname.startsWith('/assets/')){url.searchParams.set('video_retry',String(Date.now()));sources[i].src=url.href;}}video.preload='metadata';set('loading');video.load();});
+ }
  function init() {
   decorateServices();
-  document.querySelectorAll('form[data-form="home"],form[data-form="contact"],form[data-form="demo"]').forEach(form=>{feedback(form);enquiryPrompts(form);});
+  document.querySelectorAll('form[data-form="home"],form[data-form="contact"],form[data-form="demo"]').forEach(form=>{feedback(form);enquiryPrompts(form);enquiryReview(form);});
+  document.querySelectorAll('main video').forEach(videoFeedback);
   document.querySelectorAll('.home-hero-markets a,.home-region-grid a,.project-directory-grid article,.service-comparison-grid article,#service-comparison article,#service-offers article').forEach(card=>{if(!card.classList.contains('interaction-card'))card.classList.add('interaction-card');});
   document.querySelectorAll('.project-directory-grid img,.project-walkthrough img,.home-proof-case img,.web-project-image img,.travel-real-work img,.crm-concept img').forEach(img=>{ if(!img.closest('picture')&&!img.srcset)enhanceMedia(img); });
  }

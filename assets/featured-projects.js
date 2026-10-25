@@ -11,10 +11,23 @@
   const header=element('div','viewer-header'),title=element('h2',null,'Project screenshot');title.id='featured-viewer-title';const close=button('Close');close.setAttribute('aria-label','Close screenshot viewer');header.append(title,close);
   const tools=element('div','viewer-tools'),out=button('Zoom out'),zoom=element('span','viewer-zoom','100%'),inside=button('Zoom in'),fit=button('Reset zoom');zoom.setAttribute('aria-live','polite');tools.append(out,zoom,inside,fit);
   const navigation=element('div','viewer-project-navigation'),previous=button('← Previous'),position=element('span','viewer-position'),next=button('Next →');navigation.setAttribute('role','group');navigation.setAttribute('aria-label','Browse project previews');previous.setAttribute('aria-label','Previous project');next.setAttribute('aria-label','Next project');previous.setAttribute('aria-keyshortcuts','ArrowLeft');next.setAttribute('aria-keyshortcuts','ArrowRight');position.setAttribute('role','status');position.setAttribute('aria-live','polite');position.setAttribute('aria-atomic','true');navigation.append(previous,position,next);tools.prepend(navigation);
-  const viewport=element('div','viewer-image-wrap');viewport.tabIndex=0;viewport.setAttribute('aria-label','Project screenshot; scroll to inspect when zoomed');const image=element('img','viewer-image');viewport.append(image);
+  const viewport=element('div','viewer-image-wrap');viewport.tabIndex=0;viewport.setAttribute('aria-label','Project screenshot; swipe or use navigation buttons at normal zoom, scroll to inspect when zoomed');const image=element('img','viewer-image');viewport.append(image);
+  const swipeHint=element('span','viewer-swipe-hint','Swipe left or right at normal zoom.');tools.append(swipeHint);
   const footer=element('div','viewer-footer'),note=element('p',null,'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.');note.id='featured-viewer-note';const links=element('div','viewer-links'),projectLink=element('a',null,'Explore this project ↗'),raw=element('a',null,'Open image in a new tab ↗');projectLink.href='/projects/trip-sarathi/';raw.href='/assets/portfolio-trip-sarathi.webp';raw.target='_blank';raw.rel='noopener noreferrer';links.append(projectLink,raw);footer.append(note,links);dialog.append(header,tools,viewport,footer);document.body.append(dialog);
   if(window.bgPublicMedia)window.bgPublicMedia(image);
-  let scale=1,opener=null,baseWidth=0,current=0;
+  let scale=1,opener=null,baseWidth=0,current=0,gesture=null;const touches=new Set();
+  viewport.addEventListener('pointerdown',event=>{
+   if(event.pointerType!=='touch')return;touches.add(event.pointerId);
+   if(touches.size!==1||!event.isPrimary||scale!==1||!dialog.open||(window.visualViewport?.scale||1)>1||event.target.closest('a,button')){gesture=null;return;}
+   gesture={id:event.pointerId,x:event.clientX,y:event.clientY,time:performance.now(),project:current};
+  },{passive:true});
+  viewport.addEventListener('pointerup',event=>{
+   touches.delete(event.pointerId);const start=gesture;gesture=null;
+   if(!start||start.id!==event.pointerId||touches.size||scale!==1||!dialog.open||start.project!==current||(window.visualViewport?.scale||1)>1)return;
+   const dx=event.clientX-start.x,dy=event.clientY-start.y,threshold=Math.max(48,Math.min(80,viewport.clientWidth*.15));
+   if(Math.abs(dx)>=threshold&&Math.abs(dx)>Math.abs(dy)*1.6&&performance.now()-start.time<=800)showProject(current+(dx<0?1:-1));
+  },{passive:true});
+  viewport.addEventListener('pointercancel',event=>{touches.delete(event.pointerId);gesture=null;},{passive:true});
   function showProject(index){
    current=(index+projects.length)%projects.length;onSelect(current);
    const project=projects[current],view=preview(project,root.dataset.device),kind=root.dataset.device==='mobile'&&!project.record?'Mobile preview':project.category||'public homepage';
@@ -22,11 +35,11 @@
    image.src=view.image;image.alt=view.alt;image.width=view.width;image.height=view.height;projectLink.href=project.record||'/projects/'+project.slug+'/';projectLink.textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';raw.href=view.image;note.textContent=view.source;scale=1;viewport.scrollTo(0,0);if(dialog.open)measure();
   }
   previous.addEventListener('click',()=>showProject(current-1));next.addEventListener('click',()=>showProject(current+1));
-  function applyZoom(next){scale=Math.max(1,Math.min(2.5,next));image.style.width=(baseWidth*scale)+'px';zoom.textContent=Math.round(scale*100)+'%';out.disabled=scale===1;inside.disabled=scale===2.5;fit.disabled=scale===1;}
+  function applyZoom(next){scale=Math.max(1,Math.min(2.5,next));viewport.dataset.viewerFit=String(scale===1);if(scale!==1)gesture=null;image.style.width=(baseWidth*scale)+'px';zoom.textContent=Math.round(scale*100)+'%';out.disabled=scale===1;inside.disabled=scale===2.5;fit.disabled=scale===1;}
   function measure(){baseWidth=Math.min(viewport.clientWidth,viewport.clientHeight*Number(image.getAttribute('width'))/Number(image.getAttribute('height')));applyZoom(scale);}
   new ResizeObserver(()=>{if(dialog.open)measure();}).observe(viewport);
   out.addEventListener('click',()=>applyZoom(scale-.25));inside.addEventListener('click',()=>applyZoom(scale+.25));fit.addEventListener('click',()=>{applyZoom(1);viewport.scrollTo(0,0);});close.addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('close',()=>{document.documentElement.classList.remove('featured-viewer-open');if(opener&&opener.isConnected){opener.focus({preventScroll:true});const box=opener.getBoundingClientRect();if(box.top<90||box.bottom>innerHeight)opener.scrollIntoView({block:'center',behavior:'instant'});}});
+  dialog.addEventListener('close',()=>{gesture=null;touches.clear();document.documentElement.classList.remove('featured-viewer-open');if(opener&&opener.isConnected){opener.focus({preventScroll:true});const box=opener.getBoundingClientRect();if(box.top<90||box.bottom>innerHeight)opener.scrollIntoView({block:'center',behavior:'instant'});}});
   dialog.addEventListener('keydown',event=>{if(event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||!['ArrowLeft','ArrowRight'].includes(event.key))return;if(scale>1&&event.target.closest('.viewer-image-wrap'))return;event.preventDefault();showProject(current+(event.key==='ArrowLeft'?-1:1));});
   dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not(:disabled),a[href],[tabindex="0"]')].filter(node=>node.getClientRects().length);const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
