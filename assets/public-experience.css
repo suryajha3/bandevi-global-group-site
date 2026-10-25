@@ -79,5 +79,6 @@ body .public-video-state[hidden]{display:none}
 body .public-video-state strong,body .public-video-state>span{flex-basis:100%;color:var(--brand-ink)}
 body .public-video-links{display:flex;gap:8px 16px;flex-wrap:wrap}
 body .public-video-links a,body .public-video-transcript-link{display:inline-flex;align-items:center;min-height:44px;color:var(--brand-text-gold);text-decoration:underline;text-underline-offset:3px;font-size:13px}
+body .public-video-transcript-target{scroll-margin-top:110px}
 body .public-review-control:focus-visible,body .public-review-body:focus-visible,body .public-video-state:focus-visible,body video[data-public-video]:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
 @media(max-width:540px){body .public-review-header h2{font-size:17px}body .public-review-control{padding-inline:10px}body .public-review-header,body .public-review-footer{padding:12px}body .public-review-note{padding:10px 12px}body .public-review-body{padding-inline:12px}}
