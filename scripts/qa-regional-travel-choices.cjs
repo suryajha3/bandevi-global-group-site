@@ -35,7 +35,7 @@ let server,browser;
       await p.goto(base+regional+(source?'?source=1':''));
       const card=p.locator('[data-regional-travel-choices]');await card.waitFor();
       assert.equal(await p.locator('#software-services .card').count(),7,'No additional service cards');
-      assert.match(await card.innerText(),/Travel CRM: enquiries and sales/);
+      assert.match(await card.innerText(),slug==='us'?/Travel CRM: inquiries and sales/:/Travel CRM: enquiries and sales/);
       assert.match(await card.innerText(),/Travel ERP: booking operations and finance/);
       const content=await card.evaluate(e=>({text:e.innerText,links:[...e.querySelectorAll('a')].map(a=>[a.textContent,a.getAttribute('href')])}));
       if(parity.has(slug))assert.deepEqual(content,parity.get(slug));else parity.set(slug,content);
