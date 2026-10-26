@@ -187,7 +187,7 @@
   else if(segments[0]==='blog'&&segments.length>1)trail.push(['Blog','/blog/']);
   const current=labels[pathname]||(markets[segments[0]]&&segments[1]==='software-development'?markets[segments[0]]:markets[segments[0]]&&segments[1]==='travel-agency-crm'?'Travel agency CRM':heading.textContent.replace(/\s+/g,' ').trim());
   trail.push([current,null]);const nav=node('nav','public-breadcrumbs'),list=node('ol');nav.setAttribute('aria-label','Breadcrumb');list.setAttribute('role','list');
-  trail.forEach(([label,href],index)=>{const item=node('li');if(index){const separator=node('span','breadcrumb-separator','›');separator.setAttribute('aria-hidden','true');item.append(separator);}const part=node(href?'a':'span',null,label);if(href)part.href=href;else part.setAttribute('aria-current','page');item.append(part);list.append(item);});nav.append(list);heading.parentElement.prepend(nav);
+  trail.forEach(([label,href],index)=>{const item=node('li');if(index){const separator=node('span','breadcrumb-separator','›');separator.setAttribute('aria-hidden','true');item.append(separator);}const part=node(href?'a':'span',null,label);if(href)part.href=href;else part.setAttribute('aria-current','page');item.append(part);list.append(item);});nav.append(list);const host=heading.parentElement;if(host.matches('.section-head:not(.single)'))host.before(nav);else host.prepend(nav);
  }
  function sectionIndicators(nav){
   if(navigationGroups.has(nav))return;
