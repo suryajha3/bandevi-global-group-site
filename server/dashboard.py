@@ -10,6 +10,7 @@ import sqlite3
 import time
 import operations
 import journey_measurement
+import qualified_analytics
 import task_center
 import sales_journey
 import growth_workbench
@@ -213,6 +214,11 @@ def handle_get(handler, connect):
     if not authenticated:
         handler.respond(401, {'error':'Sign in to view the inbox.'})
         return True
+    if route == '/api/admin/qualified-analytics':
+        if authenticated['role']=='agent':
+            handler.respond(403,{'error':'Managers only.'});return True
+        with connect() as db:handler.respond(200,qualified_analytics.report(db))
+        return True
     if route == '/api/admin/activity':
         return activity_get(handler, connect, parse_qs(parsed.query), authenticated)
     if route == '/api/admin/attribution':
@@ -293,12 +299,13 @@ def handle_get(handler, connect):
     entries = [{'reference':r['id'], 'created':r['created'], 'emailStatus':r['email_status'], 'details':json.loads(r['payload']), 'stage':r['stage'], 'followUpDate':r['follow_up_date'], 'nextAction':r['next_action'], 'owner':r['owner'], 'notes':r['notes'], 'version':r['version'], 'updated':r['updated']} for r in rows]
     with connect() as db:
         for entry in entries:
+            entry['analyticsLinked']=bool(db.execute('SELECT 1 FROM ga4_crm_links WHERE enquiry_id=?',(entry['reference'],)).fetchone())
             entry['attentionReasons']=attention_reasons(entry,today.isoformat(),int(time.time()))
             value=db.execute('SELECT minor_units,currency FROM deal_values WHERE enquiry_id=?',(entry['reference'],)).fetchone()
             entry['deal']=dict(value) if value else None
             entry['appointment']=operations.receipt(db,entry['reference'])
     handler.respond(200, {'items':entries, 'total':total, 'counts':{s:counts.get(s,0) for s in STAGES}, 'offset':offset, 'followups':followups, 'businessDate':today.isoformat(), 'businessTimezone':'Asia/Kolkata',
-                          'emailConfigured':all(os.environ.get(k) for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM'))})
+                          'qualifiedAnalyticsEnabled':qualified_analytics.enabled(), 'emailConfigured':all(os.environ.get(k) for k in ('SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM'))})
     return True
 
 
@@ -397,6 +404,19 @@ def handle_post(handler, connect, origins, salt):
             db.execute('DELETE FROM inbox_sessions WHERE digest=?', (authenticated['digest'],))
         handler.respond(200, {'ok':True}, {'Set-Cookie':cookie('', True)})
         return True
+    if route == '/api/admin/qualified-analytics/withdraw':
+        reference=data.get('reference')
+        if not isinstance(reference,str) or data.get('customerRequested') is not True:
+            handler.respond(400,{'error':'Confirm the customer requested withdrawal.'});return True
+        with connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            if not lead_access(db,reference,authenticated):
+                handler.respond(404,{'error':'Enquiry not available.'});return True
+            row=db.execute('SELECT grant_hash FROM ga4_crm_links WHERE enquiry_id=?',(reference,)).fetchone()
+            if row:qualified_analytics._withdraw_hash(db,row['grant_hash'],now)
+            db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)',
+                       (reference,now,authenticated['actor'],'{}',json.dumps({'analyticsConsent':'withdrawn by customer request'})))
+        handler.respond(200,{'ok':True});return True
     if route == '/api/admin/activity':return activity_post(handler,connect,authenticated,data,now)
     if task_center.post(handler,connect,authenticated,data):return True
     if operations.post_admin(handler, connect, authenticated, data):return True
@@ -452,9 +472,12 @@ def handle_post(handler, connect, origins, salt):
             old['deal']=dict(previous_deal) if previous_deal else None
             changed['deal']={'minor_units':minor,'currency':currency}
         db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)', (reference,now,authenticated['actor'],json.dumps(old),json.dumps(changed)))
+        analytics_export='not_requested'
         if stage!=old['stage']:
-            db.execute('INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,?,?,?)',(reference,stage,authenticated['actor'],now))
+            event_id=db.execute('INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,?,?,?)',(reference,stage,authenticated['actor'],now)).lastrowid
+            if stage=='Qualified':
+                analytics_export=qualified_analytics.qualify_optional(db,event_id,data.get('analyticsQualification'),now)
         if owner.strip()!=old['owner'] and (owner.strip()==USER or db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(owner.strip(),)).fetchone()):
             operations.enqueue(db,'assignment:'+reference+':'+str(version+1),owner.strip(),'Bandevi enquiry assigned',f'Reference: {reference}\nReview: https://bandeviglobalgroup.com/team-inbox/')
-    handler.respond(200, {'ok':True, 'version':version+1})
+    handler.respond(200, {'ok':True, 'version':version+1, 'analyticsExport':analytics_export})
     return True

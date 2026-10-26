@@ -5,6 +5,7 @@ import hmac
 import operations
 import client_workflow
 import journey_measurement
+import qualified_analytics
 import lead_qualification
 import crm_review
 import demo_handoff
@@ -61,6 +62,7 @@ def initialize():
           created INTEGER NOT NULL);
         ''')
         journey_measurement.initialize(db)
+        qualified_analytics.initialize(db)
         initialize_dashboard(db)
         client_workflow.initialize(db)
     os.chmod(DB, 0o600)
@@ -255,6 +257,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         try:
+            if qualified_analytics.handle_get(self):return
             if ads_measurement.public_get(self,connect):return
             if client_workflow.handle_get(self,connect):return
             if handle_get(self, connect):
@@ -271,6 +274,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+            if qualified_analytics.handle_post(self,connect,ORIGINS,SALT):return
             if journey_measurement.post(self,connect,ORIGINS,SALT):return
             if client_workflow.handle_post(self,connect,ORIGINS,SALT):return
             if demo_handoff.post(self,connect,ORIGINS,SALT):return
@@ -290,7 +294,8 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get('Content-Length', '0'))
             if not 0 < length <= 16384:
                 return self.respond(413, {'error': 'Enquiry is too large.'})
-            data = validate(json.loads(self.rfile.read(length)))
+            raw = json.loads(self.rfile.read(length))
+            data = validate(raw)
             key = self.headers.get('Idempotency-Key', '')
             uuid.UUID(key)
         except (ValueError, TypeError, UnicodeError):
@@ -327,6 +332,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self.respond(429, {'error': 'Too many enquiries. Please try later or contact us directly.'})
                 reference = 'BG-' + uuid.uuid4().hex[:16].upper()
                 db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)', (reference, now, payload))
+                qualified_analytics.capture_optional(db,reference,raw.get('analyticsContext'),self.headers,now)
                 ads_measurement.capture(db,reference,ads_data,data,self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1',now)
                 appointment=None
                 booking_url=demo_handoff.offer(db,reference,SALT)
@@ -348,6 +354,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     initialize()
     threading.Thread(target=notification_worker, daemon=True).start()
+    threading.Thread(target=qualified_analytics.worker,args=(connect,),daemon=True).start()
     server = ThreadingHTTPServer(('127.0.0.1', int(os.environ.get('ENQUIRY_PORT', '8766'))), Handler)
     server.daemon_threads = True
     server.serve_forever()

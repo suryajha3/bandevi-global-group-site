@@ -99,6 +99,7 @@ const analyticsConsent = (() => {
   return {allowed};
 })();
 window.bgAnalyticsConsent=analyticsConsent;
+if(document.body.hasAttribute('data-page')){const s=document.createElement('script');s.src='/assets/crm-qualified-analytics.js?v=20261020-review';s.defer=true;document.head.append(s);}
 
 function trackAnalyticsEvent(eventName, parameters = {}) {
   if (!analyticsConsent.allowed()) return;
@@ -7845,10 +7846,13 @@ function bindForms() {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 15000);
         try {
+          let analyticsContext=null;
+          try{analyticsContext=await window.bgQualifiedAnalytics?.context(form.dataset.requestId);}catch(_){}
+          const analyticsBody=analyticsContext?JSON.stringify({...payload,analyticsContext}):serialized;
           const response = await fetch('/api/enquiries', {
             method: 'POST', credentials: 'same-origin', signal: controller.signal,
             headers: {'Content-Type':'application/json', 'Idempotency-Key':form.dataset.requestId},
-            body: serialized
+            body: new TextEncoder().encode(analyticsBody).length<=16384?analyticsBody:serialized
           });
           const result = await response.json();
           if (!response.ok || result.ok !== true || !/^BG-[A-F0-9]{16}$/.test(result.reference || '')) {
@@ -8272,6 +8276,8 @@ const crmReviewProofMarkup="<section class=\"section\" id=\"project-proof\" aria
 const crmReviewFormMarkup="<fieldset class=\"crm-workflow-review\" id=\"crm-workflow-review\"><legend>CRM workflow review</legend><label class=\"crm-review-choice\"><input type=\"checkbox\" name=\"crmReviewRequested\" value=\"yes\"> Request a review of our CRM workflow</label><p>Select this option to include the details below with your enquiry. Scope, meeting availability and commercial terms are agreed with the team. Share anonymised requirements only; do not include customer records, passwords or supplier credentials.</p><div class=\"crm-review-fields\"><div class=\"field\"><label for=\"review-tools\">Current CRM, spreadsheets or tools</label><input id=\"review-tools\" name=\"crmReviewTools\" maxlength=\"200\" placeholder=\"For example: spreadsheets and email\"></div><div class=\"field\"><label for=\"review-team\">People who will use the CRM</label><select id=\"review-team\" name=\"crmReviewTeam\"><option value=\"\">Choose team size</option><option value=\"1-5\">1\u20135 people</option><option value=\"6-20\">6\u201320 people</option><option value=\"21-50\">21\u201350 people</option><option value=\"51-plus\">51 or more people</option><option value=\"Not sure\">Not sure yet</option></select></div><div class=\"field\"><label for=\"review-challenge\">Main workflow problem to solve first</label><textarea id=\"review-challenge\" name=\"crmReviewChallenge\" maxlength=\"500\" rows=\"3\" placeholder=\"Where do enquiries or follow-ups get stuck?\"></textarea></div><div class=\"field\"><label for=\"review-integrations\">Integrations to discuss (optional)</label><textarea id=\"review-integrations\" name=\"crmReviewIntegrations\" maxlength=\"300\" rows=\"3\" placeholder=\"Name tools or services; never share credentials\"></textarea></div></div><p data-crm-review-status role=\"status\">Your existing service enquiry remains available without a workflow review.</p></fieldset>";
 for(const key of ["ukSoftwareServices","usSoftwareServices","indiaSoftwareServices"]){const previous=pageRenderers[key];pageRenderers[key]=()=>previous().replace('<section class="section mist" id="service-offers">',crmReviewProofMarkup+'<section class="section mist" id="service-offers">').replace('<div class="form-grid">',crmReviewFormMarkup+'<div class="form-grid">');}
 
+const privacyBeforeCrmAnalytics=pageRenderers.privacy;
+pageRenderers.privacy=()=>privacyBeforeCrmAnalytics()+"<section class=\"section\" id=\"crm-analytics\"><div class=\"container\"><h2>Optional enquiry progress analytics</h2><p>When this optional service is enabled, you can separately allow us to link your website analytics identifier to the progress of a new enquiry in our private CRM. This helps us understand which pages lead to suitable projects. Sending an enquiry and receiving our response do not depend on allowing this link.</p><p>The separate choice is off by default. With both permissions, we keep the link for up to 30 days, shortened by withdrawal or expiry. A staff-confirmed qualified-lead event may be sent to Google Analytics with fixed service, business-market, original page and acquisition categories. We do not include your name, email, phone number, message, budget, private notes or enquiry reference in that event. The analytics identifier is stored separately from your enquiry details.</p><p>Use Analytics preferences to stop enquiry progress analytics, or decline website analytics to stop both. Your browser keeps an opaque withdrawal control and retries a pending withdrawal when online. A pending notice means we have not yet confirmed server withdrawal. For another device, lost browser storage or help withdrawing, contact sales@bandeviglobalgroup.com so our team can record your request against the correct enquiry.</p><p>Withdrawal stops future eligible exports and removes the active analytics identifier from our linking records. It does not undo events already sent. Enquiry records and restricted delivery or withdrawal records follow our normal retention and backup process; this is separate from the active 30-day link. Contact us for a deletion request, including previously sent data.</p></div></section>";
 
 // One service comparison and one proof section keep the homepage focused.
 const homeBeforeFocusedEnquiries=pageRenderers.home;

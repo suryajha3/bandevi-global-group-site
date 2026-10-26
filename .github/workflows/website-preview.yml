@@ -148,7 +148,7 @@ jobs:
       - name: Run isolated enquiry and upgrade regressions
         run: |
           cd server
-          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py test_contact_channels.py test_journey_measurement.py test_lead_qualification.py test_market_reporting.py test_crm_review_campaigns.py test_growth_workbench.py test_demo_handoff.py test_demo_recovery.py test_ads_measurement.py test_response_coverage.py; do
+          for suite in test_dashboard.py test_followups.py test_measurement.py test_project_briefs.py test_mail_setup.py test_upgrades.py test_client_workflow.py test_lead_actions.py test_proposal_exports.py test_task_center.py test_contact_channels.py test_journey_measurement.py test_lead_qualification.py test_market_reporting.py test_crm_review_campaigns.py test_growth_workbench.py test_demo_handoff.py test_demo_recovery.py test_ads_measurement.py test_response_coverage.py test_qualified_analytics_core.py test_qualified_analytics.py; do
             python3 -B "$suite"
           done
   browser:
@@ -217,6 +217,7 @@ jobs:
           node scripts/qa-service-comparison.cjs
           node scripts/qa-projects-currencies.cjs
           node scripts/qa-journey-measurement.cjs
+          node scripts/qa-qualified-analytics.cjs
           node scripts/qa-analytics-consent.cjs
           node scripts/qa-demo-local-time.cjs
           node scripts/qa-consultation-timezones.cjs
