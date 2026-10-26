@@ -1,6 +1,8 @@
 /* Public presentation only. Existing enquiry transport, fields and receipts remain authoritative. */
 (() => {
  'use strict';
+ const regionalUS=/^\/us\/(software-development|travel-agency-crm)\/(?:index\.html)?$/.test(location.pathname);
+ function presentationText(text){return regionalUS?text.replace(/\b(enquiries|enquiry)\b/gi,word=>({enquiries:'inquiries',Enquiries:'Inquiries',ENQUIRIES:'INQUIRIES',enquiry:'inquiry',Enquiry:'Inquiry',ENQUIRY:'INQUIRY'}[word]||word)):text;}
  const media = new WeakMap(), forms = new WeakSet(), promptForms=new WeakSet(), reviewForms=new WeakSet(), videos=new WeakSet(), motions=new WeakMap();let promptSequence=0,reviewSequence=0,videoSequence=0;
  function transition(element){
   if(!element?.animate||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -76,6 +78,30 @@
   form.addEventListener('submit',()=>{ outcome='idle'; if(form.dataset.sending==='true') state('pending'); });
   for(const [event,next] of [['enquiry-saved','saved'],['enquiry-failed','failed'],['enquiry-invalid','invalid']]) form.addEventListener(event,()=>state(next));
   const errors=new Map(); let sequence=0;
+  const summary=node('section','enquiry-error-summary'),summaryTitle=node('h3'),summaryList=node('ul');
+  summary.hidden=true;summaryTitle.id='enquiry-error-title-'+form.dataset.form+'-'+(++reviewSequence);summary.setAttribute('aria-labelledby',summaryTitle.id);summaryTitle.setAttribute('role','alert');summaryTitle.setAttribute('aria-atomic','true');summary.append(summaryTitle,summaryList);(form.querySelector(':scope>.form-grid')||note).before(summary);
+  let summaryPending=false;const summaryItems=new Map();
+  function updateSummary(){
+   summaryPending=false;const active=new Set();let position=0;
+   for(const [field,error] of [...errors]){
+    if(!field.isConnected||field.matches(':disabled')||field.validity.valid){clear(field);continue;}
+    const label=field.labels?.[0]?.cloneNode(true);label?.querySelectorAll('.enquiry-required-badge').forEach(badge=>badge.remove());
+    const name=(label?.textContent||field.name||'Field').replace(/\s+/g,' ').replace(/\s*\*\s*$/,'').trim();let entry=summaryItems.get(field);
+    if(!entry){const item=node('li'),link=node('a');entry={item,link};summaryItems.set(field,entry);if(!field.id)field.id=error.id+'-field';link.href='#'+field.id;
+     link.addEventListener('click',event=>{
+     if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();let revealed=false;
+     for(let parent=field.parentElement;parent&&parent!==form;parent=parent.parentElement)if(parent.tagName==='DETAILS'&&!parent.open){parent.open=true;revealed=true;}
+     const focus=()=>{if(field.isConnected&&!field.matches(':disabled')){field.focus({preventScroll:true});field.scrollIntoView({block:'center',behavior:'instant'});}};
+     if(revealed)requestAnimationFrame(focus);else focus();
+     });item.append(link);
+    }
+    active.add(field);const text=name+': '+error.textContent;if(entry.link.textContent!==text)entry.link.textContent=text;
+    if(summaryList.children[position]!==entry.item)summaryList.insertBefore(entry.item,summaryList.children[position]||null);position++;
+   }
+   for(const [field,entry] of summaryItems)if(!active.has(field)){entry.item.remove();summaryItems.delete(field);}
+   const count=summaryList.children.length;summary.hidden=count===0;const title=count?'Check '+count+' '+(count===1?'field':'fields')+' before sending':'';if(summaryTitle.textContent!==title)summaryTitle.textContent=title;
+  }
+  function scheduleSummary(){if(!summaryPending){summaryPending=true;queueMicrotask(updateSummary);}}
   function clear(field) {
    const error=errors.get(field); if(!error)return;
    const ids=(field.getAttribute('aria-describedby')||'').split(/\s+/).filter(id=>id && id!==error.id);
@@ -86,9 +112,12 @@
    const field=event.target;if(!field.matches('input,select,textarea')||field.closest('[aria-hidden="true"]'))return;
    let error=errors.get(field);if(!error){error=document.createElement('span');error.className='enquiry-field-error';error.id='enquiry-field-error-'+form.dataset.form+'-'+(++sequence);field.after(error);errors.set(field,error);const ids=(field.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);ids.push(error.id);field.setAttribute('aria-describedby',ids.join(' '));}
    error.textContent=field.validationMessage;field.setAttribute('aria-invalid','true');
+   scheduleSummary();
   },true);
-  for(const event of ['input','change']) form.addEventListener(event,e=>queueMicrotask(()=>{if(e.target.validity?.valid)clear(e.target);}));
-  form.addEventListener('reset',()=>{ for(const field of [...errors.keys()])clear(field); });
+  for(const event of ['input','change']) form.addEventListener(event,e=>queueMicrotask(()=>{if(e.target.validity?.valid)clear(e.target);scheduleSummary();}));
+  form.addEventListener('reset',()=>{for(const field of [...errors.keys()])clear(field);scheduleSummary();});
+  form.addEventListener('enquiry-saved',()=>{for(const field of [...errors.keys()])clear(field);scheduleSummary();});
+  new MutationObserver(scheduleSummary).observe(form,{subtree:true,attributes:true,attributeFilter:['required','disabled']});
  }
  function enquiryPrompts(form){
   const message=form.elements.message,interest=form.elements.interest;if(!message||!interest||promptForms.has(form))return;
@@ -100,7 +129,7 @@
   function update(){const value=interest.value.toLowerCase(),kind=/travel|flight|hotel|tour|dmc/.test(value)?'travel':/crm|erp|lead/.test(value)?'crm':/web|app|e-commerce|ecommerce/.test(value)?'web':/portal/.test(value)?'portal':'general';if(box.dataset.promptKind===kind)return;box.dataset.promptKind=kind;example.textContent=examples[kind];transition(example);}
   update();example.setAttribute('aria-live','polite');example.setAttribute('aria-atomic','true');interest.addEventListener('change',update);form.addEventListener('reset',()=>queueMicrotask(update));
  }
- function node(tag,cls,text){const item=document.createElement(tag);if(cls)item.className=cls;if(text)item.textContent=text;return item;}
+ function node(tag,cls,text){const item=document.createElement(tag);if(cls)item.className=cls;if(text)item.textContent=presentationText(text);return item;}
  function action(cls,text){const item=node('button',cls,text);item.type='button';return item;}
  function enquiryReview(form){
   const submit=form.querySelector('button[type="submit"]');if(!submit||reviewForms.has(form)||typeof HTMLDialogElement==='undefined'||!HTMLDialogElement.prototype.showModal)return;reviewForms.add(form);
@@ -224,6 +253,20 @@
   document.querySelectorAll('main video').forEach(videoFeedback);
   document.querySelectorAll('.home-hero-markets a,.home-region-grid a,.project-directory-grid article,.service-comparison-grid article,#service-comparison article,#service-offers article').forEach(card=>{if(!card.classList.contains('interaction-card'))card.classList.add('interaction-card');});
   document.querySelectorAll('.project-directory-grid img,.project-walkthrough img,.home-proof-case img,.web-project-image img,.travel-real-work img,.crm-concept img').forEach(img=>{ if(!img.closest('picture')&&!img.srcset)enhanceMedia(img); });
+  regionalPresentation();
+ }
+ const regionalRoots=new WeakSet();
+ function regionalPresentation(){
+  if(!regionalUS)return;
+  const main=document.querySelector('main');if(!main||regionalRoots.has(main))return;regionalRoots.add(main);document.documentElement.lang='en-US';
+  const protectedCopy='script,style,textarea,option,.enquiry-field-error,.enquiry-error-summary a,.receipt-summary-field b,.summary-value,.summary-announcement,[data-review-field] dd';
+  function copy(root){
+   if(root.nodeType===Node.TEXT_NODE){if(!root.parentElement?.closest(protectedCopy)){const text=presentationText(root.nodeValue);if(text!==root.nodeValue)root.nodeValue=text;}return;}
+   if(root.nodeType!==Node.ELEMENT_NODE||root.closest(protectedCopy))return;
+   for(const name of ['aria-label','placeholder','title'])if(root.hasAttribute(name)){const value=root.getAttribute(name),text=presentationText(value);if(text!==value)root.setAttribute(name,text);}
+   for(const child of [...root.childNodes])copy(child);
+  }
+  copy(main);new MutationObserver(records=>{for(const record of records)if(record.type==='characterData')copy(record.target);else for(const child of record.addedNodes)copy(child);}).observe(main,{childList:true,subtree:true,characterData:true});
  }
  function start(){init();const source=document.getElementById('site');if(source)new MutationObserver(init).observe(source,{childList:true,subtree:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();

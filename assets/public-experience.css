@@ -168,3 +168,12 @@ body[data-page="home"] .intl-showcase .home-crm-progress{font-size:12px;line-hei
 body[data-page="home"] #intl-crm-preview .home-crm-steps{margin-bottom:3px}
 body[data-page="home"] #intl-crm-preview .intl-showcase-top{margin-bottom:8px}
 @media(max-width:1100px){body[data-page="home"] #intl-crm-preview .intl-pipeline{padding-block:8px}}
+
+/* Native field validation remains authoritative; summary links open optional fields. */
+body[data-page] main .enquiry-error-summary{margin:16px 0;padding:16px 18px;border:2px solid var(--brand-text-gold);border-radius:8px;background:var(--brand-paper);color:var(--brand-ink);overflow-wrap:anywhere}
+body[data-page] main .enquiry-error-summary[hidden]{display:none}
+body[data-page] main .enquiry-error-summary h3{font-size:16px;line-height:1.5;margin:0 0 8px;color:inherit}
+body[data-page] main .enquiry-error-summary ul{margin:0;padding-left:20px}
+body[data-page] main .enquiry-error-summary a{display:inline-block;padding:8px 0;min-height:44px;box-sizing:border-box;font-size:14px;line-height:1.6;text-decoration:underline;text-underline-offset:3px;color:inherit}
+body[data-page] main .enquiry-error-summary a:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
+body[data-page="home"] .home-project-proof{display:inline-block;max-width:100%;font-size:12px;line-height:1.6;padding:4px 9px;margin:10px 0 0;border:1px solid var(--brand-border);border-radius:5px;background:var(--brand-ivory);color:var(--brand-ink)}
