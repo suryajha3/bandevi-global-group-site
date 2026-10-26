@@ -16,6 +16,30 @@ import qualified_analytics as ga
 class QualifiedAnalyticsHTTPTests(unittest.TestCase):
     login=fixture.DashboardTests.login
 
+    def test_current_ads_capture_and_optional_analytics_keep_separate_permissions(self):
+        import ads_measurement as ads
+        with fixture.enquiries.connect() as db:
+            version=ads.profile(db,'US')['version']
+        status,result,_=self.request('/api/admin/ads-setup',dict(country='US',customerId='1234567890',qualifiedName='Synthetic qualified',wonName='Synthetic won',confirmed=True,version=version),self.cookie,self.csrf)
+        self.assertEqual(status,200,result)
+        self.assertTrue(self.request('/api/analytics-consent/config')[1]['enabled'])
+        self.assertTrue(self.request('/api/enquiries?capabilities=ads-measurement')[1]['markets']['US'])
+        for denied in (False,True):
+            data=self.data('US')
+            data['source']='/us/travel-agency-crm/'
+            data['adsMeasurement']=dict(version=1,consent=True,policy=ads.POLICY,gclid='Synthetic_'+secrets.token_hex(12))
+            status,result,_=self.request('/api/enquiries',data,extra={'DNT':'1'} if denied else {})
+            self.assertEqual(status,201,result)
+            reference=result['reference']
+            with fixture.enquiries.connect() as db:
+                linked=bool(db.execute('SELECT 1 FROM ga4_crm_links WHERE enquiry_id=?',(reference,)).fetchone())
+                click=bool(db.execute('SELECT 1 FROM ads_clicks WHERE reference=?',(reference,)).fetchone())
+                stored=db.execute('SELECT payload FROM enquiries WHERE id=?',(reference,)).fetchone()[0]
+            self.assertEqual(linked,not denied)
+            self.assertEqual(click,not denied)
+            for private in ('analyticsContext','adsMeasurement',data['analyticsContext']['client_id'],data['adsMeasurement']['gclid']):
+                self.assertNotIn(private,stored)
+
     def request(self,route,data=None,cookie='',csrf='',origin='http://127.0.0.1:8765',key=None,extra=None):
         headers={'Content-Type':'application/json','Origin':origin,'Cookie':cookie,'X-CSRF-Token':csrf,
                  'Idempotency-Key':key or str(uuid.uuid4()),'X-Real-IP':uuid.uuid4().hex,**(extra or {})}

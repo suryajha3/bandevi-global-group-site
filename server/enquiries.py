@@ -8,6 +8,8 @@ import journey_measurement
 import qualified_analytics
 import lead_qualification
 import crm_review
+import demo_handoff
+import ads_measurement
 import json
 import logging
 import os
@@ -137,6 +139,7 @@ def validate(data):
         result['message'] += '\n\n'+crm_review.summary(result['crmReview'])
         if len(result['message']) > FIELDS['message']:
             raise ValueError('Please shorten your description or workflow details to fit the enquiry limit.')
+    if 'adsMeasurement' in data:result['adsMeasurement']=ads_measurement.validate(data['adsMeasurement'],result)
     if data.get('slotId') is not None:
         if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
         result['slotId']=data['slotId']
@@ -208,6 +211,7 @@ def process_outbox():
 def notification_worker():
     while True:
         try:
+            with connect() as db:ads_measurement.purge(db)
             operations.reminders(connect)
             client_workflow.reminders(connect)
             process_outbox()
@@ -254,6 +258,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             if qualified_analytics.handle_get(self):return
+            if ads_measurement.public_get(self,connect):return
             if client_workflow.handle_get(self,connect):return
             if handle_get(self, connect):
                 return
@@ -272,6 +277,7 @@ class Handler(BaseHTTPRequestHandler):
             if qualified_analytics.handle_post(self,connect,ORIGINS,SALT):return
             if journey_measurement.post(self,connect,ORIGINS,SALT):return
             if client_workflow.handle_post(self,connect,ORIGINS,SALT):return
+            if demo_handoff.post(self,connect,ORIGINS,SALT):return
             if operations.post_public(self,connect,ORIGINS):return
             if handle_post(self, connect, ORIGINS, SALT):
                 return
@@ -294,8 +300,11 @@ class Handler(BaseHTTPRequestHandler):
             uuid.UUID(key)
         except (ValueError, TypeError, UnicodeError):
             return self.respond(400, {'error': 'Please check the required fields and try again.'})
-        payload = json.dumps(data, sort_keys=True)
-        digest = hashlib.sha256(payload.encode()).hexdigest()
+        digest = hashlib.sha256(json.dumps(data,sort_keys=True).encode()).hexdigest()
+        # Click identifiers have their own retention and withdrawal controls.
+        # Never include them in the enquiry payload, acknowledgements or reports.
+        ads_data=data.get('adsMeasurement')
+        payload = json.dumps({key:value for key,value in data.items() if key!='adsMeasurement'},sort_keys=True)
         # Nginx overwrites this header; the server listens only on loopback.
         ip = self.headers.get('X-Real-IP', self.client_address[0])
         fingerprint = hashlib.sha256((SALT + ip).encode()).hexdigest()
@@ -308,7 +317,7 @@ class Handler(BaseHTTPRequestHandler):
                 if existing:
                     if existing['digest'] != digest:
                         return self.respond(409, {'error': 'This request changed. Please submit it again.'})
-                    return self.respond(200, {'ok': True, 'reference': existing['enquiry_id'], 'appointment':operations.receipt(db,existing['enquiry_id'],management_token)})
+                    return self.respond(200, {'ok': True, 'reference': existing['enquiry_id'], 'appointment':operations.receipt(db,existing['enquiry_id'],management_token),'demoBookingUrl':demo_handoff.offer(db,existing['enquiry_id'],SALT)})
                 if data.get('demoSchedule'):
                     schedule=data['demoSchedule'];india=datetime.timezone(datetime.timedelta(hours=5,minutes=30))
                     selected=datetime.datetime.fromisoformat(schedule['date']+'T'+schedule['time']).replace(tzinfo=india)
@@ -324,16 +333,18 @@ class Handler(BaseHTTPRequestHandler):
                 reference = 'BG-' + uuid.uuid4().hex[:16].upper()
                 db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)', (reference, now, payload))
                 qualified_analytics.capture_optional(db,reference,raw.get('analyticsContext'),self.headers,now)
+                ads_measurement.capture(db,reference,ads_data,data,self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1',now)
                 appointment=None
+                booking_url=demo_handoff.offer(db,reference,SALT)
                 if data.get('slotId'):
                     try:appointment=operations.create_booking(db,reference,data['slotId'],management_token)
                     except ValueError:
                         db.rollback();return self.respond(409,{'error':'That demo time is no longer available. Choose another slot.'})
                 elif data['email'] and os.environ.get('CUSTOMER_ACK_ENABLED','1')=='1':
-                    operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com')
+                    operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com'+('\nBook a review within 7 days: https://bandeviglobalgroup.com'+booking_url+'\nOnly a successful available-slot reservation confirms a meeting. Keep this private link safe.' if booking_url else ''))
                 db.execute('INSERT INTO requests VALUES(?,?)', (fingerprint, now))
                 db.execute('INSERT INTO idempotency VALUES(?,?,?,?)', (key, digest, reference, now))
-            return self.respond(201, {'ok': True, 'reference': reference,'appointment':appointment})
+            return self.respond(201, {'ok': True, 'reference': reference,'appointment':appointment,'demoBookingUrl':booking_url})
         except sqlite3.Error:
             LOG.error('Enquiry storage unavailable')
             return self.respond(503, {'error': 'Unable to save right now. Please use email or WhatsApp.'})

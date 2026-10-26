@@ -267,6 +267,7 @@ function bindCrmWorkflowReview(form){
 
 function enquiryMessage(form, data) {
   return [
+    form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
     ['GB','US','IN','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',IN:'India',other:'Another country'})[data.projectCountry] : '',
     data.projectBudget ? 'Planning budget: ' + data.projectBudget.trim() : '',
@@ -340,7 +341,24 @@ function bindEnquiryJourney(form) {
   form.querySelector('[data-enquiry-submit]').disabled = false;
 }
 
-function savedEnquiryReceipt(note, reference, type) {
+function enquiryReceiptSummary(submitted = {}) {
+  const box = document.createElement('span'); box.className = 'receipt-summary'; box.setAttribute('role','group'); box.setAttribute('aria-label','Submitted enquiry details');
+  const heading = document.createElement('strong'); heading.className='receipt-summary-title'; heading.textContent='Your submitted details'; box.append(heading);
+  const fields = document.createElement('span'); fields.className='receipt-summary-fields';
+  const interest = typeof submitted.interest === 'string' ? submitted.interest.trim() : '';
+  const service = regionalBuyerServices.find(([value]) => value === interest)?.[1] || interest.slice(0,180) || 'Help me choose';
+  const qualification = submitted.qualification || {}, countries = new Map([['US','United States'],['GB','United Kingdom'],['IN','India'],['other','Another country']]);
+  const country = countries.get(qualification.country) || 'Agree with the team';
+  const currency = ['USD','GBP','INR','EUR'].includes(qualification.currency) ? qualification.currency : 'Agree with the team';
+  for (const [key,label,value] of [['service','Service',service],['country','Business country',country],['currency','Quote currency',currency]]) {
+    const row = document.createElement('span'); row.className='receipt-summary-field'; row.dataset.receiptField=key;
+    const term = document.createElement('span'); term.className='receipt-summary-label'; term.textContent=label;
+    const detail = document.createElement('b'); detail.textContent=value; row.append(term,detail); fields.append(row);
+  }
+  const help=document.createElement('span');help.className='receipt-summary-help';help.textContent='Your quote and project scope will be agreed with the team.';box.append(fields,help);return box;
+}
+
+function savedEnquiryReceipt(note, reference, type, submitted) {
   note.textContent = 'Your enquiry has been saved. Reference: ';
   const savedReference = document.createElement('strong'); savedReference.textContent = reference;
   const copy = document.createElement('button'); copy.type = 'button'; copy.className = 'button light receipt-copy'; copy.textContent = 'Copy reference';
@@ -350,10 +368,11 @@ function savedEnquiryReceipt(note, reference, type) {
     catch (_) { const selection = window.getSelection(), range = document.createRange(); range.selectNodeContents(savedReference); selection.removeAllRanges(); selection.addRange(range); feedback.textContent = ' Copy the selected reference.'; }
   });
   note.append(savedReference, ' ', copy, feedback, document.createElement('br'));
-  note.append(type === 'demo' ? 'Keep this reference for follow-up.' : 'The team will review your requirements and contact you using the details provided. Quote this reference when you follow up.');
+  note.append(type === 'demo' ? 'Keep this reference for follow-up.' : 'Your request is ready for the team to review.');
+  note.append(enquiryReceiptSummary(submitted));
   const next = document.createElement('ol'); next.className='receipt-next';
   for(const text of ['Keep your reference for any follow-up.','The team will review your requirements and reply using the details you provided.','Discuss scope and next steps before agreeing to work.']){const item=document.createElement('li');item.textContent=text;next.append(item);}
-  if(type!=='demo')note.append(next);
+  if(type!=='demo'){const heading=document.createElement('strong');heading.className='receipt-next-title';heading.textContent='What happens next';note.append(heading,next);}
   const actions=document.createElement('div');actions.className='receipt-actions';
   const mail=document.createElement('a');mail.href='mailto:sales@bandeviglobalgroup.com?subject='+encodeURIComponent('Enquiry '+reference);mail.textContent='Email about this enquiry';
   const whatsapp=document.createElement('a');whatsapp.href='https://wa.me/917011040474?text='+encodeURIComponent('Hello BANDEVI, I would like to follow up on enquiry '+reference+'.');whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';whatsapp.textContent='Follow up on WhatsApp';
@@ -443,12 +462,67 @@ function bindRegionalValidationScroll(form) {
   }, true);
 }
 
+
+// Keep the first enquiry short; scheduling remains an explicit optional choice.
+function bindCompactEnquiry(form) {
+  if(!['home','contact','usSoftwareServices','ukSoftwareServices','indiaSoftwareServices','crmCampaignUS','crmCampaignGB','crmCampaignIN'].includes(document.body.dataset.page) || !['home','contact'].includes(form.dataset.form) || form._compactEnquiryBound)return;
+  form._compactEnquiryBound=true;form.dataset.compactEnquiry='1';
+  if(document.body.dataset.page.startsWith('crmCampaign'))for(const link of document.querySelectorAll('.topbar a[href^="/demo-request/"],.mobile-contact-demo'))link.href='#regional-enquiry';
+  const e=form.elements,grid=form.querySelector('.form-grid'),qualification=form.querySelector('[data-lead-qualification]');
+  const defaultInterest=document.body.dataset.page.startsWith('crmCampaign')?'CRM & ERP Package':'Need guidance';
+  if(!qualification||!grid)return;
+  let optional=form.querySelector('.enquiry-optional');
+  if(!optional){optional=document.createElement('details');optional.className='enquiry-optional';const summary=document.createElement('summary');optional.append(summary);const note=[...form.children].find(node=>node.classList.contains('form-help'));if(note)note.before(optional);else grid.after(optional);}
+  optional.querySelector('summary').textContent='Add service, budget or contact preferences (optional)';
+  let optionalGrid=optional.querySelector('.form-grid');if(!optionalGrid){optionalGrid=document.createElement('div');optionalGrid.className='form-grid';optional.append(optionalGrid);}
+  const country=e.projectCountry.closest('.field');
+  for(const name of ['interest','phone','businessType','quoteCurrency','projectBudget','contactChannel','contactTimezone','contactDate','contactTime']){const field=e[name]?.closest('.field');if(field&&field!==country)optionalGrid.append(field);}
+  for(const field of [...grid.children])if(field.tagName==='FIELDSET'&&field!==qualification&&!field.classList.contains('crm-workflow-review'))optionalGrid.append(field);
+  qualification.querySelector('legend').textContent='Your business country';
+  qualification.querySelector(':scope > .form-help')?.remove();
+  const message=e.message.closest('.field');message.before(qualification);
+  if(!e.interest.value){e.interest.value=defaultInterest;e.interest.dispatchEvent(new Event('change'));}e.interest.required=false;
+  e.name.required=true;
+  if(!optional.querySelector('.compact-contact-note')){const note=document.createElement('p');note.className='form-help compact-contact-note';note.textContent='A contact time is optional. If you request one, choose your time zone. Availability and project pricing are confirmed with the team.';optional.append(note);}
+  e.contactTimezone.closest('.field').querySelector('label').textContent='Contact time zone (for a preferred time)';
+  let implicitZone=false;
+  function sync(reset=false){
+    const scheduled=!!(e.contactDate.value||e.contactTime.value);
+    if(reset)implicitZone=false;
+    if(!e.contactTimezone.value&&!scheduled){e.contactTimezone.value='UTC';implicitZone=true;}
+    if(scheduled&&implicitZone){e.contactTimezone.value='';implicitZone=false;}
+    e.contactTimezone.required=scheduled;
+    e.contactTimezone.setCustomValidity(scheduled&&!e.contactTimezone.value?'Choose the time zone for your preferred contact time.':'');
+  }
+  e.projectCountry.addEventListener('change',()=>sync(true));
+  e.contactTimezone.addEventListener('change',()=>{implicitZone=false;sync();});
+  for(const field of [e.contactDate,e.contactTime])field.addEventListener('input',()=>sync());
+  form.addEventListener('invalid',event=>{let node=event.target.parentElement;while(node&&node!==form){if(node.tagName==='DETAILS')node.open=true;node=node.parentElement;}},true);
+  // Keep keyboard focus and its label clear of the sticky header and contact bar.
+  form.addEventListener('focusin',event=>{const field=event.target;if(!field.matches('input:not([type=hidden]),select,textarea'))return;requestAnimationFrame(()=>{if(document.activeElement!==field)return;const rect=field.getBoundingClientRect(),header=document.querySelector('header')?.getBoundingClientRect(),bar=document.querySelector('.mobile-contact-bar'),bottom=bar&&getComputedStyle(bar).display!=='none'?Math.min(innerHeight,bar.getBoundingClientRect().top):innerHeight,top=Math.min(rect.top,...[...field.labels||[]].map(label=>label.getBoundingClientRect().top));if(top<(header?.bottom||0)+8||rect.bottom>bottom-8)field.scrollIntoView({behavior:'instant',block:'center'});});});
+  form.addEventListener('reset',()=>queueMicrotask(()=>{optional.open=false;if(!e.interest.value)e.interest.value=defaultInterest;sync(true);}));
+  const submit=form.querySelector('button[type=submit]');submit.dataset.enquirySubmit='';submit.disabled=false;
+  sync();
+}
+
+
+// A separate, optional permission applies only to configured CRM ad landing pages.
+let adsCapabilityPromise=null;
+function bindAdsMeasurement(form){
+ const routes={'/us/travel-agency-crm/':'US','/uk/travel-agency-crm/':'GB','/india/travel-agency-crm/':'IN'},market=routes[location.pathname],gclid=new URL(location.href).searchParams.get('gclid');
+ if(!market||form.dataset.form!=='contact'||!gclid||!/^[-A-Za-z0-9_]{1,512}$/.test(gclid)||navigator.doNotTrack==='1'||navigator.globalPrivacyControl===true)return;
+ if(!adsCapabilityPromise)adsCapabilityPromise=(async()=>{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);try{const response=await fetch('/api/enquiries?capabilities=ads-measurement',{credentials:'same-origin',cache:'no-store',signal:controller.signal});if(!response.ok)return null;return await response.json();}catch(_){return null;}finally{clearTimeout(timer);}})();
+ adsCapabilityPromise.then(config=>{if(!config?.markets?.[market]||config.policy!=='ads-click-v1'||form._adsChoice)return;const box=document.createElement('div');box.className='ads-measurement-choice';const label=document.createElement('label'),choice=document.createElement('input');choice.type='checkbox';choice.name='adsMeasurementConsent';label.append(choice,document.createTextNode(' Allow BANDEVI to share this advertising click and any qualified-lead or won-project outcome with Google to measure advertising. Optional; your enquiry works without this permission.'));const help=document.createElement('p');help.className='form-help';help.append('Separate from analytics permission. Active click records expire after 90 days. ');const link=document.createElement('a');link.href='/privacy-policy/#advertising-measurement';link.textContent='Details and withdrawal';help.append(link);box.append(label,help);form.querySelector('button[type=submit]').before(box);form._adsChoice={choice,gclid};});
+}
+function adsMeasurementPayload(form){const state=form._adsChoice;return state?.choice.checked&&navigator.doNotTrack!=='1'&&navigator.globalPrivacyControl!==true?{adsMeasurement:{version:1,consent:true,policy:'ads-click-v1',gclid:state.gclid}}:{};}
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
   document.querySelectorAll("[data-form]").forEach((form) => {
     bindRegionalValidationScroll(form);
     bindLeadQualification(form);
+    bindAdsMeasurement(form);
     bindCrmWorkflowReview(form);
     const type = form.dataset.form;
     if (type === "contact") {
@@ -576,6 +650,8 @@ function bindForms() {
       bindEnquiryJourney(form);
     }
 
+    bindCompactEnquiry(form);
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const note = form.querySelector(".form-note");
@@ -595,10 +671,11 @@ function bindForms() {
         if (form.dataset.sending === 'true') return;
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
-          interest: data.interest || (type==='contact'?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
+          interest: data.interest || (['contact','home'].includes(type)?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
           ...(data.projectBrief ? {projectBrief: JSON.parse(data.projectBrief)} : {}),
           ...enquiryQualification(form,data),
           ...crmWorkflowReviewPayload(form),
+          ...adsMeasurementPayload(form),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),
@@ -630,7 +707,8 @@ function bindForms() {
             if (response.status === 409) delete form.dataset.payload;
             const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';throw failure;
           }
-          savedEnquiryReceipt(note, result.reference, type);
+          savedEnquiryReceipt(note, result.reference, type, payload);
+          if(type!=='demo'&&/^\/demo-booking\/#review\.BG-[A-F0-9]{16}\.[a-f0-9]{64}$/.test(result.demoBookingUrl||'')){const book=document.createElement('a');book.className='button dark receipt-book-review';book.href=result.demoBookingUrl;book.textContent='Book your demo review';note.append(book);const help=document.createElement('p');help.textContent='Your enquiry is already saved. Choose an available slot without entering your details again. This private link is valid for 7 days; a meeting is confirmed only after reservation.';note.append(help);}
           if(type==='demo'){
             if(result.appointment?.confirmed){
               note.append(' Demo confirmed for '+new Date(result.appointment.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST. Joining details follow separately.');

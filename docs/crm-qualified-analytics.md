@@ -54,6 +54,16 @@ Delivery is at-most-once attempted, not exactly-once processed. A durable per-en
 
 The ERP sample proposal stays unpublished; Goodfirms stays pending; article and outreach drafts stay unpublished and unsent.
 
+## Main-branch refresh — 26 October 2026
+
+The review branch now retains the current public layouts, service choices, error recovery, Ads-permission controls and CRM acquisition/response panels. Existing public HTML is preserved except for the shared client cache token and the additional privacy explanation. The optional analytics code still defaults off; this refresh does not configure or deploy it.
+
+The merge keeps Ads click capture and optional GA4 context capture separate. A local HTTP regression checks that both existing capability routes remain available, that each private context stays out of the business payload, and that DNT prevents both captures. The staff UI retains both withdrawal controls. No Ads export or Google event is sent by these tests.
+
+Browser setup now reveals the service field's current optional disclosure before selecting it. The public buyer regression compares actual intercepted UK/US analytics-off enquiry payloads with its baseline instead of requiring the entire client JavaScript file to remain byte-identical. This permits the reviewed optional context extension while checking that ordinary business requests remain unchanged.
+
+The original notice, retention, staging latency, duplicate-sender and controlled-processing checks remain release/activation requirements. Passing local regressions does not establish production processing or authorise activation.
+
 ## Primary references
 
 [Recommended lead events](https://developers.google.com/analytics/devguides/collection/ga4/reference/events), [Measurement Protocol reference](https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference), [sending events](https://developers.google.com/analytics/devguides/collection/protocol/ga4/sending-events), [attribution use cases](https://developers.google.com/analytics/devguides/collection/protocol/ga4/use-cases), [validation](https://developers.google.com/analytics/devguides/collection/protocol/ga4/validating-events). Checked 20 October 2026. Validation success alone does not establish live processing, consent, attribution or API-secret correctness.

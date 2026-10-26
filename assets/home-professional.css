@@ -155,3 +155,20 @@ body[data-page="home"] .home-crm-promotion{background:#f5f1e8;border-bottom:1px 
 .home-choice-optional{font-weight:400;color:#c8c1b5;margin-left:6px;font-size:.75rem}
 .home-featured-project[data-preview-kind="demo"] [data-featured-image]{object-fit:contain;aspect-ratio:1280/720;max-height:260px;object-position:center}
 @media(max-width:760px){.home-process{font-size:.72rem}.home-process li+li::before{padding-right:6px}.home-professional-hero .home-intro-copy{line-height:1.6}.home-featured-project[data-preview-kind="demo"] [data-featured-image]{max-height:none}}
+
+/* Readable CRM preview and focused homepage, October 2026. */
+.crm-preview-workflow{padding:20px 24px;background:#f5f0e6;color:#282724}
+.crm-preview-kicker{margin:0 0 16px;color:#75572a;font-size:.72rem;font-weight:700;letter-spacing:.06em}
+.crm-preview-workflow ol{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.crm-preview-workflow li{display:flex;gap:14px;align-items:start}
+.crm-preview-workflow li>span{display:grid;place-items:center;flex:0 0 32px;height:32px;border:1px solid #d5c09a;border-radius:50%;font-size:.75rem;color:#75572a}
+.crm-preview-workflow strong{font-size:1rem}.crm-preview-workflow li p{font-size:.83rem;line-height:1.5;margin:3px 0 0;color:#625b50}
+.crm-preview-watch{display:block;margin-top:20px;padding:14px 18px;border-radius:8px;background:#272727;color:#f4e3bd;font-weight:700;font-size:.95rem;text-decoration:none}
+.crm-preview-watch span{display:block;margin-top:4px;font-size:.73rem;color:#d8d0c1;font-weight:400}
+.home-featured-project[data-preview-kind="demo"] [data-featured-image-link]{display:none}
+.home-featured-project[data-preview-kind="project"] [data-crm-workflow-preview]{display:none}
+.home-market-links{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:18px;font-size:.8rem}.home-market-links a{color:#e8d1a5;text-decoration:underline;text-underline-offset:4px;min-height:32px;display:flex;align-items:center}
+.home-service-next{margin:24px 0 0;font-size:.85rem;line-height:1.9}.home-service-next a{text-decoration:underline;text-underline-offset:4px;color:#73562a}
+.home-region-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.home-region-grid a{border:1px solid #d8c9b0;border-radius:12px;padding:20px;color:#332e26;background:#fffaf1;text-decoration:none}.home-region-grid strong{display:block;font-size:1.1rem;margin-bottom:8px}.home-region-grid span{font-size:.85rem;line-height:1.6}.home-regional-strip p{font-size:.85rem;line-height:1.7}
+.home-brand-disclosure>summary{font-size:1rem;font-weight:700;cursor:pointer;min-height:44px}.home-brand-disclosure .home-section-heading{margin-top:24px}.home-brand-summary .container .container{padding:0;width:auto}
+@media(max-width:760px){.crm-preview-workflow{padding:20px}.home-region-grid{grid-template-columns:1fr}.home-brand-disclosure .grid{grid-template-columns:1fr}}

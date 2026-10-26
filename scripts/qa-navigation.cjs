@@ -37,7 +37,7 @@ let server, browser;
       assert.equal(await page.locator('.footer-social a').count(), 4);
       assert((await page.locator('.footer-office').textContent()).includes('SCO 63'));
       assert.equal(await page.locator('.primary-nav a[href="/#selected-work"]').count(), 1);
-      assert.equal(await page.locator('.brand-line').textContent(), 'Your international software partner');
+      assert.equal(await page.locator('.brand-line').textContent(), route.startsWith('/?')||route==='/' ? 'Software. Built around you.' : 'Your international software partner');
       assert((await page.locator('.nav-solutions summary').textContent()).includes('Services'));
       for (const width of [360, 390, 768, 1180, 1181, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
@@ -142,7 +142,7 @@ let server, browser;
     await nojs.close();
     await page.setViewportSize({width:390,height:844});
     await page.goto(base+'/');
-    assert((await page.locator('h1').textContent()).includes('Built around your business.'));
+    assert.match(await page.locator('h1').innerText(),/Custom software for your\s+sales and operations\./);
     await page.locator('[data-nav-toggle]').click();
     await page.locator('.nav-markets summary').click();
     await Promise.all([page.waitForURL('**/sg/software-development/'),page.locator('.nav-markets a[href="/sg/software-development/"]').click()]);

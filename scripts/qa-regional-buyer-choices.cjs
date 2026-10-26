@@ -1,3 +1,4 @@
+const revealOptional=require('./qa-qualification-fields.cjs').revealOptional;
 // Real navigation and captured payloads only; every write and external request is intercepted.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),{chromium}=require('playwright');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'qa-results/regional-buyer-choices');fs.mkdirSync(out,{recursive:true});
@@ -18,11 +19,11 @@ let server,browser;
    assert.deepEqual(await interest.locator('option').evaluateAll(es=>es.filter(e=>e.value&&!e.hidden).map(e=>e.value)),services);
    assert.equal(await interest.locator('option[hidden]').count(),aliases.includes(value)?1:0);
    assert.deepEqual(await form.locator('[name=quoteCurrency] option').evaluateAll(es=>es.map(e=>e.value)),['','GBP','USD','INR']);assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),currency);assert(!(await p.locator('#service-offers').innerText()).includes('EUR'));
-   await form.locator('[name=name]').fill('Synthetic buyer-choice QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic routing check; intercepted only.');await form.locator('[name=contactTimezone]').selectOption(zone);
+   await form.locator('[name=name]').fill('Synthetic buyer-choice QA');await form.locator('[name=email]').fill('qa@example.test');await form.locator('[name=message]').fill('Synthetic routing check; intercepted only.');await revealOptional(form.locator('[name=contactTimezone]'));await form.locator('[name=contactTimezone]').selectOption(zone);
    const before=payloads.length;await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();assert.equal(payloads.length,before+1);const saved=payloads.at(-1);assert.equal(saved.interest,value);assert.equal(saved.source,route);assert.equal(saved.qualification.country,country);assert.equal(saved.qualification.currency,currency);assert.equal(saved.attribution.landing_page,landing);assert.equal(saved.attribution.channel,'organic_search');assert.equal(saved.attribution.utm_source,'');assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));cases++;
   }
   // An old link must not prevent a visitor choosing a different current service.
-  await p.goto(base+'/'+market+'/software-development/?solution=Mobile%20app%20development'+(source?'&source=1':''));await p.waitForFunction(()=>!document.querySelector('[data-enquiry-submit]').disabled);await p.locator('#regional-enquiry [name=interest]').selectOption('Travel ERP Package');assert.equal(await p.locator('#regional-enquiry [name=interest]').inputValue(),'Travel ERP Package');
+  await p.goto(base+'/'+market+'/software-development/?solution=Mobile%20app%20development'+(source?'&source=1':''));await p.waitForFunction(()=>!document.querySelector('[data-enquiry-submit]').disabled);await revealOptional(p.locator('#regional-enquiry [name=interest]'));await p.locator('#regional-enquiry [name=interest]').selectOption('Travel ERP Package');assert.equal(await p.locator('#regional-enquiry [name=interest]').inputValue(),'Travel ERP Package');
   await p.locator('#regional-enquiry').screenshot({path:path.join(out,market+'-'+(source?'source':'static')+'.png')});assert.deepEqual(errors,[]);await c.close();
  }
  for(const market of ['uk','us']){

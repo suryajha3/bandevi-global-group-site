@@ -1,5 +1,6 @@
 'use strict';
 (()=>{
+if(location.hash.startsWith('#review.'))return;
 const label=slot=>window.BandeviDemoTime?BandeviDemoTime.label(slot):new Date(slot.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'})+' IST · '+slot.duration+' minutes';
 async function request(url,body){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);try{const r=await fetch(url,{credentials:'same-origin',cache:'no-store',signal:controller.signal,...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});const data=await r.json();if(!r.ok)throw Error(data.error||'Please try again.');return data;}finally{clearTimeout(timer);}}
 async function downloadCalendar(token){const result=await request('/api/demo/manage',{token,action:'calendar'});if(!result.calendar)throw Error('No calendar event is available.');const url=URL.createObjectURL(new Blob([result.calendar],{type:'text/calendar'}));const a=document.createElement('a');a.href=url;a.download='bandevi-demo.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

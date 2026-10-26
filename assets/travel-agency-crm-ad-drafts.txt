@@ -6,7 +6,7 @@ REVIEW WORKSHEET: the CSV is not an Ads Editor import or a live campaign. Ad-acc
 
 United States · quotation currency USD
 Campaign: travel_agency_crm_us_202610
-Landing page: https://bandeviglobalgroup.com/us/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm
+Landing page: https://bandeviglobalgroup.com/us/travel-agency-crm/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_us_202610
 Budget: not set. Advertising account currency: not set.
 SEARCH VARIANT: Workflow
 Headline: CRM For Travel Agencies
@@ -38,11 +38,11 @@ Keyword suggestions: [travel agency crm], [crm for travel agents], [travel crm s
 Negative suggestions: "travel agent jobs", "crm jobs", "crm training course", "crm certification", "free crm download", "cracked crm", "cheap flights", "holiday packages"
 LinkedIn headline: Plan a CRM around your travel agency
 LinkedIn text: Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your United States team. Scope, integrations and USD project quotations are agreed in writing.
-LinkedIn URL: https://bandeviglobalgroup.com/us/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_us_202610#travel-agency-crm
+LinkedIn URL: https://bandeviglobalgroup.com/us/travel-agency-crm/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_us_202610
 
 United Kingdom · quotation currency GBP
 Campaign: travel_agency_crm_uk_202610
-Landing page: https://bandeviglobalgroup.com/uk/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm
+Landing page: https://bandeviglobalgroup.com/uk/travel-agency-crm/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_uk_202610
 Budget: not set. Advertising account currency: not set.
 SEARCH VARIANT: Workflow
 Headline: CRM For Travel Agencies
@@ -74,11 +74,11 @@ Keyword suggestions: [travel agency crm], [crm for travel agents], [travel crm s
 Negative suggestions: "travel agent jobs", "crm jobs", "crm training course", "crm certification", "free crm download", "cracked crm", "cheap flights", "holiday packages"
 LinkedIn headline: Plan a CRM around your travel agency
 LinkedIn text: Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your United Kingdom team. Scope, integrations and GBP project quotations are agreed in writing.
-LinkedIn URL: https://bandeviglobalgroup.com/uk/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_uk_202610#travel-agency-crm
+LinkedIn URL: https://bandeviglobalgroup.com/uk/travel-agency-crm/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_uk_202610
 
 India · quotation currency INR
 Campaign: travel_agency_crm_india_202610
-Landing page: https://bandeviglobalgroup.com/india/software-development/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm
+Landing page: https://bandeviglobalgroup.com/india/travel-agency-crm/?utm_source=google&utm_medium=cpc&utm_campaign=travel_agency_crm_india_202610
 Budget: not set. Advertising account currency: not set.
 SEARCH VARIANT: Workflow
 Headline: CRM For Travel Agencies
@@ -110,7 +110,7 @@ Keyword suggestions: [travel agency crm], [crm for travel agents], [travel crm s
 Negative suggestions: "travel agent jobs", "crm jobs", "crm training course", "crm certification", "free crm download", "cracked crm", "cheap flights", "holiday packages"
 LinkedIn headline: Plan a CRM around your travel agency
 LinkedIn text: Who owns the next follow-up in your agency? Review a fictional travel CRM workflow, then discuss enquiries, named consultants, quotations and next actions for your India team. Scope, integrations and INR project quotations are agreed in writing.
-LinkedIn URL: https://bandeviglobalgroup.com/india/software-development/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_india_202610#travel-agency-crm
+LinkedIn URL: https://bandeviglobalgroup.com/india/travel-agency-crm/?utm_source=linkedin&utm_medium=paid_social&utm_campaign=travel_agency_crm_india_202610
 
 BEFORE LAUNCH
 Confirm the advertising account and its currency; choose a budget per market.

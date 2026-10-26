@@ -1526,3 +1526,12 @@ body[data-page="usSoftwareServices"] :is(#offer-website, #offer-crm, #offer-trav
 .buyer-confidence{background:#edf5f3;border-bottom:1px solid #d9e5e1}.buyer-proof{display:flex;flex-direction:column}.proof-kind{font-size:.75rem;font-weight:700;letter-spacing:.04em;color:#176358;margin-bottom:12px}.buyer-proof h3{margin:0 0 12px}.buyer-proof .text-link{margin-top:auto;min-height:44px}.buyer-proof .proof-context{font-size:.78rem;line-height:1.6;color:#4b6064;margin:12px 0 0}.buyer-record-request{font-size:.92rem;line-height:1.7;margin:22px 0 0}.buyer-record-request a{color:#176358;text-decoration:underline;text-underline-offset:3px}#buyer-confidence{scroll-margin-top:100px}
 
 .enquiry-qualification{margin:16px 0;padding:20px;border:1px solid #d8e4e0;border-radius:12px;background:#f6faf8;min-width:0}.enquiry-qualification legend{font-weight:700;padding:0 7px}.enquiry-qualification .form-grid{margin-top:14px}.enquiry-qualification .field{min-width:0}.enquiry-qualification input,.enquiry-qualification select{max-width:100%;width:100%}
+
+/* Short enquiry entry; detailed planning stays available on demand. */
+[data-compact-enquiry] .enquiry-qualification{padding:0;border:0;margin:0}
+[data-compact-enquiry] .enquiry-qualification>legend{font-size:.8rem;color:#655e51;margin-bottom:8px}
+[data-compact-enquiry] .enquiry-qualification>.form-grid{grid-template-columns:1fr}
+[data-compact-enquiry] .enquiry-optional{margin:20px 0;border:1px solid #d8c9b0;border-radius:10px;padding:16px}
+[data-compact-enquiry] .enquiry-optional>summary{cursor:pointer;font-weight:700;line-height:1.5;min-height:32px}
+[data-compact-enquiry] .enquiry-optional[open]>.form-grid{margin-top:18px}
+[data-compact-enquiry] .compact-contact-note{margin-bottom:0}

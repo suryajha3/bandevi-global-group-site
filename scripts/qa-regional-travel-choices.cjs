@@ -1,3 +1,4 @@
+const revealOptional=require('./qa-qualification-fields.cjs').revealOptional;
 // Exercise the public marketing journey locally. Never send an enquiry or external event.
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 const assert=require('node:assert/strict'),{chromium}=require('playwright');
@@ -34,7 +35,7 @@ let server,browser;
       await p.goto(base+regional+(source?'?source=1':''));
       const card=p.locator('[data-regional-travel-choices]');await card.waitFor();
       assert.equal(await p.locator('#software-services .card').count(),7,'No additional service cards');
-      assert.match(await card.innerText(),/Travel CRM: enquiries and sales/);
+      assert.match(await card.innerText(),slug==='us'?/Travel CRM: inquiries and sales/:/Travel CRM: enquiries and sales/);
       assert.match(await card.innerText(),/Travel ERP: booking operations and finance/);
       const content=await card.evaluate(e=>({text:e.innerText,links:[...e.querySelectorAll('a')].map(a=>[a.textContent,a.getAttribute('href')])}));
       if(parity.has(slug))assert.deepEqual(content,parity.get(slug));else parity.set(slug,content);
@@ -54,7 +55,7 @@ let server,browser;
       assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),currency);
       assert.equal(await form.locator('[name=name]').inputValue(),'');assert.equal(await form.locator('[name=email]').inputValue(),'');
       await form.locator('[name=name]').fill('Synthetic regional QA');await form.locator('[name=email]').fill('qa@example.test');
-      await form.locator('[name=message]').fill('Local intercepted service choice check.');await form.locator('[name=contactTimezone]').selectOption(zone);
+      await form.locator('[name=message]').fill('Local intercepted service choice check.');await revealOptional(form.locator('[name=contactTimezone]'));await form.locator('[name=contactTimezone]').selectOption(zone);
       const previous=writes.length;await form.locator('[type=submit]').click();await form.locator('.form-note').filter({hasText:/BG-[0-9A-F]{16}/}).waitFor();
       assert.equal(writes.length,previous+1);const saved=writes.at(-1);
       assert.equal(saved.interest,service);assert.equal(saved.source,regional);assert.equal(saved.qualification.country,country);assert.equal(saved.qualification.currency,currency);

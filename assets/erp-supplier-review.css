@@ -1,0 +1,30 @@
+/* Travel ERP finance scope example; no shared layout or runtime changes. */
+body[data-page="erp"] .erp-supplier-review{margin:30px 0;color:#263c43;min-width:0}
+.erp-supplier-review table{width:100%;min-width:0;border-collapse:separate;border-spacing:0;table-layout:fixed;background:#fffdf9;border:1px solid #cfc8ba;border-radius:10px;overflow:hidden;font-size:15px;line-height:1.65}
+.erp-supplier-review caption{text-align:left;caption-side:top;font-size:14px;font-weight:650;color:#685333;padding:0 0 14px}
+.erp-supplier-review th,.erp-supplier-review td{padding:19px 22px;text-align:left;vertical-align:top;overflow-wrap:anywhere;border-bottom:1px solid #ded9cf}
+.erp-supplier-review thead th{background:#ece7dd;color:#35382f;font-size:13px;font-weight:700;line-height:1.5}
+.erp-supplier-review th:first-child{width:25%}
+.erp-supplier-review tbody th{font-weight:650;color:#263c43;background:transparent}
+.erp-supplier-review tbody tr:last-child>*{border-bottom:0}
+.erp-supplier-review .erp-review-mobile-label{display:none}
+.erp-review-acceptance{margin:26px 0 20px;padding:22px 25px;background:#f3f5f0;border-left:3px solid #a68b54;border-radius:0 6px 6px 0}
+.erp-review-acceptance h3{font-size:20px;line-height:1.4;margin:0 0 14px;color:#263c43}
+.erp-review-acceptance ul{padding-left:21px;margin:0}
+.erp-review-acceptance li{font-size:15px;line-height:1.75;margin:0 0 8px}
+.erp-review-acceptance li:last-child{margin-bottom:0}
+#erp-supplier-scope-note{font-size:14px;line-height:1.8;max-width:1000px;color:#4e5d60}
+@media(max-width:760px){
+ .erp-supplier-review table,.erp-supplier-review tbody{display:block;width:100%}
+ .erp-supplier-review caption{display:block;padding:0 0 14px}
+ .erp-supplier-review thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .erp-supplier-review tbody tr{display:block;border-top:1px solid #cfc8ba;padding:17px 18px}
+ .erp-supplier-review tbody tr:first-child{border-top:0}
+ .erp-supplier-review tbody th,.erp-supplier-review tbody td{display:block;width:100%;padding:0;border:0}
+ .erp-supplier-review tbody th:first-child{width:100%;font-size:16px;line-height:1.5;padding-bottom:6px}
+ .erp-supplier-review tbody td{font-size:14px;line-height:1.75;margin-top:12px}
+ .erp-supplier-review .erp-review-mobile-label{display:block;color:#685333;font-size:11px;line-height:1.5;font-weight:700;letter-spacing:.02em;margin-bottom:5px}
+ .erp-review-acceptance{padding:19px 18px}
+ .erp-review-acceptance h3{font-size:18px}
+ .erp-review-acceptance li{font-size:14px}
+}
