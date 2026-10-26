@@ -1,6 +1,6 @@
 # Public navigation cues — 26 October 2026
 
-Keep the current midnight navy, ivory and champagne palette and existing page columns. The public presentation helper adds native breadcrumb links within inner-page intros, with Home and real project/market parents where applicable. The current page is text with aria-current=page. The homepage has no breadcrumb. Canonical paths and known parent routes determine the trail; query strings, customer details and external destinations are not used.
+Keep the current midnight navy, ivory and champagne palette and existing page columns. The public presentation helper adds native breadcrumb links within inner-page intros, with Home and real project/market parents where applicable. The current page is text with aria-current=page. The homepage has no breadcrumb. The standalone chairman-photo evidence page keeps its original header-free presentation; breadcrumbs apply to the shared public site shell. Canonical paths and known parent routes determine the trail; query strings, customer details and external destinations are not used.
 
 Existing service and regional section links receive aria-current=location as the relevant anchor reaches the visible area below the sticky header. The indicator respects each target's actual scroll margin and updates on scrolling, resizing and browser history navigation. It does not change URL hashes or create history entries while scrolling; anchor clicks retain native navigation. The underline/border uses existing colours and does not change link width between states.
 

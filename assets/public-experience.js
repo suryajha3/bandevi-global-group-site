@@ -177,7 +177,7 @@
  }
  const navigationGroups=new WeakSet(),filterSummaries=new WeakSet(),stepProgress=new WeakSet();
  function breadcrumbs(){
-  const main=document.querySelector('main'),heading=main?.querySelector('h1');if(!heading||main.querySelector('.public-breadcrumbs'))return;
+  const main=document.querySelector('main'),heading=main?.querySelector('h1');if(!document.body.dataset.page||!heading||main.querySelector('.public-breadcrumbs'))return;
   let pathname=location.pathname;try{const canonical=new URL(document.querySelector('link[rel="canonical"]').href);if(canonical.origin===location.origin)pathname=canonical.pathname;}catch(_){}
   if(pathname==='/')return;
   const labels={'/about-us/':'About BANDEVI','/contact-us/':'Contact','/demo-request/':'Request a demo','/case-studies/':'Our work','/it-products/':'Products & services','/website-mobile-app-development/':'Websites & apps','/crm-erp-solutions/':'CRM & ERP','/travel-technology/':'Travel technology','/customer-portal/':'Customer portals','/business-automation/':'Business automation','/offices/':'Office & service locations','/service-offers/':'Compare service offers','/sample-crm/':'Interactive CRM demo','/crm-demo/':'CRM walkthrough','/international/':'International projects','/projects/trip-sarathi/':'Trip Sarathi','/projects/maximtrip/':'MaximTrip','/projects/tripodeal/':'TripOdeal','/projects/bandevi-website/':'BANDEVI website'};
