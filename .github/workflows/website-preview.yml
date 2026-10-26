@@ -11,6 +11,131 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  buyer-clarity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the mobile loading comparison
+        uses: actions/checkout@v6
+        with:
+          ref: 970e66a4170862705affca9ecc9db55cd02572db
+          path: qa-buyer-baseline
+          persist-credentials: false
+      - name: Install pinned public buyer checks
+        run: npm install --prefix /tmp/bgg-buyer-clarity --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-buyer-clarity/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check project proof, form recovery, regional wording and mobile loading
+        env:
+          NODE_PATH: /tmp/bgg-buyer-clarity/node_modules
+          QA_BUYER_BASELINE_DIR: ${{ github.workspace }}/qa-buyer-baseline
+        run: node scripts/qa-buyer-clarity.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: buyer-clarity-checks
+          path: qa-results/buyer-clarity/
+          retention-days: 3
+  public-navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Install pinned navigation browser checks
+        run: npm install --prefix /tmp/bgg-navigation --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines for navigation and native zoom
+        run: /tmp/bgg-navigation/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check breadcrumbs, section position, filters, CRM progress, native zoom and landscape
+        env:
+          NODE_PATH: /tmp/bgg-navigation/node_modules
+        run: node scripts/qa-public-navigation.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-navigation-checks
+          path: qa-results/public-navigation/
+          retention-days: 3
+  public-cross-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the homepage production comparison
+        uses: actions/checkout@v6
+        with:
+          ref: 8b18898865fe79c5103577c5c2495f7ce97ed7a2
+          path: qa-home-baseline
+          persist-credentials: false
+      - name: Install pinned public browser checks
+        run: npm install --prefix /tmp/bgg-public-cross-browser --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Check out the public palette comparison
+        uses: actions/checkout@v6
+        with:
+          ref: bd75eade51363f717ab2a4c09958e1fe4b5cdeec
+          path: qa-palette-baseline
+          persist-credentials: false
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-public-cross-browser/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check sharing previews and submitted enquiry receipts
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-sharing-receipt.cjs --all-browsers
+      - name: Check homepage fictional steps against the production layout
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+          QA_BASELINE_DIR: ${{ github.workspace }}/qa-home-baseline
+        run: node scripts/qa-home-crm-steps.cjs --all-browsers
+      - name: Check homepage proof and optional service help
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-home-trust-help.cjs --all-browsers
+      - name: Check location tools and enquiry handoff
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-office-locations.cjs --all-browsers
+      - name: Check public palette contrast and retained layouts
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+          QA_PALETTE_BASELINE_DIR: ${{ github.workspace }}/qa-palette-baseline
+        run: node scripts/qa-public-palette.cjs --all-browsers
+      - name: Check public finishing, required labels and native coverage navigation
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-public-finish.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-sharing-receipt-checks
+          path: |
+            qa-results/sharing-receipt/
+            qa-results/home-crm-steps/
+            qa-results/home-trust-help/
+            qa-results/office-locations/
+            qa-results/public-palette/
+            qa-results/public-finish/
+          retention-days: 3
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -38,6 +163,8 @@ jobs:
           node-version: '24'
       - name: Install isolated browser test dependency
         run: npm install --prefix /tmp/bgg-checks --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
       - name: Install Chromium
         run: /tmp/bgg-checks/node_modules/.bin/playwright install --with-deps chromium
       - name: Install pinned PDF runtime
@@ -46,6 +173,7 @@ jobs:
         env:
           NODE_PATH: /tmp/bgg-checks/node_modules
         run: |
+          node scripts/qa-swipe-video-review.cjs
           node scripts/qa-interaction-polish.cjs
           node scripts/qa-public-experience.cjs
           node scripts/qa-brand-polish.cjs

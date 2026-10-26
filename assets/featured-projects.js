@@ -11,10 +11,23 @@
   const header=element('div','viewer-header'),title=element('h2',null,'Project screenshot');title.id='featured-viewer-title';const close=button('Close');close.setAttribute('aria-label','Close screenshot viewer');header.append(title,close);
   const tools=element('div','viewer-tools'),out=button('Zoom out'),zoom=element('span','viewer-zoom','100%'),inside=button('Zoom in'),fit=button('Reset zoom');zoom.setAttribute('aria-live','polite');tools.append(out,zoom,inside,fit);
   const navigation=element('div','viewer-project-navigation'),previous=button('← Previous'),position=element('span','viewer-position'),next=button('Next →');navigation.setAttribute('role','group');navigation.setAttribute('aria-label','Browse project previews');previous.setAttribute('aria-label','Previous project');next.setAttribute('aria-label','Next project');previous.setAttribute('aria-keyshortcuts','ArrowLeft');next.setAttribute('aria-keyshortcuts','ArrowRight');position.setAttribute('role','status');position.setAttribute('aria-live','polite');position.setAttribute('aria-atomic','true');navigation.append(previous,position,next);tools.prepend(navigation);
-  const viewport=element('div','viewer-image-wrap');viewport.tabIndex=0;viewport.setAttribute('aria-label','Project screenshot; scroll to inspect when zoomed');const image=element('img','viewer-image');viewport.append(image);
+  const viewport=element('div','viewer-image-wrap');viewport.tabIndex=0;viewport.setAttribute('aria-label','Project screenshot; swipe or use navigation buttons at normal zoom, scroll to inspect when zoomed');const image=element('img','viewer-image');viewport.append(image);
+  const swipeHint=element('span','viewer-swipe-hint','Swipe left or right at normal zoom.');tools.append(swipeHint);
   const footer=element('div','viewer-footer'),note=element('p',null,'Public interface captured 6 October 2026. Project reference supplied by BANDEVI’s owner; no customer endorsement implied.');note.id='featured-viewer-note';const links=element('div','viewer-links'),projectLink=element('a',null,'Explore this project ↗'),raw=element('a',null,'Open image in a new tab ↗');projectLink.href='/projects/trip-sarathi/';raw.href='/assets/portfolio-trip-sarathi.webp';raw.target='_blank';raw.rel='noopener noreferrer';links.append(projectLink,raw);footer.append(note,links);dialog.append(header,tools,viewport,footer);document.body.append(dialog);
   if(window.bgPublicMedia)window.bgPublicMedia(image);
-  let scale=1,opener=null,baseWidth=0,current=0;
+  let scale=1,opener=null,baseWidth=0,current=0,gesture=null;const touches=new Set();
+  viewport.addEventListener('pointerdown',event=>{
+   if(event.pointerType!=='touch')return;touches.add(event.pointerId);
+   if(touches.size!==1||!event.isPrimary||scale!==1||!dialog.open||(window.visualViewport?.scale||1)>1||event.target.closest('a,button')){gesture=null;return;}
+   gesture={id:event.pointerId,x:event.clientX,y:event.clientY,time:performance.now(),project:current};
+  },{passive:true});
+  viewport.addEventListener('pointerup',event=>{
+   touches.delete(event.pointerId);const start=gesture;gesture=null;
+   if(!start||start.id!==event.pointerId||touches.size||scale!==1||!dialog.open||start.project!==current||(window.visualViewport?.scale||1)>1)return;
+   const dx=event.clientX-start.x,dy=event.clientY-start.y,threshold=Math.max(48,Math.min(80,viewport.clientWidth*.15));
+   if(Math.abs(dx)>=threshold&&Math.abs(dx)>Math.abs(dy)*1.6&&performance.now()-start.time<=800)showProject(current+(dx<0?1:-1));
+  },{passive:true});
+  viewport.addEventListener('pointercancel',event=>{touches.delete(event.pointerId);gesture=null;},{passive:true});
   function showProject(index){
    current=(index+projects.length)%projects.length;onSelect(current);
    const project=projects[current],view=preview(project,root.dataset.device),kind=root.dataset.device==='mobile'&&!project.record?'Mobile preview':project.category||'public homepage';
@@ -22,11 +35,11 @@
    image.src=view.image;image.alt=view.alt;image.width=view.width;image.height=view.height;projectLink.href=project.record||'/projects/'+project.slug+'/';projectLink.textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';raw.href=view.image;note.textContent=view.source;scale=1;viewport.scrollTo(0,0);if(dialog.open)measure();
   }
   previous.addEventListener('click',()=>showProject(current-1));next.addEventListener('click',()=>showProject(current+1));
-  function applyZoom(next){scale=Math.max(1,Math.min(2.5,next));image.style.width=(baseWidth*scale)+'px';zoom.textContent=Math.round(scale*100)+'%';out.disabled=scale===1;inside.disabled=scale===2.5;fit.disabled=scale===1;}
+  function applyZoom(next){scale=Math.max(1,Math.min(2.5,next));viewport.dataset.viewerFit=String(scale===1);if(scale!==1)gesture=null;image.style.width=(baseWidth*scale)+'px';zoom.textContent=Math.round(scale*100)+'%';out.disabled=scale===1;inside.disabled=scale===2.5;fit.disabled=scale===1;}
   function measure(){baseWidth=Math.min(viewport.clientWidth,viewport.clientHeight*Number(image.getAttribute('width'))/Number(image.getAttribute('height')));applyZoom(scale);}
   new ResizeObserver(()=>{if(dialog.open)measure();}).observe(viewport);
   out.addEventListener('click',()=>applyZoom(scale-.25));inside.addEventListener('click',()=>applyZoom(scale+.25));fit.addEventListener('click',()=>{applyZoom(1);viewport.scrollTo(0,0);});close.addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('close',()=>{document.documentElement.classList.remove('featured-viewer-open');if(opener&&opener.isConnected){opener.focus({preventScroll:true});const box=opener.getBoundingClientRect();if(box.top<90||box.bottom>innerHeight)opener.scrollIntoView({block:'center',behavior:'instant'});}});
+  dialog.addEventListener('close',()=>{gesture=null;touches.clear();document.documentElement.classList.remove('featured-viewer-open');if(opener&&opener.isConnected){opener.focus({preventScroll:true});const box=opener.getBoundingClientRect();if(box.top<90||box.bottom>innerHeight)opener.scrollIntoView({block:'center',behavior:'instant'});}});
   dialog.addEventListener('keydown',event=>{if(event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||!['ArrowLeft','ArrowRight'].includes(event.key))return;if(scale>1&&event.target.closest('.viewer-image-wrap'))return;event.preventDefault();showProject(current+(event.key==='ArrowLeft'?-1:1));});
   dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not(:disabled),a[href],[tabindex="0"]')].filter(node=>node.getClientRects().length);const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
   dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
@@ -49,13 +62,13 @@
   const tabs=[...root.querySelectorAll('[data-featured-index]')],panel=root.querySelector('#featured-project-panel'),image=root.querySelector('[data-featured-image]');
   const controls=document.createElement('div');controls.className='project-device-controls';controls.setAttribute('role','group');controls.setAttribute('aria-label','Project preview device');controls.hidden=true;
   const deviceNote=document.createElement('span');deviceNote.textContent='Public interface captures';controls.append(deviceNote);
-  let device='desktop',current=4;
+  let device='desktop',current=3;
   for(const value of ['desktop','mobile']){const button=document.createElement('button');button.type='button';button.textContent=value==='desktop'?'Desktop':'Mobile';button.dataset.previewDevice=value;button.setAttribute('aria-pressed',String(value===device));button.addEventListener('click',()=>{device=value;select(current);});controls.append(button);}
   const frame=document.createElement('div');frame.className='featured-media-frame';const imageLink=root.querySelector('[data-featured-image-link]');imageLink.before(controls,frame);frame.append(imageLink);if(window.bgPublicMedia)window.bgPublicMedia(image,frame);
   const chooser=document.querySelector('#home-project-service'),projectInput=document.querySelector('[data-home-project]');
   const website='Website / App Development Package',travel='Complete Travel Website Package';
   const services={
-   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references',project:4},
+   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references',project:3},
    [website]:{text:'Plan your pages, app screens and customer enquiries. The BANDEVI website is an internal website reference; app scope is discussed separately.',href:'/website-mobile-app-development/',label:'Explore websites and apps',project:3},
    'CRM & ERP Package':{text:'Plan lead ownership, follow-ups, approvals and reporting. Explore our illustrative CRM demo; a matching completed CRM or ERP case study is not published yet.',href:'/sample-crm/',label:'Explore the illustrative CRM demo',project:4},
    [travel]:{text:'Plan travel search, enquiries and booking workflows. Review a travel portal reference, then discuss provider approvals and integrations for your scope.',href:'/travel-technology/',label:'Explore travel technology',project:0},
@@ -75,6 +88,7 @@
    root.querySelector('[data-featured-project-link]').href=record;root.querySelector('[data-featured-project-link]').textContent=project.name+' ↗';
    root.querySelector('[data-featured-name]').textContent=project.name+' · '+(project.category||'B2C travel portal');root.querySelector('[data-featured-description]').textContent=root.dataset.device==='mobile'?project.mobile:project.description;
    root.querySelector('[data-featured-source]').textContent=view.source;
+   const proof=root.querySelector('[data-featured-proof]');if(proof)proof.textContent=project.record?'Illustrative demo · fictional records':project.slug==='bandevi-website'?'Delivered internal project':'Public interface reference';
    root.querySelector('[data-featured-explore]').href=record;root.querySelector('[data-featured-explore]').textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';root.querySelector('[data-featured-larger]').href=screenshot;
    const solution=project.solution||(project.slug==='bandevi-website'?website:travel);
    const code=project.slug.replaceAll('-','_'),discuss=root.querySelector('[data-featured-discuss]');
@@ -87,7 +101,7 @@
   }
   tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});
   const viewerEnabled=installScreenshotViewer(root,projects,select);
-  panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(4);
+  panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(3);
   function guide(){
    const service=services[chooser.value]||services['Need guidance'];
    document.querySelector('[data-home-service-summary]').textContent=service.text;
