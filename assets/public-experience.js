@@ -175,8 +175,50 @@
   container.querySelector('p')?.setAttribute('hidden','');
   container.querySelector('small')?.setAttribute('hidden','');
  }
+ const navigationGroups=new WeakSet(),filterSummaries=new WeakSet(),stepProgress=new WeakSet();
+ function breadcrumbs(){
+  const main=document.querySelector('main'),heading=main?.querySelector('h1');if(!document.body.dataset.page||!heading||main.querySelector('.public-breadcrumbs'))return;
+  let pathname=location.pathname;try{const canonical=new URL(document.querySelector('link[rel="canonical"]').href);if(canonical.origin===location.origin)pathname=canonical.pathname;}catch(_){}
+  if(pathname==='/')return;
+  const labels={'/about-us/':'About BANDEVI','/contact-us/':'Contact','/demo-request/':'Request a demo','/case-studies/':'Our work','/it-products/':'Products & services','/website-mobile-app-development/':'Websites & apps','/crm-erp-solutions/':'CRM & ERP','/travel-technology/':'Travel technology','/customer-portal/':'Customer portals','/business-automation/':'Business automation','/offices/':'Office & service locations','/service-offers/':'Compare service offers','/sample-crm/':'Interactive CRM demo','/crm-demo/':'CRM walkthrough','/international/':'International projects','/projects/trip-sarathi/':'Trip Sarathi','/projects/maximtrip/':'MaximTrip','/projects/tripodeal/':'TripOdeal','/projects/bandevi-website/':'BANDEVI website'};
+  const markets={us:'United States',uk:'United Kingdom',india:'India',ae:'Dubai & UAE',sg:'Singapore'},segments=pathname.split('/').filter(Boolean),trail=[['Home','/']];
+  if(segments[0]==='projects'&&segments.length>1)trail.push(['Our work','/case-studies/#project-directory']);
+  else if(markets[segments[0]]&&segments.length>1&&segments[1]!=='software-development')trail.push([markets[segments[0]],'/'+segments[0]+'/software-development/']);
+  else if(segments[0]==='blog'&&segments.length>1)trail.push(['Blog','/blog/']);
+  const current=labels[pathname]||(markets[segments[0]]&&segments[1]==='software-development'?markets[segments[0]]:markets[segments[0]]&&segments[1]==='travel-agency-crm'?'Travel agency CRM':heading.textContent.replace(/\s+/g,' ').trim());
+  trail.push([current,null]);const nav=node('nav','public-breadcrumbs'),list=node('ol');nav.setAttribute('aria-label','Breadcrumb');list.setAttribute('role','list');
+  trail.forEach(([label,href],index)=>{const item=node('li');if(index){const separator=node('span','breadcrumb-separator','›');separator.setAttribute('aria-hidden','true');item.append(separator);}const part=node(href?'a':'span',null,label);if(href)part.href=href;else part.setAttribute('aria-current','page');item.append(part);list.append(item);});nav.append(list);const host=heading.parentElement;if(host.matches('.section-head:not(.single)'))host.before(nav);else host.prepend(nav);
+ }
+ function sectionIndicators(nav){
+  if(navigationGroups.has(nav))return;
+  const entries=[...nav.querySelectorAll('a[href^="#"]')].map(link=>{let target;try{target=document.getElementById(decodeURIComponent(link.hash.slice(1)));}catch(_){}return {link,target};}).filter(entry=>entry.target);
+  if(entries.length<2)return;navigationGroups.add(nav);nav.classList.add('section-navigation');for(const {target} of entries)target.classList.add('section-navigation-target');
+  let pending=false;
+  function update(){pending=false;const header=document.querySelector('.topbar'),offset=Math.ceil(header?.getBoundingClientRect().height||0)+20;document.documentElement.style.setProperty('--public-navigation-offset',offset+'px');
+   const ordered=entries.map(entry=>({...entry,top:entry.target.getBoundingClientRect().top})).sort((a,b)=>a.top-b.top);let active=null;for(const entry of ordered)if(entry.top<=Math.max(offset,parseFloat(getComputedStyle(entry.target).scrollMarginTop)||0)+4)active=entry.link;
+   for(const {link} of entries){if(link===active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');}
+  }
+  function schedule(){if(!pending){pending=true;requestAnimationFrame(update);}}
+  addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});addEventListener('hashchange',schedule);addEventListener('pageshow',schedule);nav.addEventListener('click',schedule);update();
+ }
+ function galleryFilterSummary(section){
+  if(filterSummaries.has(section))return;const filters=section.querySelector('.project-filters'),count=section.querySelector('.project-filter-count'),all=filters?.querySelector('[data-project-filter="all"]');if(!filters||!count||!all)return;filterSummaries.add(section);
+  const group=node('div','project-filter-summary'),selected=node('span','project-selected-filter'),clear=action('project-clear-filter','Clear filter');group.setAttribute('role','group');group.setAttribute('aria-label','Current project filter');count.before(group);group.append(selected,count,clear);
+  function sync(){const button=filters.querySelector('[aria-pressed="true"]')||all;selected.textContent='Category: '+button.textContent.trim();clear.hidden=button===all;count.setAttribute('aria-label',selected.textContent+', '+count.textContent);}
+  clear.addEventListener('click',()=>{all.click();all.focus({preventScroll:true});});new MutationObserver(sync).observe(filters,{subtree:true,attributes:true,attributeFilter:['aria-pressed']});sync();
+ }
+ function crmStepProgress(preview){
+  if(stepProgress.has(preview))return;const controls=preview.querySelector('.home-crm-steps'),buttons=[...preview.querySelectorAll('[data-home-crm-step]')];if(!controls||buttons.length!==3)return;stepProgress.add(preview);
+  const progress=node('p','home-crm-progress');progress.id='home-crm-progress';controls.after(progress);const described=(controls.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);described.push(progress.id);controls.setAttribute('aria-describedby',described.join(' '));
+  const explanations={capture:'Save the enquiry.',assign:'Name the owner.',followup:'Set the next action.'};
+  function sync(){const index=buttons.findIndex(button=>button.getAttribute('aria-pressed')==='true'),active=buttons[Math.max(0,index)];progress.textContent='Step '+(Math.max(0,index)+1)+' of 3 · '+explanations[active.dataset.homeCrmStep];}
+  new MutationObserver(sync).observe(controls,{subtree:true,attributes:true,attributeFilter:['aria-pressed']});sync();
+ }
  function init() {
-  decorateServices();finishProjectFrames();compactCoverage();
+  decorateServices();finishProjectFrames();compactCoverage();breadcrumbs();
+  document.querySelectorAll('nav.web-jump,nav.crm-jump,nav.travel-jump,main nav[aria-label="On this page"]').forEach(sectionIndicators);
+  document.querySelectorAll('.project-directory').forEach(galleryFilterSummary);
+  document.querySelectorAll('#intl-crm-preview').forEach(crmStepProgress);
   document.querySelectorAll('form[data-compact-enquiry="1"]').forEach(requiredLabels);
   document.querySelectorAll('form[data-form="home"],form[data-form="contact"],form[data-form="demo"]').forEach(form=>{feedback(form);enquiryPrompts(form);enquiryReview(form);});
   document.querySelectorAll('main video').forEach(videoFeedback);
