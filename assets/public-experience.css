@@ -92,3 +92,52 @@ body .receipt-summary-help{font-size:12px;line-height:1.6}
 @media(max-width:540px){body .receipt-summary-fields{grid-template-columns:1fr;gap:10px}body .receipt-summary{padding:14px}}
 body .public-review-control:focus-visible,body .public-review-body:focus-visible,body .public-video-state:focus-visible,body video[data-public-video]:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
 @media(max-width:540px){body .public-review-header h2{font-size:17px}body .public-review-control{padding-inline:10px}body .public-review-header,body .public-review-footer{padding:12px}body .public-review-note{padding:10px 12px}body .public-review-body{padding-inline:12px}}
+
+/* Public finishing pass: consistent reading rhythm, inspectable media and native controls. */
+body[data-page] main :is(.section-head h2,.home-section-heading h2,.home-reference-layout>div>h2){font-size:clamp(28px,2.5vw,36px);line-height:1.22;letter-spacing:-.035em}
+body[data-page] main :is(.section-head>p,.home-section-heading>p,.home-reference-layout>div>p,.web-lede,.crm-lede,.travel-lede){max-width:62ch;font-size:16px;line-height:1.7}
+body[data-page] main :is(.proof-kind,.project-evidence-note,.web-evidence-note,.crm-evidence-note){font-size:12px;line-height:1.65}
+body[data-page="home"] main .home-professional-hero .home-intro-copy{font-size:17px;line-height:1.7}
+body[data-page="home"] main .home-assurance{font-size:12px;line-height:1.65;gap:8px 18px;margin-top:24px}
+body[data-page="home"] main .home-professional-hero .eyebrow{font-size:11px;line-height:1.6}
+body[data-page="home"] main .home-delivered-proof{font-size:12px;line-height:1.6;min-height:32px}
+body[data-page="home"] main .home-reference-gallery{padding-block:48px}
+body[data-page="home"] main :is(.home-buyer-trust,.home-service-comparison,.home-international-process){padding-block:56px}
+body[data-page="home"] main .home-section-heading{margin-bottom:28px}
+body[data-page="home"] main .service-comparison-grid :is(dd,p){font-size:15px;line-height:1.7}
+body[data-page="home"] main .service-comparison-grid dt{font-size:12px;line-height:1.6;letter-spacing:.04em}
+body[data-page="home"] main .home-international-process article p{font-size:15px;line-height:1.7}
+body[data-page="home"] main .home-global-coverage:has(.coverage-disclosure){padding-block:8px}
+body[data-page="home"] main .home-global-coverage>.container:has(.coverage-disclosure){display:block}
+body[data-page="home"] main .coverage-disclosure>summary{min-height:44px;display:list-item;align-content:center;width:fit-content;max-width:100%;font-size:13px;line-height:1.5;color:var(--brand-champagne);cursor:pointer;padding:10px 0}
+body[data-page="home"] main .coverage-disclosure .home-market-links{display:flex;flex-wrap:wrap;gap:4px 24px;padding:4px 0 12px;margin:0;font-size:14px}
+body[data-page="home"] main .coverage-disclosure>summary:focus-visible{outline:3px solid var(--brand-champagne);outline-offset:3px}
+body[data-page] main .project-directory-grid article{display:flex;flex-direction:column;gap:14px;padding:24px}
+body[data-page] main .project-directory-grid article[hidden]{display:none}
+body[data-page] main .project-directory-grid article>p{font-size:15px;line-height:1.7;margin-block:0}
+body[data-page] main .project-directory-grid article>.button{margin-top:auto}
+body[data-page] main .project-browser-bar{height:36px;min-width:0}
+body[data-page] main .project-browser-bar i{flex-shrink:0}
+body[data-page] main .project-frame-label{font-size:12px;line-height:1.5;font-weight:500;margin-left:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--brand-ink)}
+body[data-page] main .project-directory-grid .project-browser img{aspect-ratio:1.9;object-fit:contain}
+body[data-page] main .project-browser:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:4px}
+body[data-page="home"] main .home-featured-project[data-device="mobile"] .featured-media-frame{max-width:320px;margin:18px auto;padding:8px;border:1px solid var(--brand-border);border-radius:22px;background:var(--brand-ivory);overflow:hidden}
+body[data-page="home"] main .home-featured-project[data-device="mobile"] .featured-media-frame img{border-radius:14px}
+body[data-page] main form[data-compact-enquiry="1"] .field>label{font-size:14px;line-height:1.6;font-weight:600;display:block;margin-bottom:6px}
+body[data-page] main form[data-compact-enquiry="1"] .field>label>.enquiry-required-badge{display:inline-block;font-size:11px;line-height:1.5;font-weight:500;margin-left:8px;padding:1px 6px;border:1px solid var(--brand-border);border-radius:4px;color:var(--brand-ink);background:var(--brand-ivory);vertical-align:middle}
+body[data-page] main .enquiry-required-help{font-size:13px;line-height:1.6;margin:0 0 16px;color:var(--brand-ink)}
+body[data-page] main form[data-compact-enquiry="1"] .form-grid{column-gap:20px;row-gap:18px}
+body[data-page] main form[data-compact-enquiry="1"] .enquiry-field-error{font-size:14px;line-height:1.6}
+body[data-page] main form[data-compact-enquiry="1"] .enquiry-optional>summary{min-height:48px;font-size:14px;line-height:1.6;padding:14px 16px}
+body[data-page] main form[data-compact-enquiry="1"] .enquiry-optional[open]>summary{border-bottom:1px solid var(--brand-border);margin-bottom:8px}
+@media(max-width:760px){
+ body[data-page] main form[data-compact-enquiry="1"] .field :is(input:not([type="hidden"]),select,textarea){font-size:16px;line-height:1.5}
+ body[data-page="home"] main :is(.home-reference-gallery,.home-buyer-trust,.home-service-comparison,.home-international-process){padding-block:36px}
+ body[data-page] main .project-directory-grid article{padding:18px}
+ body[data-page] .topbar .primary-nav{padding-bottom:max(24px,env(safe-area-inset-bottom));scroll-padding-block:16px;overscroll-behavior:contain}
+ body[data-page] .topbar .primary-nav :is(a.nav-link,.nav-dropdown>summary){min-height:44px;align-content:center}
+ body[data-page] main form[data-compact-enquiry="1"] :is(input,select,textarea,button,summary){scroll-margin-block:120px}
+ body[data-page] .mobile-contact-bar{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+ body[data-page]:has(form[data-compact-enquiry="1"]:focus-within) .mobile-contact-bar{display:none}
+}
+@media(max-width:540px){body[data-page="home"] main .home-professional-hero .home-intro-copy{font-size:16px}body[data-page="home"] main .home-assurance{font-size:12px}}
