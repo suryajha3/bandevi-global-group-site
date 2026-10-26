@@ -141,3 +141,30 @@ body[data-page] main form[data-compact-enquiry="1"] .enquiry-optional[open]>summ
  body[data-page]:has(form[data-compact-enquiry="1"]:focus-within) .mobile-contact-bar{display:none}
 }
 @media(max-width:540px){body[data-page="home"] main .home-professional-hero .home-intro-copy{font-size:16px}body[data-page="home"] main .home-assurance{font-size:12px}}
+
+/* Navigation cues use the current palette and existing page columns. */
+body[data-page] main .public-breadcrumbs{font-size:12px;line-height:1.6;margin:0 0 12px;max-width:100%;color:var(--brand-ink)}
+body[data-page] main .public-breadcrumbs ol{display:flex;flex-wrap:wrap;gap:2px 8px;list-style:none;padding:0;margin:0;max-width:100%}
+body[data-page] main .public-breadcrumbs li{display:flex;align-items:center;gap:8px;min-width:0;max-width:100%}
+body[data-page] main .public-breadcrumbs :is(a,[aria-current="page"]){display:inline-block;min-height:28px;padding-block:4px;overflow-wrap:anywhere}
+body[data-page] main .public-breadcrumbs a{text-decoration:underline;text-underline-offset:3px}
+body[data-page] main .public-breadcrumbs [aria-current="page"]{font-weight:550}
+body[data-page] main .breadcrumb-separator{flex-shrink:0;opacity:.7}
+body[data-page] main :is(.hero,.new-hero,.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.crm-campaign-hero) .public-breadcrumbs{color:var(--brand-champagne)}
+body[data-page] main .section-navigation a{display:inline-flex;align-items:center;min-height:44px;border-bottom:2px solid transparent;text-decoration:none;padding:6px 0;line-height:1.5}
+body[data-page] main .section-navigation a[aria-current="location"]{border-bottom-color:currentColor;text-decoration:underline;text-underline-offset:4px}
+body[data-page] main .section-navigation-target{scroll-margin-top:var(--public-navigation-offset,104px)}
+body[data-page] main .project-filter-summary{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;margin:16px 0 22px;min-width:0}
+body[data-page] main .project-filter-summary .project-filter-count{margin:0;font-size:13px;line-height:1.6}
+body[data-page] main .project-selected-filter{font-size:12px;line-height:1.6;padding:5px 10px;border:1px solid var(--brand-border);border-radius:6px;background:var(--brand-ivory);color:var(--brand-ink);max-width:100%;overflow-wrap:anywhere}
+body[data-page] main .project-clear-filter{min-height:44px;padding:8px 12px;border:1px solid var(--brand-border);border-radius:6px;background:var(--brand-paper);color:var(--brand-ink);font:inherit;font-size:13px;cursor:pointer}
+body[data-page] main .project-clear-filter[hidden]{display:none}
+body[data-page] main :is(.public-breadcrumbs a,.project-clear-filter):focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
+body[data-page] main :is(.hero,.new-hero,.web-professional-intro,.crm-professional-intro,.travel-professional-intro,.enquiry-intro,.crm-campaign-hero) .public-breadcrumbs a:focus-visible{outline-color:var(--brand-champagne)}
+body[data-page="home"] .intl-showcase .home-crm-progress{font-size:12px;line-height:1.4;min-height:17px;margin:0 0 4px;color:var(--brand-ink)}
+@media(max-width:1180px){body[data-page] .topbar .primary-nav{max-height:calc(100dvh - 74px);overflow-y:auto}}
+@media(max-height:480px){body[data-page] .public-review-dialog{max-height:calc(100dvh - 24px)}body[data-page] .public-review-header,body[data-page] .public-review-footer{padding:10px 12px}body[data-page] .public-review-note{padding:8px 12px}}
+
+body[data-page="home"] #intl-crm-preview .home-crm-steps{margin-bottom:3px}
+body[data-page="home"] #intl-crm-preview .intl-showcase-top{margin-bottom:8px}
+@media(max-width:1100px){body[data-page="home"] #intl-crm-preview .intl-pipeline{padding-block:8px}}

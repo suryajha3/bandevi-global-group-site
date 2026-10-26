@@ -11,6 +11,30 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  public-navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Install pinned navigation browser checks
+        run: npm install --prefix /tmp/bgg-navigation --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Install browser engines for navigation and native zoom
+        run: /tmp/bgg-navigation/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check breadcrumbs, section position, filters, CRM progress, native zoom and landscape
+        env:
+          NODE_PATH: /tmp/bgg-navigation/node_modules
+        run: node scripts/qa-public-navigation.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-navigation-checks
+          path: qa-results/public-navigation/
+          retention-days: 3
   public-cross-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 8
