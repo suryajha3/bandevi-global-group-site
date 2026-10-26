@@ -11,6 +11,37 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  buyer-clarity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the mobile loading comparison
+        uses: actions/checkout@v6
+        with:
+          ref: 970e66a4170862705affca9ecc9db55cd02572db
+          path: qa-buyer-baseline
+          persist-credentials: false
+      - name: Install pinned public buyer checks
+        run: npm install --prefix /tmp/bgg-buyer-clarity --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Install browser engines
+        run: /tmp/bgg-buyer-clarity/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check project proof, form recovery, regional wording and mobile loading
+        env:
+          NODE_PATH: /tmp/bgg-buyer-clarity/node_modules
+          QA_BUYER_BASELINE_DIR: ${{ github.workspace }}/qa-buyer-baseline
+        run: node scripts/qa-buyer-clarity.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: buyer-clarity-checks
+          path: qa-results/buyer-clarity/
+          retention-days: 3
   public-navigation:
     runs-on: ubuntu-latest
     timeout-minutes: 8

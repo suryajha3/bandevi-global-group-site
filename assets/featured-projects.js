@@ -62,13 +62,13 @@
   const tabs=[...root.querySelectorAll('[data-featured-index]')],panel=root.querySelector('#featured-project-panel'),image=root.querySelector('[data-featured-image]');
   const controls=document.createElement('div');controls.className='project-device-controls';controls.setAttribute('role','group');controls.setAttribute('aria-label','Project preview device');controls.hidden=true;
   const deviceNote=document.createElement('span');deviceNote.textContent='Public interface captures';controls.append(deviceNote);
-  let device='desktop',current=4;
+  let device='desktop',current=3;
   for(const value of ['desktop','mobile']){const button=document.createElement('button');button.type='button';button.textContent=value==='desktop'?'Desktop':'Mobile';button.dataset.previewDevice=value;button.setAttribute('aria-pressed',String(value===device));button.addEventListener('click',()=>{device=value;select(current);});controls.append(button);}
   const frame=document.createElement('div');frame.className='featured-media-frame';const imageLink=root.querySelector('[data-featured-image-link]');imageLink.before(controls,frame);frame.append(imageLink);if(window.bgPublicMedia)window.bgPublicMedia(image,frame);
   const chooser=document.querySelector('#home-project-service'),projectInput=document.querySelector('[data-home-project]');
   const website='Website / App Development Package',travel='Complete Travel Website Package';
   const services={
-   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references',project:4},
+   'Need guidance':{text:'Tell us what your business needs. We’ll help you choose the right starting point.',href:'/case-studies/#project-directory',label:'Browse project references',project:3},
    [website]:{text:'Plan your pages, app screens and customer enquiries. The BANDEVI website is an internal website reference; app scope is discussed separately.',href:'/website-mobile-app-development/',label:'Explore websites and apps',project:3},
    'CRM & ERP Package':{text:'Plan lead ownership, follow-ups, approvals and reporting. Explore our illustrative CRM demo; a matching completed CRM or ERP case study is not published yet.',href:'/sample-crm/',label:'Explore the illustrative CRM demo',project:4},
    [travel]:{text:'Plan travel search, enquiries and booking workflows. Review a travel portal reference, then discuss provider approvals and integrations for your scope.',href:'/travel-technology/',label:'Explore travel technology',project:0},
@@ -88,6 +88,7 @@
    root.querySelector('[data-featured-project-link]').href=record;root.querySelector('[data-featured-project-link]').textContent=project.name+' ↗';
    root.querySelector('[data-featured-name]').textContent=project.name+' · '+(project.category||'B2C travel portal');root.querySelector('[data-featured-description]').textContent=root.dataset.device==='mobile'?project.mobile:project.description;
    root.querySelector('[data-featured-source]').textContent=view.source;
+   const proof=root.querySelector('[data-featured-proof]');if(proof)proof.textContent=project.record?'Illustrative demo · fictional records':project.slug==='bandevi-website'?'Delivered internal project':'Public interface reference';
    root.querySelector('[data-featured-explore]').href=record;root.querySelector('[data-featured-explore]').textContent=project.record?'Explore the CRM demo ↗':'Explore this project ↗';root.querySelector('[data-featured-larger]').href=screenshot;
    const solution=project.solution||(project.slug==='bandevi-website'?website:travel);
    const code=project.slug.replaceAll('-','_'),discuss=root.querySelector('[data-featured-discuss]');
@@ -100,7 +101,7 @@
   }
   tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>select(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();select(next,true);});});
   const viewerEnabled=installScreenshotViewer(root,projects,select);
-  panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(4);
+  panel.setAttribute('role','tabpanel');root.querySelector('.home-project-tabs').hidden=false;root.querySelector('.home-project-fallback').hidden=true;select(3);
   function guide(){
    const service=services[chooser.value]||services['Need guidance'];
    document.querySelector('[data-home-service-summary]').textContent=service.text;
