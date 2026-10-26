@@ -143,8 +143,41 @@
   video.addEventListener('error',event=>{if(event.target.tagName==='SOURCE')failed.add(event.target);queueMicrotask(()=>{if(video.error&&video.error.code!==1||sources.length&&sources.every(source=>failed.has(source))&&video.networkState===3)set('error');});},true);
   retry.addEventListener('click',()=>{retryFocus=document.activeElement===retry;if(retryFocus)panel.focus({preventScroll:true});armed=true;reloading=true;failed.clear();video.pause();for(let i=0;i<sources.length;i++){const url=new URL(originals[i],location.href);if(url.origin===location.origin&&url.pathname.startsWith('/assets/')){url.searchParams.set('video_retry',String(Date.now()));sources[i].src=url.href;}}video.preload='metadata';set('loading');video.load();});
  }
+ // Presentation follows the existing required attributes, including email/phone alternatives.
+ const requiredForms=new WeakSet();
+ function requiredLabels(form){
+  if(!form.matches('[data-compact-enquiry="1"]')||requiredForms.has(form))return;
+  requiredForms.add(form);
+  const help=node('p','enquiry-required-help','Required fields are marked. Other details are optional.');
+  const grid=form.querySelector('.form-grid');if(grid)grid.before(help);
+  function sync(){
+   for(const field of form.querySelectorAll('input,select,textarea')){
+    if(!field.id||field.type==='hidden'||field.closest('[aria-hidden="true"]'))continue;
+    const label=[...form.querySelectorAll('label')].find(label=>label.htmlFor===field.id);if(!label)continue;
+    let badge=label.querySelector('.enquiry-required-badge');
+    if(field.required&&!field.matches(':disabled')){if(!badge){badge=node('span','enquiry-required-badge','Required');badge.setAttribute('aria-hidden','true');label.append(badge);}}
+    else badge?.remove();
+   }
+  }
+  sync();new MutationObserver(sync).observe(form,{subtree:true,attributes:true,attributeFilter:['required','disabled']});
+ }
+ function finishProjectFrames(){
+  document.querySelectorAll('.project-directory-grid article').forEach(card=>{
+   const bar=card.querySelector('.project-browser-bar');if(!bar||bar.querySelector('.project-frame-label'))return;
+   bar.append(node('span','project-frame-label',card.querySelector('h3')?.textContent+' · interface reference'));
+  });
+ }
+ function compactCoverage(){
+  const container=document.querySelector('.home-global-coverage>.container');if(!container||container.querySelector('.coverage-disclosure'))return;
+  const nav=container.querySelector('nav');if(!nav)return;
+  const disclosure=node('details','coverage-disclosure'),summary=node('summary',null,'Explore international service coverage');
+  disclosure.append(summary);container.prepend(disclosure);disclosure.append(nav);
+  container.querySelector('p')?.setAttribute('hidden','');
+  container.querySelector('small')?.setAttribute('hidden','');
+ }
  function init() {
-  decorateServices();
+  decorateServices();finishProjectFrames();compactCoverage();
+  document.querySelectorAll('form[data-compact-enquiry="1"]').forEach(requiredLabels);
   document.querySelectorAll('form[data-form="home"],form[data-form="contact"],form[data-form="demo"]').forEach(form=>{feedback(form);enquiryPrompts(form);enquiryReview(form);});
   document.querySelectorAll('main video').forEach(videoFeedback);
   document.querySelectorAll('.home-hero-markets a,.home-region-grid a,.project-directory-grid article,.service-comparison-grid article,#service-comparison article,#service-offers article').forEach(card=>{if(!card.classList.contains('interaction-card'))card.classList.add('interaction-card');});
