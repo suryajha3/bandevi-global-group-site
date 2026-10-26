@@ -11,6 +11,7 @@ if(route==='/'){
  for(const step of ['assign','followup','capture']){await p.locator('[data-home-crm-step="'+step+'"]').click();assert.equal(await p.locator('[data-home-crm-step="'+step+'"]').getAttribute('aria-pressed'),'true');}
  assert((await p.locator('#intl-crm-preview').boundingBox()).height<=560,'Compact CRM');
  await p.locator('[data-featured-index="0"]').click();await p.locator('[data-featured-image]').scrollIntoViewIfNeeded();await p.waitForFunction(()=>document.querySelector('[data-featured-image]').naturalWidth>0);assert.equal(await p.locator('[data-featured-image]').evaluate(e=>getComputedStyle(e).objectFit),'contain');
+ const devices=p.locator('.project-device-controls');await devices.getByRole('button',{name:'Mobile',exact:true}).click();await p.waitForFunction(()=>document.querySelector('[data-featured-image]').naturalWidth===390);const frame=await p.locator('.featured-media-frame').boundingBox();assert(frame.width>=190&&frame.width<=230,'Mobile frame follows the capture proportions');assert.equal(await p.locator('[data-featured-image]').evaluate(e=>getComputedStyle(e).objectFit),'contain');await devices.getByRole('button',{name:'Desktop',exact:true}).click();
  if(width===390||width===1440){await p.evaluate(()=>scrollTo(0,0));await p.screenshot({path:path.join(out,'home-'+width+'.png')});}
 }
 if(route==='/case-studies/'){
