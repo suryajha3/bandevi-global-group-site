@@ -1,0 +1,332 @@
+[
+  {
+    "url": "/website-mobile-app-development/",
+    "category": "Services",
+    "title": "Websites & Apps",
+    "keywords": "website web application mobile app development"
+  },
+  {
+    "url": "/crm-erp-solutions/",
+    "category": "Services",
+    "title": "CRM & ERP",
+    "keywords": "crm erp sales operations leads follow ups reporting"
+  },
+  {
+    "url": "/custom-crm-development/",
+    "category": "Services",
+    "title": "Custom CRM Development",
+    "keywords": "crm sales lead management customer relationship"
+  },
+  {
+    "url": "/erp-software-development/",
+    "category": "Services",
+    "title": "ERP Software Development",
+    "keywords": "erp operations finance inventory"
+  },
+  {
+    "url": "/custom-software-development/",
+    "category": "Services",
+    "title": "Custom Software Development",
+    "keywords": "bespoke custom software integrations"
+  },
+  {
+    "url": "/travel-technology/",
+    "category": "Services",
+    "title": "Travel Technology",
+    "keywords": "travel portal tours tourism agency"
+  },
+  {
+    "url": "/travel-website-development/",
+    "category": "Services",
+    "title": "Travel Website Development",
+    "keywords": "travel website booking portal"
+  },
+  {
+    "url": "/b2b-travel-portal/",
+    "category": "Services",
+    "title": "B2B Travel Portal Development",
+    "keywords": "b2b travel agents agency portal"
+  },
+  {
+    "url": "/white-label-travel-website/",
+    "category": "Services",
+    "title": "White-label Travel Websites",
+    "keywords": "white label travel website"
+  },
+  {
+    "url": "/travel-crm/",
+    "category": "Services",
+    "title": "Travel CRM",
+    "keywords": "travel crm enquiries quotes follow up sales"
+  },
+  {
+    "url": "/travel-erp/",
+    "category": "Services",
+    "title": "Travel ERP",
+    "keywords": "travel erp finance suppliers operations"
+  },
+  {
+    "url": "/customer-portal/",
+    "category": "Services",
+    "title": "Customer Portal Development",
+    "keywords": "customer portal self service requests"
+  },
+  {
+    "url": "/business-automation/",
+    "category": "Services",
+    "title": "Business Automation",
+    "keywords": "automation workflow approvals integrations tasks"
+  },
+  {
+    "url": "/ecommerce-website-development/",
+    "category": "Services",
+    "title": "E-commerce Website Development",
+    "keywords": "ecommerce e commerce online store shopping"
+  },
+  {
+    "url": "/us/software-development/",
+    "category": "Services",
+    "title": "Software Services for the United States",
+    "keywords": "us usa united states usd america"
+  },
+  {
+    "url": "/uk/software-development/",
+    "category": "Services",
+    "title": "Software Services for the United Kingdom",
+    "keywords": "uk gb united kingdom gbp britain"
+  },
+  {
+    "url": "/india/software-development/",
+    "category": "Services",
+    "title": "Software Services for India",
+    "keywords": "india inr gurugram"
+  },
+  {
+    "url": "/ecommerce-solutions/",
+    "category": "Services",
+    "title": "E-commerce Solutions",
+    "keywords": "ecommerce online shop catalogue orders inventory"
+  },
+  {
+    "url": "/white-label-crm/",
+    "category": "Services",
+    "title": "White-label CRM",
+    "keywords": "white label crm sales"
+  },
+  {
+    "url": "/lead-booking-management/",
+    "category": "Services",
+    "title": "Lead and Booking Management",
+    "keywords": "leads booking handover travel"
+  },
+  {
+    "url": "/hotel-booking-engine/",
+    "category": "Services",
+    "title": "Hotel Booking Engine Development",
+    "keywords": "hotel accommodation booking engine supplier"
+  },
+  {
+    "url": "/flight-booking-engine/",
+    "category": "Services",
+    "title": "Flight Booking Engine Development",
+    "keywords": "flight airline booking engine supplier"
+  },
+  {
+    "url": "/travel-booking-software/",
+    "category": "Services",
+    "title": "Travel Booking Software",
+    "keywords": "travel booking software agency"
+  },
+  {
+    "url": "/travel-mobile-app-development/",
+    "category": "Services",
+    "title": "Travel Mobile App Development",
+    "keywords": "travel mobile app android ios"
+  },
+  {
+    "url": "/travel-agency-website-development/",
+    "category": "Services",
+    "title": "Travel Agency Websites",
+    "keywords": "travel agency website"
+  },
+  {
+    "url": "/tour-operator-software/",
+    "category": "Services",
+    "title": "Tour Operator Software",
+    "keywords": "tour operator itineraries software"
+  },
+  {
+    "url": "/dmc-software/",
+    "category": "Services",
+    "title": "DMC Software",
+    "keywords": "dmc destination management software"
+  },
+  {
+    "url": "/white-label-travel-portal/",
+    "category": "Services",
+    "title": "White-label Travel Portals",
+    "keywords": "white label travel portal"
+  },
+  {
+    "url": "/business-process-automation/",
+    "category": "Services",
+    "title": "Business Process Automation",
+    "keywords": "business process automation workflow"
+  },
+  {
+    "url": "/it-products/",
+    "category": "Services",
+    "title": "Software and IT Solution Directory",
+    "keywords": "all software products services directory"
+  },
+  {
+    "url": "/ae/software-development/",
+    "category": "Services",
+    "title": "Software Services for Dubai and UAE",
+    "keywords": "dubai uae united arab emirates aed"
+  },
+  {
+    "url": "/sg/software-development/",
+    "category": "Services",
+    "title": "Software Services for Singapore",
+    "keywords": "singapore sg sgd"
+  },
+  {
+    "url": "/projects/bandevi-website/",
+    "category": "Projects",
+    "title": "BANDEVI Website — Internal Project",
+    "keywords": "bandevi website internal project delivery evidence"
+  },
+  {
+    "url": "/projects/trip-sarathi/",
+    "category": "Projects",
+    "title": "Trip Sarathi — Public Project Reference",
+    "keywords": "trip sarathi travel project public reference"
+  },
+  {
+    "url": "/projects/maximtrip/",
+    "category": "Projects",
+    "title": "MaximTrip — Public Project Reference",
+    "keywords": "maximtrip travel project public reference"
+  },
+  {
+    "url": "/projects/tripodeal/",
+    "category": "Projects",
+    "title": "TripOdeal — Public Project Reference",
+    "keywords": "tripodeal travel project public reference"
+  },
+  {
+    "url": "/service-offers/",
+    "category": "Guides",
+    "title": "Compare Service Scope and Delivery",
+    "keywords": "compare packages scope exclusions deliverables cost price quote"
+  },
+  {
+    "url": "/how-we-work/",
+    "category": "Guides",
+    "title": "Project Delivery and Handover",
+    "keywords": "handover scope ownership support milestones process"
+  },
+  {
+    "url": "/project-brief/",
+    "category": "Guides",
+    "title": "Prepare a Project Brief",
+    "keywords": "requirements brief planning project"
+  },
+  {
+    "url": "/crm-project-planning/",
+    "category": "Guides",
+    "title": "CRM Project Planning",
+    "keywords": "crm migration integrations data import workflow discovery"
+  },
+  {
+    "url": "/crm-demo/",
+    "category": "Guides",
+    "title": "CRM Demo and Walkthrough",
+    "keywords": "crm demo fictional example video walkthrough"
+  },
+  {
+    "url": "/sample-proposal/",
+    "category": "Guides",
+    "title": "Sample Software Proposal",
+    "keywords": "proposal scope milestones ownership support quotation"
+  },
+  {
+    "url": "/international/",
+    "category": "Guides",
+    "title": "International Project Guide",
+    "keywords": "international timezone time zone usd gbp remote"
+  },
+  {
+    "url": "/trust-licences-certifications/",
+    "category": "Guides",
+    "title": "Company Records and Verification",
+    "keywords": "company records trust verification licences certifications"
+  },
+  {
+    "url": "/blog/travel-crm-vs-erp-for-travel-agencies/",
+    "category": "Guides",
+    "title": "Travel CRM vs ERP",
+    "keywords": "compare travel crm erp difference"
+  },
+  {
+    "url": "/blog/white-label-crm-vs-custom-crm/",
+    "category": "Guides",
+    "title": "White-label CRM vs Custom CRM",
+    "keywords": "compare crm white label custom"
+  },
+  {
+    "url": "/blog/travel-website-vs-white-label-travel-portal/",
+    "category": "Guides",
+    "title": "Travel Website vs White-label Travel Portal",
+    "keywords": "compare website travel portal white label"
+  },
+  {
+    "url": "/blog/automate-payment-workflows-in-travel-agencies/",
+    "category": "Guides",
+    "title": "Planning Travel Payment Workflows",
+    "keywords": "payment workflows automation approvals reconciliation"
+  },
+  {
+    "url": "/blog/business-automation-for-travel-companies/",
+    "category": "Guides",
+    "title": "Business Automation for Travel Companies",
+    "keywords": "travel automation workflow planning"
+  },
+  {
+    "url": "/blog/corporate-website-crm-for-travel-businesses/",
+    "category": "Guides",
+    "title": "Corporate Websites and CRM for Travel Businesses",
+    "keywords": "website crm travel guide"
+  },
+  {
+    "url": "/blog/customer-portal-for-travel-agencies/",
+    "category": "Guides",
+    "title": "Customer Portals for Travel Agencies",
+    "keywords": "customer portal travel guide"
+  },
+  {
+    "url": "/blog/lead-booking-management-for-travel-companies/",
+    "category": "Guides",
+    "title": "Lead and Booking Management for Travel Companies",
+    "keywords": "lead booking management guide"
+  },
+  {
+    "url": "/blog/travel-crm-software-for-agencies/",
+    "category": "Guides",
+    "title": "Travel CRM Software for Agencies",
+    "keywords": "travel crm guide"
+  },
+  {
+    "url": "/blog/travel-erp-system-for-tour-operators/",
+    "category": "Guides",
+    "title": "Travel ERP for Tour Operators",
+    "keywords": "erp travel tour operator guide"
+  },
+  {
+    "url": "/blog/white-label-travel-website-vs-custom-travel-website/",
+    "category": "Guides",
+    "title": "White-label vs Custom Travel Websites",
+    "keywords": "compare white label custom travel website"
+  }
+]

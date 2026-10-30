@@ -1,0 +1,36 @@
+body[data-page="siteSearch"] .site-search-intro{padding:52px 0 28px;background:var(--brand-charcoal);color:#f8f4eb}
+.site-search-intro h1{font-size:clamp(34px,4vw,56px);margin:16px 0;line-height:1.12;max-width:760px}
+.site-search-intro p{max-width:650px;color:#d4dfeb;line-height:1.7}
+body[data-page="siteSearch"] .site-search-intro .eyebrow{color:#d9c38f}
+.site-search-body{padding:32px 0 64px;background:#f7f4ec}
+.site-search-form{max-width:100%;padding:28px;border:1px solid #aab9be;border-radius:12px;background:#fffdf8;box-shadow:0 5px 18px #182e4010}
+.site-search-form>label{font-weight:650;display:block;margin-bottom:8px;color:#1d344c}
+.site-search-form input[type="search"]{width:100%;box-sizing:border-box;min-height:50px;padding:12px 14px;font:inherit;font-size:16px;border:1px solid #6d8395;border-radius:7px;background:#fff;color:#1c3046}
+.site-search-form fieldset{border:0;padding:0;margin:22px 0 18px;min-width:0}
+.site-search-form legend{font-weight:650;font-size:14px;padding:0;margin-bottom:10px;color:#1d344c}
+.site-search-filters{display:flex;flex-wrap:wrap;gap:8px}
+.site-search-filters label{min-height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid #82978d;border-radius:7px;padding:9px 13px;font-size:14px;cursor:pointer;background:#f5f6f1;color:#263f35}
+.site-search-filters label:has(input:checked){background:#213d5a;color:#fff;border-color:#213d5a}
+.site-search-filters input{width:16px;height:16px;accent-color:#79602d;margin:0}
+.site-search-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+body[data-page="siteSearch"] .site-search-actions button{font:inherit;font-weight:650;border:1px solid #8d713e;cursor:pointer;min-height:48px;padding:12px 26px;border-radius:7px;background:#d9c38f;color:#15283c}
+body[data-page="siteSearch"] .site-search-actions [data-site-search-clear]{background:#fffdf8;border-color:#8296a5;color:#243d56}
+.site-search-actions a{font-size:14px;min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;color:#294e65;padding:8px}
+.site-search-help,.site-search-pending{font-size:13px;line-height:1.65;margin:14px 0 0;color:#53636b}
+.site-search-pending{color:#684c20}
+.site-search-error{padding:12px;border:2px solid #925b25;border-radius:6px;color:#703e1b;background:#fff9e9}
+.site-search-heading{margin:34px 0 20px}
+.site-search-heading h2{font-size:28px;margin:0 0 8px;scroll-margin-top:110px}
+.site-search-heading p{margin:0;color:#44576a;line-height:1.6}
+.site-search-results{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.site-search-results>li{min-width:0;padding:23px;border:1px solid #bcc8c5;border-radius:10px;background:#fffdf8}
+.site-search-kind{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#506e5f}
+.site-search-results h3{font-size:21px;line-height:1.4;margin:7px 0 10px}
+.site-search-results h3 a{color:#234762;text-decoration:underline;text-underline-offset:4px;display:inline-block;min-height:44px;padding-block:6px;overflow-wrap:anywhere}
+.site-search-results p{font-size:15px;color:#485b69;line-height:1.7;margin:0;overflow-wrap:anywhere}
+.site-search-empty{padding:28px;border:1px solid #aebec0;border-radius:10px;background:#fffdf8}
+.site-search-empty h3{margin-top:0}.site-search-empty a{display:inline-flex;align-items:center;min-height:44px;color:#234762;text-decoration:underline;margin-right:18px}
+.site-search-form :is(input,button,a):focus-visible,.site-search-results a:focus-visible,.site-search-empty a:focus-visible{outline:3px solid #805f29;outline-offset:3px}
+body[data-page="siteSearch"] [hidden]{display:none!important}
+@media(max-width:680px){body[data-page="siteSearch"] .site-search-intro{padding:30px 0 18px}.site-search-form{padding:20px}.site-search-results{grid-template-columns:1fr}.site-search-results>li{padding:20px}.site-search-filters{gap:7px}.site-search-filters label{padding:9px 10px}.site-search-actions button{flex:1}.site-search-actions a{flex-basis:100%;padding-left:0}.site-search-body{padding-top:22px}}
+body[data-page="siteSearch"] .site-search-intro .public-breadcrumbs,body[data-page="siteSearch"] .site-search-intro .public-breadcrumbs a,body[data-page="siteSearch"] .site-search-intro .public-breadcrumbs [aria-current="page"]{color:#d9c38f}

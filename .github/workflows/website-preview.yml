@@ -141,6 +141,43 @@ jobs:
             qa-results/public-palette/
             qa-results/public-finish/
           retention-days: 3
+  public-site-search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the public navigation baseline
+        uses: actions/checkout@v6
+        with:
+          ref: 6f88cb98ade837bd8aa28b9847e571d05484d91d
+          path: qa-search-baseline
+          persist-credentials: false
+      - name: Install pinned search browser checks
+        run: npm install --prefix /tmp/bgg-site-search --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-site-search/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic public directory build
+        run: |
+          node scripts/build-site-search.cjs
+          git diff --exit-code
+      - name: Check manual Search and Clear, public-only scope and navigation
+        env:
+          NODE_PATH: /tmp/bgg-site-search/node_modules
+          QA_SEARCH_BASELINE_DIR: ${{ github.workspace }}/qa-search-baseline
+        run: node scripts/qa-site-search.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-site-search-checks
+          path: qa-results/site-search/
+          retention-days: 3
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 5
