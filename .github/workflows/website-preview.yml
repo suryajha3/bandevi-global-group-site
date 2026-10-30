@@ -83,7 +83,7 @@ jobs:
       - name: Check out the homepage production comparison
         uses: actions/checkout@v6
         with:
-          ref: 8b18898865fe79c5103577c5c2495f7ce97ed7a2
+          ref: 9769fbd37893e58b4f9479e486d08053dc3bf756
           path: qa-home-baseline
           persist-credentials: false
       - name: Install pinned public browser checks
@@ -107,6 +107,10 @@ jobs:
           NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
           QA_BASELINE_DIR: ${{ github.workspace }}/qa-home-baseline
         run: node scripts/qa-home-crm-steps.cjs --all-browsers
+      - name: Check focused hero and attributed Selected Work
+        env:
+          NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
+        run: node scripts/qa-home-focus.cjs --all-browsers
       - name: Check homepage proof and optional service help
         env:
           NODE_PATH: /tmp/bgg-public-cross-browser/node_modules
@@ -132,6 +136,7 @@ jobs:
             qa-results/sharing-receipt/
             qa-results/home-crm-steps/
             qa-results/home-trust-help/
+            qa-results/home-focus/
             qa-results/office-locations/
             qa-results/public-palette/
             qa-results/public-finish/
