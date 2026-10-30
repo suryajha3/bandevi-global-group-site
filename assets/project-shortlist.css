@@ -1,0 +1,33 @@
+body[data-page="projectShortlist"] .shortlist-intro{padding:44px 0 28px;background:#101d2d;color:#f8f4eb}
+.shortlist-intro h1{font-size:clamp(34px,4vw,54px);line-height:1.14;margin:16px 0}
+.shortlist-intro p{max-width:720px;line-height:1.7;color:#d7e1eb}
+body[data-page="projectShortlist"] .shortlist-intro :is(.eyebrow,.public-breadcrumbs,.public-breadcrumbs a,[aria-current="page"]){color:#d9c38f}
+.shortlist-body{padding:32px 0 64px;background:#f7f4ec}
+.shortlist-disclosure{margin:24px 0;border:1px solid #a8b9ba;border-radius:10px;background:#fffdf8}
+.shortlist-disclosure>summary{cursor:pointer;min-height:48px;padding:14px 20px;font-weight:650;color:#263f56}
+.project-shortlist-widget,.shortlist-brief-review{padding:26px;border:1px solid #a8b9ba;border-radius:10px;background:#fffdf8;color:#243b50;scroll-margin-top:110px;min-width:0}
+.shortlist-disclosure .project-shortlist-widget{border:0;border-top:1px solid #cfdbd7;border-radius:0}
+.project-shortlist-widget h2,.shortlist-brief-review h2{font-size:28px;margin:0 0 12px;line-height:1.3}
+.project-shortlist-widget>p,.shortlist-brief-review>p{line-height:1.7;max-width:850px}
+.shortlist-help,.shortlist-empty{font-size:13px;line-height:1.7;color:#526471}
+.shortlist-status{font-size:14px;line-height:1.65;color:#294f43}
+.shortlist-error{padding:12px;border:2px solid #945e2b;background:#fff7e9;border-radius:6px;color:#6f3c1d;font-size:14px;line-height:1.6}
+.shortlist-references{list-style:none;padding:0;margin:18px 0;display:grid;gap:10px}
+.shortlist-references>li{display:flex;gap:14px;align-items:center;justify-content:space-between;border:1px solid #c3d0cd;border-radius:7px;padding:12px 16px;min-width:0}
+.shortlist-references>li>div{min-width:0}
+.shortlist-kind{display:block;font-size:11px;letter-spacing:.07em;text-transform:uppercase;font-weight:650;color:#516c5d}
+.shortlist-references a{display:inline-block;min-height:44px;padding:8px 0;color:#244b64;text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere}
+.shortlist-actions,.shortlist-result-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}
+.project-shortlist-widget button,.shortlist-brief-review button,.shortlist-result-actions button{font:inherit;font-size:14px;font-weight:650;min-height:44px;padding:10px 16px;line-height:1.5;border:1px solid #8298a6;border-radius:7px;background:#fffdf8;color:#263f56;cursor:pointer}
+.project-shortlist-widget [data-shortlist-save],.shortlist-brief-review .shortlist-actions>button:first-child{background:#d9c38f;color:#15283c;border-color:#8a6e38}
+.shortlist-result-actions button[aria-pressed="true"]{background:#e7efe9;color:#274e3f;border-color:#789989}
+.project-shortlist-widget button:disabled,.shortlist-brief-review button:disabled,.shortlist-result-actions button:disabled{opacity:.55;cursor:not-allowed}
+.shortlist-actions a,.shortlist-result-actions a,.project-shortlist-widget>a{display:inline-flex;align-items:center;min-height:44px;color:#244b64;text-decoration:underline;text-underline-offset:4px;font-size:14px}
+.shortlist-result-actions{margin-bottom:0;border-top:1px solid #d4dcd8;padding-top:14px}
+.shortlist-brief-review{margin:24px 0}
+.project-shortlist-widget :is(a,button):focus-visible,.shortlist-brief-review :is(a,button):focus-visible,.shortlist-result-actions :is(a,button):focus-visible,.shortlist-disclosure>summary:focus-visible{outline:3px solid #805f29;outline-offset:3px}
+.project-shortlist-widget [hidden],.shortlist-brief-review [hidden]{display:none!important}
+/* Keep the fixed contact bar from appearing over a button when focus leaves Search. */
+body:has(.project-shortlist-widget:focus-within,.shortlist-result-actions:focus-within,.shortlist-brief-review:focus-within) .mobile-contact-bar{display:none}
+.project-shortlist-widget :is(a,button),.shortlist-brief-review :is(a,button),.shortlist-result-actions :is(a,button){scroll-margin-block:110px}
+@media(max-width:680px){.project-shortlist-widget,.shortlist-brief-review{padding:20px}.shortlist-disclosure>summary{padding:12px 16px}.shortlist-references>li{align-items:flex-start;flex-direction:column;gap:0;padding:12px}.shortlist-references button{align-self:flex-start}.shortlist-actions>button{flex:1 1 145px}.shortlist-actions>a{flex-basis:100%}.shortlist-result-actions{gap:6px 14px}.shortlist-result-actions button{flex:1}.shortlist-intro h1{font-size:36px}}
