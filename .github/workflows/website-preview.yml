@@ -166,6 +166,7 @@ jobs:
       - name: Verify deterministic public directory build
         run: |
           node scripts/build-site-search.cjs
+          node scripts/build-project-shortlist.cjs
           git diff --exit-code
       - name: Check manual Search and Clear, public-only scope and navigation
         env:
@@ -177,6 +178,44 @@ jobs:
         with:
           name: public-site-search-checks
           path: qa-results/site-search/
+          retention-days: 3
+  public-project-shortlist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the public shortlist production comparison
+        uses: actions/checkout@v6
+        with:
+          ref: a73f1243b9c16a9e95b72f4e9449893641f7bec2
+          path: qa-shortlist-baseline
+          persist-credentials: false
+      - name: Install pinned shortlist browser checks
+        run: npm install --prefix /tmp/bgg-project-shortlist --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-project-shortlist/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic public page builds
+        run: |
+          node scripts/build-site-search.cjs
+          node scripts/build-project-shortlist.cjs
+          git diff --exit-code
+      - name: Check manual persistence, public scope, conflicts and review before use
+        env:
+          NODE_PATH: /tmp/bgg-project-shortlist/node_modules
+          QA_SHORTLIST_BASELINE_DIR: ${{ github.workspace }}/qa-shortlist-baseline
+        run: node scripts/qa-project-shortlist.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-project-shortlist-checks
+          path: qa-results/project-shortlist/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest
