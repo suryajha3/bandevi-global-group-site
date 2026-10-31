@@ -45,11 +45,92 @@
   "recordAssets": {
     "assets/bandevi-global-group-official-facts.json": {
       "before": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"BANDEVI GLOBAL GROUP\",\n  \"url\": \"https://bandeviglobalgroup.com/\",\n  \"telephone\": \"+91 7011040474\",\n  \"email\": \"sales@bandeviglobalgroup.com\",\n  \"@id\": \"https://bandeviglobalgroup.com/#organization\",\n  \"description\": \"Website, CRM, ERP and travel technology services. The brand name is published by BANDEVI; the contracting legal name and applicable registrations require supporting records.\",\n  \"subjectOf\": [\n    {\n      \"@type\": \"WebPage\",\n      \"url\": \"https://bandeviglobalgroup.com/about-us/\",\n      \"name\": \"People and company-published information\"\n    },\n    {\n      \"@type\": \"WebPage\",\n      \"url\": \"https://bandeviglobalgroup.com/proof-verification/\",\n      \"name\": \"Evidence and company record status\"\n    }\n  ],\n  \"additionalProperty\": [\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Contracting identity and registrations\",\n      \"value\": \"Awaiting applicable supporting records\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Staff totals and financial figures\",\n      \"value\": \"No verified total or figure published; supporting records required\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Location references\",\n      \"value\": \"Awaiting individual location confirmation; arrange an appointment before visiting\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Project references\",\n      \"value\": \"Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission\"\n    }\n  ],\n  \"dateModified\": \"2026-10-10\",\n  \"address\": {\n    \"@type\": \"PostalAddress\",\n    \"streetAddress\": \"SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A\",\n    \"addressLocality\": \"Gurugram\",\n    \"addressRegion\": \"Haryana\",\n    \"postalCode\": \"122017\",\n    \"addressCountry\": \"IN\"\n  }\n}\n",
-      "after": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"BANDEVI GLOBAL GROUP\",\n  \"url\": \"https://bandeviglobalgroup.com/\",\n  \"telephone\": \"+91 7011040474\",\n  \"email\": \"sales@bandeviglobalgroup.com\",\n  \"@id\": \"https://bandeviglobalgroup.com/#organization\",\n  \"description\": \"Website, CRM, ERP and travel technology services. Company-supplied incorporation and GST records name BANDEVI GLOBAL GROUP PRIVATE LIMITED; current portal status should be checked with the issuer.\",\n  \"subjectOf\": [\n    {\n      \"@type\": \"WebPage\",\n      \"url\": \"https://bandeviglobalgroup.com/about-us/\",\n      \"name\": \"People and company-published information\"\n    },\n    {\n      \"@type\": \"WebPage\",\n      \"url\": \"https://bandeviglobalgroup.com/proof-verification/\",\n      \"name\": \"Evidence and company record status\"\n    }\n  ],\n  \"additionalProperty\": [\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Contracting identity and registrations\",\n      \"value\": \"Company-supplied incorporation certificate dated 30 October 2026 and GST REG-06 effective 31 October 2026 reviewed; live registry status not independently checked.\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Staff totals and financial figures\",\n      \"value\": \"No verified total or figure published; supporting records required\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Location references\",\n      \"value\": \"Awaiting individual location confirmation; arrange an appointment before visiting\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Project references\",\n      \"value\": \"Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Incorporation date\",\n      \"value\": \"2026-10-30\"\n    }\n  ],\n  \"dateModified\": \"2026-10-31\",\n  \"address\": {\n    \"@type\": \"PostalAddress\",\n    \"streetAddress\": \"SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A\",\n    \"addressLocality\": \"Gurugram\",\n    \"addressRegion\": \"Haryana\",\n    \"postalCode\": \"122017\",\n    \"addressCountry\": \"IN\"\n  },\n  \"legalName\": \"BANDEVI GLOBAL GROUP PRIVATE LIMITED\",\n  \"taxID\": \"06AAPCB2996N1ZU\",\n  \"identifier\": {\n    \"@type\": \"PropertyValue\",\n    \"propertyID\": \"CIN\",\n    \"value\": \"U79110HR2026PTC152314\"\n  }\n}\n"
+      "after": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"BANDEVI GLOBAL GROUP\",\n  \"url\": \"https://bandeviglobalgroup.com/\",\n  \"telephone\": \"+91 7011040474\",\n  \"email\": \"sales@bandeviglobalgroup.com\",\n  \"@id\": \"https://bandeviglobalgroup.com/#organization\",\n  \"description\": \"Website, CRM, ERP and travel technology services. Company-supplied incorporation and GST records name BANDEVI GLOBAL GROUP PRIVATE LIMITED; current portal status should be checked with the issuer.\",\n  \"subjectOf\": [\n    {\n      \"@type\": \"WebPage\",\n      \"url\": \"https://bandeviglobalgroup.com/about-us/\",\n      \"name\": \"People and company-published information\"\n    },\n    {\n      \"@type\": \"WebPage\",\n      \"url\": \"https://bandeviglobalgroup.com/proof-verification/\",\n      \"name\": \"Evidence and company record status\"\n    }\n  ],\n  \"additionalProperty\": [\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Contracting identity and registrations\",\n      \"value\": \"Company-supplied incorporation certificate dated 30 October 2026 and GST REG-06 effective 31 October 2026 reviewed; live registry status not independently checked.\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Staff totals and financial figures\",\n      \"value\": \"No verified total or figure published; supporting records required\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Location references\",\n      \"value\": \"Awaiting individual location confirmation; arrange an appointment before visiting\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Project references\",\n      \"value\": \"Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Incorporation date\",\n      \"value\": \"2026-10-30\"\n    }\n  ],\n  \"dateModified\": \"2026-10-31\",\n  \"address\": {\n    \"@type\": \"PostalAddress\",\n    \"streetAddress\": \"SCO 63, First Floor, Sector 23/23A, behind petrol pump, Palam Vihar\",\n    \"addressLocality\": \"Gurugram\",\n    \"addressRegion\": \"Haryana\",\n    \"postalCode\": \"122017\",\n    \"addressCountry\": \"IN\"\n  },\n  \"legalName\": \"BANDEVI GLOBAL GROUP PRIVATE LIMITED\",\n  \"taxID\": \"06AAPCB2996N1ZU\",\n  \"identifier\": {\n    \"@type\": \"PropertyValue\",\n    \"propertyID\": \"CIN\",\n    \"value\": \"U79110HR2026PTC152314\"\n  }\n}\n"
     },
     "assets/bandevi-global-group-evidence-register.json": {
       "before": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Dataset\",\n  \"name\": \"BANDEVI record publication status\",\n  \"url\": \"https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json\",\n  \"description\": \"Publication-status guide for applicable company records. This is not an independent audit, workforce census or financial statement.\",\n  \"dateModified\": \"2026-10-10\",\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"BANDEVI GLOBAL GROUP\",\n    \"url\": \"https://bandeviglobalgroup.com/\",\n    \"telephone\": \"+91 7011040474\",\n    \"email\": \"sales@bandeviglobalgroup.com\"\n  },\n  \"variableMeasured\": [\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Contracting identity and registrations\",\n      \"value\": \"Awaiting applicable supporting records\",\n      \"url\": \"https://bandeviglobalgroup.com/trust-licences-certifications/\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Staff totals and financial figures\",\n      \"value\": \"No verified total or figure published; supporting records required\",\n      \"url\": \"https://bandeviglobalgroup.com/staff-size-net-worth/\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Location references\",\n      \"value\": \"Awaiting individual location confirmation; arrange an appointment before visiting\",\n      \"url\": \"https://bandeviglobalgroup.com/offices/\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Project references\",\n      \"value\": \"Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission\",\n      \"url\": \"https://bandeviglobalgroup.com/projects/trip-sarathi/\"\n    }\n  ]\n}\n",
       "after": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Dataset\",\n  \"name\": \"BANDEVI record publication status\",\n  \"url\": \"https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json\",\n  \"description\": \"Publication-status guide for applicable company records. This is not an independent audit, workforce census or financial statement.\",\n  \"dateModified\": \"2026-10-31\",\n  \"publisher\": {\n    \"@type\": \"Organization\",\n    \"name\": \"BANDEVI GLOBAL GROUP\",\n    \"url\": \"https://bandeviglobalgroup.com/\",\n    \"telephone\": \"+91 7011040474\",\n    \"email\": \"sales@bandeviglobalgroup.com\"\n  },\n  \"variableMeasured\": [\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Contracting identity and registrations\",\n      \"value\": \"BANDEVI GLOBAL GROUP PRIVATE LIMITED; CIN U79110HR2026PTC152314; incorporated 30 October 2026; GSTIN 06AAPCB2996N1ZU, effective 31 October 2026. Company-supplied certificates reviewed; check current issuer records.\",\n      \"url\": \"https://bandeviglobalgroup.com/trust-licences-certifications/\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Staff totals and financial figures\",\n      \"value\": \"No verified total or figure published; supporting records required\",\n      \"url\": \"https://bandeviglobalgroup.com/staff-size-net-worth/\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Location references\",\n      \"value\": \"Awaiting individual location confirmation; arrange an appointment before visiting\",\n      \"url\": \"https://bandeviglobalgroup.com/offices/\"\n    },\n    {\n      \"@type\": \"PropertyValue\",\n      \"name\": \"Project references\",\n      \"value\": \"Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission\",\n      \"url\": \"https://bandeviglobalgroup.com/projects/trip-sarathi/\"\n    }\n  ]\n}\n"
     }
+  },
+  "textReplacements": {
+    "index.html": [
+      {
+        "before": "Registrations and credentials apply to their named holder; verified BANDEVI registration credentials are awaiting supplied records.",
+        "after": "Registrations and credentials apply to their named holder. BANDEVI's incorporation and GST details are published in our company records.",
+        "count": 1
+      }
+    ],
+    "about-us/index.html": [
+      {
+        "before": "Verified contracting-entity details and registration credentials are awaiting supplied records.",
+        "after": "Company-supplied incorporation and GST details for BANDEVI GLOBAL GROUP PRIVATE LIMITED are published in our company records.",
+        "count": 1
+      }
+    ],
+    "company-profile/index.html": [
+      {
+        "before": "Verified registration credentials are awaiting supplied records.",
+        "after": "Company-supplied incorporation and GST details are published in our company records.",
+        "count": 1
+      }
+    ],
+    "staff-size-net-worth/index.html": [
+      {
+        "before": "Verified registration credentials are awaiting supplied records.",
+        "after": "Company-supplied incorporation and GST details are published in our company records.",
+        "count": 1
+      }
+    ],
+    "crm-erp-solutions/index.html": [
+      {
+        "before": "verified registration credentials are awaiting supplied records.",
+        "after": "company-supplied incorporation and GST details are published in our company records.",
+        "count": 1
+      }
+    ],
+    "travel-technology/index.html": [
+      {
+        "before": "Verified registration credentials are awaiting supplied records.",
+        "after": "Company-supplied incorporation and GST details are published in our company records.",
+        "count": 1
+      }
+    ],
+    "website-mobile-app-development/index.html": [
+      {
+        "before": "verified registration credentials are awaiting supplied records.",
+        "after": "company-supplied incorporation and GST details are published in our company records.",
+        "count": 1
+      }
+    ],
+    "assets/site.js": [
+      {
+        "before": "Registrations and credentials apply to their named holder; verified BANDEVI registration credentials are awaiting supplied records.",
+        "after": "Registrations and credentials apply to their named holder. BANDEVI's incorporation and GST details are published in our company records.",
+        "count": 1
+      },
+      {
+        "before": "Verified contracting-entity details and registration credentials are awaiting supplied records.",
+        "after": "Company-supplied incorporation and GST details for BANDEVI GLOBAL GROUP PRIVATE LIMITED are published in our company records.",
+        "count": 1
+      },
+      {
+        "before": "Verified registration credentials are awaiting supplied records.",
+        "after": "Company-supplied incorporation and GST details are published in our company records.",
+        "count": 4
+      },
+      {
+        "before": "verified registration credentials are awaiting supplied records.",
+        "after": "company-supplied incorporation and GST details are published in our company records.",
+        "count": 2
+      }
+    ]
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "SCO 63, First Floor, Sector 23/23A, behind petrol pump, Palam Vihar",
+    "addressLocality": "Gurugram",
+    "addressRegion": "Haryana",
+    "postalCode": "122017",
+    "addressCountry": "IN"
   }
 }
