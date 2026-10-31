@@ -16,6 +16,20 @@
       ['Business problem', ['briefProblem', 1]], ['Features / integrations', ['briefFeatures', 1]],
       ['Budget preference', ['briefBudget', 2]], ['Preferred launch date', ['briefDate', 2]]
     ]);
+    // Some engines expose date inputs as text. Preserve the same date/minimum constraint there.
+    const date = form.elements.briefDate;
+    let dateError = false;
+    function validateDate() {
+      if (!date || date.type === 'date') return;
+      const value = date.value;
+      const timestamp = /^\d{4}-\d{2}-\d{2}$/.test(value) ? Date.parse(value + 'T00:00:00Z') : NaN;
+      const invalid = value && (!Number.isFinite(timestamp) || new Date(timestamp).toISOString().slice(0, 10) !== value || date.min && value < date.min);
+      if (invalid && (!date.validity.customError || dateError)) {
+        date.setCustomValidity('Choose a valid current or future launch date (YYYY-MM-DD), or leave it blank.'); dateError = true;
+      } else if (!invalid && dateError) { date.setCustomValidity(''); dateError = false; }
+    }
+    date?.addEventListener('input', validateDate); date?.addEventListener('change', validateDate);
+    validateDate();
     let editing = '';
     const returns = panels.slice(0, 2).map(panel => {
       const group = document.createElement('div'); group.className = 'brief-quick-return'; group.hidden = true;
@@ -27,6 +41,7 @@
       button.addEventListener('mousedown', event => { if (event.button === 0) event.preventDefault(); });
       button.addEventListener('click', () => {
         if (!editing || form.dataset.sending === 'true') return;
+        validateDate();
         // Revisit both original validation gates, including changes from other planning tools.
         if (!panels[1].hidden) back[0].click();
         if (!panels[0].hidden) next[0].click();
@@ -75,7 +90,7 @@
     const state = new MutationObserver(sync);
     for (const panel of panels) state.observe(panel, { attributes: true, attributeFilter: ['hidden'] });
     state.observe(form, { attributes: true, attributeFilter: ['data-sending', 'hidden'] });
-    form.addEventListener('reset', () => { editing = ''; sync(); });
+    form.addEventListener('reset', () => { editing = ''; sync(); queueMicrotask(validateDate); });
     form.dataset.quickEditReady = 'true'; decorate();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

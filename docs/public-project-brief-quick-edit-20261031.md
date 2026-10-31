@@ -1,6 +1,6 @@
 # Project Brief Quick Edit
 
-Six keyboard-accessible Edit buttons beside review requirements focus the existing service, business type, problem, features, budget or launch-date field. Return to review runs both original step validation gates. Ordinary Continue and Back still work. Current requirements, contact details, country/currency restrictions, workflow and portfolio attribution remain in the original form.
+Six keyboard-accessible Edit buttons beside review requirements focus the existing service, business type, problem, features, budget or launch-date field. Return to review runs both original step validation gates. Ordinary Continue and Back still work. Browsers that expose the date field as text receive the equivalent date-format/minimum validation without changing the entered value. Current requirements, contact details, country/currency restrictions, workflow and portfolio attribution remain in the original form.
 
 This one-page additive module uses the existing navigation controls without changing their controller or the enquiry payload. It adds no storage, requests, tasks or automatic saving. Save draft remains manual; contact details remain excluded from saved drafts. Missing JavaScript leaves the existing navigation/fallback available.
 
