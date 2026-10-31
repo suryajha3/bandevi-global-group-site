@@ -7,6 +7,7 @@ function replaceOne(value,before,after,label){assert.equal(value.split(before).l
 function searchDescription(value){return value.split(approved.oldSearchDescription).join(approved.newSearchDescription);}
 module.exports=(name,input)=>{
  let value=input.replace(/\r\n/g,'\n');
+ if(approved.recordAssets?.[name]){const record=approved.recordAssets[name];assert.equal(value,record.before,'Original company record asset');return record.after;}
  const record=approved.records[name];
  if(record){
   assert(record.afterMain.includes(legal)&&record.afterMain.includes(cin)&&record.afterMain.includes(gst),'Registration expectations need reviewed business identifiers');
