@@ -170,6 +170,7 @@ jobs:
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
           git diff --exit-code
       - name: Check manual Search and Clear, public-only scope and navigation
         env:
@@ -211,6 +212,7 @@ jobs:
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
           git diff --exit-code
       - name: Check manual persistence, public scope, conflicts and review before use
         env:
@@ -289,6 +291,7 @@ jobs:
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
           git diff --exit-code
       - name: Check manual choices, storage boundaries and selected review before brief use
         env:
@@ -330,6 +333,7 @@ jobs:
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
           git diff --exit-code
       - name: Check explicit saving, reviewed empty-field restore, storage conflicts and excluded contact fields
         env:
@@ -371,6 +375,7 @@ jobs:
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
           git diff --exit-code
       - name: Check manual comparison, three-reference limit, public evidence and unchanged shortlist handoff
         env:
@@ -382,6 +387,52 @@ jobs:
         with:
           name: public-project-comparison-checks
           path: qa-results/project-comparison/
+          retention-days: 3
+  public-comparison-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the comparison preview production baseline
+        uses: actions/checkout@v6
+        with:
+          ref: ce00d5a6050a398a1c46087629ad378f761c2719
+          path: qa-comparison-preview-baseline
+          persist-credentials: false
+      - name: Install pinned comparison preview browser checks
+        run: npm install --prefix /tmp/bgg-comparison-preview --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-comparison-preview/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic public builds
+        run: |
+          node scripts/build-site-search.cjs
+          node scripts/build-project-shortlist.cjs
+          node scripts/build-project-readiness.cjs
+          node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
+          git diff --exit-code
+      - name: Check review before print, stale comparisons, public-only output and print cleanup
+        env:
+          NODE_PATH: /tmp/bgg-comparison-preview/node_modules
+          QA_COMPARISON_PREVIEW_BASELINE_DIR: ${{ github.workspace }}/qa-comparison-preview-baseline
+        run: node scripts/qa-project-comparison-preview.cjs --all-browsers
+      - name: Verify full PDF text, source links, screenshots and excluded visitor content
+        run: |
+          python3 -m pip install pypdf==6.10.0
+          python3 -B scripts/verify-comparison-preview-pdfs.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-comparison-preview-checks
+          path: qa-results/project-comparison-preview/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest
