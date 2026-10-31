@@ -1,0 +1,46 @@
+[
+  {
+    "url": "/projects/bandevi-website/",
+    "title": "BANDEVI website",
+    "kind": "Delivered internal project",
+    "scope": "An internal website improvement project for bandeviglobalgroup.com. Explore the actual public pages and the work completed to make services and next steps clearer.",
+    "workflow": "Three-step project brief with editable requirements, budget preference and a review step.",
+    "attribution": "Project type: BANDEVI’s own website. This is not a third-party client testimonial or evidence of customer revenue results.",
+    "limitations": "No independent customer endorsement, measured revenue uplift or verified client sales results are supplied by this internal record.",
+    "image": "/assets/bandevi-home-evidence-20261015.webp",
+    "captured": "15 October 2026"
+  },
+  {
+    "url": "/projects/trip-sarathi/",
+    "title": "Trip Sarathi",
+    "kind": "B2C travel portal · Project reference",
+    "scope": "A public homepage with travel-service navigation and a flight-search entry point. BANDEVI GLOBAL GROUP identifies Trip Sarathi as a B2C travel portal development project.",
+    "workflow": "Visible flight-search and travel-navigation entry points.",
+    "attribution": "B2C travel portal development attribution supplied by BANDEVI’s owner.",
+    "limitations": "The original brief, delivery period and exact design, frontend, backend, supplier integration, deployment and maintenance responsibilities have not been itemised in the available record.",
+    "image": "/assets/portfolio-trip-sarathi.jpg",
+    "captured": "6 October 2026"
+  },
+  {
+    "url": "/projects/maximtrip/",
+    "title": "MaximTrip",
+    "kind": "B2C travel portal · project reference",
+    "scope": "Flight and holiday pages with account and booking-management navigation.",
+    "workflow": "Account and booking-management navigation.",
+    "attribution": "B2C travel portal development attribution supplied by BANDEVI’s owner.",
+    "limitations": "Exact design, frontend, backend, supplier/API integration, deployment and maintenance responsibilities have not yet been itemised for this project.",
+    "image": "/assets/portfolio-maximtrip.webp",
+    "captured": "6 October 2026"
+  },
+  {
+    "url": "/projects/tripodeal/",
+    "title": "TripOdeal",
+    "kind": "B2C travel portal · project reference",
+    "scope": "Flight search, hotel and bus navigation, holiday packages and booking lookup.",
+    "workflow": "Holiday package discovery and a booking lookup entry point.",
+    "attribution": "B2C travel portal development attribution supplied by BANDEVI’s owner.",
+    "limitations": "Exact design, frontend, backend, supplier/API integration, deployment and maintenance responsibilities have not yet been itemised for this project.",
+    "image": "/assets/portfolio-tripodeal.webp",
+    "captured": "6 October 2026"
+  }
+]
