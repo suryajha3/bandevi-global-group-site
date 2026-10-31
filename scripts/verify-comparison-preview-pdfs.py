@@ -1,15 +1,16 @@
 """Verify actual Chromium-generated comparison PDFs; no production/customer data."""
-import hashlib, json, re
+import hashlib, json, re, sys
 from pathlib import Path
 from pypdf import PdfReader
 
 root = Path(__file__).resolve().parents[1]
 refs = json.loads((root / 'scripts/public-project-comparison.json').read_text(encoding='utf-8'))
+output = Path(sys.argv[1]) if len(sys.argv) > 1 else root / 'qa-results/project-comparison-preview'
 label = 'Public project references — not a quotation.'
 compact = lambda text: re.sub(r'\s+', '', text)
 reports = []
 for count, name in [(2, 'comparison-two.pdf'), (3, 'comparison-three.pdf')]:
-    path = root / 'qa-results/project-comparison-preview' / name
+    path = output / name
     reader = PdfReader(path)
     assert 1 <= len(reader.pages) <= 3, (name, len(reader.pages))
     texts = [page.extract_text() or '' for page in reader.pages]
@@ -34,5 +35,5 @@ for count, name in [(2, 'comparison-two.pdf'), (3, 'comparison-three.pdf')]:
     assert links == expected, (name, links, expected)
     assert len(images) == count, (name, 'Screenshot count', len(images))
     reports.append(dict(file=name, pages=len(reader.pages), references=count, publicLinks=len(links), screenshots=len(images), bytes=path.stat().st_size))
-(root / 'qa-results/project-comparison-preview/pdf-checks.json').write_text(json.dumps(reports, indent=2), encoding='utf-8')
+(output / 'pdf-checks.json').write_text(json.dumps(reports, indent=2), encoding='utf-8')
 print(json.dumps(dict(status='PASS', pdfs=reports)))

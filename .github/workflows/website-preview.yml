@@ -426,7 +426,7 @@ jobs:
         run: node scripts/qa-project-comparison-preview.cjs --all-browsers
       - name: Verify full PDF text, source links, screenshots and excluded visitor content
         run: |
-          python3 -m pip install pypdf==6.10.0
+          python3 -m pip install pypdf==6.10.0 pillow==12.3.0
           python3 -B scripts/verify-comparison-preview-pdfs.py
       - uses: actions/upload-artifact@v4
         if: always()
