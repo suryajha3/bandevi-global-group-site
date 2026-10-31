@@ -4,7 +4,7 @@
   "name": "BANDEVI record publication status",
   "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json",
   "description": "Publication-status guide for applicable company records. This is not an independent audit, workforce census or financial statement.",
-  "dateModified": "2026-10-10",
+  "dateModified": "2026-10-31",
   "publisher": {
     "@type": "Organization",
     "name": "BANDEVI GLOBAL GROUP",
@@ -16,7 +16,7 @@
     {
       "@type": "PropertyValue",
       "name": "Contracting identity and registrations",
-      "value": "Awaiting applicable supporting records",
+      "value": "BANDEVI GLOBAL GROUP PRIVATE LIMITED; CIN U79110HR2026PTC152314; incorporated 30 October 2026; GSTIN 06AAPCB2996N1ZU, effective 31 October 2026. Company-supplied certificates reviewed; check current issuer records.",
       "url": "https://bandeviglobalgroup.com/trust-licences-certifications/"
     },
     {
