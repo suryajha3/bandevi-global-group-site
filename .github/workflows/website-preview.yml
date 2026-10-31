@@ -217,6 +217,43 @@ jobs:
           name: public-project-shortlist-checks
           path: qa-results/project-shortlist/
           retention-days: 3
+  public-brief-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the brief preview production comparison
+        uses: actions/checkout@v6
+        with:
+          ref: c6c7aa988d2a299918f99c4bd0737dd57e7ed629
+          path: qa-brief-preview-baseline
+          persist-credentials: false
+      - name: Install pinned preview browser checks
+        run: npm install --prefix /tmp/bgg-brief-preview --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-brief-preview/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Check browser-only preview, manual printing, stale review and existing form boundaries
+        env:
+          NODE_PATH: /tmp/bgg-brief-preview/node_modules
+          QA_BRIEF_PREVIEW_BASELINE_DIR: ${{ github.workspace }}/qa-brief-preview-baseline
+        run: node scripts/qa-project-brief-preview.cjs --all-browsers
+      - name: Check complete PDF text and excluded contact fields
+        run: |
+          python3 -m pip install pypdf==6.10.0
+          python3 -B scripts/verify-brief-preview-pdfs.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-brief-preview-checks
+          path: qa-results/project-brief-preview/
+          retention-days: 3
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 5
