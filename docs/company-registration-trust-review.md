@@ -12,6 +12,8 @@ The documents were read and visually reviewed on 31 October 2026. Live MCA/GST p
 
 Original PDFs, personal annexures, separate PAN/TAN fields and signatures are not included in the repository or public downloads. Machine-readable company facts, the evidence register and the LLM summary use the same business identifiers. No historical brand founding date is inferred from the new incorporation date.
 
-Local review covers 320, 390 and 1440 pixel layouts, one H1, displayed identifiers and verification links. Enquiry runtime, UK/US forms, attribution, consent and backend files are unchanged. No enquiry, event or message is sent.
+Local review covers 320, 390 and 1440 pixel layouts, one H1, displayed identifiers and verification links. The homepage summary has explicit readable text colour, and the evidence table can receive keyboard focus when horizontally scrollable. Enquiry runtime, UK/US forms, attribution, consent and backend files are unchanged. No enquiry, event or message is sent.
+
+The generated search directory is rebuilt with the new trust-page description. Historical public-feature scope gates retain their original baselines and exact comparisons, with a fixed registration-only expectation adapter for these reviewed page, metadata and renderer changes. It does not adapt private code, form controllers or any other feature behaviour; the existing browser and privacy tests still run in full.
 
 Keep this candidate undeployed for review. Analytics PR #153 remains separate. Goodfirms remains pending; all held ERP proposal, article, outreach and customer-case-study drafts remain unpublished and outreach unsent.
