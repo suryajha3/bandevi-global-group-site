@@ -171,6 +171,7 @@ jobs:
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
           node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
           git diff --exit-code
       - name: Check manual Search and Clear, public-only scope and navigation
         env:
@@ -213,6 +214,7 @@ jobs:
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
           node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
           git diff --exit-code
       - name: Check manual persistence, public scope, conflicts and review before use
         env:
@@ -292,6 +294,7 @@ jobs:
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
           node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
           git diff --exit-code
       - name: Check manual choices, storage boundaries and selected review before brief use
         env:
@@ -334,6 +337,7 @@ jobs:
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
           node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
           git diff --exit-code
       - name: Check explicit saving, reviewed empty-field restore, storage conflicts and excluded contact fields
         env:
@@ -376,6 +380,7 @@ jobs:
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
           node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
           git diff --exit-code
       - name: Check manual comparison, three-reference limit, public evidence and unchanged shortlist handoff
         env:
@@ -418,6 +423,7 @@ jobs:
           node scripts/build-project-brief-draft.cjs
           node scripts/build-project-comparison.cjs
           node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
           git diff --exit-code
       - name: Check review before print, stale comparisons, public-only output and print cleanup
         env:
@@ -433,6 +439,49 @@ jobs:
         with:
           name: public-comparison-preview-checks
           path: qa-results/project-comparison-preview/
+          retention-days: 3
+  public-brief-quick-edit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the Quick Edit production baseline
+        uses: actions/checkout@v6
+        with:
+          ref: 3e0b19ce62165e1d443bed6276fba216ca00dcc4
+          path: qa-quick-edit-baseline
+          persist-credentials: false
+      - name: Install pinned Quick Edit browser checks
+        run: npm install --prefix /tmp/bgg-quick-edit --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-quick-edit/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic public builds
+        run: |
+          node scripts/build-site-search.cjs
+          node scripts/build-project-shortlist.cjs
+          node scripts/build-project-readiness.cjs
+          node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
+          node scripts/build-project-comparison-preview.cjs
+          node scripts/build-project-brief-quick-edit.cjs
+          git diff --exit-code
+      - name: Check focused editing, preserved details, validation and refreshed PDF review
+        env:
+          NODE_PATH: /tmp/bgg-quick-edit/node_modules
+          QA_QUICK_EDIT_BASELINE_DIR: ${{ github.workspace }}/qa-quick-edit-baseline
+        run: node scripts/qa-project-brief-quick-edit.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-brief-quick-edit-checks
+          path: qa-results/project-brief-quick-edit/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest
