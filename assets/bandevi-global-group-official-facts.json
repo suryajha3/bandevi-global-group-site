@@ -6,7 +6,7 @@
   "telephone": "+91 7011040474",
   "email": "sales@bandeviglobalgroup.com",
   "@id": "https://bandeviglobalgroup.com/#organization",
-  "description": "Website, CRM, ERP and travel technology services. The brand name is published by BANDEVI; the contracting legal name and applicable registrations require supporting records.",
+  "description": "Website, CRM, ERP and travel technology services. Company-supplied incorporation and GST records name BANDEVI GLOBAL GROUP PRIVATE LIMITED; current portal status should be checked with the issuer.",
   "subjectOf": [
     {
       "@type": "WebPage",
@@ -23,7 +23,7 @@
     {
       "@type": "PropertyValue",
       "name": "Contracting identity and registrations",
-      "value": "Awaiting applicable supporting records"
+      "value": "Company-supplied incorporation certificate dated 30 October 2026 and GST REG-06 effective 31 October 2026 reviewed; live registry status not independently checked."
     },
     {
       "@type": "PropertyValue",
@@ -39,15 +39,27 @@
       "@type": "PropertyValue",
       "name": "Project references",
       "value": "Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Incorporation date",
+      "value": "2026-10-30"
     }
   ],
-  "dateModified": "2026-10-10",
+  "dateModified": "2026-10-31",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A",
+    "streetAddress": "SCO 63, First Floor, Sector 23/23A, behind petrol pump, Palam Vihar",
     "addressLocality": "Gurugram",
     "addressRegion": "Haryana",
     "postalCode": "122017",
     "addressCountry": "IN"
+  },
+  "legalName": "BANDEVI GLOBAL GROUP PRIVATE LIMITED",
+  "taxID": "06AAPCB2996N1ZU",
+  "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "CIN",
+    "value": "U79110HR2026PTC152314"
   }
 }
