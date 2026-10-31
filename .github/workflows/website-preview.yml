@@ -167,6 +167,7 @@ jobs:
         run: |
           node scripts/build-site-search.cjs
           node scripts/build-project-shortlist.cjs
+          node scripts/build-project-readiness.cjs
           git diff --exit-code
       - name: Check manual Search and Clear, public-only scope and navigation
         env:
@@ -205,6 +206,7 @@ jobs:
         run: |
           node scripts/build-site-search.cjs
           node scripts/build-project-shortlist.cjs
+          node scripts/build-project-readiness.cjs
           git diff --exit-code
       - name: Check manual persistence, public scope, conflicts and review before use
         env:
@@ -253,6 +255,45 @@ jobs:
         with:
           name: public-brief-preview-checks
           path: qa-results/project-brief-preview/
+          retention-days: 3
+  public-project-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the readiness production comparison
+        uses: actions/checkout@v6
+        with:
+          ref: 532a46b00e0834e395d7daa9b40bcbbde277bec7
+          path: qa-readiness-baseline
+          persist-credentials: false
+      - name: Install pinned readiness browser checks
+        run: npm install --prefix /tmp/bgg-readiness --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-readiness/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic planning builds
+        run: |
+          node scripts/build-site-search.cjs
+          node scripts/build-project-shortlist.cjs
+          node scripts/build-project-readiness.cjs
+          git diff --exit-code
+      - name: Check manual choices, storage boundaries and selected review before brief use
+        env:
+          NODE_PATH: /tmp/bgg-readiness/node_modules
+          QA_READINESS_BASELINE_DIR: ${{ github.workspace }}/qa-readiness-baseline
+        run: node scripts/qa-project-readiness.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-project-readiness-checks
+          path: qa-results/project-readiness/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest
