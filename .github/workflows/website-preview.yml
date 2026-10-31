@@ -169,6 +169,7 @@ jobs:
           node scripts/build-project-shortlist.cjs
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
           git diff --exit-code
       - name: Check manual Search and Clear, public-only scope and navigation
         env:
@@ -209,6 +210,7 @@ jobs:
           node scripts/build-project-shortlist.cjs
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
           git diff --exit-code
       - name: Check manual persistence, public scope, conflicts and review before use
         env:
@@ -286,6 +288,7 @@ jobs:
           node scripts/build-project-shortlist.cjs
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
           git diff --exit-code
       - name: Check manual choices, storage boundaries and selected review before brief use
         env:
@@ -326,6 +329,7 @@ jobs:
           node scripts/build-project-shortlist.cjs
           node scripts/build-project-readiness.cjs
           node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
           git diff --exit-code
       - name: Check explicit saving, reviewed empty-field restore, storage conflicts and excluded contact fields
         env:
@@ -337,6 +341,47 @@ jobs:
         with:
           name: public-brief-draft-checks
           path: qa-results/project-brief-draft/
+          retention-days: 3
+  public-project-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Check out the comparison production baseline
+        uses: actions/checkout@v6
+        with:
+          ref: dcaab209975b210becffaf36e618aaff84bfbbf5
+          path: qa-comparison-baseline
+          persist-credentials: false
+      - name: Install pinned comparison browser checks
+        run: npm install --prefix /tmp/bgg-comparison --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-comparison/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic public builds and source-supported reference facts
+        run: |
+          node scripts/build-site-search.cjs
+          node scripts/build-project-shortlist.cjs
+          node scripts/build-project-readiness.cjs
+          node scripts/build-project-brief-draft.cjs
+          node scripts/build-project-comparison.cjs
+          git diff --exit-code
+      - name: Check manual comparison, three-reference limit, public evidence and unchanged shortlist handoff
+        env:
+          NODE_PATH: /tmp/bgg-comparison/node_modules
+          QA_COMPARISON_BASELINE_DIR: ${{ github.workspace }}/qa-comparison-baseline
+        run: node scripts/qa-project-comparison.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-project-comparison-checks
+          path: qa-results/project-comparison/
           retention-days: 3
   backend:
     runs-on: ubuntu-latest
