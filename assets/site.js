@@ -8435,6 +8435,13 @@ pageRenderers.home=()=>{
  target.append(summary);return t.innerHTML;
 };
 
+// Regional company records: public business details only; no certificate downloads.
+const regionalCompanyRecordsMarkup = "<section class=\"section mist\" id=\"regional-company-records\" aria-labelledby=\"regional-company-records-title\"><div class=\"container\"><div class=\"section-head single\"><span class=\"eyebrow\" style=\"color:#73562a\">Company and delivery</span><h2 id=\"regional-company-records-title\">Know who will deliver your project.</h2><p>Review the business identity and agree delivery responsibilities before starting work.</p></div><div class=\"grid cols-2\"><article class=\"card\"><h3>Company registration</h3><p><strong>BANDEVI GLOBAL GROUP PRIVATE LIMITED</strong><br>An Indian private limited company, incorporated 30 October 2026.</p><p style=\"overflow-wrap:anywhere\">CIN: U79110HR2026PTC152314<br>GSTIN: 06AAPCB2996N1ZU</p><a class=\"text-link\" href=\"/trust-licences-certifications/#company-registration\">Review company details and official verification links ↗</a></article><article class=\"card\"><h3>Remote delivery from India</h3><p>Your project is delivered remotely from Gurugram, India. UK and US service coverage does not imply a staffed local office.</p><p>Quotations are available in GBP, USD and INR. Confirm scope, milestones, ownership, acceptance and support in your written proposal.</p><a class=\"text-link\" href=\"/how-we-work/#before-you-hire\">Review the project agreement checklist ↗</a></article></div><p>Registration details are transcribed from company-supplied incorporation and GST records. Use the official verification links on the company page to check current records.</p></div></section>";
+for(const key of ['ukSoftwareServices','usSoftwareServices']){
+ const beforeRegionalCompanyRecords=pageRenderers[key];
+ pageRenderers[key]=()=>beforeRegionalCompanyRecords().replace('<section class="section" id="regional-enquiry">',regionalCompanyRecordsMarkup+'<section class="section" id="regional-enquiry">');
+}
+
 render();
 
 if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}

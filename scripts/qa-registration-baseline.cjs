@@ -26,5 +26,8 @@ module.exports=(name,input)=>{
   value=value.replace(/\/\/ PUBLIC SITE SEARCH START[\s\S]*?\/\/ PUBLIC SITE SEARCH END/g,block=>searchDescription(block));
   value=replaceOne(value,'\nrender();','\n'+approved.sourceAddition+'\nrender();','Source registration override');
  }else if(name==='search/index.html')value=searchDescription(value);
+ // Forward the exact reviewed UK/US company-record section; retain all other comparisons.
+ if(['uk/software-development/index.html','us/software-development/index.html'].includes(name))value=replaceOne(value,'<section class="section" id="regional-enquiry">',approved.regionalTrustMarkup+'<section class="section" id="regional-enquiry">','Regional enquiry section');
+ if(name==='assets/site.js')value=replaceOne(value,'\nrender();','\n'+approved.regionalTrustSource+'\nrender();','Regional company records renderer');
  return value;
 };
