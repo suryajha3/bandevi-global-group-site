@@ -4,7 +4,7 @@
   "name": "BANDEVI record publication status",
   "url": "https://bandeviglobalgroup.com/assets/bandevi-global-group-evidence-register.json",
   "description": "Publication-status guide for applicable company records. This is not an independent audit, workforce census or financial statement.",
-  "dateModified": "2026-10-31",
+  "dateModified": "2026-11-02",
   "publisher": {
     "@type": "Organization",
     "name": "BANDEVI GLOBAL GROUP",
@@ -36,6 +36,12 @@
       "name": "Project references",
       "value": "Public interfaces and owner-attributed descriptions; customer results and references require evidence and permission",
       "url": "https://bandeviglobalgroup.com/projects/trip-sarathi/"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "MSME / Udyam registration",
+      "value": "UDYAM-HR-05-0214531; BANDEVI GLOBAL GROUP PRIVATE LIMITED; registered 1 November 2026. Supplied certificate records Micro classification for 2026–27, dated 1 November 2026; reviewed 2 November 2026. Current portal status not independently verified.",
+      "url": "https://udyamregistration.gov.in/Udyam_Verify.aspx"
     }
   ]
 }

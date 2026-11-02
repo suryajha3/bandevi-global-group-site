@@ -44,9 +44,15 @@
       "@type": "PropertyValue",
       "name": "Incorporation date",
       "value": "2026-10-30"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "MSME / Udyam registration",
+      "value": "UDYAM-HR-05-0214531; BANDEVI GLOBAL GROUP PRIVATE LIMITED; registered 1 November 2026. Supplied certificate records Micro classification for 2026–27, dated 1 November 2026; reviewed 2 November 2026. Current portal status not independently verified.",
+      "url": "https://udyamregistration.gov.in/Udyam_Verify.aspx"
     }
   ],
-  "dateModified": "2026-10-31",
+  "dateModified": "2026-11-02",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "SCO 63, First Floor, Sector 23/23A, behind petrol pump, Palam Vihar",
@@ -57,9 +63,16 @@
   },
   "legalName": "BANDEVI GLOBAL GROUP PRIVATE LIMITED",
   "taxID": "06AAPCB2996N1ZU",
-  "identifier": {
-    "@type": "PropertyValue",
-    "propertyID": "CIN",
-    "value": "U79110HR2026PTC152314"
-  }
+  "identifier": [
+    {
+      "@type": "PropertyValue",
+      "propertyID": "CIN",
+      "value": "U79110HR2026PTC152314"
+    },
+    {
+      "@type": "PropertyValue",
+      "propertyID": "Udyam",
+      "value": "UDYAM-HR-05-0214531"
+    }
+  ]
 }
