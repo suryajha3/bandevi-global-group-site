@@ -29,5 +29,7 @@ module.exports=(name,input)=>{
  // Forward the exact reviewed UK/US company-record section; retain all other comparisons.
  if(['uk/software-development/index.html','us/software-development/index.html'].includes(name))value=replaceOne(value,'<section class="section" id="regional-enquiry">',approved.regionalTrustMarkup+'<section class="section" id="regional-enquiry">','Regional enquiry section');
  if(name==='assets/site.js')value=replaceOne(value,'\nrender();','\n'+approved.regionalTrustSource+'\nrender();','Regional company records renderer');
+ // Forward only the reviewed UK/US WebPage release-date correction.
+ if(['uk/software-development/index.html','us/software-development/index.html'].includes(name))value=replaceOne(value,'"dateModified":"2026-10-17"','"dateModified":"2026-10-31"','Regional WebPage modification date');
  return value;
 };
