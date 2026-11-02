@@ -581,3 +581,34 @@ jobs:
           name: website-preview-checks
           path: qa-results/
           retention-days: 3
+  public-company-profile-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Install pinned public profile checks
+        run: npm install --prefix /tmp/bgg-company-profile --ignore-scripts --no-audit --no-fund playwright@1.56.1 axe-core@4.10.3
+      - name: Configure reliable Ubuntu dependency downloads
+        run: python3 scripts/configure-ci-apt-mirror.py
+      - name: Install browser engines
+        run: /tmp/bgg-company-profile/node_modules/.bin/playwright install --with-deps chromium firefox webkit
+      - name: Verify deterministic profile bundle
+        run: |
+          node scripts/build-company-profile-preview.cjs
+          git diff --exit-code
+      - name: Check manual public preview, printing, privacy, freshness and cleanup
+        env:
+          NODE_PATH: /tmp/bgg-company-profile/node_modules
+        run: node scripts/qa-company-profile-preview.cjs --all-browsers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-company-profile-preview-checks
+          path: qa-results/company-profile-preview/
+          retention-days: 3

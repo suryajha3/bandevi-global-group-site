@@ -29,5 +29,9 @@ module.exports=(name,input)=>{
  // Forward the exact reviewed UK/US company-record section; retain all other comparisons.
  if(['uk/software-development/index.html','us/software-development/index.html'].includes(name))value=replaceOne(value,'<section class="section" id="regional-enquiry">',approved.regionalTrustMarkup+'<section class="section" id="regional-enquiry">','Regional enquiry section');
  if(name==='assets/site.js')value=replaceOne(value,'\nrender();','\n'+approved.regionalTrustSource+'\nrender();','Regional company records renderer');
+ // Forward only the fixed, reviewed Company Profile page and renderer addition.
+ const profile=require('./fixtures/company-profile-preview-approved.json');
+ if(name==='company-profile/index.html'){value=replaceOne(value,profile.beforeMain,profile.afterMain,'Company profile records and preview');value=replaceOne(value,'</head>',profile.bundle+'</head>','Company profile-only bundle');}
+ if(name==='assets/site.js')value=replaceOne(value,'\nrender();','\n'+profile.sourceAddition+'\nrender();','Company profile renderer');
  return value;
 };
