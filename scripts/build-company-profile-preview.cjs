@@ -1,0 +1,3 @@
+/* Company Profile-only browser preview assets. */
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),approved=require('./fixtures/company-profile-preview-approved.json');
+const file=path.resolve(__dirname,'../company-profile/index.html');let html=fs.readFileSync(file,'utf8');assert(html.includes('data-company-profile-preview'));if(!html.includes('/assets/company-profile-preview.js?'))html=html.replace('</head>',approved.bundle+'</head>');assert.equal(html.split(approved.bundle).length,2);fs.writeFileSync(file,html);console.log('Built Company Profile-only preview and manual print assets.');

@@ -8442,6 +8442,16 @@ for(const key of ['ukSoftwareServices','usSoftwareServices']){
  pageRenderers[key]=()=>beforeRegionalCompanyRecords().replace('<section class="section" id="regional-enquiry">',regionalCompanyRecordsMarkup+'<section class="section" id="regional-enquiry">');
 }
 
+// Company Profile-only public record copy and manual browser preview.
+const profileBeforePublicPreview=pageRenderers.profile;
+const publicProfileReplacements=[["The contracting legal name and applicable registrations need supporting records. Group descriptions, photos and public profiles do not establish these credentials.","Company-supplied incorporation, GST and Udyam records identify BANDEVI GLOBAL GROUP PRIVATE LIMITED. Review the published details and official verification links before agreeing your project."],["The legal name, applicable registrations and invoicing details need supporting records for the business handling your project. Company-supplied incorporation and GST details are published in our company records.","BANDEVI GLOBAL GROUP PRIVATE LIMITED: CIN U79110HR2026PTC152314; GSTIN 06AAPCB2996N1ZU; Udyam UDYAM-HR-05-0214531. Incorporation: 30 October 2026. GST effective: 31 October 2026. Udyam registered: 1 November 2026. The supplied Udyam certificate records Micro classification for 2026–27. Check current issuer records and confirm invoicing details in your proposal."],["<a class=\"text-link\" href=\"/contact-us/?request=company-records#contact-form\">Request company records</a>","<a class=\"text-link\" href=\"/trust-licences-certifications/#company-registration\">Review company registration and verification links</a>"]];
+const publicProfilePreviewMarkup="<section class=\"section mist\" id=\"public-company-profile\"><div class=\"container\" data-company-profile-preview><div class=\"section-head single\"><span class=\"eyebrow\">Public company information</span><h2>Review a company profile you can save.</h2><p>Preview the published business identity, services, address, contacts and verification links in your browser. Review the details before choosing Print / Save as PDF.</p><p><strong>Public company information — not a quotation.</strong></p></div><div class=\"company-profile-preview-launch\"><button type=\"button\" data-company-profile-open disabled>Preview company profile</button></div><noscript><p>Enable JavaScript to generate the profile preview and use its print controls. You can still review the public company details on this page and the <a href=\"/trust-licences-certifications/#company-registration\">registration page</a>.</p></noscript></div></section>";
+pageRenderers.profile=()=>{
+ let html=profileBeforePublicPreview();
+ for(const [before,after] of publicProfileReplacements){if(html.split(before).length!==2)throw Error("Company profile record changed");html=html.replace(before,()=>after);}
+ return html+publicProfilePreviewMarkup;
+};
+
 render();
 
 if(document.body.dataset.page === "offices"){for(const [tag,url] of [["link","/assets/office-gallery.css?v=1"],["script","/assets/office-gallery.js?v=1"]]){const e=document.createElement(tag);if(tag==="link"){e.rel="stylesheet";e.href=url;}else{e.src=url;e.defer=true;}document.head.appendChild(e);}}
