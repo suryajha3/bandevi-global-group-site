@@ -1,0 +1,1742 @@
+{
+  "baseline": "ff443f4f0e4bd6300ea62ec1c30f435c99ee02d0",
+  "reason": "User-approved public typography, contact-button wording, mobile safe-area clearance, CRM spacing, section-heading balance and card alignment. Preserve colours, routes, section order, page grids and all private/controller code.",
+  "updates": {
+    "about-us/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "about.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "ae/software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "astrology-services-platform/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "b2b-travel-portal/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/automate-payment-workflows-in-travel-agencies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/business-automation-for-travel-companies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/corporate-website-crm-for-travel-businesses/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/customer-portal-for-travel-agencies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/lead-booking-management-for-travel-companies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/travel-crm-software-for-agencies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/travel-crm-vs-erp-for-travel-agencies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/travel-erp-system-for-tour-operators/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/travel-website-vs-white-label-travel-portal/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/white-label-crm-vs-custom-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "blog/white-label-travel-website-vs-custom-travel-website/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "business-automation/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "business-process-automation/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "case-studies.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "case-studies/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "client-feedback/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "company-profile/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "contact-us/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "contact.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "crm-demo/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "crm-erp-solutions/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "crm-project-planning/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "crm-promotion-kit/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "custom-crm-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "custom-software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "customer-portal.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "customer-portal/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "demo-request.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "demo-request/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "directory-listing-profile/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "dmc-software/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "ecommerce-solutions/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "ecommerce-website-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "erp-software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "evidence-register/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "external-citation-tracker/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "flight-booking-engine/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "hotel-booking-engine/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "how-we-work/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "aria-label=\"Try interactive CRM: fictional demonstration\"><span>Try interactive CRM</span>",
+        "after": "aria-label=\"Try CRM Demo: fictional demonstration\"><span>Try CRM Demo</span>",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      },
+      {
+        "before": "/assets/home-focus.css?v=20261030",
+        "after": "/assets/home-focus.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "india/software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "india/travel-agency-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "international/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "it-company-software-development-services/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "it-products/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "it-solutions.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "lead-booking-management/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "makhana-brand-solutions/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "masala-food-products/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "offices/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "official-company-facts/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "privacy-policy/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "products.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "project-brief/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "project-readiness/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "project-shortlist/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "projects/bandevi-website/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "projects/maximtrip/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "projects/trip-sarathi/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "projects/tripodeal/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "proof-verification/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "sample-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "sample-proposal/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "search/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "service-offers/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "sg/software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "social-proof-posts/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "staff-size-net-worth/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "support.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "support/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "surya-kant-jha/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "terms-and-conditions/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "tour-operator-software/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-agency-mobile-app/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-agency-website-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-booking-software/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-crm-software/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-crm.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-erp.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-erp/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-mobile-app-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-technology/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "travel-website-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "trust-licences-certifications/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "uk/software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "uk/travel-agency-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "us/software-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "us/travel-agency-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "website-mobile-app-development/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "white-label-crm/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "white-label-travel-portal/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "white-label-travel-website/index.html": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ],
+    "assets/site.js": [
+      {
+        "before": "aria-label=\"Discuss Your Project\">Discuss ",
+        "after": "aria-label=\"Discuss Your Project\">Discuss Your Project ",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "aria-label=\"Try interactive CRM: fictional demonstration\"><span>Try interactive CRM</span>",
+        "after": "aria-label=\"Try CRM Demo: fictional demonstration\"><span>Try CRM Demo</span>",
+        "count": 1
+      },
+      {
+        "before": "/assets/brand-system.css?v=20261025-brand-polish",
+        "after": "/assets/brand-system.css?v=20261104-readability",
+        "count": 1
+      }
+    ]
+  },
+  "cssAppend": {
+    "assets/brand-system.css": "\n/* Public readability refinement: preserve all existing colours and page grids. */\nbody[data-page] .site-shell {\n  font-family: \"Segoe UI\", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;\n  line-height: 1.65;\n}\nbody[data-page] .site-shell :is(button, input, select, textarea) { font-family: inherit; }\nbody[data-page] main :is(.form-help, .project-evidence-note, .project-frame-label, .project-selected-filter, .project-filter-count, figcaption) {\n  font-size: 14px;\n  line-height: 1.6;\n}\nbody[data-page] main :is(.section-head, .home-section-heading) h2 {\n  font-size: clamp(28px, 2.6vw, 40px);\n  line-height: 1.22;\n  text-wrap: balance;\n}\nbody[data-page] main :is(.card, .proof-card, .solution-card, .project-plan, .buyer-proof) { min-width: 0; }\nbody[data-page] main :is(.grid, .project-directory-grid) > :is(.card, .proof-card, .solution-card, .project-plan, .buyer-proof) {\n  display: flex;\n  flex-direction: column;\n}\nbody[data-page] main :is(.grid, .project-directory-grid) > :is(.card, .proof-card, .solution-card, .project-plan, .buyer-proof) > :is(.button, .text-link):last-child {\n  margin-top: auto;\n  align-self: flex-start;\n}\nbody[data-page] main :is(.card, .proof-card, .solution-card) > h3 { margin-block: 0 12px; }\nbody[data-page] main :is(.card, .proof-card, .solution-card) > p { line-height: 1.65; }\n@media (max-width: 1180px) {\n  body[data-page] .topbar .mobile-demo {\n    max-width: 126px;\n    font-size: 13px;\n    line-height: 1.3;\n    text-align: center;\n    white-space: normal;\n  }\n  body[data-page] .topbar .brand-copy { min-width: 0; }\n}\n@media (max-width: 760px) {\n  html:has(body[data-page] .mobile-contact-bar:not([hidden])) {\n    scroll-padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));\n  }\n  body[data-page]:has(.mobile-contact-bar) {\n    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));\n  }\n  body[data-page] .mobile-contact-bar {\n    padding: 12px max(12px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));\n    align-items: stretch;\n  }\n  body[data-page] .mobile-contact-bar a {\n    min-width: 0;\n    min-height: 48px;\n    padding: 8px;\n    font-size: 14px;\n    line-height: 1.4;\n    text-align: center;\n    white-space: normal;\n  }\n  body[data-page] main :is(a, button, summary, input, select, textarea) {\n    scroll-margin-bottom: calc(108px + env(safe-area-inset-bottom, 0px));\n  }\n}\n",
+    "assets/home-focus.css": "\n/* Refine existing homepage type and spacing without moving sections or changing colour. */\nbody[data-page=\"home\"] .home-work-heading h2 {\n  font-size: clamp(28px, 2.5vw, 38px);\n  line-height: 1.22;\n  max-width: 25ch;\n  text-wrap: balance;\n}\nbody[data-page=\"home\"] .home-work-heading > p { font-size: 16px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-pipeline { padding: 16px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-pipeline-head { margin-bottom: 12px; }\nbody[data-page=\"home\"] #intl-crm-preview .home-crm-steps { gap: 8px; margin-bottom: 8px; }\nbody[data-page=\"home\"] #intl-crm-preview .home-crm-steps button { font-size: 14px; padding: 8px 4px; }\nbody[data-page=\"home\"] #intl-crm-preview .home-crm-progress { font-size: 14px; line-height: 1.5; margin: 0 0 12px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-board > .intl-lane > h3 { margin-bottom: 10px; font-size: 14px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-lead { padding: 16px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-next span { font-size: 14px; margin-bottom: 4px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-owner { font-size: 14px; line-height: 1.5; margin-top: 12px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-fiction { font-size: 14px; line-height: 1.5; margin-top: 12px; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-sample { font-size: 12px; line-height: 1.5; }\nbody[data-page=\"home\"] #intl-crm-preview .intl-showcase-top .intl-eyebrow { font-size: 12px; }\nbody[data-page=\"home\"] .home-work-card-copy { padding: 22px; gap: 10px; }\nbody[data-page=\"home\"] .home-work-kind { font-size: 13px; line-height: 1.5; }\nbody[data-page=\"home\"] .home-work-card-copy h3 { margin: 0; font-size: 24px; line-height: 1.3; }\nbody[data-page=\"home\"] .home-work-card-copy p { margin: 0; font-size: 16px; line-height: 1.65; }\nbody[data-page=\"home\"] .home-work-card-copy > a { padding-block: 8px; font-size: 14px; font-weight: 650; }\nbody[data-page=\"home\"] .home-work-card-copy small { margin: 0; font-size: 14px; line-height: 1.6; min-height: 4.8em; }\nbody[data-page=\"home\"] .home-hero-markets :is(.home-market-label, .home-market-context, .home-market-currency),\nbody[data-page=\"home\"] main .home-assurance { font-size: 14px; line-height: 1.6; }\n@media (max-width: 680px) {\n  body[data-page=\"home\"] #intl-crm-preview .intl-pipeline { padding: 12px; }\n  body[data-page=\"home\"] .home-work-card-copy { padding: 20px; }\n  body[data-page=\"home\"] .home-work-card-copy small { min-height: 0; }\n}\n"
+  }
+}
