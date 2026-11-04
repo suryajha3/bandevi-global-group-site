@@ -10,6 +10,7 @@ function scope(){
  for(const n of files){if(!n.endsWith('.html')&&!n.startsWith('assets/')&&!n.startsWith('server/'))continue;if(!/\.(?:html|js|css|json|txt|py|md|xml|svg|cjs)$/.test(n)){assert.equal(cp.execFileSync('git',['hash-object',n],{cwd:root,encoding:'utf8'}).trim(),cp.execFileSync('git',['rev-parse',approved.baseline+':'+n],{cwd:root,encoding:'utf8'}).trim(),'Protected asset '+n);continue;}let before=baseline(n);if(n.endsWith('.html')&&/<body data-page=/.test(before)&&before.includes('class="primary-nav"'))publicPages++;
   if(n==='company-profile/index.html'){assert.equal(before.split(approved.beforeMain).length,2);before=before.replace(approved.beforeMain,()=>approved.afterMain).replace('</head>',approved.bundle+'</head>');}
   if(n==='assets/site.js')before=before.replace('\nrender();','\n'+approved.sourceAddition+'\nrender();');
+  before=require('./qa-office-landline-baseline.cjs')(n,before);
   const actual=fs.readFileSync(path.join(root,n));if(/\.(?:html|js|css|json|txt|py|md|xml|svg|cjs)$/.test(n))assert.equal(actual.toString().replace(/\r\n/g,'\n'),before,'Unexpected runtime delta '+n);else assert.deepEqual(actual,cp.execFileSync('git',['show',approved.baseline+':'+n],{cwd:root,maxBuffer:30000000}));
  }
  assert.equal(publicPages,100);

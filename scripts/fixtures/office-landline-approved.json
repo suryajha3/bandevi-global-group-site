@@ -1,0 +1,759 @@
+{
+  "baseline": "2324700765d9fdd0cc1bbec41966eb4f7d24222d",
+  "display": "0124 476 3671",
+  "href": "tel:+911244763671",
+  "reason": "User requested adding 01244763671 as the office landline. Additive public contact text only.",
+  "updates": {
+    "about-us/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "about.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "ae/software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "astrology-services-platform/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "b2b-travel-portal/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/automate-payment-workflows-in-travel-agencies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/business-automation-for-travel-companies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/corporate-website-crm-for-travel-businesses/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/customer-portal-for-travel-agencies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/lead-booking-management-for-travel-companies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/travel-crm-software-for-agencies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/travel-crm-vs-erp-for-travel-agencies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/travel-erp-system-for-tour-operators/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/travel-website-vs-white-label-travel-portal/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/white-label-crm-vs-custom-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog/white-label-travel-website-vs-custom-travel-website/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "blog.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "business-automation/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "business-process-automation/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "case-studies/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "case-studies.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "client-feedback/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "company-profile/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "contact-us/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      },
+      {
+        "before": ". India enquiries and WhatsApp: <a href=\"tel:+917011040474\">",
+        "after": ". Office landline: <a href=\"tel:+911244763671\">0124 476 3671</a>. India enquiries and WhatsApp: <a href=\"tel:+917011040474\">",
+        "count": 1
+      },
+      {
+        "before": "<a href=\"tel:+917011040474\">+91 7011040474</a></p><a class=\"text-link\" href=\"/project-brief/\">",
+        "after": "<a href=\"tel:+917011040474\">+91 7011040474</a><br><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a></p><a class=\"text-link\" href=\"/project-brief/\">",
+        "count": 1
+      }
+    ],
+    "contact.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      },
+      {
+        "before": ". India enquiries and WhatsApp: <a href=\"tel:+917011040474\">",
+        "after": ". Office landline: <a href=\"tel:+911244763671\">0124 476 3671</a>. India enquiries and WhatsApp: <a href=\"tel:+917011040474\">",
+        "count": 1
+      }
+    ],
+    "crm-demo/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "crm-erp-solutions/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "crm-project-planning/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "crm-promotion-kit/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "custom-crm-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "custom-software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "customer-portal/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "customer-portal.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "demo-request/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "demo-request.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "directory-listing-profile/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "dmc-software/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "ecommerce-solutions/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "ecommerce-website-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "erp-software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "evidence-register/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "external-citation-tracker/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "flight-booking-engine/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "hotel-booking-engine/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "how-we-work/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "india/software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "india/travel-agency-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "international/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "it-company-software-development-services/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "it-products/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "it-solutions.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "lead-booking-management/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "makhana-brand-solutions/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "masala-food-products/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "offices/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "official-company-facts/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "privacy-policy/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "products.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "project-brief/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "project-readiness/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "project-shortlist/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "projects/bandevi-website/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "projects/maximtrip/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "projects/trip-sarathi/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "projects/tripodeal/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "proof-verification/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "sample-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "sample-proposal/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "search/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "service-offers/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "sg/software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "social-proof-posts/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "staff-size-net-worth/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "support/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "support.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "surya-kant-jha/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "terms-and-conditions/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "tour-operator-software/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-agency-mobile-app/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-agency-website-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-booking-software/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-crm-software/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-crm.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-erp/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-erp.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-mobile-app-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-technology/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "travel-website-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "trust-licences-certifications/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "uk/software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "uk/travel-agency-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "us/software-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "us/travel-agency-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "website-mobile-app-development/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "white-label-crm/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "white-label-travel-portal/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "white-label-travel-website/index.html": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      }
+    ],
+    "assets/site.js": [
+      {
+        "before": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a>",
+        "after": "<a href=\"tel:+917011040474\">India: +91 70110 40474</a><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a>",
+        "count": 1
+      },
+      {
+        "before": ". India enquiries and WhatsApp: <a href=\"tel:+917011040474\">",
+        "after": ". Office landline: <a href=\"tel:+911244763671\">0124 476 3671</a>. India enquiries and WhatsApp: <a href=\"tel:+917011040474\">",
+        "count": 1
+      },
+      {
+        "before": "<a href=\"tel:+917011040474\">+91 7011040474</a></p><a class=\"text-link\" href=\"/project-brief/\">",
+        "after": "<a href=\"tel:+917011040474\">+91 7011040474</a><br><a href=\"tel:+911244763671\">Office landline: 0124 476 3671</a></p><a class=\"text-link\" href=\"/project-brief/\">",
+        "count": 2
+      }
+    ],
+    "assets/company-profile-preview.js": [
+      {
+        "before": "['+91 70110 40474','tel:+917011040474']",
+        "after": "['+91 70110 40474','tel:+917011040474'],['Office landline: 0124 476 3671','tel:+911244763671']",
+        "count": 1
+      }
+    ],
+    "assets/bandevi-global-group-official-facts.json": [
+      {
+        "before": "  \"telephone\": \"+91 7011040474\",",
+        "after": "  \"telephone\": \"+91 7011040474\",\n  \"contactPoint\": [{\"@type\":\"ContactPoint\",\"telephone\":\"+91 124 476 3671\",\"contactType\":\"Gurugram office landline\"}],",
+        "count": 1
+      },
+      {
+        "before": "\"dateModified\": \"2026-11-02\"",
+        "after": "\"dateModified\": \"2026-11-04\"",
+        "count": 1
+      }
+    ]
+  }
+}
