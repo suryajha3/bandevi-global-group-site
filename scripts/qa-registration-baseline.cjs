@@ -8,7 +8,7 @@ function searchDescription(value){return value.split(approved.oldSearchDescripti
 module.exports=(name,input)=>{
  let value=input.replace(/\r\n/g,'\n');
  for(const {before,after,count} of approved.textReplacements?.[name]||[]){assert.equal(value.split(before).length-1,count,'Original registration status: '+name);value=value.split(before).join(after);}
- if(approved.recordAssets?.[name]){const record=approved.recordAssets[name];assert.equal(value,record.before,'Original company record asset');return record.after;}
+ if(approved.recordAssets?.[name]){const record=approved.recordAssets[name];assert.equal(value,record.before,'Original company record asset');return require('./qa-office-landline-baseline.cjs')(name,record.after);}
  const record=approved.records[name];
  if(record){
   assert(record.afterMain.includes(legal)&&record.afterMain.includes(cin)&&record.afterMain.includes(gst),'Registration expectations need reviewed business identifiers');
@@ -33,5 +33,5 @@ module.exports=(name,input)=>{
  const profile=require('./fixtures/company-profile-preview-approved.json');
  if(name==='company-profile/index.html'){value=replaceOne(value,profile.beforeMain,profile.afterMain,'Company profile records and preview');value=replaceOne(value,'</head>',profile.bundle+'</head>','Company profile-only bundle');}
  if(name==='assets/site.js')value=replaceOne(value,'\nrender();','\n'+profile.sourceAddition+'\nrender();','Company profile renderer');
- return value;
+ return require('./qa-office-landline-baseline.cjs')(name,value);
 };
