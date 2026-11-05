@@ -55,16 +55,19 @@ body[data-page="home"] .home-work-heading h2 {
   text-wrap: balance;
 }
 body[data-page="home"] .home-work-heading > p { font-size: 16px; }
-body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 16px; }
-body[data-page="home"] #intl-crm-preview .intl-pipeline-head { margin-bottom: 12px; }
-body[data-page="home"] #intl-crm-preview .home-crm-steps { gap: 8px; margin-bottom: 8px; }
+body[data-page="home"] #intl-crm-preview { padding-block: 8px; }
+body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 8px 14px; }
+body[data-page="home"] #intl-crm-preview .intl-pipeline-head { margin-bottom: 6px; }
+body[data-page="home"] #intl-crm-preview .intl-pipeline-head h2 { font-size: clamp(23px, 1.8vw, 28px); }
+body[data-page="home"] #intl-crm-preview .home-crm-steps { gap: 8px; margin-bottom: 6px; }
 body[data-page="home"] #intl-crm-preview .home-crm-steps button { font-size: 14px; padding: 8px 4px; }
-body[data-page="home"] #intl-crm-preview .home-crm-progress { font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
-body[data-page="home"] #intl-crm-preview .intl-board > .intl-lane > h3 { margin-bottom: 10px; font-size: 14px; }
-body[data-page="home"] #intl-crm-preview .intl-lead { padding: 16px; }
+body[data-page="home"] #intl-crm-preview .home-crm-progress { font-size: 14px; line-height: 1.5; margin: 0 0 6px; }
+body[data-page="home"] #intl-crm-preview .intl-board > .intl-lane > h3 { margin-bottom: 6px; font-size: 14px; }
+body[data-page="home"] #intl-crm-preview .intl-lead { padding: 10px 12px; }
 body[data-page="home"] #intl-crm-preview .intl-next span { font-size: 14px; margin-bottom: 4px; }
-body[data-page="home"] #intl-crm-preview .intl-owner { font-size: 14px; line-height: 1.5; margin-top: 12px; }
-body[data-page="home"] #intl-crm-preview .intl-fiction { font-size: 14px; line-height: 1.5; margin-top: 12px; }
+body[data-page="home"] #intl-crm-preview .intl-owner,
+body[data-page="home"] #intl-crm-preview .intl-fiction { font-size: 14px; line-height: 1.5; margin-top: 8px; }
+body[data-page="home"] #intl-crm-preview .intl-showcase-caption { padding-top: 8px; }
 body[data-page="home"] #intl-crm-preview .intl-sample { font-size: 12px; line-height: 1.5; }
 body[data-page="home"] #intl-crm-preview .intl-showcase-top .intl-eyebrow { font-size: 12px; }
 body[data-page="home"] .home-work-card-copy { padding: 22px; gap: 10px; }
@@ -76,7 +79,7 @@ body[data-page="home"] .home-work-card-copy small { margin: 0; font-size: 14px; 
 body[data-page="home"] .home-hero-markets :is(.home-market-label, .home-market-context, .home-market-currency),
 body[data-page="home"] main .home-assurance { font-size: 14px; line-height: 1.6; }
 @media (max-width: 680px) {
-  body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 12px; }
+  body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 8px 12px; }
   body[data-page="home"] .home-work-card-copy { padding: 20px; }
   body[data-page="home"] .home-work-card-copy small { min-height: 0; }
 }
