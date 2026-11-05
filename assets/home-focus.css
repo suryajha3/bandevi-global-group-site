@@ -46,3 +46,43 @@ body[data-page="home"] .home-reference-layout{border-top:1px solid #b9c5c7;paddi
 body[data-page="home"] #intl-crm-preview .intl-showcase-caption{display:flex}
 .home-work-card-copy .intl-watch-demo{border:0}
 body[data-page="home"] .home-work-card-copy>a{min-height:44px;display:inline-flex;align-items:center}
+
+/* Refine existing homepage type and spacing without moving sections or changing colour. */
+body[data-page="home"] .home-work-heading h2 {
+  font-size: clamp(28px, 2.5vw, 38px);
+  line-height: 1.22;
+  max-width: 25ch;
+  text-wrap: balance;
+}
+body[data-page="home"] .home-work-heading > p { font-size: 16px; }
+body[data-page="home"] #intl-crm-preview { padding-block: 8px; }
+body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 8px 14px; }
+body[data-page="home"] #intl-crm-preview .intl-pipeline-head { margin-bottom: 6px; }
+body[data-page="home"] #intl-crm-preview .intl-pipeline-head h2 { font-size: clamp(23px, 1.8vw, 28px); }
+body[data-page="home"] #intl-crm-preview .home-crm-steps { gap: 8px; margin-bottom: 6px; }
+body[data-page="home"] #intl-crm-preview .home-crm-steps button { font-size: 14px; padding: 8px 4px; }
+body[data-page="home"] #intl-crm-preview .home-crm-progress { font-size: 14px; line-height: 1.5; margin: 0 0 6px; }
+body[data-page="home"] #intl-crm-preview .intl-board > .intl-lane > h3 { margin-bottom: 6px; font-size: 14px; }
+body[data-page="home"] #intl-crm-preview .intl-lead { padding: 10px 12px; }
+body[data-page="home"] #intl-crm-preview .intl-next span { font-size: 14px; margin-bottom: 4px; }
+body[data-page="home"] #intl-crm-preview .intl-owner,
+body[data-page="home"] #intl-crm-preview .intl-fiction { font-size: 14px; line-height: 1.5; margin-top: 8px; }
+body[data-page="home"] #intl-crm-preview .intl-showcase-caption { padding-top: 8px; }
+body[data-page="home"] #intl-crm-preview .intl-sample { font-size: 12px; line-height: 1.5; }
+body[data-page="home"] #intl-crm-preview .intl-showcase-top .intl-eyebrow { font-size: 12px; }
+body[data-page="home"] .home-work-card-copy { padding: 22px; gap: 10px; }
+body[data-page="home"] .home-work-kind { font-size: 13px; line-height: 1.5; }
+body[data-page="home"] .home-work-card-copy h3 { margin: 0; font-size: 24px; line-height: 1.3; }
+body[data-page="home"] .home-work-card-copy p { margin: 0; font-size: 16px; line-height: 1.65; }
+body[data-page="home"] .home-work-card-copy > a { padding-block: 8px; font-size: 14px; font-weight: 650; }
+body[data-page="home"] .home-work-card-copy small { margin: 0; font-size: 14px; line-height: 1.6; min-height: 4.8em; }
+body[data-page="home"] .home-hero-markets :is(.home-market-label, .home-market-context, .home-market-currency),
+body[data-page="home"] main .home-assurance { font-size: 14px; line-height: 1.6; }
+@media (max-width: 680px) {
+  body[data-page="home"] #intl-crm-preview { padding-block: 6px; }
+  body[data-page="home"] #intl-crm-preview .intl-showcase-top { margin-bottom: 6px; }
+  body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 6px 12px; }
+  body[data-page="home"] #intl-crm-preview .intl-showcase-caption { padding-top: 6px; }
+  body[data-page="home"] .home-work-card-copy { padding: 20px; }
+  body[data-page="home"] .home-work-card-copy small { min-height: 0; }
+}
