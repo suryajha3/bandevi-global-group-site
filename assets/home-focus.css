@@ -79,7 +79,10 @@ body[data-page="home"] .home-work-card-copy small { margin: 0; font-size: 14px; 
 body[data-page="home"] .home-hero-markets :is(.home-market-label, .home-market-context, .home-market-currency),
 body[data-page="home"] main .home-assurance { font-size: 14px; line-height: 1.6; }
 @media (max-width: 680px) {
-  body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 8px 12px; }
+  body[data-page="home"] #intl-crm-preview { padding-block: 6px; }
+  body[data-page="home"] #intl-crm-preview .intl-showcase-top { margin-bottom: 6px; }
+  body[data-page="home"] #intl-crm-preview .intl-pipeline { padding: 6px 12px; }
+  body[data-page="home"] #intl-crm-preview .intl-showcase-caption { padding-top: 6px; }
   body[data-page="home"] .home-work-card-copy { padding: 20px; }
   body[data-page="home"] .home-work-card-copy small { min-height: 0; }
 }
