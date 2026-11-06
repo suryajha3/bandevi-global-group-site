@@ -48,5 +48,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original portfolio brief marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const evidenceBanner = require('./fixtures/home-evidence-banner-approved.json');
+  for (const { before, after } of evidenceBanner[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage evidence marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
