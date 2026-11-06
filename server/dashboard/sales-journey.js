@@ -46,7 +46,7 @@ $('editor').addEventListener('close',()=>{if(!$('editor').open)clearSalesJourney
 $('editor').addEventListener('cancel',clearSalesJourney);
 async function refreshSalesFunnel(identity){
  const generation=++salesFunnelGeneration,days=$('report-days').value;
- campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
+ campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('home-service-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
  try{const r=await api('/api/admin/sales-funnel?days='+days);if(!csrf||csrf!==identity||generation!==salesFunnelGeneration||days!==$('report-days').value)return;
   const labels={enquiries:'Enquiries',demoBooked:'Demo booked',demoCompleted:'Demo completed',publishedProposals:'All published proposals',proposalAfterDemo:'Proposal after demo booking',wonAfterDemoProposal:'Won after demo & proposal',currentlyWon:'All currently Won'};
   $('sales-funnel-counts').replaceChildren(...Object.entries(r.counts).map(([key,value])=>{const card=text('div',labels[key],'count');card.append(text('strong',String(value)));return card;}));
@@ -60,6 +60,7 @@ async function refreshSalesFunnel(identity){
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);
+  renderOutcomeRows('home-service-sales-report','Homepage service','serviceLabel',r.homeServices || []);
   renderCampaignSalesReport(r);
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;}}
 }
@@ -94,7 +95,7 @@ function renderOutcomeRows(id,label,labelKey,groups){
 let campaignSalesState=null;
 function clearCampaignSales(){
  campaignSalesState=null;
- for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report','industry-sales-report'])$(id).replaceChildren();
+ for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report','industry-sales-report','home-service-sales-report'])$(id).replaceChildren();
  $('campaign-sales-country').value='all';$('campaign-sales-search').value='';
 }
 function renderCampaignSalesReport(result){

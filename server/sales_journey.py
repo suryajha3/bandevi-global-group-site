@@ -17,6 +17,12 @@ INDUSTRY_LABELS = {
 }
 INDUSTRY_NEEDS = {'travel': ('crm','portal'), 'retail': ('launch','checkout','orders')}
 
+HOME_SERVICE_LABELS = {
+    'website-app': 'Build a website or app',
+    'crm-erp': 'Improve sales and operations',
+    'travel-platform': 'Build a travel platform',
+}
+
 def initialize(db):
     db.executescript('''CREATE TABLE IF NOT EXISTS sales_demo_records(
         reference TEXT PRIMARY KEY,requirements TEXT NOT NULL DEFAULT '',outcome TEXT NOT NULL DEFAULT 'Not recorded',
@@ -110,6 +116,7 @@ def funnel(db,identity,days):
     campaigns={}
     portfolio={}
     industries={}
+    home_services={}
     for row in rows:
         payload=json.loads(row['payload']);qualification=payload.get('qualification')
         country=qualification.get('country') if isinstance(qualification,dict) and qualification.get('version')==1 else None
@@ -149,6 +156,16 @@ def funnel(db,identity,days):
             industry_group['enquiries']+=1
             industry_group['qualified']+=qualified
             industry_group['demoCompleted']+=counts['demoCompleted']-before['demoCompleted']
+        home_service=attribution.get('home_service')
+        if isinstance(home_service,str) and home_service in HOME_SERVICE_LABELS:
+            home_group=home_services.setdefault((home_service,country),{
+                'service':home_service,'serviceLabel':HOME_SERVICE_LABELS[home_service],
+                'country':country,'countryLabel':markets[country]['label'],
+                'enquiries':0,'qualified':0,'demoCompleted':0,
+            })
+            home_group['enquiries']+=1
+            home_group['qualified']+=qualified
+            home_group['demoCompleted']+=counts['demoCompleted']-before['demoCompleted']
         def tag(key):
             value=attribution.get(key,'')
             return value if isinstance(value,str) and re.fullmatch(r'[a-zA-Z0-9_-]{1,80}',value) else ''
@@ -186,6 +203,7 @@ def funnel(db,identity,days):
         'markets':list(markets.values()),'campaigns':sorted(campaigns.values(),key=lambda g:(-g['counts']['enquiries'],g['country'],g['campaign'],g['source'],g['medium'],g['channel'],g['landingPage'],g['promotion'])),
         'portfolio':sorted(portfolio.values(), key=lambda group: (group['projectLabel'], group['countryLabel'])),
         'industries':sorted(industries.values(), key=lambda group: (group['industryLabel'], group['countryLabel'])),
+        'homeServices':sorted(home_services.values(), key=lambda group: (group['serviceLabel'], group['countryLabel'])),
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
         'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}

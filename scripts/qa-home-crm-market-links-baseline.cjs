@@ -68,5 +68,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original industry enquiry marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const servicePaths = require('./fixtures/home-service-paths-approved.json');
+  for (const { before, after } of servicePaths[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage service path marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
