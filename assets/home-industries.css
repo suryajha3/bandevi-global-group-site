@@ -5,7 +5,7 @@
   gap: 1rem;
   flex-wrap: wrap;
 }
-.home-industries-heading p { max-width: 65ch; }
+.home-industries-heading p { max-width: 65ch; color: #4c554f; }
 .home-industry-controls:not([hidden]) { display: flex; gap: .5rem; }
 .home-industry-controls button {
   min-width: 44px;
