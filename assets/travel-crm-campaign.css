@@ -39,6 +39,7 @@
   outline: 2px solid #1b2a3d;
   outline-offset: 2px;
 }
+.crm-campaign-hero .crm-promo-actions { margin-block: 0 0.75rem; }
 .crm-promo-actions .text-link {
   display: inline-flex;
   align-items: center;
