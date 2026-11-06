@@ -1,0 +1,324 @@
+{
+  "about.html": [
+    {
+      "before": "bagh, Lucknow 226001</td></tr><tr><td>Dubai / UAE service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>Singapore service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>United Kingdom service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>United States service coverage</td><td>Remote delivery from Gurugram, India</td></tr>\n",
+      "after": "bagh, Lucknow 226001</td></tr><tr><td><a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a></td><td>Hor Al Anz East, Deira, Dubai, UAE</td></tr><tr><td><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a></td><td>Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE</td></tr><tr><td><a href=\"/offices/#office-singapore\">Singapore Office</a></td><td>89 Neil Road, #02-04, Singapore, 088849</td></tr><tr><td><a href=\"/offices/#office-london\">London Office</a></td><td>71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ</td></tr><tr><td><a href=\"/offices/#office-california\">United States Office</a></td><td>216 W Garvey Avenue, Suite C, Monterey Park, California, 91754</td></tr>\n"
+    }
+  ],
+  "ae/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\"/offices/#office-dubai-deira\">Deira office</a> or <a href=\"/offices/#office-dubai-sheikh-zayed\">Sheikh Zayed Road office</a>.</p><div class=\"inline-actions\"><a cl",
+      "after": ">Remote delivery from India.</strong> <a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a>: Hor Al Anz East, Deira, Dubai, UAE<br><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a>: Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE.</p><div class=\"inline-actions\"><a cl"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "  [\"Dubai / UAE service coverage\", \"Remote delivery from Gurugram, India\"],\n  [\"Singapore service coverage\", \"Remote delivery from Gurugram, India\"],\n  [\"United Kingdom service coverage\", \"Remote delivery from Gurugram, India\"],\n  [\"United States service coverage\", \"Remote delivery from Gurugram, India\"]\n",
+      "after": "  [\"Dubai Office - Deira\", \"Hor Al Anz East, Deira, Dubai, UAE\"],\n  [\"Dubai Office - Sheikh Zayed Road\", \"Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE\"],\n  [\"Singapore Office\", \"89 Neil Road, #02-04, Singapore, 088849\"],\n  [\"London Office\", \"71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ\"],\n  [\"United States Office\", \"216 W Garvey Avenue, Suite C, Monterey Park, California, 91754\"]\n"
+    },
+    {
+      "before": "div></section><section class=\"section\"><div class=\"container\"><div class=\"section-head single\"><h2>Office and service locat",
+      "after": "div></section><section class=\"section\" id=\"office-addresses\"><div class=\"container\"><div class=\"section-head single\"><h2>Office and service locat"
+    },
+    {
+      "before": "01</td></tr><tr><th scope=\"row\">Dubai / UAE service cover",
+      "after": "01</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a></th><td>Hor Al Anz East, Deira, Dubai, UAE</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a></th><td>Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-singapore\">Singapore Office</a></th><td>89 Neil Road, #02-04, Singapore, 088849</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-london\">London Office</a></th><td>71-75 Shelton Street, Covent Garden / UAE service cover"
+    },
+    {
+      "before": "et, Covent Garden / UAE service coverage</t",
+      "after": "et, Covent Garden / Holborn, service coverage</t"
+    },
+    {
+      "before": "t Garden / Holborn, service coverage</th><td>Re",
+      "after": "t Garden / Holborn, London, coverage</th><td>Re"
+    },
+    {
+      "before": " / Holborn, London, coverage</th><td>Remote delivery from Gurug",
+      "after": " / Holborn, London, WC2H delivery from Gurug"
+    },
+    {
+      "before": "lborn, London, WC2H delivery from Gurugram, Indi",
+      "after": "lborn, London, WC2H 9JQ</td></tr><tr><th from Gurugram, Indi"
+    },
+    {
+      "before": "JQ</td></tr><tr><th from Gurugram, India</td",
+      "after": "JQ</td></tr><tr><th scope=\"row\"><a Gurugram, India</td"
+    },
+    {
+      "before": "><th scope=\"row\"><a Gurugram, India</td></tr><tr><th scope=\"row\">Singapore</th><td><a href=\"/offices/#office-singapore\">Singapore office</a>. Software delivery from Gurugram, India.</td></tr><tr><th scope=\"row\">United Kingdom service coverage</th><td>Remote delivery from Gurugram, India</td></tr><tr><th scope=\"row\">United States service cove",
+      "after": "><th scope=\"row\"><a href=\"/offices/#office-california\">United States service cove"
+    },
+    {
+      "before": "rnia\">United States service coverage</th><td>Re",
+      "after": "rnia\">United States Office</a></th><td>216 coverage</th><td>Re"
+    },
+    {
+      "before": "ice</a></th><td>216 coverage</th><td>Remote delivery from Gurug",
+      "after": "ice</a></th><td>216 W delivery from Gurug"
+    },
+    {
+      "before": "e</a></th><td>216 W delivery from Gurugram, Indi",
+      "after": "e</a></th><td>216 W Garvey from Gurugram, Indi"
+    },
+    {
+      "before": "th><td>216 W Garvey from Gurugram, India</td",
+      "after": "th><td>216 W Garvey Avenue, Gurugram, India</td"
+    },
+    {
+      "before": "16 W Garvey Avenue, Gurugram, India</td></tr></tb",
+      "after": "16 W Garvey Avenue, Suite India</td></tr></tb"
+    },
+    {
+      "before": "arvey Avenue, Suite India</td></tr></tbody></table></div><p><a ",
+      "after": "arvey Avenue, Suite C, "
+    },
+    {
+      "before": "></th><td>216 W Garvey Avenue, Suite C, ",
+      "after": "></th><td>216 W Garvey Avenue, Suite C, Monterey Park, California, 91754</td></tr></tbody></table></div><p><a "
+    },
+    {
+      "before": "ocation-specific confirmation')?a+'<p>Published address references await location-specific confirmation. Confirm current availability and an appointment with the central contact team before visiting.</p>'+t:all);\n",
+      "after": "ocation-specific confirmation')?a+'<p>Software delivery is coordinated from Gurugram, India. Confirm an appointment with the central team before visiting an office.</p>'+t:all);\n"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\\\"/offices/#office-dubai-deira\\\">Deira office</a> or <a href=\\\"/offices/#office-dubai-sheikh-zayed\\\">Sheikh Zayed Road office</a>.</p><div class=\\\"inline-actions\\\"><a ",
+      "after": ">Remote delivery from India.</strong> <a href=\\\"/offices/#office-dubai-deira\\\">Dubai Office - Deira</a>: Hor Al Anz East, Deira, Dubai, UAE<br><a href=\\\"/offices/#office-dubai-sheikh-zayed\\\">Dubai Office - Sheikh Zayed Road</a>: Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE.</p><div class=\\\"inline-actions\\\"><a "
+    },
+    {
+      "before": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\\\"/offices/#office-london\\\">London office</a>.</p><a href=\\\"/how-we-work/\\\">Review delivery and handover</a> · <a href=\\\"/offices/#business-co",
+      "after": ">Remote delivery from India.</strong> <a href=\\\"/offices/#office-london\\\">London office</a>.</p><a href=\\\"/how-we-work/\\\">Review delivery and handover</a> · <a href=\\\"/offices/#business-co"
+    },
+    {
+      "before": "Remote delivery from India.</strong> <a href=\\\"/offices/#office-london\\\">London office</a>.</p><a href=\\\"/how-we-work/\\\">Review delivery and handover</a> · <a href=\\\"/offices/#b",
+      "after": "Remote delivery from India.</strong> <a href=\\\"/offices/#office-london\\\">London Office</a>: 71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ.</p><a href=\\\"/how-we-work/\\\">Review delivery and handover</a> · <a href=\\\"/offices/#b"
+    },
+    {
+      "before": "data-handling and procurement requirements the proposal needs to address.</p><p>Our team works Monday–Saturday, 10:30 am–7:30 pm IST (UTC+05:30); Sunday closed. Arrange a suitable review time rather than assuming local office hours in your country.</p><p><strong>Remote delivery from India.</strong> For local visits, contact our team about the <a href=\\\"/offices/#office-california\\\">Monterey Park office</a>.</p><a href=\\\"/how-we-work/\\\">Review ",
+      "after": "data-handling and procurement requirements the proposal needs to address.</p><p>Our team works Monday–Saturday, 10:30 am–7:30 pm IST (UTC+05:30); Sunday closed. Arrange a suitable review time rather than assuming local office hours in your country.</p><p><strong>Remote delivery from India.</strong> <a href=\\\"/offices/#office-california\\\">Monterey Park office</a>.</p><a href=\\\"/how-we-work/\\\">Review "
+    },
+    {
+      "before": " India.</strong> <a href=\\\"/offices/#office-california\\\">Monterey Park office</a>.</p",
+      "after": " India.</strong> <a href=\\\"/offices/#office-california\\\">United Park office</a>.</p"
+    },
+    {
+      "before": "california\\\">United Park office</a>.</p><a h",
+      "after": "california\\\">United States office</a>.</p><a h"
+    },
+    {
+      "before": "nia\\\">United States office</a>.</p><a href=\\\"/how-we-work",
+      "after": "nia\\\">United States Office</a>: 216 W Garvey Avenue, Suite C, Monterey Park, California, 91754.</p><a href=\\\"/how-we-work"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\\\"/offices/#office-california\\\">",
+      "after": ">Remote delivery from India.</strong> <a href=\\\"/offices/#office-california\\\">"
+    },
+    {
+      "before": " India.</strong> <a href=\\\"/offices/#office-california\\\">Monterey Park office</a>.</p",
+      "after": " India.</strong> <a href=\\\"/offices/#office-california\\\">United Park office</a>.</p"
+    },
+    {
+      "before": "california\\\">United Park office</a>.</p><a h",
+      "after": "california\\\">United States office</a>.</p><a h"
+    },
+    {
+      "before": "nia\\\">United States office</a>.</p><a href=\\\"/how-we-work",
+      "after": "nia\\\">United States Office</a>: 216 W Garvey Avenue, Suite C, Monterey Park, California, 91754.</p><a href=\\\"/how-we-work"
+    },
+    {
+      "before": "rom India.</strong> For local visits, contact our team about the <a href=\\\"/offices/#",
+      "after": "rom India.</strong> <a href=\\\"/offices/#"
+    },
+    {
+      "before": "ice-london\\\">London office</a>.</p><a href=\\\"/how-we-work",
+      "after": "ice-london\\\">London Office</a>: 71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ.</p><a href=\\\"/how-we-work"
+    }
+  ],
+  "contact-us/index.html": [
+    {
+      "before": "></section><section class=\"section\"><div class=\"container\"><",
+      "after": "></section><section class=\"section\" id=\"office-addresses\"><div class=\"container\"><"
+    },
+    {
+      "before": "ting.</p></div><div class=\"table-wrap\"><p>Published address references ",
+      "after": "ting.</p></div><div class=\"table-wrap\"><p>Software address references "
+    },
+    {
+      "before": "e-wrap\"><p>Software address references await lo",
+      "after": "e-wrap\"><p>Software delivery references await lo"
+    },
+    {
+      "before": "p>Software delivery references await location-spec",
+      "after": "p>Software delivery is await location-spec"
+    },
+    {
+      "before": "oftware delivery is await location-specific c",
+      "after": "oftware delivery is coordinated location-specific c"
+    },
+    {
+      "before": "very is coordinated location-specific confirmation. Confi",
+      "after": "very is coordinated from confirmation. Confi"
+    },
+    {
+      "before": "is coordinated from confirmation. Confirm current ava",
+      "after": "is coordinated from Gurugram, India. Confirm current ava"
+    },
+    {
+      "before": "gram, India. Confirm current availability and an appointment with",
+      "after": "gram, India. Confirm an appointment with"
+    },
+    {
+      "before": "nt with the central contact team before visiting",
+      "after": "nt with the central team before visiting"
+    },
+    {
+      "before": "central team before visiting.</p><table><thead><tr><th scope=\"col\">Locatio",
+      "after": "central team before visiting an office.</p><table><thead><tr><th scope=\"col\">Locatio"
+    },
+    {
+      "before": "01</td></tr><tr><th scope=\"row\">Dubai / UAE service cover",
+      "after": "01</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a></th><td>Hor Al Anz East, Deira, Dubai, UAE</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a></th><td>Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-singapore\">Singapore Office</a></th><td>89 Neil Road, #02-04, Singapore, 088849</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-london\">London Office</a></th><td>71-75 Shelton Street, Covent Garden / UAE service cover"
+    },
+    {
+      "before": "et, Covent Garden / UAE service coverage</t",
+      "after": "et, Covent Garden / Holborn, service coverage</t"
+    },
+    {
+      "before": "t Garden / Holborn, service coverage</th><td>Re",
+      "after": "t Garden / Holborn, London, coverage</th><td>Re"
+    },
+    {
+      "before": " / Holborn, London, coverage</th><td>Remote delivery from Gurug",
+      "after": " / Holborn, London, WC2H delivery from Gurug"
+    },
+    {
+      "before": "lborn, London, WC2H delivery from Gurugram, Indi",
+      "after": "lborn, London, WC2H 9JQ</td></tr><tr><th from Gurugram, Indi"
+    },
+    {
+      "before": "JQ</td></tr><tr><th from Gurugram, India</td",
+      "after": "JQ</td></tr><tr><th scope=\"row\"><a Gurugram, India</td"
+    },
+    {
+      "before": "><th scope=\"row\"><a Gurugram, India</td></tr><tr><th scope=\"row\">Singapore</th><td><a href=\"/offices/#office-singapore\">Singapore office</a>. Software delivery from Gurugram, India.</td></tr><tr><th scope=\"row\">United Kingdom service coverage</th><td>Remote delivery from Gurugram, India</td></tr><tr><th scope=\"row\">United States service cove",
+      "after": "><th scope=\"row\"><a href=\"/offices/#office-california\">United States service cove"
+    },
+    {
+      "before": "rnia\">United States service coverage</th><td>Re",
+      "after": "rnia\">United States Office</a></th><td>216 coverage</th><td>Re"
+    },
+    {
+      "before": "ice</a></th><td>216 coverage</th><td>Remote delivery from Gurug",
+      "after": "ice</a></th><td>216 W delivery from Gurug"
+    },
+    {
+      "before": "e</a></th><td>216 W delivery from Gurugram, Indi",
+      "after": "e</a></th><td>216 W Garvey from Gurugram, Indi"
+    },
+    {
+      "before": "th><td>216 W Garvey from Gurugram, India</td",
+      "after": "th><td>216 W Garvey Avenue, Gurugram, India</td"
+    },
+    {
+      "before": "16 W Garvey Avenue, Gurugram, India</td></tr></tb",
+      "after": "16 W Garvey Avenue, Suite India</td></tr></tb"
+    },
+    {
+      "before": "arvey Avenue, Suite India</td></tr></tbody></table></div><p><a ",
+      "after": "arvey Avenue, Suite C, "
+    },
+    {
+      "before": "ey Avenue, Suite C, ",
+      "after": "ey Avenue, Suite C, Monterey Park, California, 91754</td></tr></tbody></table></div><p><a "
+    }
+  ],
+  "contact.html": [
+    {
+      "before": "></section><section class=\"section\"><div class=\"container\"><",
+      "after": "></section><section class=\"section\" id=\"office-addresses\"><div class=\"container\"><"
+    },
+    {
+      "before": "01</td></tr><tr><th scope=\"row\">Dubai / UAE service cover",
+      "after": "01</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a></th><td>Hor Al Anz East, Deira, Dubai, UAE</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a></th><td>Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-singapore\">Singapore Office</a></th><td>89 Neil Road, #02-04, Singapore, 088849</td></tr><tr><th scope=\"row\"><a href=\"/offices/#office-london\">London Office</a></th><td>71-75 Shelton Street, Covent Garden / UAE service cover"
+    },
+    {
+      "before": "et, Covent Garden / UAE service coverage</t",
+      "after": "et, Covent Garden / Holborn, service coverage</t"
+    },
+    {
+      "before": "t Garden / Holborn, service coverage</th><td>Re",
+      "after": "t Garden / Holborn, London, coverage</th><td>Re"
+    },
+    {
+      "before": " / Holborn, London, coverage</th><td>Remote delivery from Gurug",
+      "after": " / Holborn, London, WC2H delivery from Gurug"
+    },
+    {
+      "before": "lborn, London, WC2H delivery from Gurugram, Indi",
+      "after": "lborn, London, WC2H 9JQ</td></tr><tr><th from Gurugram, Indi"
+    },
+    {
+      "before": "JQ</td></tr><tr><th from Gurugram, India</td",
+      "after": "JQ</td></tr><tr><th scope=\"row\"><a Gurugram, India</td"
+    },
+    {
+      "before": "><th scope=\"row\"><a Gurugram, India</td></tr><tr><th scope=\"row\">Singapore service coverage</th><td>Remote delivery from Gurugram, India</td></tr><tr><th scope=\"row\">United Kingdom service coverage</th><td>Remote delivery from Gurugram, India</td></tr><tr><th scope=\"row\">United States service cove",
+      "after": "><th scope=\"row\"><a href=\"/offices/#office-california\">United States service cove"
+    },
+    {
+      "before": "rnia\">United States service coverage</th><td>Re",
+      "after": "rnia\">United States Office</a></th><td>216 coverage</th><td>Re"
+    },
+    {
+      "before": "ice</a></th><td>216 coverage</th><td>Remote delivery from Gurug",
+      "after": "ice</a></th><td>216 W delivery from Gurug"
+    },
+    {
+      "before": "e</a></th><td>216 W delivery from Gurugram, Indi",
+      "after": "e</a></th><td>216 W Garvey from Gurugram, Indi"
+    },
+    {
+      "before": "th><td>216 W Garvey from Gurugram, India</td",
+      "after": "th><td>216 W Garvey Avenue, Gurugram, India</td"
+    },
+    {
+      "before": "16 W Garvey Avenue, Gurugram, India</td></tr></tb",
+      "after": "16 W Garvey Avenue, Suite India</td></tr></tb"
+    },
+    {
+      "before": "arvey Avenue, Suite India</td></tr></tbody></table></div><p><a ",
+      "after": "arvey Avenue, Suite C, "
+    },
+    {
+      "before": "ey Avenue, Suite C, ",
+      "after": "ey Avenue, Suite C, Monterey Park, California, 91754</td></tr></tbody></table></div><p><a "
+    }
+  ],
+  "it-products/index.html": [
+    {
+      "before": "          <p>Published address references await location-specific confirmation. Confirm current availability and an appointment with the central contact team before visiting.</p><table>\n",
+      "after": "          <p>Software delivery is coordinated from Gurugram, India. Confirm an appointment with the central team before visiting an office.</p><table>\n"
+    },
+    {
+      "before": "bagh, Lucknow 226001</td></tr><tr><td>Dubai / UAE service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>Singapore service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>United Kingdom service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>United States service coverage</td><td>Remote delivery from Gurugram, India</td></tr>\n",
+      "after": "bagh, Lucknow 226001</td></tr><tr><td><a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a></td><td>Hor Al Anz East, Deira, Dubai, UAE</td></tr><tr><td><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a></td><td>Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE</td></tr><tr><td><a href=\"/offices/#office-singapore\">Singapore Office</a></td><td>89 Neil Road, #02-04, Singapore, 088849</td></tr><tr><td><a href=\"/offices/#office-london\">London Office</a></td><td>71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ</td></tr><tr><td><a href=\"/offices/#office-california\">United States Office</a></td><td>216 W Garvey Avenue, Suite C, Monterey Park, California, 91754</td></tr>\n"
+    }
+  ],
+  "products.html": [
+    {
+      "before": "bagh, Lucknow 226001</td></tr><tr><td>Dubai / UAE service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>Singapore service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>United Kingdom service coverage</td><td>Remote delivery from Gurugram, India</td></tr><tr><td>United States service coverage</td><td>Remote delivery from Gurugram, India</td></tr>\n",
+      "after": "bagh, Lucknow 226001</td></tr><tr><td><a href=\"/offices/#office-dubai-deira\">Dubai Office - Deira</a></td><td>Hor Al Anz East, Deira, Dubai, UAE</td></tr><tr><td><a href=\"/offices/#office-dubai-sheikh-zayed\">Dubai Office - Sheikh Zayed Road</a></td><td>Office 203, Al Tayer Building, Sheikh Zayed Road, Dubai, UAE</td></tr><tr><td><a href=\"/offices/#office-singapore\">Singapore Office</a></td><td>89 Neil Road, #02-04, Singapore, 088849</td></tr><tr><td><a href=\"/offices/#office-london\">London Office</a></td><td>71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ</td></tr><tr><td><a href=\"/offices/#office-california\">United States Office</a></td><td>216 W Garvey Avenue, Suite C, Monterey Park, California, 91754</td></tr>\n"
+    }
+  ],
+  "uk/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\"/offices/#office-london\">London office</a>.</p><a href=\"/how-we-work/\">Review de",
+      "after": ">Remote delivery from India.</strong> <a href=\"/offices/#office-london\">London Office</a>: 71-75 Shelton Street, Covent Garden / Holborn, London, WC2H 9JQ.</p><a href=\"/how-we-work/\">Review de"
+    }
+  ],
+  "us/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\"/offices/#office-california\">Monterey Park office</a>.</p><a href=\"/how-we-work/\">Review de",
+      "after": ">Remote delivery from India.</strong> <a href=\"/offices/#office-california\">United States Office</a>: 216 W Garvey Avenue, Suite C, Monterey Park, California, 91754.</p><a href=\"/how-we-work/\">Review de"
+    }
+  ]
+}

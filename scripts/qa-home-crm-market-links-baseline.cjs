@@ -83,5 +83,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage editorial marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const officeTables = require('./fixtures/public-office-tables-approved.json');
+  for (const { before, after } of officeTables[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original public office table marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
