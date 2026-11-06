@@ -131,6 +131,39 @@
   color: #76551d;
   font-size: 1.25rem;
 }
+.home-brand-thumbnail {
+  display: block;
+  width: 100%;
+  height: clamp(100px, 14vw, 152px);
+  margin-bottom: 4px;
+  border: 1px solid #c3cfd8;
+  border-radius: 8px;
+  background: #f1f4f6;
+  object-fit: cover;
+  object-position: top;
+}
+.home-brand-plan {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin-top: 18px;
+}
+.home-brand-plan label {
+  display: grid;
+  gap: 4px;
+  color: #1b2a3d;
+  font-weight: 600;
+}
+.home-brand-plan select {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #60748a;
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
 .home-brand-slider-controls {
   display: flex;
   align-items: center;

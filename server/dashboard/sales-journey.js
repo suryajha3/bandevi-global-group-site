@@ -46,7 +46,7 @@ $('editor').addEventListener('close',()=>{if(!$('editor').open)clearSalesJourney
 $('editor').addEventListener('cancel',clearSalesJourney);
 async function refreshSalesFunnel(identity){
  const generation=++salesFunnelGeneration,days=$('report-days').value;
- campaignSalesState=null;$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
+ campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
  try{const r=await api('/api/admin/sales-funnel?days='+days);if(!csrf||csrf!==identity||generation!==salesFunnelGeneration||days!==$('report-days').value)return;
   const labels={enquiries:'Enquiries',demoBooked:'Demo booked',demoCompleted:'Demo completed',publishedProposals:'All published proposals',proposalAfterDemo:'Proposal after demo booking',wonAfterDemoProposal:'Won after demo & proposal',currentlyWon:'All currently Won'};
   $('sales-funnel-counts').replaceChildren(...Object.entries(r.counts).map(([key,value])=>{const card=text('div',labels[key],'count');card.append(text('strong',String(value)));return card;}));
@@ -58,14 +58,42 @@ async function refreshSalesFunnel(identity){
   const body=document.createElement('tbody'),percent=value=>value===null?'—':value+'%';
   for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
+  renderPortfolioSales(r.portfolio || []);
   renderCampaignSalesReport(r);
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;}}
+}
+
+function renderPortfolioSales(groups){
+ const report=$('portfolio-sales-report');
+ if(!groups.length){
+  report.replaceChildren(text('p','No project examples were saved with enquiries in this period.'));
+  return;
+ }
+ const table=document.createElement('table');
+ table.append(text('caption','Saved portfolio enquiries by business country'));
+ const header=table.createTHead().insertRow();
+ for(const label of ['Project example','Business country','Enquiries','Reached Qualified','Demo completed']){
+  const cell=text('th',label);
+  cell.scope='col';
+  header.append(cell);
+ }
+ const body=table.createTBody();
+ for(const group of groups){
+  const row=body.insertRow();
+  const project=text('th',group.projectLabel);
+  project.scope='row';
+  row.append(project);
+  for(const value of [group.countryLabel,group.enquiries,group.qualified,group.demoCompleted]){
+   row.append(text('td',String(value)));
+  }
+ }
+ report.replaceChildren(table);
 }
 
 let campaignSalesState=null;
 function clearCampaignSales(){
  campaignSalesState=null;
- for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis'])$(id).replaceChildren();
+ for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report'])$(id).replaceChildren();
  $('campaign-sales-country').value='all';$('campaign-sales-search').value='';
 }
 function renderCampaignSalesReport(result){

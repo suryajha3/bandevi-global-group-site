@@ -42,6 +42,42 @@ class MarketReportingTests(unittest.TestCase):
         self.assertIsNone(groups['US']['rates']['proposalToWon'])
         text=json.dumps(result);self.assertNotIn('qa@example.test',text);self.assertNotIn('+1 202',text);self.assertNotIn('To discuss',text)
 
+    def test_portfolio_outcomes_use_saved_project_and_staff_access(self):
+        cases=(('US','trip_sarathi'),('GB','trip_sarathi'),('IN','tripodeal'),('IN',None))
+        refs=[]
+        for country,project in cases:
+            brief=dict(service='Travel technology',businessType='',problem='Plan a public travel portal',
+                       features='',budget='Not sure yet',launchDate='')
+            if project:
+                brief['portfolioProject']=project
+            data=dict(type='contact',name='Synthetic buyer',email='qa@example.test',
+                      interest='Travel Technology Planning',source='/project-brief/',
+                      message='Guided project brief',projectBrief=brief,
+                      qualification=dict(version=1,country=country,currency={'US':'USD','GB':'GBP','IN':'INR'}[country],
+                                         budget='To discuss',contact=dict(channel='Email',date='',time='',timezone='UTC')))
+            status,result,_=self.request('/api/enquiries',data)
+            self.assertEqual(status,201,result)
+            refs.append(result['reference'])
+        entry=self.request('/api/admin/enquiries?q='+refs[0],cookie=self.cookie)[1]['items'][0]
+        self.assertEqual(entry['details']['projectBrief']['portfolioProject'],'trip_sarathi')
+        now=int(time.time())
+        with isolated.enquiries.connect() as db:
+            for ref in refs:
+                db.execute("INSERT INTO enquiry_workflow(id,owner,stage) VALUES(?,?,'New')",(ref,self.owner))
+            ref=refs[0]
+            for _ in range(2):
+                db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Qualified',?,?)",(ref,self.owner,now))
+            db.execute("INSERT INTO sales_demo_records(reference,outcome,updated,actor) VALUES(?,'Completed',?,?)",(ref,now,self.owner))
+            db.execute("UPDATE enquiries SET email_status='qa-verified' WHERE id=?",(refs[2],))
+        groups={(group['project'],group['country']):group for group in self.report()['portfolio']}
+        self.assertEqual(set(groups),{('trip_sarathi','US'),('trip_sarathi','GB')})
+        for country,outcomes in [('US',(1,1,1)),('GB',(1,0,0))]:
+            group=groups['trip_sarathi',country]
+            self.assertEqual(tuple(group[key] for key in ('enquiries','qualified','demoCompleted')),outcomes)
+        with isolated.enquiries.connect() as db:
+            db.execute("UPDATE enquiry_workflow SET owner='another@example.test' WHERE id=?",(refs[0],))
+        self.assertEqual([group['country'] for group in self.report()['portfolio']],['GB'])
+
     def test_role_qa_cohort_and_empty_market_boundaries(self):
         ref=self.lead('US');self.lead('IN',email_status='qa-verified');self.lead('GB',created=int(time.time())-91*86400)
         other=self.lead('GB')

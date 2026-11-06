@@ -30,7 +30,7 @@ class ProjectBriefTests(unittest.TestCase):
         self.assertEqual(self.request('/api/enquiries',changed,key=key)[0],409)
 
     def test_reject_malformed_and_inconsistent_briefs(self):
-        mutations=[lambda d:d.update(type='demo'),lambda d:d.update(source='/contact-us/'),lambda d:d.update(interest='Need guidance'),lambda d:d.update(projectBrief=None),lambda d:d['projectBrief'].update(budget='Invented price'),lambda d:d['projectBrief'].update(problem=' '),lambda d:d['projectBrief'].update(features='x'*1101),lambda d:d['projectBrief'].update(launchDate='2030-02-30'),lambda d:d['projectBrief'].update(launchDate='20300112'),lambda d:d['projectBrief'].update(extra='unexpected'),lambda d:d['projectBrief'].update(problem='bad\x00value')]
+        mutations=[lambda d:d.update(type='demo'),lambda d:d.update(source='/contact-us/'),lambda d:d.update(interest='Need guidance'),lambda d:d.update(projectBrief=None),lambda d:d['projectBrief'].update(budget='Invented price'),lambda d:d['projectBrief'].update(problem=' '),lambda d:d['projectBrief'].update(features='x'*1101),lambda d:d['projectBrief'].update(launchDate='2030-02-30'),lambda d:d['projectBrief'].update(launchDate='20300112'),lambda d:d['projectBrief'].update(extra='unexpected'),lambda d:d['projectBrief'].update(portfolioProject='unlisted'),lambda d:d['projectBrief'].update(portfolioProject=[]),lambda d:d['projectBrief'].update(problem='bad\x00value')]
         for change in mutations:
             data=self.payload();change(data)
             with self.subTest(data=data):self.assertEqual(self.request('/api/enquiries',data)[0],400)

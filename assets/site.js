@@ -1845,10 +1845,15 @@ function improvedHomeHero(){return `<aside class="home-promotion" aria-label="Tr
         <button type="button" data-brand-next aria-label="Next project" aria-controls="home-brand-slider-track">→</button>
       </div>
       <ul class="home-brand-references-list" id="home-brand-slider-track">
-        <li><a href="/projects/trip-sarathi/"><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
-        <li><a href="/projects/maximtrip/"><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
-        <li><a href="/projects/tripodeal/"><strong>TripOdeal</strong><span>Holiday packages and booking lookup</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
+        <li><a href="/projects/trip-sarathi/"><img class="home-brand-thumbnail" src="/assets/portfolio-trip-sarathi.webp" width="640" height="360" loading="lazy" decoding="async" alt=""><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
+        <li><a href="/projects/maximtrip/"><img class="home-brand-thumbnail" src="/assets/portfolio-maximtrip.webp" width="640" height="360" loading="lazy" decoding="async" alt=""><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
+        <li><a href="/projects/tripodeal/"><img class="home-brand-thumbnail" src="/assets/portfolio-tripodeal.webp" width="640" height="360" loading="lazy" decoding="async" alt=""><strong>TripOdeal</strong><span>Holiday packages and booking lookup</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
       </ul>
+      <form class="home-brand-plan" action="/project-brief/" method="get">
+        <input type="hidden" name="workflow" value="travel-website">
+        <label for="home-brand-project">Project example <select id="home-brand-project" name="project" required><option value="">Choose a project</option><option value="trip_sarathi">Trip Sarathi</option><option value="maximtrip">MaximTrip</option><option value="tripodeal">TripOdeal</option></select></label>
+        <button type="submit" class="button primary">Plan a similar travel project</button>
+      </form>
     </div>
   </div>
 </aside>
