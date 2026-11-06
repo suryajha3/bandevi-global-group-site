@@ -77,7 +77,7 @@
     controls.hidden = false;
   }
 
-  if (document.readyState === 'loading') {
+  if (document.readyState !== 'complete') {
     document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
     init();
