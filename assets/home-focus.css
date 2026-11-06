@@ -1,4 +1,99 @@
 /* Homepage company evidence and portfolio. */
+/* Homepage technology stack. */
+.home-technology {
+  padding-block: clamp(36px, 5vw, 72px);
+  scroll-margin-top: 110px;
+  background: #142842;
+  color: #fffdf8;
+}
+.home-technology-heading {
+  max-width: 680px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+.home-technology-heading p { margin: 0; color: #e0e9f3; }
+.home-technology-heading p:first-child {
+  color: #f0d39a;
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.home-technology-heading h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(25px, 2.7vw, 38px);
+}
+.home-technology-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.home-technology-tabs[hidden],
+.home-technology-panel[hidden],
+.home-technology [role="tabpanel"] > .home-technology-group { display: none; }
+.home-technology-tabs button {
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 1px solid #a8b9cb;
+  border-radius: 999px;
+  background: #1b344f;
+  color: #fffdf8;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+.home-technology-tabs button:hover { text-decoration: underline; }
+.home-technology-tabs button[aria-selected="true"] {
+  border-color: #f6e8cd;
+  background: #f6e8cd;
+  color: #142842;
+}
+.home-technology :is(button, [role="tabpanel"]):focus-visible {
+  outline: 2px solid #f0d39a;
+  outline-offset: 3px;
+}
+.home-technology-panel + .home-technology-panel { margin-top: 22px; }
+.home-technology-panel[role="tabpanel"] { margin-top: 0; }
+.home-technology-group { margin: 0 0 12px; }
+.home-technology-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.home-technology-cards li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(16px, 2vw, 30px);
+  border: 1px solid #6d8299;
+  border-radius: 12px;
+  background: #1b344f;
+  text-align: center;
+}
+.home-technology-mark {
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 1px solid #c0a77a;
+  border-radius: 12px;
+  color: #f0d39a;
+  font-weight: 750;
+}
+.home-technology-cards h4 { margin: 4px 0 0; font-size: 1.1rem; }
+.home-technology-cards p { margin: 0; color: #e0e9f3; font-size: .9375rem; }
+@media (max-width: 760px) {
+  .home-technology-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 370px) {
+  .home-technology-cards { grid-template-columns: minmax(0, 1fr); }
+}
 .home-proof-strip {
   padding-bottom: clamp(28px, 4vw, 56px);
   background: #fffdf8;
