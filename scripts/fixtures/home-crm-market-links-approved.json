@@ -1,0 +1,32 @@
+{
+  "index.html": [
+    {
+      "before": "<div class=\"intl-showcase\" id=\"intl-crm-preview\">",
+      "after": "<div class=\"home-crm-panel\"><div class=\"intl-showcase\" id=\"intl-crm-preview\">"
+    },
+    {
+      "before": "  </div></div></section><section class=\"section home-reference-gallery\"",
+      "after": "  </div>\n  <nav class=\"home-crm-markets\" aria-label=\"Travel Agency CRM by market\">\n    <span>Travel Agency CRM</span>\n    <span class=\"home-crm-market-options\">\n      <a href=\"/us/travel-agency-crm/\" aria-label=\"Travel Agency CRM for the United States\">US</a>\n      <a href=\"/uk/travel-agency-crm/\" aria-label=\"Travel Agency CRM for the United Kingdom\">UK</a>\n      <a href=\"/india/travel-agency-crm/\" aria-label=\"Travel Agency CRM for India\">India</a>\n    </span>\n  </nav>\n  </div></div></section><section class=\"section home-reference-gallery\""
+    },
+    {
+      "before": "/assets/home-focus.css?v=20261104-readability",
+      "after": "/assets/home-focus.css?v=20261106-crm-markets"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "<div class=\"intl-showcase\" id=\"intl-crm-preview\">",
+      "after": "<div class=\"home-crm-panel\"><div class=\"intl-showcase\" id=\"intl-crm-preview\">"
+    },
+    {
+      "before": "  </div></div></section><section class=\"section home-reference-gallery\"",
+      "after": "  </div>\n  <nav class=\"home-crm-markets\" aria-label=\"Travel Agency CRM by market\">\n    <span>Travel Agency CRM</span>\n    <span class=\"home-crm-market-options\">\n      <a href=\"/us/travel-agency-crm/\" aria-label=\"Travel Agency CRM for the United States\">US</a>\n      <a href=\"/uk/travel-agency-crm/\" aria-label=\"Travel Agency CRM for the United Kingdom\">UK</a>\n      <a href=\"/india/travel-agency-crm/\" aria-label=\"Travel Agency CRM for India\">India</a>\n    </span>\n  </nav>\n  </div></div></section><section class=\"section home-reference-gallery\""
+    }
+  ],
+  "assets/home-focus.css": [
+    {
+      "before": "body[data-page=\"home\"] .home-work-card-copy>a{min-height:44px;display:inline-flex;align-items:center}\n\n",
+      "after": "body[data-page=\"home\"] .home-work-card-copy>a{min-height:44px;display:inline-flex;align-items:center}\n\n/* Keep the existing demo card and attach the regional links as its footer. */\n.home-crm-panel {\n  min-width: 0;\n  width: 100%;\n  justify-self: center;\n}\n.home-crm-panel #intl-crm-preview {\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.home-crm-markets {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  gap: 0 12px;\n  padding: 4px 10px;\n  border: 1px solid #60748a;\n  border-top: 0;\n  border-radius: 0 0 12px 12px;\n  background: #1b2a3d;\n  color: #f6f4ee;\n  font-size: .875rem;\n  line-height: 1.4;\n}\n.home-crm-market-options {\n  display: flex;\n  gap: 4px;\n}\n.home-crm-markets a {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n  color: var(--brand-champagne);\n  text-decoration: underline;\n  text-underline-offset: 3px;\n}\n.home-crm-markets a:focus-visible {\n  outline: 2px solid var(--brand-champagne);\n  outline-offset: 1px;\n}\n@media (max-width: 1100px) {\n  .home-crm-panel { max-width: 680px; }\n}\n\n"
+    }
+  ]
+}

@@ -8,5 +8,5 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original CRM pilot marker: ' + name);
     result = result.replace(before, () => after);
   }
-  return result;
+  return require('./qa-home-crm-market-links-baseline.cjs')(name, result);
 };
