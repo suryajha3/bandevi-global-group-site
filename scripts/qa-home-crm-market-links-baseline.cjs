@@ -73,5 +73,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage service path marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const officeAddresses = require('./fixtures/international-office-addresses-approved.json');
+  for (const { before, after } of officeAddresses[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original international office marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
