@@ -33,11 +33,5 @@ module.exports=(name,input)=>{
  const profile=require('./fixtures/company-profile-preview-approved.json');
  if(name==='company-profile/index.html'){value=replaceOne(value,profile.beforeMain,profile.afterMain,'Company profile records and preview');value=replaceOne(value,'</head>',profile.bundle+'</head>','Company profile-only bundle');}
  if(name==='assets/site.js')value=replaceOne(value,'\nrender();','\n'+profile.sourceAddition+'\nrender();','Company profile renderer');
- // Carry the approved finance button text into historical Travel ERP expectations.
- if(name==='travel-erp/index.html'){
-  const original='<a class="button dark" data-finance-enquiry="demo" href="/demo-request/?solution=Travel%20ERP%20Package&amp;focus=erp-finance">Discuss your payment workflow</a>';
-  const updated=original.replace('Discuss your payment workflow','Request a supplier payment workflow demo');
-  value=replaceOne(value,original,updated,'Travel ERP finance demo button');
- }
  return require('./qa-office-landline-baseline.cjs')(name,value);
 };
