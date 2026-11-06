@@ -38,5 +38,9 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original portfolio slider marker: ' + name);
     result = result.replace(before, () => after);
   }
+  for (const { before, after } of require('./fixtures/home-brand-brief-approved.json')[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original portfolio brief marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

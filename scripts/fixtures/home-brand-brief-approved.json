@@ -1,0 +1,120 @@
+{
+  "assets/home-focus.css": [
+    {
+      "before": "}\n.home-brand-slider-controls {\n",
+      "after": "}\n.home-brand-thumbnail {\n  display: block;\n  width: 100%;\n  height: clamp(100px, 14vw, 152px);\n  margin-bottom: 4px;\n  border: 1px solid #c3cfd8;\n  border-radius: 8px;\n  background: #f1f4f6;\n  object-fit: cover;\n  object-position: top;\n}\n.home-brand-plan {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: end;\n  gap: 12px;\n  margin-top: 18px;\n}\n.home-brand-plan label {\n  display: grid;\n  gap: 4px;\n  color: #1b2a3d;\n  font-weight: 600;\n}\n.home-brand-plan select {\n  min-height: 44px;\n  padding: 8px 12px;\n  border: 1px solid #60748a;\n  border-radius: 8px;\n  background: #fff;\n  color: inherit;\n  font: inherit;\n}\n.home-brand-slider-controls {\n"
+    }
+  ],
+  "assets/project-brief.js": [
+    {
+      "before": " let briefStarted=false,submissionService='guidance';const measuredSteps=new Set(),savedReferences=new Set();\n",
+      "after": " if(portfolioProject!=='none'){\n  const note=document.getElementById('brief-context');\n  note.textContent='Portfolio example: '+portfolioProjects[portfolioProject]+'. Edit the suggested features to fit your team. Choose your business country and quote currency in the contact step.';\n }\n let briefStarted=false,submissionService='guidance';const measuredSteps=new Set(),savedReferences=new Set();\n"
+    },
+    {
+      "before": "get.value,launchDate:e.briefDate.value});summary.replaceChildren();for(const",
+      "after": "get.value,launchDate:e.briefDate.value,...(portfolioProject!=='none'?{portfolioProject}:{})});summary.replaceChildren();for(const"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "li><a href=\"/projects/trip-sarathi/\"><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/maximtrip/\"><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/tripodeal/\"><strong>TripOdeal</strong><span>Holi",
+      "after": "li><a href=\"/projects/trip-sarathi/\"><img class=\"home-brand-thumbnail\" src=\"/assets/portfolio-trip-sarathi.webp\" width=\"640\" height=\"360\" loading=\"lazy\" decoding=\"async\" alt=\"\"><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/maximtrip/\"><img class=\"home-brand-thumbnail\" src=\"/assets/portfolio-maximtrip.webp\" width=\"640\" height=\"360\" loading=\"lazy\" decoding=\"async\" alt=\"\"><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/tripodeal/\"><img class=\"home-brand-thumbnail\" src=\"/assets/portfolio-tripodeal.webp\" width=\"640\" height=\"360\" loading=\"lazy\" decoding=\"async\" alt=\"\"><strong>TripOdeal</strong><span>Holi"
+    },
+    {
+      "before": "    </div>\n  </div>\n",
+      "after": "      <form class=\"home-brand-plan\" action=\"/project-brief/\" method=\"get\">\n        <input type=\"hidden\" name=\"workflow\" value=\"travel-website\">\n        <label for=\"home-brand-project\">Project example <select id=\"home-brand-project\" name=\"project\" required><option value=\"\">Choose a project</option><option value=\"trip_sarathi\">Trip Sarathi</option><option value=\"maximtrip\">MaximTrip</option><option value=\"tripodeal\">TripOdeal</option></select></label>\n        <button type=\"submit\" class=\"button primary\">Plan a similar travel project</button>\n      </form>\n    </div>\n  </div>\n"
+    }
+  ],
+  "index.html": [
+    {
+      "before": "ssets/home-focus.css?v=20261106-brand-slider\">\n",
+      "after": "ssets/home-focus.css?v=20261106-brand-brief\">\n"
+    },
+    {
+      "before": "li><a href=\"/projects/trip-sarathi/\"><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/maximtrip/\"><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/tripodeal/\"><strong>TripOdeal</strong><span>Holi",
+      "after": "li><a href=\"/projects/trip-sarathi/\"><img class=\"home-brand-thumbnail\" src=\"/assets/portfolio-trip-sarathi.webp\" width=\"640\" height=\"360\" loading=\"lazy\" decoding=\"async\" alt=\"\"><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/maximtrip/\"><img class=\"home-brand-thumbnail\" src=\"/assets/portfolio-maximtrip.webp\" width=\"640\" height=\"360\" loading=\"lazy\" decoding=\"async\" alt=\"\"><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class=\"home-brand-reference-arrow\" aria-hidden=\"true\">→</span></a></li>\n        <li><a href=\"/projects/tripodeal/\"><img class=\"home-brand-thumbnail\" src=\"/assets/portfolio-tripodeal.webp\" width=\"640\" height=\"360\" loading=\"lazy\" decoding=\"async\" alt=\"\"><strong>TripOdeal</strong><span>Holi"
+    },
+    {
+      "before": "    </div>\n  </div>\n",
+      "after": "      <form class=\"home-brand-plan\" action=\"/project-brief/\" method=\"get\">\n        <input type=\"hidden\" name=\"workflow\" value=\"travel-website\">\n        <label for=\"home-brand-project\">Project example <select id=\"home-brand-project\" name=\"project\" required><option value=\"\">Choose a project</option><option value=\"trip_sarathi\">Trip Sarathi</option><option value=\"maximtrip\">MaximTrip</option><option value=\"tripodeal\">TripOdeal</option></select></label>\n        <button type=\"submit\" class=\"button primary\">Plan a similar travel project</button>\n      </form>\n    </div>\n  </div>\n"
+    }
+  ],
+  "project-brief/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/project-brief.js?v=20261016-market-budget\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/project-brief.js?v=20261106-brand-brief\" defer></script></body>\n"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "eam-inbox/sales-journey.js?v=20261106-crm-promotions\"></script><script defer src=\"/team-in",
+      "after": "eam-inbox/sales-journey.js?v=20261106-brand-brief\"></script><script defer src=\"/team-in"
+    },
+    {
+      "before": "et-sales-basis\" class=\"small\"></p><h3>Campaign → sales by business country</",
+      "after": "et-sales-basis\" class=\"small\"></p><h3>Portfolio project enquiries</h3><div id=\"portfolio-sales-report\" class=\"pipeline-table\" tabindex=\"0\" role=\"region\" aria-label=\"Portfolio enquiries by project and country\"></div><p class=\"small\">Counts use the selected enquiry period and the project example saved with each brief. Qualified enquiries and completed demos use recorded sales activity.</p><h3>Campaign → sales by business country</"
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": " campaignSalesState=null;$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';\n",
+      "after": " campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';\n"
+    },
+    {
+      "before": "  renderCampaignSalesReport(r);\n",
+      "after": "  renderPortfolioSales(r.portfolio || []);\n  renderCampaignSalesReport(r);\n"
+    },
+    {
+      "before": "}\n\n",
+      "after": "}\n\nfunction renderPortfolioSales(groups){\n const report=$('portfolio-sales-report');\n if(!groups.length){\n  report.replaceChildren(text('p','No project examples were saved with enquiries in this period.'));\n  return;\n }\n const table=document.createElement('table');\n table.append(text('caption','Saved portfolio enquiries by business country'));\n const header=table.createTHead().insertRow();\n for(const label of ['Project example','Business country','Enquiries','Reached Qualified','Demo completed']){\n  const cell=text('th',label);\n  cell.scope='col';\n  header.append(cell);\n }\n const body=table.createTBody();\n for(const group of groups){\n  const row=body.insertRow();\n  const project=text('th',group.projectLabel);\n  project.scope='row';\n  row.append(project);\n  for(const value of [group.countryLabel,group.enquiries,group.qualified,group.demoCompleted]){\n   row.append(text('td',String(value)));\n  }\n }\n report.replaceChildren(table);\n}\n\n"
+    },
+    {
+      "before": " for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis'])$(id).replaceChildren();\n",
+      "after": " for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report'])$(id).replaceChildren();\n"
+    }
+  ],
+  "server/enquiries.py": [
+    {
+      "before": "from sales_journey import CRM_PROMOTIONS\n",
+      "after": "from sales_journey import CRM_PROMOTIONS, PORTFOLIO_PROJECTS\n"
+    },
+    {
+      "before": "    if enquiry['type'] != 'contact' or enquiry['source'] != '/project-brief/' or not isinstance(value,dict) or set(value) != set(fields):\n",
+      "after": "    if enquiry['type'] != 'contact' or enquiry['source'] != '/project-brief/' or not isinstance(value,dict) or not set(fields) <= set(value) <= set(fields) | {'portfolioProject'}:\n"
+    },
+    {
+      "before": "    if result['launchDate']:\n",
+      "after": "    if 'portfolioProject' in value:\n        project = value['portfolioProject']\n        if not isinstance(project, str) or project not in PORTFOLIO_PROJECTS:\n            raise ValueError('Invalid portfolio example.')\n        result['portfolioProject'] = project\n    if result['launchDate']:\n"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "\ndef initialize(db):\n",
+      "after": "PORTFOLIO_PROJECTS = {'trip_sarathi': 'Trip Sarathi', 'maximtrip': 'MaximTrip', 'tripodeal': 'TripOdeal'}\n\ndef initialize(db):\n"
+    },
+    {
+      "before": "    for row in rows:\n",
+      "after": "    portfolio={}\n    for row in rows:\n"
+    },
+    {
+      "before": "        attribution=payload.get('attribution')\n",
+      "after": "        brief = payload.get('projectBrief')\n        project = brief.get('portfolioProject') if isinstance(brief, dict) else None\n        if isinstance(project, str) and project in PORTFOLIO_PROJECTS:\n            project_group = portfolio.setdefault((project, country), {\n                'project': project, 'projectLabel': PORTFOLIO_PROJECTS[project],\n                'country': country, 'countryLabel': markets[country]['label'],\n                'enquiries': 0, 'qualified': 0, 'demoCompleted': 0,\n            })\n            project_group['enquiries'] += 1\n            project_group['qualified'] += qualified\n            project_group['demoCompleted'] += counts['demoCompleted'] - before['demoCompleted']\n        attribution=payload.get('attribution')\n"
+    },
+    {
+      "before": "        'campaignBasis':'Received-date cohort, ",
+      "after": "        'portfolio':sorted(portfolio.values(), key=lambda group: (group['projectLabel'], group['countryLabel'])),\n        'campaignBasis':'Received-date cohort, "
+    }
+  ],
+  "server/test_market_reporting.py": [
+    {
+      "before": "    def test_role_qa_cohort_and_empty_market_boundaries(self):\n",
+      "after": "    def test_portfolio_outcomes_use_saved_project_and_staff_access(self):\n        cases=(('US','trip_sarathi'),('GB','trip_sarathi'),('IN','tripodeal'),('IN',None))\n        refs=[]\n        for country,project in cases:\n            brief=dict(service='Travel technology',businessType='',problem='Plan a public travel portal',\n                       features='',budget='Not sure yet',launchDate='')\n            if project:\n                brief['portfolioProject']=project\n            data=dict(type='contact',name='Synthetic buyer',email='qa@example.test',\n                      interest='Travel Technology Planning',source='/project-brief/',\n                      message='Guided project brief',projectBrief=brief,\n                      qualification=dict(version=1,country=country,currency={'US':'USD','GB':'GBP','IN':'INR'}[country],\n                                         budget='To discuss',contact=dict(channel='Email',date='',time='',timezone='UTC')))\n            status,result,_=self.request('/api/enquiries',data)\n            self.assertEqual(status,201,result)\n            refs.append(result['reference'])\n        entry=self.request('/api/admin/enquiries?q='+refs[0],cookie=self.cookie)[1]['items'][0]\n        self.assertEqual(entry['details']['projectBrief']['portfolioProject'],'trip_sarathi')\n        now=int(time.time())\n        with isolated.enquiries.connect() as db:\n            for ref in refs:\n                db.execute(\"INSERT INTO enquiry_workflow(id,owner,stage) VALUES(?,?,'New')\",(ref,self.owner))\n            ref=refs[0]\n            for _ in range(2):\n                db.execute(\"INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Qualified',?,?)\",(ref,self.owner,now))\n            db.execute(\"INSERT INTO sales_demo_records(reference,outcome,updated,actor) VALUES(?,'Completed',?,?)\",(ref,now,self.owner))\n            db.execute(\"UPDATE enquiries SET email_status='qa-verified' WHERE id=?\",(refs[2],))\n        groups={(group['project'],group['country']):group for group in self.report()['portfolio']}\n        self.assertEqual(set(groups),{('trip_sarathi','US'),('trip_sarathi','GB')})\n        for country,outcomes in [('US',(1,1,1)),('GB',(1,0,0))]:\n            group=groups['trip_sarathi',country]\n            self.assertEqual(tuple(group[key] for key in ('enquiries','qualified','demoCompleted')),outcomes)\n        with isolated.enquiries.connect() as db:\n            db.execute(\"UPDATE enquiry_workflow SET owner='another@example.test' WHERE id=?\",(refs[0],))\n        self.assertEqual([group['country'] for group in self.report()['portfolio']],['GB'])\n\n    def test_role_qa_cohort_and_empty_market_boundaries(self):\n"
+    }
+  ],
+  "server/test_project_briefs.py": [
+    {
+      "before": "'),lambda d:d['projectBrief'].update(problem='bad\\x00value')]\n",
+      "after": "'),lambda d:d['projectBrief'].update(portfolioProject='unlisted'),lambda d:d['projectBrief'].update(portfolioProject=[]),lambda d:d['projectBrief'].update(problem='bad\\x00value')]\n"
+    }
+  ]
+}

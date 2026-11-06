@@ -9,7 +9,7 @@ import lead_qualification
 import crm_review
 import demo_handoff
 import ads_measurement
-from sales_journey import CRM_PROMOTIONS
+from sales_journey import CRM_PROMOTIONS, PORTFOLIO_PROJECTS
 import json
 import logging
 import os
@@ -89,7 +89,7 @@ BRIEF_BUDGETS = ('Not sure yet','Under ₹50,000','₹50,000–₹2 lakh','₹2�
 
 def validate_project_brief(value, enquiry):
     fields = {'service':60,'businessType':120,'problem':1100,'features':1100,'budget':60,'launchDate':10}
-    if enquiry['type'] != 'contact' or enquiry['source'] != '/project-brief/' or not isinstance(value,dict) or set(value) != set(fields):
+    if enquiry['type'] != 'contact' or enquiry['source'] != '/project-brief/' or not isinstance(value,dict) or not set(fields) <= set(value) <= set(fields) | {'portfolioProject'}:
         raise ValueError('Invalid project brief.')
     result = {}
     for field,limit in fields.items():
@@ -99,6 +99,11 @@ def validate_project_brief(value, enquiry):
         result[field]=item.strip()
     if BRIEF_SERVICES.get(result['service']) != enquiry['interest'] or (not enquiry.get('qualification') and result['budget'] not in BRIEF_BUDGETS) or not result['problem']:
         raise ValueError('Invalid project brief.')
+    if 'portfolioProject' in value:
+        project = value['portfolioProject']
+        if not isinstance(project, str) or project not in PORTFOLIO_PROJECTS:
+            raise ValueError('Invalid portfolio example.')
+        result['portfolioProject'] = project
     if result['launchDate']:
         day=datetime.date.fromisoformat(result['launchDate'])
         if day.isoformat()!=result['launchDate'] or not 1900<=day.year<=2100:

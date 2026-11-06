@@ -8,6 +8,7 @@ import operations
 
 OUTCOMES=('Not recorded','Completed','No show','Reschedule needed','Not suitable')
 CRM_PROMOTIONS=('hero-demo','lead-ownership','quote-follow-up','operations-handover')
+PORTFOLIO_PROJECTS = {'trip_sarathi': 'Trip Sarathi', 'maximtrip': 'MaximTrip', 'tripodeal': 'TripOdeal'}
 
 def initialize(db):
     db.executescript('''CREATE TABLE IF NOT EXISTS sales_demo_records(
@@ -100,6 +101,7 @@ def funnel(db,identity,days):
     counts={'enquiries':len(rows),'demoBooked':0,'demoCompleted':0,'publishedProposals':0,'proposalAfterDemo':0,'wonAfterDemoProposal':0,'currentlyWon':0}
     markets={code:{'country':code,'label':label,'counts':{**dict.fromkeys(counts,0),'qualified':0}} for code,label in [('US','United States'),('GB','United Kingdom'),('IN','India'),('other','Another country'),('unknown','Country not recorded')]}
     campaigns={}
+    portfolio={}
     for row in rows:
         payload=json.loads(row['payload']);qualification=payload.get('qualification')
         country=qualification.get('country') if isinstance(qualification,dict) and qualification.get('version')==1 else None
@@ -116,6 +118,17 @@ def funnel(db,identity,days):
             if key!='enquiries':market[key]+=counts[key]-before[key]
         qualified=bool(db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Qualified' AND created>=?",(ref,row['created'])).fetchone())
         market['qualified']+=qualified
+        brief = payload.get('projectBrief')
+        project = brief.get('portfolioProject') if isinstance(brief, dict) else None
+        if isinstance(project, str) and project in PORTFOLIO_PROJECTS:
+            project_group = portfolio.setdefault((project, country), {
+                'project': project, 'projectLabel': PORTFOLIO_PROJECTS[project],
+                'country': country, 'countryLabel': markets[country]['label'],
+                'enquiries': 0, 'qualified': 0, 'demoCompleted': 0,
+            })
+            project_group['enquiries'] += 1
+            project_group['qualified'] += qualified
+            project_group['demoCompleted'] += counts['demoCompleted'] - before['demoCompleted']
         attribution=payload.get('attribution')
         attribution=attribution if isinstance(attribution,dict) else {}
         def tag(key):
@@ -153,6 +166,7 @@ def funnel(db,identity,days):
     return {'days':days,'counts':counts,'rates':{'enquiryToDemo':rate(counts['demoBooked'],counts['enquiries']),
         'demoToProposal':rate(counts['proposalAfterDemo'],counts['demoBooked']),'proposalToWon':rate(counts['wonAfterDemoProposal'],counts['proposalAfterDemo'])},
         'markets':list(markets.values()),'campaigns':sorted(campaigns.values(),key=lambda g:(-g['counts']['enquiries'],g['country'],g['campaign'],g['source'],g['medium'],g['channel'],g['landingPage'],g['promotion'])),
+        'portfolio':sorted(portfolio.values(), key=lambda group: (group['projectLabel'], group['countryLabel'])),
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
         'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}
