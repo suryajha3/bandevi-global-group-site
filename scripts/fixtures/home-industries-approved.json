@@ -2,7 +2,7 @@
   "index.html": [
     {
       "before": "</head>",
-      "after": "  <link rel=\"stylesheet\" href=\"/assets/home-industries.css\">\n  <script src=\"/assets/home-industries.js\" defer></script>\n</head>"
+      "after": "  <link rel=\"stylesheet\" href=\"/assets/home-industries.css\">\n  <script src=\"/assets/home-industries.js?v=20261106-industry-click\" defer></script>\n</head>"
     },
     {
       "before": "<section class=\"section home-service-comparison\"",
