@@ -1,18 +1,37 @@
-/* Homepage presentation only. Existing enquiry and fictional demo behavior is retained. */
+/* Homepage company evidence and portfolio. */
 .home-proof-strip {
-  padding-block: clamp(28px, 4vw, 56px);
+  padding-bottom: clamp(28px, 4vw, 56px);
   background: #fffdf8;
   color: #1b2a3d;
   border-bottom: 1px solid #ded5c3;
 }
+.home-proof-banner {
+  padding-block: clamp(36px, 5vw, 74px);
+  background: radial-gradient(ellipse at top left, #294d71, transparent 72%), #142842;
+  color: #fffdf8;
+}
+.home-proof-banner-heading {
+  max-width: 740px;
+  margin: 0 auto clamp(24px, 4vw, 46px);
+  text-align: center;
+}
+.home-proof-banner-heading p { margin: 0; color: #e0e9f3; }
+.home-proof-banner-heading p:first-child {
+  margin-bottom: 8px;
+  color: #f0d39a;
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
 .home-proof-strip h2 {
-  margin: 0 0 18px;
-  font-size: clamp(24px, 2.4vw, 34px);
+  margin: 0 0 14px;
+  font-size: clamp(24px, 2.7vw, 38px);
   line-height: 1.2;
 }
 .home-proof-strip-cards {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(12px, 1.6vw, 24px);
   margin: 0;
   padding: 0;
@@ -21,64 +40,61 @@
 .home-proof-strip-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  padding: clamp(16px, 1.8vw, 26px);
-  border: 1px solid #dcd3c1;
-  border-top: 3px solid #bd9d58;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #f6ecda, #fffdf8 82%);
+  align-items: center;
+  gap: 8px;
+  padding: clamp(14px, 1.8vw, 25px);
+  border: 1px solid #6d8299;
+  border-radius: 14px;
+  background: #1b344f;
+  text-align: center;
 }
-.home-proof-strip-card:nth-child(even) {
-  border-color: #c3cfd8;
-  border-top-color: #60748a;
-  background: linear-gradient(145deg, #eaf0f5, #fffdf8 82%);
+.home-proof-strip-icon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  margin-bottom: 5px;
+  border: 1px solid #c0a77a;
+  border-radius: 50%;
+  background: #132941;
+  color: #f0d39a;
 }
 .home-proof-strip-value {
-  color: #76551d;
-  font-size: clamp(30px, 3.7vw, 56px);
+  color: #f0d39a;
+  font-size: clamp(23px, 2.55vw, 37px);
   font-weight: 750;
-  line-height: 1.04;
+  line-height: 1.08;
 }
-.home-proof-strip-card:nth-child(even) .home-proof-strip-value { color: #1b2a3d; }
 .home-proof-strip-card h3 {
-  margin: 4px 0 0;
-  font-size: clamp(16px, 1.5vw, 20px);
+  margin: 0;
+  font-size: clamp(16px, 1.55vw, 20px);
   line-height: 1.3;
 }
 .home-proof-strip-card p {
-  margin: 0;
-  color: #425262;
+  margin: 0 0 6px;
+  color: #e0e9f3;
   font-size: .9375rem;
   line-height: 1.45;
 }
 .home-proof-strip-card a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   min-height: 44px;
-  color: #263f5a;
+  margin-top: auto;
+  padding: 6px 11px;
+  border-radius: 6px;
+  background: #f6e8cd;
+  color: #142842;
   font-size: .875rem;
   font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration: none;
 }
-.home-proof-strip-card a:focus-visible {
-  outline: 2px solid #76551d;
-  outline-offset: 2px;
-}
-.home-proof-strip-card > a,
-.home-proof-strip-markets { margin-top: auto; }
-.home-proof-strip-markets {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 4px;
-}
-.home-proof-strip-markets a { justify-content: center; min-width: 44px; }
+.home-proof-strip-card a:hover { background: #fff5e4; text-decoration: underline; }
+.home-proof-strip-card a:focus-visible { outline: 2px solid #f0d39a; outline-offset: 3px; }
 .home-brand-references {
-  margin-top: clamp(28px, 4vw, 50px);
-  padding-top: clamp(24px, 3vw, 38px);
-  border-top: 1px solid #ded5c3;
+  padding-top: clamp(28px, 4vw, 50px);
 }
 .home-brand-references h2 { margin-bottom: 8px; }
 .home-brand-references > p {

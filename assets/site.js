@@ -1808,34 +1808,53 @@ function improvedHomeHero(){return `<aside class="home-promotion" aria-label="Tr
     </span>
   </nav>
   </div></div></section><aside class="home-proof-strip" aria-labelledby="home-proof-strip-title">
+  <div class="home-proof-banner">
+    <div class="container">
+      <header class="home-proof-banner-heading">
+        <p>Inside BANDEVI</p>
+        <h2 id="home-proof-strip-title">Our experience, work and company records</h2>
+        <p>Meet the team, explore what we’ve built and review the company behind your project.</p>
+      </header>
+      <ul class="home-proof-strip-cards">
+        <li class="home-proof-strip-card">
+          <span class="home-proof-strip-icon" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="home-proof-strip-value">2007</span>
+          <h3>Team experience</h3>
+          <p>Industry experience dating to 2007, as reported by BANDEVI.</p>
+          <a href="/about-us/#about-leadership">Meet the team <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="home-proof-strip-card">
+          <span class="home-proof-strip-icon" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18m-11 3-2 2 2 2m4-4 2 2-2 2"/></svg></span>
+          <span class="home-proof-strip-value">90,000+</span>
+          <h3>Websites delivered</h3>
+          <p>Combined team total reported by BANDEVI.</p>
+          <a href="/case-studies/#project-directory">Browse project references <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="home-proof-strip-card">
+          <span class="home-proof-strip-icon" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="8"/><ellipse cx="12" cy="12" rx="3.5" ry="8"/><path d="M4 12h16"/></svg></span>
+          <span class="home-proof-strip-value">5 markets</span>
+          <h3>Offices and service coverage</h3>
+          <p>India delivery base. Shared locations in the UK, US and Dubai. Remote service in Singapore.</p>
+          <a href="/offices/">Explore service coverage <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="home-proof-strip-card">
+          <span class="home-proof-strip-icon" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M6 3h8l4 4v14H6zM14 3v5h4m-9 5h6m-6 4h6"/></svg></span>
+          <span class="home-proof-strip-value">2026</span>
+          <h3>Incorporated in India</h3>
+          <p><time datetime="2026-10-30">30 October 2026</time>. See the company and tax registration records.</p>
+          <a href="/trust-licences-certifications/#company-registration">See CIN and GST records <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="home-proof-strip-card">
+          <span class="home-proof-strip-icon" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M7 3h10v4h3v14H4V7h3zM8 13l3 3 5-6"/></svg></span>
+          <span class="home-proof-strip-value">Case study</span>
+          <h3>BANDEVI website</h3>
+          <p>Explore how we connected our own service pages, project briefs and enquiry inbox.</p>
+          <a href="/projects/bandevi-website/#crm-enquiry-case-study">Read the delivery record <span aria-hidden="true">→</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
   <div class="container">
-    <h2 id="home-proof-strip-title">Team experience and company records</h2>
-    <ul class="home-proof-strip-cards">
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value">2007</strong>
-        <h3>Team experience since 2007</h3>
-        <p>Industry experience reported by BANDEVI.</p>
-        <a href="/about-us/#about-leadership">Meet the team <span aria-hidden="true">→</span></a>
-      </li>
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value">90,000+</strong>
-        <h3>Websites delivered by the team</h3>
-        <p>Combined team total reported by BANDEVI.</p>
-        <a href="/projects/bandevi-website/#crm-enquiry-case-study">See an example of our work <span aria-hidden="true">→</span></a>
-      </li>
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value">5</strong>
-        <h3>Offices and service coverage</h3>
-        <p>India delivery base. Shared locations in the UK, US and Dubai. Remote service in Singapore.</p>
-        <a href="/offices/">See offices and service coverage <span aria-hidden="true">→</span></a>
-      </li>
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value">2026</strong>
-        <h3>BANDEVI incorporated in India</h3>
-        <p><time datetime="2026-10-30">30 October 2026</time></p>
-        <a href="/trust-licences-certifications/#company-registration">See CIN and GST records <span aria-hidden="true">→</span></a>
-      </li>
-    </ul>
     <div class="home-brand-references" aria-labelledby="home-brand-references-title" role="region">
       <h2 id="home-brand-references-title">Travel brands in our portfolio</h2>
       <p>Public project references with development attribution supplied by BANDEVI’s owner.</p>
