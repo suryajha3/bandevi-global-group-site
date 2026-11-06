@@ -6,6 +6,7 @@ const banner = require('./fixtures/home-promotion-banner-approved.json');
 const proof = require('./fixtures/home-proof-strip-approved.json');
 const brands = require('./fixtures/home-brand-references-approved.json');
 const team = require('./fixtures/home-team-track-record-approved.json');
+const slider = require('./fixtures/home-brand-slider-approved.json');
 
 module.exports = (name, source) => {
   let result = source;
@@ -31,6 +32,10 @@ module.exports = (name, source) => {
   }
   for (const { before, after } of team[name] || []) {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage team track record marker: ' + name);
+    result = result.replace(before, () => after);
+  }
+  for (const { before, after } of slider[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original portfolio slider marker: ' + name);
     result = result.replace(before, () => after);
   }
   return result;
