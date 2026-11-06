@@ -63,5 +63,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage industry grid marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const industryEnquiry = require('./fixtures/home-industry-enquiry-approved.json');
+  for (const { before, after } of industryEnquiry[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original industry enquiry marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

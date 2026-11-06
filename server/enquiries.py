@@ -9,7 +9,7 @@ import lead_qualification
 import crm_review
 import demo_handoff
 import ads_measurement
-from sales_journey import CRM_PROMOTIONS, PORTFOLIO_PROJECTS
+from sales_journey import CRM_PROMOTIONS, PORTFOLIO_PROJECTS, INDUSTRY_LABELS, INDUSTRY_NEEDS
 import json
 import logging
 import os
@@ -82,6 +82,12 @@ def validate_attribution(value):
     promotion=value.get('crm_promotion')
     if promotion in CRM_PROMOTIONS:
         result['crm_promotion']=promotion
+    industry=value.get('industry')
+    if isinstance(industry,str) and industry in INDUSTRY_LABELS:
+        result['industry']=industry
+        need=value.get('industry_need')
+        if need in INDUSTRY_NEEDS.get(industry,()):
+            result['industry_need']=need
     return result
 
 BRIEF_SERVICES = {'Website or app':'Website / App Development Package','CRM':'CRM & ERP Package','ERP':'CRM & ERP Package','Travel technology':'Travel Technology Planning','Help me choose':'Need guidance'}

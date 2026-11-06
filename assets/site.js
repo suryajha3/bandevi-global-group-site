@@ -1899,7 +1899,7 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
     </div>
     <ul class="home-industry-cards" id="home-industry-cards">
       <li class="home-industry-card home-industry-card--travel">
-        <a href="/travel-technology/" aria-labelledby="industry-travel-title industry-travel-action">
+        <a href="/travel-technology/?industry=travel" aria-labelledby="industry-travel-title industry-travel-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 16l20-9-7 15-3-8-10 2z M12 14l10-7"/></svg>
           <h3 id="industry-travel-title">Travel &amp; Hospitality</h3>
           <p>Booking operations, supplier coordination and guest enquiries.</p>
@@ -1907,15 +1907,15 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
         </a>
       </li>
       <li class="home-industry-card home-industry-card--retail">
-        <a href="/website-mobile-app-development/" aria-labelledby="industry-retail-title industry-retail-action">
+        <a href="/ecommerce-website-development/?industry=retail" aria-labelledby="industry-retail-title industry-retail-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8h18l-2 13H5L3 8z M8 10V6a4 4 0 018 0v4"/></svg>
           <h3 id="industry-retail-title">Retail &amp; E-commerce</h3>
           <p>Online stores, customer journeys and order workflows.</p>
-          <span class="home-industry-action" id="industry-retail-action">Explore websites and apps <span aria-hidden="true">↗</span></span>
+          <span class="home-industry-action" id="industry-retail-action">Explore e-commerce development <span aria-hidden="true">↗</span></span>
         </a>
       </li>
       <li class="home-industry-card home-industry-card--education">
-        <a href="/customer-portal/" aria-labelledby="industry-education-title industry-education-action">
+        <a href="/customer-portal/?industry=education" aria-labelledby="industry-education-title industry-education-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 8l10-5 10 5-10 5L2 8z M6 10v6c4 4 8 4 12 0v-6 M22 8v8"/></svg>
           <h3 id="industry-education-title">Education &amp; Training</h3>
           <p>Admissions enquiries, learner portals and course administration.</p>
@@ -1923,7 +1923,7 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
         </a>
       </li>
       <li class="home-industry-card home-industry-card--health">
-        <a href="/website-mobile-app-development/" aria-labelledby="industry-health-title industry-health-action">
+        <a href="/website-mobile-app-development/?industry=health" aria-labelledby="industry-health-title industry-health-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21S3 15 3 8a5 5 0 019-3 5 5 0 019 3c0 7-9 13-9 13z M5 11h4l2-3 3 6 2-3h3"/></svg>
           <h3 id="industry-health-title">Healthcare &amp; Wellness</h3>
           <p>Service websites and appointment request workflows.</p>
@@ -1931,7 +1931,7 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
         </a>
       </li>
       <li class="home-industry-card home-industry-card--property">
-        <a href="/crm-erp-solutions/" aria-labelledby="industry-property-title industry-property-action">
+        <a href="/crm-erp-solutions/?industry=property" aria-labelledby="industry-property-title industry-property-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 11l10-8 10 8 M5 10v11h14V10 M10 21v-6h4v6"/></svg>
           <h3 id="industry-property-title">Real Estate</h3>
           <p>Property listings, lead follow-up and sales pipeline tracking.</p>
@@ -1939,7 +1939,7 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
         </a>
       </li>
       <li class="home-industry-card home-industry-card--manufacturing">
-        <a href="/crm-erp-solutions/" aria-labelledby="industry-manufacturing-title industry-manufacturing-action">
+        <a href="/crm-erp-solutions/?industry=manufacturing" aria-labelledby="industry-manufacturing-title industry-manufacturing-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21V9l6 4V9l6 4V5h4l2 16H3z M6 17h2 M11 17h2 M16 17h2"/></svg>
           <h3 id="industry-manufacturing-title">Manufacturing &amp; Distribution</h3>
           <p>Stock, purchase approvals and operational reporting.</p>
@@ -1947,7 +1947,7 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
         </a>
       </li>
       <li class="home-industry-card home-industry-card--services">
-        <a href="/business-process-automation/" aria-labelledby="industry-services-title industry-services-action">
+        <a href="/business-process-automation/?industry=services" aria-labelledby="industry-services-title industry-services-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8h18v13H3z M8 8V4h8v4 M3 13h18 M10 12v3h4v-3"/></svg>
           <h3 id="industry-services-title">Professional Services</h3>
           <p>Client enquiries, project handovers and workflow approvals.</p>
@@ -1955,7 +1955,7 @@ function homePage(){return `<section class="section home-brands" id="our-brands"
         </a>
       </li>
       <li class="home-industry-card home-industry-card--media">
-        <a href="/website-mobile-app-development/" aria-labelledby="industry-media-title industry-media-action">
+        <a href="/website-mobile-app-development/?industry=media" aria-labelledby="industry-media-title industry-media-action">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h13v17H4z M17 8h4v12h-4 M7 7h7 M7 11h7 M7 15h4"/></svg>
           <h3 id="industry-media-title">Media &amp; Publishing</h3>
           <p>Content websites, publishing workflows and audience experiences.</p>
@@ -4404,6 +4404,20 @@ function landingPage(key) {
         <div class="media-frame"><img src="${productImage}" alt="${page.title}"></div>
       </div>
     </section>
+    ${key === "ecommerceWebsiteDevelopment" ? `    <section class="section" id="ecommerce-project-choices" aria-labelledby="ecommerce-project-choices-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="ecommerce-project-choices-title">What would you like to improve?</h2>
+          <p>Choose a starting point and we’ll include it in your enquiry.</p>
+        </div>
+        <div class="inline-actions">
+          <a class="button dark" href="/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=launch#contact-form">Launch a store</a>
+          <a class="button dark" href="/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=checkout#contact-form">Improve checkout</a>
+          <a class="button dark" href="/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=orders#contact-form">Manage orders</a>
+        </div>
+      </div>
+    </section>
+` : ""}
     <section class="section mist">
       <div class="container">
         <div class="section-head">
@@ -7437,7 +7451,7 @@ function travelPortfolioSection(){return `<section class="section" id="travel-pr
 
 function travelSolutionComparison(){return `<section class="section mist" id="travel-solution-comparison" style="scroll-margin-top:100px"><div class="container"><div class="section-head single"><span class="proof-kind">Choose a first release</span><h2>Travel website, Travel CRM or Travel ERP?</h2><p>Choose the workflow that needs attention first. A website helps customers discover and enquire; CRM helps the team follow up and quote; ERP helps coordinate confirmed bookings and delivery.</p></div><div class="table-wrap" role="region" tabindex="0" aria-label="Travel website, CRM and ERP comparison"><table><caption>Examples to plan; final modules and integrations depend on your proposal</caption><thead><tr><th scope="col" style="width:16%;min-width:160px">What to compare</th><th scope="col">Travel website</th><th scope="col">Travel CRM</th><th scope="col">Travel ERP</th></tr></thead><tbody><tr><th scope="row">Main business problem</th><td>Customers need clear package information and an easy enquiry path.</td><td>Enquiries, quotations and follow-ups need shared ownership and history.</td><td>Confirmed bookings, suppliers, documents and payment records need operational coordination.</td></tr><tr><th scope="row">Typical workflow</th><td>Package page → trip enquiry → sales handover.</td><td>Enquiry → consultant → quotation → follow-up → agreed booking handover.</td><td>Confirmed booking → service tasks → supplier review → documents and financial reconciliation.</td></tr><tr><th scope="row">First release to discuss</th><td>Package or destination pages, responsive layout, enquiry form and a named sales destination.</td><td>Lead fields, consultant ownership, quotation stages and a next-action queue.</td><td>Booking files, assigned service tasks, confirmation status and document requirements.</td></tr><tr><th scope="row">Dependencies</th><td>Approved content and images, domain/hosting access and enquiry delivery. Live booking needs separately approved provider access.</td><td>Current sales stages, user roles, migration samples and supported communication or integration access.</td><td>Booking identifiers, supplier records, approval roles, migration data and access to any financial or provider systems in scope.</td></tr><tr><th scope="row">Confirm before a quote</th><td>Page inventory, editing responsibilities, analytics, redirects, ownership and handover.</td><td>User roles, reports, quotation history, duplicate rules, channels and the booking handover criteria.</td><td>Service workflows, currencies, permissions, report definitions, financial scope and support responsibilities.</td></tr><tr><th scope="row">Explore the matching next step</th><td><p><a href="/travel-agency-website-development/">Travel website development scope</a></p><p><a href="/blog/white-label-travel-website-vs-custom-travel-website/">Custom or white-label travel website?</a></p><p><a class="text-link" href="/project-brief/?workflow=travel-website">Prepare a travel website brief</a></p></td><td><p><a href="/travel-crm/">Travel CRM development scope</a></p><p><a href="/blog/travel-crm-software-for-agencies/">Travel CRM software guide</a></p><p><a class="text-link" href="/project-brief/?workflow=travel-crm">Prepare a Travel CRM brief</a></p></td><td><p><a href="/travel-erp/">Travel ERP development scope</a></p><p><a href="/blog/travel-erp-system-for-tour-operators/">Travel ERP modules and rollout guide</a></p><p><a class="text-link" href="/project-brief/?workflow=travel-erp">Prepare a Travel ERP brief</a></p></td></tr></tbody></table></div><p>Start with one complete customer or staff journey. If you need a connected system, agree shared booking identifiers, ownership and handover rules between releases. Pricing, availability and delivery dates are confirmed after requirements review.</p><p><a class="text-link" href="/blog/travel-crm-vs-erp-for-travel-agencies/">Read the Travel CRM versus Travel ERP buyer guide</a>.</p></div></section>`;}
 
-function professionalTravelHero(){return `<section class="travel-professional-intro"><div class="container travel-intro-grid"><div><span class="eyebrow">Travel technology · BANDEVI</span><h1>From travel enquiry to a clear booking workflow.</h1><p class="travel-lede">Travel websites, CRM and ERP planned around how your team quotes, follows up and coordinates each trip.</p><div class="travel-actions"><a class="button primary" href="/demo-request/?solution=Travel%20Technology%20Planning">Discuss your travel project</a><a class="button secondary" href="#travel-projects">Explore our travel work</a></div><nav class="travel-jump" aria-label="Travel page sections"><a href="#travel-solution-comparison">Compare solutions</a><a href="#travel-delivery">Delivery &amp; handover</a><a href="#travel-demo-link">Try the workflow</a></nav></div><figure class="travel-real-work"><a href="/projects/trip-sarathi/"><img src="/assets/portfolio-trip-sarathi.jpg" width="1239" height="578" alt="Trip Sarathi public homepage with travel navigation and flight search" fetchpriority="high"></a><figcaption>Trip Sarathi · public interface captured 6 October 2026. <a href="/projects/trip-sarathi/">Read the project record</a>.</figcaption></figure></div></section>`;}
+function professionalTravelHero(){return `<section class="travel-professional-intro"><div class="container travel-intro-grid"><div><span class="eyebrow">Travel technology · BANDEVI</span><h1>From travel enquiry to a clear booking workflow.</h1><p class="travel-lede">Travel websites, CRM and ERP planned around how your team quotes, follows up and coordinates each trip.</p><div class="travel-actions"><a class="button primary" href="/sample-crm/?industry=travel&amp;need=crm#travel-demo-guide">Try the Travel CRM demo</a><a class="button secondary" href="/contact-us/?solution=Complete%20Travel%20Website%20Package&amp;industry=travel&amp;need=portal#contact-form">Discuss a travel portal</a></div><nav class="travel-jump" aria-label="Travel page sections"><a href="#travel-solution-comparison">Compare solutions</a><a href="#travel-delivery">Delivery &amp; handover</a><a href="#travel-demo-link">Try the workflow</a></nav></div><figure class="travel-real-work"><a href="/projects/trip-sarathi/"><img src="/assets/portfolio-trip-sarathi.jpg" width="1239" height="578" alt="Trip Sarathi public homepage with travel navigation and flight search" fetchpriority="high"></a><figcaption>Trip Sarathi · public interface captured 6 October 2026. <a href="/projects/trip-sarathi/">Read the project record</a>.</figcaption></figure></div></section>`;}
 function professionalTravelPage(){return `<section class="section" id="travel-projects" style="scroll-margin-top:100px"><div class="container"><div class="section-head single"><span class="eyebrow">Our travel portfolio</span><h2>B2C travel portals developed by BANDEVI.</h2><p>Explore selected project websites and discuss the customer journey you want to build. Your proposal confirms the features, provider connections and support included in your own portal.</p></div><div class="grid cols-3"><article class="card"><span class="proof-kind">B2C travel portal</span><h3>Trip Sarathi</h3><p><a class="text-link" href="/projects/trip-sarathi/">Explore Trip Sarathi project</a></p><figure style="margin:0 0 20px"><a href="/assets/portfolio-trip-sarathi.jpg" target="_blank" rel="noopener noreferrer" aria-label="View larger Trip Sarathi public homepage screenshot (opens new tab)"><img src="/assets/portfolio-trip-sarathi.jpg" alt="Trip Sarathi public homepage showing travel navigation and a flight search interface" width="1239" height="578" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:2.2;object-fit:contain;background:#f2f6f6;border-radius:10px"></a><figcaption class="muted" style="font-size:13px;margin-top:8px">Public homepage captured 6 October 2026. View larger screenshot.</figcaption></figure><p><strong>BANDEVI’s work:</strong> B2C travel portal development, as supplied by the company owner.</p><p>Flight search and travel-service navigation.</p><p><a class="text-link" href="https://tripsarathi.com/" target="_blank" rel="noopener noreferrer">Visit Trip Sarathi website (opens new tab)</a></p><a class="button dark" data-portfolio-project="trip_sarathi" href="/project-brief/?workflow=travel-website&amp;project=trip_sarathi">Request a similar portal</a></article><article class="card"><span class="proof-kind">B2C travel portal</span><h3>MaximTrip</h3><p><a class="text-link" href="/projects/maximtrip/">Explore MaximTrip project</a></p><figure style="margin:0 0 20px"><a href="/assets/portfolio-maximtrip.jpg" target="_blank" rel="noopener noreferrer" aria-label="View larger MaximTrip public homepage screenshot (opens new tab)"><img src="/assets/portfolio-maximtrip.jpg" alt="MaximTrip public homepage showing travel navigation and a flight search interface" width="1239" height="532" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:2.2;object-fit:contain;background:#f2f6f6;border-radius:10px"></a><figcaption class="muted" style="font-size:13px;margin-top:8px">Public homepage captured 6 October 2026. View larger screenshot.</figcaption></figure><p><strong>BANDEVI’s work:</strong> B2C travel portal development, as supplied by the company owner.</p><p>Flight and holiday pages with account and booking-management navigation.</p><p><a class="text-link" href="https://www.maximtrip.in/" target="_blank" rel="noopener noreferrer">Visit MaximTrip website (opens new tab)</a></p><a class="button dark" data-portfolio-project="maximtrip" href="/project-brief/?workflow=travel-website&amp;project=maximtrip">Request a similar portal</a></article><article class="card"><span class="proof-kind">B2C travel portal</span><h3>TripOdeal</h3><p><a class="text-link" href="/projects/tripodeal/">Explore TripOdeal project</a></p><figure style="margin:0 0 20px"><a href="/assets/portfolio-tripodeal.jpg" target="_blank" rel="noopener noreferrer" aria-label="View larger TripOdeal public homepage screenshot (opens new tab)"><img src="/assets/portfolio-tripodeal.jpg" alt="TripOdeal public homepage showing travel navigation and a flight search interface" width="1239" height="532" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:2.2;object-fit:contain;background:#f2f6f6;border-radius:10px"></a><figcaption class="muted" style="font-size:13px;margin-top:8px">Public homepage captured 6 October 2026. View larger screenshot.</figcaption></figure><p><strong>BANDEVI’s work:</strong> B2C travel portal development, as supplied by the company owner.</p><p>Flight search, hotel and bus navigation, holiday packages and booking lookup.</p><p><a class="text-link" href="https://www.tripodeal.com/" target="_blank" rel="noopener noreferrer">Visit TripOdeal website (opens new tab)</a></p><a class="button dark" data-portfolio-project="tripodeal" href="/project-brief/?workflow=travel-website&amp;project=tripodeal">Request a similar portal</a></article></div><p class="muted">Project list supplied by BANDEVI’s owner. Featured descriptions reflect public pages reviewed on 6 October 2026; current interfaces can change. These links are project references, not customer endorsements or claims about booking volumes, revenue or performance.</p><details class="buyer-faq"><summary>Explore all 24 travel portal project links</summary><p>External links open in a new tab. Some public sites could not be reviewed with our browsing tool; this does not establish their current availability.</p><ul class="grid cols-3"><li><a href="https://tripncare.com/" target="_blank" rel="noopener noreferrer">Tripncare</a></li><li><a href="https://tripsarathi.com/" target="_blank" rel="noopener noreferrer">Trip Sarathi</a></li><li><a href="https://booking.indiaatour.com/" target="_blank" rel="noopener noreferrer">Indiaa Tour Booking</a></li><li><a href="https://travelette.in/" target="_blank" rel="noopener noreferrer">Travelette</a></li><li><a href="https://www.ytrip.in/" target="_blank" rel="noopener noreferrer">YTrip</a></li><li><a href="https://hamdantravel.com/" target="_blank" rel="noopener noreferrer">Hamdan Travel</a></li><li><a href="https://travellingwheel.com/" target="_blank" rel="noopener noreferrer">Travelling Wheel</a></li><li><a href="https://www.maximtrip.in/" target="_blank" rel="noopener noreferrer">MaximTrip</a></li><li><a href="https://www.tripodeal.com/" target="_blank" rel="noopener noreferrer">TripOdeal</a></li><li><a href="https://www.flyhighsky.com/" target="_blank" rel="noopener noreferrer">Fly High Sky</a></li><li><a href="https://www.neonholidays.com/" target="_blank" rel="noopener noreferrer">Neon Holidays</a></li><li><a href="https://www.bleuglaciotrip.com/" target="_blank" rel="noopener noreferrer">Bleu Glacio Trip</a></li><li><a href="https://oneduniya.com/" target="_blank" rel="noopener noreferrer">OneDuniya</a></li><li><a href="https://pahunatrip.com/" target="_blank" rel="noopener noreferrer">Pahuna Trip</a></li><li><a href="https://flhobu.com/" target="_blank" rel="noopener noreferrer">Flhobu</a></li><li><a href="https://digigoyatra.com/" target="_blank" rel="noopener noreferrer">DigiGoYatra</a></li><li><a href="https://www.yatraworldtravels.com/" target="_blank" rel="noopener noreferrer">Yatra World Travels</a></li><li><a href="https://akpb13.com/" target="_blank" rel="noopener noreferrer">AKPB13</a></li><li><a href="https://www.charliebooking.com/" target="_blank" rel="noopener noreferrer">Charlie Booking</a></li><li><a href="https://www.mymastertour.com/" target="_blank" rel="noopener noreferrer">My Master Tour</a></li><li><a href="https://reasontoflyy.com/" target="_blank" rel="noopener noreferrer">Reason To Flyy</a></li><li><a href="https://www.merrygofly.com/" target="_blank" rel="noopener noreferrer">MerryGoFly</a></li><li><a href="https://www.coanzaartravels.in/" target="_blank" rel="noopener noreferrer">Coanzaar Travels</a></li><li><a href="https://www.payandbook.com/" target="_blank" rel="noopener noreferrer">Pay and Book</a></li></ul></details><p><a class="text-link" href="/projects/bandevi-website/">Also view our internal website project</a></p></div></section><section class="section mist" id="travel-solution-comparison" style="scroll-margin-top:100px"><div class="container"><div class="section-head single"><span class="proof-kind">Choose a first release</span><h2>Travel website, Travel CRM or Travel ERP?</h2><p>Choose the workflow that needs attention first. A website helps customers discover and enquire; CRM helps the team follow up and quote; ERP helps coordinate confirmed bookings and delivery.</p></div><div class="table-wrap" role="region" tabindex="0" aria-label="Travel website, CRM and ERP comparison"><table><caption>Examples to plan; final modules and integrations depend on your proposal</caption><thead><tr><th scope="col" style="width:16%;min-width:160px">What to compare</th><th scope="col">Travel website</th><th scope="col">Travel CRM</th><th scope="col">Travel ERP</th></tr></thead><tbody><tr><th scope="row">Main business problem</th><td>Customers need clear package information and an easy enquiry path.</td><td>Enquiries, quotations and follow-ups need shared ownership and history.</td><td>Confirmed bookings, suppliers, documents and payment records need operational coordination.</td></tr><tr><th scope="row">Typical workflow</th><td>Package page → trip enquiry → sales handover.</td><td>Enquiry → consultant → quotation → follow-up → agreed booking handover.</td><td>Confirmed booking → service tasks → supplier review → documents and financial reconciliation.</td></tr><tr><th scope="row">First release to discuss</th><td>Package or destination pages, responsive layout, enquiry form and a named sales destination.</td><td>Lead fields, consultant ownership, quotation stages and a next-action queue.</td><td>Booking files, assigned service tasks, confirmation status and document requirements.</td></tr><tr><th scope="row">Dependencies</th><td>Approved content and images, domain/hosting access and enquiry delivery. Live booking needs separately approved provider access.</td><td>Current sales stages, user roles, migration samples and supported communication or integration access.</td><td>Booking identifiers, supplier records, approval roles, migration data and access to any financial or provider systems in scope.</td></tr><tr><th scope="row">Confirm before a quote</th><td>Page inventory, editing responsibilities, analytics, redirects, ownership and handover.</td><td>User roles, reports, quotation history, duplicate rules, channels and the booking handover criteria.</td><td>Service workflows, currencies, permissions, report definitions, financial scope and support responsibilities.</td></tr><tr><th scope="row">Explore the matching next step</th><td><p><a href="/travel-agency-website-development/">Travel website development scope</a></p><p><a href="/blog/white-label-travel-website-vs-custom-travel-website/">Custom or white-label travel website?</a></p><p><a class="text-link" href="/project-brief/?workflow=travel-website">Prepare a travel website brief</a></p></td><td><p><a href="/travel-crm/">Travel CRM development scope</a></p><p><a href="/blog/travel-crm-software-for-agencies/">Travel CRM software guide</a></p><p><a class="text-link" href="/project-brief/?workflow=travel-crm">Prepare a Travel CRM brief</a></p></td><td><p><a href="/travel-erp/">Travel ERP development scope</a></p><p><a href="/blog/travel-erp-system-for-tour-operators/">Travel ERP modules and rollout guide</a></p><p><a class="text-link" href="/project-brief/?workflow=travel-erp">Prepare a Travel ERP brief</a></p></td></tr></tbody></table></div><p>Start with one complete customer or staff journey. If you need a connected system, agree shared booking identifiers, ownership and handover rules between releases. Pricing, availability and delivery dates are confirmed after requirements review.</p><p><a class="text-link" href="/blog/travel-crm-vs-erp-for-travel-agencies/">Read the Travel CRM versus Travel ERP buyer guide</a>.</p></div></section><section class="section travel-proposal" id="travel-delivery"><div class="container"><div class="section-head single"><span class="eyebrow">From scope to handover</span><h2>Know what your proposal includes.</h2><p>Each build has an agreed scope. Review the deliverables, dependencies and acceptance checks before development begins.</p></div><div class="grid cols-3"><article class="card"><span class="travel-step">01 · Define</span><h3>Pages, records and responsibilities</h3><p>Agree customer journeys, staff roles, modules, required fields and reports. Name the content and review owners.</p><ul><li>Included features and exclusions</li><li>Review stages and acceptance checks</li><li>Milestones and payment terms</li></ul></article><article class="card"><span class="travel-step">02 · Connect &amp; review</span><h3>Test the agreed travel journeys</h3><p>Review enquiry capture, quote changes, booking handover and exceptions that apply to your scope.</p><ul><li>Supplier and payment-provider access</li><li>Approvals, third-party charges and data mapping</li><li>Failed requests, retries and role restrictions</li></ul></article><article class="card"><span class="travel-step">03 · Hand over</span><h3>Agree access and support</h3><p>Confirm the items your team receives and the responsibilities after launch.</p><ul><li>Account access, source-code and data rights</li><li>Documentation, training and backup arrangements</li><li>Support coverage, hours and escalation contact</li></ul></article></div><div class="travel-dependency-note"><strong>Live booking depends on approved integrations.</strong> Flight, hotel and payment connections are included only when named in the proposal and provider access is approved. Pricing and dates follow requirements review.</div><a class="text-link" href="/how-we-work/">Read our delivery and handover guide</a></div></section><section class="section mist" id="travel-demo-link" style="scroll-margin-top:100px"><div class="container outcome-grid"><div class="section-head single"><span class="eyebrow">Explore the workflow</span><h2>Try the travel demo.</h2><p>Follow one fictional enquiry through quotation, booking handover and payment tracking. See how sales, operations and finance share the next action.</p></div><div><a class="button dark" data-travel-demo-entry href="/sample-crm/#travel-demo-guide">Try the Travel Demo</a><p>Fictional data · no login · no real booking or payment. Your proposal confirms the system we build for your team.</p></div></div></section><section class="section travel-next"><div class="container travel-next-grid"><div><span class="eyebrow">Start with your workflow</span><h2>Bring one travel journey to the discussion.</h2><p>Tell us how enquiries arrive, who prepares quotations, and what happens after a customer accepts. Use fictional or anonymised examples for initial planning.</p><div class="travel-actions"><a class="button primary" href="/demo-request/?solution=Travel%20Technology%20Planning">Discuss this service</a><a class="text-link" href="/project-brief/?workflow=travel-website">Prepare a travel website brief</a></div><p><a href="/project-brief/?workflow=travel-crm">Plan a Travel CRM</a> · <a href="/project-brief/?workflow=travel-finance">Plan travel operations &amp; finance</a></p></div><aside class="card"><h3>Review the company and project evidence</h3><p>Explore our published people and work, and request the applicable contracting-entity documents. Company-supplied incorporation and GST details are published in our company records.</p><p><a class="text-link" href="/about-us/">People and company information</a></p><p><a class="text-link" href="/contact-us/?request=company-records">Request company records</a></p><p><a class="text-link" href="/contact-us/?request=client-reference">Request an approved customer reference</a></p></aside></div></section><section class="section mist"><div class="container"><div class="section-head single"><span class="eyebrow">Specialist travel workflows</span><h2>Connect the service your team needs next.</h2></div><div class="grid cols-3"><article class="card"><h3>DMC operations</h3><p>Plan destination services, supplier coordination, itineraries and booking files for a destination management company.</p><a class="text-link" href="/dmc-software/">Explore DMC software</a></article><article class="card"><h3>Customer self-service</h3><p>Agree which booking updates, documents, invoices and support requests customers can access.</p><a class="text-link" href="/customer-portal/">Plan a customer portal</a></article><article class="card"><h3>Care after launch</h3><p>Define training, issue reporting, maintenance and enhancement responsibilities in your support agreement.</p><a class="text-link" href="/support/">Review support scope</a></article></div></div></section>`;}
 
 function professionalWebHero(){return `<section class="web-professional-intro"><div class="container web-intro-grid"><div><span class="eyebrow">Websites &amp; apps · BANDEVI</span><h1>Website and app development in Gurugram.</h1><p class="web-lede">From our Sector 23A, Gurugram office, we plan business websites, web apps and mobile apps around your customers, your team and the next action they need to take.</p><div class="web-actions"><a class="button primary" href="/demo-request/?solution=Website%20%2F%20App%20Development%20Package">Discuss your website project</a><a class="button secondary" href="#web-project-example">Explore our website project</a></div><nav class="web-jump" aria-label="Website service page sections"><a href="#web-starting-point">Choose your starting point</a><a href="#web-delivery">Delivery &amp; handover</a></nav></div><figure class="web-project-image"><a href="/projects/bandevi-website/"><img src="/assets/bandevi-website-project.png" width="1239" height="532" alt="BANDEVI homepage screenshot captured 4 October 2026 with service selection and an illustrative workflow diagram" fetchpriority="high"></a><figcaption>Our own website · homepage captured 4 October 2026. The current design has since changed. <a href="/projects/bandevi-website/">Read the internal project record</a>.</figcaption></figure></div></section>`;}
@@ -7654,8 +7668,53 @@ function bindCrmWorkflowReview(form){
   form.addEventListener('reset',()=>queueMicrotask(update));update();
 }
 
+const industryNames = {
+  travel: 'Travel & Hospitality', retail: 'Retail & E-commerce', education: 'Education & Training',
+  health: 'Healthcare & Wellness', property: 'Real Estate', manufacturing: 'Manufacturing & Distribution',
+  services: 'Professional Services', media: 'Media & Publishing'
+};
+const industryNeeds = {
+  travel: {crm: 'Travel CRM demo', portal: 'Travel portal'},
+  retail: {launch: 'Launch a store', checkout: 'Improve checkout', orders: 'Manage orders'}
+};
+const industryEntry = (() => {
+  const params = new URLSearchParams(location.search);
+  const industry = params.get('industry');
+  if (!Object.hasOwn(industryNames, industry)) return null;
+  const needs = industryNeeds[industry] || {};
+  const need = params.get('need');
+  return {industry, need: Object.hasOwn(needs, need) ? need : ''};
+})();
+function carryIndustry(link) {
+  if (!industryEntry) return;
+  const url = new URL(link.href, location.origin);
+  if (url.origin !== location.origin || !['/contact-us/','/demo-request/','/project-brief/','/sample-crm/'].includes(url.pathname)) return;
+  if (url.searchParams.has('industry')) return;
+  url.searchParams.set('industry', industryEntry.industry);
+  if (industryEntry.need) url.searchParams.set('need', industryEntry.need);
+  link.href = url.pathname + url.search + url.hash;
+}
+function industryEntryLabel() {
+  if (!industryEntry) return '';
+  const {industry, need} = industryEntry;
+  return industryNames[industry] + (need ? ' · ' + industryNeeds[industry][need] : '');
+}
+function showIndustryEntry(form) {
+  if (!industryEntry || !['contact','demo'].includes(form.dataset.form)) return;
+  const types = {travel:'Travel agency / tour operator',retail:'Retail / e-commerce'};
+  const businessType = form.elements.businessType;
+  if (businessType && !businessType.value && types[industryEntry.industry]) {
+    businessType.value = types[industryEntry.industry];
+  }
+  const context = document.createElement('p');
+  context.className = 'form-help';
+  context.textContent = 'Selected industry: ' + industryEntryLabel();
+  form.prepend(context);
+}
+
 function enquiryMessage(form, data) {
   return [
+    industryEntry ? 'Industry enquiry: ' + industryEntryLabel() : '',
     form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
     ['GB','US','IN','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',IN:'India',other:'Another country'})[data.projectCountry] : '',
@@ -7910,6 +7969,7 @@ function adsMeasurementPayload(form){const state=form._adsChoice;return state?.c
 const crmPromotions = ['hero-demo', 'lead-ownership', 'quote-follow-up', 'operations-handover'];
 
 function bindForms() {
+  if (industryEntry) document.querySelectorAll('a[href^="/"]').forEach(carryIndustry);
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
   document.querySelectorAll("[data-form]").forEach((form) => {
@@ -7918,6 +7978,7 @@ function bindForms() {
     bindAdsMeasurement(form);
     bindCrmWorkflowReview(form);
     const type = form.dataset.form;
+    showIndustryEntry(form);
     if (type === "contact") {
       const requestedChoice = new URL(window.location.href).searchParams.get("solution");
       const interest = form.elements.interest;
@@ -8090,6 +8151,7 @@ function bindForms() {
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: {
             ...Object.fromEntries(Object.entries(enquiryAttribution).filter(([key]) => key !== 'expires')),
+            ...(industryEntry ? {industry: industryEntry.industry, industry_need: industryEntry.need} : {}),
             ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)
               ? { crm_promotion: form.dataset.crmPromotion } : {})
           }
@@ -8204,6 +8266,7 @@ function bindAnalyticsEvents() {
     const link = event.target.closest("a");
     if (!link) return;
 
+    carryIndustry(link);
     const href = link.getAttribute("href") || "";
     if (href.startsWith("/demo-request/")) {
       const currentUrl = new URL(window.location.href);
