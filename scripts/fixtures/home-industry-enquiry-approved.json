@@ -1,0 +1,290 @@
+{
+  "assets/client.js": [
+    {
+      "before": "function enquiryMessage(form, data) {\n",
+      "after": "const industryNames = {\n  travel: 'Travel & Hospitality', retail: 'Retail & E-commerce', education: 'Education & Training',\n  health: 'Healthcare & Wellness', property: 'Real Estate', manufacturing: 'Manufacturing & Distribution',\n  services: 'Professional Services', media: 'Media & Publishing'\n};\nconst industryNeeds = {\n  travel: {crm: 'Travel CRM demo', portal: 'Travel portal'},\n  retail: {launch: 'Launch a store', checkout: 'Improve checkout', orders: 'Manage orders'}\n};\nconst industryEntry = (() => {\n  const params = new URLSearchParams(location.search);\n  const industry = params.get('industry');\n  if (!Object.hasOwn(industryNames, industry)) return null;\n  const needs = industryNeeds[industry] || {};\n  const need = params.get('need');\n  return {industry, need: Object.hasOwn(needs, need) ? need : ''};\n})();\nfunction carryIndustry(link) {\n  if (!industryEntry) return;\n  const url = new URL(link.href, location.origin);\n  if (url.origin !== location.origin || !['/contact-us/','/demo-request/','/project-brief/','/sample-crm/'].includes(url.pathname)) return;\n  if (url.searchParams.has('industry')) return;\n  url.searchParams.set('industry', industryEntry.industry);\n  if (industryEntry.need) url.searchParams.set('need', industryEntry.need);\n  link.href = url.pathname + url.search + url.hash;\n}\nfunction industryEntryLabel() {\n  if (!industryEntry) return '';\n  const {industry, need} = industryEntry;\n  return industryNames[industry] + (need ? ' · ' + industryNeeds[industry][need] : '');\n}\nfunction showIndustryEntry(form) {\n  if (!industryEntry || !['contact','demo'].includes(form.dataset.form)) return;\n  const types = {travel:'Travel agency / tour operator',retail:'Retail / e-commerce'};\n  const businessType = form.elements.businessType;\n  if (businessType && !businessType.value && types[industryEntry.industry]) {\n    businessType.value = types[industryEntry.industry];\n  }\n  const context = document.createElement('p');\n  context.className = 'form-help';\n  context.textContent = 'Selected industry: ' + industryEntryLabel();\n  form.prepend(context);\n}\n\nfunction enquiryMessage(form, data) {\n"
+    },
+    {
+      "before": "    form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',\n",
+      "after": "    industryEntry ? 'Industry enquiry: ' + industryEntryLabel() : '',\n    form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',\n"
+    },
+    {
+      "before": "  document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));\n",
+      "after": "  if (industryEntry) document.querySelectorAll('a[href^=\"/\"]').forEach(carryIndustry);\n  document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));\n"
+    },
+    {
+      "before": "    if (type === \"contact\") {\n      const requestedChoice = new URL(window.location.href).searchParams.get(\"solution\");\n",
+      "after": "    showIndustryEntry(form);\n    if (type === \"contact\") {\n      const requestedChoice = new URL(window.location.href).searchParams.get(\"solution\");\n"
+    },
+    {
+      "before": "            ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)\n",
+      "after": "            ...(industryEntry ? {industry: industryEntry.industry, industry_need: industryEntry.need} : {}),\n            ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)\n"
+    },
+    {
+      "before": "    const href = link.getAttribute(\"href\") || \"\";\n",
+      "after": "    carryIndustry(link);\n    const href = link.getAttribute(\"href\") || \"\";\n"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "        <a href=\"/travel-technology/\" aria-labelledby=\"industry-travel-title industry-travel-action\">\n",
+      "after": "        <a href=\"/travel-technology/?industry=travel\" aria-labelledby=\"industry-travel-title industry-travel-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/website-mobile-app-development/\" aria-labelledby=\"industry-retail-title industry-retail-action\">\n",
+      "after": "        <a href=\"/ecommerce-website-development/?industry=retail\" aria-labelledby=\"industry-retail-title industry-retail-action\">\n"
+    },
+    {
+      "before": "          <span class=\"home-industry-action\" id=\"industry-retail-action\">Explore websites and apps <span aria-hidden=\"true\">↗</span></span>\n",
+      "after": "          <span class=\"home-industry-action\" id=\"industry-retail-action\">Explore e-commerce development <span aria-hidden=\"true\">↗</span></span>\n"
+    },
+    {
+      "before": "        <a href=\"/customer-portal/\" aria-labelledby=\"industry-education-title industry-education-action\">\n",
+      "after": "        <a href=\"/customer-portal/?industry=education\" aria-labelledby=\"industry-education-title industry-education-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/website-mobile-app-development/\" aria-labelledby=\"industry-health-title industry-health-action\">\n",
+      "after": "        <a href=\"/website-mobile-app-development/?industry=health\" aria-labelledby=\"industry-health-title industry-health-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/crm-erp-solutions/\" aria-labelledby=\"industry-property-title industry-property-action\">\n",
+      "after": "        <a href=\"/crm-erp-solutions/?industry=property\" aria-labelledby=\"industry-property-title industry-property-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/crm-erp-solutions/\" aria-labelledby=\"industry-manufacturing-title industry-manufacturing-action\">\n",
+      "after": "        <a href=\"/crm-erp-solutions/?industry=manufacturing\" aria-labelledby=\"industry-manufacturing-title industry-manufacturing-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/business-process-automation/\" aria-labelledby=\"industry-services-title industry-services-action\">\n",
+      "after": "        <a href=\"/business-process-automation/?industry=services\" aria-labelledby=\"industry-services-title industry-services-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/website-mobile-app-development/\" aria-labelledby=\"industry-media-title industry-media-action\">\n",
+      "after": "        <a href=\"/website-mobile-app-development/?industry=media\" aria-labelledby=\"industry-media-title industry-media-action\">\n"
+    },
+    {
+      "before": "    <section class=\"section mist\">\n      <div class=\"container\">\n        <div class=\"section-head\">\n          <h2>What this includes.</h2>\n",
+      "after": "    ${key === \"ecommerceWebsiteDevelopment\" ? `    <section class=\"section\" id=\"ecommerce-project-choices\" aria-labelledby=\"ecommerce-project-choices-title\">\n      <div class=\"container\">\n        <div class=\"section-head\">\n          <h2 id=\"ecommerce-project-choices-title\">What would you like to improve?</h2>\n          <p>Choose a starting point and we’ll include it in your enquiry.</p>\n        </div>\n        <div class=\"inline-actions\">\n          <a class=\"button dark\" href=\"/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=launch#contact-form\">Launch a store</a>\n          <a class=\"button dark\" href=\"/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=checkout#contact-form\">Improve checkout</a>\n          <a class=\"button dark\" href=\"/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=orders#contact-form\">Manage orders</a>\n        </div>\n      </div>\n    </section>\n` : \"\"}\n    <section class=\"section mist\">\n      <div class=\"container\">\n        <div class=\"section-head\">\n          <h2>What this includes.</h2>\n"
+    },
+    {
+      "before": "ns\"><a class=\"button primary\" href=\"/demo-request/?solution=Travel%20Technology%20Planning\">Discuss your travel project</a><a class=\"button secondary\" href=\"#travel-projects\">Explore our travel work</a></div><nav class=\"travel-jump\" ar",
+      "after": "ns\"><a class=\"button primary\" href=\"/sample-crm/?industry=travel&amp;need=crm#travel-demo-guide\">Try the Travel CRM demo</a><a class=\"button secondary\" href=\"/contact-us/?solution=Complete%20Travel%20Website%20Package&amp;industry=travel&amp;need=portal#contact-form\">Discuss a travel portal</a></div><nav class=\"travel-jump\" ar"
+    },
+    {
+      "before": "function enquiryMessage(form, data) {\n",
+      "after": "const industryNames = {\n  travel: 'Travel & Hospitality', retail: 'Retail & E-commerce', education: 'Education & Training',\n  health: 'Healthcare & Wellness', property: 'Real Estate', manufacturing: 'Manufacturing & Distribution',\n  services: 'Professional Services', media: 'Media & Publishing'\n};\nconst industryNeeds = {\n  travel: {crm: 'Travel CRM demo', portal: 'Travel portal'},\n  retail: {launch: 'Launch a store', checkout: 'Improve checkout', orders: 'Manage orders'}\n};\nconst industryEntry = (() => {\n  const params = new URLSearchParams(location.search);\n  const industry = params.get('industry');\n  if (!Object.hasOwn(industryNames, industry)) return null;\n  const needs = industryNeeds[industry] || {};\n  const need = params.get('need');\n  return {industry, need: Object.hasOwn(needs, need) ? need : ''};\n})();\nfunction carryIndustry(link) {\n  if (!industryEntry) return;\n  const url = new URL(link.href, location.origin);\n  if (url.origin !== location.origin || !['/contact-us/','/demo-request/','/project-brief/','/sample-crm/'].includes(url.pathname)) return;\n  if (url.searchParams.has('industry')) return;\n  url.searchParams.set('industry', industryEntry.industry);\n  if (industryEntry.need) url.searchParams.set('need', industryEntry.need);\n  link.href = url.pathname + url.search + url.hash;\n}\nfunction industryEntryLabel() {\n  if (!industryEntry) return '';\n  const {industry, need} = industryEntry;\n  return industryNames[industry] + (need ? ' · ' + industryNeeds[industry][need] : '');\n}\nfunction showIndustryEntry(form) {\n  if (!industryEntry || !['contact','demo'].includes(form.dataset.form)) return;\n  const types = {travel:'Travel agency / tour operator',retail:'Retail / e-commerce'};\n  const businessType = form.elements.businessType;\n  if (businessType && !businessType.value && types[industryEntry.industry]) {\n    businessType.value = types[industryEntry.industry];\n  }\n  const context = document.createElement('p');\n  context.className = 'form-help';\n  context.textContent = 'Selected industry: ' + industryEntryLabel();\n  form.prepend(context);\n}\n\nfunction enquiryMessage(form, data) {\n"
+    },
+    {
+      "before": "    form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',\n",
+      "after": "    industryEntry ? 'Industry enquiry: ' + industryEntryLabel() : '',\n    form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',\n"
+    },
+    {
+      "before": "  document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));\n",
+      "after": "  if (industryEntry) document.querySelectorAll('a[href^=\"/\"]').forEach(carryIndustry);\n  document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));\n"
+    },
+    {
+      "before": "    if (type === \"contact\") {\n      const requestedChoice = new URL(window.location.href).searchParams.get(\"solution\");\n",
+      "after": "    showIndustryEntry(form);\n    if (type === \"contact\") {\n      const requestedChoice = new URL(window.location.href).searchParams.get(\"solution\");\n"
+    },
+    {
+      "before": "            ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)\n",
+      "after": "            ...(industryEntry ? {industry: industryEntry.industry, industry_need: industryEntry.need} : {}),\n            ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)\n"
+    },
+    {
+      "before": "    const href = link.getAttribute(\"href\") || \"\";\n",
+      "after": "    carryIndustry(link);\n    const href = link.getAttribute(\"href\") || \"\";\n"
+    }
+  ],
+  "business-process-automation/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script></body>\n"
+    }
+  ],
+  "contact-us/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/office-locations.js?v=20261025-tools\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script><script src=\"/assets/office-locations.js?v=20261025-tools\" defer></script></body>\n"
+    }
+  ],
+  "crm-erp-solutions/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script></body>\n"
+    }
+  ],
+  "customer-portal/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script></body>\n"
+    }
+  ],
+  "demo-request/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261106-crm-promotions\" defer></script><script defer src=\"/assets/demo-time.js?v=20261012-hours\"></script><script defer src=\"/assets/appointments.js?v=20261012-local\"></script><script src=\"/assets/international.js\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script><script defer src=\"/assets/demo-time.js?v=20261012-hours\"></script><script defer src=\"/assets/appointments.js?v=20261012-local\"></script><script src=\"/assets/international.js\" defer></script></body>\n"
+    }
+  ],
+  "ecommerce-website-development/index.html": [
+    {
+      "before": "      </div>\n    </section>\n    <section class=\"section mist\">\n      <div class=\"container\">\n        <div class=\"section-head\">\n          <h2>What this includes.</h2>\n",
+      "after": "      </div>\n    </section>\n    <section class=\"section\" id=\"ecommerce-project-choices\" aria-labelledby=\"ecommerce-project-choices-title\">\n      <div class=\"container\">\n        <div class=\"section-head\">\n          <h2 id=\"ecommerce-project-choices-title\">What would you like to improve?</h2>\n          <p>Choose a starting point and we’ll include it in your enquiry.</p>\n        </div>\n        <div class=\"inline-actions\">\n          <a class=\"button dark\" href=\"/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=launch#contact-form\">Launch a store</a>\n          <a class=\"button dark\" href=\"/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=checkout#contact-form\">Improve checkout</a>\n          <a class=\"button dark\" href=\"/contact-us/?solution=E-commerce%20development&amp;industry=retail&amp;need=orders#contact-form\">Manage orders</a>\n        </div>\n      </div>\n    </section>\n    <section class=\"section mist\">\n      <div class=\"container\">\n        <div class=\"section-head\">\n          <h2>What this includes.</h2>\n"
+    },
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script></body>\n"
+    }
+  ],
+  "index.html": [
+    {
+      "before": "        <a href=\"/travel-technology/\" aria-labelledby=\"industry-travel-title industry-travel-action\">\n",
+      "after": "        <a href=\"/travel-technology/?industry=travel\" aria-labelledby=\"industry-travel-title industry-travel-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/website-mobile-app-development/\" aria-labelledby=\"industry-retail-title industry-retail-action\">\n",
+      "after": "        <a href=\"/ecommerce-website-development/?industry=retail\" aria-labelledby=\"industry-retail-title industry-retail-action\">\n"
+    },
+    {
+      "before": "          <span class=\"home-industry-action\" id=\"industry-retail-action\">Explore websites and apps <span aria-hidden=\"true\">↗</span></span>\n",
+      "after": "          <span class=\"home-industry-action\" id=\"industry-retail-action\">Explore e-commerce development <span aria-hidden=\"true\">↗</span></span>\n"
+    },
+    {
+      "before": "        <a href=\"/customer-portal/\" aria-labelledby=\"industry-education-title industry-education-action\">\n",
+      "after": "        <a href=\"/customer-portal/?industry=education\" aria-labelledby=\"industry-education-title industry-education-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/website-mobile-app-development/\" aria-labelledby=\"industry-health-title industry-health-action\">\n",
+      "after": "        <a href=\"/website-mobile-app-development/?industry=health\" aria-labelledby=\"industry-health-title industry-health-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/crm-erp-solutions/\" aria-labelledby=\"industry-property-title industry-property-action\">\n",
+      "after": "        <a href=\"/crm-erp-solutions/?industry=property\" aria-labelledby=\"industry-property-title industry-property-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/crm-erp-solutions/\" aria-labelledby=\"industry-manufacturing-title industry-manufacturing-action\">\n",
+      "after": "        <a href=\"/crm-erp-solutions/?industry=manufacturing\" aria-labelledby=\"industry-manufacturing-title industry-manufacturing-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/business-process-automation/\" aria-labelledby=\"industry-services-title industry-services-action\">\n",
+      "after": "        <a href=\"/business-process-automation/?industry=services\" aria-labelledby=\"industry-services-title industry-services-action\">\n"
+    },
+    {
+      "before": "        <a href=\"/website-mobile-app-development/\" aria-labelledby=\"industry-media-title industry-media-action\">\n",
+      "after": "        <a href=\"/website-mobile-app-development/?industry=media\" aria-labelledby=\"industry-media-title industry-media-action\">\n"
+    }
+  ],
+  "project-brief/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/project-brief.js?v=20261106-brand-brief\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script><script src=\"/assets/project-brief.js?v=20261106-brand-brief\" defer></script></body>\n"
+    }
+  ],
+  "sample-crm/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/sample-crm.js?v=3\" defer></script><script src=\"/assets/travel-handover-demo.js?v=4\" defer></script><script src=\"/assets/travel-demo-measurement.js?v=1\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script><script src=\"/assets/sample-crm.js?v=3\" defer></script><script src=\"/assets/travel-handover-demo.js?v=4\" defer></script><script src=\"/assets/travel-demo-measurement.js?v=1\" defer></script></body>\n"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "am-inbox/sales-journey.js?v=20261106-brand-brief\"></script><script defer src=\"/team-i",
+      "after": "am-inbox/sales-journey.js?v=20261106-industry-enquiry\"></script><script defer src=\"/team-i"
+    },
+    {
+      "before": "t-sales-basis\" class=\"small\"></p><h3>Portfolio project enquiries</h3><div ",
+      "after": "t-sales-basis\" class=\"small\"></p><h3>Industry enquiries</h3><div id=\"industry-sales-report\" class=\"pipeline-table\" tabindex=\"0\" role=\"region\" aria-label=\"Enquiries by industry and country\"></div><p class=\"small\">Enquiries with a saved industry, grouped by business country. Qualified enquiries and completed demos use recorded sales activity.</p><h3>Portfolio project enquiries</h3><div "
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": " campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';\n",
+      "after": " campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';\n"
+    },
+    {
+      "before": "  renderPortfolioSales(r.portfolio || []);\n",
+      "after": "  renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);\n  renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);\n"
+    },
+    {
+      "before": "function renderPortfolioSales(groups){\n const report=$('portfolio-sales-report');\n",
+      "after": "function renderOutcomeRows(id,label,labelKey,groups){\n const report=$(id);\n"
+    },
+    {
+      "before": "  report.replaceChildren(text('p','No project examples were saved with enquiries in this period.'));\n",
+      "after": "  report.replaceChildren(text('p','No '+label.toLowerCase()+' was saved with enquiries in this period.'));\n"
+    },
+    {
+      "before": " table.append(text('caption','Saved portfolio enquiries by business country'));\n",
+      "after": " table.append(text('caption','Saved enquiries by '+label.toLowerCase()+' and business country'));\n"
+    },
+    {
+      "before": " for(const label of ['Project example','Business country','Enquiries','Reached Qualified','Demo completed']){\n  const cell=text('th',label);\n",
+      "after": " for(const title of [label,'Business country','Enquiries','Reached Qualified','Demo completed']){\n  const cell=text('th',title);\n"
+    },
+    {
+      "before": "  const project=text('th',group.projectLabel);\n  project.scope='row';\n  row.append(project);\n",
+      "after": "  const heading=text('th',group[labelKey]);\n  heading.scope='row';\n  row.append(heading);\n"
+    },
+    {
+      "before": " for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report'])$(id).replaceChildren();\n",
+      "after": " for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report','industry-sales-report'])$(id).replaceChildren();\n"
+    }
+  ],
+  "server/enquiries.py": [
+    {
+      "before": "from sales_journey import CRM_PROMOTIONS, PORTFOLIO_PROJECTS\n",
+      "after": "from sales_journey import CRM_PROMOTIONS, PORTFOLIO_PROJECTS, INDUSTRY_LABELS, INDUSTRY_NEEDS\n"
+    },
+    {
+      "before": "    return result\n\nBRIEF_SERVICES = {'Website or app':'Website / App Development Package','CRM':'CRM & ERP Package','ERP':'CRM & ERP Package','Travel technology':'Travel Technology Planning','Help me choose':'Need guidance'}\n",
+      "after": "    industry=value.get('industry')\n    if isinstance(industry,str) and industry in INDUSTRY_LABELS:\n        result['industry']=industry\n        need=value.get('industry_need')\n        if need in INDUSTRY_NEEDS.get(industry,()):\n            result['industry_need']=need\n    return result\n\nBRIEF_SERVICES = {'Website or app':'Website / App Development Package','CRM':'CRM & ERP Package','ERP':'CRM & ERP Package','Travel technology':'Travel Technology Planning','Help me choose':'Need guidance'}\n"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "\ndef initialize(db):\n",
+      "after": "\nINDUSTRY_LABELS = {\n    'travel': 'Travel & Hospitality', 'retail': 'Retail & E-commerce', 'education': 'Education & Training',\n    'health': 'Healthcare & Wellness', 'property': 'Real Estate', 'manufacturing': 'Manufacturing & Distribution',\n    'services': 'Professional Services', 'media': 'Media & Publishing',\n}\nINDUSTRY_NEEDS = {'travel': ('crm','portal'), 'retail': ('launch','checkout','orders')}\n\ndef initialize(db):\n"
+    },
+    {
+      "before": "    for row in rows:\n",
+      "after": "    industries={}\n    for row in rows:\n"
+    },
+    {
+      "before": "        def tag(key):\n",
+      "after": "        industry=attribution.get('industry')\n        if isinstance(industry,str) and industry in INDUSTRY_LABELS:\n            industry_group=industries.setdefault((industry,country),{\n                'industry':industry,'industryLabel':INDUSTRY_LABELS[industry],\n                'country':country,'countryLabel':markets[country]['label'],\n                'enquiries':0,'qualified':0,'demoCompleted':0,\n            })\n            industry_group['enquiries']+=1\n            industry_group['qualified']+=qualified\n            industry_group['demoCompleted']+=counts['demoCompleted']-before['demoCompleted']\n        def tag(key):\n"
+    },
+    {
+      "before": "        'campaignBasis':'Received-date cohort,",
+      "after": "        'industries':sorted(industries.values(), key=lambda group: (group['industryLabel'], group['countryLabel'])),\n        'campaignBasis':'Received-date cohort,"
+    }
+  ],
+  "server/test_market_reporting.py": [
+    {
+      "before": "                      qualification=dict(version=1,country=country,currency={'US':'USD','GB':'GBP','IN':'INR'}[country],\n",
+      "after": "                      attribution=dict(channel='direct_unknown',industry='travel' if country!='GB' else 'retail',\n                                       industry_need='crm' if country!='GB' else 'orders'),\n                      qualification=dict(version=1,country=country,currency={'US':'USD','GB':'GBP','IN':'INR'}[country],\n"
+    },
+    {
+      "before": "        now=int(time.time())\n",
+      "after": "        self.assertEqual(entry['details']['attribution']['industry'],'travel')\n        self.assertEqual(entry['details']['attribution']['industry_need'],'crm')\n        now=int(time.time())\n"
+    },
+    {
+      "before": "        with isolated.enquiries.connect() as db:\n            db.execute(\"UPDATE enquiry_workflow SET owner='another@example.test' WHERE id=?\",(refs[0],))\n",
+      "after": "        industries={(group['industry'],group['country']):group for group in self.report()['industries']}\n        self.assertEqual(set(industries),{('travel','US'),('retail','GB'),('travel','IN')})\n        for key,outcomes in [(('travel','US'),(1,1,1)),(('retail','GB'),(1,0,0)),(('travel','IN'),(1,0,0))]:\n            group=industries[key]\n            self.assertEqual(tuple(group[k] for k in ('enquiries','qualified','demoCompleted')),outcomes)\n        with isolated.enquiries.connect() as db:\n            db.execute(\"UPDATE enquiry_workflow SET owner='another@example.test' WHERE id=?\",(refs[0],))\n"
+    }
+  ],
+  "travel-technology/index.html": [
+    {
+      "before": "ns\"><a class=\"button primary\" href=\"/demo-request/?solution=Travel%20Technology%20Planning\">Discuss your travel project</a><a class=\"button secondary\" href=\"#travel-projects\">Explore our travel work</a></div><nav class=\"travel-jump\" ar",
+      "after": "ns\"><a class=\"button primary\" href=\"/sample-crm/?industry=travel&amp;need=crm#travel-demo-guide\">Try the Travel CRM demo</a><a class=\"button secondary\" href=\"/contact-us/?solution=Complete%20Travel%20Website%20Package&amp;industry=travel&amp;need=portal#contact-form\">Discuss a travel portal</a></div><nav class=\"travel-jump\" ar"
+    },
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/travel-comparison-measurement.js?v=1\" defer></script><script src=\"/assets/travel-portfolio-measurement.js?v=1\" defer></script><script src=\"/assets/travel-demo-measurement.js?v=1\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script><script src=\"/assets/travel-comparison-measurement.js?v=1\" defer></script><script src=\"/assets/travel-portfolio-measurement.js?v=1\" defer></script><script src=\"/assets/travel-demo-measurement.js?v=1\" defer></script></body>\n"
+    }
+  ],
+  "website-mobile-app-development/index.html": [
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-industry-enquiry\" defer></script></body>\n"
+    }
+  ]
+}

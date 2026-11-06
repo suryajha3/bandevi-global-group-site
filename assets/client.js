@@ -264,8 +264,53 @@ function bindCrmWorkflowReview(form){
   form.addEventListener('reset',()=>queueMicrotask(update));update();
 }
 
+const industryNames = {
+  travel: 'Travel & Hospitality', retail: 'Retail & E-commerce', education: 'Education & Training',
+  health: 'Healthcare & Wellness', property: 'Real Estate', manufacturing: 'Manufacturing & Distribution',
+  services: 'Professional Services', media: 'Media & Publishing'
+};
+const industryNeeds = {
+  travel: {crm: 'Travel CRM demo', portal: 'Travel portal'},
+  retail: {launch: 'Launch a store', checkout: 'Improve checkout', orders: 'Manage orders'}
+};
+const industryEntry = (() => {
+  const params = new URLSearchParams(location.search);
+  const industry = params.get('industry');
+  if (!Object.hasOwn(industryNames, industry)) return null;
+  const needs = industryNeeds[industry] || {};
+  const need = params.get('need');
+  return {industry, need: Object.hasOwn(needs, need) ? need : ''};
+})();
+function carryIndustry(link) {
+  if (!industryEntry) return;
+  const url = new URL(link.href, location.origin);
+  if (url.origin !== location.origin || !['/contact-us/','/demo-request/','/project-brief/','/sample-crm/'].includes(url.pathname)) return;
+  if (url.searchParams.has('industry')) return;
+  url.searchParams.set('industry', industryEntry.industry);
+  if (industryEntry.need) url.searchParams.set('need', industryEntry.need);
+  link.href = url.pathname + url.search + url.hash;
+}
+function industryEntryLabel() {
+  if (!industryEntry) return '';
+  const {industry, need} = industryEntry;
+  return industryNames[industry] + (need ? ' · ' + industryNeeds[industry][need] : '');
+}
+function showIndustryEntry(form) {
+  if (!industryEntry || !['contact','demo'].includes(form.dataset.form)) return;
+  const types = {travel:'Travel agency / tour operator',retail:'Retail / e-commerce'};
+  const businessType = form.elements.businessType;
+  if (businessType && !businessType.value && types[industryEntry.industry]) {
+    businessType.value = types[industryEntry.industry];
+  }
+  const context = document.createElement('p');
+  context.className = 'form-help';
+  context.textContent = 'Selected industry: ' + industryEntryLabel();
+  form.prepend(context);
+}
+
 function enquiryMessage(form, data) {
   return [
+    industryEntry ? 'Industry enquiry: ' + industryEntryLabel() : '',
     form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
     ['GB','US','IN','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',IN:'India',other:'Another country'})[data.projectCountry] : '',
@@ -518,6 +563,7 @@ function adsMeasurementPayload(form){const state=form._adsChoice;return state?.c
 const crmPromotions = ['hero-demo', 'lead-ownership', 'quote-follow-up', 'operations-handover'];
 
 function bindForms() {
+  if (industryEntry) document.querySelectorAll('a[href^="/"]').forEach(carryIndustry);
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
   document.querySelectorAll("[data-form]").forEach((form) => {
@@ -526,6 +572,7 @@ function bindForms() {
     bindAdsMeasurement(form);
     bindCrmWorkflowReview(form);
     const type = form.dataset.form;
+    showIndustryEntry(form);
     if (type === "contact") {
       const requestedChoice = new URL(window.location.href).searchParams.get("solution");
       const interest = form.elements.interest;
@@ -698,6 +745,7 @@ function bindForms() {
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: {
             ...Object.fromEntries(Object.entries(enquiryAttribution).filter(([key]) => key !== 'expires')),
+            ...(industryEntry ? {industry: industryEntry.industry, industry_need: industryEntry.need} : {}),
             ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)
               ? { crm_promotion: form.dataset.crmPromotion } : {})
           }
@@ -812,6 +860,7 @@ function bindAnalyticsEvents() {
     const link = event.target.closest("a");
     if (!link) return;
 
+    carryIndustry(link);
     const href = link.getAttribute("href") || "";
     if (href.startsWith("/demo-request/")) {
       const currentUrl = new URL(window.location.href);

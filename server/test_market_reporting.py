@@ -53,6 +53,8 @@ class MarketReportingTests(unittest.TestCase):
             data=dict(type='contact',name='Synthetic buyer',email='qa@example.test',
                       interest='Travel Technology Planning',source='/project-brief/',
                       message='Guided project brief',projectBrief=brief,
+                      attribution=dict(channel='direct_unknown',industry='travel' if country!='GB' else 'retail',
+                                       industry_need='crm' if country!='GB' else 'orders'),
                       qualification=dict(version=1,country=country,currency={'US':'USD','GB':'GBP','IN':'INR'}[country],
                                          budget='To discuss',contact=dict(channel='Email',date='',time='',timezone='UTC')))
             status,result,_=self.request('/api/enquiries',data)
@@ -60,6 +62,8 @@ class MarketReportingTests(unittest.TestCase):
             refs.append(result['reference'])
         entry=self.request('/api/admin/enquiries?q='+refs[0],cookie=self.cookie)[1]['items'][0]
         self.assertEqual(entry['details']['projectBrief']['portfolioProject'],'trip_sarathi')
+        self.assertEqual(entry['details']['attribution']['industry'],'travel')
+        self.assertEqual(entry['details']['attribution']['industry_need'],'crm')
         now=int(time.time())
         with isolated.enquiries.connect() as db:
             for ref in refs:
@@ -74,6 +78,11 @@ class MarketReportingTests(unittest.TestCase):
         for country,outcomes in [('US',(1,1,1)),('GB',(1,0,0))]:
             group=groups['trip_sarathi',country]
             self.assertEqual(tuple(group[key] for key in ('enquiries','qualified','demoCompleted')),outcomes)
+        industries={(group['industry'],group['country']):group for group in self.report()['industries']}
+        self.assertEqual(set(industries),{('travel','US'),('retail','GB'),('travel','IN')})
+        for key,outcomes in [(('travel','US'),(1,1,1)),(('retail','GB'),(1,0,0)),(('travel','IN'),(1,0,0))]:
+            group=industries[key]
+            self.assertEqual(tuple(group[k] for k in ('enquiries','qualified','demoCompleted')),outcomes)
         with isolated.enquiries.connect() as db:
             db.execute("UPDATE enquiry_workflow SET owner='another@example.test' WHERE id=?",(refs[0],))
         self.assertEqual([group['country'] for group in self.report()['portfolio']],['GB'])
