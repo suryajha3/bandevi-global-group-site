@@ -1,0 +1,838 @@
+{
+  "ae/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes remote service coverage.</p><div class=\"inline-actions\"><a cl",
+      "after": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\"/offices/#office-dubai-deira\">Deira office</a> or <a href=\"/offices/#office-dubai-sheikh-zayed\">Sheikh Zayed Road office</a>.</p><div class=\"inline-actions\"><a cl"
+    }
+  ],
+  "assets/bandevi-global-group-office-verification-sheet.txt": [
+    {
+      "before": "Shared locations and service operations — 25 October 2026\n",
+      "after": "Office locations and service operations — updated 6 November 2026\n"
+    },
+    {
+      "before": "Singapore — remote service coverage from the Gurugram delivery base; no Singapore street address supplied.\n",
+      "after": "Singapore Office — 89 Neil Road, #02-04, Singapore, 088849\n"
+    }
+  ],
+  "assets/office-locations.js": [
+    {
+      "before": "cation\",\"aliases\":\"\"},{\"id\":\"singapore-remote\",\"name\":\"Singapore service coverage\",\"address\":\"SCO 63, Huda Market, First Floor, Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017, India\",\"country\":\"SG\",\"countryName\":\"Singapore\",\"kind\":\"remote\",\"badge\":\"Remote service coverage\",\"aliases\":\"Singapore remote Gurugram\"}];\n",
+      "after": "cation\",\"aliases\":\"\"},{\"id\":\"singapore\",\"name\":\"Singapore Office\",\"address\":\"89 Neil Road, #02-04, Singapore, 088849\",\"country\":\"SG\",\"countryName\":\"Singapore\",\"kind\":\"office\",\"badge\":\"BANDEVI office\",\"aliases\":\"Neil Road\"}];\n"
+    },
+    {
+      "before": "    const record = locations.find(location => location.id === id);\n",
+      "after": "    const record = locations.find(location => location.id === (id === 'singapore-remote' ? 'singapore' : id));\n"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "          <p>India delivery base. Shared locations in the UK, US and Dubai. Remote service in Singapore.</p>\n",
+      "after": "          <p>India delivery base. Shared locations in the UK, US and Dubai, plus a Singapore office.</p>\n"
+    },
+    {
+      "before": "/td></tr><tr><th scope=\"row\">Singapore service coverage</th><td>Remote delivery from Gurugram, India</td></tr><tr><th scope=\"row\">United K",
+      "after": "/td></tr><tr><th scope=\"row\">Singapore</th><td><a href=\"/offices/#office-singapore\">Singapore office</a>. Software delivery from Gurugram, India.</td></tr><tr><th scope=\"row\">United K"
+    },
+    {
+      "before": " visit availability separately. Singapore remains remote service coverage.</p><div class=\\\"office-loca",
+      "after": " visit availability separately.</p><div class=\\\"office-loca"
+    },
+    {
+      "before": "tr><tr role=\\\"row\\\" id=\\\"office-singapore-remote\\\" data-office-id=\\\"si",
+      "after": "tr><tr role=\\\"row\\\" id=\\\"office-singapore\\\" data-office-id=\\\"si"
+    },
+    {
+      "before": "\"office-singapore\\\" data-office-id=\\\"singapore-remote\\\"><td role=\\\"cell\\\"><stro",
+      "after": "\"office-singapore\\\" data-office-id=\\\"singapore\\\"><td role=\\\"cell\\\"><stro"
+    },
+    {
+      "before": "le=\\\"cell\\\"><strong class=\\\"office-location-name\\\">Singapore service coverage</s",
+      "after": "le=\\\"cell\\\"><strong class=\\\"office-location-name\\\" service coverage</s"
+    },
+    {
+      "before": "ice-location-name\\\" service coverage</strong><s",
+      "after": "ice-location-name\\\" id=\\\"office-singapore-remote\\\">Singapore coverage</strong><s"
+    },
+    {
+      "before": "-remote\\\">Singapore coverage</strong><span class=\\\"office-loca",
+      "after": "-remote\\\">Singapore Office</strong><span class=\\\"office-loca"
+    },
+    {
+      "before": "ce-location-badge\\\" data-kind=\\\"remote\\\">Remote service coverage</s",
+      "after": "ce-location-badge\\\" data-kind=\\\"office\\\">BANDEVI service coverage</s"
+    },
+    {
+      "before": "=\\\"office\\\">BANDEVI service coverage</span></td",
+      "after": "=\\\"office\\\">BANDEVI office</span></td><td coverage</span></td"
+    },
+    {
+      "before": "fice</span></td><td coverage</span></td><td role=\\\"cell\\\"><addr",
+      "after": "fice</span></td><td role=\\\"cell\\\"><address>89 role=\\\"cell\\\"><addr"
+    },
+    {
+      "before": "\"cell\\\"><address>89 role=\\\"cell\\\"><address>SCO 63, Huda Market, Fi",
+      "after": "\"cell\\\"><address>89 Neil 63, Huda Market, Fi"
+    },
+    {
+      "before": "\\\"><address>89 Neil 63, Huda Market, First ",
+      "after": "\\\"><address>89 Neil Road, Huda Market, First "
+    },
+    {
+      "before": "dress>89 Neil Road, Huda Market, First Floor",
+      "after": "dress>89 Neil Road, #02-04, Market, First Floor"
+    },
+    {
+      "before": " Neil Road, #02-04, Market, First Floor, Bijwas",
+      "after": " Neil Road, #02-04, Singapore, First Floor, Bijwas"
+    },
+    {
+      "before": " #02-04, Singapore, First Floor, Bijwasan - P",
+      "after": " #02-04, Singapore, 088849</address><p>BANDEVI Floor, Bijwasan - P"
+    },
+    {
+      "before": "/address><p>BANDEVI Floor, Bijwasan - Palam Vi",
+      "after": "/address><p>BANDEVI software Bijwasan - Palam Vi"
+    },
+    {
+      "before": "<p>BANDEVI software Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017, India</address><p>Remote project discussions and software delive",
+      "after": "<p>BANDEVI software enquiries and software delive"
+    },
+    {
+      "before": "tware enquiries and software delivery from Gurugram. Support arrangements are ag",
+      "after": "tware enquiries and visit arrangements are ag"
+    },
+    {
+      "before": "it arrangements are agreed for each project.</",
+      "after": "it arrangements are coordinated for each project.</"
+    },
+    {
+      "before": "nts are coordinated for each project.</p><a",
+      "after": "nts are coordinated through each project.</p><a"
+    },
+    {
+      "before": "coordinated through each project.</p><a href",
+      "after": "coordinated through our project.</p><a href"
+    },
+    {
+      "before": "dinated through our project.</p><a href=\\\"#business-co",
+      "after": "dinated through our Gurugram team.</p><a href=\\\"#business-co"
+    },
+    {
+      "before": "t</a><div class=\\\"office-location-actions\\\"><a class=\\\"office-location-action\\\" href=\\\"https://www.google.com/maps/search/?api=1&amp;query=SCO+63%2C+Huda+Market%2C+First+Floor%2C+Bijwasan+-+Palam+Vihar+Rd%2C+opposite+HP+Petrol+Pump%2C+Cartarpuri+Alias+Daulatpur+Nas%2C+Sector+23A%2C+Gurugram%2C+Haryana+122017%2C+India\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\" aria-label=\\\"Directions to Gurugr",
+      "after": "t</a><div class=\\\"office-location-actions\\\"><a class=\\\"office-location-action\\\" href=\\\"https://www.google.com/maps/search/?api=1&amp;query=89+Neil+Road%2C+%2302-04%2C+Singapore%2C+088849\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\" aria-label=\\\"Directions to Gurugr"
+    },
+    {
+      "before": "opener noreferrer\\\" aria-label=\\\"Directions to Gurugram base fo",
+      "after": "opener noreferrer\\\" aria-label=\\\"Get to Gurugram base fo"
+    },
+    {
+      "before": "\\\" aria-label=\\\"Get to Gurugram base for Singapore servi",
+      "after": "\\\" aria-label=\\\"Get directions for Singapore servi"
+    },
+    {
+      "before": "tions for Singapore service coverage (opens in a new tab",
+      "after": "tions for Singapore Office (opens in a new tab"
+    },
+    {
+      "before": "ice (opens in a new tab)\\\">Directions to Gurugram base</a",
+      "after": "ice (opens in a new tab)\\\">Get to Gurugram base</a"
+    },
+    {
+      "before": "in a new tab)\\\">Get to Gurugram base</a><button class=\\\"office-loca",
+      "after": "in a new tab)\\\">Get directions</a><button class=\\\"office-loca"
+    },
+    {
+      "before": "n aria-label=\\\"Copy base address for Singapor",
+      "after": "n aria-label=\\\"Copy address for Singapor"
+    },
+    {
+      "before": "dress for Singapore service coverage\\\">Copy base address</button><a ",
+      "after": "dress for Singapore Office\\\">Copy address</button><a "
+    },
+    {
+      "before": "on office-enquire\\\" href=\\\"/contact-us/?office=singapore-remote#contact-form\\\" aria-label=\\\"Enquir",
+      "after": "on office-enquire\\\" href=\\\"/contact-us/?office=singapore#contact-form\\\" aria-label=\\\"Enquir"
+    },
+    {
+      "before": "ire about Singapore service coverage\\\">Enquire about this location",
+      "after": "ire about Singapore Office\\\">Enquire about this location"
+    },
+    {
+      "before": "e-location-action\\\" href=\\\"mailto:sales@bandeviglobalgroup.com?subject=Location%20enquiry%3A%20Singapore%20service%20coverage&amp;body=Location%20enquiry%3A%20Singapore%20service%20coverage%0AAddress%3A%20SCO%2063%2C%20Huda%20Market%2C%20First%20Floor%2C%20Bijwasan%20-%20Palam%20Vihar%20Rd%2C%20opposite%20HP%20Petrol%20Pump%2C%20Cartarpuri%20Alias%20Daulatpur%20Nas%2C%20Sector%2023A%2C%20Gurugram%2C%20Haryana%20122017%2C%20India%0ARemote%20service%20coverage%0APlease%20contact%20me%20about%20my",
+      "after": "e-location-action\\\" href=\\\"mailto:sales@bandeviglobalgroup.com?subject=Location%20enquiry%3A%20Singapore%20Office&amp;body=Location%20enquiry%3A%20Singapore%20Office%0AAddress%3A%2089%20Neil%20Road%2C%20%2302-04%2C%20Singapore%2C%20088849%0ABANDEVI%20office%0APlease%20contact%20me%20about%20my"
+    },
+    {
+      "before": "pageRenderers.usSoftwareServices = () => \"<section class=\\\"section\\\"><div class=\\\"container\\\"><span class=\\\"eyebrow\\\">Remote software services · US</span><h1>Software development for businesses in the US.</h1><p class=\\\"lead\\\">Plan a business website, application or operations system with a remote development team in Gurugram, India. Share the customer journey, team workflow and integrations you need; we will use them to agree the project scope.</p><p><strong>Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes services for United States businesses; it does not advertise a staffed US office.</p><div class=\\\"inline-actions\\\"><a class=\\\"button dark\\\" href=\\\"/project-brief/\\\">Prepare your project brief</a><a class=\\\"button light\\\" href=\\\"/contact-us/#contact-form\\\">Discuss your requirements</a></div><p>Looking for another market? <a href=\\\"/uk/software-development/\\\">View our UK service information</a>.</p></div></section>\\n<section class=\\\"section mist\\\" id=\\\"software-services\\\"><div class=\\\"container\\\"><div class=\\\"section-head single\\\"",
+      "after": "pageRenderers.usSoftwareServices = () => \"<section class=\\\"section\\\"><div class=\\\"container\\\"><span class=\\\"eyebrow\\\">Remote software services · US</span><h1>Software development for businesses in the US.</h1><p class=\\\"lead\\\">Plan a business website, application or operations system with a remote development team in Gurugram, India. Share the customer journey, team workflow and integrations you need; we will use them to agree the project scope.</p><p><strong>Remote delivery from India.</strong> Software published office is in Sector 23A, Gurugram. This page describes services for United States businesses; it does not advertise a staffed US office.</p><div class=\\\"inline-actions\\\"><a class=\\\"button dark\\\" href=\\\"/project-brief/\\\">Prepare your project brief</a><a class=\\\"button light\\\" href=\\\"/contact-us/#contact-form\\\">Discuss your requirements</a></div><p>Looking for another market? <a href=\\\"/uk/software-development/\\\">View our UK service information</a>.</p></div></section>\\n<section class=\\\"section mist\\\" id=\\\"software-services\\\"><div class=\\\"container\\\"><div class=\\\"section-head single\\\""
+    },
+    {
+      "before": ".</strong> Software published office is in Sector 23A, G",
+      "after": ".</strong> Software delivery is in Sector 23A, G"
+    },
+    {
+      "before": "oftware delivery is in Sector 23A, Gurugra",
+      "after": "oftware delivery is coordinated Sector 23A, Gurugra"
+    },
+    {
+      "before": "very is coordinated Sector 23A, Gurugram. This page",
+      "after": "very is coordinated from Gurugram. This page"
+    },
+    {
+      "before": "ated from Gurugram. This page describes serv",
+      "after": "ated from Gurugram. Contact page describes serv"
+    },
+    {
+      "before": "m Gurugram. Contact page describes services ",
+      "after": "m Gurugram. Contact our describes services "
+    },
+    {
+      "before": "rugram. Contact our describes services for United",
+      "after": "rugram. Contact our team services for United"
+    },
+    {
+      "before": "m. Contact our team services for United States b",
+      "after": "m. Contact our team about for United States b"
+    },
+    {
+      "before": "tact our team about for United States busin",
+      "after": "tact our team about visits United States busin"
+    },
+    {
+      "before": "r team about visits United States businesses; ",
+      "after": "r team about visits to States businesses; "
+    },
+    {
+      "before": "eam about visits to States businesses; it does",
+      "after": "eam about visits to our businesses; it does"
+    },
+    {
+      "before": "about visits to our businesses; it does not adverti",
+      "after": "about visits to our Monterey it does not adverti"
+    },
+    {
+      "before": "its to our Monterey it does not advertise a staffed US office.</p><div cla",
+      "after": "its to our Monterey Park office.</p><div cla"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes services for United Kingdom businesses; it does not advertise a staffed UK office.</p><div class=\\\"inline-actions\\\"><a class=\\\"button dark\\\" href=\\\"/project-brief/\\\">Prepare your project brief</a><a class=\\\"button light\\\" href=\\\"/contact-us/#contact-form\\\">Discuss your requirements</a></div><p>Looking for another market? <a href=\\\"/us/software-development/\\\">View our US service information</a>.</p></div></section>\\n<section class=\\\"section mist\\\" id=\\\"software-services\\\"><div class=\\\"container\\\"><div class=\\\"section-head single\\",
+      "after": ">Remote delivery from India.</strong> Software published office is in Sector 23A, Gurugram. This page describes services for United Kingdom businesses; it does not advertise a staffed UK office.</p><div class=\\\"inline-actions\\\"><a class=\\\"button dark\\\" href=\\\"/project-brief/\\\">Prepare your project brief</a><a class=\\\"button light\\\" href=\\\"/contact-us/#contact-form\\\">Discuss your requirements</a></div><p>Looking for another market? <a href=\\\"/us/software-development/\\\">View our US service information</a>.</p></div></section>\\n<section class=\\\"section mist\\\" id=\\\"software-services\\\"><div class=\\\"container\\\"><div class=\\\"section-head single\\"
+    },
+    {
+      "before": ".</strong> Software published office is in Sector 23A, G",
+      "after": ".</strong> Software delivery is in Sector 23A, G"
+    },
+    {
+      "before": "oftware delivery is in Sector 23A, Gurugra",
+      "after": "oftware delivery is coordinated Sector 23A, Gurugra"
+    },
+    {
+      "before": "very is coordinated Sector 23A, Gurugram. This page",
+      "after": "very is coordinated from Gurugram. This page"
+    },
+    {
+      "before": "ated from Gurugram. This page describes serv",
+      "after": "ated from Gurugram. Contact page describes serv"
+    },
+    {
+      "before": "m Gurugram. Contact page describes services ",
+      "after": "m Gurugram. Contact our describes services "
+    },
+    {
+      "before": "rugram. Contact our describes services for United",
+      "after": "rugram. Contact our team services for United"
+    },
+    {
+      "before": "m. Contact our team services for United Kingdom ",
+      "after": "m. Contact our team about for United Kingdom "
+    },
+    {
+      "before": "tact our team about for United Kingdom busi",
+      "after": "tact our team about visits United Kingdom busi"
+    },
+    {
+      "before": "r team about visits United Kingdom businesses;",
+      "after": "r team about visits to Kingdom businesses;"
+    },
+    {
+      "before": "eam about visits to Kingdom businesses; it does",
+      "after": "eam about visits to our businesses; it does"
+    },
+    {
+      "before": "about visits to our businesses; it does not advertise a staffed UK office.</p><div cla",
+      "after": "about visits to our London office.</p><div cla"
+    },
+    {
+      "before": "to your proposal.</p></div></section>\\n<section class=\\\"section\\\" id=\\\"regional-questions\\\"><div class=\\\"container\\\"><h2>Questions before you start.</h2><details class=\\\"buyer-faq\\\"><summary>Do you have a customer-facing UK office?</summary><p>This page describes remote service coverage from India. BANDEVI does not present a staffed UK office here. Arrange project discussions through the published business contact channels.</p></details><details class=\\\"buyer-",
+      "after": "to your proposal.</p></div></section>\\n<section class=\\\"section\\\" id=\\\"regional-questions\\\"><div class=\\\"container\\\"><h2>Questions before you start.</h2><details class=\\\"buyer-faq\\\"><summary>Do you have a customer-facing UK office?</summary><p>This page describes remote service coverage from India. Contact does not present a staffed UK office here. Arrange project discussions through the published business contact channels.</p></details><details class=\\\"buyer-"
+    },
+    {
+      "before": "from India. Contact does not present a staff",
+      "after": "from India. Contact the not present a staff"
+    },
+    {
+      "before": " India. Contact the not present a staffed U",
+      "after": " India. Contact the Gurugram present a staffed U"
+    },
+    {
+      "before": "ontact the Gurugram present a staffed UK office",
+      "after": "ontact the Gurugram team to arrange a staffed UK office"
+    },
+    {
+      "before": "m team to arrange a staffed UK office here. Arr",
+      "after": "m team to arrange a visit UK office here. Arr"
+    },
+    {
+      "before": " to arrange a visit UK office here. Arrange project discussions through the published busin",
+      "after": " to arrange a visit to the published busin"
+    },
+    {
+      "before": "ange a visit to the published business contact ch",
+      "after": "ange a visit to the London business contact ch"
+    },
+    {
+      "before": "visit to the London business contact channels.</p></details><details class=\\\"buyer-",
+      "after": "visit to the London office.</p></details><details class=\\\"buyer-"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes services for United States businesses; it does not advertise a staffed US office.</p><div class=\\\"inline-action",
+      "after": ">Remote delivery from India.</strong> Software delivery is coordinated from Gurugram. Contact our team about visits to our Monterey Park office.</p><div class=\\\"inline-action"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes services for U",
+      "after": ">Remote delivery from India.</strong> Software published office is in Sector 23A, Gurugram. This page describes services for U"
+    },
+    {
+      "before": ".</strong> Software published office is in Sector 23A, G",
+      "after": ".</strong> Software delivery is in Sector 23A, G"
+    },
+    {
+      "before": "oftware delivery is in Sector 23A, Gurugra",
+      "after": "oftware delivery is coordinated Sector 23A, Gurugra"
+    },
+    {
+      "before": "very is coordinated Sector 23A, Gurugram. This page",
+      "after": "very is coordinated from Gurugram. This page"
+    },
+    {
+      "before": "ated from Gurugram. This page describes serv",
+      "after": "ated from Gurugram. Contact page describes serv"
+    },
+    {
+      "before": "m Gurugram. Contact page describes services ",
+      "after": "m Gurugram. Contact our describes services "
+    },
+    {
+      "before": "rugram. Contact our describes services for United",
+      "after": "rugram. Contact our team services for United"
+    },
+    {
+      "before": "m. Contact our team services for United Kingdom ",
+      "after": "m. Contact our team about for United Kingdom "
+    },
+    {
+      "before": "tact our team about for United Kingdom busi",
+      "after": "tact our team about visits United Kingdom busi"
+    },
+    {
+      "before": "r team about visits United Kingdom businesses;",
+      "after": "r team about visits to Kingdom businesses;"
+    },
+    {
+      "before": "eam about visits to Kingdom businesses; it does",
+      "after": "eam about visits to our businesses; it does"
+    },
+    {
+      "before": "about visits to our businesses; it does not advertise a staffed UK office.</p><div cla",
+      "after": "about visits to our London office.</p><div cla"
+    },
+    {
+      "before": "overage from India. BANDEVI does not present a ",
+      "after": "overage from India. Contact does not present a "
+    },
+    {
+      "before": "from India. Contact does not present a staff",
+      "after": "from India. Contact the not present a staff"
+    },
+    {
+      "before": " India. Contact the not present a staffed U",
+      "after": " India. Contact the Gurugram present a staffed U"
+    },
+    {
+      "before": "ontact the Gurugram present a staffed UK office",
+      "after": "ontact the Gurugram team to arrange a staffed UK office"
+    },
+    {
+      "before": "m team to arrange a staffed UK office here. Arr",
+      "after": "m team to arrange a visit UK office here. Arr"
+    },
+    {
+      "before": " to arrange a visit UK office here. Arrange project discussions through the published busin",
+      "after": " to arrange a visit to the published busin"
+    },
+    {
+      "before": "ange a visit to the published business contact ch",
+      "after": "ange a visit to the London business contact ch"
+    },
+    {
+      "before": "visit to the London business contact channels.</p></details><details class=\\\"buyer-",
+      "after": "visit to the London office.</p></details><details class=\\\"buyer-"
+    },
+    {
+      "before": "dover for your UAE business.</p><p><strong>Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes remote service",
+      "after": "dover for your UAE business.</p><p><strong>Remote delivery from India.</strong> For published office is in Sector 23A, Gurugram. This page describes remote service"
+    },
+    {
+      "before": "India.</strong> For published office is in Sector",
+      "after": "India.</strong> For local office is in Sector"
+    },
+    {
+      "before": "</strong> For local office is in Sector 23A, G",
+      "after": "</strong> For local visits, is in Sector 23A, G"
+    },
+    {
+      "before": "> For local visits, is in Sector 23A, Guru",
+      "after": "> For local visits, contact in Sector 23A, Guru"
+    },
+    {
+      "before": "cal visits, contact in Sector 23A, Gurugra",
+      "after": "cal visits, contact our Sector 23A, Gurugra"
+    },
+    {
+      "before": "visits, contact our Sector 23A, Gurugram. This",
+      "after": "visits, contact our team 23A, Gurugram. This"
+    },
+    {
+      "before": "s, contact our team 23A, Gurugram. This page",
+      "after": "s, contact our team about Gurugram. This page"
+    },
+    {
+      "before": "tact our team about Gurugram. This page describes",
+      "after": "tact our team about the This page describes"
+    },
+    {
+      "before": " our team about the This page describes remo",
+      "after": " our team about the <a page describes remo"
+    },
+    {
+      "before": "r team about the <a page describes remote se",
+      "after": "r team about the <a href=\\\"/offices/#office-dubai-deira\\\">Deira describes remote se"
+    },
+    {
+      "before": "dubai-deira\\\">Deira describes remote service cove",
+      "after": "dubai-deira\\\">Deira office</a> remote service cove"
+    },
+    {
+      "before": "\\\">Deira office</a> remote service coverage.</",
+      "after": "\\\">Deira office</a> or service coverage.</"
+    },
+    {
+      "before": "Deira office</a> or service coverage.</p><div c",
+      "after": "Deira office</a> or <a coverage.</p><div c"
+    },
+    {
+      "before": "ra office</a> or <a coverage.</p><div class=\\\"inline-acti",
+      "after": "ra office</a> or <a href=\\\"/offices/#office-dubai-sheikh-zayed\\\">Sheikh Zayed Road office</a>.</p><div class=\\\"inline-acti"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes remote service coverage.</p><div class=\\\"inline-actions\\\"><a ",
+      "after": ">Remote delivery from India.</strong> Singapore office: 89 Neil Road, #02-04, Singapore, 088849. <a href=\\\"/offices/#office-singapore\\\">View directions and arrange a visit</a>.</p><div class=\\\"inline-actions\\\"><a "
+    },
+    {
+      "before": ">Remote delivery from India.</strong> Our office is in Sector 23A, Gurugram. This page describes service coverage for United Kingdom businesses; it does not advertise a staffed UK office.</p><a href=\\\"/how-we-work/\\\">Review delivery and handover</a> · <a href=\\\"/offices/#business-contact-details\\\">Office and contact details</a></div></sect",
+      "after": ">Remote delivery from India.</strong> For office is in Sector 23A, Gurugram. This page describes service coverage for United Kingdom businesses; it does not advertise a staffed UK office.</p><a href=\\\"/how-we-work/\\\">Review delivery and handover</a> · <a href=\\\"/offices/#business-contact-details\\\">Office and contact details</a></div></sect"
+    },
+    {
+      "before": "India.</strong> For office is in Sector 23A, G",
+      "after": "India.</strong> For local is in Sector 23A, G"
+    },
+    {
+      "before": "</strong> For local is in Sector 23A, Guru",
+      "after": "</strong> For local visits, in Sector 23A, Guru"
+    },
+    {
+      "before": "> For local visits, in Sector 23A, Gurugra",
+      "after": "> For local visits, contact Sector 23A, Gurugra"
+    },
+    {
+      "before": "cal visits, contact Sector 23A, Gurugram. This",
+      "after": "cal visits, contact our 23A, Gurugram. This"
+    },
+    {
+      "before": "visits, contact our 23A, Gurugram. This page",
+      "after": "visits, contact our team Gurugram. This page"
+    },
+    {
+      "before": "s, contact our team Gurugram. This page describes",
+      "after": "s, contact our team about This page describes"
+    },
+    {
+      "before": "tact our team about This page describes serv",
+      "after": "tact our team about the page describes serv"
+    },
+    {
+      "before": " our team about the page describes service c",
+      "after": " our team about the <a describes service c"
+    },
+    {
+      "before": "r team about the <a describes service coverage fo",
+      "after": "r team about the <a href=\\\"/offices/#office-london\\\">London service coverage fo"
+    },
+    {
+      "before": "ice-london\\\">London service coverage for United Kingdom businesses; it does not advertise a staffed UK office.</p><a href=\\\"/how-we-work",
+      "after": "ice-london\\\">London office</a>.</p><a href=\\\"/how-we-work"
+    },
+    {
+      "before": "data-handling and procurement requirements the proposal needs to address.</p><p>Our team works Monday–Saturday, 10:30 am–7:30 pm IST (UTC+05:30); Sunday closed. Arrange a suitable review time rather than assuming local office hours in your country.</p><p><strong>Remote delivery from India.</strong> Our office is in Sector 23A, Gurugram. This page describes service coverage for United States businesses; it does not advertise a staffed US office.</p><a href=\\\"/how-we-work/\\\">Review ",
+      "after": "data-handling and procurement requirements the proposal needs to address.</p><p>Our team works Monday–Saturday, 10:30 am–7:30 pm IST (UTC+05:30); Sunday closed. Arrange a suitable review time rather than assuming local office hours in your country.</p><p><strong>Remote delivery from India.</strong> For office is in Sector 23A, Gurugram. This page describes service coverage for United States businesses; it does not advertise a staffed US office.</p><a href=\\\"/how-we-work/\\\">Review "
+    },
+    {
+      "before": "India.</strong> For office is in Sector 23A, G",
+      "after": "India.</strong> For local is in Sector 23A, G"
+    },
+    {
+      "before": "</strong> For local is in Sector 23A, Guru",
+      "after": "</strong> For local visits, in Sector 23A, Guru"
+    },
+    {
+      "before": "> For local visits, in Sector 23A, Gurugra",
+      "after": "> For local visits, contact Sector 23A, Gurugra"
+    },
+    {
+      "before": "cal visits, contact Sector 23A, Gurugram. This",
+      "after": "cal visits, contact our 23A, Gurugram. This"
+    },
+    {
+      "before": "visits, contact our 23A, Gurugram. This page",
+      "after": "visits, contact our team Gurugram. This page"
+    },
+    {
+      "before": "s, contact our team Gurugram. This page describes",
+      "after": "s, contact our team about This page describes"
+    },
+    {
+      "before": "tact our team about This page describes serv",
+      "after": "tact our team about the page describes serv"
+    },
+    {
+      "before": " our team about the page describes service c",
+      "after": " our team about the <a describes service c"
+    },
+    {
+      "before": "r team about the <a describes service coverage fo",
+      "after": "r team about the <a href=\\\"/offices/#office-california\\\">Monterey service coverage fo"
+    },
+    {
+      "before": "lifornia\\\">Monterey service coverage for United",
+      "after": "lifornia\\\">Monterey Park coverage for United"
+    },
+    {
+      "before": "nia\\\">Monterey Park coverage for United States businesses; it does not advertise a staffed US office.</p><a href=\\\"/how-we-work",
+      "after": "nia\\\">Monterey Park office</a>.</p><a href=\\\"/how-we-work"
+    },
+    {
+      "before": ">Remote delivery from India.</strong> Our office is in Sector 23A, Gurugram. This page describes service coverage for United States businesses; it does not advertise a staffed US office.</p><",
+      "after": ">Remote delivery from India.</strong> For office is in Sector 23A, Gurugram. This page describes service coverage for United States businesses; it does not advertise a staffed US office.</p><"
+    },
+    {
+      "before": "India.</strong> For office is in Sector 23A, G",
+      "after": "India.</strong> For local is in Sector 23A, G"
+    },
+    {
+      "before": "</strong> For local is in Sector 23A, Guru",
+      "after": "</strong> For local visits, in Sector 23A, Guru"
+    },
+    {
+      "before": "> For local visits, in Sector 23A, Gurugra",
+      "after": "> For local visits, contact Sector 23A, Gurugra"
+    },
+    {
+      "before": "cal visits, contact Sector 23A, Gurugram. This",
+      "after": "cal visits, contact our 23A, Gurugram. This"
+    },
+    {
+      "before": "visits, contact our 23A, Gurugram. This page",
+      "after": "visits, contact our team Gurugram. This page"
+    },
+    {
+      "before": "s, contact our team Gurugram. This page describes",
+      "after": "s, contact our team about This page describes"
+    },
+    {
+      "before": "tact our team about This page describes serv",
+      "after": "tact our team about the page describes serv"
+    },
+    {
+      "before": " our team about the page describes service c",
+      "after": " our team about the <a describes service c"
+    },
+    {
+      "before": "r team about the <a describes service coverage fo",
+      "after": "r team about the <a href=\\\"/offices/#office-california\\\">Monterey service coverage fo"
+    },
+    {
+      "before": "lifornia\\\">Monterey service coverage for United",
+      "after": "lifornia\\\">Monterey Park coverage for United"
+    },
+    {
+      "before": "nia\\\">Monterey Park coverage for United States businesses; it does not advertise a staffed US office.</p><a href=\\\"/how-we-work",
+      "after": "nia\\\">Monterey Park office</a>.</p><a href=\\\"/how-we-work"
+    },
+    {
+      "before": "rom India.</strong> Our office is in Sector",
+      "after": "rom India.</strong> For office is in Sector"
+    },
+    {
+      "before": "India.</strong> For office is in Sector 23A, G",
+      "after": "India.</strong> For local is in Sector 23A, G"
+    },
+    {
+      "before": "</strong> For local is in Sector 23A, Guru",
+      "after": "</strong> For local visits, in Sector 23A, Guru"
+    },
+    {
+      "before": "> For local visits, in Sector 23A, Gurugra",
+      "after": "> For local visits, contact Sector 23A, Gurugra"
+    },
+    {
+      "before": "cal visits, contact Sector 23A, Gurugram. This",
+      "after": "cal visits, contact our 23A, Gurugram. This"
+    },
+    {
+      "before": "visits, contact our 23A, Gurugram. This page",
+      "after": "visits, contact our team Gurugram. This page"
+    },
+    {
+      "before": "s, contact our team Gurugram. This page describes",
+      "after": "s, contact our team about This page describes"
+    },
+    {
+      "before": "tact our team about This page describes serv",
+      "after": "tact our team about the page describes serv"
+    },
+    {
+      "before": " our team about the page describes service c",
+      "after": " our team about the <a describes service c"
+    },
+    {
+      "before": "r team about the <a describes service coverage fo",
+      "after": "r team about the <a href=\\\"/offices/#office-london\\\">London service coverage fo"
+    },
+    {
+      "before": "ice-london\\\">London service coverage for United Kingdom businesses; it does not advertise a staffed UK office.</p><a href=\\\"/how-we-work",
+      "after": "ice-london\\\">London office</a>.</p><a href=\\\"/how-we-work"
+    },
+    {
+      "before": "pore projects with the team in India. Overseas service coverage does not imply a staffed local office.</p><a href=\"/international/\">Review ",
+      "after": "pore projects with the team in India. See our <a href=\"/offices/\">office directory</a> for addresses and visit arrangements.</p><a href=\"/international/\">Review "
+    },
+    {
+      "before": "ivered remotely from Gurugram, India. UK and US service coverage does not imply a staffed local office.</p><p>Quotations are available in GB",
+      "after": "ivered remotely from Gurugram, India. Arrange local office visits with the Gurugram team.</p><p>Quotations are available in GB"
+    },
+    {
+      "before": "c=\"/assets/office-locations.js?v=20261025-tools\";document.head.append(script);}}\n",
+      "after": "c=\"/assets/office-locations.js?v=20261106-singapore-office\";document.head.append(script);}}\n"
+    }
+  ],
+  "contact-us/index.html": [
+    {
+      "before": "/td></tr><tr><th scope=\"row\">Singapore service coverage</th><td>Remote delivery from Gurugram, India</td></tr><tr><th scope=\"row\">United K",
+      "after": "/td></tr><tr><th scope=\"row\">Singapore</th><td><a href=\"/offices/#office-singapore\">Singapore office</a>. Software delivery from Gurugram, India.</td></tr><tr><th scope=\"row\">United K"
+    },
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261106-home-service-paths\" defer></script><script src=\"/assets/office-locations.js?v=20261025-tools\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261106-home-service-paths\" defer></script><script src=\"/assets/office-locations.js?v=20261106-singapore-office\" defer></script></body>\n"
+    }
+  ],
+  "evidence-register/index.html": [
+    {
+      "before": "pore projects with the team in India. Overseas service coverage does not imply a staffed local office.</p><a href=\"/international/\">Review ",
+      "after": "pore projects with the team in India. See our <a href=\"/offices/\">office directory</a> for addresses and visit arrangements.</p><a href=\"/international/\">Review "
+    }
+  ],
+  "index.html": [
+    {
+      "before": "          <p>India delivery base. Shared locations in the UK, US and Dubai. Remote service in Singapore.</p>\n",
+      "after": "          <p>India delivery base. Shared locations in the UK, US and Dubai, plus a Singapore office.</p>\n"
+    }
+  ],
+  "offices/index.html": [
+    {
+      "before": " visit availability separately. Singapore remains remote service coverage.</p><div class=\"office-locat",
+      "after": " visit availability separately.</p><div class=\"office-locat"
+    },
+    {
+      "before": "</tr><tr role=\"row\" id=\"office-singapore-remote\" data-office-id=\"sin",
+      "after": "</tr><tr role=\"row\" id=\"office-singapore\" data-office-id=\"sin"
+    },
+    {
+      "before": "=\"office-singapore\" data-office-id=\"singapore-remote\"><td role=\"cell\"><strong",
+      "after": "=\"office-singapore\" data-office-id=\"singapore\"><td role=\"cell\"><strong"
+    },
+    {
+      "before": "role=\"cell\"><strong class=\"office-location-name\">Singapore service coverage</s",
+      "after": "role=\"cell\"><strong class=\"office-location-name\" service coverage</s"
+    },
+    {
+      "before": "fice-location-name\" service coverage</strong><s",
+      "after": "fice-location-name\" id=\"office-singapore-remote\">Singapore coverage</strong><s"
+    },
+    {
+      "before": "e-remote\">Singapore coverage</strong><span class=\"office-locat",
+      "after": "e-remote\">Singapore Office</strong><span class=\"office-locat"
+    },
+    {
+      "before": "ice-location-badge\" data-kind=\"remote\">Remote service coverage</s",
+      "after": "ice-location-badge\" data-kind=\"office\">BANDEVI service coverage</s"
+    },
+    {
+      "before": "nd=\"office\">BANDEVI service coverage</span></td",
+      "after": "nd=\"office\">BANDEVI office</span></td><td coverage</span></td"
+    },
+    {
+      "before": "fice</span></td><td coverage</span></td><td role=\"cell\"><addres",
+      "after": "fice</span></td><td role=\"cell\"><address>89 role=\"cell\"><addres"
+    },
+    {
+      "before": "=\"cell\"><address>89 role=\"cell\"><address>SCO 63, Huda Market, Fi",
+      "after": "=\"cell\"><address>89 Neil 63, Huda Market, Fi"
+    },
+    {
+      "before": "l\"><address>89 Neil 63, Huda Market, First ",
+      "after": "l\"><address>89 Neil Road, Huda Market, First "
+    },
+    {
+      "before": "dress>89 Neil Road, Huda Market, First Floor",
+      "after": "dress>89 Neil Road, #02-04, Market, First Floor"
+    },
+    {
+      "before": " Neil Road, #02-04, Market, First Floor, Bijwas",
+      "after": " Neil Road, #02-04, Singapore, First Floor, Bijwas"
+    },
+    {
+      "before": " #02-04, Singapore, First Floor, Bijwasan - P",
+      "after": " #02-04, Singapore, 088849</address><p>BANDEVI Floor, Bijwasan - P"
+    },
+    {
+      "before": "/address><p>BANDEVI Floor, Bijwasan - Palam Vi",
+      "after": "/address><p>BANDEVI software Bijwasan - Palam Vi"
+    },
+    {
+      "before": "<p>BANDEVI software Bijwasan - Palam Vihar Rd, opposite HP Petrol Pump, Cartarpuri Alias Daulatpur Nas, Sector 23A, Gurugram, Haryana 122017, India</address><p>Remote project discussions and software delive",
+      "after": "<p>BANDEVI software enquiries and software delive"
+    },
+    {
+      "before": "tware enquiries and software delivery from Gurugram. Support arrangements are ag",
+      "after": "tware enquiries and visit arrangements are ag"
+    },
+    {
+      "before": "it arrangements are agreed for each project.</",
+      "after": "it arrangements are coordinated for each project.</"
+    },
+    {
+      "before": "nts are coordinated for each project.</p><a",
+      "after": "nts are coordinated through each project.</p><a"
+    },
+    {
+      "before": "coordinated through each project.</p><a href",
+      "after": "coordinated through our project.</p><a href"
+    },
+    {
+      "before": "dinated through our project.</p><a href=\"#business-con",
+      "after": "dinated through our Gurugram team.</p><a href=\"#business-con"
+    },
+    {
+      "before": "ntact</a><div class=\"office-location-actions\"><a class=\"office-location-action\" href=\"https://www.google.com/maps/search/?api=1&amp;query=SCO+63%2C+Huda+Market%2C+First+Floor%2C+Bijwasan+-+Palam+Vihar+Rd%2C+opposite+HP+Petrol+Pump%2C+Cartarpuri+Alias+Daulatpur+Nas%2C+Sector+23A%2C+Gurugram%2C+Haryana+122017%2C+India\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Directions to Gurugram ba",
+      "after": "ntact</a><div class=\"office-location-actions\"><a class=\"office-location-action\" href=\"https://www.google.com/maps/search/?api=1&amp;query=89+Neil+Road%2C+%2302-04%2C+Singapore%2C+088849\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Directions to Gurugram ba"
+    },
+    {
+      "before": "oopener noreferrer\" aria-label=\"Directions to Gurugram base fo",
+      "after": "oopener noreferrer\" aria-label=\"Get to Gurugram base fo"
+    },
+    {
+      "before": "er\" aria-label=\"Get to Gurugram base for Singapore servi",
+      "after": "er\" aria-label=\"Get directions for Singapore servi"
+    },
+    {
+      "before": "tions for Singapore service coverage (opens in a new tab",
+      "after": "tions for Singapore Office (opens in a new tab"
+    },
+    {
+      "before": "ice (opens in a new tab)\">Directions to Gurugram base</a",
+      "after": "ice (opens in a new tab)\">Get to Gurugram base</a"
+    },
+    {
+      "before": " in a new tab)\">Get to Gurugram base</a><button class=\"office-locat",
+      "after": " in a new tab)\">Get directions</a><button class=\"office-locat"
+    },
+    {
+      "before": "en aria-label=\"Copy base address for Singapor",
+      "after": "en aria-label=\"Copy address for Singapor"
+    },
+    {
+      "before": "dress for Singapore service coverage\">Copy base address</button><a ",
+      "after": "dress for Singapore Office\">Copy address</button><a "
+    },
+    {
+      "before": "ion office-enquire\" href=\"/contact-us/?office=singapore-remote#contact-form\" aria-label=\"Enquire",
+      "after": "ion office-enquire\" href=\"/contact-us/?office=singapore#contact-form\" aria-label=\"Enquire"
+    },
+    {
+      "before": "ire about Singapore service coverage\">Enquire about this location",
+      "after": "ire about Singapore Office\">Enquire about this location"
+    },
+    {
+      "before": "ce-location-action\" href=\"mailto:sales@bandeviglobalgroup.com?subject=Location%20enquiry%3A%20Singapore%20service%20coverage&amp;body=Location%20enquiry%3A%20Singapore%20service%20coverage%0AAddress%3A%20SCO%2063%2C%20Huda%20Market%2C%20First%20Floor%2C%20Bijwasan%20-%20Palam%20Vihar%20Rd%2C%20opposite%20HP%20Petrol%20Pump%2C%20Cartarpuri%20Alias%20Daulatpur%20Nas%2C%20Sector%2023A%2C%20Gurugram%2C%20Haryana%20122017%2C%20India%0ARemote%20service%20coverage%0APlease%20contact%20me%20about%20my",
+      "after": "ce-location-action\" href=\"mailto:sales@bandeviglobalgroup.com?subject=Location%20enquiry%3A%20Singapore%20Office&amp;body=Location%20enquiry%3A%20Singapore%20Office%0AAddress%3A%2089%20Neil%20Road%2C%20%2302-04%2C%20Singapore%2C%20088849%0ABANDEVI%20office%0APlease%20contact%20me%20about%20my"
+    },
+    {
+      "before": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/office-locations.js?v=20261025-tools\" defer></script></body>\n",
+      "after": "  </div><script src=\"/assets/client.js?v=20261025-sharing-receipt\" defer></script><script src=\"/assets/office-locations.js?v=20261106-singapore-office\" defer></script></body>\n"
+    }
+  ],
+  "official-company-facts/index.html": [
+    {
+      "before": "pore projects with the team in India. Overseas service coverage does not imply a staffed local office.</p><a href=\"/international/\">Review ",
+      "after": "pore projects with the team in India. See our <a href=\"/offices/\">office directory</a> for addresses and visit arrangements.</p><a href=\"/international/\">Review "
+    }
+  ],
+  "proof-verification/index.html": [
+    {
+      "before": "pore projects with the team in India. Overseas service coverage does not imply a staffed local office.</p><a href=\"/international/\">Review ",
+      "after": "pore projects with the team in India. See our <a href=\"/offices/\">office directory</a> for addresses and visit arrangements.</p><a href=\"/international/\">Review "
+    }
+  ],
+  "sg/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> Our published office is in Sector 23A, Gurugram. This page describes remote service coverage.</p><div class=\"inline-actions\"><a cl",
+      "after": ">Remote delivery from India.</strong> Singapore office: 89 Neil Road, #02-04, Singapore, 088849. <a href=\"/offices/#office-singapore\">View directions and arrange a visit</a>.</p><div class=\"inline-actions\"><a cl"
+    }
+  ],
+  "trust-licences-certifications/index.html": [
+    {
+      "before": "pore projects with the team in India. Overseas service coverage does not imply a staffed local office.</p><a href=\"/international/\">Review ",
+      "after": "pore projects with the team in India. See our <a href=\"/offices/\">office directory</a> for addresses and visit arrangements.</p><a href=\"/international/\">Review "
+    }
+  ],
+  "uk/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> Our office is in Sector 23A, Gurugram. This page describes service coverage for United Kingdom businesses; it does not advertise a staffed UK office.</p><a href=\"/how-we-work/\">Review de",
+      "after": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\"/offices/#office-london\">London office</a>.</p><a href=\"/how-we-work/\">Review de"
+    },
+    {
+      "before": "ivered remotely from Gurugram, India. UK and US service coverage does not imply a staffed local office.</p><p>Quotations are available in GB",
+      "after": "ivered remotely from Gurugram, India. Arrange local office visits with the Gurugram team.</p><p>Quotations are available in GB"
+    }
+  ],
+  "us/software-development/index.html": [
+    {
+      "before": ">Remote delivery from India.</strong> Our office is in Sector 23A, Gurugram. This page describes service coverage for United States businesses; it does not advertise a staffed US office.</p><a href=\"/how-we-work/\">Review de",
+      "after": ">Remote delivery from India.</strong> For local visits, contact our team about the <a href=\"/offices/#office-california\">Monterey Park office</a>.</p><a href=\"/how-we-work/\">Review de"
+    },
+    {
+      "before": "ivered remotely from Gurugram, India. UK and US service coverage does not imply a staffed local office.</p><p>Quotations are available in GB",
+      "after": "ivered remotely from Gurugram, India. Arrange local office visits with the Gurugram team.</p><p>Quotations are available in GB"
+    }
+  ]
+}
