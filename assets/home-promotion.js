@@ -1,5 +1,52 @@
 (() => {
+  function initBrandSlider() {
+    const track = document.getElementById('home-brand-slider-track');
+    if (!track || track.children.length < 2) return;
+
+    const slider = track.closest('.home-brand-references');
+    const controls = slider.querySelector('[data-brand-slider-controls]');
+    const previous = controls.querySelector('[data-brand-previous]');
+    const next = controls.querySelector('[data-brand-next]');
+    const status = controls.querySelector('[data-brand-slider-status]');
+    const cards = [...track.children];
+    const step = () => cards[1].offsetLeft - cards[0].offsetLeft;
+    const limit = () => track.scrollWidth - track.clientWidth;
+
+    function update() {
+      const first = Math.round(track.scrollLeft / step()) + 1;
+      const visible = Math.round(track.clientWidth / step());
+      const last = Math.min(cards.length, first + visible - 1);
+      const label = first === last ? `Project ${first} of ${cards.length}` : `Projects ${first}–${last} of ${cards.length}`;
+      if (status.textContent !== label) status.textContent = label;
+      previous.setAttribute('aria-disabled', String(track.scrollLeft <= 1));
+      next.setAttribute('aria-disabled', String(track.scrollLeft >= limit() - 1));
+    }
+
+    function move(direction) {
+      const button = direction > 0 ? next : previous;
+      if (button.getAttribute('aria-disabled') === 'true') return;
+      const index = Math.round(track.scrollLeft / step()) + direction;
+      track.scrollTo({ left: Math.max(0, Math.min(limit(), index * step())) });
+    }
+
+    previous.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    slider.addEventListener('keydown', event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      move(event.key === 'ArrowRight' ? 1 : -1);
+    });
+    slider.classList.add('home-brand-slider');
+    slider.setAttribute('aria-roledescription', 'carousel');
+    controls.hidden = false;
+    track.addEventListener('scroll', update, { passive: true });
+    new ResizeObserver(update).observe(track);
+    update();
+  }
+
   function init() {
+    initBrandSlider();
     const banner = document.querySelector('[data-home-promotion]');
     if (!banner) return;
 
