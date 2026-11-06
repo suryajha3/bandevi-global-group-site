@@ -9,6 +9,7 @@ import lead_qualification
 import crm_review
 import demo_handoff
 import ads_measurement
+from sales_journey import CRM_PROMOTIONS
 import json
 import logging
 import os
@@ -78,6 +79,9 @@ def validate_attribution(value):
         pattern=r'/(?:[a-zA-Z0-9_-]+/)*' if field=='landing_page' else r'[a-zA-Z0-9.-]{1,253}' if field=='referrer_domain' else r'[a-zA-Z0-9_-]{1,80}'
         if item and (len(item)>253 or not re.fullmatch(pattern,item)):raise ValueError('Invalid source information.')
         result[field]=item
+    promotion=value.get('crm_promotion')
+    if promotion in CRM_PROMOTIONS:
+        result['crm_promotion']=promotion
     return result
 
 BRIEF_SERVICES = {'Website or app':'Website / App Development Package','CRM':'CRM & ERP Package','ERP':'CRM & ERP Package','Travel technology':'Travel Technology Planning','Help me choose':'Need guidance'}

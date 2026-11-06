@@ -70,7 +70,13 @@ class ReviewCampaignTests(unittest.TestCase):
             self.assertEqual(payload['message'].count('CRM workflow review requested'),1)
 
     def test_campaign_milestones_currency_values_and_missing_values(self):
-        us=[self.lead(self.data()) for _ in range(3)];self.lead(self.data('GB'));self.lead(self.data('IN'));now=int(time.time())
+        promoted=self.data()
+        promoted['attribution']['crm_promotion']='quote-follow-up'
+        us=[self.lead(promoted) for _ in range(3)]
+        self.lead(self.data())
+        self.lead(self.data('GB'))
+        self.lead(self.data('IN'))
+        now=int(time.time())
         with isolated.enquiries.connect() as db:
             for index,ref in enumerate(us):
                 db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id=?",(ref,))
@@ -80,12 +86,17 @@ class ReviewCampaignTests(unittest.TestCase):
                 db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',(ref,'Reviewed','Completed',schedule,1,now,self.owner))
                 for revision in (1,2):db.execute("INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,published) VALUES(?,?,?,'Test','Test','Test',999,'INR',?,'published',?,?,?)",(uuid.uuid4().hex,ref,revision,now+1000,now,self.owner,now))
             db.execute('INSERT INTO deal_values VALUES(?,?,?)',(us[0],12000,'USD'));db.execute('INSERT INTO deal_values VALUES(?,?,?)',(us[1],3000,'GBP'))
-        result=self.report();group=next(g for g in result['campaigns'] if g['country']=='US')
+        result=self.report()
+        group=next(g for g in result['campaigns'] if g['country']=='US' and g['promotion']=='quote-follow-up')
+        unpromoted=next(g for g in result['campaigns'] if g['country']=='US' and not g['promotion'])
+        self.assertEqual(group['campaign'],unpromoted['campaign'])
+        self.assertEqual(unpromoted['counts']['enquiries'],1)
+        self.assertEqual(unpromoted['counts']['demoBooked'],0)
         for key in ('enquiries','qualified','demoBooked','demoCompleted','publishedProposals','currentlyWon','crmReviewRequests'):self.assertEqual(group['counts'][key],3,key)
         self.assertEqual(group['wonWithoutValue'],1);self.assertEqual(group['wonValueByCurrency'],[dict(currency='GBP',minorUnits=3000,deals=1),dict(currency='USD',minorUnits=12000,deals=1)])
         self.assertEqual(group['rates']['enquiryToWon'],100.0)
         with isolated.enquiries.connect() as db:db.execute("UPDATE enquiry_workflow SET stage='Contacted' WHERE id=?",(us[0],))
-        group=next(g for g in self.report()['campaigns'] if g['country']=='US');self.assertEqual(group['counts']['currentlyWon'],2)
+        group=next(g for g in self.report()['campaigns'] if g['country']=='US' and g['promotion']=='quote-follow-up');self.assertEqual(group['counts']['currentlyWon'],2)
         self.assertEqual(len(group['wonValueByCurrency']),1)
         self.assertNotIn('qa@example.test',json.dumps(result));self.assertNotIn('Missed follow-ups',json.dumps(result))
 

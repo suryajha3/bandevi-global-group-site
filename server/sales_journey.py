@@ -7,6 +7,7 @@ from urllib.parse import parse_qs, urlsplit
 import operations
 
 OUTCOMES=('Not recorded','Completed','No show','Reschedule needed','Not suitable')
+CRM_PROMOTIONS=('hero-demo','lead-ownership','quote-follow-up','operations-handover')
 
 def initialize(db):
     db.executescript('''CREATE TABLE IF NOT EXISTS sales_demo_records(
@@ -124,9 +125,11 @@ def funnel(db,identity,days):
         channel=channel if channel in ('organic_search','paid','campaign','referral','direct_unknown','unknown') else 'unknown'
         landing=attribution.get('landing_page','')
         landing=landing if isinstance(landing,str) and re.fullmatch(r'/(?:[a-zA-Z0-9_-]+/)*',landing) else ''
-        key=(country,tag('utm_campaign'),tag('utm_source'),tag('utm_medium'),channel,landing)
+        promotion=attribution.get('crm_promotion')
+        promotion=promotion if promotion in CRM_PROMOTIONS else ''
+        key=(country,tag('utm_campaign'),tag('utm_source'),tag('utm_medium'),channel,landing,promotion)
         group=campaigns.setdefault(key,{'country':country,'label':markets[country]['label'],'campaign':key[1],
-            'source':key[2],'medium':key[3],'channel':channel,'landingPage':landing,
+            'source':key[2],'medium':key[3],'channel':channel,'landingPage':landing,'promotion':promotion,
             'counts':{**dict.fromkeys(counts,0),'qualified':0,'crmReviewRequests':0},'wonValueByCurrency':{},'wonWithoutValue':0})
         group['counts']['enquiries']+=1
         for name in counts:
@@ -149,7 +152,7 @@ def funnel(db,identity,days):
         group['wonValueByCurrency']=[value for _,value in sorted(group['wonValueByCurrency'].items())]
     return {'days':days,'counts':counts,'rates':{'enquiryToDemo':rate(counts['demoBooked'],counts['enquiries']),
         'demoToProposal':rate(counts['proposalAfterDemo'],counts['demoBooked']),'proposalToWon':rate(counts['wonAfterDemoProposal'],counts['proposalAfterDemo'])},
-        'markets':list(markets.values()),'campaigns':sorted(campaigns.values(),key=lambda g:(-g['counts']['enquiries'],g['country'],g['campaign'],g['source'],g['medium'],g['channel'],g['landingPage'])),
-        'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
+        'markets':list(markets.values()),'campaigns':sorted(campaigns.values(),key=lambda g:(-g['counts']['enquiries'],g['country'],g['campaign'],g['source'],g['medium'],g['channel'],g['landingPage'],g['promotion'])),
+        'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
         'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}

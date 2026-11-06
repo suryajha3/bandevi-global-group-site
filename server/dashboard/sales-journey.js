@@ -71,24 +71,30 @@ function clearCampaignSales(){
 function renderCampaignSalesReport(result){
  campaignSalesState={identity:csrf,groups:result.campaigns||[]};$('campaign-sales-basis').textContent=result.campaignBasis||'';renderCampaignSalesRows();
 }
+const crmPromotionLabels = {
+ 'hero-demo': 'Main demo button',
+ 'lead-ownership': 'Lead ownership',
+ 'quote-follow-up': 'Quotation follow-up',
+ 'operations-handover': 'Operations handover'
+};
 function renderCampaignSalesRows(){
  if(!csrf||!campaignSalesState||campaignSalesState.identity!==csrf)return;
  const country=$('campaign-sales-country').value,query=$('campaign-sales-search').value.trim().toLowerCase();
  const groups=campaignSalesState.groups.filter(group =>
   (country === 'all' || group.country === country) &&
-  [(group.campaign || 'Unattributed'), (group.landingPage || '')].some(value => value.toLowerCase().includes(query))
+  [(group.campaign || 'Unattributed'), (group.landingPage || ''), crmPromotionLabels[group.promotion] || '', group.promotion || ''].some(value => value.toLowerCase().includes(query))
  );
  const enquiryCount=groups.reduce((sum,g)=>sum+g.counts.enquiries,0);
- $('campaign-sales-summary').textContent=groups.length+' campaign '+(groups.length===1?'group':'groups')+' · '+enquiryCount+' '+(enquiryCount===1?'enquiry':'enquiries')+' · Qualified: '+groups.reduce((n,g)=>n+g.counts.qualified,0)+' · Completed demos: '+groups.reduce((n,g)=>n+g.counts.demoCompleted,0)+' · Published proposals: '+groups.reduce((n,g)=>n+g.counts.publishedProposals,0)+' · Currently Won: '+groups.reduce((n,g)=>n+g.counts.currentlyWon,0);
+ $('campaign-sales-summary').textContent=groups.length+' campaign '+(groups.length===1?'group':'groups')+' · '+enquiryCount+' '+(enquiryCount===1?'enquiry':'enquiries')+' · Qualified: '+groups.reduce((n,g)=>n+g.counts.qualified,0)+' · Demo bookings: '+groups.reduce((n,g)=>n+g.counts.demoBooked,0)+' · Completed demos: '+groups.reduce((n,g)=>n+g.counts.demoCompleted,0)+' · Published proposals: '+groups.reduce((n,g)=>n+g.counts.publishedProposals,0)+' · Currently Won: '+groups.reduce((n,g)=>n+g.counts.currentlyWon,0);
  const table=document.createElement('table');table.append(text('caption','Campaign-to-sales · saved enquiry cohort'));
  const head=document.createElement('thead'),header=document.createElement('tr');
- for(const title of ['Business country','Campaign','Source / medium','Channel','Landing page','Enquiries','CRM reviews','Reached Qualified','Demo booked','Demo completed','Published proposals','Currently Won','Qualified / enquiry','Won / enquiry','Recorded won value (not payments)','Won without value','Demo completed / enquiry']){const th=text('th',title);th.scope='col';header.append(th);}head.append(header);table.append(head);
+ for(const title of ['Business country','Campaign','Source / medium','Channel','Landing page','Enquiries','CRM reviews','Reached Qualified','Demo booked','Demo completed','Published proposals','Currently Won','Qualified / enquiry','Won / enquiry','Recorded won value (not payments)','Won without value','CRM promotion','Demo completed / enquiry']){const th=text('th',title);th.scope='col';header.append(th);}head.append(header);table.append(head);
  const body=document.createElement('tbody'),percent=v=>v===null?'—':v+'%';
  for(const g of groups){const row=document.createElement('tr'),label=text('th',g.label);label.scope='row';row.append(label);const c=g.counts;
   const money=g.wonValueByCurrency.map(v=>new Intl.NumberFormat('en',{style:'currency',currency:v.currency,currencyDisplay:'code',minimumFractionDigits:2,maximumFractionDigits:2}).format(v.minorUnits/100)+' ('+v.deals+' deals)').join(' · ')||'No recorded value';
-  for(const value of [g.campaign||'Unattributed',(g.source||'Not recorded')+' / '+(g.medium||'Not recorded'),channelLabels[g.channel]||'Not recorded',g.landingPage||'Not recorded',c.enquiries,c.crmReviewRequests,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.currentlyWon,percent(g.rates.enquiryToQualified),percent(g.rates.enquiryToWon),money,g.wonWithoutValue,percent(g.rates.enquiryToCompletedDemo)])row.append(text('td',String(value)));body.append(row);
+  for(const value of [g.campaign||'Unattributed',(g.source||'Not recorded')+' / '+(g.medium||'Not recorded'),channelLabels[g.channel]||'Not recorded',g.landingPage||'Not recorded',c.enquiries,c.crmReviewRequests,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.currentlyWon,percent(g.rates.enquiryToQualified),percent(g.rates.enquiryToWon),money,g.wonWithoutValue,crmPromotionLabels[g.promotion]||'—',percent(g.rates.enquiryToCompletedDemo)])row.append(text('td',String(value)));body.append(row);
  }
- if(!groups.length){const row=document.createElement('tr'),cell=text('td','No enquiries match these filters in the selected received-date period.');cell.colSpan=17;row.append(cell);body.append(row);}table.append(body);$('campaign-sales-report').replaceChildren(table);
+ if(!groups.length){const row=document.createElement('tr'),cell=text('td','No enquiries match these filters in the selected received-date period.');cell.colSpan=18;row.append(cell);body.append(row);}table.append(body);$('campaign-sales-report').replaceChildren(table);
 }
 $('campaign-sales-country').addEventListener('change',renderCampaignSalesRows);
 $('campaign-sales-search').addEventListener('input',renderCampaignSalesRows);

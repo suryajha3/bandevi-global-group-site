@@ -515,6 +515,8 @@ function bindAdsMeasurement(form){
 }
 function adsMeasurementPayload(form){const state=form._adsChoice;return state?.choice.checked&&navigator.doNotTrack!=='1'&&navigator.globalPrivacyControl!==true?{adsMeasurement:{version:1,consent:true,policy:'ads-click-v1',gclid:state.gclid}}:{};}
 
+const crmPromotions = ['hero-demo', 'lead-ownership', 'quote-follow-up', 'operations-handover'];
+
 function bindForms() {
   document.querySelectorAll('[data-demo-planner]').forEach(form=>form.addEventListener('submit',()=>trackAnalyticsEvent('select_content',{content_type:'demo_brief',content_name:form.dataset.demoPlanner==='erp'?'travel_erp':'travel_crm',page_location:location.origin+publicPagePath()})));
 
@@ -596,6 +598,21 @@ function bindForms() {
         interest.value = selectedSolution;
       }
       if (leadSource) leadSource.value = sourcePath || currentUrl.searchParams.get("source") || "Direct demo request";
+      const market = currentUrl.searchParams.get('market');
+      const promotion = currentUrl.searchParams.get('crm_promo');
+      if (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion)) {
+        form.dataset.crmPromotion = promotion;
+        form.elements.projectCountry.value = market;
+        form.elements.projectCountry.dispatchEvent(new Event('change', { bubbles: true }));
+        if (market === 'US') {
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const zone = form.elements.contactTimezone;
+          if ([...zone.options].some(option => option.value === timezone && /^(America\/|Pacific\/Honolulu$)/.test(timezone))) {
+            zone.value = timezone;
+            zone.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }
       const focusLabels={'crm-enquiries':'Enquiry capture and consultant ownership','crm-quotes':'Quotation history and follow-ups','crm-reporting':'Sales reporting and role permissions','crm-handover':'Sales-to-booking handover','erp-bookings':'Booking files and service tasks','erp-suppliers':'Supplier confirmations and costs','erp-finance':'Payment status and approval rules','erp-handover':'CRM-to-operations handover'};
       Object.assign(focusLabels,{'website-journey':'Website pages and customer enquiry journey','website-portal':'Customer portal or app workflow','business-leads':'Lead ownership, quotations and follow-ups','business-operations':'Orders, approvals and operational reporting'});
       const focus=currentUrl.searchParams.get('focus'),teamLabels={'1-5':'1–5 users','6-20':'6–20 users','21-plus':'21 or more users','unsure':'Still deciding'},team=teamLabels[currentUrl.searchParams.get('team')];
@@ -679,7 +696,11 @@ function bindForms() {
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
-          attribution: Object.fromEntries(Object.entries(enquiryAttribution).filter(([key])=>key!=='expires'))
+          attribution: {
+            ...Object.fromEntries(Object.entries(enquiryAttribution).filter(([key]) => key !== 'expires')),
+            ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)
+              ? { crm_promotion: form.dataset.crmPromotion } : {})
+          }
         };
         if(payload.message.length+(payload.crmReview?crmWorkflowReviewSummary(payload.crmReview).length+2:0)>3000){form.dispatchEvent(new CustomEvent('enquiry-invalid'));note.textContent="Please shorten your description so your enquiry, including any optional details, fits within 3,000 characters.";return;}
       const serialized = JSON.stringify(payload);

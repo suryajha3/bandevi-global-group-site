@@ -13,7 +13,45 @@ const root=path.resolve(__dirname,'..'),live=process.argv.includes('--live'),out
   const route='/'+slug+'/travel-agency-crm/';await page.goto(base+route+'?utm_source=google&utm_medium=cpc&utm_campaign=crm_buyer_'+slug+(source?'&source=1':''));
   const lab=page.locator('[data-crm-lab]'),form=page.locator('#regional-enquiry form');await lab.locator('[data-lab-controls]').waitFor();
   const example=page.locator('[data-crm-example]'),message=form.locator('[name=message]');
-  assert.equal(await page.locator('aside[aria-labelledby="crm-workflow-example"] ol li').count(),3);
+  assert.equal(await page.locator('[data-crm-promotions] ol li').count(),3);
+  if(width===390){
+   const slider=page.locator('[data-crm-promotions]');
+   const next=slider.getByRole('button',{name:'Next workflow'});
+   const status=slider.locator('[data-crm-promo-status]');
+   const initial={US:'lead-ownership',GB:'quote-follow-up',IN:'operations-handover'}[country];
+   const demoLink=slider.locator('[data-crm-promo-demo]');
+   const initialUrl=new URL(await demoLink.getAttribute('href'),base);
+   assert.equal(initialUrl.searchParams.get('crm_promo'),initial);
+   const heroDemo=page.locator('.crm-campaign-hero .inline-actions').first().getByRole('link',{name:'Request a CRM Demo'});
+   assert.equal(new URL(await heroDemo.getAttribute('href'),base).searchParams.get('crm_promo'),'hero-demo');
+   await slider.evaluate(target=>{
+    const start=new Touch({identifier:1,target,clientX:250,clientY:160});
+    const end=new Touch({identifier:1,target,clientX:155,clientY:165});
+    target.dispatchEvent(new TouchEvent('touchstart',{touches:[start]}));
+    target.dispatchEvent(new TouchEvent('touchend',{changedTouches:[end]}));
+   });
+   assert.match(await status.innerText(),/^2 of 3/);
+   await slider.getByRole('button',{name:'Previous workflow'}).click();
+   assert.match(await status.innerText(),/^1 of 3/);
+   await next.press('ArrowRight');
+   assert.match(await status.innerText(),/^2 of 3/);
+   const activeUrl=new URL(await demoLink.getAttribute('href'),base);
+   assert.notEqual(activeUrl.searchParams.get('crm_promo'),initial);
+   await slider.getByRole('link',{name:'Discuss this example'}).click();
+   assert.equal(await message.inputValue(),await slider.locator('template').nth(1).getAttribute('data-example'));
+   await message.fill('');
+   await demoLink.click();
+   const demo=page.locator('form[data-form="demo"]');
+   await page.locator('form[data-crm-promotion="'+activeUrl.searchParams.get('crm_promo')+'"]').waitFor();
+   assert.equal(await demo.locator('[name=demoFocus]').inputValue(),activeUrl.searchParams.get('focus'));
+   assert.equal(await demo.locator('[name=interest]').inputValue(),'Travel CRM Package');
+   assert.equal(await demo.locator('[name=projectCountry]').inputValue(),country);
+   assert.equal(await demo.locator('[name=quoteCurrency]').inputValue(),currency);
+   assert.equal(await demo.locator('[name=contactTimezone]').inputValue(),zone);
+   assert.equal(await demo.getAttribute('data-crm-promotion'),activeUrl.searchParams.get('crm_promo'));
+   assert.equal(new URL(page.url()).searchParams.get('utm_campaign'),'crm_buyer_'+slug);
+   await page.goBack();
+  }
   await example.press('Enter');
   assert.equal(await message.inputValue(),await example.getAttribute('data-crm-example'));
   await message.fill('Keep my actual CRM requirements.');
@@ -38,7 +76,7 @@ const root=path.resolve(__dirname,'..'),live=process.argv.includes('--live'),out
   assert.equal(await form.locator('input:visible[required],select:visible[required],textarea:visible[required]').count(),4);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.equal(writes.length,0);
   if(!live){
    await form.locator('[data-enquiry-submit]').click();await form.locator('.receipt-book-review').waitFor();
-   const request=writes.find(w=>w.url.endsWith('/api/enquiries'));assert(request);assert.match(request.body.message,/CRM starting scope: Sales team workflow \(to discuss\)/);assert.equal((request.body.message.match(/CRM starting scope:/g)||[]).length,1);assert.match(request.body.message,/Keep my actual CRM requirements\./);assert(!/Example Traveller|DEMO-001|DEMO-Q01|Asha|Ravi/.test(request.body.message));assert.equal(request.body.qualification.country,country);assert.equal(request.body.qualification.currency,currency);assert.equal(request.body.source,route);assert.equal(request.body.attribution.utm_campaign,'crm_buyer_'+slug);assert.match(await form.locator('.receipt-book-review').getAttribute('href'),/^\/demo-booking\/#review\.BG-/);assert.equal(await form.locator('[name=crmPackage]').inputValue(),'');assert.match(await page.locator('[data-package-status]').innerText(),/No starting scope/);
+   const request=writes.find(w=>w.url.endsWith('/api/enquiries'));assert(request);assert.match(request.body.message,/CRM starting scope: Sales team workflow \(to discuss\)/);assert.equal((request.body.message.match(/CRM starting scope:/g)||[]).length,1);assert.match(request.body.message,/Keep my actual CRM requirements\./);assert(!/Example Traveller|DEMO-001|DEMO-Q01|Asha|Ravi/.test(request.body.message));assert.equal(request.body.qualification.country,country);assert.equal(request.body.qualification.currency,currency);assert.equal(request.body.source,route);assert.equal(request.body.attribution.utm_campaign,'crm_buyer_'+slug);assert.equal(request.body.attribution.crm_promotion,{US:'lead-ownership',GB:'quote-follow-up',IN:'operations-handover'}[country]);assert.match(await form.locator('.receipt-book-review').getAttribute('href'),/^\/demo-booking\/#review\.BG-/);assert.equal(await form.locator('[name=crmPackage]').inputValue(),'');assert.match(await page.locator('[data-package-status]').innerText(),/No starting scope/);
   }
   assert.deepEqual(errors,[]);checks.push({slug,source,width,comparison:true,interactiveSteps:true,staleQuoteCleared:true,marketReset:true,noDemoWrites:true,requirementsPreserved:true,...(!live?{savedScopeAndBookingHandoff:true}:{readOnly:true})});await context.close();
  }
