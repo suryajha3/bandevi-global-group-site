@@ -57,7 +57,9 @@ let server, browser;
         if (width < 1181) assert.equal(await page.locator('[data-nav-toggle]').getAttribute('aria-expanded'), 'true');
         assert.equal(await page.locator('.mobile-demo').isVisible(), width < 1181);
         if (width < 1181) {
-          assert.equal(await page.locator('.mobile-demo').getAttribute('href'), '/demo-request/');
+          const expectedProjectForm = route === '/contact-us/' ? '#contact-form' : '/contact-us/#contact-form';
+          assert.equal(await page.locator('.mobile-demo').getAttribute('href'), expectedProjectForm);
+          assert.equal(await page.locator('.primary-nav [data-demo-entry]').getAttribute('href'), '/demo-request/#demo-form');
           assert.equal(await page.locator('.mobile-contact-actions a[href="tel:+917011040474"]').count(), 1);
           assert.equal(await page.locator('.mobile-contact-actions a[href="https://wa.me/917011040474"]').count(), 1);
         }

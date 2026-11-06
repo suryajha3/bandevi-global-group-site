@@ -243,7 +243,33 @@
   function sync(){const index=buttons.findIndex(button=>button.getAttribute('aria-pressed')==='true'),active=buttons[Math.max(0,index)];progress.textContent='Step '+(Math.max(0,index)+1)+' of 3 · '+explanations[active.dataset.homeCrmStep];}
   new MutationObserver(sync).observe(controls,{subtree:true,attributes:true,attributeFilter:['aria-pressed']});sync();
  }
+ const contactActionsBound = new WeakSet();
+ function bindContactActions() {
+  const page = document.body.dataset.page;
+  const barLink = document.querySelector('.mobile-contact-bar [data-project-entry]');
+  if (page === 'demo' && barLink?.getAttribute('href') === '#demo-form') {
+   // The legacy mobile bar points at the demo form on this page.
+   barLink.href = '/contact-us/#contact-form';
+  }
+  if (page?.startsWith('crmCampaign')) {
+   const demo = document.querySelector('.topbar [data-demo-entry]');
+   if (demo?.getAttribute('href') === '#regional-enquiry') demo.href = '/demo-request/#demo-form';
+  }
+  const choice = document.querySelector('#home-project-service');
+  if (!choice || contactActionsBound.has(choice)) return;
+  contactActionsBound.add(choice);
+  const sync = () => {
+   const destination = new URL('/contact-us/#contact-form', location.origin);
+   if (choice.value && choice.value !== 'Need guidance') destination.searchParams.set('solution', choice.value);
+   const href = destination.pathname + destination.search + destination.hash;
+   document.querySelectorAll('[data-project-entry]').forEach(link => { link.href = href; });
+  };
+  choice.addEventListener('change', sync);
+  window.addEventListener('pageshow', sync);
+  sync();
+ }
  function init() {
+  bindContactActions();
   decorateServices();finishProjectFrames();compactCoverage();breadcrumbs();
   document.querySelectorAll('nav.web-jump,nav.crm-jump,nav.travel-jump,main nav[aria-label="On this page"]').forEach(sectionIndicators);
   document.querySelectorAll('.project-directory').forEach(galleryFilterSummary);

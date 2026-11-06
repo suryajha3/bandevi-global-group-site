@@ -84,16 +84,60 @@ let server, browser;
     await page.setViewportSize({width:390,height:900});
     await page.goto(base + '/');
     await page.waitForFunction(() => !document.querySelector('.mobile-contact-bar').hidden);
-    await Promise.all([page.waitForURL(url => url.pathname === '/demo-request/'), page.locator('.mobile-contact-demo').click()]);
-    assert.equal(await page.locator('.demo-overview article').count(),3);
+    await page.locator('.home-focus-options > summary').click();
+    await page.locator('#home-project-service').selectOption('CRM & ERP Package');
+    await Promise.all([
+      page.waitForURL(url => url.pathname === '/contact-us/' && url.hash === '#contact-form'),
+      page.locator('.mobile-contact-demo').click()
+    ]);
+    assert.equal(new URL(page.url()).searchParams.get('solution'), 'CRM & ERP Package');
+    assert.equal(await page.locator('#contact-form [name="interest"]').inputValue(), 'CRM & ERP Package');
+    await page.locator('[data-nav-toggle]').click();
+    await Promise.all([
+      page.waitForURL(url => url.pathname === '/demo-request/' && url.hash === '#demo-form'),
+      page.locator('.primary-nav [data-demo-entry]').click()
+    ]);
+    assert.equal(await page.locator('.demo-overview article').count(), 3);
+    assert.equal(await page.locator('.mobile-contact-demo').getAttribute('href'), '/contact-us/#contact-form');
+
+    if (!live) {
+      const received = [];
+      await context.route('**/api/enquiries', request => {
+        if (request.request().method() === 'GET') return request.fulfill({ json: { slots: [] } });
+        received.push(request.request().postDataJSON());
+        return request.fulfill({ status: 201, json: { ok: true, reference: 'BG-1234567890ABCDEF' } });
+      });
+      for (const [market, country, currency] of [['us', 'US', 'USD'], ['uk', 'GB', 'GBP'], ['india', 'IN', 'INR']]) {
+        await page.goto(base + '/' + market + '/software-development/?solution=CRM%20%26%20ERP%20Package');
+        assert.equal(await page.locator('.mobile-demo').getAttribute('href'), '#regional-enquiry');
+        await page.locator('.mobile-demo').click();
+        assert.equal(new URL(page.url()).hash, '#regional-enquiry');
+        const form = page.locator('#regional-enquiry form[data-form="contact"]');
+        assert.equal(await form.locator('[name="projectCountry"]').inputValue(), country);
+        assert.equal(await form.locator('[name="interest"]').inputValue(), 'CRM & ERP Package');
+        await form.locator('[name="name"]').fill('Synthetic routing check');
+        await form.locator('[name="email"]').fill('qa@example.test');
+        await form.locator('[name="message"]').fill('Synthetic regional enquiry for local verification.');
+        await form.locator('[type="submit"]').click();
+        await form.locator('.form-note').filter({ hasText: 'BG-1234567890ABCDEF' }).waitFor();
+        const saved = received.at(-1);
+        assert.equal(saved.qualification.country, country);
+        assert.equal(saved.qualification.currency, currency);
+        assert.equal(saved.interest, 'CRM & ERP Package');
+        await page.goto(base + '/' + market + '/travel-agency-crm/');
+        assert.equal(await page.locator('.mobile-demo').getAttribute('href'), '#regional-enquiry');
+        assert.equal(await page.locator('.primary-nav [data-demo-entry]').getAttribute('href'), '/demo-request/#demo-form');
+      }
+      assert.equal(received.length, 3);
+    }
     const plainContext = await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:900}});
     const plain = await plainContext.newPage();
     await plain.goto(base + '/');
     assert(await plain.locator('.mobile-contact-bar').isVisible());
-    assert.equal(await plain.locator('.mobile-contact-demo').getAttribute('href'), '/demo-request/');
+    assert.equal(await plain.locator('.mobile-contact-demo').getAttribute('href'), '/contact-us/#contact-form');
     await plainContext.close();
     assert.deepEqual(errors,[]);
     fs.writeFileSync(path.join(output,(live?'live':'local')+'-checks.json'),JSON.stringify({checks,errors,noCustomerDataChanged:true},null,2));
-    console.log('PASS: '+checks.length+' mobile-contact and demo cases; no submissions.');
+    console.log('PASS: '+checks.length+' mobile-contact and demo cases; no live submissions.');
   } finally { if (browser) await browser.close(); if (server) server.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

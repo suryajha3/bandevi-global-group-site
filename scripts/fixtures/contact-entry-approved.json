@@ -1,0 +1,288 @@
+{
+  "baseline": "25112ea35ff18c0e3d6dc433c9a3cc343c70077a",
+  "pages": {
+    "about-us/index.html": "default",
+    "about.html": "default",
+    "ae/software-development/index.html": "default",
+    "astrology-services-platform/index.html": "default",
+    "b2b-travel-portal/index.html": "default",
+    "blog.html": "default",
+    "blog/automate-payment-workflows-in-travel-agencies/index.html": "default",
+    "blog/business-automation-for-travel-companies/index.html": "default",
+    "blog/corporate-website-crm-for-travel-businesses/index.html": "default",
+    "blog/customer-portal-for-travel-agencies/index.html": "default",
+    "blog/index.html": "default",
+    "blog/lead-booking-management-for-travel-companies/index.html": "default",
+    "blog/travel-crm-software-for-agencies/index.html": "default",
+    "blog/travel-crm-vs-erp-for-travel-agencies/index.html": "default",
+    "blog/travel-erp-system-for-tour-operators/index.html": "default",
+    "blog/travel-website-vs-white-label-travel-portal/index.html": "default",
+    "blog/white-label-crm-vs-custom-crm/index.html": "default",
+    "blog/white-label-travel-website-vs-custom-travel-website/index.html": "default",
+    "business-automation/index.html": "default",
+    "business-process-automation/index.html": "default",
+    "case-studies.html": "default",
+    "case-studies/index.html": "default",
+    "client-feedback/index.html": "default",
+    "company-profile/index.html": "default",
+    "contact-us/index.html": "contact",
+    "contact.html": "default",
+    "crm-demo/index.html": "default",
+    "crm-erp-solutions/index.html": "default",
+    "crm-project-planning/index.html": "default",
+    "crm-promotion-kit/index.html": "default",
+    "custom-crm-development/index.html": "default",
+    "custom-software-development/index.html": "default",
+    "customer-portal.html": "default",
+    "customer-portal/index.html": "default",
+    "demo-request.html": "demo",
+    "demo-request/index.html": "demo",
+    "directory-listing-profile/index.html": "default",
+    "dmc-software/index.html": "default",
+    "ecommerce-solutions/index.html": "default",
+    "ecommerce-website-development/index.html": "default",
+    "erp-software-development/index.html": "default",
+    "evidence-register/index.html": "default",
+    "external-citation-tracker/index.html": "default",
+    "flight-booking-engine/index.html": "default",
+    "hotel-booking-engine/index.html": "default",
+    "how-we-work/index.html": "default",
+    "index.html": "default",
+    "india/software-development/index.html": "regional",
+    "india/travel-agency-crm/index.html": "campaign",
+    "international/index.html": "default",
+    "it-company-software-development-services/index.html": "default",
+    "it-products/index.html": "default",
+    "it-solutions.html": "default",
+    "lead-booking-management/index.html": "default",
+    "makhana-brand-solutions/index.html": "default",
+    "masala-food-products/index.html": "default",
+    "offices/index.html": "default",
+    "official-company-facts/index.html": "default",
+    "privacy-policy/index.html": "default",
+    "products.html": "default",
+    "project-brief/index.html": "default",
+    "project-readiness/index.html": "default",
+    "project-shortlist/index.html": "default",
+    "projects/bandevi-website/index.html": "default",
+    "projects/maximtrip/index.html": "default",
+    "projects/trip-sarathi/index.html": "default",
+    "projects/tripodeal/index.html": "default",
+    "proof-verification/index.html": "default",
+    "sample-crm/index.html": "default",
+    "sample-proposal/index.html": "default",
+    "search/index.html": "default",
+    "service-offers/index.html": "default",
+    "sg/software-development/index.html": "default",
+    "social-proof-posts/index.html": "default",
+    "staff-size-net-worth/index.html": "default",
+    "support.html": "default",
+    "support/index.html": "default",
+    "surya-kant-jha/index.html": "default",
+    "terms-and-conditions/index.html": "default",
+    "tour-operator-software/index.html": "default",
+    "travel-agency-mobile-app/index.html": "default",
+    "travel-agency-website-development/index.html": "default",
+    "travel-booking-software/index.html": "default",
+    "travel-crm-software/index.html": "default",
+    "travel-crm.html": "default",
+    "travel-crm/index.html": "default",
+    "travel-erp.html": "default",
+    "travel-erp/index.html": "default",
+    "travel-mobile-app-development/index.html": "default",
+    "travel-technology/index.html": "default",
+    "travel-website-development/index.html": "default",
+    "trust-licences-certifications/index.html": "default",
+    "uk/software-development/index.html": "regional",
+    "uk/travel-agency-crm/index.html": "campaign",
+    "us/software-development/index.html": "regional",
+    "us/travel-agency-crm/index.html": "campaign",
+    "website-mobile-app-development/index.html": "default",
+    "white-label-crm/index.html": "default",
+    "white-label-travel-portal/index.html": "default",
+    "white-label-travel-website/index.html": "default"
+  },
+  "groups": {
+    "default": [
+      {
+        "before": "class=\"mobile-demo\" href=\"/demo-request/\" aria-label=\"Discuss Your Project\"",
+        "after": "class=\"mobile-demo\" data-project-entry href=\"/contact-us/#contact-form\" aria-label=\"Discuss Your Project\"",
+        "count": 1
+      },
+      {
+        "before": "class=\"button primary\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"button primary\" data-project-entry href=\"/contact-us/#contact-form\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"mobile-contact-demo\" data-project-entry href=\"/contact-us/#contact-form\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"nav-link\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"nav-link\" data-demo-entry href=\"/demo-request/#demo-form\">Request a Demo",
+        "count": 1
+      },
+      {
+        "before": "/assets/public-experience.js?v=20261025-media-review",
+        "after": "/assets/public-experience.js?v=20261106-contact-entry",
+        "count": 1
+      }
+    ],
+    "contact": [
+      {
+        "before": "class=\"mobile-demo\" href=\"/demo-request/\" aria-label=\"Discuss Your Project\"",
+        "after": "class=\"mobile-demo\" data-project-entry href=\"#contact-form\" aria-label=\"Discuss Your Project\"",
+        "count": 1
+      },
+      {
+        "before": "class=\"button primary\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"button primary\" data-project-entry href=\"#contact-form\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"mobile-contact-demo\" data-project-entry href=\"#contact-form\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"nav-link\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"nav-link\" data-demo-entry href=\"/demo-request/#demo-form\">Request a Demo",
+        "count": 1
+      },
+      {
+        "before": "/assets/public-experience.js?v=20261025-media-review",
+        "after": "/assets/public-experience.js?v=20261106-contact-entry",
+        "count": 1
+      }
+    ],
+    "demo": [
+      {
+        "before": "class=\"mobile-demo\" href=\"/demo-request/\" aria-label=\"Discuss Your Project\"",
+        "after": "class=\"mobile-demo\" data-project-entry href=\"/contact-us/#contact-form\" aria-label=\"Discuss Your Project\"",
+        "count": 1
+      },
+      {
+        "before": "class=\"button primary\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"button primary\" data-project-entry href=\"/contact-us/#contact-form\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"mobile-contact-demo\" data-project-entry href=\"/contact-us/#contact-form\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"nav-link\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"nav-link\" data-demo-entry href=\"#demo-form\">Request a Demo",
+        "count": 1
+      },
+      {
+        "before": "/assets/public-experience.js?v=20261025-media-review",
+        "after": "/assets/public-experience.js?v=20261106-contact-entry",
+        "count": 1
+      }
+    ],
+    "regional": [
+      {
+        "before": "class=\"mobile-demo\" href=\"/demo-request/\" aria-label=\"Discuss Your Project\"",
+        "after": "class=\"mobile-demo\" data-project-entry href=\"#regional-enquiry\" aria-label=\"Discuss Your Project\"",
+        "count": 1
+      },
+      {
+        "before": "class=\"button primary\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"button primary\" data-project-entry href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"mobile-contact-demo\" data-project-entry href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"nav-link\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"nav-link\" data-demo-entry href=\"/demo-request/#demo-form\">Request a Demo",
+        "count": 1
+      },
+      {
+        "before": "/assets/public-experience.js?v=20261025-media-review",
+        "after": "/assets/public-experience.js?v=20261106-contact-entry",
+        "count": 1
+      }
+    ],
+    "campaign": [
+      {
+        "before": "class=\"mobile-demo\" href=\"#regional-enquiry\" aria-label=\"Discuss Your Project\"",
+        "after": "class=\"mobile-demo\" data-project-entry href=\"#regional-enquiry\" aria-label=\"Discuss Your Project\"",
+        "count": 1
+      },
+      {
+        "before": "class=\"button primary\" href=\"#regional-enquiry\">Discuss Your Project",
+        "after": "class=\"button primary\" data-project-entry href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"#regional-enquiry\">Discuss Your Project",
+        "after": "class=\"mobile-contact-demo\" data-project-entry href=\"#regional-enquiry\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"nav-link\" href=\"#regional-enquiry\">Request a Demo",
+        "after": "class=\"nav-link\" data-demo-entry href=\"/demo-request/#demo-form\">Request a Demo",
+        "count": 1
+      },
+      {
+        "before": "/assets/public-experience.js?v=20261025-media-review",
+        "after": "/assets/public-experience.js?v=20261106-contact-entry",
+        "count": 1
+      }
+    ]
+  },
+  "assets": {
+    "assets/site.js": [
+      {
+        "before": "function header(page) {",
+        "after": "function projectEntryHref(page) {\n  if (/^(?:us|uk|india)SoftwareServices$/.test(page) || /^crmCampaign(?:US|GB|IN)$/.test(page)) return \"#regional-enquiry\";\n  if (page === \"contact\" && publicPagePath() === \"/contact-us/\") return \"#contact-form\";\n  return \"/contact-us/#contact-form\";\n}\n\nfunction header(page) {",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-demo\" href=\"/demo-request/\" aria-label=\"Discuss Your Project\"",
+        "after": "class=\"mobile-demo\" data-project-entry href=\"${projectEntryHref(page)}\" aria-label=\"Discuss Your Project\"",
+        "count": 1
+      },
+      {
+        "before": "class=\"button primary\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"button primary\" data-project-entry href=\"${projectEntryHref(page)}\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "class=\"nav-link\" href=\"/demo-request/\">Request a Demo",
+        "after": "class=\"nav-link\" data-demo-entry href=\"${page === \"demo\" ? \"#demo-form\" : \"/demo-request/#demo-form\"}\">Request a Demo",
+        "count": 1
+      },
+      {
+        "before": "function mobileContactBar() {",
+        "after": "function mobileContactBar(page) {",
+        "count": 1
+      },
+      {
+        "before": "class=\"mobile-contact-demo\" href=\"/demo-request/\">Discuss Your Project",
+        "after": "class=\"mobile-contact-demo\" data-project-entry href=\"${projectEntryHref(page)}\">Discuss Your Project",
+        "count": 1
+      },
+      {
+        "before": "${mobileContactBar()}",
+        "after": "${mobileContactBar(page)}",
+        "count": 1
+      }
+    ],
+    "assets/public-experience.js": [
+      {
+        "before": " function init() {",
+        "after": " const contactActionsBound = new WeakSet();\n function bindContactActions() {\n  const page = document.body.dataset.page;\n  const barLink = document.querySelector('.mobile-contact-bar [data-project-entry]');\n  if (page === 'demo' && barLink?.getAttribute('href') === '#demo-form') {\n   // The legacy mobile bar points at the demo form on this page.\n   barLink.href = '/contact-us/#contact-form';\n  }\n  if (page?.startsWith('crmCampaign')) {\n   const demo = document.querySelector('.topbar [data-demo-entry]');\n   if (demo?.getAttribute('href') === '#regional-enquiry') demo.href = '/demo-request/#demo-form';\n  }\n  const choice = document.querySelector('#home-project-service');\n  if (!choice || contactActionsBound.has(choice)) return;\n  contactActionsBound.add(choice);\n  const sync = () => {\n   const destination = new URL('/contact-us/#contact-form', location.origin);\n   if (choice.value && choice.value !== 'Need guidance') destination.searchParams.set('solution', choice.value);\n   const href = destination.pathname + destination.search + destination.hash;\n   document.querySelectorAll('[data-project-entry]').forEach(link => { link.href = href; });\n  };\n  choice.addEventListener('change', sync);\n  window.addEventListener('pageshow', sync);\n  sync();\n }\n function init() {\n  bindContactActions();",
+        "count": 1
+      }
+    ]
+  }
+}
