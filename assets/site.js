@@ -1809,35 +1809,31 @@ function improvedHomeHero(){return `<aside class="home-promotion" aria-label="Tr
   </nav>
   </div></div></section><aside class="home-proof-strip" aria-labelledby="home-proof-strip-title">
   <div class="container">
-    <h2 id="home-proof-strip-title">Evidence you can review</h2>
+    <h2 id="home-proof-strip-title">Team experience and company records</h2>
     <ul class="home-proof-strip-cards">
       <li class="home-proof-strip-card">
+        <strong class="home-proof-strip-value">2007</strong>
+        <h3>Team experience since 2007</h3>
+        <p>Industry experience reported by BANDEVI.</p>
+        <a href="/about-us/#about-leadership">Meet the team <span aria-hidden="true">→</span></a>
+      </li>
+      <li class="home-proof-strip-card">
+        <strong class="home-proof-strip-value">90,000+</strong>
+        <h3>Websites delivered by the team</h3>
+        <p>Combined team total reported by BANDEVI.</p>
+        <a href="/projects/bandevi-website/#crm-enquiry-case-study">See an example of our work <span aria-hidden="true">→</span></a>
+      </li>
+      <li class="home-proof-strip-card">
+        <strong class="home-proof-strip-value">5</strong>
+        <h3>Offices and service coverage</h3>
+        <p>India delivery base. Shared locations in the UK, US and Dubai. Remote service in Singapore.</p>
+        <a href="/offices/">See offices and service coverage <span aria-hidden="true">→</span></a>
+      </li>
+      <li class="home-proof-strip-card">
         <strong class="home-proof-strip-value">2026</strong>
-        <h3>Incorporated in India</h3>
+        <h3>BANDEVI incorporated in India</h3>
         <p><time datetime="2026-10-30">30 October 2026</time></p>
         <a href="/trust-licences-certifications/#company-registration">See CIN and GST records <span aria-hidden="true">→</span></a>
-      </li>
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value">1</strong>
-        <h3>Featured implementation</h3>
-        <p>BANDEVI’s own website</p>
-        <a href="/projects/bandevi-website/#crm-enquiry-case-study">Read the delivery record <span aria-hidden="true">→</span></a>
-      </li>
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value">3</strong>
-        <h3>Regional CRM guides</h3>
-        <p>Travel agency workflows</p>
-        <div class="home-proof-strip-markets">
-          <a href="/us/travel-agency-crm/" aria-label="Travel Agency CRM for the United States">US</a>
-          <a href="/uk/travel-agency-crm/" aria-label="Travel Agency CRM for the United Kingdom">UK</a>
-          <a href="/india/travel-agency-crm/" aria-label="Travel Agency CRM for India">India</a>
-        </div>
-      </li>
-      <li class="home-proof-strip-card">
-        <strong class="home-proof-strip-value home-proof-strip-place">Gurugram</strong>
-        <h3>Delivery base</h3>
-        <p>Palam Vihar, Haryana</p>
-        <a href="/offices/#gurugram-base">View address and directions <span aria-hidden="true">→</span></a>
       </li>
     </ul>
     <div class="home-brand-references" aria-labelledby="home-brand-references-title" role="region">
