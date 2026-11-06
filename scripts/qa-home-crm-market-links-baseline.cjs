@@ -78,5 +78,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original international office marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const editorial = require('./fixtures/home-editorial-approved.json');
+  for (const { before, after } of editorial[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage editorial marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
