@@ -12,6 +12,16 @@ const root=path.resolve(__dirname,'..'),live=process.argv.includes('--live'),out
   await context.route('**/*',r=>{const request=r.request();if(!request.url().startsWith(base))return r.abort();if(request.method()!=='GET'){writes.push({url:request.url(),body:request.postDataJSON()});if(live)return r.abort();}return r.continue();});
   const route='/'+slug+'/travel-agency-crm/';await page.goto(base+route+'?utm_source=google&utm_medium=cpc&utm_campaign=crm_buyer_'+slug+(source?'&source=1':''));
   const lab=page.locator('[data-crm-lab]'),form=page.locator('#regional-enquiry form');await lab.locator('[data-lab-controls]').waitFor();
+  const example=page.locator('[data-crm-example]'),message=form.locator('[name=message]');
+  assert.equal(await page.locator('aside[aria-labelledby="crm-workflow-example"] ol li').count(),3);
+  await example.press('Enter');
+  assert.equal(await message.inputValue(),await example.getAttribute('data-crm-example'));
+  await message.fill('Keep my actual CRM requirements.');
+  await example.click();
+  assert.equal(await message.inputValue(),'Keep my actual CRM requirements.');
+  assert.equal(await form.locator('[name=projectCountry]').inputValue(),country);
+  assert.equal(await form.locator('[name=quoteCurrency]').inputValue(),currency);
+  assert.equal(writes.length,0);
   assert.equal(await page.locator('h1').count(),1);assert.equal(await page.locator('.crm-package').count(),3);assert.equal(await page.locator('.crm-package-price').filter({hasText:'Custom quote in '+currency}).count(),3);assert.match(await page.locator('#crm-packages').innerText(),/hosting, licences, taxes, data migration, training, maintenance and ongoing support/);
   assert.equal(await lab.locator('[data-lab-market]').inputValue(),country);assert.equal(await lab.locator('[data-lab-quote-button]').isDisabled(),true);assert.equal(await lab.locator('[data-lab-followup]').isDisabled(),true);
   await lab.locator('[data-lab-assign]').click();assert.match(await lab.locator('[data-lab-status]').innerText(),/Choose a sample consultant/);

@@ -10,5 +10,5 @@ module.exports = (name, input) => {
     assert.equal(value.split(before).length - 1, count, 'Original contact entry: ' + name);
     value = value.split(before).join(after);
   }
-  return value;
+  return require('./qa-crm-workflow-pilot-baseline.cjs')(name, value);
 };

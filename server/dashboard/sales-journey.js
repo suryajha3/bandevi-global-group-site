@@ -74,7 +74,10 @@ function renderCampaignSalesReport(result){
 function renderCampaignSalesRows(){
  if(!csrf||!campaignSalesState||campaignSalesState.identity!==csrf)return;
  const country=$('campaign-sales-country').value,query=$('campaign-sales-search').value.trim().toLowerCase();
- const groups=campaignSalesState.groups.filter(g=>(country==='all'||g.country===country)&&(g.campaign||'Unattributed').toLowerCase().includes(query));
+ const groups=campaignSalesState.groups.filter(group =>
+  (country === 'all' || group.country === country) &&
+  [(group.campaign || 'Unattributed'), (group.landingPage || '')].some(value => value.toLowerCase().includes(query))
+ );
  const enquiryCount=groups.reduce((sum,g)=>sum+g.counts.enquiries,0);
  $('campaign-sales-summary').textContent=groups.length+' campaign '+(groups.length===1?'group':'groups')+' · '+enquiryCount+' '+(enquiryCount===1?'enquiry':'enquiries')+' · Qualified: '+groups.reduce((n,g)=>n+g.counts.qualified,0)+' · Completed demos: '+groups.reduce((n,g)=>n+g.counts.demoCompleted,0)+' · Published proposals: '+groups.reduce((n,g)=>n+g.counts.publishedProposals,0)+' · Currently Won: '+groups.reduce((n,g)=>n+g.counts.currentlyWon,0);
  const table=document.createElement('table');table.append(text('caption','Campaign-to-sales · saved enquiry cohort'));
