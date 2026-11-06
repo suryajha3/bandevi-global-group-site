@@ -11,6 +11,10 @@
   min-width: 0;
   touch-action: pan-y pinch-zoom;
 }
+.crm-campaign-hero .card[data-crm-promotions] > .eyebrow,
+.crm-campaign-hero .crm-promo-actions [data-crm-promo-enquiry] {
+  color: var(--brand-text-gold, #76551d);
+}
 .crm-promo-controls {
   display: flex;
   align-items: center;
