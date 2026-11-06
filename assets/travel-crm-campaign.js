@@ -1,6 +1,16 @@
 (() => {
  'use strict';
  function init(){
+  document.querySelectorAll('[data-crm-example]').forEach(link => link.addEventListener('click', event => {
+   if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+   const message = document.querySelector('#regional-enquiry form')?.elements.message;
+   if (!message) return;
+   if (!message.value.trim()) {
+    message.value = link.dataset.crmExample;
+    message.dispatchEvent(new Event('input', { bubbles: true }));
+   }
+   requestAnimationFrame(() => message.focus({ preventScroll: true }));
+  }));
   document.querySelectorAll('[data-travel-crm-enquiry]').forEach(link=>link.addEventListener('click',()=>{
    const form=document.querySelector('#regional-enquiry form');if(!form)return;
    const service=form.elements.interest;if(service){const option=[...service.options].find(o=>o.value==='CRM & ERP Package');if(option){service.value=option.value;service.dispatchEvent(new Event('change',{bubbles:true}));}}

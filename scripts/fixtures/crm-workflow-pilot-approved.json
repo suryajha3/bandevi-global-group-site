@@ -1,0 +1,80 @@
+{
+  "us/travel-agency-crm/index.html": [
+    {
+      "before": "<aside class=\"card\"><span class=\"eyebrow\">A focused starting scope</span><h2>From first inquiry to the next conversation.</h2><ol class=\"crm-campaign-steps\"><li><strong>Capture the inquiry</strong><span>Keep trip requirements and inquiry source together.</span></li><li><strong>Assign a consultant</strong><span>Agree who owns the inquiry and its sales stage.</span></li><li><strong>Plan the follow-up</strong><span>Track the next action, quotation and due date.</span></li></ol><p>Your proposal confirms features, migration, integrations, delivery milestones and support.</p></aside>",
+      "after": "<aside class=\"card\" aria-labelledby=\"crm-workflow-example\"><span class=\"eyebrow\">Fictional CRM example</span><h2 id=\"crm-workflow-example\">Track incoming inquiries</h2><ol class=\"crm-campaign-steps\"><li><strong>Capture the trip brief</strong><span>Demo inquiry TA-104 records a website inquiry for a small group trip, with dates and budget still to confirm.</span></li><li><strong>Assign one consultant</strong><span>The sales lead assigns TA-104 to Maya so the team can see who owns the reply.</span></li><li><strong>Set the next action</strong><span>Maya schedules a follow-up to confirm the travelers’ requirements before preparing a quote.</span></li></ol><p>Your proposal confirms the workflow, fields and responsibilities for your team.</p></aside>"
+    },
+    {
+      "before": "<a class=\"button dark\" href=\"#regional-enquiry\">Discuss your CRM workflow ↗</a>",
+      "after": "<a class=\"button dark\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for capturing inquiries, assigning a consultant and tracking the next follow-up.\">Discuss this CRM workflow ↗</a>"
+    },
+    {
+      "before": "/assets/travel-crm-campaign.js?v=20261017-campaign",
+      "after": "/assets/travel-crm-campaign.js?v=20261106-workflow-pilot"
+    }
+  ],
+  "uk/travel-agency-crm/index.html": [
+    {
+      "before": "<aside class=\"card\"><span class=\"eyebrow\">A focused starting scope</span><h2>From first enquiry to the next conversation.</h2><ol class=\"crm-campaign-steps\"><li><strong>Capture the enquiry</strong><span>Keep trip requirements and enquiry source together.</span></li><li><strong>Assign a consultant</strong><span>Agree who owns the enquiry and its sales stage.</span></li><li><strong>Plan the follow-up</strong><span>Track the next action, quotation and due date.</span></li></ol><p>Your proposal confirms features, migration, integrations, delivery milestones and support.</p></aside>",
+      "after": "<aside class=\"card\" aria-labelledby=\"crm-workflow-example\"><span class=\"eyebrow\">Fictional CRM example</span><h2 id=\"crm-workflow-example\">Follow up on travel quotations</h2><ol class=\"crm-campaign-steps\"><li><strong>Record the quoted version</strong><span>Demo enquiry TA-205 records version 2 of a family holiday quotation, so the consultant knows which offer the customer saw.</span></li><li><strong>Set a follow-up date</strong><span>The consultant schedules a check-in before the quotation expires and records who will make contact.</span></li><li><strong>Record the response</strong><span>If the customer changes the dates, the consultant logs the request and prepares a separate revised quotation.</span></li></ol><p>Your proposal confirms the workflow, fields and responsibilities for your team.</p></aside>"
+    },
+    {
+      "before": "<a class=\"button dark\" href=\"#regional-enquiry\">Discuss your CRM workflow ↗</a>",
+      "after": "<a class=\"button dark\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for recording quotation versions, scheduling follow-ups and tracking customer replies.\">Discuss this CRM workflow ↗</a>"
+    },
+    {
+      "before": "/assets/travel-crm-campaign.js?v=20261017-campaign",
+      "after": "/assets/travel-crm-campaign.js?v=20261106-workflow-pilot"
+    }
+  ],
+  "india/travel-agency-crm/index.html": [
+    {
+      "before": "<aside class=\"card\"><span class=\"eyebrow\">A focused starting scope</span><h2>From first enquiry to the next conversation.</h2><ol class=\"crm-campaign-steps\"><li><strong>Capture the enquiry</strong><span>Keep trip requirements and enquiry source together.</span></li><li><strong>Assign a consultant</strong><span>Agree who owns the enquiry and its sales stage.</span></li><li><strong>Plan the follow-up</strong><span>Track the next action, quotation and due date.</span></li></ol><p>Your proposal confirms features, migration, integrations, delivery milestones and support.</p></aside>",
+      "after": "<aside class=\"card\" aria-labelledby=\"crm-workflow-example\"><span class=\"eyebrow\">Fictional CRM example</span><h2 id=\"crm-workflow-example\">Hand a confirmed sale to operations</h2><ol class=\"crm-campaign-steps\"><li><strong>Confirm what the customer accepted</strong><span>Demo enquiry TA-306 records the accepted itinerary version and the items the team still needs to check.</span></li><li><strong>Create a handover task</strong><span>The sales owner passes dates, inclusions and open questions to the operations coordinator.</span></li><li><strong>Review outstanding checks</strong><span>Operations reviews supplier confirmations and payment status before marking the file ready.</span></li></ol><p>Your proposal confirms the workflow, fields and responsibilities for your team.</p></aside>"
+    },
+    {
+      "before": "<a class=\"button dark\" href=\"#regional-enquiry\">Discuss your CRM workflow ↗</a>",
+      "after": "<a class=\"button dark\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for handing accepted quotations from sales to operations and tracking outstanding checks.\">Discuss this CRM workflow ↗</a>"
+    },
+    {
+      "before": "/assets/travel-crm-campaign.js?v=20261017-campaign",
+      "after": "/assets/travel-crm-campaign.js?v=20261106-workflow-pilot"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "const crmCampaignMarkets=",
+      "after": "const crmCampaignWorkflowMarkup = {\n  \"US\": \"<aside class=\\\"card\\\" aria-labelledby=\\\"crm-workflow-example\\\"><span class=\\\"eyebrow\\\">Fictional CRM example</span><h2 id=\\\"crm-workflow-example\\\">Track incoming inquiries</h2><ol class=\\\"crm-campaign-steps\\\"><li><strong>Capture the trip brief</strong><span>Demo inquiry TA-104 records a website inquiry for a small group trip, with dates and budget still to confirm.</span></li><li><strong>Assign one consultant</strong><span>The sales lead assigns TA-104 to Maya so the team can see who owns the reply.</span></li><li><strong>Set the next action</strong><span>Maya schedules a follow-up to confirm the travelers’ requirements before preparing a quote.</span></li></ol><p>Your proposal confirms the workflow, fields and responsibilities for your team.</p></aside>\",\n  \"GB\": \"<aside class=\\\"card\\\" aria-labelledby=\\\"crm-workflow-example\\\"><span class=\\\"eyebrow\\\">Fictional CRM example</span><h2 id=\\\"crm-workflow-example\\\">Follow up on travel quotations</h2><ol class=\\\"crm-campaign-steps\\\"><li><strong>Record the quoted version</strong><span>Demo enquiry TA-205 records version 2 of a family holiday quotation, so the consultant knows which offer the customer saw.</span></li><li><strong>Set a follow-up date</strong><span>The consultant schedules a check-in before the quotation expires and records who will make contact.</span></li><li><strong>Record the response</strong><span>If the customer changes the dates, the consultant logs the request and prepares a separate revised quotation.</span></li></ol><p>Your proposal confirms the workflow, fields and responsibilities for your team.</p></aside>\",\n  \"IN\": \"<aside class=\\\"card\\\" aria-labelledby=\\\"crm-workflow-example\\\"><span class=\\\"eyebrow\\\">Fictional CRM example</span><h2 id=\\\"crm-workflow-example\\\">Hand a confirmed sale to operations</h2><ol class=\\\"crm-campaign-steps\\\"><li><strong>Confirm what the customer accepted</strong><span>Demo enquiry TA-306 records the accepted itinerary version and the items the team still needs to check.</span></li><li><strong>Create a handover task</strong><span>The sales owner passes dates, inclusions and open questions to the operations coordinator.</span></li><li><strong>Review outstanding checks</strong><span>Operations reviews supplier confirmations and payment status before marking the file ready.</span></li></ol><p>Your proposal confirms the workflow, fields and responsibilities for your team.</p></aside>\"\n};\nconst crmCampaignWorkflowMessages = {\n  \"US\": \"We would like to discuss a travel agency CRM for capturing inquiries, assigning a consultant and tracking the next follow-up.\",\n  \"GB\": \"We would like to discuss a travel agency CRM for recording quotation versions, scheduling follow-ups and tracking customer replies.\",\n  \"IN\": \"We would like to discuss a travel agency CRM for handing accepted quotations from sales to operations and tracking outstanding checks.\"\n};\nconst crmCampaignMarkets="
+    },
+    {
+      "before": "<a class=\"button dark\" href=\"#regional-enquiry\">Discuss your CRM workflow ↗</a>",
+      "after": "<a class=\"button dark\" href=\"#regional-enquiry\" data-crm-example=\"${crmCampaignWorkflowMessages[code]}\">Discuss this CRM workflow ↗</a>"
+    },
+    {
+      "before": "<aside class=\"card\"><span class=\"eyebrow\">A focused starting scope</span><h2>From first enquiry to the next conversation.</h2><ol class=\"crm-campaign-steps\"><li><strong>Capture the enquiry</strong><span>Keep trip requirements and enquiry source together.</span></li><li><strong>Assign a consultant</strong><span>Agree who owns the enquiry and its sales stage.</span></li><li><strong>Plan the follow-up</strong><span>Track the next action, quotation and due date.</span></li></ol><p>Your proposal confirms features, migration, integrations, delivery milestones and support.</p></aside>",
+      "after": "${crmCampaignWorkflowMarkup[code]}"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "sales-journey.js?v=20261017-markets",
+      "after": "sales-journey.js?v=20261106-workflow-pilot"
+    },
+    {
+      "before": "Campaign tag contains<input id=\"campaign-sales-search\" type=\"search\" maxlength=\"80\" placeholder=\"All campaigns, including unattributed\">",
+      "after": "Campaign or landing page contains<input id=\"campaign-sales-search\" type=\"search\" maxlength=\"80\" placeholder=\"e.g. /travel-agency-crm/\">"
+    }
+  ],
+  "assets/travel-crm-campaign.js": [
+    {
+      "before": " function init(){\n",
+      "after": " function init(){\n  document.querySelectorAll('[data-crm-example]').forEach(link => link.addEventListener('click', event => {\n   if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;\n   const message = document.querySelector('#regional-enquiry form')?.elements.message;\n   if (!message) return;\n   if (!message.value.trim()) {\n    message.value = link.dataset.crmExample;\n    message.dispatchEvent(new Event('input', { bubbles: true }));\n   }\n   requestAnimationFrame(() => message.focus({ preventScroll: true }));\n  }));\n"
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": " const groups=campaignSalesState.groups.filter(g=>(country==='all'||g.country===country)&&(g.campaign||'Unattributed').toLowerCase().includes(query));\n",
+      "after": " const groups=campaignSalesState.groups.filter(group =>\n  (country === 'all' || group.country === country) &&\n  [(group.campaign || 'Unattributed'), (group.landingPage || '')].some(value => value.toLowerCase().includes(query))\n );\n"
+    }
+  ]
+}
