@@ -1839,7 +1839,12 @@ function improvedHomeHero(){return `<aside class="home-promotion" aria-label="Tr
     <div class="home-brand-references" aria-labelledby="home-brand-references-title" role="region">
       <h2 id="home-brand-references-title">Travel brands in our portfolio</h2>
       <p>Public project references with development attribution supplied by BANDEVI’s owner.</p>
-      <ul class="home-brand-references-list">
+      <div class="home-brand-slider-controls" data-brand-slider-controls role="group" aria-label="Portfolio slider controls" hidden>
+        <button type="button" data-brand-previous aria-label="Previous project" aria-controls="home-brand-slider-track">←</button>
+        <span data-brand-slider-status role="status" aria-atomic="true"></span>
+        <button type="button" data-brand-next aria-label="Next project" aria-controls="home-brand-slider-track">→</button>
+      </div>
+      <ul class="home-brand-references-list" id="home-brand-slider-track">
         <li><a href="/projects/trip-sarathi/"><strong>Trip Sarathi</strong><span>Flight search and travel navigation</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
         <li><a href="/projects/maximtrip/"><strong>MaximTrip</strong><span>Travel portal and booking navigation</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
         <li><a href="/projects/tripodeal/"><strong>TripOdeal</strong><span>Holiday packages and booking lookup</span><span class="home-brand-reference-arrow" aria-hidden="true">→</span></a></li>
