@@ -36,12 +36,11 @@
 }
 .home-proof-strip-value {
   color: #76551d;
-  font-size: clamp(38px, 4vw, 60px);
+  font-size: clamp(30px, 3.7vw, 56px);
   font-weight: 750;
   line-height: 1.04;
 }
 .home-proof-strip-card:nth-child(even) .home-proof-strip-value { color: #1b2a3d; }
-.home-proof-strip-place { font-size: clamp(26px, 2.65vw, 40px); }
 .home-proof-strip-card h3 {
   margin: 4px 0 0;
   font-size: clamp(16px, 1.5vw, 20px);
