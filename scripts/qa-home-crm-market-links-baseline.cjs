@@ -58,5 +58,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage technology marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const industryGrid = require('./fixtures/home-industry-grid-approved.json');
+  for (const { before, after } of industryGrid[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage industry grid marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
