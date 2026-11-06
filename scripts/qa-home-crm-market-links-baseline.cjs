@@ -2,6 +2,7 @@
 const assert = require('node:assert/strict');
 const updates = require('./fixtures/home-crm-market-links-approved.json');
 const promotions = require('./fixtures/travel-crm-promotions-approved.json');
+const banner = require('./fixtures/home-promotion-banner-approved.json');
 
 module.exports = (name, source) => {
   let result = source;
@@ -11,6 +12,10 @@ module.exports = (name, source) => {
   }
   for (const { before, after } of promotions[name] || []) {
     assert.equal(result.split(before).length - 1, 1, 'Original CRM promotion marker: ' + name);
+    result = result.replace(before, () => after);
+  }
+  for (const { before, after } of banner[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage promotion banner marker: ' + name);
     result = result.replace(before, () => after);
   }
   return result;

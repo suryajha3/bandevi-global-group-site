@@ -5,7 +5,8 @@ const root=path.resolve(__dirname,'..'),source=fs.readFileSync(path.join(root,'a
 const start=source.indexOf('function improvedHomeHero()'),end=source.indexOf('\nfunction buyerConfidenceSection',start);assert(start>=0&&end>start);
 const markup=vm.runInNewContext(source.slice(start,end)+';improvedHomeHero()');
 const file=path.join(root,'index.html');let html=fs.readFileSync(file,'utf8');
-const a=html.indexOf('<section class="home-professional-hero"'),b=html.indexOf('<section class="section home-buyer-trust"',a);assert(a>=0&&b>a);
+const banner=html.indexOf('<aside class="home-promotion"');
+const a=banner>=0?banner:html.indexOf('<section class="home-professional-hero"'),b=html.indexOf('<section class="section home-buyer-trust"',a);assert(a>=0&&b>a);
 html=html.slice(0,a)+markup+html.slice(b);html=html.replace('id="selected-work"><a href="/case-studies/','id="project-reference-links"><a href="/case-studies/');
 if(!html.includes('/assets/home-focus.css'))html=html.replace('</head>','<link rel="stylesheet" href="/assets/home-focus.css?v=20261030">\n</head>');
 fs.writeFileSync(file,html);console.log('Homepage-only prerender complete; no runtime enhancements serialized.');
