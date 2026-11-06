@@ -54,7 +54,8 @@ class MarketReportingTests(unittest.TestCase):
                       interest='Travel Technology Planning',source='/project-brief/',
                       message='Guided project brief',projectBrief=brief,
                       attribution=dict(channel='direct_unknown',industry='travel' if country!='GB' else 'retail',
-                                       industry_need='crm' if country!='GB' else 'orders'),
+                                       industry_need='crm' if country!='GB' else 'orders',
+                                       home_service='crm-erp' if country=='US' else 'unlisted'),
                       qualification=dict(version=1,country=country,currency={'US':'USD','GB':'GBP','IN':'INR'}[country],
                                          budget='To discuss',contact=dict(channel='Email',date='',time='',timezone='UTC')))
             status,result,_=self.request('/api/enquiries',data)
@@ -83,9 +84,13 @@ class MarketReportingTests(unittest.TestCase):
         for key,outcomes in [(('travel','US'),(1,1,1)),(('retail','GB'),(1,0,0)),(('travel','IN'),(1,0,0))]:
             group=industries[key]
             self.assertEqual(tuple(group[k] for k in ('enquiries','qualified','demoCompleted')),outcomes)
+        home=self.report()['homeServices']
+        self.assertEqual([(g['service'],g['country'],g['enquiries'],g['qualified'],g['demoCompleted']) for g in home],
+                         [('crm-erp','US',1,1,1)])
         with isolated.enquiries.connect() as db:
             db.execute("UPDATE enquiry_workflow SET owner='another@example.test' WHERE id=?",(refs[0],))
         self.assertEqual([group['country'] for group in self.report()['portfolio']],['GB'])
+        self.assertEqual(self.report()['homeServices'],[])
 
     def test_role_qa_cohort_and_empty_market_boundaries(self):
         ref=self.lead('US');self.lead('IN',email_status='qa-verified');self.lead('GB',created=int(time.time())-91*86400)

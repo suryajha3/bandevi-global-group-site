@@ -624,3 +624,10 @@ body[data-page="home"] main .home-assurance { font-size: 14px; line-height: 1.6;
   body[data-page="home"] .home-work-card-copy { padding: 20px; }
   body[data-page="home"] .home-work-card-copy small { min-height: 0; }
 }
+body[data-page="home"] main #compare-services { padding-block: clamp(28px, 4vw, 48px); }
+#compare-services { scroll-margin-top: 110px; }
+#compare-services .home-service-description { margin: 0; }
+#compare-services .comparison-scope { margin-block: 12px; }
+#compare-services .workflow-visual { margin-bottom: 12px; }
+.home-reference-gallery .home-brand-references { padding-block: clamp(24px, 4vw, 48px); }
+.home-proof-strip { padding-bottom: 0; }

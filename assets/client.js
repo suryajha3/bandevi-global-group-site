@@ -308,9 +308,19 @@ function showIndustryEntry(form) {
   form.prepend(context);
 }
 
+const homepageServiceLabels = {
+  'website-app': 'Build a website or app',
+  'crm-erp': 'Improve sales and operations',
+  'travel-platform': 'Build a travel platform'
+};
+const homepageServiceChoice = new URLSearchParams(location.search).get('home_service');
+const homepageService = location.pathname === '/contact-us/' && Object.hasOwn(homepageServiceLabels, homepageServiceChoice)
+  ? homepageServiceChoice : '';
+
 function enquiryMessage(form, data) {
   return [
     industryEntry ? 'Industry enquiry: ' + industryEntryLabel() : '',
+    homepageService ? 'Homepage service choice: ' + homepageServiceLabels[homepageService] : '',
     form.elements.crmPackage && ['essentials','team','connected'].includes(data.crmPackage) ? 'CRM starting scope: '+({essentials:'Lead essentials',team:'Sales team workflow',connected:'Connected operations'})[data.crmPackage]+' (to discuss)' : '',
     ['INR','USD','GBP','EUR'].includes(data.quoteCurrency) ? 'Preferred quote currency: ' + data.quoteCurrency : '',
     ['GB','US','IN','other'].includes(data.projectCountry) ? 'Business country: ' + ({GB:'United Kingdom',US:'United States',IN:'India',other:'Another country'})[data.projectCountry] : '',
@@ -746,6 +756,7 @@ function bindForms() {
           attribution: {
             ...Object.fromEntries(Object.entries(enquiryAttribution).filter(([key]) => key !== 'expires')),
             ...(industryEntry ? {industry: industryEntry.industry, industry_need: industryEntry.need} : {}),
+            ...(homepageService ? {home_service: homepageService} : {}),
             ...(['Travel CRM Package', 'CRM & ERP Package'].includes(data.interest) && crmPromotions.includes(form.dataset.crmPromotion)
               ? { crm_promotion: form.dataset.crmPromotion } : {})
           }

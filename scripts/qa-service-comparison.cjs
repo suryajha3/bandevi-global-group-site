@@ -48,6 +48,7 @@ let server, browser;
           if(i) await page.goto(base + route);
           const link=page.locator('#compare-services .button').nth(i);
           const href=new URL(await link.getAttribute('href'),base);
+          assert.equal(href.searchParams.get('home_service'),['website-app','crm-erp','travel-platform'][i]);
           assert.equal(href.pathname,'/contact-us/');assert.equal(href.hash,'#contact-form');assert.equal(href.searchParams.get('solution'),services[i]);
           await Promise.all([page.waitForURL(url=>url.pathname==='/contact-us/'),link.click()]);
           assert.equal(await page.locator('#contact-interest').inputValue(),services[i]);
