@@ -88,5 +88,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original public office table marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const demoAvailability = require('./fixtures/regional-demo-availability-approved.json');
+  for (const { before, after } of demoAvailability[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original regional demo availability marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
