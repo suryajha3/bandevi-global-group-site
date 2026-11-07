@@ -279,6 +279,53 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(item['proposalFeedback']['owner'],dashboard.USER)
         self.assertEqual(item['proposalFeedback']['requests'][0]['revision'],1)
 
+    def test_kickoff_checklist_assignment_and_start_preserve_accepted_revision(self):
+        ref,_ = self.create()
+        other,_ = self.create()
+        cookie,csrf,_ = self.client(ref)
+        staff_route='/api/admin/workspace/kickoff'
+        client_route='/api/client/kickoff'
+        queue='/api/admin/workspace/kickoff-queue'
+        self.assertEqual(self.request(queue,cookie=cookie)[0],401)
+        self.assertNotIn('kickoff',self.request('/api/client/project?reference='+ref,cookie=cookie)[1])
+        pid=self.proposal(ref)
+        self.assertEqual(self.change(ref,'publish',id=pid)[0],200)
+        self.assertEqual(self.request('/api/client/accept',dict(reference=ref,id=pid,name='Synthetic approver',agree=True),cookie,csrf)[0],200)
+        agent=uuid.uuid4().hex+'@example.test';password='Synthetic-delivery-owner-password'
+        with enquiries.connect() as db:
+            db.execute('INSERT INTO team_users VALUES(?,?,?,?,1)',(agent,'Synthetic delivery owner','agent',dashboard.password_hash(password)))
+        _,agent_session,headers=self.request('/api/admin/login',dict(email=agent,password=password))
+        agent_cookie=headers['Set-Cookie'].split(';')[0]
+        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])
+        now=int(time.time());slot=now+600
+        plan=dict(reference=ref,version=0,action='plan',owner=agent,materials='Share a sample import file through the agreed channel.',scheduled=slot)
+        self.assertEqual(self.request(staff_route,plan,self.admin,self.admin_csrf)[0],200)
+        own=self.request(queue,cookie=agent_cookie)[1]
+        self.assertEqual([(row['reference'],row['owner']) for row in own['items']],[(ref,agent)])
+        self.assertFalse(own['canAssign'])
+        self.assertEqual(self.request('/api/admin/workspace/project?reference='+ref,cookie=agent_cookie)[0],404)
+        self.assertEqual(self.request(staff_route,dict(plan,version=1),agent_cookie,agent_session['csrf'])[0],403)
+        checklist=dict(reference=ref,version=1,contact='Synthetic project contact',materialsReady=True,confirmed=True)
+        self.assertEqual(self.request(client_route,dict(checklist,reference=other),cookie,csrf)[0],404)
+        self.assertEqual(self.request(client_route,checklist,cookie,csrf)[0],200)
+        self.assertEqual(self.request(client_route,checklist,cookie,csrf)[0],409)
+        second=self.proposal(ref)
+        self.assertEqual(self.change(ref,'publish',id=second)[0],200)
+        self.assertEqual(self.request('/api/client/accept',dict(reference=ref,id=second,name='Synthetic approver',agree=True),cookie,csrf)[0],200)
+        self.assertEqual(self.request(staff_route,dict(reference=ref,version=2,action='start'),agent_cookie,agent_session['csrf'])[0],409)
+        self.assertEqual(self.request(staff_route,dict(plan,version=2,scheduled=slot+60,materials='Share the revised import file.'),self.admin,self.admin_csrf)[0],200)
+        project=self.request('/api/client/project?reference='+ref,cookie=cookie)[1]
+        self.assertEqual(project['kickoff']['proposal'],pid)
+        self.assertEqual(project['kickoff']['ownerName'],'Synthetic delivery owner')
+        self.assertNotIn(agent,json.dumps(project['kickoff']))
+        self.assertEqual((project['kickoff']['confirmed'],project['kickoff']['materials_ready']),(0,0))
+        self.assertEqual(self.request(client_route,dict(checklist,version=3),cookie,csrf)[0],200)
+        with patch.object(time,'time',return_value=slot+61):
+            self.assertEqual(self.request(staff_route,dict(reference=ref,version=4,action='start'),agent_cookie,agent_session['csrf'])[0],200)
+        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])
+        self.assertGreater(self.request('/api/client/project?reference='+ref,cookie=cookie)[1]['kickoff']['started'],0)
+        self.assertEqual(self.request(client_route,dict(checklist,version=5),cookie,csrf)[0],409)
+
     def test_agent_project_scope_and_invite_restriction(self):
         ref,email=self.create();other,_=self.create();agent=uuid.uuid4().hex+'@example.com';password='Synthetic-agent-password'
         self.assertEqual(self.request('/api/admin/team',{'email':agent,'name':'Test agent','role':'agent','password':password,'active':True},self.admin,self.admin_csrf)[0],200)
