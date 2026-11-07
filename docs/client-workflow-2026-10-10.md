@@ -26,6 +26,10 @@ In Team Inbox, use **Demo recovery → Proposal reviews**. Open the linked revis
 
 **Reports → Proposal review outcomes** groups US, UK and India by saved business country and first review booking date. A revision counts once even after a cancellation and rebooking. Acceptance requires the exact reviewed revision and a recorded acceptance after booking. Wins are currently Won enquiries with a recorded Won event after that acceptance, counted once per deal.
 
+After recording an attended review, assigned staff can publish a reviewed decision card on the current unexpired revision. Enter a client-facing recap, and add the first milestone, open question or agreed date if applicable. The card uses the amount and currency recorded on the proposal and places the existing acceptance and feedback controls beside the recap. A newer draft can include a short change summary that becomes visible on publication. Earlier cards stay with their original revision.
+
+In **Demo recovery → Proposal decisions**, review dates due in the next seven days or overdue, open questions on current cards, and customer proposal questions awaiting a visible reply. A staff-only note leaves the question pending. The proposal review report also shows shared cards, acceptances on the exact revision after sharing and distinct Won deals after those acceptances.
+
 ## Client kickoff
 
 Accepting a proposal makes the project’s kickoff checklist available in Client Workspace. The checklist links to the accepted revision. The customer supplies the primary project contact, confirms when requested materials have been shared through private Support, and confirms the proposed kickoff time in their local time zone.

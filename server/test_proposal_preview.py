@@ -26,6 +26,8 @@ with enquiries.connect() as db:
         db.execute('INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,accepted,accepted_by,published) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(f'{i+1:024x}','BG-PDF-OWN',i+1,'Synthetic proposal '+str(i+1),scope,'Recorded commercial terms only.\n\nPayment milestones: as agreed in this revision.',123456,'INR',expiry,status,now-i,dashboard.USER,now-50 if status=='accepted' else None,'Synthetic client <client@qa.example>' if status=='accepted' else None,published))
     db.execute('INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,published) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',('f'*24,'BG-PDF-OTHER',1,'Other private proposal','Other scope','Other terms',500,'USD',now+86400,'published',now,dashboard.USER,now))
     db.execute('INSERT INTO demo_slots VALUES(?,?,30,?,1)',('a'*24,now+7200,dashboard.USER))
+    db.execute("""INSERT INTO client_proposal_decisions(proposal,recap,milestone,published,version)
+                  VALUES(?,'Review a single enquiry pipeline.','Import approved sample fields.',?,1)""",(f'{4:024x}',now-100))
 server=enquiries.ThreadingHTTPServer(('127.0.0.1',0),enquiries.Handler);server.daemon_threads=True;enquiries.ORIGINS.add('http://127.0.0.1:'+str(server.server_port))
 print(server.server_port,flush=True)
 try:server.serve_forever()

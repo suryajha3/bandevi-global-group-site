@@ -1,9 +1,11 @@
 """Derived, access-scoped recovery work. No automatic outreach or stage changes."""
+import datetime
 import json
 import time
 from urllib.parse import parse_qs,urlsplit
 import client_workflow
 import growth_workbench
+import operations
 import sales_journey
 
 REASONS={
@@ -15,7 +17,14 @@ REASONS={
     'proposal':('Proposal awaiting decision','Review the current proposal and record the next agreed follow-up.'),
     'feedback':('Proposal feedback','Reply to the customer or prepare the requested revision.'),
     'proposal_review':('Proposal reviews','Confirm joining details, record attendance or complete the sales follow-up.'),
+    'proposal_decision':('Proposal decisions','Review the decision date or reply to an unanswered proposal question.'),
 }
+
+DECISION_FLAGS="""d.published>0 AND p.status='published' AND
+    (d.open_question!='' OR (d.due!='' AND d.due<=?))"""
+UNANSWERED_QUESTION="""f.kind='question' AND t.status!='Closed' AND
+    (SELECT CASE WHEN m.sender!='' THEN m.sender WHEN m.actor=project.email THEN 'client' ELSE 'staff' END
+      FROM client_ticket_messages m WHERE m.ticket=t.id AND m.internal=0 ORDER BY m.id DESC LIMIT 1)='client'"""
 
 
 def queue(db,identity,query,now=None):
@@ -26,7 +35,10 @@ def queue(db,identity,query,now=None):
     if market not in ('',*growth_workbench.COUNTRIES) or bucket not in ('all',*REASONS) or days not in (7,30,90,365) or not 0<=offset<=1000000:
         raise ValueError('Choose valid recovery filters.')
     from dashboard import business_today
-    today=business_today().isoformat();since=now-days*86400;args=[since]
+    today=business_today().isoformat();since=now-days*86400
+    decision_today=datetime.datetime.fromtimestamp(now,operations.INDIA).date()
+    decision_soon=(decision_today+datetime.timedelta(days=7)).isoformat()
+    args=[since,decision_soon]
     access=' AND w.owner=?' if identity['role']=='agent' else ''
     if access:args.append(identity['actor'])
     rows=db.execute("""SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') stage,COALESCE(w.owner,'') owner,
@@ -38,7 +50,12 @@ def queue(db,identity,query,now=None):
           SELECT 1 FROM client_proposal_reviews r JOIN client_proposals p ON p.id=r.proposal
           WHERE r.reference=e.id AND (r.state='booked' OR
             (r.state IN ('attended','no_show') AND r.followed=0 AND p.status!='accepted'
-              AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')))))"""+access,args)
+              AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')))) OR EXISTS (
+          SELECT 1 FROM client_proposal_decisions d JOIN client_proposals p ON p.id=d.proposal
+          WHERE p.reference=e.id AND COALESCE(w.stage,'New') NOT IN ('Won','Lost') AND """+DECISION_FLAGS+""") OR EXISTS (
+          SELECT 1 FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id
+          JOIN client_projects project ON project.reference=t.reference
+          WHERE t.reference=e.id AND """+UNANSWERED_QUESTION+"))"+access,args)
     items=[];counts=dict.fromkeys(('all',*REASONS),0)
     for row in rows:
         payload=json.loads(row['payload']);country=growth_workbench.country(payload)
@@ -60,6 +77,21 @@ def queue(db,identity,query,now=None):
                             'status':status,'host':review['host']})
         if reviews:
             reasons.append('proposal_review');due.append(reviews[0]['starts'])
+        decisions=[]
+        if row['stage'] not in ('Won','Lost'):
+            for decision in db.execute("""SELECT p.id,p.revision,d.due,d.open_question,d.published
+                FROM client_proposal_decisions d JOIN client_proposals p ON p.id=d.proposal
+                WHERE p.reference=? AND """+DECISION_FLAGS+' ORDER BY d.due,p.revision',(ref,decision_soon)):
+                date=decision['due'];overdue=bool(date and date<decision_today.isoformat())
+                decisions.append({'proposalId':decision['id'],'revision':decision['revision'],'due':date,
+                    'overdue':overdue,'dueToday':date==decision_today.isoformat(),'openQuestion':bool(decision['open_question'])})
+                due.append(int(datetime.datetime.fromisoformat(date).replace(tzinfo=operations.INDIA).timestamp()) if date else decision['published'])
+        questions=[dict(question) for question in db.execute("""SELECT t.id,t.due,p.revision
+            FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id
+            JOIN client_projects project ON project.reference=t.reference JOIN client_proposals p ON p.id=f.proposal
+            WHERE t.reference=? AND """+UNANSWERED_QUESTION+' ORDER BY t.due,t.id',(ref,))]
+        if decisions or questions:
+            reasons.append('proposal_decision');due.extend(question['due'] for question in questions)
         in_cohort = row['created']>=since and row['stage'] not in ('Won','Lost')
         booking=db.execute('SELECT b.state,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(ref,)).fetchone()
         record=sales_journey.record(db,ref)
@@ -91,8 +123,11 @@ def queue(db,identity,query,now=None):
         if feedback:
             items[-1]['proposalFeedback']={'owner':client_workflow.sales_owner(db,ref),'overdue':feedback[0]['due']<=now,'requests':feedback}
         if reviews:items[-1]['proposalReviews']=reviews
-    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue')),item['due'],item['reference']))
-    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Booked proposal reviews stay in the queue even for older or closed enquiries. Attended and missed reviews stay in follow-up while the deal remains open and the revision is unaccepted. Other recovery work uses active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
+        if decisions or questions:
+            items[-1]['proposalDecisions']={'dates':decisions,'questions':questions,
+                'overdue':any(decision['overdue'] for decision in decisions) or any(question['due']<=now for question in questions)}
+    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue') or item.get('proposalDecisions',{}).get('overdue')),item['due'],item['reference']))
+    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Booked proposal reviews stay in the queue even for older or closed enquiries. Attended and missed reviews stay in follow-up while the deal remains open and the revision is unaccepted. Proposal decisions flags dates due within seven days or overdue, open questions on current cards, and proposal questions whose latest visible message is from the client. Other recovery work uses active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
 
 
 def get(handler,connect,identity):

@@ -1,5 +1,6 @@
 """Synthetic client/staff boundary tests; never use live records or send mail."""
 import base64
+import datetime
 import json
 import re
 import time
@@ -57,6 +58,64 @@ class ClientTests(unittest.TestCase):
     def demo_change(self,ref,action='record',cookie=None,csrf=None,**data):
         state=self.journey(ref,cookie)[1]['record']
         return self.request('/api/admin/sales-journey',{'reference':ref,'version':state['version'],'scheduleEvent':state['scheduleEvent'],'action':action,'requirements':'Sales workflow, named owners and quoted integrations.','outcome':'Not recorded',**data},cookie or self.admin,csrf or self.admin_csrf)
+
+    def test_decision_card_and_questions_stay_with_the_reviewed_revision(self):
+        ref,_=self.create()
+        client,csrf,_=self.client(ref)
+        first=self.proposal(ref)
+        self.assertEqual(self.change(ref,'publish',id=first)[0],200)
+        now=int(time.time())
+        due=datetime.datetime.fromtimestamp(now,workflow.operations.INDIA).date().isoformat()
+        route='/api/admin/workspace/proposal-decision'
+        card={'reference':ref,'id':first,'decisionVersion':0,'reviewed':True,
+              'recap':'Review enquiry ownership together.','milestone':'Import the approved sample fields.',
+              'openQuestion':'Confirm who will review the import.','due':due}
+        self.assertEqual(self.request(route,card,self.admin,self.admin_csrf)[0],409)
+        slot=self.demo_slot(now-25143)
+        with enquiries.connect() as db:
+            db.execute("""INSERT INTO client_proposal_reviews(id,reference,proposal,slot_id,topic,state,created,outcome_at)
+                VALUES(?,?,?,?,'scope','attended',?,?)""",(uuid.uuid4().hex,ref,first,slot,now-30000,now-20000))
+            db.execute('UPDATE enquiries SET created=? WHERE id=?',(now-100*86400,ref))
+        self.assertEqual(self.request(route,card,client,csrf)[0],401)
+        self.assertEqual(self.request(route,dict(card,reviewed=False),self.admin,self.admin_csrf)[0],400)
+        self.assertEqual(self.request(route,dict(card,due='2040-01-01'),self.admin,self.admin_csrf)[0],400)
+        self.assertEqual(self.request(route,card,self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(self.request(route,card,self.admin,self.admin_csrf)[0],409)
+        client_route='/api/client/project?reference='+ref
+        shown=self.request(client_route,cookie=client)[1]['proposals'][0]['decision']
+        self.assertEqual(shown['recap'],card['recap'])
+        self.assertNotIn('version',shown)
+        status,response,_=self.request('/api/client/proposal-feedback',{'reference':ref,'id':first,
+            'kind':'question','body':'Can we include two branches?','requestId':str(uuid.uuid4())},client,csrf)
+        self.assertEqual(status,200);ticket=response['ticketId']
+        queue_route='/api/admin/demo-recovery?bucket=proposal_decision&days=7'
+        def flags():
+            items=self.request(queue_route,cookie=self.admin)[1]['items']
+            return next((item['proposalDecisions'] for item in items if item['reference']==ref),None)
+        self.assertEqual(flags()['dates'][0]['proposalId'],first)
+        self.assertTrue(flags()['dates'][0]['dueToday'])
+        self.assertEqual(flags()['questions'][0]['id'],ticket)
+        owner=dashboard.USER
+        self.assertEqual(self.change(ref,'ticket',id=ticket,ticketVersion=0,status='Waiting for client',owner=owner,
+                                     internal=True,body='Ask delivery for confirmation.')[0],200)
+        self.assertEqual(flags()['questions'][0]['id'],ticket)
+        self.assertEqual(self.change(ref,'ticket',id=ticket,ticketVersion=1,status='Open',owner=owner,
+                                     body='We can review both branches.')[0],200)
+        self.assertEqual(flags()['questions'],[])
+        self.assertEqual(self.request('/api/client/ticket',{'reference':ref,'id':ticket,'ticketVersion':2,
+            'body':'Which branch should we import first?'},client,csrf)[0],200)
+        self.assertEqual(flags()['questions'][0]['id'],ticket)
+        created=self.change(ref,'proposal',title='Updated scope',scope='Two branches',terms='Same payment terms',
+                            value='2000',currency='USD',expires=now+86400,changes='Added the second branch.')
+        self.assertEqual(created[0],200)
+        second=created[1]['proposalId']
+        self.assertNotIn(second,[p['id'] for p in self.request(client_route,cookie=client)[1]['proposals']])
+        self.assertEqual(self.change(ref,'publish',id=second)[0],200)
+        proposals=self.request(client_route,cookie=client)[1]['proposals']
+        self.assertEqual(proposals[0]['decision'],{'changes':'Added the second branch.'})
+        self.assertEqual(proposals[1]['decision']['recap'],card['recap'])
+        self.assertEqual(flags()['dates'],[])
+        self.assertEqual(flags()['questions'][0]['id'],ticket)
 
     def test_proposal_review_preserves_revision_and_shares_slot_inventory(self):
         ref,_=self.create()

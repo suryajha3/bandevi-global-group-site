@@ -98,19 +98,23 @@ class MarketReportingTests(unittest.TestCase):
                     db.execute("""INSERT INTO client_proposal_reviews(id,reference,proposal,slot_id,topic,state,created,outcome_at)
                         VALUES(?,?,?,?,'scope',?,?,?)""",(uuid.uuid4().hex,ref,pid,uuid.uuid4().hex,review_state,booked,now-200))
                 return pid
-            seed(us,1,'accepted','attended')
-            seed(us,2,'accepted','attended')
-            seed(uk,1,'superseded','attended')
+            us_first=seed(us,1,'accepted','attended')
+            us_second=seed(us,2,'accepted','attended')
+            uk_first=seed(uk,1,'superseded','attended')
             seed(uk,2,'accepted')
             seed(india,1,'accepted','cancelled',now-8*day)
             seed(india,2,'accepted','booked')
             seed(qa,1,'accepted','attended')
+            for pid,shared in [(us_first,now-150),(us_second,now-150),(uk_first,now-140)]:
+                db.execute("INSERT INTO client_proposal_decisions(proposal,recap,published,version) VALUES(?,'Reviewed recap',?,1)",(pid,shared))
             for ref,created in [(us,now-50),(uk,now-50),(india,now-500)]:
                 db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id=?",(ref,))
                 db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won',?,?)",(ref,self.owner,created))
             groups=sales_journey.proposal_review_conversion(db,{'role':'agent','actor':self.owner},now-7*day,now)
             self.assertEqual([(r['country'],r['booked'],r['attended'],r['accepted'],r['won']) for r in groups],
                              [('US',2,2,2,1),('GB',1,1,0,0),('IN',1,0,1,0)])
+            self.assertEqual([(r['cardsShared'],r['acceptedAfterCard'],r['wonAfterCard']) for r in groups],
+                             [(2,2,1),(1,0,0),(0,0,0)])
             scoped=sales_journey.proposal_review_conversion(db,{'role':'agent','actor':'other@example.test'},now-7*day,now)
             self.assertTrue(all(not r['booked'] for r in scoped))
 

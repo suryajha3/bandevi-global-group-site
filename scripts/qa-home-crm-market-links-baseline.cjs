@@ -138,5 +138,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original proposal review booking marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const decisionCard = require('./fixtures/proposal-decision-card-approved.json');
+  for (const { before, after } of decisionCard[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original proposal decision card marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

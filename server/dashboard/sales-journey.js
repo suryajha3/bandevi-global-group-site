@@ -163,14 +163,17 @@ function renderProposalReviewConversion(result){
  const table=document.createElement('table');
  table.append(text('caption','Proposal review outcomes · last '+result.days+' days by first review booking'));
  const header=table.createTHead().insertRow();
- for(const label of ['Business country','Revisions booked','Revisions attended','Revisions accepted','Recorded Won deals']){
+ for(const label of ['Business country','Revisions booked','Revisions attended','Revisions accepted','Recorded Won deals',
+  'Decision cards shared','Accepted after card','Won after card']){
   const cell=text('th',label);cell.scope='col';header.append(cell);
  }
  const body=table.createTBody();
  for(const group of result.proposalReviewConversion){
   const row=body.insertRow(),label=text('th',group.label);
   label.scope='row';row.append(label);
-  for(const value of [group.booked,group.attended,group.accepted,group.won])row.append(text('td',String(value)));
+  for(const value of [group.booked,group.attended,group.accepted,group.won,group.cardsShared,group.acceptedAfterCard,group.wonAfterCard]){
+   row.append(text('td',String(value)));
+  }
  }
  $('proposal-review-conversion-table').replaceChildren(table);
  $('proposal-review-conversion').hidden=false;
