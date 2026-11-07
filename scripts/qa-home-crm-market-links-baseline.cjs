@@ -103,5 +103,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original post-demo follow-up marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const proposalFeedback = require('./fixtures/proposal-feedback-approved.json');
+  for (const { before, after } of proposalFeedback[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original proposal feedback marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

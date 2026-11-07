@@ -14,6 +14,8 @@ Add milestones and client-visible progress updates. Clients approve milestones m
 
 Clients create support requests and reply through their own projects. Staff assign an active owner, record status, and add either a client-visible reply or a staff-only note. Internal notes and ticket owner identities are omitted from client responses. Normal and urgent priorities set internal follow-up targets of 48 and 4 calendar hours respectively; these are operational targets, not a new advertised SLA. An authenticated client reply reopens the request. Status and reply conflicts require a refresh. New ticket creation is limited to five per project per hour.
 
+Customers can also ask a question or request changes on a current, unexpired published proposal. The request is attached to that revision and stays available in the private project thread if a newer revision is published. In Team Inbox, open **Demo recovery → Proposal feedback**. Open and in-progress threads follow the current enquiry owner and keep the normal 48-hour internal response target. If no active owner is assigned, the site administrator handles them. Waiting-for-client and closed threads leave the queue. A new customer reply reopens the thread. Feedback does not alter proposal terms or record acceptance.
+
 The report uses enquiries received in the selected 7/30/90-day cohort. It counts recorded demo reservations, projects with actually published proposals, accepted proposals, current overdue follow-ups and ticket targets. Rejected draft proposals do not count as published. Loss reasons appear only for enquiries currently marked Lost; missing reasons stay explicitly Not recorded. Accepted proposal totals are not revenue or payment totals.
 
 ## Demo calendar support

@@ -11,7 +11,8 @@ function scope(){const nav='<a class="nav-link nav-site-search" href="/search/">
  Object.keys(require('./fixtures/home-brand-brief-approved.json')),
  Object.keys(require('./fixtures/regional-demo-availability-approved.json')),
  Object.keys(require('./fixtures/demo-reminders-attendance-approved.json')),
- Object.keys(require('./fixtures/post-demo-followup-approved.json'))
+ Object.keys(require('./fixtures/post-demo-followup-approved.json')),
+ Object.keys(require('./fixtures/proposal-feedback-approved.json'))
 ].flat().filter(name=>name.startsWith('server/')||name==='assets/client.js'))];
 const pilot=require('./qa-crm-workflow-pilot-baseline.cjs');
 if(process.env.QA_SEARCH_BASELINE_DIR){
