@@ -9,6 +9,12 @@ Open **Demo → sale** on an enquiry in the private team inbox.
 5. Open or create the linked project. Review discovery notes, then explicitly copy them into an editable proposal scope. Save an immutable proposal revision in INR, USD, GBP or EUR. Currency selection never converts the entered amount. Publishing and client invitations remain separate explicit actions.
 6. Save owner, next action, follow-up date and sales stage in the existing follow-up form. A demo outcome, proposal acceptance or booking does not automatically mark a deal Won.
 
+## Completed demo follow-up
+
+In Recovery, choose **Completed demo follow-up** and filter by business country. The target is the next weekday at the same India time after staff record completion, excluding weekends. Use the existing owner and next-action fields to assign the work. A current proposal published after completion and a saved recap clear this item. An accepted proposal also clears it. Drafts and expired proposals still need attention.
+
+Open **Post-demo recap** on the completed demo. Write only customer-facing content, then save the draft. To send it to the email recorded on the enquiry, explicitly review the saved version and queue it. The mail queue sends one recap per completed schedule and discards a pending recap if the appointment or recipient changes. In the proposal editor, copy the saved recap into an empty scope, edit the content, and review the preselected quote currency before saving. Publishing a proposal is a separate step.
+
 ## Conversion report
 
 The inbox Reports view uses a received-date cohort of 7, 30 or 90 days, excluding deployment QA and respecting agent ownership. Each enquiry is counted once.

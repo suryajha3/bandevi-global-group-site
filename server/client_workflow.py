@@ -112,6 +112,12 @@ def detail(db,row,staff):
     if staff:
         import sales_journey
         result['salesJourney']=sales_journey.record(db,ref)
+        enquiry = db.execute("SELECT payload FROM enquiries WHERE id=? AND email_status!='qa-verified'", (ref,)).fetchone()
+        if enquiry and result['salesJourney']['outcome']=='Completed':
+            booking = db.execute('SELECT b.state,s.starts FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?', (ref,)).fetchone()
+            followup = sales_journey.post_demo(db,ref,result['salesJourney'],booking,json.loads(enquiry['payload']),int(time.time()))
+            if followup:
+                result['postDemo'] = {'body':followup['body'],'currency':followup['currency']}
     proposals=[]
     for item in db.execute('SELECT * FROM client_proposals WHERE reference=? ORDER BY revision DESC',(ref,)):
         if not staff and (item['status']=='draft' or not item['published'] and item['status']!='accepted'):continue

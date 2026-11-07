@@ -1,4 +1,5 @@
 """Private enquiry-to-demo records. No customer access to staff discovery notes."""
+import datetime
 import json
 import re
 import secrets
@@ -28,7 +29,10 @@ def initialize(db):
         reference TEXT PRIMARY KEY,requirements TEXT NOT NULL DEFAULT '',outcome TEXT NOT NULL DEFAULT 'Not recorded',
         schedule_event INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL DEFAULT 0,updated INTEGER NOT NULL,actor TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS sales_demo_audit(id INTEGER PRIMARY KEY,reference TEXT NOT NULL,
-        created INTEGER NOT NULL,actor TEXT NOT NULL,previous TEXT NOT NULL,changed TEXT NOT NULL);''')
+        created INTEGER NOT NULL,actor TEXT NOT NULL,previous TEXT NOT NULL,changed TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS sales_demo_recaps(reference TEXT NOT NULL,schedule_event INTEGER NOT NULL,
+        body TEXT NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL,actor TEXT NOT NULL,
+        PRIMARY KEY(reference,schedule_event));''')
 
 def schedule_event(db,ref):
     return db.execute("SELECT COALESCE(MAX(id),0) FROM appointment_events WHERE enquiry_id=? AND event IN ('confirmed','rescheduled')",(ref,)).fetchone()[0]
@@ -39,6 +43,39 @@ def record(db,ref):
     result['scheduleEvent']=schedule_event(db,ref)
     if row and row['schedule_event']!=result['scheduleEvent']:result['outcome']='Not recorded'
     return result
+
+
+def post_demo(db, reference, record, booking, payload, now):
+    """Return staff-only follow-up for the current completed appointment."""
+    event = record['scheduleEvent']
+    if (not event or record['outcome'] != 'Completed' or not booking or booking['state'] != 'confirmed'
+            or booking['starts'] is None or booking['starts'] > now):
+        return None
+    completed = db.execute("""SELECT MIN(created) FROM sales_demo_audit WHERE reference=?
+        AND json_extract(changed,'$.outcome')='Completed' AND json_extract(changed,'$.schedule_event')=?""",
+                           (reference,event)).fetchone()[0] or record['updated']
+    due = datetime.datetime.fromtimestamp(completed, operations.INDIA) + datetime.timedelta(days=1)
+    while due.weekday() >= 5:
+        due += datetime.timedelta(days=1)
+    recap = db.execute('SELECT body,version FROM sales_demo_recaps WHERE reference=? AND schedule_event=?',
+                       (reference,event)).fetchone()
+    delivery = db.execute('SELECT status FROM notification_outbox WHERE dedupe=?', (f'demo-recap:{reference}:{event}',)).fetchone()
+    qualification = payload.get('qualification') or {}
+    currency = qualification.get('currency')
+    if currency not in ('USD','GBP','INR','EUR','AED'):
+        currency = {'US':'USD','GB':'GBP','IN':'INR'}.get(qualification.get('country'), '')
+    return {'completed':completed,'due':int(due.timestamp()),'body':recap['body'] if recap else '',
+            'version':recap['version'] if recap else 0,'delivery':delivery['status'] if delivery else '',
+            'recipient':payload.get('email',''),'currency':currency}
+
+
+def recap_current(db, notification):
+    _, reference, event = notification['dedupe'].split(':')
+    booking = db.execute('SELECT state FROM demo_bookings WHERE enquiry_id=?', (reference,)).fetchone()
+    enquiry = db.execute("SELECT payload FROM enquiries WHERE id=? AND email_status!='qa-verified'", (reference,)).fetchone()
+    demo = record(db,reference)
+    return bool(booking and booking['state']=='confirmed' and enquiry and demo['outcome']=='Completed'
+                and str(demo['scheduleEvent'])==event and json.loads(enquiry['payload']).get('email')==notification['recipient'])
 
 def get(handler,connect,identity):
     parsed=urlsplit(handler.path)
@@ -63,7 +100,9 @@ def get(handler,connect,identity):
           FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id
           LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE b.enquiry_id=?""",(now,ref)).fetchone()
         workflow=db.execute('SELECT stage,owner,next_action,follow_up_date FROM enquiry_workflow WHERE id=?',(ref,)).fetchone()
-        handler.respond(200,{'record':record(db,ref),'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],
+        demo=record(db,ref)
+        handler.respond(200,{'record':demo,'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],
+            'postDemo':post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now),
             'workflow':dict(workflow) if workflow else None,'projectExists':bool(db.execute('SELECT 1 FROM client_projects WHERE reference=?',(ref,)).fetchone())})
     return True
 
@@ -71,7 +110,7 @@ def post(handler,connect,identity,data):
     if urlsplit(handler.path).path!='/api/admin/sales-journey':return False
     from dashboard import lead_access
     ref=data.get('reference');version=data.get('version');action=data.get('action')
-    if not isinstance(ref,str) or not 1<=len(ref)<=30 or type(version)!=int or version<0 or action not in ('record','book'):
+    if not isinstance(ref,str) or not 1<=len(ref)<=30 or type(version)!=int or version<0 or action not in ('record','book','recap-save','recap-send'):
         handler.respond(400,{'error':'Check the enquiry and action.'});return True
     with connect() as db:
         db.execute('BEGIN IMMEDIATE')
@@ -81,6 +120,8 @@ def post(handler,connect,identity,data):
         if old['version']!=version:handler.respond(409,{'error':'The demo record changed. Reload before saving.'});return True
         booking=db.execute('SELECT b.*,s.starts FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(ref,)).fetchone()
         result={'ok':True,'version':version+1};now=int(time.time())
+        if action in ('recap-save','recap-send'):
+            return change_recap(handler,db,identity,ref,old,booking,enquiry,data,action,now)
         if action=='book':
             workflow=db.execute('SELECT stage FROM enquiry_workflow WHERE id=?',(ref,)).fetchone()
             if workflow and workflow['stage'] in ('Won','Lost'):handler.respond(409,{'error':'Reopen this enquiry before booking a demo.'});return True
@@ -107,6 +148,43 @@ def post(handler,connect,identity,data):
         db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?) ON CONFLICT(reference) DO UPDATE SET requirements=excluded.requirements,outcome=excluded.outcome,schedule_event=excluded.schedule_event,version=excluded.version,updated=excluded.updated,actor=excluded.actor',
             (ref,changed['requirements'],changed['outcome'],changed['schedule_event'],version+1,now,identity['actor']))
         db.execute('INSERT INTO sales_demo_audit(reference,created,actor,previous,changed) VALUES(?,?,?,?,?)',(ref,now,identity['actor'],json.dumps(old),json.dumps({'action':action,**changed})))
+    handler.respond(200,result);return True
+
+
+def change_recap(handler, db, identity, ref, demo, booking, enquiry, data, action, now):
+    workflow = db.execute('SELECT stage FROM enquiry_workflow WHERE id=?', (ref,)).fetchone()
+    recap = post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now)
+    event = demo['scheduleEvent']
+    if (not recap or workflow and workflow['stage'] in ('Won','Lost')
+            or type(data.get('scheduleEvent')) is not int or data['scheduleEvent'] != event
+            or type(data.get('recapVersion')) is not int or data['recapVersion'] != recap['version']):
+        handler.respond(409,{'error':'The completed demo or recap changed. Reload before continuing.'});return True
+    if recap['delivery'] in ('pending','sent'):
+        if action=='recap-send':handler.respond(200,{'ok':True,'delivery':recap['delivery']})
+        else:handler.respond(409,{'error':'The recap is already queued or sent.'})
+        return True
+    if action=='recap-save':
+        body = data.get('body')
+        if not isinstance(body,str) or not 1<=len(body.strip())<=2000 or any(ord(char)<32 and char not in '\r\n\t' for char in body):
+            handler.respond(400,{'error':'Enter a recap of up to 2,000 characters.'});return True
+        db.execute('''INSERT INTO sales_demo_recaps VALUES(?,?,?,?,?,?) ON CONFLICT(reference,schedule_event)
+            DO UPDATE SET body=excluded.body,version=excluded.version,updated=excluded.updated,actor=excluded.actor''',
+                   (ref,event,body.strip(),recap['version']+1,now,identity['actor']))
+        result={'ok':True,'recapVersion':recap['version']+1}
+    else:
+        if data.get('reviewed') is not True or not recap['body'] or not recap['recipient']:
+            handler.respond(400,{'error':'Save and review the recap and confirm the recorded email before queueing.'});return True
+        key = f'demo-recap:{ref}:{event}'
+        body = recap['body']+'\n\nReference: '+ref+'\nBANDEVI GLOBAL GROUP'
+        if recap['delivery']=='cancelled':
+            db.execute("UPDATE notification_outbox SET recipient=?,body=?,status='pending',attempts=0,next_attempt=0,created=? WHERE dedupe=?",
+                       (recap['recipient'],body,now,key))
+        else:
+            operations.enqueue(db,key,recap['recipient'],'Your BANDEVI demo recap',body)
+        result={'ok':True,'delivery':'pending'}
+    db.execute('INSERT INTO sales_demo_audit(reference,created,actor,previous,changed) VALUES(?,?,?,?,?)',
+               (ref,now,identity['actor'],'{}',json.dumps({'action':action,'schedule_event':event,'recap_version':recap['version']})))
+    db.commit()
     handler.respond(200,result);return True
 
 def funnel(db,identity,days):
