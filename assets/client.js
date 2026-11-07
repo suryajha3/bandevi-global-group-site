@@ -752,6 +752,7 @@ function bindForms() {
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),
+          ...(type==='demo'&&form.querySelector('#demo-timezone')?.value?{demoTimezone:form.querySelector('#demo-timezone').value}:{}),
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: {
             ...Object.fromEntries(Object.entries(enquiryAttribution).filter(([key]) => key !== 'expires')),

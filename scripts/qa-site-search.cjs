@@ -9,7 +9,8 @@ function withoutShortlist(s){return normalizeReadiness(s).replace("<link rel=\"s
 function scope(){const nav='<a class="nav-link nav-site-search" href="/search/">Search</a>',footer='<li><a class="site-search-footer" href="/search/">Search the website</a></li>';const files=cp.execFileSync('git',['ls-files','*.html'],{cwd:root,encoding:'utf8'}).trim().split(/\r?\n/);let count=0;for(const name of files){if(name==='project-readiness/index.html'||name==='search/index.html'||name==='project-shortlist/index.html'||name.startsWith('server/'))continue;const current=withoutShortlist(fs.readFileSync(path.join(root,name),'utf8').replace(/\r\n/g,'\n')); if(!/<body data-page=/.test(current)||!current.includes('class="primary-nav"'))continue;const before=baselineFile(name).replace(/\r\n/g,'\n');assert.equal(current.split(nav).length,2,name);assert.equal(current.split(footer).length,2,name);assert(current.replace(nav,'').replace(footer,'')===before,'Changed beyond Search links: '+name);count++;}assert.equal(count,97);const approvedSharedFiles=[...new Set([
  Object.keys(require('./fixtures/travel-crm-promotions-approved.json')),
  Object.keys(require('./fixtures/home-brand-brief-approved.json')),
- Object.keys(require('./fixtures/regional-demo-availability-approved.json'))
+ Object.keys(require('./fixtures/regional-demo-availability-approved.json')),
+ Object.keys(require('./fixtures/demo-reminders-attendance-approved.json'))
 ].flat().filter(name=>name.startsWith('server/')||name==='assets/client.js'))];
 const pilot=require('./qa-crm-workflow-pilot-baseline.cjs');
 if(process.env.QA_SEARCH_BASELINE_DIR){

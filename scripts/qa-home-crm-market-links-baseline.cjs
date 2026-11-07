@@ -93,5 +93,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original regional demo availability marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const demoReminders = require('./fixtures/demo-reminders-attendance-approved.json');
+  for (const { before, after } of demoReminders[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original demo reminder and attendance marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

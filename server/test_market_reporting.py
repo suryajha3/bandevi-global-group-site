@@ -22,6 +22,25 @@ class MarketReportingTests(unittest.TestCase):
     def report(self):
         with isolated.enquiries.connect() as db:return sales_journey.funnel(db,{'role':'agent','actor':self.owner},30)
 
+    def test_attendance_by_business_country_uses_current_booking_and_schedule(self):
+        cases = [('US','confirmed','No show'),('GB','cancelled','Completed'),('IN','confirmed','Completed')]
+        for country, state, outcome in cases:
+            ref = self.lead(country)
+            slot = uuid.uuid4().hex
+            now = int(time.time())
+            with isolated.enquiries.connect() as db:
+                db.execute('INSERT INTO demo_bookings(enquiry_id,slot_id,token_digest,state) VALUES(?,?,?,?)', (ref,slot,uuid.uuid4().hex,state))
+                event = db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,'confirmed',?,30,?,?)",
+                                   (ref,slot,now-60,self.owner,now)).lastrowid
+                db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)', (ref,'Test workflow',outcome,event,1,now,self.owner))
+                db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Qualified',?,?)", (ref,self.owner,now))
+        groups = {row['country']:row['counts'] for row in self.report()['markets']}
+        for market, expected in [('US',(0,0,1)),('GB',(0,1,0)),('IN',(1,0,0))]:
+            with self.subTest(market=market):
+                counts = groups[market]
+                self.assertEqual((counts['demoBooked'],counts['qualified']), (1,1))
+                self.assertEqual(tuple(counts[key] for key in ('demoCompleted','demoCancelled','demoNoShow')), expected)
+
     def test_explicit_country_unique_milestones_and_no_phone_currency_inference(self):
         refs={c:self.lead(c) for c in ('US','GB','IN','other')};legacy=self.lead();now=int(time.time())
         with isolated.enquiries.connect() as db:

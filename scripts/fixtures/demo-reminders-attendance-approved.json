@@ -1,0 +1,164 @@
+{
+  "assets/appointments.js": [
+    {
+      "before": "if(!/^[a-f0-9]{64}$/.test(token)){m",
+      "after": "if(!/^[A-Za-z0-9_-]{40,100}$/.test(token)){m"
+    }
+  ],
+  "assets/client.js": [
+    {
+      "before": "data.slotId}:{}),\n",
+      "after": "data.slotId}:{}),\n          ...(type==='demo'&&form.querySelector('#demo-timezone')?.value?{demoTimezone:form.querySelector('#demo-timezone').value}:{}),\n"
+    }
+  ],
+  "assets/demo-handoff.js": [
+    {
+      "before": "oken,action,slotId})});const data=aw",
+      "after": "oken,action,slotId,...(action==='book'&&zone?.value?{timezone:zone.value}:{})})});const data=aw"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "data.slotId}:{}),\n",
+      "after": "data.slotId}:{}),\n          ...(type==='demo'&&form.querySelector('#demo-timezone')?.value?{demoTimezone:form.querySelector('#demo-timezone').value}:{}),\n"
+    }
+  ],
+  "demo-booking/index.html": [
+    {
+      "before": "handoff.js?v=20261020\"></script><script defer src=\"/assets/appointments.js?v=20261020-handoff\"></script></head>",
+      "after": "handoff.js?v=20261107-demo-reminders\"></script><script defer src=\"/assets/appointments.js?v=20261107-demo-reminders\"></script></head>"
+    }
+  ],
+  "demo-request.html": [
+    {
+      "before": "/client.js?v=20261025-sharing-receipt\" defer></script><",
+      "after": "/client.js?v=20261107-demo-reminders\" defer></script><"
+    }
+  ],
+  "demo-request/index.html": [
+    {
+      "before": "ent.js?v=20261107-availability\" defer></script><",
+      "after": "ent.js?v=20261107-demo-reminders\" defer></script><"
+    }
+  ],
+  "server/client_workflow.py": [
+    {
+      "before": "arse_qs, urlsplit\n",
+      "after": "arse_qs, urlsplit\nfrom zoneinfo import ZoneInfo, ZoneInfoNotFoundError\n"
+    },
+    {
+      "before": "def reminders(connect):\n    now=int(time.time())\n",
+      "after": "DEMO_REMINDER = re.compile(r'demo-reminder:(BG-[A-F0-9]{16}):s(\\d+):(24|1)')\nDEMO_SCHEDULE = \"\"\"SELECT b.enquiry_id,b.token_digest,s.starts,e.payload,a.id AS schedule_event,\n    a.created AS booked_at,m.url,confirmation.body AS confirmation FROM demo_bookings b\n    JOIN demo_slots s ON s.id=b.slot_id JOIN enquiries e ON e.id=b.enquiry_id\n    JOIN appointment_events a ON a.id=(SELECT MAX(id) FROM appointment_events\n      WHERE enquiry_id=b.enquiry_id AND event IN ('confirmed','rescheduled')) AND a.slot_id=b.slot_id\n    LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id\n    LEFT JOIN notification_outbox confirmation ON confirmation.dedupe='booking:'||b.enquiry_id||':0'\n    WHERE b.state='confirmed' AND e.email_status!='qa-verified'\"\"\"\n\n\ndef valid_demo_timezone(zone):\n    if not isinstance(zone, str) or not re.fullmatch(r'[A-Za-z0-9_+/-]{1,80}', zone):\n        return False\n    try:\n        ZoneInfo(zone)\n    except (ZoneInfoNotFoundError, ValueError):\n        return False\n    return True\n\n\ndef reminder_due(booking, hours, now):\n    due = booking['starts'] - hours * 3600\n    cutoff = booking['starts'] - (3600 if hours == 24 else 0)\n    return booking['booked_at'] <= due <= now < cutoff\n\n\ndef reminder_message(db, notification, now=None):\n    \"\"\"Resolve the current schedule and joining link at delivery, including retries.\"\"\"\n    match = DEMO_REMINDER.fullmatch(notification['dedupe'])\n    if not match:\n        return None\n    reference, schedule_event, hours = match.groups()\n    booking = db.execute(DEMO_SCHEDULE + ' AND b.enquiry_id=?', (reference,)).fetchone()\n    if not booking or booking['schedule_event'] != int(schedule_event) or not reminder_due(booking, int(hours), int(time.time()) if now is None else now):\n        return None\n    payload = json.loads(booking['payload'])\n    if payload.get('email') != notification['recipient']:\n        return None\n    qualification = payload.get('qualification') or {}\n    zone = payload.get('demoTimezone') or (qualification.get('contact') or {}).get('timezone')\n    if not zone or zone == 'UTC' and 'demoTimezone' not in payload:\n        zone = {'US': 'America/New_York', 'GB': 'Europe/London'}.get(qualification.get('country'), 'Asia/Kolkata')\n    try:\n        timezone = ZoneInfo(zone)\n    except (ZoneInfoNotFoundError, ValueError, TypeError):\n        timezone = operations.INDIA\n    when = datetime.datetime.fromtimestamp(booking['starts'], timezone).strftime('%d %B %Y at %H:%M %Z (%z)')\n    lines = [f'Your Bandevi demo is scheduled for {when}.', f'Reference: {reference}']\n    lines.append('Join: ' + booking['url'] if booking['url'] else 'The team will send joining details separately.')\n    token = re.search(r'/demo-booking/#([A-Za-z0-9_-]{40,100})(?:\\s|$)', booking['confirmation'] or '')\n    if token and hmac.compare_digest(hashlib.sha256(token[1].encode()).hexdigest(), booking['token_digest']):\n        lines.append('Manage or reschedule: https://bandeviglobalgroup.com/demo-booking/#' + token[1])\n    else:\n        lines.append('To reschedule, reply to this email or contact sales@bandeviglobalgroup.com.')\n    return '\\n'.join(lines)\n\n\ndef reminders(connect, now=None):\n    now = int(time.time()) if now is None else now\n"
+    },
+    {
+      "before": "        for b in db.execute(\"SELECT b.enquiry_id,b.version,s.starts,e.payload FROM demo_bookings b JOIN demo_slots s ON s.id=b.slot_id JOIN enquiries e ON e.id=b.enquiry_id WHERE b.state='confirmed' AND s.starts>? AND s.starts<=?\",(now,now+86400)).fetchall():\n            email=json.loads(b['payload'])['email']\n",
+      "after": "        db.execute('BEGIN IMMEDIATE')\n        bookings = db.execute(DEMO_SCHEDULE + ' AND s.starts>? AND s.starts<=?', (now, now + 86400)).fetchall()\n        for booking in bookings:\n            email = json.loads(booking['payload']).get('email')\n            if not email:\n                continue\n"
+    },
+    {
+      "before": "               if b['starts']<=now+hours*3600 and (hours==1 or b['starts']>now+3600):\n                    when=datetime.datetime.fromtimestamp(b['starts'],operations.INDIA).strftime('%d %B %Y at %H:%M IST')\n                    meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(b['enquiry_id'],)).fetchone()\n                    operations.enqueue(db,'demo-reminder:'+b['enquiry_id']+':'+str(b['version'])+':'+str(hours),email,'Your Bandevi demo reminder','Your demo is scheduled for '+when+'.\\nReference: '+b['enquiry_id']+('\\nJoin: '+meeting[0] if meeting else '\\nThe team supplies joining details separately.'))\n",
+      "after": "               if not reminder_due(booking, hours, now):\n                    continue\n                reference = booking['enquiry_id']\n                # Older releases keyed reminders by booking version, which also changed when staff edited the link.\n                if db.execute(\"SELECT 1 FROM notification_outbox WHERE dedupe GLOB ? AND status='sent' AND created>=?\",\n                              (f'demo-reminder:{reference}:[0-9]*:{hours}', booking['booked_at'])).fetchone():\n                    continue\n                key = f'demo-reminder:{reference}:s{booking[\"schedule_event\"]}:{hours}'\n                operations.enqueue(db, key, email, 'Your Bandevi demo reminder', '')\n"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "rations.js?v=20261017-markets\"></script><script defer src=\"/team-inbox/sales-journey.js?v=20261107-availability\"></script><script",
+      "after": "rations.js?v=20261107-demo-reminders\"></script><script defer src=\"/team-inbox/sales-journey.js?v=20261107-demo-reminders\"></script><script"
+    }
+  ],
+  "server/dashboard/operations.js": [
+    {
+      "before": ":'Closed')));if(s.active){const butt",
+      "after": ":'Closed')));if(s.missingJoiningLink){const link=text('a','Missing joining link · Add joining details');link.href='/team-inbox/workspace/?'+new URLSearchParams({reference:s.enquiry_id})+'#meeting-form';row.append(link);}if(s.active){const butt"
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": "ate.record.outcome:'No demo appointm",
+      "after": "ate.record.outcome+(a.missingJoiningLink?' · Missing joining link':''):'No demo appointm"
+    },
+    {
+      "before": "'Demo completed','All published prop",
+      "after": "'Demo completed','Demo cancelled','Demo no-show','All published prop"
+    },
+    {
+      "before": "fied,c.demoBooked,c.demoCompleted,c.publishedProposals,c.proposalAfterDe",
+      "after": "fied,c.demoBooked,c.demoCompleted,c.demoCancelled??0,c.demoNoShow??0,c.publishedProposals,c.proposalAfterDe"
+    }
+  ],
+  "server/demo_handoff.py": [
+    {
+      "before": "s.'});return True\n",
+      "after": "s.'});return True\n                    timezone = data.get('timezone')\n                    if timezone is not None:\n                        from client_workflow import valid_demo_timezone\n                        if not valid_demo_timezone(timezone):raise ValueError('Choose a valid demo time zone.')\n"
+    },
+    {
+      "before": "or)});return True\n",
+      "after": "or)});return True\n                    if timezone is not None:\n                        payload['demoTimezone'] = timezone\n                        db.execute('UPDATE enquiries SET payload=? WHERE id=?', (json.dumps(payload), reference))\n"
+    }
+  ],
+  "server/enquiries.py": [
+    {
+      "before": "']=data['slotId']\n",
+      "after": "']=data['slotId']\n    if 'demoTimezone' in data:\n        zone = data['demoTimezone']\n        if result['type'] != 'demo' or not client_workflow.valid_demo_timezone(zone):\n            raise ValueError('Choose a valid demo time zone.')\n        result['demoTimezone'] = zone\n"
+    },
+    {
+      "before": "            message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']\n            message['Subject']=row['subject'];message.set_content(row['body'])\n",
+      "after": "            body = row['body']\n            calendar = None\n"
+    },
+    {
+      "before": "h connect() as db:calendar=client_workflow.calendar(db,row['dedupe'].split(':')[1])\n                if cal",
+      "after": "h connect() as db:\n                    db.execute('BEGIN')\n                    if row['dedupe'].startswith('demo-reminder:'):\n                        body = client_workflow.reminder_message(db, row)\n                        if body is None:\n                            db.execute(\"UPDATE notification_outbox SET status='cancelled' WHERE id=?\", (row['id'],))\n                            continue\n                    calendar = client_workflow.calendar(db, row['dedupe'].split(':')[1])\n            message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']\n            message['Subject']=row['subject'];message.set_content(body)\n            if cal"
+    }
+  ],
+  "server/operations.py": [
+    {
+      "before": "            rows=db.execute('SELECT s.*,b.enquiry_id,b.state,b.version FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.starts>?'+clause+' ORDER BY s.starts LIMIT 200',[int(time.time())-86400]+([actor] i",
+      "after": "            now = int(time.time())\n            rows=db.execute(\"\"\"SELECT s.*,b.enquiry_id,b.state,b.version,\n                CASE WHEN b.state='confirmed' AND s.starts>? AND COALESCE(m.url,'')='' THEN 1 ELSE 0 END AS missingJoiningLink\n                FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id\n                LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE s.starts>?\"\"\"+clause+' ORDER BY s.starts LIMIT 200',\n                [now,now-86400]+([actor] i"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "ooking=db.execute('SELECT b.state,b.version,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(ref,)).fetchone()\n",
+      "after": "ooking=db.execute(\"\"\"SELECT b.state,b.version,s.starts,s.duration,\n          CASE WHEN b.state='confirmed' AND s.starts>? AND COALESCE(m.url,'')='' THEN 1 ELSE 0 END AS missingJoiningLink\n          FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id\n          LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE b.enquiry_id=?\"\"\",(now,ref)).fetchone()\n"
+    },
+    {
+      "before": "s,0),'qualified':0}} for code,label in",
+      "after": "s,0),'qualified':0,'demoCancelled':0,'demoNoShow':0}}\n             for code,label in"
+    },
+    {
+      "before": "        counts['demoBooked']+=booking is not None;counts['demoCompleted']+=record(db,ref)['outcome']=='Completed'\n",
+      "after": "        outcome = record(db,ref)['outcome']\n        current_booking = db.execute('SELECT state FROM demo_bookings WHERE enquiry_id=?', (ref,)).fetchone() if booking is not None else None\n        cancelled = bool(current_booking and current_booking['state']=='cancelled')\n        counts['demoBooked']+=booking is not None;counts['demoCompleted']+=outcome=='Completed' and not cancelled\n        market['demoCancelled']+=cancelled\n        market['demoNoShow']+=outcome=='No show' and not cancelled\n"
+    },
+    {
+      "before": "ed Qualified event; demo and proposal milestones count once per enquiry. Current Won incl",
+      "after": "ed Qualified event. Booked counts each enquiry once, including later cancellations. Cancelled counts current cancellations. Completed and no-show use the recorded outcome for the current schedule and exclude cancellations. Current Won incl"
+    }
+  ],
+  "server/test_client_workflow.py": [
+    {
+      "before": "ime.time())//900+12)*900\n",
+      "after": "ime.time())//900+196)*900\n"
+    },
+    {
+      "before": "est','slotId':slot})\n",
+      "after": "est','slotId':slot,'demoTimezone':'America/Los_Angeles'})\n"
+    },
+    {
+      "before": "l'].split('#')[1]\n",
+      "after": "l'].split('#')[1]\n        def flag():\n            data = self.request('/api/admin/slots', cookie=self.admin)[1]\n            return next(item['missingJoiningLink'] for item in data['slots'] if item['id'] == slot)\n        self.assertEqual(flag(), 1)\n        workflow.reminders(enquiries.connect, starts-86401)\n        with enquiries.connect() as db:\n            self.assertEqual(db.execute(\"SELECT COUNT(*) FROM notification_outbox WHERE dedupe LIKE ?\",('demo-reminder:'+ref+':%',)).fetchone()[0],0)\n        workflow.reminders(enquiries.connect, starts-86400)\n"
+    },
+    {
+      "before": "e.com/synthetic'},self.admin,self.admin_csrf)[0],200)\n",
+      "after": "e.com/synthetic'},self.admin,self.admin_csrf)[0],200)\n        self.assertEqual(flag(), 0)\n"
+    },
+    {
+      "before": "(enquiries.connect);workflow.reminders(enquiries.connect)\n        with enquiries.connect() as db:self.assertEqual(db.execute(\"SELECT COUNT(*) FROM notification_outbox WHERE dedupe LIKE ?\",('demo-reminder:'+ref+':%',)).fetchone()[0],1)\n        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'cancel','version':1})[0],200)\n",
+      "after": "(enquiries.connect, starts-86300)\n        with enquiries.connect() as db:\n            rows=db.execute(\"SELECT * FROM notification_outbox WHERE dedupe LIKE ?\",('demo-reminder:'+ref+':%',)).fetchall()\n            self.assertEqual(len(rows),1)\n            reminder=workflow.reminder_message(db, rows[0], starts-86300)\n            self.assertRegex(reminder, r'P[DS]T \\(-0[78]00\\)')\n            self.assertIn('Join: https://meet.example.com/synthetic', reminder)\n            self.assertIn('/demo-booking/#'+token, reminder)\n        workflow.reminders(enquiries.connect, starts-3600)\n        workflow.reminders(enquiries.connect, starts-3599)\n        with enquiries.connect() as db:\n            rows=db.execute(\"SELECT * FROM notification_outbox WHERE dedupe LIKE ? ORDER BY id\",('demo-reminder:'+ref+':%',)).fetchall()\n            self.assertEqual([row['dedupe'].split(':')[-1] for row in rows], ['24','1'])\n            self.assertIsNone(workflow.reminder_message(db, rows[0], starts-3600))\n            self.assertIsNotNone(workflow.reminder_message(db, rows[1], starts-3600))\n            replacement=uuid.uuid4().hex[:24]\n            db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,?,?)',(replacement,starts+3*86400,30,dashboard.USER))\n        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'reschedule','version':1,'slotId':replacement})[0],200)\n        with enquiries.connect() as db:\n            self.assertIsNone(workflow.reminder_message(db, rows[1], starts-3600))\n        workflow.reminders(enquiries.connect, starts+2*86400)\n        with enquiries.connect() as db:\n            latest=db.execute(\"SELECT * FROM notification_outbox WHERE dedupe LIKE ? ORDER BY id DESC\",('demo-reminder:'+ref+':%',)).fetchone()\n            self.assertNotEqual(latest['dedupe'],rows[0]['dedupe'])\n            self.assertIn('send joining details separately',workflow.reminder_message(db,latest,starts+2*86400))\n        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'cancel','version':2})[0],200)\n        with enquiries.connect() as db:\n            self.assertIsNone(workflow.reminder_message(db, latest, starts+2*86400))\n"
+    }
+  ],
+  "server/test_market_reporting.py": [
+    {
+      "before": ":self.owner},30)\n\n",
+      "after": ":self.owner},30)\n\n    def test_attendance_by_business_country_uses_current_booking_and_schedule(self):\n        cases = [('US','confirmed','No show'),('GB','cancelled','Completed'),('IN','confirmed','Completed')]\n        for country, state, outcome in cases:\n            ref = self.lead(country)\n            slot = uuid.uuid4().hex\n            now = int(time.time())\n            with isolated.enquiries.connect() as db:\n                db.execute('INSERT INTO demo_bookings(enquiry_id,slot_id,token_digest,state) VALUES(?,?,?,?)', (ref,slot,uuid.uuid4().hex,state))\n                event = db.execute(\"INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,'confirmed',?,30,?,?)\",\n                                   (ref,slot,now-60,self.owner,now)).lastrowid\n                db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)', (ref,'Test workflow',outcome,event,1,now,self.owner))\n                db.execute(\"INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Qualified',?,?)\", (ref,self.owner,now))\n        groups = {row['country']:row['counts'] for row in self.report()['markets']}\n        for market, expected in [('US',(0,0,1)),('GB',(0,1,0)),('IN',(1,0,0))]:\n            with self.subTest(market=market):\n                counts = groups[market]\n                self.assertEqual((counts['demoBooked'],counts['qualified']), (1,1))\n                self.assertEqual(tuple(counts[key] for key in ('demoCompleted','demoCancelled','demoNoShow')), expected)\n\n"
+    }
+  ]
+}

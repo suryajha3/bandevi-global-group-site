@@ -94,7 +94,12 @@ def get(handler, connect, authenticated):
             result={'users':rows}
         elif route=='/api/admin/slots':
             clause=' AND s.host=?' if role=='agent' else ''
-            rows=db.execute('SELECT s.*,b.enquiry_id,b.state,b.version FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.starts>?'+clause+' ORDER BY s.starts LIMIT 200',[int(time.time())-86400]+([actor] if role=='agent' else [])).fetchall()
+            now = int(time.time())
+            rows=db.execute("""SELECT s.*,b.enquiry_id,b.state,b.version,
+                CASE WHEN b.state='confirmed' AND s.starts>? AND COALESCE(m.url,'')='' THEN 1 ELSE 0 END AS missingJoiningLink
+                FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id
+                LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE s.starts>?"""+clause+' ORDER BY s.starts LIMIT 200',
+                [now,now-86400]+([actor] if role=='agent' else [])).fetchall()
             result={'slots':[dict(r) for r in rows]}
         elif route=='/api/admin/operations':
             pending=db.execute("SELECT COUNT(*),COALESCE(MAX(attempts),0),MIN(created) FROM notification_outbox WHERE status='pending'").fetchone()

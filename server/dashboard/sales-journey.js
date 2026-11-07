@@ -13,7 +13,7 @@ async function loadSalesJourney(entry){
   if(!csrf||csrf!==identity||current!==entry||!$('editor').open||generation!==salesJourneyGeneration)return;
   salesJourneyState=state;$('journey-requirements').value=state.record.requirements;$('journey-outcome').value=state.record.outcome;
   const a=state.appointment;
-  $('journey-status').textContent=a?'Demo: '+a.state+(a.starts?' · '+new Date(a.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST':'')+' · Outcome: '+state.record.outcome:'No demo appointment recorded.';
+  $('journey-status').textContent=a?'Demo: '+a.state+(a.starts?' · '+new Date(a.starts*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST':'')+' · Outcome: '+state.record.outcome+(a.missingJoiningLink?' · Missing joining link':''):'No demo appointment recorded.';
   for(const node of $('journey-record-form').elements)node.disabled=false;
   $('journey-slot').replaceChildren(text('option',state.slots.length?'Choose a customer-agreed time':'No available slots'));
   $('journey-slot').firstChild.value='';
@@ -54,9 +54,9 @@ async function refreshSalesFunnel(identity){
   $('sales-funnel-basis').textContent=r.basis;
   const table=document.createElement('table');table.append(text('caption','US, UK and India sales performance · received-date cohort'));
   const head=document.createElement('thead'),headers=document.createElement('tr');
-  for(const label of ['Business country','Enquiries','Reached Qualified','Demo booked','Demo completed','All published proposals','Proposal after demo','Currently Won','Demo / enquiry','Proposal / demo','Won / proposal after demo','Won / enquiry']){const cell=text('th',label);cell.scope='col';headers.append(cell);}head.append(headers);table.append(head);
+  for(const label of ['Business country','Enquiries','Reached Qualified','Demo booked','Demo completed','Demo cancelled','Demo no-show','All published proposals','Proposal after demo','Currently Won','Demo / enquiry','Proposal / demo','Won / proposal after demo','Won / enquiry']){const cell=text('th',label);cell.scope='col';headers.append(cell);}head.append(headers);table.append(head);
   const body=document.createElement('tbody'),percent=value=>value===null?'—':value+'%';
-  for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
+  for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.demoCancelled??0,c.demoNoShow??0,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);

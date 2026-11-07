@@ -58,7 +58,10 @@ def get(handler,connect,identity):
         if not enquiry:handler.respond(404,{'error':'Enquiry not available.'});return True
         now=int(time.time())
         slots=db.execute('SELECT s.id,s.starts,s.duration FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.active=1 AND b.slot_id IS NULL AND s.starts>? AND s.starts<? ORDER BY s.starts LIMIT 100',(now,now+180*86400)).fetchall()
-        booking=db.execute('SELECT b.state,b.version,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(ref,)).fetchone()
+        booking=db.execute("""SELECT b.state,b.version,s.starts,s.duration,
+          CASE WHEN b.state='confirmed' AND s.starts>? AND COALESCE(m.url,'')='' THEN 1 ELSE 0 END AS missingJoiningLink
+          FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id
+          LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE b.enquiry_id=?""",(now,ref)).fetchone()
         workflow=db.execute('SELECT stage,owner,next_action,follow_up_date FROM enquiry_workflow WHERE id=?',(ref,)).fetchone()
         handler.respond(200,{'record':record(db,ref),'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],
             'workflow':dict(workflow) if workflow else None,'projectExists':bool(db.execute('SELECT 1 FROM client_projects WHERE reference=?',(ref,)).fetchone())})
@@ -112,7 +115,8 @@ def funnel(db,identity,days):
     if access:args.append(identity['actor'])
     rows=db.execute("SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') AS stage FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified' AND e.created>=?"+access,args).fetchall()
     counts={'enquiries':len(rows),'demoBooked':0,'demoCompleted':0,'publishedProposals':0,'proposalAfterDemo':0,'wonAfterDemoProposal':0,'currentlyWon':0}
-    markets={code:{'country':code,'label':label,'counts':{**dict.fromkeys(counts,0),'qualified':0}} for code,label in [('US','United States'),('GB','United Kingdom'),('IN','India'),('other','Another country'),('unknown','Country not recorded')]}
+    markets={code:{'country':code,'label':label,'counts':{**dict.fromkeys(counts,0),'qualified':0,'demoCancelled':0,'demoNoShow':0}}
+             for code,label in [('US','United States'),('GB','United Kingdom'),('IN','India'),('other','Another country'),('unknown','Country not recorded')]}
     campaigns={}
     portfolio={}
     industries={}
@@ -126,7 +130,12 @@ def funnel(db,identity,days):
         ref=row['id'];booking=db.execute("SELECT MIN(created) FROM appointment_events WHERE enquiry_id=? AND event IN ('confirmed','rescheduled')",(ref,)).fetchone()[0]
         published=db.execute('SELECT MIN(published) FROM client_proposals WHERE reference=? AND published>0',(ref,)).fetchone()[0]
         after=db.execute('SELECT MIN(published) FROM client_proposals WHERE reference=? AND published>0 AND published>=?',(ref,booking)).fetchone()[0] if booking is not None else None
-        counts['demoBooked']+=booking is not None;counts['demoCompleted']+=record(db,ref)['outcome']=='Completed'
+        outcome = record(db,ref)['outcome']
+        current_booking = db.execute('SELECT state FROM demo_bookings WHERE enquiry_id=?', (ref,)).fetchone() if booking is not None else None
+        cancelled = bool(current_booking and current_booking['state']=='cancelled')
+        counts['demoBooked']+=booking is not None;counts['demoCompleted']+=outcome=='Completed' and not cancelled
+        market['demoCancelled']+=cancelled
+        market['demoNoShow']+=outcome=='No show' and not cancelled
         counts['publishedProposals']+=published is not None;counts['proposalAfterDemo']+=after is not None;counts['currentlyWon']+=row['stage']=='Won'
         counts['wonAfterDemoProposal']+=bool(row['stage']=='Won' and after is not None and db.execute("SELECT 1 FROM sales_events WHERE enquiry_id=? AND stage='Won' AND created>=?",(ref,after)).fetchone())
         for key in counts:
@@ -205,5 +214,5 @@ def funnel(db,identity,days):
         'industries':sorted(industries.values(), key=lambda group: (group['industryLabel'], group['countryLabel'])),
         'homeServices':sorted(home_services.values(), key=lambda group: (group['serviceLabel'], group['countryLabel'])),
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
-        'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event; demo and proposal milestones count once per enquiry. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
+        'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event. Booked counts each enquiry once, including later cancellations. Cancelled counts current cancellations. Completed and no-show use the recorded outcome for the current schedule and exclude cancellations. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}

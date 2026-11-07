@@ -62,9 +62,16 @@ def post(handler,connect,origins,salt):
                     slot=db.execute('SELECT 1 FROM demo_slots WHERE id=? AND active=1 AND starts>? AND starts<?',(slot_id,now,now+180*86400)).fetchone()
                     if not slot:
                         handler.respond(409,{'error':'That demo slot is no longer available. Refresh available times.'});return True
+                    timezone = data.get('timezone')
+                    if timezone is not None:
+                        from client_workflow import valid_demo_timezone
+                        if not valid_demo_timezone(timezone):raise ValueError('Choose a valid demo time zone.')
                     try:operations.create_booking(db,reference,slot_id,management)
                     except ValueError as error:
                         handler.respond(409,{'error':str(error)});return True
+                    if timezone is not None:
+                        payload['demoTimezone'] = timezone
+                        db.execute('UPDATE enquiries SET payload=? WHERE id=?', (json.dumps(payload), reference))
                     own_booking=True
             qualification=payload.get('qualification') or {}
             slots=[] if booking or closed or action=='book' else [dict(s) for s in db.execute('SELECT s.id,s.starts,s.duration FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.active=1 AND b.slot_id IS NULL AND s.starts>? AND s.starts<? ORDER BY s.starts LIMIT 100',(now,now+180*86400))]

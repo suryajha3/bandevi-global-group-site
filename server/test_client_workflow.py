@@ -240,17 +240,51 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(self.request('/api/admin/workspace/report?days=30',cookie=cookie)[1]['counts']['enquiries'],1)
 
     def test_calendar_meeting_reminders_and_cancellation(self):
-        starts=(int(time.time())//900+12)*900
+        starts=(int(time.time())//900+196)*900
         with enquiries.connect() as db:db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,?,?)',(uuid.uuid4().hex[:24],starts,30,dashboard.USER));slot=db.execute('SELECT id FROM demo_slots WHERE starts=?',(starts,)).fetchone()[0]
-        status,result,_=self.request('/api/enquiries',{'type':'demo','name':'Synthetic calendar client','email':'calendar@example.com','interest':'CRM','message':'Calendar test','slotId':slot})
+        status,result,_=self.request('/api/enquiries',{'type':'demo','name':'Synthetic calendar client','email':'calendar@example.com','interest':'CRM','message':'Calendar test','slotId':slot,'demoTimezone':'America/Los_Angeles'})
         self.assertEqual(status,201);ref=result['reference'];token=result['appointment']['manageUrl'].split('#')[1]
+        def flag():
+            data = self.request('/api/admin/slots', cookie=self.admin)[1]
+            return next(item['missingJoiningLink'] for item in data['slots'] if item['id'] == slot)
+        self.assertEqual(flag(), 1)
+        workflow.reminders(enquiries.connect, starts-86401)
+        with enquiries.connect() as db:
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM notification_outbox WHERE dedupe LIKE ?",('demo-reminder:'+ref+':%',)).fetchone()[0],0)
+        workflow.reminders(enquiries.connect, starts-86400)
         self.assertEqual(self.request('/api/admin/workspace/meeting',{'reference':ref,'version':0,'url':'http://unsafe.example/'},self.admin,self.admin_csrf)[0],400)
         self.assertEqual(self.request('/api/admin/workspace/meeting',{'reference':ref,'version':0,'url':'https://meet.example.com/synthetic'},self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(flag(), 0)
         response=self.request('/api/demo/manage',{'token':token,'action':'calendar'})[1]['calendar'];self.assertIn('URL:https://meet.example.com/synthetic',response);self.assertIn('SEQUENCE:1',response)
         self.assertTrue(all(len(line.encode())<=75 for line in response.split('\r\n')))
-        workflow.reminders(enquiries.connect);workflow.reminders(enquiries.connect)
-        with enquiries.connect() as db:self.assertEqual(db.execute("SELECT COUNT(*) FROM notification_outbox WHERE dedupe LIKE ?",('demo-reminder:'+ref+':%',)).fetchone()[0],1)
-        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'cancel','version':1})[0],200)
+        workflow.reminders(enquiries.connect, starts-86300)
+        with enquiries.connect() as db:
+            rows=db.execute("SELECT * FROM notification_outbox WHERE dedupe LIKE ?",('demo-reminder:'+ref+':%',)).fetchall()
+            self.assertEqual(len(rows),1)
+            reminder=workflow.reminder_message(db, rows[0], starts-86300)
+            self.assertRegex(reminder, r'P[DS]T \(-0[78]00\)')
+            self.assertIn('Join: https://meet.example.com/synthetic', reminder)
+            self.assertIn('/demo-booking/#'+token, reminder)
+        workflow.reminders(enquiries.connect, starts-3600)
+        workflow.reminders(enquiries.connect, starts-3599)
+        with enquiries.connect() as db:
+            rows=db.execute("SELECT * FROM notification_outbox WHERE dedupe LIKE ? ORDER BY id",('demo-reminder:'+ref+':%',)).fetchall()
+            self.assertEqual([row['dedupe'].split(':')[-1] for row in rows], ['24','1'])
+            self.assertIsNone(workflow.reminder_message(db, rows[0], starts-3600))
+            self.assertIsNotNone(workflow.reminder_message(db, rows[1], starts-3600))
+            replacement=uuid.uuid4().hex[:24]
+            db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,?,?)',(replacement,starts+3*86400,30,dashboard.USER))
+        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'reschedule','version':1,'slotId':replacement})[0],200)
+        with enquiries.connect() as db:
+            self.assertIsNone(workflow.reminder_message(db, rows[1], starts-3600))
+        workflow.reminders(enquiries.connect, starts+2*86400)
+        with enquiries.connect() as db:
+            latest=db.execute("SELECT * FROM notification_outbox WHERE dedupe LIKE ? ORDER BY id DESC",('demo-reminder:'+ref+':%',)).fetchone()
+            self.assertNotEqual(latest['dedupe'],rows[0]['dedupe'])
+            self.assertIn('send joining details separately',workflow.reminder_message(db,latest,starts+2*86400))
+        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'cancel','version':2})[0],200)
+        with enquiries.connect() as db:
+            self.assertIsNone(workflow.reminder_message(db, latest, starts+2*86400))
         calendar=self.request('/api/demo/manage',{'token':token,'action':'calendar'})[1]['calendar'];self.assertIn('METHOD:CANCEL',calendar);self.assertIn('STATUS:CANCELLED',calendar)
 
     def test_recorded_reporting_and_loss_reason(self):

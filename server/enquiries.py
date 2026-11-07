@@ -159,6 +159,11 @@ def validate(data):
     if data.get('slotId') is not None:
         if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
         result['slotId']=data['slotId']
+    if 'demoTimezone' in data:
+        zone = data['demoTimezone']
+        if result['type'] != 'demo' or not client_workflow.valid_demo_timezone(zone):
+            raise ValueError('Choose a valid demo time zone.')
+        result['demoTimezone'] = zone
     schedule = data.get('demoSchedule')
     if schedule is not None and result.get('slotId'):
         raise ValueError('Choose an available slot or a preferred time, not both.')
@@ -212,11 +217,20 @@ def process_outbox():
                     if not operations.response_alert_current(db,row):
                         db.execute("UPDATE notification_outbox SET status='cancelled' WHERE id=?",(row['id'],))
                         continue
-            message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']
-            message['Subject']=row['subject'];message.set_content(row['body'])
+            body = row['body']
+            calendar = None
             if row['dedupe'].startswith(('booking:','appointment:','demo-reminder:')):
-                with connect() as db:calendar=client_workflow.calendar(db,row['dedupe'].split(':')[1])
-                if calendar:message.add_attachment(calendar.encode(),maintype='text',subtype='calendar',filename='bandevi-demo.ics')
+                with connect() as db:
+                    db.execute('BEGIN')
+                    if row['dedupe'].startswith('demo-reminder:'):
+                        body = client_workflow.reminder_message(db, row)
+                        if body is None:
+                            db.execute("UPDATE notification_outbox SET status='cancelled' WHERE id=?", (row['id'],))
+                            continue
+                    calendar = client_workflow.calendar(db, row['dedupe'].split(':')[1])
+            message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row['recipient']
+            message['Subject']=row['subject'];message.set_content(body)
+            if calendar:message.add_attachment(calendar.encode(),maintype='text',subtype='calendar',filename='bandevi-demo.ics')
             send_message(message)
             with connect() as db:db.execute("UPDATE notification_outbox SET status='sent',sent=? WHERE id=?",(int(time.time()),row['id']))
         except Exception:
