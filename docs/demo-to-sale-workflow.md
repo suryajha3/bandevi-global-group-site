@@ -15,6 +15,12 @@ In Recovery, choose **Completed demo follow-up** and filter by business country.
 
 Open **Post-demo recap** on the completed demo. Write only customer-facing content, then save the draft. To send it to the email recorded on the enquiry, explicitly review the saved version and queue it. The mail queue sends one recap per completed schedule and discards a pending recap if the appointment or recipient changes. In the proposal editor, copy the saved recap into an empty scope, edit the content, and review the preselected quote currency before saving. Publishing a proposal is a separate step.
 
+Customers can open **Prepare for your demo** from the private appointment page before a confirmed meeting. They can share a process to improve, their current tools and whether a colleague should join. All answers are optional. The same prep brief follows a rescheduled appointment. Staff with access to the enquiry can review it in **Demo → sale**.
+
+After recording the demo as Completed, save the agreed action and date. The action and any customer-facing detail appear in the recap preview and are appended when the reviewed recap is queued. A queued or sent recap freezes the step for that appointment. A rescheduled appointment has its own attendance and next-step record.
+
+In **Reports → CRM demo to customer conversion**, use the existing 7, 30 or 90-day window. The cohort uses the scheduled date of each current confirmed CRM demo marked Completed. An enquiry counts once in its saved US, UK or India market. The report counts agreed steps, proposals published after the demo time, and enquiries currently marked Won with a recorded Won event after that time. The conversion rate is Won divided by attended demos. It measures sales outcomes and excludes payment totals.
+
 ## Conversion report
 
 The inbox Reports view uses a received-date cohort of 7, 30 or 90 days, excluding deployment QA and respecting agent ownership. Each enquiry is counted once.

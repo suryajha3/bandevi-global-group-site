@@ -16,9 +16,26 @@ function renderRecap(state){
  $('demo-recap-form').hidden=!recap||['Won','Lost'].includes(state?.workflow?.stage);
  $('demo-recap-body').value=recap?.body||'';
  $('demo-recap-reviewed').checked=false;
+ const step=state?.nextStep?.preview||'';
+ $('demo-recap-next-step').hidden=!step;
+ $('demo-recap-next-step').textContent=step;
  $('demo-recap-due').textContent=recap?'Internal follow-up target: '+postDemoTime(recap.due)+(recap.currency?' · Quote preference: '+recap.currency:''):'';
  $('demo-recap-status').textContent=recap?.delivery==='sent'?'Recap sent by the mail service.':recap?.delivery==='pending'?'Reviewed recap queued for delivery.':recap?.delivery==='cancelled'?'Previous delivery was cancelled. Review again before queueing for '+recap.recipient+'.':recap?.recipient?'Recorded recipient: '+recap.recipient:recap?'No customer email is recorded. You can still save a recap for the proposal.':'';
  updateRecapControls();
+}
+function renderDemoPrepAndStep(state){
+ const prep=state?.prepBrief,step=state?.nextStep;
+ $('journey-prep').hidden=!(prep?.goal||prep?.tools||prep?.teammate);
+ $('journey-prep-goal').textContent=prep?.goal||'Not supplied';
+ $('journey-prep-tools').textContent=prep?.tools||'Not supplied';
+ $('journey-prep-teammate').textContent=({yes:'Would like a colleague to join',no:'No',unsure:'Still deciding'})[prep?.teammate]||'Not supplied';
+ $('demo-next-step-form').hidden=!step||['Won','Lost'].includes(state?.workflow?.stage);
+ $('demo-next-kind').value=step?.kind||'';
+ $('demo-next-date').value=step?.due||'';
+ $('demo-next-note').value=step?.note||'';
+ const recapLocked=['pending','sent'].includes(state?.postDemo?.delivery);
+ $('demo-next-save').disabled=!step||recapLocked;
+ $('demo-next-status').textContent=step&&recapLocked?'The reviewed recap has already been queued or sent.':'';
 }
 function clearSalesJourney(){
  salesJourneyGeneration++;salesJourneyState=null;
@@ -26,6 +43,7 @@ function clearSalesJourney(){
  $('journey-status').textContent='';$('sales-journey-message').textContent='';$('journey-proposal').removeAttribute('href');
  $('journey-booking').hidden=true;for(const node of $('journey-record-form').elements)node.disabled=true;
  renderRecap(null);
+ renderDemoPrepAndStep(null);
 }
 async function loadSalesJourney(entry,target=''){
  clearSalesJourney();const generation=salesJourneyGeneration,identity=csrf;
@@ -43,6 +61,7 @@ async function loadSalesJourney(entry,target=''){
   $('journey-proposal').href='/team-inbox/workspace/?'+new URLSearchParams({reference:entry.reference,title:(entry.details.interest+' project').slice(0,160)})+'#proposals';
   $('journey-proposal').textContent=state.projectExists?'Open project & draft proposal':'Create project & draft proposal';
   renderRecap(state);
+  renderDemoPrepAndStep(state);
   if(target==='demo-recap-body'&&!$('demo-recap-form').hidden)$('demo-recap-body').focus();
  }catch(error){if(csrf===identity&&current===entry&&generation===salesJourneyGeneration)$('journey-status').textContent=error.message;}
 }
@@ -54,7 +73,7 @@ async function changeDemoRecap(event, action){
  if(action==='recap-send'&&(!reviewed||body!==state.postDemo.body))return;
  $('demo-recap-save').disabled=$('demo-recap-send').disabled=true;
  try{
-  await post('/api/admin/sales-journey',{reference:entry.reference,version:state.record.version,scheduleEvent:state.record.scheduleEvent,recapVersion:state.postDemo.version,action,body,reviewed});
+  await post('/api/admin/sales-journey',{reference:entry.reference,version:state.record.version,scheduleEvent:state.record.scheduleEvent,recapVersion:state.postDemo.version,nextStepVersion:state.nextStep?.version,action,body,reviewed});
   if(csrf!==identity||current!==entry||generation!==salesJourneyGeneration||!$('editor').open)return;
   await loadSalesJourney(entry);
   if(csrf===identity&&current===entry&&$('editor').open&&action==='recap-save')$('demo-recap-status').textContent='Recap draft saved. Review it before queueing the email.';
@@ -64,6 +83,27 @@ $('demo-recap-form').addEventListener('submit',event=>changeDemoRecap(event,'rec
 $('demo-recap-body').addEventListener('input',updateRecapControls);
 $('demo-recap-reviewed').addEventListener('change',updateRecapControls);
 $('demo-recap-send').addEventListener('click',event=>changeDemoRecap(event,'recap-send'));
+$('demo-next-step-form').addEventListener('submit',async event=>{
+ event.preventDefault();
+ const entry=current,state=salesJourneyState,identity=csrf,generation=salesJourneyGeneration;
+ if(!entry||!state?.nextStep||!identity||$('demo-next-save').disabled)return;
+ const draft=$('demo-recap-body').value;
+ $('demo-next-save').disabled=true;
+ try{
+  await post('/api/admin/sales-journey',{reference:entry.reference,action:'next-step',version:state.record.version,
+   scheduleEvent:state.record.scheduleEvent,nextStepVersion:state.nextStep.version,
+   kind:$('demo-next-kind').value,due:$('demo-next-date').value,note:$('demo-next-note').value});
+  if(csrf!==identity||current!==entry||generation!==salesJourneyGeneration||!$('editor').open)return;
+  await loadSalesJourney(entry);
+  if(csrf!==identity||current!==entry||!$('editor').open)return;
+  if(!$('demo-recap-body').readOnly&&draft!==state.postDemo.body){$('demo-recap-body').value=draft;updateRecapControls();}
+  $('demo-next-status').textContent='Agreed next step saved.';
+ }catch(error){
+  if(csrf===identity&&current===entry&&generation===salesJourneyGeneration){
+   $('demo-next-status').textContent=error.message;$('demo-next-save').disabled=false;
+  }
+ }
+});
 async function saveSalesJourney(event,action){
  event.preventDefault();if(!current||!salesJourneyState||!csrf)return;
  const entry=current,identity=csrf,generation=salesJourneyGeneration,version=salesJourneyState.record.version;
@@ -78,7 +118,7 @@ async function saveSalesJourney(event,action){
   await loadSalesJourney(entry);
   if(csrf===identity&&current===entry&&$('editor').open)$('sales-journey-message').textContent=action==='book'?'Demo booked. The customer confirmation email is queued. Add joining details in the project workspace.':'Demo record saved. Save the owner, next action and follow-up date below when needed.';
  }catch(error){if(csrf===identity&&current===entry&&generation===salesJourneyGeneration)$('sales-journey-message').textContent=error.message+' Reload the demo record to check the saved state.';}
- finally{if(csrf===identity&&current===entry&&$('editor').open){$('journey-record-button').disabled=!salesJourneyState;$('journey-reload').disabled=false;$('journey-book-button').disabled=!salesJourneyState?.slots.length;}}
+ finally{if(csrf===identity&&current===entry&&$('editor').open){$('journey-record-button').disabled=!salesJourneyState;$('journey-reload').disabled=false;$('journey-book-button').disabled=!salesJourneyState?.slots.length;$('demo-next-save').disabled=!salesJourneyState?.nextStep||['pending','sent'].includes(salesJourneyState?.postDemo?.delivery);}}
 }
 $('journey-record-form').addEventListener('submit',event=>saveSalesJourney(event,'record'));
 $('journey-booking').addEventListener('submit',event=>saveSalesJourney(event,'book'));
@@ -89,6 +129,8 @@ async function refreshSalesFunnel(identity){
  const generation=++salesFunnelGeneration,days=$('report-days').value;
  $('sample-demo-report').hidden=true;
  $('sample-demo-table').replaceChildren();
+ $('crm-demo-conversion').hidden=true;
+ $('crm-demo-conversion-table').replaceChildren();
  $('proposal-decision-report').replaceChildren();
  $('proposal-decision-basis').textContent='Loading proposal decisions…';
  campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('home-service-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
@@ -104,12 +146,33 @@ async function refreshSalesFunnel(identity){
   for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.demoCancelled??0,c.demoNoShow??0,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
   renderSampleDemoFunnel(r);
+  renderCrmDemoConversion(r);
   renderProposalDecisions(r);
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);
   renderOutcomeRows('home-service-sales-report','Homepage service','serviceLabel',r.homeServices || []);
   renderCampaignSalesReport(r);
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;$('proposal-decision-basis').textContent='Proposal decisions could not be loaded.';}}
+}
+
+function renderCrmDemoConversion(result){
+ if(!result.crmDemoConversion)return;
+ const table=document.createElement('table');
+ table.append(text('caption','CRM demo conversion by business country · last '+result.days+' days by demo date'));
+ const header=table.createTHead().insertRow();
+ for(const label of ['Business country','Attended CRM demos','Agreed next steps','Proposals published','Recorded Won','Attended to Won']){
+  const cell=text('th',label);cell.scope='col';header.append(cell);
+ }
+ const body=table.createTBody();
+ for(const group of result.crmDemoConversion){
+  const row=body.insertRow(),label=text('th',group.label);
+  label.scope='row';row.append(label);
+  for(const value of [group.attended,group.nextSteps,group.proposals,group.won,group.conversionRate===null?'—':group.conversionRate+'%']){
+   row.append(text('td',String(value)));
+  }
+ }
+ $('crm-demo-conversion-table').replaceChildren(table);
+ $('crm-demo-conversion').hidden=false;
 }
 
 function renderSampleDemoFunnel(result){
@@ -189,6 +252,7 @@ function clearCampaignSales(){
  $('campaign-sales-country').value='all';$('campaign-sales-search').value='';
  $('proposal-decision-report').replaceChildren();$('proposal-decision-basis').textContent='';
  $('sample-demo-report').hidden=true;$('sample-demo-table').replaceChildren();
+ $('crm-demo-conversion').hidden=true;$('crm-demo-conversion-table').replaceChildren();
 }
 function renderCampaignSalesReport(result){
  campaignSalesState={identity:csrf,groups:result.campaigns||[]};$('campaign-sales-basis').textContent=result.campaignBasis||'';renderCampaignSalesRows();

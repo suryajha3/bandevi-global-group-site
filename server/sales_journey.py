@@ -11,6 +11,9 @@ import journey_measurement
 import operations
 
 OUTCOMES=('Not recorded','Completed','No show','Reschedule needed','Not suitable')
+NEXT_STEPS={'proposal':'Review a scoped proposal','decision-call':'Meet with the decision-maker',
+            'follow-up':'Follow up','other':'Other agreed action'}
+CRM_INTERESTS=('CRM & ERP Package','Travel CRM Package','Custom CRM development','CRM & ERP','CRM')
 CRM_PROMOTIONS=('hero-demo','lead-ownership','quote-follow-up','operations-handover','availability-slot','availability-request')
 PORTFOLIO_PROJECTS = {'trip_sarathi': 'Trip Sarathi', 'maximtrip': 'MaximTrip', 'tripodeal': 'TripOdeal'}
 
@@ -35,7 +38,52 @@ def initialize(db):
         created INTEGER NOT NULL,actor TEXT NOT NULL,previous TEXT NOT NULL,changed TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS sales_demo_recaps(reference TEXT NOT NULL,schedule_event INTEGER NOT NULL,
         body TEXT NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL,actor TEXT NOT NULL,
-        PRIMARY KEY(reference,schedule_event));''')
+        PRIMARY KEY(reference,schedule_event));
+        CREATE TABLE IF NOT EXISTS sales_demo_prep(reference TEXT PRIMARY KEY,
+        goal TEXT NOT NULL,tools TEXT NOT NULL,teammate TEXT NOT NULL,version INTEGER NOT NULL);
+        CREATE TABLE IF NOT EXISTS sales_demo_next_steps(reference TEXT NOT NULL,schedule_event INTEGER NOT NULL,
+        kind TEXT NOT NULL,due TEXT NOT NULL,note TEXT NOT NULL,version INTEGER NOT NULL,
+        updated INTEGER NOT NULL,actor TEXT NOT NULL,PRIMARY KEY(reference,schedule_event));''')
+
+
+def prep_brief(db, reference):
+    row=db.execute('SELECT goal,tools,teammate,version FROM sales_demo_prep WHERE reference=?',(reference,)).fetchone()
+    return dict(row) if row else {'goal':'','tools':'','teammate':'','version':0}
+
+
+def brief_text(value, limit):
+    if not isinstance(value,str) or len(value)>limit or any(ord(char)<32 and char not in '\r\n\t' for char in value):
+        raise ValueError('Check the text fields and their length.')
+    return value.strip()
+
+
+def save_prep_brief(db, reference, data):
+    prior=prep_brief(db,reference)
+    if type(data.get('prepVersion')) is not int or data['prepVersion']!=prior['version']:
+        return False
+    goal=brief_text(data.get('goal',''),400)
+    tools=brief_text(data.get('tools',''),200)
+    teammate=data.get('teammate','')
+    if teammate not in ('','yes','no','unsure'):
+        raise ValueError('Choose a valid colleague preference.')
+    db.execute('''INSERT INTO sales_demo_prep VALUES(?,?,?,?,?)
+        ON CONFLICT(reference) DO UPDATE SET goal=excluded.goal,tools=excluded.tools,
+        teammate=excluded.teammate,version=excluded.version''',(reference,goal,tools,teammate,prior['version']+1))
+    return True
+
+
+def next_step(db, reference, event):
+    row=db.execute('SELECT kind,due,note,version FROM sales_demo_next_steps WHERE reference=? AND schedule_event=?',
+                   (reference,event)).fetchone()
+    return dict(row) if row else {'kind':'','due':'','note':'','version':0}
+
+
+def next_step_text(step):
+    if not step['kind']:
+        return ''
+    due=datetime.date.fromisoformat(step['due']).strftime('%d %B %Y')
+    text=f"Agreed next step: {NEXT_STEPS[step['kind']]} by {due}."
+    return text+'\n'+step['note'] if step['note'] else text
 
 def schedule_event(db,ref):
     return db.execute("SELECT COALESCE(MAX(id),0) FROM appointment_events WHERE enquiry_id=? AND event IN ('confirmed','rescheduled')",(ref,)).fetchone()[0]
@@ -104,8 +152,11 @@ def get(handler,connect,identity):
           LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE b.enquiry_id=?""",(now,ref)).fetchone()
         workflow=db.execute('SELECT stage,owner,next_action,follow_up_date FROM enquiry_workflow WHERE id=?',(ref,)).fetchone()
         demo=record(db,ref)
+        followup=post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now)
+        step=next_step(db,ref,demo['scheduleEvent']) if followup else None
         handler.respond(200,{'record':demo,'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],
-            'postDemo':post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now),
+            'prepBrief':prep_brief(db,ref) if booking else None,'postDemo':followup,
+            'nextStep':{**step,'preview':next_step_text(step)} if step else None,
             'workflow':dict(workflow) if workflow else None,'projectExists':bool(db.execute('SELECT 1 FROM client_projects WHERE reference=?',(ref,)).fetchone())})
     return True
 
@@ -113,7 +164,7 @@ def post(handler,connect,identity,data):
     if urlsplit(handler.path).path!='/api/admin/sales-journey':return False
     from dashboard import lead_access
     ref=data.get('reference');version=data.get('version');action=data.get('action')
-    if not isinstance(ref,str) or not 1<=len(ref)<=30 or type(version)!=int or version<0 or action not in ('record','book','recap-save','recap-send'):
+    if not isinstance(ref,str) or not 1<=len(ref)<=30 or type(version)!=int or version<0 or action not in ('record','book','recap-save','recap-send','next-step'):
         handler.respond(400,{'error':'Check the enquiry and action.'});return True
     with connect() as db:
         db.execute('BEGIN IMMEDIATE')
@@ -125,6 +176,8 @@ def post(handler,connect,identity,data):
         result={'ok':True,'version':version+1};now=int(time.time())
         if action in ('recap-save','recap-send'):
             return change_recap(handler,db,identity,ref,old,booking,enquiry,data,action,now)
+        if action=='next-step':
+            return change_next_step(handler,db,identity,ref,old,booking,enquiry,data,now)
         if action=='book':
             workflow=db.execute('SELECT stage FROM enquiry_workflow WHERE id=?',(ref,)).fetchone()
             if workflow and workflow['stage'] in ('Won','Lost'):handler.respond(409,{'error':'Reopen this enquiry before booking a demo.'});return True
@@ -154,6 +207,36 @@ def post(handler,connect,identity,data):
     handler.respond(200,result);return True
 
 
+def change_next_step(handler,db,identity,ref,demo,booking,enquiry,data,now):
+    followup=post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now)
+    event=demo['scheduleEvent']
+    workflow=db.execute('SELECT stage FROM enquiry_workflow WHERE id=?',(ref,)).fetchone()
+    if (not followup or workflow and workflow['stage'] in ('Won','Lost')
+            or type(data.get('scheduleEvent')) is not int or data['scheduleEvent']!=event):
+        handler.respond(409,{'error':'Reload the current completed demo before saving a next step.'});return True
+    step=next_step(db,ref,event)
+    if (type(data.get('nextStepVersion')) is not int or data['nextStepVersion']!=step['version']
+            or followup['delivery'] in ('pending','sent')):
+        handler.respond(409,{'error':'The next step changed or its recap was already queued. Refresh to check its status.'});return True
+    kind=data.get('kind')
+    try:
+        if not isinstance(kind,str) or kind not in NEXT_STEPS:raise ValueError()
+        due=datetime.date.fromisoformat(data.get('due',''))
+        first=datetime.datetime.fromtimestamp(booking['starts'],operations.INDIA).date()
+        today=datetime.datetime.fromtimestamp(now,operations.INDIA).date()
+        if due.isoformat()!=data['due'] or not first<=due<=today+datetime.timedelta(days=365):raise ValueError()
+        note=brief_text(data.get('note',''),240)
+        if kind=='other' and not note:raise ValueError()
+    except (ValueError,TypeError):
+        handler.respond(400,{'error':'Choose an agreed action and a date from the demo day through one year ahead. Describe any other action.'});return True
+    db.execute('''INSERT INTO sales_demo_next_steps VALUES(?,?,?,?,?,?,?,?)
+        ON CONFLICT(reference,schedule_event) DO UPDATE SET kind=excluded.kind,due=excluded.due,
+        note=excluded.note,version=excluded.version,updated=excluded.updated,actor=excluded.actor''',
+        (ref,event,kind,due.isoformat(),note,step['version']+1,now,identity['actor']))
+    db.commit()
+    handler.respond(200,{'ok':True});return True
+
+
 def change_recap(handler, db, identity, ref, demo, booking, enquiry, data, action, now):
     workflow = db.execute('SELECT stage FROM enquiry_workflow WHERE id=?', (ref,)).fetchone()
     recap = post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now)
@@ -177,8 +260,12 @@ def change_recap(handler, db, identity, ref, demo, booking, enquiry, data, actio
     else:
         if data.get('reviewed') is not True or not recap['body'] or not recap['recipient']:
             handler.respond(400,{'error':'Save and review the recap and confirm the recorded email before queueing.'});return True
+        step=next_step(db,ref,event)
+        if step['version'] and (type(data.get('nextStepVersion')) is not int or data['nextStepVersion']!=step['version']):
+            handler.respond(409,{'error':'The agreed next step changed. Reload and review the recap before queueing.'});return True
         key = f'demo-recap:{ref}:{event}'
-        body = recap['body']+'\n\nReference: '+ref+'\nBANDEVI GLOBAL GROUP'
+        agreed=next_step_text(step)
+        body = recap['body']+('\n\n'+agreed if agreed else '')+'\n\nReference: '+ref+'\nBANDEVI GLOBAL GROUP'
         if recap['delivery']=='cancelled':
             db.execute("UPDATE notification_outbox SET recipient=?,body=?,status='pending',attempts=0,next_attempt=0,created=? WHERE dedupe=?",
                        (recap['recipient'],body,now,key))
@@ -262,6 +349,41 @@ def sample_demo_funnel(db, identity, since, now):
         group = groups[row['market']]
         group.update(completions=row['completions'],bookings=row['bookings'],attended=row['attended'])
     return list(groups.values())
+
+
+def crm_demo_conversion(db, identity, since, now):
+    markets={code:{'country':code,'label':growth_workbench.COUNTRIES[code],
+                   'attended':0,'nextSteps':0,'proposals':0,'won':0}
+             for code in ('US','GB','IN')}
+    access=' AND w.owner=?' if identity['role']=='agent' else ''
+    args=[now,now,now,since,now,now]+([identity['actor']] if access else [])
+    rows=db.execute("""SELECT e.payload,
+        EXISTS(SELECT 1 FROM sales_demo_next_steps n WHERE n.reference=e.id
+          AND n.schedule_event=r.schedule_event AND n.updated<=?) AS next_step,
+        EXISTS(SELECT 1 FROM client_proposals p WHERE p.reference=e.id
+          AND p.published>0 AND p.status!='draft' AND p.published BETWEEN s.starts AND ?) AS proposed,
+        CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events v WHERE v.enquiry_id=e.id
+          AND v.stage='Won' AND v.created BETWEEN s.starts AND ?) ELSE 0 END AS won
+        FROM sales_demo_records r JOIN enquiries e ON e.id=r.reference
+        JOIN demo_bookings b ON b.enquiry_id=e.id JOIN demo_slots s ON s.id=b.slot_id
+        LEFT JOIN enquiry_workflow w ON w.id=e.id
+        WHERE r.outcome='Completed' AND r.schedule_event>0 AND b.state='confirmed'
+          AND s.starts BETWEEN ? AND ? AND r.updated<=? AND e.email_status!='qa-verified'
+          AND r.schedule_event=(SELECT MAX(a.id) FROM appointment_events a WHERE a.enquiry_id=e.id
+            AND a.event IN ('confirmed','rescheduled'))"""+access,args)
+    for row in rows:
+        payload=json.loads(row['payload'])
+        country=growth_workbench.country(payload)
+        if country not in markets or payload.get('interest') not in CRM_INTERESTS:
+            continue
+        market=markets[country]
+        market['attended']+=1
+        market['nextSteps']+=row['next_step']
+        market['proposals']+=row['proposed']
+        market['won']+=row['won']
+    for market in markets.values():
+        market['conversionRate']=round(100*market['won']/market['attended'],1) if market['attended'] else None
+    return list(markets.values())
 
 
 def funnel(db,identity,days):
@@ -369,6 +491,7 @@ def funnel(db,identity,days):
         'industries':sorted(industries.values(), key=lambda group: (group['industryLabel'], group['countryLabel'])),
         'homeServices':sorted(home_services.values(), key=lambda group: (group['serviceLabel'], group['countryLabel'])),
         'sampleDemoFunnel':sample_demo_funnel(db,identity,args[0],now),
+        'crmDemoConversion':crm_demo_conversion(db,identity,args[0],now),
         'proposalDecisions':proposal_decisions(db,identity,args[0],now),
         'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. Missing decisions are excluded from the median. Uses saved business country and staff access, with QA records excluded.',
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',

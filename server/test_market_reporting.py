@@ -84,6 +84,46 @@ class MarketReportingTests(unittest.TestCase):
                 self.assertEqual((counts['demoBooked'],counts['qualified']), (1,1))
                 self.assertEqual(tuple(counts[key] for key in ('demoCompleted','demoCancelled','demoNoShow')), expected)
 
+    def test_crm_demo_conversion_uses_demo_date_and_post_demo_sales_outcomes(self):
+        now=int(time.time());day=86400
+        us=self.lead('US',created=now-60*day)
+        uk=self.lead('GB')
+        india=self.lead('IN')
+        stale=self.lead('IN')
+        qa=self.lead('GB',email_status='qa-verified')
+        cancelled=self.lead('US')
+        other=self.lead('US')
+        with isolated.enquiries.connect() as db:
+            for offset,ref in enumerate((us,uk,india,stale,qa,cancelled,other)):
+                starts=now-2*day+offset
+                slot=uuid.uuid4().hex
+                db.execute('INSERT INTO demo_slots VALUES(?,?,30,?,1)',(slot,starts,self.owner))
+                db.execute('INSERT INTO demo_bookings(enquiry_id,slot_id,token_digest,state) VALUES(?,?,?,?)',
+                           (ref,slot,uuid.uuid4().hex,'cancelled' if ref==cancelled else 'confirmed'))
+                event=db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,'confirmed',?,30,?,?)",
+                                 (ref,slot,starts,self.owner,starts-day)).lastrowid
+                db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',(ref,'Test','Completed',event,1,starts+1,self.owner))
+                if ref in (us,india):
+                    db.execute('INSERT INTO sales_demo_next_steps VALUES(?,?,?,?,?,?,?,?)',
+                               (ref,event,'proposal','2026-11-30','',1,starts+5,self.owner))
+                if ref==stale:
+                    db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,'rescheduled',?,30,?,?)",
+                               (ref,slot,now+day,self.owner,now))
+                if ref in (us,uk):
+                    db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id=?",(ref,))
+                    db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won',?,?)",
+                               (ref,self.owner,starts+(90 if ref==us else -90)))
+                if ref in (us,uk,india):
+                    db.execute("""INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,published)
+                                  VALUES(?,?,1,'Synthetic proposal','Scope','Terms',100,'USD',?,'published',?,?,?)""",
+                               (uuid.uuid4().hex,ref,now+day,starts-100,self.owner,starts+(60 if ref==us else -60)))
+            db.execute("UPDATE enquiries SET payload=json_set(payload,'$.interest','Website') WHERE id=?",(other,))
+            report=sales_journey.crm_demo_conversion(db,{'role':'agent','actor':self.owner},now-7*day,now)
+            self.assertEqual([(row['country'],row['attended'],row['nextSteps'],row['proposals'],row['won'],row['conversionRate'])
+                              for row in report],[('US',1,1,1,1,100.0),('GB',1,0,0,0,0.0),('IN',1,1,0,0,0.0)])
+            hidden=sales_journey.crm_demo_conversion(db,{'role':'agent','actor':'unassigned@example.test'},now-7*day,now)
+            self.assertTrue(all(row['attended']==0 and row['conversionRate'] is None for row in hidden))
+
     def test_explicit_country_unique_milestones_and_no_phone_currency_inference(self):
         refs={c:self.lead(c) for c in ('US','GB','IN','other')};legacy=self.lead();now=int(time.time())
         with isolated.enquiries.connect() as db:

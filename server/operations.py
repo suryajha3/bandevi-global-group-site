@@ -191,6 +191,7 @@ def post_public(handler, connect, origins):
     if urlsplit(handler.path).path!='/api/demo/manage':return False
     if handler.headers.get('Origin') not in origins:handler.respond(403,{'error':'Use the website to manage your appointment.'});return True
     from dashboard import read_json
+    from sales_journey import prep_brief, save_prep_brief
     try:
         data=read_json(handler);token=data.get('token','')
         if not isinstance(token,str) or not 40<=len(token)<=100:raise ValueError('Invalid appointment link.')
@@ -202,10 +203,16 @@ def post_public(handler, connect, origins):
             if action=='calendar':
                 from client_workflow import calendar
                 handler.respond(200,{'calendar':calendar(db,booking['enquiry_id'])});return True
-            if action not in ('view','cancel','reschedule'):raise ValueError('Invalid action.')
+            if action not in ('view','cancel','reschedule','save-prep'):raise ValueError('Invalid action.')
             if action!='view':
                 if type(data.get('version'))!=int or data['version']!=booking['version']:handler.respond(409,{'error':'Appointment changed. Reload before trying again.'});return True
-                if action=='cancel':
+                if action=='save-prep':
+                    slot=db.execute('SELECT starts FROM demo_slots WHERE id=?',(booking['slot_id'],)).fetchone()
+                    if booking['state']!='confirmed' or not slot or slot['starts']<=int(time.time()):
+                        handler.respond(409,{'error':'The prep brief is open only before a confirmed demo.'});return True
+                    if not save_prep_brief(db,booking['enquiry_id'],data):
+                        handler.respond(409,{'error':'The prep brief changed. Reload before trying again.'});return True
+                elif action=='cancel':
                     if booking['state']=='confirmed':cancel_booking(db,booking,'Your demo has been cancelled.')
                 else:
                     slot_id=data.get('slotId');slot=db.execute('SELECT * FROM demo_slots WHERE id=? AND active=1 AND starts>?',(slot_id,int(time.time()))).fetchone()
@@ -219,7 +226,8 @@ def post_public(handler, connect, origins):
                     enqueue(db,'appointment:'+booking['enquiry_id']+':'+str(booking['version']+1),payload['email'],'Bandevi demo rescheduled',f'Your new demo time: {when}.\nManage: https://bandeviglobalgroup.com/demo-booking/#'+token)
             row=db.execute('SELECT b.state,b.version,b.enquiry_id,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE token_digest=?',(hashlib.sha256(token.encode()).hexdigest(),)).fetchone()
             meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(booking['enquiry_id'],)).fetchone()
-        handler.respond(200,{**dict(row),'meetingUrl':meeting[0] if meeting else None})
+            prep=prep_brief(db,booking['enquiry_id']) if row['state']=='confirmed' and row['starts'] and row['starts']>int(time.time()) else None
+        handler.respond(200,{**dict(row),'meetingUrl':meeting[0] if meeting else None,'prepBrief':prep})
     except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Check your appointment link and details.'})
     return True
 
