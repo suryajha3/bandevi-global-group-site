@@ -6,6 +6,7 @@ import time
 from urllib.parse import parse_qs, urlsplit
 from zoneinfo import ZoneInfo
 from growth_workbench import COUNTRIES, country
+import operations
 
 ZONES=(('US','US Eastern','America/New_York'),('US','US Central','America/Chicago'),
        ('US','US Mountain','America/Denver'),('US','US Pacific','America/Los_Angeles'),
@@ -70,7 +71,7 @@ def coverage_report(db,query,now=None):
     if horizon not in (7,14,30) or market not in ('','US','GB','IN'):raise ValueError('Choose a valid coverage window or market.')
     # Match the public endpoint, including its first-100 limit. A cancelled
     # booking releases its old slot ID through the existing cancellation flow.
-    slots=db.execute('SELECT s.starts,s.duration FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.active=1 AND b.slot_id IS NULL AND s.starts>? AND s.starts<? ORDER BY s.starts LIMIT 100',(now,now+180*86400)).fetchall()
+    slots=operations.available_slots(db,now)
     rows=[]
     for code,label,zone_name in ZONES:
         if market and market!=code:continue

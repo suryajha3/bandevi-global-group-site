@@ -84,6 +84,36 @@ class MarketReportingTests(unittest.TestCase):
                 self.assertEqual((counts['demoBooked'],counts['qualified']), (1,1))
                 self.assertEqual(tuple(counts[key] for key in ('demoCompleted','demoCancelled','demoNoShow')), expected)
 
+    def test_proposal_review_conversion_counts_exact_revisions_and_distinct_won_deals(self):
+        now=int(time.time());day=86400
+        us,uk,india,qa=(self.lead(code,**options) for code,options in
+                         [('US',{}),('GB',{}),('IN',{}),('US',{'email_status':'qa-verified'})])
+        with isolated.enquiries.connect() as db:
+            def seed(ref,revision,status,review_state=None,booked=now-day):
+                pid=uuid.uuid4().hex
+                db.execute("""INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,
+                    expires,status,created,actor,published,accepted) VALUES(?,?,?,'Proposal','Scope','Terms',100,'USD',?,?,?,?,?,?)""",
+                    (pid,ref,revision,now+day,status,now-10*day,self.owner,now-10*day,now-100 if status=='accepted' else None))
+                if review_state:
+                    db.execute("""INSERT INTO client_proposal_reviews(id,reference,proposal,slot_id,topic,state,created,outcome_at)
+                        VALUES(?,?,?,?,'scope',?,?,?)""",(uuid.uuid4().hex,ref,pid,uuid.uuid4().hex,review_state,booked,now-200))
+                return pid
+            seed(us,1,'accepted','attended')
+            seed(us,2,'accepted','attended')
+            seed(uk,1,'superseded','attended')
+            seed(uk,2,'accepted')
+            seed(india,1,'accepted','cancelled',now-8*day)
+            seed(india,2,'accepted','booked')
+            seed(qa,1,'accepted','attended')
+            for ref,created in [(us,now-50),(uk,now-50),(india,now-500)]:
+                db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id=?",(ref,))
+                db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won',?,?)",(ref,self.owner,created))
+            groups=sales_journey.proposal_review_conversion(db,{'role':'agent','actor':self.owner},now-7*day,now)
+            self.assertEqual([(r['country'],r['booked'],r['attended'],r['accepted'],r['won']) for r in groups],
+                             [('US',2,2,2,1),('GB',1,1,0,0),('IN',1,0,1,0)])
+            scoped=sales_journey.proposal_review_conversion(db,{'role':'agent','actor':'other@example.test'},now-7*day,now)
+            self.assertTrue(all(not r['booked'] for r in scoped))
+
     def test_crm_demo_conversion_uses_demo_date_and_post_demo_sales_outcomes(self):
         now=int(time.time());day=86400
         us=self.lead('US',created=now-60*day)

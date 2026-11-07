@@ -58,6 +58,64 @@ class ClientTests(unittest.TestCase):
         state=self.journey(ref,cookie)[1]['record']
         return self.request('/api/admin/sales-journey',{'reference':ref,'version':state['version'],'scheduleEvent':state['scheduleEvent'],'action':action,'requirements':'Sales workflow, named owners and quoted integrations.','outcome':'Not recorded',**data},cookie or self.admin,csrf or self.admin_csrf)
 
+    def test_proposal_review_preserves_revision_and_shares_slot_inventory(self):
+        ref,_=self.create()
+        other,_=self.create()
+        client,csrf,_=self.client(ref)
+        outsider,_,_=self.client(other)
+        first=self.proposal(ref)
+        self.assertEqual(self.change(ref,'publish',id=first)[0],200)
+        now=int(time.time())
+        slot=uuid.uuid4().hex[:24]
+        late=uuid.uuid4().hex[:24]
+        with enquiries.connect() as db:
+            db.execute('INSERT INTO demo_slots VALUES(?,?,30,?,1)',(slot,now+7200,dashboard.USER))
+            db.execute('INSERT INTO demo_slots VALUES(?,?,30,?,1)',(late,now+86400,dashboard.USER))
+            db.execute('UPDATE enquiries SET created=? WHERE id=?',(now-100*86400,ref))
+        slots_route=f'/api/client/review-slots?reference={ref}&id={first}'
+        self.assertEqual(self.request(slots_route)[0],401)
+        self.assertEqual(self.request(slots_route,cookie=outsider)[0],404)
+        slots=self.request(slots_route,cookie=client)[1]['slots']
+        self.assertIn(slot,[s['id'] for s in slots]);self.assertNotIn(late,[s['id'] for s in slots])
+        self.assertTrue(all(set(s)=={'id','starts','duration'} for s in slots))
+        data={'reference':ref,'id':first,'action':'book','slotId':slot,'topic':'integrations'}
+        self.assertEqual(self.request('/api/client/proposal-review',data,client)[0],403)
+        self.assertEqual(self.request('/api/client/proposal-review',dict(data,slotId=late),client,csrf)[0],409)
+        for _ in range(2):self.assertEqual(self.request('/api/client/proposal-review',data,client,csrf)[0],200)
+        self.assertNotIn(slot,[s['id'] for s in self.request('/api/demo/slots')[1]['slots']])
+        self.assertEqual(self.demo_change(other,'book',slotId=slot,customerAgreed=True)[0],409)
+        self.assertEqual(self.request('/api/admin/slots',{'action':'close','id':slot},self.admin,self.admin_csrf)[0],400)
+        current=self.request('/api/client/project?reference='+ref,cookie=client)[1]['proposals'][0]['review']
+        self.assertEqual(current['topic'],'integrations')
+        self.assertNotIn('host',current)
+        action={'reference':ref,'id':first,'reviewId':current['id'],'reviewVersion':current['version']}
+        self.assertEqual(self.request('/api/client/proposal-review',dict(action,action='cancel'),client,csrf)[0],200)
+        self.assertIn(slot,[s['id'] for s in self.request('/api/demo/slots')[1]['slots']])
+        self.assertEqual(self.request('/api/client/proposal-review',data,client,csrf)[0],200)
+        current=self.p(ref)['proposals'][0]['review']
+        action.update(reviewId=current['id'],reviewVersion=current['version'])
+        staff_route='/api/admin/workspace/proposal-review'
+        self.assertEqual(self.request(staff_route,dict(action,action='attended'),self.admin,self.admin_csrf)[0],409)
+        self.assertEqual(self.request(staff_route,dict(action,action='meeting',url='https://meet.example.test/review'),self.admin,self.admin_csrf)[0],200)
+        second=self.proposal(ref)
+        self.assertEqual(self.change(ref,'publish',id=second)[0],200)
+        self.assertEqual(self.request(slots_route,cookie=client)[0],409)
+        queue=self.request('/api/admin/demo-recovery?bucket=proposal_review&days=7',cookie=self.admin)[1]
+        item=next(item for item in queue['items'] if item['reference']==ref)
+        self.assertEqual(item['proposalReviews'][0]['proposalId'],first)
+        proposals=self.request('/api/client/project?reference='+ref,cookie=client)[1]['proposals']
+        self.assertIsNone(proposals[0]['review'])
+        self.assertEqual(proposals[1]['review']['meeting'],'https://meet.example.test/review')
+        with enquiries.connect() as db:
+            db.execute('UPDATE demo_slots SET starts=? WHERE id=?',(now-33333,slot))
+        self.assertEqual(self.request(staff_route,dict(action,action='attended'),self.admin,self.admin_csrf)[0],409)
+        action['reviewVersion']+=1
+        self.assertEqual(self.request(staff_route,dict(action,action='attended'),self.admin,self.admin_csrf)[0],200)
+        action['reviewVersion']+=1
+        self.assertEqual(self.request(staff_route,dict(action,action='followed'),self.admin,self.admin_csrf)[0],200)
+        queue=self.request('/api/admin/demo-recovery?bucket=proposal_review&days=7',cookie=self.admin)[1]
+        self.assertNotIn(ref,[item['reference'] for item in queue['items']])
+
     def test_enquiry_demo_booking_confirmation_conflict_and_private_boundary(self):
         with urllib.request.urlopen(isolated.base+'/team-inbox/sales-journey.js') as response:
             self.assertIn('application/javascript',response.headers['Content-Type'])

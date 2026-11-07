@@ -18,6 +18,14 @@ Customers can also ask a question or request changes on a current, unexpired pub
 
 The report uses enquiries received in the selected 7/30/90-day cohort. It counts recorded demo reservations, projects with actually published proposals, accepted proposals, current overdue follow-ups and ticket targets. Rejected draft proposals do not count as published. Loss reasons appear only for enquiries currently marked Lost; missing reasons stay explicitly Not recorded. Accepted proposal totals are not revenue or payment totals.
 
+## Proposal reviews
+
+From a current published revision, the signed-in customer can choose **Book a proposal review**, an available time before that revision expires, and an optional topic. The picker uses the browser’s local time zone by default. Demo and proposal review appointments share the published calendar. A booked review stays on the exact revision even after a newer one is published. The customer or staff can cancel before the meeting starts, and the slot returns to availability when its host is active.
+
+In Team Inbox, use **Demo recovery → Proposal reviews**. Open the linked revision to enter the HTTPS joining link. Customers see the link in their private workspace. After the meeting, record attendance or a no-show and mark the follow-up complete. Active bookings stay in the queue even if the sales enquiry is older than the report window. A booked review does not publish, accept or change the proposal.
+
+**Reports → Proposal review outcomes** groups US, UK and India by saved business country and first review booking date. A revision counts once even after a cancellation and rebooking. Acceptance requires the exact reviewed revision and a recorded acceptance after booking. Wins are currently Won enquiries with a recorded Won event after that acceptance, counted once per deal.
+
 ## Client kickoff
 
 Accepting a proposal makes the project’s kickoff checklist available in Client Workspace. The checklist links to the accepted revision. The customer supplies the primary project contact, confirms when requested materials have been shared through private Support, and confirms the proposed kickoff time in their local time zone.

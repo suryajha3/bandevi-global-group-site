@@ -133,5 +133,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original demo prep and conversion marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const review = require('./fixtures/proposal-review-booking-approved.json');
+  for (const { before, after } of review[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original proposal review booking marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

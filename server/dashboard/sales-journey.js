@@ -131,6 +131,8 @@ async function refreshSalesFunnel(identity){
  $('sample-demo-table').replaceChildren();
  $('crm-demo-conversion').hidden=true;
  $('crm-demo-conversion-table').replaceChildren();
+ $('proposal-review-conversion').hidden=true;
+ $('proposal-review-conversion-table').replaceChildren();
  $('proposal-decision-report').replaceChildren();
  $('proposal-decision-basis').textContent='Loading proposal decisions…';
  campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('home-service-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
@@ -147,12 +149,31 @@ async function refreshSalesFunnel(identity){
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
   renderSampleDemoFunnel(r);
   renderCrmDemoConversion(r);
+  renderProposalReviewConversion(r);
   renderProposalDecisions(r);
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);
   renderOutcomeRows('home-service-sales-report','Homepage service','serviceLabel',r.homeServices || []);
   renderCampaignSalesReport(r);
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;$('proposal-decision-basis').textContent='Proposal decisions could not be loaded.';}}
+}
+
+function renderProposalReviewConversion(result){
+ if(!result.proposalReviewConversion)return;
+ const table=document.createElement('table');
+ table.append(text('caption','Proposal review outcomes · last '+result.days+' days by first review booking'));
+ const header=table.createTHead().insertRow();
+ for(const label of ['Business country','Revisions booked','Revisions attended','Revisions accepted','Recorded Won deals']){
+  const cell=text('th',label);cell.scope='col';header.append(cell);
+ }
+ const body=table.createTBody();
+ for(const group of result.proposalReviewConversion){
+  const row=body.insertRow(),label=text('th',group.label);
+  label.scope='row';row.append(label);
+  for(const value of [group.booked,group.attended,group.accepted,group.won])row.append(text('td',String(value)));
+ }
+ $('proposal-review-conversion-table').replaceChildren(table);
+ $('proposal-review-conversion').hidden=false;
 }
 
 function renderCrmDemoConversion(result){
@@ -253,6 +274,7 @@ function clearCampaignSales(){
  $('proposal-decision-report').replaceChildren();$('proposal-decision-basis').textContent='';
  $('sample-demo-report').hidden=true;$('sample-demo-table').replaceChildren();
  $('crm-demo-conversion').hidden=true;$('crm-demo-conversion-table').replaceChildren();
+ $('proposal-review-conversion').hidden=true;$('proposal-review-conversion-table').replaceChildren();
 }
 function renderCampaignSalesReport(result){
  campaignSalesState={identity:csrf,groups:result.campaigns||[]};$('campaign-sales-basis').textContent=result.campaignBasis||'';renderCampaignSalesRows();

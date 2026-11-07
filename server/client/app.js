@@ -15,7 +15,7 @@ function formBox(parent,title,submit){const box=el('details'),summary=el('summar
 async function change(action,data){if(!current)throw Error('Choose a project.');return api(prefix+action,{reference:current.reference,...(staff?{version:current.version}:{}),...data});}
 async function load(){const identity=csrf;const result=await api(prefix+'projects'),selected=$('project-list').value||(staff?new URLSearchParams(location.search).get('reference'):'');if(!csrf||identity!==csrf)return;$('project-list').replaceChildren(...result.projects.map(p=>{const o=el('option',p.title+' · '+p.reference);o.value=p.reference;return o;}));if(result.projects.some(p=>p.reference===selected))$('project-list').value=selected;else if(selected&&staff){const empty=el('option','Create a project for '+selected);empty.value='';$('project-list').prepend(empty);$('project-list').value='';$('create-form').closest('details').open=true;}await loadProject();if(staff)await Promise.all([report(),loadTracker()]);}
 async function report(){const identity=csrf;const r=await api(prefix+'report?days='+$('report-days').value);if(!csrf||identity!==csrf)return;const labels={enquiries:'Enquiries',demoReserved:'Reserved a demo',proposalProjects:'Published proposal',acceptedProjects:'Accepted proposal',overdueFollowups:'Overdue follow-ups',openTickets:'Active support tickets',overdueTickets:'Overdue support targets'};$('report').replaceChildren(...Object.entries(r.counts).map(([k,v])=>{const n=el('div',labels[k]||k);n.append(el('strong',String(v)));return n;}));const rate=r.counts.enquiries?(100*r.counts.demoReserved/r.counts.enquiries).toFixed(1)+'%':'—',accept=r.counts.proposalProjects?(100*r.counts.acceptedProjects/r.counts.proposalProjects).toFixed(1)+'%':'—';$('report-basis').textContent='Enquiry → demo: '+rate+'. Published proposal → acceptance: '+accept+'. '+r.basis;$('loss-report').replaceChildren(el('h3','Current lost-deal reasons'),...Object.entries(r.lostReasons).map(([k,v])=>el('p',k+': '+v)));}
-async function loadProject(){const generation=++projectGeneration,identity=csrf;const ref=$('project-list').value;if(!ref){current=null;$('project').replaceChildren(el('p','No projects are available.'));return;}const query=new URLSearchParams(location.search),ticket=staff&&query.get('reference')===ref?query.get('ticket'):null;const params=new URLSearchParams({reference:ref});if(ticket)params.set('ticket',ticket);const result=await api(prefix+'project?'+params);if(!csrf||csrf!==identity||generation!==projectGeneration||$('project-list').value!==ref)return;current=result;render();const target=['#proposals','#support','#proposal-tracker'].includes(location.hash)?document.querySelector(location.hash):null;const thread=ticket?$('ticket-'+ticket):null;(thread||target)?.scrollIntoView({block:'start'});}
+async function loadProject(){const generation=++projectGeneration,identity=csrf;const ref=$('project-list').value;if(!ref){current=null;$('project').replaceChildren(el('p','No projects are available.'));return;}const query=new URLSearchParams(location.search),ticket=staff&&query.get('reference')===ref?query.get('ticket'):null;const params=new URLSearchParams({reference:ref});if(ticket)params.set('ticket',ticket);const result=await api(prefix+'project?'+params);if(!csrf||csrf!==identity||generation!==projectGeneration||$('project-list').value!==ref)return;current=result;render();const target=['#proposals','#support','#proposal-tracker'].includes(location.hash)||/^#proposal-[a-f0-9]{24}$/.test(location.hash)?$(location.hash.slice(1)):null;const thread=ticket?$('ticket-'+ticket):null;(thread||target)?.scrollIntoView({block:'start'});}
 function proposalFeedbackForm(parent, proposal) {
  const form=el('form'), id='proposal-feedback-'+proposal.id, actions=el('div');
  form.id=id;form.hidden=true;
@@ -45,6 +45,94 @@ function proposalFeedbackForm(parent, proposal) {
  });
  actions.append(...buttons);parent.append(actions,form);
 }
+const reviewTopics={scope:'Scope',budget:'Budget',timing:'Timing',integrations:'Integrations',other:'Other'};
+const reviewStates={booked:'Booked',attended:'Attended',no_show:'No-show',cancelled:'Cancelled'};
+const detectedReviewZone=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+let reviewZone=detectedReviewZone;
+
+function reviewTime(starts,zone){
+ return new Intl.DateTimeFormat(undefined,{timeZone:zone,year:'numeric',month:'short',day:'numeric',
+  hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(starts*1000);
+}
+
+function renderProposalReview(parent,proposal,reference){
+ const review=proposal.review;
+ if(!review&&(staff||!proposal.reviewAvailable))return;
+ const section=el('section');section.setAttribute('aria-label','Proposal review for revision '+proposal.revision);
+ const update=async(action,extra={},refresh=true)=>{
+  await api(prefix+'proposal-review',{reference,id:proposal.id,action,reviewId:review?.id,reviewVersion:review?.version,...extra});
+  if(refresh&&current?.reference===reference)await loadProject();
+ };
+ if(review){
+  section.append(el('h4','Proposal review'),el('p',reviewStates[review.state]+' · '+reviewTime(review.starts,staff?'Asia/Kolkata':reviewZone)+' · '+review.duration+' minutes'));
+  if(review.topic)section.append(el('p','Topic: '+reviewTopics[review.topic]));
+  if(staff)section.append(el('p','Host: '+review.host));
+  if(review.state==='booked'&&review.starts+review.duration*60>Date.now()/1000){
+   if(review.meeting){
+    const link=el('a','Open review meeting link');link.href=review.meeting;link.target='_blank';link.rel='noopener noreferrer';
+    section.append(link);
+   }else section.append(el('p','Joining details will appear here once the team adds them.'));
+  }
+  if(review.state==='booked'&&review.starts>Date.now()/1000){
+   if(staff){
+    const form=formBox(section,'Add or update joining link',()=>update('meeting',{url:url.value},false));
+    const url=field(form,'HTTPS meeting link','url','url');url.required=true;url.maxLength=500;url.value=review.meeting;
+   }
+   section.append(button('Cancel proposal review',async()=>{if(confirm('Cancel the review of proposal revision '+proposal.revision+'?'))await update('cancel');}));
+  }
+  if(staff&&review.state==='booked'&&review.starts+review.duration*60<=Date.now()/1000){
+   section.append(button('Record review attended',()=>update('attended')),button('Record review no-show',()=>update('no_show')));
+  }
+  if(staff&&['attended','no_show'].includes(review.state)){
+   section.append(review.followed?el('p','Sales follow-up recorded '+stamp(review.followed)):
+    button('Mark review follow-up complete',()=>update('followed')));
+  }
+ }
+ if(!staff&&proposal.reviewAvailable){
+  const box=el('details'),form=el('form'),status=el('p');status.setAttribute('role','status');
+  box.append(el('summary','Book a proposal review'),form);
+  form.append(el('p','Choose a time before this proposal expires. Your review stays with revision '+proposal.revision+'.'));
+  const zone=field(form,'Display time zone','zone','text',[...new Set([detectedReviewZone,'America/New_York','America/Chicago',
+   'America/Denver','America/Los_Angeles','America/Phoenix','America/Anchorage','Pacific/Honolulu','Europe/London','Asia/Kolkata','UTC'])]);
+  zone.value=reviewZone;
+  const slot=field(form,'Available review times','slot','text',[]);slot.required=true;
+  const topic=field(form,'What would you like to discuss? (optional)','topic','text',['',...Object.keys(reviewTopics)]);
+  for(const option of topic.options)option.textContent=reviewTopics[option.value]||'Choose if helpful';
+  const reserve=el('button','Confirm review booking');reserve.type='submit';reserve.disabled=true;
+  let slots=[],loading=false,booking=false;
+  function showSlots(){
+   const selected=slot.value;
+   slot.replaceChildren(new Option('Choose a time',''),...slots.map(item=>new Option(
+    reviewTime(item.starts,zone.value)+' · '+item.duration+' minutes',item.id)));
+   if(slots.some(item=>item.id===selected))slot.value=selected;
+   reserve.disabled=loading||booking||!slots.length;
+  }
+  async function loadSlots(){
+   if(loading||booking)return;
+   loading=true;reserve.disabled=true;status.textContent='Checking available review times…';
+   try{
+    const result=await api(prefix+'review-slots?'+new URLSearchParams({reference,id:proposal.id}));
+    slots=result.slots;
+    status.textContent=slots.length?'Times are shown in the selected time zone.':'No times are available before this revision expires. Contact the team through Support.';
+   }catch(error){slots=[];status.textContent=error.message;}
+   finally{loading=false;showSlots();}
+  }
+  zone.addEventListener('change',()=>{reviewZone=zone.value;showSlots();});
+  box.addEventListener('toggle',()=>{if(box.open)loadSlots();});
+  const refresh=el('button','Refresh review times');refresh.type='button';refresh.addEventListener('click',loadSlots);
+  form.append(reserve,refresh,status);
+  form.addEventListener('submit',async event=>{
+   event.preventDefault();if(reserve.disabled||!slot.value)return;
+   booking=true;reserve.disabled=true;
+   try{await update('book',{slotId:slot.value,topic:topic.value});$('message').textContent='Proposal review booked for revision '+proposal.revision+'.';}
+   catch(error){status.textContent=error.message;}
+   finally{booking=false;showSlots();}
+  });
+  section.append(box);
+ }
+ parent.append(section);
+}
+
 function renderClientKickoff(project, root){
  const kickoff=project.kickoff;
  if(staff||!kickoff)return;
@@ -77,6 +165,7 @@ function render(){const p=current,root=$('project');root.replaceChildren();const
   if(staff&&['draft','published'].includes(proposal.status))a.append(button('Withdraw',async()=>{if(!confirm('Withdraw this proposal?'))return;await change('withdraw',{id:proposal.id});await loadProject();await loadTracker();}));
   if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000){const f=formBox(a,'Accept this proposal',async()=>{await change('accept',{id:proposal.id,name:name.value,agree:agree.checked});});const name=field(f,'Your full name','name');name.required=true;name.maxLength=120;const agree=field(f,'I accept the scope, value and commercial terms of revision '+proposal.revision,'agree','checkbox');agree.required=true;}
   if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000)proposalFeedbackForm(a,proposal);
+  renderProposalReview(a,proposal,p.reference);
   for(const request of p.tickets.filter(ticket=>ticket.proposalFeedback?.proposalId===proposal.id)){
    const link=el('a',request.subject+' · '+request.status);link.href='#ticket-'+request.id;
    const row=el('p');row.append(link);a.append(row);
