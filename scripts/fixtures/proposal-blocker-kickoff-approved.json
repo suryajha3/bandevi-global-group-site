@@ -1,0 +1,180 @@
+{
+  "server/client/app.js": [
+    {
+      "before": "label='Save'){const box=el('details'),summary=el('summary',title),form=el('form');box.append(summary,form);parent.append(box);const save=el('button',label);save.type='submit';form.addEventListener('submit',e=>{e.preventDefault();save.disabled=true;act(async()=>{await submit(form);await loadProject();if(staff)",
+      "after": "label='Save',afterLoad){const box=el('details'),summary=el('summary',title),form=el('form');box.append(summary,form);parent.append(box);const save=el('button',label);save.type='submit';form.addEventListener('submit',e=>{e.preventDefault();save.disabled=true;act(async()=>{await submit(form);await loadProject();afterLoad?.();if(staff)"
+    },
+    {
+      "before": "00Z'))));\n  parent.appen",
+      "after": "00Z'))));\n  renderProposalBlocker(card,proposal);\n  parent.appen"
+    },
+    {
+      "before": "}\n\nconst reviewTopics",
+      "after": "}\n\nconst blockerLabels={approval:'Internal approval',purchase_order:'Purchase order',billing:'Billing details',\n scope:'Scope clarification',other:'Something else'};\n\nfunction renderProposalBlocker(card,proposal){\n const blocker=proposal.blocker;\n if(blocker){\n  const status=blocker.resolved?'Resolved':proposal.status==='published'?'Reported to the sales team':'Recorded on this revision';\n  card.append(el('h5','Decision blocker'),el('p',blockerLabels[blocker.reason]+' · '+status));\n  if(blocker.note)card.append(el('p',blocker.note,'copy'));\n  if(blocker.expected)card.append(el('p','Expected decision date · '+blocker.expected));\n  if(staff&&blocker.actionable){\n   card.append(el('p','Sales owner · '+blocker.owner+' · Follow-up '+blocker.due));\n   const resolve=button('Mark blocker resolved',async()=>{\n    await change('proposal-blocker',{id:proposal.id,blockerVersion:blocker.version});\n    await loadProject();\n   });\n   resolve.className='secondary';\n   card.append(resolve);\n  }\n }\n if(!proposal.blockerEditable)return;\n const form=formBox(card,'What’s holding up your decision?',()=>change('proposal-blocker',{\n  id:proposal.id,blockerVersion:blocker?.version||0,reason:reason.value,expected:expected.value,note:note.value\n }), 'Save decision blocker');\n const reason=field(form,'What do you need to move forward?','reason','text',['',...Object.keys(blockerLabels)]);\n for(const option of reason.options)option.textContent=blockerLabels[option.value]||'Choose a reason';\n reason.value=blocker?.reason||'';reason.required=true;\n const expected=field(form,'Expected decision date (optional)','expected','date');\n expected.value=blocker?.resolved?'':blocker?.expected||'';\n const note=field(form,'Anything the sales team should know? (optional)','note','textarea');\n note.value=blocker?.note||'';note.maxLength=600;\n}\n\nconst reviewTopics"
+    },
+    {
+      "before": "ff';section.append(el('h",
+      "after": "ff';section.tabIndex=-1;section.append(el('h"
+    },
+    {
+      "before": ".checked});});const name=field(f,'Your full name','name');name.required=true;name.maxLength=120;const agree=field(f,'I accept the scope, value and commercial terms of revision '+proposal.revision,'agree','checkbox');agree.required=true;}\n  if(!staf",
+      "after": ".checked});},'Accept proposal',()=>$('continue-kickoff-'+proposal.id)?.focus());const name=field(f,'Your full name','name');name.required=true;name.maxLength=120;const agree=field(f,'I accept the scope, value and commercial terms of revision '+proposal.revision,'agree','checkbox');agree.required=true;}\n  if(!staff&&proposal.status==='accepted'&&p.kickoff&&!p.kickoff.started){\n   const link=el('a','Continue to kickoff');link.id='continue-kickoff-'+proposal.id;link.href='#client-kickoff';\n   link.addEventListener('click',()=>$('client-kickoff')?.focus({preventScroll:true}));\n   const next=el('p');next.append(link);decisionActions.append(next);\n  }\n  if(!staf"
+    }
+  ],
+  "server/client/index.html": [
+    {
+      "before": "07-proposal-decision\"></script><",
+      "after": "07-proposal-blocker\"></script><"
+    }
+  ],
+  "server/client/staff.html": [
+    {
+      "before": "07-proposal-decision\"></script><",
+      "after": "07-proposal-blocker\"></script><"
+    }
+  ],
+  "server/client_workflow.py": [
+    {
+      "before": " / 'client'\n\nclass Probl",
+      "after": " / 'client'\nBLOCKER_LABELS = {\n    'approval': 'Internal approval',\n    'purchase_order': 'Purchase order',\n    'billing': 'Billing details',\n    'scope': 'Scope clarification',\n    'other': 'Something else',\n}\n\nclass Probl"
+    },
+    {
+      "before": "ISTS client_kickoffs(ref",
+      "after": "ISTS client_proposal_blockers(\n      proposal TEXT PRIMARY KEY,reason TEXT NOT NULL,note TEXT NOT NULL,expected TEXT NOT NULL,\n      due TEXT NOT NULL,created INTEGER NOT NULL,resolved INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL);\n    CREATE TABLE IF NOT EXISTS client_kickoffs(ref"
+    },
+    {
+      "before": "\n        if staff:\n     ",
+      "after": "\n        if decision and decision['published']:\n            active_decision=not closed and p['status']=='published' and p['expires']>now\n            p['blockerEditable']=not staff and active_decision\n            blocker=db.execute('SELECT * FROM client_proposal_blockers WHERE proposal=?',(p['id'],)).fetchone()\n            if blocker:\n                p['blocker']={key:blocker[key] for key in ('reason','note','expected','resolved','version')}\n                if staff:\n                    p['blocker'].update(due=blocker['due'],owner=sales_owner(db,ref),\n                                        actionable=not closed and p['status']=='published' and not blocker['resolved'])\n        if staff:\n     "
+    },
+    {
+      "before": "if action=='create' and ",
+      "after": "if action=='proposal-blocker' and staff:\n                ref=value(data,'reference',30);project(db,ref,identity,True)\n                change_proposal_blocker(db,ref,actor,data,True)\n            elif action=='create' and "
+    },
+    {
+      "before": "=='proposal-review':chan",
+      "after": "=='proposal-blocker':change_proposal_blocker(db,ref,actor,data,False)\n    elif action=='proposal-review':chan"
+    },
+    {
+      "before": "\n\ndef save_proposa",
+      "after": "\n\ndef change_proposal_blocker(db,ref,actor,data,staff):\n    pid=value(data,'id',30)\n    now=int(time.time())\n    proposal=db.execute(\"\"\"SELECT p.status,p.expires FROM client_proposals p\n        JOIN client_proposal_decisions d ON d.proposal=p.id AND d.published>0\n        WHERE p.id=? AND p.reference=?\"\"\",(pid,ref)).fetchone()\n    if not proposal:raise Problem(404,'Decision card not found.')\n    if (proposal['status']!='published' or (not staff and proposal['expires']<=now)\n            or db.execute(\"SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')\",(ref,)).fetchone()):\n        raise Problem(409,'This decision card is no longer active.')\n    prior=db.execute('SELECT * FROM client_proposal_blockers WHERE proposal=?',(pid,)).fetchone()\n    version=prior['version'] if prior else 0\n    if type(data.get('blockerVersion')) is not int or data['blockerVersion']!=version:\n        raise Problem(409,'The blocker changed. Refresh before saving.')\n    if staff:\n        if not prior or prior['resolved']:raise Problem(409,'There is no open blocker to resolve.')\n        db.execute('UPDATE client_proposal_blockers SET resolved=?,version=version+1 WHERE proposal=?',(now,pid))\n        audit(db,ref,'proposal-blocker-resolved',actor,pid)\n        return\n    reason=value(data,'reason',30)\n    if reason not in BLOCKER_LABELS:raise Problem(400,'Choose what is holding up your decision.')\n    note=value(data,'note',600,False)\n    expected=value(data,'expected',10,False)\n    if prior and not prior['resolved'] and (reason,note,expected)==(prior['reason'],prior['note'],prior['expected']):\n        return\n    today=datetime.datetime.fromtimestamp(now,operations.INDIA).date()\n    if expected:\n        try:\n            date=datetime.date.fromisoformat(expected)\n            if date.isoformat()!=expected or (not prior or expected!=prior['expected']) and not today<=date<=today+datetime.timedelta(days=365):\n                raise ValueError()\n        except ValueError:raise Problem(400,'Choose an expected decision date from today through the next year.')\n        due=expected\n    elif prior and not prior['resolved'] and not prior['expected']:\n        due=prior['due']\n    else:\n        date=today+datetime.timedelta(days=1)\n        while date.weekday()>=5:\n            date+=datetime.timedelta(days=1)\n        due=date.isoformat()\n    db.execute(\"\"\"INSERT INTO client_proposal_blockers(proposal,reason,note,expected,due,created,version)\n        VALUES(?,?,?,?,?,?,?) ON CONFLICT(proposal) DO UPDATE SET reason=excluded.reason,note=excluded.note,\n        expected=excluded.expected,due=excluded.due,resolved=0,version=excluded.version\"\"\",\n        (pid,reason,note,expected,due,now,version+1))\n    audit(db,ref,'proposal-blocker-saved',actor,pid)\n\n\ndef save_proposa"
+    },
+    {
+      "before": "al.accepted,e.payload,COALESCE(w.owner,'') AS sales_owner,\n    COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,COALESCE(k.contact,'') AS contact,",
+      "after": "al.accepted,proposal.accepted_by,e.payload,COALESCE(w.owner,'') AS sales_owner,\n    COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,k.contact AS contact,"
+    },
+    {
+      "before": "\n    return dict(row) if row else None\n\n",
+      "after": "\n    return kickoff_record(row) if row else None\n\n\ndef kickoff_record(row):\n    state=dict(row)\n    accepted_by=state.pop('accepted_by') or ''\n    if state['contact'] is None:\n        state['contact']=accepted_by.rsplit(' <',1)[0][:160]\n    return state\n\n"
+    },
+    {
+      "before": "      state=dict(record)\n   ",
+      "after": "      state=kickoff_record(record)\n   "
+    }
+  ],
+  "server/dashboard/acquisition.js": [
+    {
+      "before": "  for(const flag of item",
+      "after": "  for(const blocker of item.proposalDecisions.blockers||[]){\n     const link=text('a','Open decision blocker · revision '+blocker.revision);\n     link.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference})+'#proposal-'+blocker.proposalId;\n     const row=text('p','',blocker.overdue?'growth-queue-alert':'');\n     row.append(link,' · '+blocker.reason+' · '+(blocker.overdue?'Overdue since ':'Follow-up ')+blocker.due+' · Sales owner '+item.proposalDecisions.blockerOwner);\n     body.append(row);\n    }\n    for(const flag of item"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "07-proposal-decision\"></script><script defer src=\"/team-inbox/growth.js?v=20261017-costs\"></script><script defer src=\"/team-inbox/acquisition.js?v=20261107-proposal-decision\"></script><",
+      "after": "07-proposal-blocker\"></script><script defer src=\"/team-inbox/growth.js?v=20261017-costs\"></script><script defer src=\"/team-inbox/acquisition.js?v=20261107-proposal-blocker\"></script><"
+    },
+    {
+      "before": "sal-review-conversion-table\"></div></section><section class=\"seo-report\"",
+      "after": "sal-review-conversion-table\"></div><p class=\"small\">Each revision counts once under its latest reported blocker reason. Kickoff requires a recorded start on the accepted revision. Median times use completed steps.</p><div class=\"pipeline-table\" id=\"proposal-blocker-conversion-table\" tabindex=\"0\" role=\"region\" aria-label=\"Decision blockers and kickoff outcomes by market\"></div></section><section class=\"seo-report\""
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": "hildren();\n $('proposal-decision-report').replac",
+      "after": "hildren();\n $('proposal-blocker-conversion-table').replaceChildren();\n $('proposal-decision-report').replac"
+    },
+    {
+      "before": "eplaceChildren(table);\n $('proposal-review-conve",
+      "after": "eplaceChildren(table);\n const decisions=document.createElement('table');\n decisions.append(text('caption','Decision blockers and kickoff outcomes · same review booking period'));\n const decisionHeader=decisions.createTHead().insertRow();\n for(const label of ['Business country','Revisions with blockers','Latest blockers by reason','Accepted after blocker',\n  'Kickoffs started after card','Median card to acceptance','Median acceptance to kickoff']){\n  const cell=text('th',label);cell.scope='col';decisionHeader.append(cell);\n }\n const decisionBody=decisions.createTBody();\n const elapsed=seconds=>seconds==null?'—':seconds<3600?Math.round(seconds/60)+' min':\n  seconds<86400?(seconds/3600).toFixed(1)+' hr':(seconds/86400).toFixed(1)+' days';\n for(const group of result.proposalReviewConversion){\n  const row=decisionBody.insertRow(),label=text('th',group.label);\n  label.scope='row';row.append(label);\n  const reasons=Object.entries(group.blockerReasons||{}).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));\n  for(const value of [group.blockedRevisions??0,reasons.map(([reason,count])=>reason+' '+count).join(' · ')||'—',\n   group.acceptedAfterBlocker??0,group.kickoffsAfterCard??0,elapsed(group.medianCardToAcceptanceSeconds),\n   elapsed(group.medianAcceptanceToKickoffSeconds)]){\n   row.append(text('td',String(value)));\n  }\n }\n $('proposal-blocker-conversion-table').replaceChildren(decisions);\n $('proposal-review-conve"
+    },
+    {
+      "before": "Children();\n}\nfunction r",
+      "after": "Children();\n $('proposal-blocker-conversion-table').replaceChildren();\n}\nfunction r"
+    }
+  ],
+  "server/demo_recovery.py": [
+    {
+      "before": "'Review the decision date or reply to an unanswered ",
+      "after": "'Review the blocker, decision date or unanswered "
+    },
+    {
+      "before": "'client'\"\"\"\n\n",
+      "after": "'client'\"\"\"\nOPEN_BLOCKERS=\"\"\"FROM client_proposal_blockers b JOIN client_proposals p ON p.id=b.proposal\n    WHERE p.status='published' AND b.resolved=0\"\"\"\n\n"
+    },
+    {
+      "before": "D_QUESTION+\"))\"+access,arg",
+      "after": "D_QUESTION+\"\"\") OR EXISTS (\n          SELECT 1 \"\"\"+OPEN_BLOCKERS+\"\"\" AND p.reference=e.id AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')))\"\"\"+access,arg"
+    },
+    {
+      "before": "=[]\n        if row['stag",
+      "after": "=[]\n        blockers=[]\n        if row['stag"
+    },
+    {
+      "before": "'])\n        questions=[dict(question) for question in db.execute(\"\"\"SELECT t.id,t.due,p.revision\n            FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id\n            JOIN client_projects project ON project.reference=t.reference JOIN client_proposals p ON p.id=f.proposal\n            WHERE t.reference=? AND \"\"\"+UNANSWERED_QUESTION+' ORDER BY t.due,t.id',(ref,))]\n        if decisions or questions:\n         ",
+      "after": "'])\n            for blocker in db.execute('SELECT p.id,p.revision,b.reason,b.due '+OPEN_BLOCKERS+\n                                      ' AND p.reference=? ORDER BY b.due,p.revision',(ref,)):\n                blockers.append({'proposalId':blocker['id'],'revision':blocker['revision'],'due':blocker['due'],\n                    'reason':client_workflow.BLOCKER_LABELS[blocker['reason']],'overdue':blocker['due']<decision_today.isoformat()})\n                due.append(int(datetime.datetime.fromisoformat(blocker['due']).replace(tzinfo=operations.INDIA).timestamp()))\n        questions=[dict(question) for question in db.execute(\"\"\"SELECT t.id,t.due,p.revision\n            FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id\n            JOIN client_projects project ON project.reference=t.reference JOIN client_proposals p ON p.id=f.proposal\n            WHERE t.reference=? AND \"\"\"+UNANSWERED_QUESTION+' ORDER BY t.due,t.id',(ref,))]\n        if decisions or questions or blockers:\n         "
+    },
+    {
+      "before": "or questions:\n            items[-1]['proposalDecisions']={'dates':decisions,'questions':questions,\n                'overdue':any(decision['overdue'] for decision in decisions) or any(question['due']<=now for question in questions)}\n    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue') or item.get('proposalDecisions',{}).get('overdue')),item['due'],item['reference']))\n    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Booked proposal reviews stay in the queue even for older or closed enquiries. Attended and missed reviews stay in follow-up while the deal remains open and the revision is unaccepted. Proposal decisions flags dates due within seven days or overdue, open questions on current cards, and proposal questions whose latest visible message is from the client. Other reco",
+      "after": "or questions or blockers:\n            items[-1]['proposalDecisions']={'dates':decisions,'questions':questions,'blockers':blockers,\n                'blockerOwner':client_workflow.sales_owner(db,ref) if blockers else '',\n                'overdue':any(decision['overdue'] for decision in decisions+blockers) or any(question['due']<=now for question in questions)}\n    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue') or item.get('proposalDecisions',{}).get('overdue')),item['due'],item['reference']))\n    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Booked proposal reviews stay in the queue even for older or closed enquiries. Attended and missed reviews stay in follow-up while the deal remains open and the revision is unaccepted. Proposal decisions flags dates due within seven days or overdue, open questions on current cards, and proposal questions whose latest visible message is from the client. Active blockers stay with the current sales owner until resolved or the proposal leaves the decision stage. Other reco"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "plit\nimport growth_workb",
+      "after": "plit\nimport client_workflow\nimport growth_workb"
+    },
+    {
+      "before": "AfterCard':0}\n             for code in ('US','GB','IN')}\n    won={code:set() for code in markets}\n    won_after_card={code:set() for code in",
+      "after": "AfterCard':0,'blockedRevisions':0,\n                   'blockerReasons':{},'acceptedAfterBlocker':0,'kickoffsAfterCard':0}\n             for code in ('US','GB','IN')}\n    won={code:set() for code in markets}\n    won_after_card={code:set() for code in markets}\n    time_to_accept={code:[] for code in markets}\n    time_to_kickoff={code:[] for code in"
+    },
+    {
+      "before": ",\n          CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events se\n            WHERE se.enquiry_id=e.id AND se.stage='Won' AND se.created BETWEEN p.accepted AND ?) ELSE 0 END AS won\n        FROM first_reviews f JOIN client_proposals p ON p.id=f.proposal\n        LEFT JOIN client_proposal_decisions d ON d.proposal=p.",
+      "after": ",\n          b.reason AS blocker_reason,b.created AS blocker_created,k.started AS kickoff_started,\n          CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events se\n            WHERE se.enquiry_id=e.id AND se.stage='Won' AND se.created BETWEEN p.accepted AND ?) ELSE 0 END AS won\n        FROM first_reviews f JOIN client_proposals p ON p.id=f.proposal\n        LEFT JOIN client_proposal_decisions d ON d.proposal=p.id\n        LEFT JOIN client_proposal_blockers b ON b.proposal=p.id\n        LEFT JOIN client_kickoffs k ON k.reference=p.reference AND k.proposal=p."
+    },
+    {
+      "before": "red\n        if row['stat",
+      "after": "red\n        blocked=shared and row['blocker_created'] is not None and row['card_shared']<=row['blocker_created']<=now\n        if blocked:\n            group['blockedRevisions']+=1\n            reason=client_workflow.BLOCKER_LABELS[row['blocker_reason']]\n            group['blockerReasons'][reason]=group['blockerReasons'].get(reason,0)+1\n        if row['stat"
+    },
+    {
+      "before": "            if row['won']:won_after_card[code].add(row['id'])\n    for code,group in markets.items():\n        group['won']=len(won[code]);group['wonAfterCard']=len(won_after_card[code])\n    return ",
+      "after": "            time_to_accept[code].append(row['accepted']-row['card_shared'])\n                if blocked and row['accepted']>=row['blocker_created']:\n                    group['acceptedAfterBlocker']+=1\n                if row['kickoff_started'] is not None and row['accepted']<=row['kickoff_started']<=now:\n                    group['kickoffsAfterCard']+=1\n                    time_to_kickoff[code].append(row['kickoff_started']-row['accepted'])\n                if row['won']:won_after_card[code].add(row['id'])\n    for code,group in markets.items():\n        group['won']=len(won[code]);group['wonAfterCard']=len(won_after_card[code])\n        group['medianCardToAcceptanceSeconds']=round(statistics.median(time_to_accept[code])) if time_to_accept[code] else None\n        group['medianAcceptanceToKickoffSeconds']=round(statistics.median(time_to_kickoff[code])) if time_to_kickoff[code] else None\n    return "
+    }
+  ],
+  "server/test_client_workflow.py": [
+    {
+      "before": "wn)\n        status,respo",
+      "after": "wn)\n        blocker_route='/api/client/proposal-blocker'\n        blocker={'reference':ref,'id':first,'blockerVersion':0,'reason':'approval',\n                 'expected':due,'note':'Our director reviews proposals today.'}\n        self.assertEqual(self.request(blocker_route,blocker,client)[0],403)\n        self.assertEqual(self.request(blocker_route,dict(blocker,reason='unrecognized'),client,csrf)[0],400)\n        self.assertEqual(self.request(blocker_route,blocker,client,csrf)[0],200)\n        self.assertEqual(self.request(blocker_route,blocker,client,csrf)[0],409)\n        recorded=self.request(client_route,cookie=client)[1]['proposals'][0]['blocker']\n        self.assertEqual(recorded['expected'],due)\n        self.assertNotIn('owner',recorded)\n        status,respo"
+    },
+    {
+      "before": "['dueToday'])\n        self.assertEqual(flags()['questions'][0]['id'],ticket)\n        owner=dashb",
+      "after": "['dueToday'])\n        self.assertEqual(flags()['blockers'][0]['proposalId'],first)\n        self.assertEqual(flags()['blockers'][0]['due'],due)\n        self.assertEqual(flags()['blockerOwner'],dashboard.USER)\n        resolution={'reference':ref,'id':first,'blockerVersion':1}\n        self.assertEqual(self.request('/api/admin/workspace/proposal-blocker',resolution,self.admin,self.admin_csrf)[0],200)\n        self.assertEqual(flags()['blockers'],[])\n        self.assertEqual(self.request(blocker_route,dict(blocker,blockerVersion=2,reason='billing',expected=''),client,csrf)[0],200)\n        self.assertEqual(flags()['blockers'][0]['reason'],'Billing details')\n        self.assertEqual(flags()['questions'][0]['id'],ticket)\n        owner=dashb"
+    },
+    {
+      "before": "assertEqual(flags()['dates'],[])\n    ",
+      "after": "assertEqual(proposals[1]['blocker']['reason'],'billing')\n        self.assertFalse(proposals[1]['blockerEditable'])\n        self.assertEqual(self.request(blocker_route,dict(blocker,blockerVersion=3),client,csrf)[0],409)\n        self.assertEqual(flags()['dates'],[])\n        self.assertEqual(flags()['blockers'],[])\n    "
+    },
+    {
+      "before": "00)\n        agent=uuid.u",
+      "after": "00)\n        kickoff=self.request('/api/client/project?reference='+ref,cookie=cookie)[1]['kickoff']\n        self.assertEqual((kickoff['proposal'],kickoff['contact']),(pid,'Synthetic approver'))\n        agent=uuid.u"
+    }
+  ],
+  "server/test_market_reporting.py": [
+    {
+      "before": "        for ref,created ",
+      "after": "        for pid,reason in [(us_first,'approval'),(uk_first,'billing')]:\n                db.execute(\"\"\"INSERT INTO client_proposal_blockers(proposal,reason,note,expected,due,created,version)\n                    VALUES(?,?,'','','2026-11-09',?,1)\"\"\",(pid,reason,now-120))\n            db.execute(\"INSERT INTO client_kickoffs VALUES(?,?,'','','Synthetic contact',1,?,1,?,1,?)\",\n                       (us,us_first,now-90,now-80,now-80))\n            for ref,created "
+    },
+    {
+      "before": "           scoped=sales_",
+      "after": "           self.assertEqual([(r['blockerReasons'],r['acceptedAfterBlocker'],r['kickoffsAfterCard']) for r in groups],\n                             [({'Internal approval':1},1,1),({'Billing details':1},0,0),({},0,0)])\n            self.assertEqual((groups[0]['medianCardToAcceptanceSeconds'],groups[0]['medianAcceptanceToKickoffSeconds']),(50,20))\n            scoped=sales_"
+    }
+  ]
+}

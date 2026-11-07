@@ -11,7 +11,7 @@ function clear(){trackerGeneration++;projectGeneration++;csrf='';current=null;$(
 async function act(fn,success='Saved.'){try{await fn();$('message').textContent=success;}catch(e){$('message').textContent=e.name==='AbortError'?'The request timed out. Refresh to check whether it was saved before retrying.':e.message;}}
 function button(label,fn){const b=el('button',label);b.type='button';b.addEventListener('click',()=>{b.disabled=true;act(fn).finally(()=>b.disabled=false);});return b;}
 function field(form,label,key,type='text',choices=null){const id='f-'+Math.random().toString(36).slice(2);const l=el('label',label);l.htmlFor=id;const input=el(choices?'select':type==='textarea'?'textarea':'input');input.id=id;input.name=key;if(!choices&&type!=='textarea')input.type=type;if(choices)for(const v of choices){const o=el('option',v);o.value=v;input.append(o);}form.append(l,input);return input;}
-function formBox(parent,title,submit,label='Save'){const box=el('details'),summary=el('summary',title),form=el('form');box.append(summary,form);parent.append(box);const save=el('button',label);save.type='submit';form.addEventListener('submit',e=>{e.preventDefault();save.disabled=true;act(async()=>{await submit(form);await loadProject();if(staff)await loadTracker();},'Saved.').finally(()=>save.disabled=false);});queueMicrotask(()=>form.append(save));return form;}
+function formBox(parent,title,submit,label='Save',afterLoad){const box=el('details'),summary=el('summary',title),form=el('form');box.append(summary,form);parent.append(box);const save=el('button',label);save.type='submit';form.addEventListener('submit',e=>{e.preventDefault();save.disabled=true;act(async()=>{await submit(form);await loadProject();afterLoad?.();if(staff)await loadTracker();},'Saved.').finally(()=>save.disabled=false);});queueMicrotask(()=>form.append(save));return form;}
 async function change(action,data){if(!current)throw Error('Choose a project.');return api(prefix+action,{reference:current.reference,...(staff?{version:current.version}:{}),...data});}
 async function load(){const identity=csrf;const result=await api(prefix+'projects'),selected=$('project-list').value||(staff?new URLSearchParams(location.search).get('reference'):'');if(!csrf||identity!==csrf)return;$('project-list').replaceChildren(...result.projects.map(p=>{const o=el('option',p.title+' · '+p.reference);o.value=p.reference;return o;}));if(result.projects.some(p=>p.reference===selected))$('project-list').value=selected;else if(selected&&staff){const empty=el('option','Create a project for '+selected);empty.value='';$('project-list').prepend(empty);$('project-list').value='';$('create-form').closest('details').open=true;}await loadProject();if(staff)await Promise.all([report(),loadTracker()]);}
 async function report(){const identity=csrf;const r=await api(prefix+'report?days='+$('report-days').value);if(!csrf||identity!==csrf)return;const labels={enquiries:'Enquiries',demoReserved:'Reserved a demo',proposalProjects:'Published proposal',acceptedProjects:'Accepted proposal',overdueFollowups:'Overdue follow-ups',openTickets:'Active support tickets',overdueTickets:'Overdue support targets'};$('report').replaceChildren(...Object.entries(r.counts).map(([k,v])=>{const n=el('div',labels[k]||k);n.append(el('strong',String(v)));return n;}));const rate=r.counts.enquiries?(100*r.counts.demoReserved/r.counts.enquiries).toFixed(1)+'%':'—',accept=r.counts.proposalProjects?(100*r.counts.acceptedProjects/r.counts.proposalProjects).toFixed(1)+'%':'—';$('report-basis').textContent='Enquiry → demo: '+rate+'. Published proposal → acceptance: '+accept+'. '+r.basis;$('loss-report').replaceChildren(el('h3','Current lost-deal reasons'),...Object.entries(r.lostReasons).map(([k,v])=>el('p',k+': '+v)));}
@@ -62,6 +62,7 @@ function renderProposalDecision(parent,proposal){
   if(decision.open_question)card.append(el('h5','Open question'),el('p',decision.open_question,'copy'));
   if(decision.due)card.append(el('p','Agreed decision date · '+new Intl.DateTimeFormat(undefined,{dateStyle:'long',timeZone:'UTC'})
    .format(new Date(decision.due+'T00:00:00Z'))));
+  renderProposalBlocker(card,proposal);
   parent.append(card);
  }
  if(staff&&proposal.decisionEditable){
@@ -77,6 +78,39 @@ function renderProposalDecision(parent,proposal){
   form.append(el('p','The card appears on this proposal revision in Client Workspace. Review the recap against the recorded scope and terms.','muted'));
  }
  return card||parent;
+}
+
+const blockerLabels={approval:'Internal approval',purchase_order:'Purchase order',billing:'Billing details',
+ scope:'Scope clarification',other:'Something else'};
+
+function renderProposalBlocker(card,proposal){
+ const blocker=proposal.blocker;
+ if(blocker){
+  const status=blocker.resolved?'Resolved':proposal.status==='published'?'Reported to the sales team':'Recorded on this revision';
+  card.append(el('h5','Decision blocker'),el('p',blockerLabels[blocker.reason]+' · '+status));
+  if(blocker.note)card.append(el('p',blocker.note,'copy'));
+  if(blocker.expected)card.append(el('p','Expected decision date · '+blocker.expected));
+  if(staff&&blocker.actionable){
+   card.append(el('p','Sales owner · '+blocker.owner+' · Follow-up '+blocker.due));
+   const resolve=button('Mark blocker resolved',async()=>{
+    await change('proposal-blocker',{id:proposal.id,blockerVersion:blocker.version});
+    await loadProject();
+   });
+   resolve.className='secondary';
+   card.append(resolve);
+  }
+ }
+ if(!proposal.blockerEditable)return;
+ const form=formBox(card,'What’s holding up your decision?',()=>change('proposal-blocker',{
+  id:proposal.id,blockerVersion:blocker?.version||0,reason:reason.value,expected:expected.value,note:note.value
+ }), 'Save decision blocker');
+ const reason=field(form,'What do you need to move forward?','reason','text',['',...Object.keys(blockerLabels)]);
+ for(const option of reason.options)option.textContent=blockerLabels[option.value]||'Choose a reason';
+ reason.value=blocker?.reason||'';reason.required=true;
+ const expected=field(form,'Expected decision date (optional)','expected','date');
+ expected.value=blocker?.resolved?'':blocker?.expected||'';
+ const note=field(form,'Anything the sales team should know? (optional)','note','textarea');
+ note.value=blocker?.note||'';note.maxLength=600;
 }
 
 const reviewTopics={scope:'Scope',budget:'Budget',timing:'Timing',integrations:'Integrations',other:'Other'};
@@ -170,7 +204,7 @@ function renderProposalReview(parent,proposal,reference){
 function renderClientKickoff(project, root){
  const kickoff=project.kickoff;
  if(staff||!kickoff)return;
- const section=el('section');section.id='client-kickoff';section.append(el('h2','Project kickoff checklist'));
+ const section=el('section');section.id='client-kickoff';section.tabIndex=-1;section.append(el('h2','Project kickoff checklist'));
  const proposal=el('a','Review accepted proposal · revision '+kickoff.revision+' · '+kickoff.currency);
  proposal.href='#proposal-'+kickoff.proposal;const scope=el('p');scope.append(proposal);section.append(scope);
  section.append(el('p','Delivery owner: '+(kickoff.ownerName||'To be assigned')));
@@ -198,7 +232,12 @@ function render(){const p=current,root=$('project');root.replaceChildren();const
   if(staff&&proposal.status==='draft')a.append(button('Publish this revision',async()=>{if(!confirm('Publish this exact scope and amount, and notify the client?'))return;await change('publish',{id:proposal.id});await loadProject();await loadTracker();}));
   if(staff&&['draft','published'].includes(proposal.status))a.append(button('Withdraw',async()=>{if(!confirm('Withdraw this proposal?'))return;await change('withdraw',{id:proposal.id});await loadProject();await loadTracker();}));
   const decisionActions=renderProposalDecision(a,proposal);
-  if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000){const f=formBox(decisionActions,'Accept this proposal',async()=>{await change('accept',{id:proposal.id,name:name.value,agree:agree.checked});});const name=field(f,'Your full name','name');name.required=true;name.maxLength=120;const agree=field(f,'I accept the scope, value and commercial terms of revision '+proposal.revision,'agree','checkbox');agree.required=true;}
+  if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000){const f=formBox(decisionActions,'Accept this proposal',async()=>{await change('accept',{id:proposal.id,name:name.value,agree:agree.checked});},'Accept proposal',()=>$('continue-kickoff-'+proposal.id)?.focus());const name=field(f,'Your full name','name');name.required=true;name.maxLength=120;const agree=field(f,'I accept the scope, value and commercial terms of revision '+proposal.revision,'agree','checkbox');agree.required=true;}
+  if(!staff&&proposal.status==='accepted'&&p.kickoff&&!p.kickoff.started){
+   const link=el('a','Continue to kickoff');link.id='continue-kickoff-'+proposal.id;link.href='#client-kickoff';
+   link.addEventListener('click',()=>$('client-kickoff')?.focus({preventScroll:true}));
+   const next=el('p');next.append(link);decisionActions.append(next);
+  }
   if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000)proposalFeedbackForm(decisionActions,proposal);
   renderProposalReview(a,proposal,p.reference);
   for(const request of p.tickets.filter(ticket=>ticket.proposalFeedback?.proposalId===proposal.id)){
