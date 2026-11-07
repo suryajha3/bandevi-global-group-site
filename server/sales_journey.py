@@ -7,7 +7,7 @@ from urllib.parse import parse_qs, urlsplit
 import operations
 
 OUTCOMES=('Not recorded','Completed','No show','Reschedule needed','Not suitable')
-CRM_PROMOTIONS=('hero-demo','lead-ownership','quote-follow-up','operations-handover')
+CRM_PROMOTIONS=('hero-demo','lead-ownership','quote-follow-up','operations-handover','availability-slot','availability-request')
 PORTFOLIO_PROJECTS = {'trip_sarathi': 'Trip Sarathi', 'maximtrip': 'MaximTrip', 'tripodeal': 'TripOdeal'}
 
 INDUSTRY_LABELS = {

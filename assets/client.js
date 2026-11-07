@@ -570,7 +570,7 @@ function bindAdsMeasurement(form){
 }
 function adsMeasurementPayload(form){const state=form._adsChoice;return state?.choice.checked&&navigator.doNotTrack!=='1'&&navigator.globalPrivacyControl!==true?{adsMeasurement:{version:1,consent:true,policy:'ads-click-v1',gclid:state.gclid}}:{};}
 
-const crmPromotions = ['hero-demo', 'lead-ownership', 'quote-follow-up', 'operations-handover'];
+const crmPromotions = ['hero-demo', 'lead-ownership', 'quote-follow-up', 'operations-handover', 'availability-slot', 'availability-request'];
 
 function bindForms() {
   if (industryEntry) document.querySelectorAll('a[href^="/"]').forEach(carryIndustry);

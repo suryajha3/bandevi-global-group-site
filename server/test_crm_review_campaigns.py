@@ -69,6 +69,37 @@ class ReviewCampaignTests(unittest.TestCase):
             payload=json.loads(db.execute('SELECT payload FROM enquiries WHERE id=?',(first[1]['reference'],)).fetchone()[0])
             self.assertEqual(payload['message'].count('CRM workflow review requested'),1)
 
+    def test_regional_availability_distinguishes_reservations_and_time_requests(self):
+        now = int(time.time())
+        for index, (country, slug) in enumerate((('US', 'us'), ('GB', 'uk'), ('IN', 'india'))):
+            data = self.data(country, review=False)
+            data.update(type='demo', interest='Travel CRM Package', source=f'/{slug}/travel-agency-crm/')
+            data['attribution'].update(landing_page=data['source'], crm_promotion='availability-request')
+            request_ref = self.lead(data)
+            slot = uuid.uuid4().hex[:24]
+            with isolated.enquiries.connect() as db:
+                db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',
+                           (slot, now + 3600 + index * 1800, self.owner))
+            data['attribution']['crm_promotion'] = 'availability-slot'
+            reservation_ref = self.lead(dict(data, slotId=slot))
+            with isolated.enquiries.connect() as db:
+                self.assertIsNone(db.execute('SELECT 1 FROM demo_bookings WHERE enquiry_id=?', (request_ref,)).fetchone())
+                db.execute('INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,?,?,?)',
+                           (reservation_ref, 'Qualified', self.owner, int(time.time())))
+                schedule = sales_journey.schedule_event(db, reservation_ref)
+                self.assertGreater(schedule, 0)
+                db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',
+                           (reservation_ref, 'Synthetic workflow', 'Completed', schedule, 1, now, self.owner))
+        groups = self.report()['campaigns']
+        self.assertEqual(len(groups), 6)
+        for group in groups:
+            with self.subTest(country=group['country'], promotion=group['promotion']):
+                counts = group['counts']
+                expected = int(group['promotion'] == 'availability-slot')
+                self.assertEqual(counts['enquiries'], 1)
+                for milestone in ('qualified', 'demoBooked', 'demoCompleted'):
+                    self.assertEqual(counts[milestone], expected)
+
     def test_campaign_milestones_currency_values_and_missing_values(self):
         promoted=self.data()
         promoted['attribution']['crm_promotion']='quote-follow-up'

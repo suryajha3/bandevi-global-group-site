@@ -5,8 +5,33 @@
  function wall(epoch,zone){const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(epoch)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));return {date:p.year+'-'+p.month+'-'+p.day,time:p.hour+':'+p.minute};}
  function instants(day,clock,zone){const target=Date.parse(day+'T'+clock+':00Z');if(!Number.isFinite(target))return [];const offsets=new Set();for(let h=-48;h<=48;h+=6){const t=target+h*3600000,p=wall(t,zone);offsets.add(Date.parse(p.date+'T'+p.time+':00Z')-t);}return [...offsets].map(offset=>target-offset).filter(t=>{const p=wall(t,zone);return p.date===day&&p.time===clock;});}
  function node(tag,value){const e=document.createElement(tag);if(value)e.textContent=value;return e;}
- function zoneChoice(container,before){let detected=india;try{detected=Intl.DateTimeFormat().resolvedOptions().timeZone||india;}catch(_){}const box=node('div');box.className='demo-zone';const label=node('label','Your time zone'),select=node('select');select.id='demo-timezone';label.htmlFor=select.id;for(const zone of new Set([detected,india,'Europe/London','America/New_York','America/Chicago','America/Denver','America/Los_Angeles','Europe/Paris','Asia/Dubai','Asia/Singapore','Australia/Sydney','UTC'])){try{new Intl.DateTimeFormat('en',{timeZone:zone});select.add(new Option(zone.replaceAll('_',' '),zone));}catch(_) {}}select.value=detected;box.append(label,select,node('p','Available times use this time zone, with daylight-saving changes applied for the meeting date. India reference times are also shown. Team consultation hours: Monday–Saturday, 10:30 am–7:30 pm IST. Only a successful slot reservation confirms a meeting.'));container.insertBefore(box,before||container.firstChild);return select;}
- function label(slot){const zone=document.getElementById('demo-timezone')?.value||india;return new Intl.DateTimeFormat(undefined,{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(slot.starts*1000))+' · '+zone.replaceAll('_',' ')+(zone===india?' (IST)':' · '+new Intl.DateTimeFormat('en-GB',{timeZone:india,dateStyle:'medium',timeStyle:'short'}).format(new Date(slot.starts*1000))+' IST')+' · '+slot.duration+' minutes';}
+ const usZones = ['America/New_York','America/Chicago','America/Denver','America/Los_Angeles','America/Phoenix','America/Anchorage','Pacific/Honolulu'];
+ function browserZone(){return Intl.DateTimeFormat().resolvedOptions().timeZone || india;}
+ function campaignZone(market){
+  if(market==='GB')return 'Europe/London';
+  if(market==='IN')return india;
+  const detected=browserZone();
+  const regionalUS=/^(America\/(Adak|Boise|Detroit|Indiana\/.+|Indianapolis|Juneau|Kentucky\/.+|Louisville|Menominee|Metlakatla|Nome|North_Dakota\/.+|Sitka|Yakutat)|US\/.+)$/;
+  return usZones.includes(detected)||regionalUS.test(detected)?detected:usZones[0];
+ }
+ function zoneChoice(container,before,{id='demo-timezone',initial=browserZone(),compact=false}={}){
+  const box=node('div');box.className='demo-zone';
+  const label=node('label','Your time zone'),select=node('select');select.id=id;label.htmlFor=id;
+  for(const zone of new Set([initial,browserZone(),india,'Europe/London',...usZones,'Europe/Paris','Asia/Dubai','Asia/Singapore','Australia/Sydney','UTC'])){
+   select.add(new Option(zone.replaceAll('_',' '),zone));
+  }
+  select.value=initial;box.append(label,select);
+  if(!compact)box.append(node('p','Available times use this time zone, with daylight-saving changes applied for the meeting date. India reference times are also shown. Team consultation hours: Monday–Saturday, 10:30 am–7:30 pm IST. Only a successful slot reservation confirms a meeting.'));
+  container.insertBefore(box,before||container.firstChild);return select;
+ }
+ function label(slot,zone=document.getElementById('demo-timezone')?.value||india,compact=false){
+  const date = new Date(slot.starts*1000);
+  const local = new Intl.DateTimeFormat(undefined,{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(date);
+  const duration = ' · '+slot.duration+' minutes';
+  if(compact)return local+duration;
+  const reference = zone===india?' (IST)':' · '+new Intl.DateTimeFormat('en-GB',{timeZone:india,dateStyle:'medium',timeStyle:'short'}).format(date)+' IST';
+  return local+' · '+zone.replaceAll('_',' ')+reference+duration;
+ }
  function preferred(form,zone){
   const fieldset=form.querySelector('.demo-schedule'),day=form.elements.demoDate,clock=form.elements.demoTime;if(!fieldset||!day||!clock)return;
   const box=node('div');box.className='form-grid';const localDay=node('input'),localTime=node('input');localDay.type='date';localDay.id='demo-local-date';localTime.type='time';localTime.id='demo-local-time';localTime.step='900';
@@ -16,5 +41,5 @@
   for(const input of [localDay,localTime])input.addEventListener('input',sync);
   zone.addEventListener('change',()=>{if(instant!==null){const p=wall(instant,zone.value);localDay.value=p.date;localTime.value=p.time;}sync();});form.addEventListener('submit',sync,{capture:true});form.addEventListener('reset',()=>queueMicrotask(()=>{localDay.value=localTime.value='';sync();}));sync();
  }
- window.BandeviDemoTime={zoneChoice,label,preferred};
+ window.BandeviDemoTime={campaignZone,zoneChoice,label,preferred};
 })();

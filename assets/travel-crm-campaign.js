@@ -58,12 +58,75 @@
   controls.hidden = false;
  }
 
+ function bindAvailability(panel) {
+  const time = window.BandeviDemoTime;
+  if (!time) return;
+  const market = panel.dataset.crmAvailability;
+  const controls = panel.querySelector('[data-availability-controls]');
+  const status = panel.querySelector('[data-availability-status]');
+  const request = panel.querySelector('[data-availability-request]');
+  const form = panel.querySelector('form');
+  const select = form.elements.crm_slot;
+  const refresh = panel.querySelector('[data-availability-refresh]');
+  const zone = time.zoneChoice(controls, form, {
+   id: 'crm-availability-zone', initial: time.campaignZone(market), compact: true
+  });
+  zone.name = 'crm_zone';
+  zone.setAttribute('form', form.id);
+  const fallback = new URL(request.href);
+  let slots = [];
+
+  function showTimes() {
+   const selected = select.value;
+   select.replaceChildren(new Option('Choose an available time', ''),
+    ...slots.map(slot => new Option(time.label(slot, zone.value, true), slot.id)));
+   if (slots.some(slot => slot.id === selected)) select.value = selected;
+   fallback.searchParams.set('crm_zone', zone.value);
+   request.href = fallback.href;
+  }
+
+  async function load() {
+   if (refresh.disabled) return;
+   controls.hidden = false;
+   form.hidden = true;
+   refresh.disabled = true;
+   status.textContent = 'Checking published demo times…';
+   const controller = new AbortController();
+   const timer = setTimeout(() => controller.abort(), 12000);
+   try {
+    const response = await fetch('/api/demo/slots', { cache: 'no-store', signal: controller.signal });
+    if (!response.ok) throw new Error('Availability unavailable');
+    const data = await response.json();
+    slots = data.slots;
+    showTimes();
+    form.hidden = !slots.length;
+    status.textContent = slots.length
+     ? 'Choose a time to continue. Your demo is confirmed when your booking is saved.'
+     : 'No demo times are available right now. Request a time that works for you.';
+   } catch (_) {
+    slots = [];
+    showTimes();
+    status.textContent = 'Demo times could not be loaded. Try again or request a preferred time.';
+   } finally {
+    clearTimeout(timer);
+    refresh.disabled = false;
+   }
+  }
+
+  showTimes();
+  zone.addEventListener('change', showTimes);
+  refresh.addEventListener('click', load);
+  if (panel.open) load();
+  else panel.addEventListener('toggle', () => { if (panel.open) load(); });
+ }
+
  function init(){
   const featuredPromotion = document.querySelector('[data-crm-slide]')?.dataset.promotion;
   document.querySelectorAll('[data-crm-example]').forEach(link => link.addEventListener('click', event =>
    fillExample(event, link.dataset.crmExample, featuredPromotion)
   ));
   document.querySelectorAll('[data-crm-promotions]').forEach(bindPromotions);
+  document.querySelectorAll('[data-crm-availability]').forEach(bindAvailability);
   document.querySelectorAll('[data-travel-crm-enquiry]').forEach(link=>link.addEventListener('click',()=>{
    const form=document.querySelector('#regional-enquiry form');if(!form)return;
    const service=form.elements.interest;if(service){const option=[...service.options].find(o=>o.value==='CRM & ERP Package');if(option){service.value=option.value;service.dispatchEvent(new Event('change',{bubbles:true}));}}

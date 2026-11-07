@@ -7,12 +7,46 @@ async function downloadCalendar(token){const result=await request('/api/demo/man
 const form=document.querySelector('form[data-form="demo"]');
 if(form){
  const fieldset=form.querySelector('.demo-schedule');if(!fieldset)return;
- const zone=window.BandeviDemoTime?.zoneChoice(form.querySelector('.form-grid'),fieldset);if(zone)BandeviDemoTime.preferred(form,zone);let slots=[];
+ const time=window.BandeviDemoTime;
+ const campaign=['availability-slot','availability-request'].includes(form.dataset.crmPromotion);
+ const params=new URLSearchParams(location.search);
+ const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign?{initial:time.campaignZone(params.get('market'))}:undefined);
+ if(zone){
+  const preferredZone=params.get('crm_zone');
+  if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;
+  time.preferred(form,zone);
+ }
+ const requestedSlot=params.get('crm_slot');
+ let pendingSlot=form.dataset.crmPromotion==='availability-slot'&&/^[a-f0-9]{24}$/.test(requestedSlot||'')?requestedSlot:'';
+ let slots=[];
  const box=document.createElement('div');box.className='confirmed-slots';const title=document.createElement('label');title.htmlFor='confirmed-slot';title.textContent='Reserve an available demo (optional)';
  const select=document.createElement('select');select.id='confirmed-slot';select.name='slotId';select.innerHTML='<option value="">Ask the team to arrange a time</option>';
  const note=document.createElement('p');note.role='status';note.textContent='Checking available demo times…';const refresh=document.createElement('button');refresh.type='button';refresh.textContent='Refresh available times';
  box.append(title,select,note,refresh);fieldset.before(box);
- async function load(){refresh.disabled=true;try{const data=await request('/api/demo/slots');slots=data.slots;const old=select.value;select.replaceChildren(new Option('Ask the team to arrange a time',''),...data.slots.map(s=>new Option(label(s),s.id)));if(data.slots.some(s=>s.id===old))select.value=old;select.dispatchEvent(new Event('change'));note.textContent=data.slots.length?'Choosing a published slot reserves your appointment when this form is successfully submitted. Joining details follow separately.':'No demo slots are published right now. Send your request and the team will arrange a time.';}catch(e){slots=[];select.replaceChildren(new Option('Ask the team to arrange a time',''));select.dispatchEvent(new Event('change'));note.textContent='Available times could not be loaded. You can still request a demo.';}finally{refresh.disabled=false;}}
+ async function load(){
+  refresh.disabled=true;
+  try{
+   const data=await request('/api/demo/slots');
+   slots=data.slots;
+   const selected=select.value||pendingSlot;
+   pendingSlot='';
+   select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(slot=>new Option(label(slot),slot.id)));
+   if(slots.some(slot=>slot.id===selected))select.value=selected;
+   select.dispatchEvent(new Event('change'));
+   note.textContent=selected&&!select.value
+    ?'Your selected time is no longer available. Choose another time or request a preferred time.'
+    :slots.length?'Choosing a published slot reserves your appointment when this form is successfully submitted. Joining details follow separately.'
+     :'No demo slots are published right now. Send your request and the team will arrange a time.';
+  }catch(e){
+   pendingSlot='';slots=[];select.replaceChildren(new Option('Ask the team to arrange a time',''));select.dispatchEvent(new Event('change'));
+   note.textContent='Available times could not be loaded. You can still request a demo.';
+  }finally{refresh.disabled=false;}
+ }
+ form.addEventListener('submit',event=>{
+  if(!pendingSlot)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  note.textContent='Please wait while we check your selected time.';
+ },{capture:true});
  select.addEventListener('change',()=>{fieldset.hidden=!!select.value;for(const input of fieldset.querySelectorAll('input')){input.disabled=!!select.value;if(select.value){input.value='';input.setCustomValidity('');input.required=false;}}});form.addEventListener('reset',()=>queueMicrotask(()=>{select.dispatchEvent(new Event('change'));load();}));refresh.addEventListener('click',load);if(zone)zone.addEventListener('change',()=>{const old=select.value;select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(s=>new Option(label(s),s.id)));select.value=old;});load();
  form.addEventListener('enquiry-saved',event=>{const a=event.detail.appointment,receipt=form.querySelector('.form-note');if(!a?.confirmed){const day=form.elements.demoDate.value,clock=form.elements.demoTime.value;if(day&&clock){const requested=document.createElement('p');requested.textContent='Requested in your time zone: '+label({starts:Date.parse(day+'T'+clock+':00+05:30')/1000,duration:30}).replace(/ · 30 minutes$/,'')+'. This time is not confirmed.';receipt.append(requested);}return;}const local=document.createElement('p');local.textContent='Confirmed in your time zone: '+label(a)+'. Joining details follow separately.';receipt.append(local);const token=a.manageUrl?.match(/^\/demo-booking\/#([a-f0-9]{64})$/)?.[1];if(!token)return;const button=document.createElement('button');button.type='button';button.textContent='Add confirmed demo to calendar (.ics)';button.addEventListener('click',async()=>{button.disabled=true;try{await downloadCalendar(token);}catch(e){const error=document.createElement('p');error.textContent=e.message;receipt.append(error);}finally{button.disabled=false;}});receipt.append(button);});
 }
