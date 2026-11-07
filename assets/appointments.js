@@ -71,7 +71,33 @@ if(form){
 const panel=document.getElementById('booking-manager');if(!panel)return;
 const zone=window.BandeviDemoTime?.zoneChoice(panel);if(zone){document.querySelector('label[for="reschedule-slot"]').textContent='Available times in your time zone';zone.addEventListener('change',()=>refresh().catch(e=>{message.textContent=e.message;}));}
  const token=location.hash.slice(1);let version=0;const message=document.getElementById('booking-status'),select=document.getElementById('reschedule-slot');
-async function refresh(){const result=await request('/api/demo/manage',{token});version=result.version;document.getElementById('download-calendar').disabled=false;const meeting=document.getElementById('meeting-details');meeting.replaceChildren();if(result.state==='confirmed'&&result.meetingUrl){const url=new URL(result.meetingUrl);if(url.protocol==='https:'){const a=document.createElement('a');a.href=url.href;a.textContent='Join your scheduled demo';a.target='_blank';a.rel='noopener noreferrer';meeting.append(a);}}message.textContent=result.state==='confirmed'?'Your demo is confirmed: '+label(result)+'. Reference: '+result.enquiry_id:'This appointment is cancelled. You may reserve another published slot.';document.getElementById('cancel-booking').disabled=result.state!=='confirmed';const slots=await request('/api/demo/slots');select.replaceChildren(new Option('Choose a new demo time',''),...slots.slots.map(s=>new Option(label(s),s.id)));document.getElementById('reschedule-booking').disabled=!slots.slots.length;}
+const prep=document.getElementById('demo-prep'),prepForm=document.getElementById('demo-prep-form');
+const prepStatus=document.getElementById('demo-prep-status');
+let prepVersion=null,prepSaving=false;
+function renderPrep(brief){
+ if(!prepForm)return;
+ prep.hidden=!brief;
+ if(!brief){prepVersion=null;prepForm.reset();prepStatus.textContent='';return;}
+ prepForm.querySelector('button').disabled=prepSaving;
+ if(prepVersion===brief.version)return;
+ prepVersion=brief.version;
+ for(const field of ['goal','tools','teammate'])prepForm.elements[field].value=brief[field];
+}
+prepForm?.addEventListener('submit',async event=>{
+ event.preventDefault();
+ if(prepVersion===null||prepSaving)return;
+ const button=prepForm.querySelector('button');
+ prepSaving=button.disabled=true;
+ prepStatus.textContent='Saving your prep brief…';
+ const {goal,tools,teammate}=Object.fromEntries(new FormData(prepForm));
+ try{
+  const result=await request('/api/demo/manage',{token,action:'save-prep',version,prepVersion,goal,tools,teammate});
+  renderPrep(result.prepBrief);
+  if(result.prepBrief)prepStatus.textContent='Prep brief saved for your demo host.';
+ }catch(error){prepStatus.textContent=error.message;}
+ finally{prepSaving=false;button.disabled=false;}
+});
+async function refresh(){const result=await request('/api/demo/manage',{token});version=result.version;renderPrep(result.prepBrief);document.getElementById('download-calendar').disabled=false;const meeting=document.getElementById('meeting-details');meeting.replaceChildren();if(result.state==='confirmed'&&result.meetingUrl){const url=new URL(result.meetingUrl);if(url.protocol==='https:'){const a=document.createElement('a');a.href=url.href;a.textContent='Join your scheduled demo';a.target='_blank';a.rel='noopener noreferrer';meeting.append(a);}}message.textContent=result.state==='confirmed'?'Your demo is confirmed: '+label(result)+'. Reference: '+result.enquiry_id:'This appointment is cancelled. You may reserve another published slot.';document.getElementById('cancel-booking').disabled=result.state!=='confirmed';const slots=await request('/api/demo/slots');select.replaceChildren(new Option('Choose a new demo time',''),...slots.slots.map(s=>new Option(label(s),s.id)));document.getElementById('reschedule-booking').disabled=!slots.slots.length;}
 document.getElementById('download-calendar').addEventListener('click',async()=>{try{await downloadCalendar(token);}catch(e){message.textContent=e.message;}});
 for(const [id,action]of [['cancel-booking','cancel'],['reschedule-booking','reschedule']])document.getElementById(id).addEventListener('click',async()=>{if(action==='reschedule'&&!select.value){message.textContent='Choose a new demo time first.';return;}if(!confirm(action==='cancel'?'Cancel your appointment?':'Confirm the new appointment time?'))return;const buttons=panel.querySelectorAll('button');buttons.forEach(b=>b.disabled=true);try{await request('/api/demo/manage',{token,action,version,slotId:select.value});await refresh();}catch(e){message.textContent=e.message;buttons.forEach(b=>b.disabled=false);}});
 if(!/^[A-Za-z0-9_-]{40,100}$/.test(token)){message.textContent='Open the private appointment link shown after your demo booking.';panel.querySelectorAll('button,select').forEach(b=>b.disabled=true);}else refresh().catch(e=>{message.textContent=e.message;});

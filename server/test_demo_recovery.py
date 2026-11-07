@@ -88,12 +88,25 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(self.request(route,dict(request,action='recap-save',body='Stale edit'),cookie,csrf)[0],409)
         request['recapVersion'] = 1
         self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=False),cookie,csrf)[0],400)
+        due=(current.date()+datetime.timedelta(days=3)).isoformat()
+        agreed=dict(request,action='next-step',nextStepVersion=0,kind='decision-call',due=due,note='Review the import together.')
+        self.assertEqual(self.request(route,dict(agreed,due='not a date'),cookie,csrf)[0],400)
+        self.assertEqual(self.request(route,agreed,cookie)[0],403)
+        self.assertEqual(self.request(route,agreed,cookie,csrf)[0],200)
+        self.assertEqual(self.request(route,agreed,cookie,csrf)[0],409)
+        preview=self.request(route+'?reference='+ref,cookie=cookie)[1]['nextStep']['preview']
+        self.assertIn('Meet with the decision-maker',preview)
+        self.assertIn('Review the import together.',preview)
+        self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],409)
+        request['nextStepVersion'] = 1
         for _ in range(2):
             self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],200)
+        self.assertEqual(self.request(route,dict(agreed,nextStepVersion=1),cookie,csrf)[0],409)
         with isolated.enquiries.connect() as db:
             rows=db.execute('SELECT * FROM notification_outbox WHERE dedupe LIKE ?', (f'demo-recap:{ref}:%',)).fetchall()
             self.assertEqual(len(rows),1)
             self.assertIn(body,rows[0]['body'])
+            self.assertIn(preview,rows[0]['body'])
             self.assertNotIn('Synthetic requirements',rows[0]['body'])
             self.assertTrue(sales_journey.recap_current(db,rows[0]))
             db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',(ref,'qa@example.test','Synthetic recap project',self.now))

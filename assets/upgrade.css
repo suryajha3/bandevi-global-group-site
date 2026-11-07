@@ -2,3 +2,10 @@
 .demo-schedule[hidden]{display:none!important}
 
 .demo-zone{grid-column:1/-1;padding:16px 0}.demo-zone label{display:block;font-weight:700;margin-bottom:8px}.demo-zone select{width:100%;font:inherit;font-size:16px;min-height:48px;padding:10px;border:1px solid #bfa678;border-radius:8px}.demo-zone p{font-size:.85rem;line-height:1.6}.demo-schedule .form-grid[hidden]{display:none!important}.crm-walkthrough-next{max-width:1120px;margin:24px auto;padding:24px}.crm-walkthrough-next p{line-height:1.6}
+
+#demo-prep { margin: 18px 0; border: 1px solid #bdcccc; border-radius: 8px; }
+#demo-prep summary { padding: 12px; min-height: 44px; box-sizing: border-box; cursor: pointer; font-weight: 700; }
+#demo-prep > p, #demo-prep form { margin: 0; padding: 0 12px 12px; }
+#demo-prep label { display: block; margin: 10px 0 6px; font-weight: 700; }
+#demo-prep :is(input, textarea, select) { width: 100%; box-sizing: border-box; min-height: 44px; font: inherit; padding: 10px; margin: 0; border: 1px solid #829a9a; border-radius: 8px; color: inherit; background: white; }
+#demo-prep :is(summary, input, textarea, select, button):focus-visible { outline: 2px solid #087177; outline-offset: 2px; }

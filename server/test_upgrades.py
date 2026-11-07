@@ -120,10 +120,26 @@ class UpgradeTests(unittest.TestCase):
         self.assertEqual(self.request('/api/demo/manage',{'token':'x'*64})[0],404)
         self.assertEqual(self.request('/api/demo/manage',{'token':token},origin='https://evil.example')[0],403)
         state=self.request('/api/demo/manage',{'token':token})[1];self.assertEqual(state['state'],'confirmed')
+        self.assertEqual(state['prepBrief'],dict(goal='',tools='',teammate='',version=0))
+        prep=dict(token=token,action='save-prep',version=0,prepVersion=0,
+                  goal='Review enquiry ownership',tools='Shared spreadsheet',teammate='yes')
+        self.assertEqual(self.request('/api/demo/manage',dict(prep,goal='x'*401))[0],400)
+        self.assertEqual(self.request('/api/demo/manage',prep,origin='https://evil.example')[0],403)
+        self.assertEqual(self.request('/api/demo/manage',prep)[1]['prepBrief'],dict(
+            goal='Review enquiry ownership',tools='Shared spreadsheet',teammate='yes',version=1))
+        self.assertEqual(self.request('/api/demo/manage',prep)[0],409)
         second=self.slot(20)
-        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'reschedule','version':0,'slotId':second})[0],200)
+        state=self.request('/api/demo/manage',{'token':token,'action':'reschedule','version':0,'slotId':second})[1]
+        self.assertEqual(state['prepBrief']['goal'],'Review enquiry ownership')
+        self.assertEqual(self.request('/api/demo/manage',dict(prep,prepVersion=1))[0],409)
+        cookie,_=self.login()
+        staff=self.request('/api/admin/sales-journey?reference='+result['reference'],cookie=cookie)[1]
+        self.assertEqual(staff['prepBrief'],state['prepBrief'])
         self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'cancel','version':0})[0],409)
-        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'cancel','version':1})[1]['state'],'cancelled')
+        cancelled=self.request('/api/demo/manage',{'token':token,'action':'cancel','version':1})[1]
+        self.assertEqual(cancelled['state'],'cancelled')
+        self.assertIsNone(cancelled['prepBrief'])
+        self.assertEqual(self.request('/api/demo/manage',dict(prep,version=2,prepVersion=1))[0],409)
         self.assertIn(second,[s['id'] for s in self.request('/api/demo/slots')[1]['slots']])
         with enquiries.connect() as db:self.assertEqual(db.execute('SELECT COUNT(*) FROM enquiries WHERE id=?',(result['reference'],)).fetchone()[0],1)
 

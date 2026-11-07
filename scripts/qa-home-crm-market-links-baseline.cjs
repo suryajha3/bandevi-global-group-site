@@ -128,5 +128,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original CRM sample booking marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const prep = require('./fixtures/demo-prep-conversion-approved.json');
+  for (const { before, after } of prep[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original demo prep and conversion marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
