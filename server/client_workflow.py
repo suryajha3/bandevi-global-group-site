@@ -12,6 +12,7 @@ import sqlite3
 import time
 from http.cookies import SimpleCookie, CookieError
 from urllib.parse import parse_qs, urlsplit
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import operations
 
 COOKIE = 'bg_client_session'
@@ -446,16 +447,83 @@ def calendar(db,reference):
         folded.append(current)
     return '\r\n'.join(folded)+'\r\n'
 
-def reminders(connect):
-    now=int(time.time())
+DEMO_REMINDER = re.compile(r'demo-reminder:(BG-[A-F0-9]{16}):s(\d+):(24|1)')
+DEMO_SCHEDULE = """SELECT b.enquiry_id,b.token_digest,s.starts,e.payload,a.id AS schedule_event,
+    a.created AS booked_at,m.url,confirmation.body AS confirmation FROM demo_bookings b
+    JOIN demo_slots s ON s.id=b.slot_id JOIN enquiries e ON e.id=b.enquiry_id
+    JOIN appointment_events a ON a.id=(SELECT MAX(id) FROM appointment_events
+      WHERE enquiry_id=b.enquiry_id AND event IN ('confirmed','rescheduled')) AND a.slot_id=b.slot_id
+    LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id
+    LEFT JOIN notification_outbox confirmation ON confirmation.dedupe='booking:'||b.enquiry_id||':0'
+    WHERE b.state='confirmed' AND e.email_status!='qa-verified'"""
+
+
+def valid_demo_timezone(zone):
+    if not isinstance(zone, str) or not re.fullmatch(r'[A-Za-z0-9_+/-]{1,80}', zone):
+        return False
+    try:
+        ZoneInfo(zone)
+    except (ZoneInfoNotFoundError, ValueError):
+        return False
+    return True
+
+
+def reminder_due(booking, hours, now):
+    due = booking['starts'] - hours * 3600
+    cutoff = booking['starts'] - (3600 if hours == 24 else 0)
+    return booking['booked_at'] <= due <= now < cutoff
+
+
+def reminder_message(db, notification, now=None):
+    """Resolve the current schedule and joining link at delivery, including retries."""
+    match = DEMO_REMINDER.fullmatch(notification['dedupe'])
+    if not match:
+        return None
+    reference, schedule_event, hours = match.groups()
+    booking = db.execute(DEMO_SCHEDULE + ' AND b.enquiry_id=?', (reference,)).fetchone()
+    if not booking or booking['schedule_event'] != int(schedule_event) or not reminder_due(booking, int(hours), int(time.time()) if now is None else now):
+        return None
+    payload = json.loads(booking['payload'])
+    if payload.get('email') != notification['recipient']:
+        return None
+    qualification = payload.get('qualification') or {}
+    zone = payload.get('demoTimezone') or (qualification.get('contact') or {}).get('timezone')
+    if not zone or zone == 'UTC' and 'demoTimezone' not in payload:
+        zone = {'US': 'America/New_York', 'GB': 'Europe/London'}.get(qualification.get('country'), 'Asia/Kolkata')
+    try:
+        timezone = ZoneInfo(zone)
+    except (ZoneInfoNotFoundError, ValueError, TypeError):
+        timezone = operations.INDIA
+    when = datetime.datetime.fromtimestamp(booking['starts'], timezone).strftime('%d %B %Y at %H:%M %Z (%z)')
+    lines = [f'Your Bandevi demo is scheduled for {when}.', f'Reference: {reference}']
+    lines.append('Join: ' + booking['url'] if booking['url'] else 'The team will send joining details separately.')
+    token = re.search(r'/demo-booking/#([A-Za-z0-9_-]{40,100})(?:\s|$)', booking['confirmation'] or '')
+    if token and hmac.compare_digest(hashlib.sha256(token[1].encode()).hexdigest(), booking['token_digest']):
+        lines.append('Manage or reschedule: https://bandeviglobalgroup.com/demo-booking/#' + token[1])
+    else:
+        lines.append('To reschedule, reply to this email or contact sales@bandeviglobalgroup.com.')
+    return '\n'.join(lines)
+
+
+def reminders(connect, now=None):
+    now = int(time.time()) if now is None else now
     with connect() as db:
-        for b in db.execute("SELECT b.enquiry_id,b.version,s.starts,e.payload FROM demo_bookings b JOIN demo_slots s ON s.id=b.slot_id JOIN enquiries e ON e.id=b.enquiry_id WHERE b.state='confirmed' AND s.starts>? AND s.starts<=?",(now,now+86400)).fetchall():
-            email=json.loads(b['payload'])['email']
+        db.execute('BEGIN IMMEDIATE')
+        bookings = db.execute(DEMO_SCHEDULE + ' AND s.starts>? AND s.starts<=?', (now, now + 86400)).fetchall()
+        for booking in bookings:
+            email = json.loads(booking['payload']).get('email')
+            if not email:
+                continue
             for hours in (24,1):
-                if b['starts']<=now+hours*3600 and (hours==1 or b['starts']>now+3600):
-                    when=datetime.datetime.fromtimestamp(b['starts'],operations.INDIA).strftime('%d %B %Y at %H:%M IST')
-                    meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(b['enquiry_id'],)).fetchone()
-                    operations.enqueue(db,'demo-reminder:'+b['enquiry_id']+':'+str(b['version'])+':'+str(hours),email,'Your Bandevi demo reminder','Your demo is scheduled for '+when+'.\nReference: '+b['enquiry_id']+('\nJoin: '+meeting[0] if meeting else '\nThe team supplies joining details separately.'))
+                if not reminder_due(booking, hours, now):
+                    continue
+                reference = booking['enquiry_id']
+                # Older releases keyed reminders by booking version, which also changed when staff edited the link.
+                if db.execute("SELECT 1 FROM notification_outbox WHERE dedupe GLOB ? AND status='sent' AND created>=?",
+                              (f'demo-reminder:{reference}:[0-9]*:{hours}', booking['booked_at'])).fetchone():
+                    continue
+                key = f'demo-reminder:{reference}:s{booking["schedule_event"]}:{hours}'
+                operations.enqueue(db, key, email, 'Your Bandevi demo reminder', '')
 
 def handle_get(handler,connect):
     try:return get(handler,connect)
