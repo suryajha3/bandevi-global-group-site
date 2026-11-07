@@ -29,7 +29,7 @@ await page.locator('#demo-recap-save').click();
 await page.locator('#demo-recap-status').filter({hasText:'Recap draft saved'}).waitFor();
 assert(await page.locator('#demo-recap-send').isDisabled());
 await page.locator('#journey-proposal').click();
-await page.locator('#create-form button').click();
+await page.getByRole('heading',{name:'Correct enquiry project',exact:true}).waitFor();
 const draftForm=page.locator('#proposals');
 await draftForm.getByText('Create an immutable proposal revision',{exact:true}).click();
 await draftForm.getByText('Review saved customer recap',{exact:true}).click();
