@@ -44,6 +44,10 @@ def initialize(db):
     CREATE UNIQUE INDEX IF NOT EXISTS proposal_review_live_revision ON client_proposal_reviews(proposal) WHERE state='booked';
     CREATE INDEX IF NOT EXISTS proposal_review_reference ON client_proposal_reviews(reference,created);
     CREATE INDEX IF NOT EXISTS proposal_review_proposal ON client_proposal_reviews(proposal,created);
+    CREATE TABLE IF NOT EXISTS client_proposal_decisions(
+      proposal TEXT PRIMARY KEY,changes TEXT NOT NULL DEFAULT '',recap TEXT NOT NULL DEFAULT '',
+      milestone TEXT NOT NULL DEFAULT '',open_question TEXT NOT NULL DEFAULT '',due TEXT NOT NULL DEFAULT '',
+      published INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL DEFAULT 0);
     CREATE TABLE IF NOT EXISTS client_kickoffs(reference TEXT PRIMARY KEY,proposal TEXT NOT NULL,owner TEXT NOT NULL,
       materials TEXT NOT NULL,contact TEXT NOT NULL,materials_ready INTEGER NOT NULL,scheduled INTEGER NOT NULL,
       confirmed INTEGER NOT NULL,started INTEGER NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL);
@@ -52,7 +56,10 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_loss_reasons(reference TEXT PRIMARY KEY,reason TEXT NOT NULL);
     CREATE INDEX IF NOT EXISTS client_projects_email ON client_projects(email);
     CREATE INDEX IF NOT EXISTS client_tickets_project ON client_tickets(reference);
+    CREATE INDEX IF NOT EXISTS client_ticket_visible_message ON client_ticket_messages(ticket,internal,id);
     ''')
+    if 'sender' not in {row[1] for row in db.execute('PRAGMA table_info(client_ticket_messages)')}:
+        db.execute("ALTER TABLE client_ticket_messages ADD COLUMN sender TEXT NOT NULL DEFAULT ''")
 
 def value(data, key, limit, required=True):
     item=data.get(key,'')
@@ -141,6 +148,12 @@ def detail(db,row,staff,ticket_id=''):
         review=proposal_review(db,p['id'])
         p['review']=review_view(review,staff)
         p['reviewAvailable']=not closed and can_book_review(p,review,now)
+        decision=db.execute('SELECT * FROM client_proposal_decisions WHERE proposal=?',(p['id'],)).fetchone()
+        if decision:
+            keys=('changes','recap','milestone','open_question','due','published') if decision['published'] else ('changes',)
+            p['decision']={key:decision[key] for key in (keys if not staff else (*keys,'version'))}
+        if staff:
+            p['decisionEditable']=not closed and p['status']=='published' and p['expires']>now and decision_review_exists(db,p['id'])
         if not staff:p.pop('actor',None)
         proposals.append(p)
     result['proposals']=proposals
@@ -162,11 +175,12 @@ def detail(db,row,staff,ticket_id=''):
             t['proposalFeedback']={'proposalId':proposal,'kind':kind,'revision':revision}
             if staff:t['owner']=sales_owner(db,ref)
         if not staff:t.pop('owner',None)
-        t['messages']=[dict(r) for r in db.execute('SELECT body,actor,internal,created FROM client_ticket_messages WHERE ticket=?'+('' if staff else ' AND internal=0')+' ORDER BY id',(t['id'],))]
+        t['messages']=[dict(r) for r in db.execute('SELECT body,actor,internal,created,sender FROM client_ticket_messages WHERE ticket=?'+('' if staff else ' AND internal=0')+' ORDER BY id',(t['id'],))]
         if not staff:
             for m in t['messages']:
-                m['actor']='You' if m['actor']==row['email'] else 'Bandevi team'
+                m['actor']='You' if (m['sender'] or ('client' if m['actor']==row['email'] else 'staff'))=='client' else 'Bandevi team'
                 m.pop('internal',None)
+        for m in t['messages']:m.pop('sender')
         result['tickets'].append(t)
     return result
 
@@ -325,6 +339,9 @@ def post(handler,connect,origins,salt):
             elif action=='proposal-review' and staff:
                 ref=value(data,'reference',30);project(db,ref,identity,True)
                 change_proposal_review(db,ref,identity,data,True)
+            elif action=='proposal-decision' and staff:
+                ref=value(data,'reference',30);project(db,ref,identity,True)
+                save_proposal_decision(db,ref,actor,data)
             elif action=='create' and staff:
                 ref=value(data,'reference',30);enquiry=db.execute('SELECT payload FROM enquiries WHERE id=?',(ref,)).fetchone()
                 if not enquiry:raise Problem(404,'Enquiry not found.')
@@ -382,7 +399,9 @@ def staff_change(db,row,identity,action,data,result):
         currency=data.get('currency');expires=data.get('expires')
         if currency not in ('INR','USD','GBP','EUR','AED') or type(expires)!=int or not now<expires<=now+365*86400:raise Problem(400,'Check the currency and future expiry.')
         revision=db.execute('SELECT COALESCE(MAX(revision),0)+1 FROM client_proposals WHERE reference=?',(ref,)).fetchone()[0];pid=secrets.token_hex(12)
+        changes=value(data,'changes',800,False)
         db.execute('INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,created,actor) VALUES(?,?,?,?,?,?,?,?,?,?,?)',(pid,ref,revision,title,scope,terms,minor,currency,expires,now,actor));result['proposalId']=pid
+        if revision>1 and changes:db.execute('INSERT INTO client_proposal_decisions(proposal,changes) VALUES(?,?)',(pid,changes))
     elif action in ('publish','withdraw'):
         pid=value(data,'id',30);p=db.execute('SELECT * FROM client_proposals WHERE id=? AND reference=?',(pid,ref)).fetchone()
         if not p:raise Problem(404,'Proposal not found.')
@@ -452,6 +471,41 @@ def client_change(db,row,identity,action,data,result):
     elif action=='proposal-review':change_proposal_review(db,ref,identity,data,False)
     elif action=='kickoff':result.update(change_kickoff(db,ref,identity,data,False))
     else:raise Problem(404,'Not found.')
+
+def decision_review_exists(db,pid):
+    return bool(db.execute("SELECT 1 FROM client_proposal_reviews WHERE proposal=? AND state='attended'",(pid,)).fetchone())
+
+
+def save_proposal_decision(db,ref,actor,data):
+    pid=value(data,'id',30);now=int(time.time())
+    p=db.execute('SELECT status,published,expires FROM client_proposals WHERE id=? AND reference=?',(pid,ref)).fetchone()
+    if not p:raise Problem(404,'Proposal not found.')
+    if (p['status']!='published' or not p['published'] or p['expires']<=now or not decision_review_exists(db,pid)
+            or db.execute("SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')",(ref,)).fetchone()):
+        raise Problem(409,'A current unexpired proposal and a recorded attended review are required.')
+    prior=db.execute('SELECT version,due FROM client_proposal_decisions WHERE proposal=?',(pid,)).fetchone()
+    version=prior['version'] if prior else 0
+    if type(data.get('decisionVersion')) is not int or data['decisionVersion']!=version:
+        raise Problem(409,'The decision card changed. Refresh before publishing.')
+    if data.get('reviewed') is not True:raise Problem(400,'Confirm that the card is ready to share with the client.')
+    recap=value(data,'recap',1200)
+    milestone=value(data,'milestone',280,False)
+    question=value(data,'openQuestion',500,False)
+    due=value(data,'due',10,False)
+    if due and (not prior or due!=prior['due']):
+        try:
+            day=datetime.date.fromisoformat(due)
+            today=datetime.datetime.fromtimestamp(now,operations.INDIA).date()
+            expires=datetime.datetime.fromtimestamp(p['expires'],operations.INDIA).date()
+            if day.isoformat()!=due or not today<=day<=expires:raise ValueError()
+        except ValueError:raise Problem(400,'Choose a decision date from today through the proposal expiry.')
+    db.execute('''INSERT INTO client_proposal_decisions(proposal,recap,milestone,open_question,due,published,version)
+        VALUES(?,?,?,?,?,?,?) ON CONFLICT(proposal) DO UPDATE SET recap=excluded.recap,milestone=excluded.milestone,
+        open_question=excluded.open_question,due=excluded.due,
+        published=COALESCE(NULLIF(client_proposal_decisions.published,0),excluded.published),version=excluded.version''',
+        (pid,recap,milestone,question,due,now,version+1))
+    audit(db,ref,'proposal-decision-published',actor,pid)
+
 
 REVIEW_TOPICS={'scope':'Scope','budget':'Budget','timing':'Timing','integrations':'Integrations','other':'Other'}
 REVIEW_ROWS="""SELECT r.*,s.starts,s.duration,s.host,p.revision,p.status AS proposal_status,p.expires
@@ -684,7 +738,8 @@ def ticket_change(db,row,identity,data,staff,proposal_feedback=False):
         db.execute('UPDATE client_tickets SET status=?,owner=?,due=?,first_response=?,version=version+1 WHERE id=?',(status,owner,due,first,tid))
         recipient=row['email'] if staff else owner
         if not internal:operations.enqueue(db,'ticket-reply:'+tid+':'+str(ticket['version']+1),recipient,'Bandevi support update','An update is available for project '+ref+'.\n'+('https://bandeviglobalgroup.com/client-workspace/' if staff else 'https://bandeviglobalgroup.com/team-inbox/workspace/'))
-    db.execute('INSERT INTO client_ticket_messages(ticket,body,actor,internal,created) VALUES(?,?,?,?,?)',(tid,body,actor,int(internal),now));audit(db,ref,'ticket-note' if internal else 'ticket-message',actor,tid)
+    db.execute('INSERT INTO client_ticket_messages(ticket,body,actor,internal,created,sender) VALUES(?,?,?,?,?,?)',
+               (tid,body,actor,int(internal),now,'staff' if staff else 'client'));audit(db,ref,'ticket-note' if internal else 'ticket-message',actor,tid)
     return tid
 
 def calendar(db,reference):

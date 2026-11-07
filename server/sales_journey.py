@@ -353,19 +353,22 @@ def sample_demo_funnel(db, identity, since, now):
 
 def proposal_review_conversion(db, identity, since, now):
     markets={code:{'country':code,'label':growth_workbench.COUNTRIES[code],
-                   'booked':0,'attended':0,'accepted':0,'won':0}
+                   'booked':0,'attended':0,'accepted':0,'won':0,
+                   'cardsShared':0,'acceptedAfterCard':0,'wonAfterCard':0}
              for code in ('US','GB','IN')}
     won={code:set() for code in markets}
+    won_after_card={code:set() for code in markets}
     access=' AND w.owner=?' if identity['role']=='agent' else ''
     args=[now,now,since,now]+([identity['actor']] if access else [])
     rows=db.execute("""WITH first_reviews AS (
         SELECT proposal, MIN(created) AS booked,
           MAX(CASE WHEN state='attended' AND outcome_at<=? THEN 1 ELSE 0 END) AS attended
         FROM client_proposal_reviews GROUP BY proposal)
-        SELECT e.id,e.payload,f.booked,f.attended,p.accepted,p.status,
+        SELECT e.id,e.payload,f.booked,f.attended,p.accepted,p.status,d.published AS card_shared,
           CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events se
             WHERE se.enquiry_id=e.id AND se.stage='Won' AND se.created BETWEEN p.accepted AND ?) ELSE 0 END AS won
         FROM first_reviews f JOIN client_proposals p ON p.id=f.proposal
+        LEFT JOIN client_proposal_decisions d ON d.proposal=p.id
         JOIN enquiries e ON e.id=p.reference LEFT JOIN enquiry_workflow w ON w.id=e.id
         WHERE f.booked BETWEEN ? AND ? AND e.email_status!='qa-verified'"""+access,args)
     for row in rows:
@@ -374,10 +377,16 @@ def proposal_review_conversion(db, identity, since, now):
         group=markets[code]
         group['booked']+=1
         group['attended']+=row['attended']
+        shared=row['card_shared'] is not None and row['booked']<=row['card_shared']<=now
+        group['cardsShared']+=shared
         if row['status']=='accepted' and row['accepted'] is not None and row['booked']<=row['accepted']<=now:
             group['accepted']+=1
             if row['won']:won[code].add(row['id'])
-    for code,group in markets.items():group['won']=len(won[code])
+            if shared and row['accepted']>=row['card_shared']:
+                group['acceptedAfterCard']+=1
+                if row['won']:won_after_card[code].add(row['id'])
+    for code,group in markets.items():
+        group['won']=len(won[code]);group['wonAfterCard']=len(won_after_card[code])
     return list(markets.values())
 
 
