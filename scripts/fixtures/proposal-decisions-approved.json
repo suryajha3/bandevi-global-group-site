@@ -1,0 +1,54 @@
+{
+  "server/dashboard/index.html": [
+    {
+      "before": "ey.js?v=20261107-post-demo\"></script><script",
+      "after": "ey.js?v=20261107-proposal-decisions\"></script><script"
+    },
+    {
+      "before": "s=\"small\"></p><h3>Homepage service e",
+      "after": "s=\"small\"></p><h3>Proposal decisions</h3><div id=\"proposal-decision-report\" class=\"pipeline-table\" tabindex=\"0\" role=\"region\" aria-label=\"Proposal decisions by market\"></div><p id=\"proposal-decision-basis\" class=\"small\"></p><h3>Homepage service e"
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": "ort-days').value;\n",
+      "after": "ort-days').value;\n $('proposal-decision-report').replaceChildren();\n $('proposal-decision-basis').textContent='Loading proposal decisions…';\n"
+    },
+    {
+      "before": "nt=r.marketBasis;\n",
+      "after": "nt=r.marketBasis;\n  renderProposalDecisions(r);\n"
+    },
+    {
+      "before": "ent=error.message;}}\n",
+      "after": "ent=error.message;$('proposal-decision-basis').textContent='Proposal decisions could not be loaded.';}}\n}\n\nfunction renderProposalDecisions(result){\n const groups=result.proposalDecisions;\n if(!groups){$('proposal-decision-basis').textContent='Proposal decisions are unavailable.';return;}\n const table=document.createElement('table');\n table.append(text('caption','Proposal decisions by business country · last '+result.days+' days by publication'));\n const header=table.createTHead().insertRow();\n for(const title of ['Business country','Published revisions','Accepted','Recorded lost','Without recorded decision','Acceptance rate','Change requests','Revisions with changes','Median time to decision']){\n  const cell=text('th',title);cell.scope='col';header.append(cell);\n }\n const formatDuration=(seconds,count)=>{\n  if(seconds===null)return '—';\n  const elapsed=seconds<60?'<1 min':seconds<3600?Math.round(seconds/60)+' min':seconds<86400?(seconds/3600).toFixed(1)+' h':(seconds/86400).toFixed(1)+' days';\n  return elapsed+' ('+count+(count===1?' decision)':' decisions)');\n };\n const body=table.createTBody();\n for(const group of groups){\n  const row=body.insertRow(), heading=text('th',group.label);heading.scope='row';row.append(heading);\n  const rate=group.acceptanceRate===null?'—':group.acceptanceRate+'%';\n  for(const value of [group.published,group.accepted,group.lost,group.withoutDecision,rate,group.changeRequests,group.revisionsWithChanges,formatDuration(group.medianDecisionSeconds,group.decided)])row.append(text('td',String(value)));\n }\n $('proposal-decision-report').replaceChildren(table);\n $('proposal-decision-basis').textContent=result.proposalDecisionBasis;\n"
+    },
+    {
+      "before": "earch').value='';\n",
+      "after": "earch').value='';\n $('proposal-decision-report').replaceChildren();$('proposal-decision-basis').textContent='';\n"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "import secrets\n",
+      "after": "import secrets\nimport statistics\n"
+    },
+    {
+      "before": "arse_qs, urlsplit\n",
+      "after": "arse_qs, urlsplit\nimport growth_workbench\n"
+    },
+    {
+      "before": "commit()\n    handler.respond(200,result);return True\n\n",
+      "after": "commit()\n    handler.respond(200,result);return True\n\ndef proposal_decisions(db, identity, since, now):\n    \"\"\"Report on published revisions, independently of the enquiry received date.\"\"\"\n    args = [now, since, now]\n    access = ' AND w.owner=?' if identity['role']=='agent' else ''\n    if access:\n        args.append(identity['actor'])\n    rows = db.execute(\"\"\"WITH cohort AS (\n        SELECT p.id,p.reference,p.published,p.status,p.accepted,e.payload,\n          CASE WHEN w.stage='Lost' THEN (SELECT MAX(created) FROM sales_events\n            WHERE enquiry_id=p.reference AND stage='Lost' AND created<=?) END AS lost\n        FROM client_proposals p JOIN enquiries e ON e.id=p.reference\n        LEFT JOIN enquiry_workflow w ON w.id=p.reference\n        WHERE p.published>0 AND p.published BETWEEN ? AND ? AND p.status!='draft'\n          AND e.email_status!='qa-verified'\"\"\"+access+\"\"\"\n      ) SELECT cohort.*,\n        (SELECT COUNT(*) FROM client_proposal_feedback f JOIN client_tickets t ON t.id=f.ticket\n         WHERE f.proposal=cohort.id AND f.kind='change' AND t.created BETWEEN cohort.published AND ?) AS changes,\n        CASE WHEN id=(SELECT p.id FROM client_proposals p WHERE p.reference=cohort.reference\n          AND p.published>0 AND p.published<=cohort.lost AND p.status!='draft'\n          ORDER BY p.published DESC,p.revision DESC LIMIT 1) THEN lost END AS recorded_loss\n      FROM cohort\"\"\", [*args, now])\n    markets = {code: {'country':code,'label':growth_workbench.COUNTRIES[code],\n                      'published':0,'accepted':0,'lost':0,'changeRequests':0,'revisionsWithChanges':0}\n               for code in ('US','GB','IN')}\n    durations = {code: [] for code in markets}\n    for row in rows:\n        code = growth_workbench.country(json.loads(row['payload']))\n        if code not in markets:\n            continue\n        group = markets[code]\n        group['published'] += 1\n        group['changeRequests'] += row['changes']\n        group['revisionsWithChanges'] += row['changes']>0\n        accepted = row['status']=='accepted' and row['accepted'] is not None and row['published']<=row['accepted']<=now\n        if accepted:\n            group['accepted'] += 1\n            durations[code].append(row['accepted']-row['published'])\n        elif row['recorded_loss'] is not None:\n            group['lost'] += 1\n            durations[code].append(row['recorded_loss']-row['published'])\n    for code, group in markets.items():\n        group['decided'] = len(durations[code])\n        group['withoutDecision'] = group['published']-group['decided']\n        group['medianDecisionSeconds'] = round(statistics.median(durations[code])) if durations[code] else None\n        group['acceptanceRate'] = round(100*group['accepted']/group['published'],1) if group['published'] else None\n    return list(markets.values())\n\n\n"
+    },
+    {
+      "before": "ceLabel'], group['countryLabel'])),\n",
+      "after": "ceLabel'], group['countryLabel'])),\n        'proposalDecisions':proposal_decisions(db,identity,args[0],now),\n        'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. Missing decisions are excluded from the median. Uses saved business country and staff access, with QA records excluded.',\n"
+    }
+  ],
+  "server/test_market_reporting.py": [
+    {
+      "before": ":self.owner},30)\n\n",
+      "after": ":self.owner},30)\n\n    def test_proposal_decisions_use_publication_dates_revisions_and_current_owner(self):\n        now=int(time.time());day=86400\n        us=self.lead('US',created=now-100*day)\n        gb=self.lead('GB',created=now-15*day)\n        qa=self.lead('IN',email_status='qa-verified')\n        reassigned=self.lead('IN');unknown=self.lead()\n        def revision(db,ref,number,age,status,accepted=None):\n            pid=uuid.uuid4().hex\n            published=0 if age is None else now-age*day\n            db.execute('''INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,accepted,published)\n                VALUES(?,?,?,'Synthetic title','Test scope','Test terms',100,'USD',?,?,?,?,?,?)''',\n                       (pid,ref,number,now+day,status,published or now,self.owner,accepted,published))\n            return pid\n        with isolated.enquiries.connect() as db:\n            first=revision(db,us,1,10,'superseded')\n            revision(db,us,2,8,'accepted',now-6*day)\n            revision(db,us,3,None,'draft')\n            revision(db,gb,1,10,'superseded')\n            revision(db,gb,2,8,'withdrawn')\n            revision(db,gb,3,1,'published')\n            db.execute(\"UPDATE enquiry_workflow SET stage='Lost' WHERE id=?\",(gb,))\n            db.execute(\"INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Lost',?,?)\",(gb,self.owner,now-3*day))\n            revision(db,qa,1,3,'accepted',now-day)\n            revision(db,reassigned,1,3,'published')\n            revision(db,reassigned,2,31,'withdrawn')\n            db.execute(\"UPDATE enquiry_workflow SET owner='someone-else@example.test' WHERE id=?\",(reassigned,))\n            revision(db,unknown,1,2,'published')\n            for index,(kind,age) in enumerate([('change',9),('change',8),('question',8),('change',11),('change',-1)]):\n                ticket=uuid.uuid4().hex\n                db.execute(\"INSERT INTO client_tickets(id,reference,subject,priority,owner,created,due) VALUES(?,?,'Synthetic feedback','Normal',?,?,?)\",\n                           (ticket,us,self.owner,now-age*day,now+day))\n                db.execute('INSERT INTO client_proposal_feedback VALUES(?,?,?,?,?)',(ticket,first,kind,str(index),'test'))\n        groups={group['country']:group for group in self.report()['proposalDecisions']}\n        metrics=('published','accepted','lost','withoutDecision','acceptanceRate','changeRequests','revisionsWithChanges','medianDecisionSeconds')\n        self.assertEqual(tuple(groups['US'][key] for key in metrics),(2,1,0,1,50.0,2,1,2*day))\n        self.assertEqual(tuple(groups['GB'][key] for key in metrics),(3,0,1,2,0.0,0,0,5*day))\n        self.assertEqual(tuple(groups['IN'][key] for key in metrics),(0,0,0,0,None,0,0,None))\n        with isolated.enquiries.connect() as db:\n            db.execute(\"UPDATE enquiry_workflow SET stage='Proposal' WHERE id=?\",(gb,))\n            short=sales_journey.proposal_decisions(db,{'role':'agent','actor':self.owner},now-7*day,now)\n            self.assertEqual([(group['country'],group['published'],group['decided']) for group in short], [('US',0,0),('GB',1,0),('IN',0,0)])\n        self.assertNotIn(us,json.dumps(groups))\n\n"
+    }
+  ]
+}
