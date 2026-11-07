@@ -9,6 +9,8 @@ from decimal import Decimal, InvalidOperation
 from urllib.parse import parse_qs, urlsplit
 
 INDIA = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+SLOT_FREE = """NOT EXISTS (SELECT 1 FROM demo_bookings b WHERE b.slot_id=s.id)
+    AND NOT EXISTS (SELECT 1 FROM client_proposal_reviews r WHERE r.slot_id=s.id AND r.state='booked')"""
 
 def initialize(db):
     db.executescript('''
@@ -51,9 +53,20 @@ def money(value):
     except InvalidOperation:
         raise ValueError('Enter a valid deal value.')
 
+def available_slots(db, now, before=None):
+    return db.execute('SELECT s.id,s.starts,s.duration FROM demo_slots s WHERE s.active=1 AND s.starts>? AND s.starts<? AND '
+        +SLOT_FREE+(' AND s.starts+s.duration*60<=?' if before is not None else '')+' ORDER BY s.starts LIMIT 100',
+        [now,now+180*86400]+([before] if before is not None else [])).fetchall()
+
+
+def available_slot(db, slot_id, now):
+    return db.execute('SELECT s.* FROM demo_slots s WHERE s.id=? AND s.active=1 AND s.starts>? AND '+SLOT_FREE,
+                      (slot_id,now)).fetchone()
+
+
 def create_booking(db, reference, slot_id, token):
-    slot = db.execute('SELECT * FROM demo_slots WHERE id=? AND active=1 AND starts>?', (slot_id,int(time.time()))).fetchone()
-    if not slot or db.execute("SELECT 1 FROM demo_bookings WHERE slot_id=?", (slot_id,)).fetchone():
+    slot = available_slot(db,slot_id,int(time.time()))
+    if not slot:
         raise ValueError('That demo slot is no longer available. Choose another slot.')
     db.execute('INSERT INTO demo_bookings(enquiry_id,slot_id,token_digest) VALUES(?,?,?)',
                (reference,slot_id,hashlib.sha256(token.encode()).hexdigest()))
@@ -79,7 +92,7 @@ def get(handler, connect, authenticated):
     if route=='/api/demo/slots':
         now=int(time.time())
         with connect() as db:
-            rows=db.execute('SELECT s.id,s.starts,s.duration FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.active=1 AND b.slot_id IS NULL AND s.starts>? AND s.starts<? ORDER BY s.starts LIMIT 100',(now,now+180*86400)).fetchall()
+            rows=available_slots(db,now)
         handler.respond(200,{'timezone':'Asia/Kolkata','slots':[dict(r) for r in rows]});return True
     if route not in ('/api/admin/team','/api/admin/slots','/api/admin/operations','/api/admin/conversion'):
         return False
@@ -95,9 +108,10 @@ def get(handler, connect, authenticated):
         elif route=='/api/admin/slots':
             clause=' AND s.host=?' if role=='agent' else ''
             now = int(time.time())
-            rows=db.execute("""SELECT s.*,b.enquiry_id,b.state,b.version,
+            rows=db.execute("""SELECT s.*,b.enquiry_id,b.state,b.version,(r.id IS NOT NULL) AS proposalReview,
                 CASE WHEN b.state='confirmed' AND s.starts>? AND COALESCE(m.url,'')='' THEN 1 ELSE 0 END AS missingJoiningLink
                 FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id
+                LEFT JOIN client_proposal_reviews r ON r.slot_id=s.id AND r.state='booked'
                 LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id WHERE s.starts>?"""+clause+' ORDER BY s.starts LIMIT 200',
                 [now,now-86400]+([actor] if role=='agent' else [])).fetchall()
             result={'slots':[dict(r) for r in rows]}
@@ -155,11 +169,11 @@ def post_admin(handler, connect, authenticated, data):
                 db.execute('INSERT INTO team_users VALUES(?,?,?,?,?) ON CONFLICT(email) DO UPDATE SET name=excluded.name,role=excluded.role,password_hash=excluded.password_hash,active=excluded.active',(email,name,role,stored,int(active)))
                 db.execute('DELETE FROM inbox_sessions WHERE actor=?',(email,))
                 if not active:
-                    db.execute('UPDATE demo_slots SET active=0 WHERE host=? AND id NOT IN (SELECT slot_id FROM demo_bookings)',(email,))
+                    db.execute('UPDATE demo_slots AS s SET active=0 WHERE host=? AND '+SLOT_FREE,(email,))
                 db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)',('TEAM',int(time.time()),authenticated['actor'],'{}',json.dumps({'email':email,'role':role,'active':active})))
             elif route=='/api/admin/slots':
                 if data.get('action')=='close':
-                    if db.execute('SELECT 1 FROM demo_bookings WHERE slot_id=?',(data.get('id'),)).fetchone():raise ValueError('Cancel the appointment before closing its slot.')
+                    if db.execute('SELECT 1 FROM demo_slots s WHERE s.id=? AND NOT ('+SLOT_FREE+')',(data.get('id'),)).fetchone():raise ValueError('Cancel the appointment before closing its slot.')
                     if not db.execute('UPDATE demo_slots SET active=0 WHERE id=?',(data.get('id'),)).rowcount:raise ValueError('Slot not found.')
                 else:
                     starts=data.get('starts');duration=data.get('duration',30);host=data.get('host',authenticated['actor'])
@@ -215,8 +229,8 @@ def post_public(handler, connect, origins):
                 elif action=='cancel':
                     if booking['state']=='confirmed':cancel_booking(db,booking,'Your demo has been cancelled.')
                 else:
-                    slot_id=data.get('slotId');slot=db.execute('SELECT * FROM demo_slots WHERE id=? AND active=1 AND starts>?',(slot_id,int(time.time()))).fetchone()
-                    if not slot or db.execute('SELECT 1 FROM demo_bookings WHERE slot_id=?',(slot_id,)).fetchone():handler.respond(409,{'error':'That slot is no longer available.'});return True
+                    slot_id=data.get('slotId');slot=available_slot(db,slot_id,int(time.time()))
+                    if not slot:handler.respond(409,{'error':'That slot is no longer available.'});return True
                     db.execute("UPDATE demo_bookings SET slot_id=?,state='confirmed',version=version+1 WHERE enquiry_id=?",(slot_id,booking['enquiry_id']))
                     db.execute('DELETE FROM demo_meetings WHERE reference=?',(booking['enquiry_id'],))
                     db.execute('INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,?,?,?,?,?)',

@@ -14,6 +14,7 @@ REASONS={
     'unbooked':('Enquiry without a demo','Review the requirements and invite the customer to arrange a demo.'),
     'proposal':('Proposal awaiting decision','Review the current proposal and record the next agreed follow-up.'),
     'feedback':('Proposal feedback','Reply to the customer or prepare the requested revision.'),
+    'proposal_review':('Proposal reviews','Confirm joining details, record attendance or complete the sales follow-up.'),
 }
 
 
@@ -33,7 +34,11 @@ def queue(db,identity,query,now=None):
         FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified'
         AND ((e.created>=? AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')) OR EXISTS (
           SELECT 1 FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id
-          WHERE t.reference=e.id AND t.status IN ('Open','In progress')))"""+access,args)
+          WHERE t.reference=e.id AND t.status IN ('Open','In progress')) OR EXISTS (
+          SELECT 1 FROM client_proposal_reviews r JOIN client_proposals p ON p.id=r.proposal
+          WHERE r.reference=e.id AND (r.state='booked' OR
+            (r.state IN ('attended','no_show') AND r.followed=0 AND p.status!='accepted'
+              AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')))))"""+access,args)
     items=[];counts=dict.fromkeys(('all',*REASONS),0)
     for row in rows:
         payload=json.loads(row['payload']);country=growth_workbench.country(payload)
@@ -44,6 +49,17 @@ def queue(db,identity,query,now=None):
             WHERE t.reference=? AND t.status IN ('Open','In progress') ORDER BY t.due,t.id''',(ref,))]
         if feedback:
             reasons.append('feedback');due.append(feedback[0]['due'])
+        reviews=[]
+        for review in db.execute(client_workflow.REVIEW_ROWS+""" WHERE r.reference=? AND
+            (r.state='booked' OR (r.state IN ('attended','no_show') AND r.followed=0
+              AND p.status!='accepted' AND ? NOT IN ('Won','Lost'))) ORDER BY s.starts,r.id""",(ref,row['stage'])):
+            elapsed=review['starts']+review['duration']*60<=now
+            status=({'attended':'Attended · follow-up needed','no_show':'No-show · follow-up needed'}.get(review['state'])
+                    or ('Attendance needed' if elapsed else 'Joining link needed' if not review['meeting'] else 'Booked'))
+            reviews.append({'proposalId':review['proposal'],'revision':review['revision'],'starts':review['starts'],
+                            'status':status,'host':review['host']})
+        if reviews:
+            reasons.append('proposal_review');due.append(reviews[0]['starts'])
         in_cohort = row['created']>=since and row['stage'] not in ('Won','Lost')
         booking=db.execute('SELECT b.state,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(ref,)).fetchone()
         record=sales_journey.record(db,ref)
@@ -74,6 +90,7 @@ def queue(db,identity,query,now=None):
                                   'recapDelivery':followup['delivery'],'proposalPublished':bool(published_after_demo)}
         if feedback:
             items[-1]['proposalFeedback']={'owner':client_workflow.sales_owner(db,ref),'overdue':feedback[0]['due']<=now,'requests':feedback}
+        if reviews:items[-1]['proposalReviews']=reviews
     items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue')),item['due'],item['reference']))
     return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Other recovery work uses active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. Closed, hidden QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
 

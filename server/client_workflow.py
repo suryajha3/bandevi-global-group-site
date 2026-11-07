@@ -35,6 +35,15 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_ticket_messages(id INTEGER PRIMARY KEY,ticket TEXT NOT NULL,body TEXT NOT NULL,actor TEXT NOT NULL,internal INTEGER NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_proposal_feedback(ticket TEXT PRIMARY KEY,proposal TEXT NOT NULL,kind TEXT NOT NULL,
       request_id TEXT NOT NULL,request_digest TEXT NOT NULL,UNIQUE(proposal,request_id));
+    CREATE TABLE IF NOT EXISTS client_proposal_reviews(
+      id TEXT PRIMARY KEY,reference TEXT NOT NULL,proposal TEXT NOT NULL,slot_id TEXT NOT NULL,
+      topic TEXT NOT NULL,meeting TEXT NOT NULL DEFAULT '',state TEXT NOT NULL DEFAULT 'booked',
+      created INTEGER NOT NULL,outcome_at INTEGER NOT NULL DEFAULT 0,followed INTEGER NOT NULL DEFAULT 0,
+      version INTEGER NOT NULL DEFAULT 1);
+    CREATE UNIQUE INDEX IF NOT EXISTS proposal_review_live_slot ON client_proposal_reviews(slot_id) WHERE state='booked';
+    CREATE UNIQUE INDEX IF NOT EXISTS proposal_review_live_revision ON client_proposal_reviews(proposal) WHERE state='booked';
+    CREATE INDEX IF NOT EXISTS proposal_review_reference ON client_proposal_reviews(reference,created);
+    CREATE INDEX IF NOT EXISTS proposal_review_proposal ON client_proposal_reviews(proposal,created);
     CREATE TABLE IF NOT EXISTS client_kickoffs(reference TEXT PRIMARY KEY,proposal TEXT NOT NULL,owner TEXT NOT NULL,
       materials TEXT NOT NULL,contact TEXT NOT NULL,materials_ready INTEGER NOT NULL,scheduled INTEGER NOT NULL,
       confirmed INTEGER NOT NULL,started INTEGER NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL);
@@ -123,11 +132,15 @@ def detail(db,row,staff,ticket_id=''):
             followup = sales_journey.post_demo(db,ref,result['salesJourney'],booking,json.loads(enquiry['payload']),int(time.time()))
             if followup:
                 result['postDemo'] = {'body':followup['body'],'currency':followup['currency']}
-    proposals=[]
+    proposals=[];now=int(time.time())
+    closed=db.execute("SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')",(ref,)).fetchone()
     for item in db.execute('SELECT * FROM client_proposals WHERE reference=? ORDER BY revision DESC',(ref,)):
         if not staff and (item['status']=='draft' or not item['published'] and item['status']!='accepted'):continue
         p=dict(item)
-        p['displayStatus']=proposal_status(p,int(time.time()))
+        p['displayStatus']=proposal_status(p,now)
+        review=proposal_review(db,p['id'])
+        p['review']=review_view(review,staff)
+        p['reviewAvailable']=not closed and can_book_review(p,review,now)
         if not staff:p.pop('actor',None)
         proposals.append(p)
     result['proposals']=proposals
@@ -225,6 +238,13 @@ def get(handler,connect):
                     stats['openTickets']+=1;stats['overdueTickets']+=t[0]<now
             handler.respond(200,{'days':days,'counts':stats,'lostReasons':losses,'basis':'Received-date enquiry cohort. Demo reservations and published/accepted proposals require recorded events. Support counts are limited to this cohort.'});return True
         if action=='proposal-queue' and staff:return proposal_queue(handler,db,identity,query)
+        if action=='review-slots' and not staff:
+            ref=query.get('reference',[''])[0]
+            project(db,ref,identity)
+            now=int(time.time())
+            proposal=reviewable_proposal(db,ref,query.get('id',[''])[0],now)
+            handler.respond(200,{'slots':[dict(slot) for slot in operations.available_slots(db,now,proposal['expires'])]})
+            return True
         if action=='kickoff-queue' and staff:
             db.execute('BEGIN')
             handler.respond(200,kickoff_queue(db,identity,query));return True
@@ -302,6 +322,9 @@ def post(handler,connect,origins,salt):
                 db.execute('DELETE FROM client_sessions WHERE digest=?',(identity['digest'],));headers={'Set-Cookie':cookie('',True)}
             elif action=='kickoff' and staff:
                 result.update(change_kickoff(db,value(data,'reference',30),identity,data,True))
+            elif action=='proposal-review' and staff:
+                ref=value(data,'reference',30);project(db,ref,identity,True)
+                change_proposal_review(db,ref,identity,data,True)
             elif action=='create' and staff:
                 ref=value(data,'reference',30);enquiry=db.execute('SELECT payload FROM enquiries WHERE id=?',(ref,)).fetchone()
                 if not enquiry:raise Problem(404,'Enquiry not found.')
@@ -426,8 +449,77 @@ def client_change(db,row,identity,action,data,result):
         db.execute('UPDATE client_projects SET version=version+1 WHERE reference=?',(ref,));audit(db,ref,'milestone-approved',actor,mid)
     elif action=='ticket':ticket_change(db,row,identity,data,False)
     elif action=='proposal-feedback':result['ticketId']=create_proposal_feedback(db,row,identity,data,now)
+    elif action=='proposal-review':change_proposal_review(db,ref,identity,data,False)
     elif action=='kickoff':result.update(change_kickoff(db,ref,identity,data,False))
     else:raise Problem(404,'Not found.')
+
+REVIEW_TOPICS={'scope':'Scope','budget':'Budget','timing':'Timing','integrations':'Integrations','other':'Other'}
+REVIEW_ROWS="""SELECT r.*,s.starts,s.duration,s.host,p.revision,p.status AS proposal_status,p.expires
+    FROM client_proposal_reviews r JOIN demo_slots s ON s.id=r.slot_id JOIN client_proposals p ON p.id=r.proposal"""
+
+
+def proposal_review(db,pid):
+    return db.execute(REVIEW_ROWS+' WHERE r.proposal=? ORDER BY r.rowid DESC LIMIT 1',(pid,)).fetchone()
+
+
+def review_view(review,staff=False):
+    if not review:return None
+    keys=('id','topic','meeting','state','starts','duration','version')
+    return {key:review[key] for key in keys+(('host','followed') if staff else ())}
+
+
+def can_book_review(proposal,review,now):
+    return (proposal['status']=='published' and proposal['published']>0 and proposal['expires']>now
+            and (not review or review['state'] not in ('booked','attended')))
+
+
+def reviewable_proposal(db,ref,pid,now):
+    proposal=db.execute("SELECT * FROM client_proposals WHERE id=? AND reference=? AND published>0",(pid,ref)).fetchone()
+    if not proposal:raise Problem(404,'Proposal not found.')
+    if (not can_book_review(proposal,proposal_review(db,pid),now)
+            or db.execute("SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')",(ref,)).fetchone()):
+        raise Problem(409,'This revision is no longer open for a new review booking.')
+    return proposal
+
+
+def change_proposal_review(db,ref,identity,data,staff):
+    pid=value(data,'id',30);action=data.get('action');now=int(time.time())
+    actor=identity['actor'] if staff else identity['email']
+    if action=='book' and not staff:
+        slot_id=value(data,'slotId',30);topic=value(data,'topic',20,False)
+        if topic and topic not in REVIEW_TOPICS:raise Problem(400,'Choose a review topic or leave it blank.')
+        existing=proposal_review(db,pid)
+        if existing and existing['reference']==ref and existing['state']=='booked' and existing['slot_id']==slot_id:return
+        proposal=reviewable_proposal(db,ref,pid,now)
+        slot=operations.available_slot(db,slot_id,now)
+        if not slot or slot['starts']+slot['duration']*60>proposal['expires'] or slot['starts']>=now+180*86400:
+            raise Problem(409,'That time is no longer available. Refresh available times.')
+        rid=secrets.token_hex(12)
+        db.execute('INSERT INTO client_proposal_reviews(id,reference,proposal,slot_id,topic,created) VALUES(?,?,?,?,?,?)',
+                   (rid,ref,pid,slot_id,topic,now))
+    else:
+        rid=value(data,'reviewId',30)
+        review=db.execute(REVIEW_ROWS+' WHERE r.reference=? AND r.proposal=? AND r.id=?',(ref,pid,rid)).fetchone()
+        if not review:raise Problem(404,'Proposal review not found.')
+        if type(data.get('reviewVersion')) is not int or data['reviewVersion']!=review['version']:
+            raise Problem(409,'The review changed. Refresh before saving.')
+        if action in ('cancel','meeting') and review['state']=='booked' and review['starts']>now:
+            if action=='cancel':
+                db.execute("UPDATE client_proposal_reviews SET state='cancelled',meeting='',outcome_at=?,version=version+1 WHERE id=?",(now,rid))
+                if not active_owner(db,review['host']):db.execute('UPDATE demo_slots SET active=0 WHERE id=?',(review['slot_id'],))
+            elif staff:
+                url=value(data,'url',500);parsed=urlsplit(url)
+                if parsed.scheme!='https' or not parsed.hostname or parsed.username or parsed.password or any(char.isspace() for char in url):
+                    raise Problem(400,'Use a valid HTTPS meeting link.')
+                db.execute('UPDATE client_proposal_reviews SET meeting=?,version=version+1 WHERE id=?',(url,rid))
+            else:raise Problem(403,'Staff access is required.')
+        elif staff and action in ('attended','no_show') and review['state']=='booked' and review['starts']+review['duration']*60<=now:
+            db.execute('UPDATE client_proposal_reviews SET state=?,outcome_at=?,version=version+1 WHERE id=?',(action,now,rid))
+        elif staff and action=='followed' and review['state'] in ('attended','no_show') and not review['followed']:
+            db.execute('UPDATE client_proposal_reviews SET followed=?,version=version+1 WHERE id=?',(now,rid))
+        else:raise Problem(409,'This action is unavailable for the current review and time.')
+    audit(db,ref,'proposal-review-'+action,actor,pid+':'+rid)
+
 
 KICKOFF_ROWS = """SELECT project.reference,project.title,proposal.id AS proposal,proposal.revision,
     proposal.currency,proposal.accepted,e.payload,COALESCE(w.owner,'') AS sales_owner,

@@ -145,7 +145,7 @@ def get(handler,connect,identity):
         enquiry=lead_access(db,ref,identity)
         if not enquiry:handler.respond(404,{'error':'Enquiry not available.'});return True
         now=int(time.time())
-        slots=db.execute('SELECT s.id,s.starts,s.duration FROM demo_slots s LEFT JOIN demo_bookings b ON b.slot_id=s.id WHERE s.active=1 AND b.slot_id IS NULL AND s.starts>? AND s.starts<? ORDER BY s.starts LIMIT 100',(now,now+180*86400)).fetchall()
+        slots=operations.available_slots(db,now)
         booking=db.execute("""SELECT b.state,b.version,s.starts,s.duration,
           CASE WHEN b.state='confirmed' AND s.starts>? AND COALESCE(m.url,'')='' THEN 1 ELSE 0 END AS missingJoiningLink
           FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id
@@ -351,6 +351,36 @@ def sample_demo_funnel(db, identity, since, now):
     return list(groups.values())
 
 
+def proposal_review_conversion(db, identity, since, now):
+    markets={code:{'country':code,'label':growth_workbench.COUNTRIES[code],
+                   'booked':0,'attended':0,'accepted':0,'won':0}
+             for code in ('US','GB','IN')}
+    won={code:set() for code in markets}
+    access=' AND w.owner=?' if identity['role']=='agent' else ''
+    args=[now,now,since,now]+([identity['actor']] if access else [])
+    rows=db.execute("""WITH first_reviews AS (
+        SELECT proposal, MIN(created) AS booked,
+          MAX(CASE WHEN state='attended' AND outcome_at<=? THEN 1 ELSE 0 END) AS attended
+        FROM client_proposal_reviews GROUP BY proposal)
+        SELECT e.id,e.payload,f.booked,f.attended,p.accepted,p.status,
+          CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events se
+            WHERE se.enquiry_id=e.id AND se.stage='Won' AND se.created BETWEEN p.accepted AND ?) ELSE 0 END AS won
+        FROM first_reviews f JOIN client_proposals p ON p.id=f.proposal
+        JOIN enquiries e ON e.id=p.reference LEFT JOIN enquiry_workflow w ON w.id=e.id
+        WHERE f.booked BETWEEN ? AND ? AND e.email_status!='qa-verified'"""+access,args)
+    for row in rows:
+        code=growth_workbench.country(json.loads(row['payload']))
+        if code not in markets:continue
+        group=markets[code]
+        group['booked']+=1
+        group['attended']+=row['attended']
+        if row['status']=='accepted' and row['accepted'] is not None and row['booked']<=row['accepted']<=now:
+            group['accepted']+=1
+            if row['won']:won[code].add(row['id'])
+    for code,group in markets.items():group['won']=len(won[code])
+    return list(markets.values())
+
+
 def crm_demo_conversion(db, identity, since, now):
     markets={code:{'country':code,'label':growth_workbench.COUNTRIES[code],
                    'attended':0,'nextSteps':0,'proposals':0,'won':0}
@@ -492,6 +522,7 @@ def funnel(db,identity,days):
         'homeServices':sorted(home_services.values(), key=lambda group: (group['serviceLabel'], group['countryLabel'])),
         'sampleDemoFunnel':sample_demo_funnel(db,identity,args[0],now),
         'crmDemoConversion':crm_demo_conversion(db,identity,args[0],now),
+        'proposalReviewConversion':proposal_review_conversion(db,identity,args[0],now),
         'proposalDecisions':proposal_decisions(db,identity,args[0],now),
         'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. Missing decisions are excluded from the median. Uses saved business country and staff access, with QA records excluded.',
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
