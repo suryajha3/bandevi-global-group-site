@@ -2,6 +2,7 @@
 import json
 import time
 from urllib.parse import parse_qs,urlsplit
+import client_workflow
 import growth_workbench
 import sales_journey
 
@@ -12,6 +13,7 @@ REASONS={
     'completed':('Completed demo follow-up','Review the customer recap and prepare the proposal in the existing workspace.'),
     'unbooked':('Enquiry without a demo','Review the requirements and invite the customer to arrange a demo.'),
     'proposal':('Proposal awaiting decision','Review the current proposal and record the next agreed follow-up.'),
+    'feedback':('Proposal feedback','Reply to the customer or prepare the requested revision.'),
 }
 
 
@@ -23,21 +25,32 @@ def queue(db,identity,query,now=None):
     if market not in ('',*growth_workbench.COUNTRIES) or bucket not in ('all',*REASONS) or days not in (7,30,90,365) or not 0<=offset<=1000000:
         raise ValueError('Choose valid recovery filters.')
     from dashboard import business_today
-    today=business_today().isoformat();args=[now-days*86400]
+    today=business_today().isoformat();since=now-days*86400;args=[since]
     access=' AND w.owner=?' if identity['role']=='agent' else ''
     if access:args.append(identity['actor'])
-    rows=db.execute("SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') stage,COALESCE(w.owner,'') owner,COALESCE(w.next_action,'') next_action,COALESCE(w.follow_up_date,'') follow_up_date FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified' AND e.created>=? AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"+access,args)
+    rows=db.execute("""SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') stage,COALESCE(w.owner,'') owner,
+        COALESCE(w.next_action,'') next_action,COALESCE(w.follow_up_date,'') follow_up_date
+        FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified'
+        AND ((e.created>=? AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')) OR EXISTS (
+          SELECT 1 FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id
+          WHERE t.reference=e.id AND t.status IN ('Open','In progress')))"""+access,args)
     items=[];counts=dict.fromkeys(('all',*REASONS),0)
     for row in rows:
         payload=json.loads(row['payload']);country=growth_workbench.country(payload)
         if market and country!=market:continue
         ref=row['id'];reasons=[];due=[]
+        feedback = [dict(ticket) for ticket in db.execute('''SELECT t.id,t.status,t.due,f.kind,p.revision
+            FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id JOIN client_proposals p ON p.id=f.proposal
+            WHERE t.reference=? AND t.status IN ('Open','In progress') ORDER BY t.due,t.id''',(ref,))]
+        if feedback:
+            reasons.append('feedback');due.append(feedback[0]['due'])
+        in_cohort = row['created']>=since and row['stage'] not in ('Won','Lost')
         booking=db.execute('SELECT b.state,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(ref,)).fetchone()
         record=sales_journey.record(db,ref)
         accepted=bool(db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND status='accepted'",(ref,)).fetchone())
         proposed=bool(db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND published>0 AND status='published'",(ref,)).fetchone())
         followup=None
-        if not accepted:
+        if in_cohort and not accepted:
             followup=sales_journey.post_demo(db,ref,record,booking,payload,now)
             published_after_demo=followup and db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND status='published' AND published>=? AND expires>?",(ref,followup['completed'],now)).fetchone()
             if followup and (not followup['body'] or not published_after_demo):
@@ -49,7 +62,7 @@ def queue(db,identity,query,now=None):
             elif not booking and not proposed and row['stage'] in ('New','Contacted','Qualified') and row['created']<=now-86400:reasons.append('unbooked');due.append(row['created']+86400)
         # Only the current published proposal is actionable; accepted, withdrawn,
         # superseded and draft revisions never create unanswered-proposal alerts.
-        proposal=db.execute("SELECT id,title,published,expires FROM client_proposals WHERE reference=? AND status='published' AND published>0 AND published<=? ORDER BY revision DESC LIMIT 1",(ref,now-3*86400)).fetchone()
+        proposal=in_cohort and db.execute("SELECT id,title,published,expires FROM client_proposals WHERE reference=? AND status='published' AND published>0 AND published<=? ORDER BY revision DESC LIMIT 1",(ref,now-3*86400)).fetchone()
         if proposal:reasons.append('proposal');due.append(proposal['published']+3*86400)
         if not reasons:continue
         counts['all']+=1
@@ -59,8 +72,10 @@ def queue(db,identity,query,now=None):
         if 'completed' in reasons:
             items[-1]['postDemo']={'due':followup['due'],'overdue':followup['due']<=now,'recapSaved':bool(followup['body']),
                                   'recapDelivery':followup['delivery'],'proposalPublished':bool(published_after_demo)}
-    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue')),item['due'],item['reference']))
-    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. Closed, hidden QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
+        if feedback:
+            items[-1]['proposalFeedback']={'owner':client_workflow.sales_owner(db,ref),'overdue':feedback[0]['due']<=now,'requests':feedback}
+    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue')),item['due'],item['reference']))
+    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Other recovery work uses active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. Closed, hidden QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
 
 
 def get(handler,connect,identity):

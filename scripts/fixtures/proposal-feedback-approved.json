@@ -1,0 +1,130 @@
+{
+  "server/client/app.js": [
+    {
+      "before": "'));return;}const result=await api(prefix+'project?reference='+encodeURIComponent(ref));if(!csrf||csrf!==identity||generation!==projectGeneration||$('project-list').value!==ref)return;current=result;render();const target=['#proposals','#support','#proposal-tracker'].includes(location.hash)?document.querySelector(location.hash):null;if(target)target.scrollIntoView({block:'start'});}\n",
+      "after": "'));return;}const query=new URLSearchParams(location.search),ticket=staff&&query.get('reference')===ref?query.get('ticket'):null;const params=new URLSearchParams({reference:ref});if(ticket)params.set('ticket',ticket);const result=await api(prefix+'project?'+params);if(!csrf||csrf!==identity||generation!==projectGeneration||$('project-list').value!==ref)return;current=result;render();const target=['#proposals','#support','#proposal-tracker'].includes(location.hash)?document.querySelector(location.hash):null;const thread=ticket?$('ticket-'+ticket):null;(thread||target)?.scrollIntoView({block:'start'});}\nfunction proposalFeedbackForm(parent, proposal) {\n const form=el('form'), id='proposal-feedback-'+proposal.id, actions=el('div');\n form.id=id;form.hidden=true;\n const body=field(form,'Your message about revision '+proposal.revision,'body','textarea');\n body.required=true;body.maxLength=2500;\n const send=el('button','Send to sales team');send.type='submit';form.append(send);\n let kind,requestId;\n const buttons=Object.entries({question:'Ask a question',change:'Request changes'}).map(([choice,label])=>{\n  const control=el('button',label);control.type='button';control.setAttribute('aria-controls',id);control.setAttribute('aria-expanded','false');\n  control.addEventListener('click',()=>{\n   if(send.disabled)return;\n   kind=choice;form.hidden=false;\n   buttons.forEach(button=>button.setAttribute('aria-expanded',String(button===control)));\n   body.focus();\n  });\n  return control;\n });\n form.addEventListener('submit',event=>{\n  event.preventDefault();if(!kind||send.disabled)return;\n  send.disabled=true;body.readOnly=true;requestId ||= crypto.randomUUID();\n  act(async()=>{\n   const result=await change('proposal-feedback',{id:proposal.id,kind,body:body.value,requestId});\n   await loadProject();\n   const thread=$('ticket-'+result.ticketId);\n   if(thread){thread.scrollIntoView({block:'start'});thread.focus({preventScroll:true});}\n  },'Proposal feedback saved. The sales team can reply here.').finally(()=>{send.disabled=false;body.readOnly=false;});\n });\n actions.append(...buttons);parent.append(actions,form);\n}\n"
+    },
+    {
+      "before": "e.required=true;}\n",
+      "after": "e.required=true;}\n  if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000)proposalFeedbackForm(a,proposal);\n  for(const request of p.tickets.filter(ticket=>ticket.proposalFeedback?.proposalId===proposal.id)){\n   const link=el('a',request.subject+' · '+request.status);link.href='#ticket-'+request.id;\n   const row=el('p');row.append(link);a.append(row);\n  }\n"
+    },
+    {
+      "before": "a=el('article');a.append(el('h3',t.subject),el('p',t.status+' · '+t.priority+(staff?' · Owner '+t.owner+' · Internal target '+stamp(t.due):'')));for(const m of t.messages){const n=el('div',undefined,m.internal?'internal':'');n.append(el('small',m.actor+' · '+stamp(m.created)+(m.internal?' · Staff only':'')),el('p',m.body,'copy'));a.append(n);}const f=formBox(a,staff?'Reply or add an internal note':'Reply to this request',async()=>change('ticket',{id:t.id,ticketVersion:t.version,body:body.value,...(staff?{status:status.value,owner:owner.value,internal:internal.checked}:{})}));const body=field(f,'Message','body','textarea');body.required=true;body.maxLength=2500;let status,owner,internal;if(staff){status=field(f,'Status','status','text',['Open','In progress','Waiting for client','Closed']);status.value=t.status;owner=field(f,'Assigned staff email','owner','email');owner.value=t.owner;owner.required=true;internal=field(f,",
+      "after": "a=el('article');a.id='ticket-'+t.id;a.tabIndex=-1;a.append(el('h3',t.subject),el('p',t.status+' · '+t.priority+(staff?' · Owner '+t.owner+' · Internal target '+stamp(t.due):'')));for(const m of t.messages){const n=el('div',undefined,m.internal?'internal':'');n.append(el('small',m.actor+' · '+stamp(m.created)+(m.internal?' · Staff only':'')),el('p',m.body,'copy'));a.append(n);}const f=formBox(a,staff?'Reply or add an internal note':'Reply to this request',async()=>change('ticket',{id:t.id,ticketVersion:t.version,body:body.value,...(staff?{status:status.value,owner:owner.value,internal:internal.checked}:{})}));const body=field(f,'Message','body','textarea');body.required=true;body.maxLength=2500;let status,owner,internal;if(staff){status=field(f,'Status','status','text',['Open','In progress','Waiting for client','Closed']);status.value=t.status;owner=field(f,'Assigned staff email','owner','email');owner.value=t.owner;owner.required=true;owner.readOnly=!!t.proposalFeedback;internal=field(f,"
+    }
+  ],
+  "server/client/index.html": [
+    {
+      "before": "ace/app.js?v=20261011-quote-currencies\"></script></head>",
+      "after": "ace/app.js?v=20261107-proposal-feedback\"></script></head>"
+    }
+  ],
+  "server/client/staff.html": [
+    {
+      "before": "pp.js?v=20261107-post-demo\"></script></head>",
+      "after": "pp.js?v=20261107-proposal-feedback\"></script></head>"
+    }
+  ],
+  "server/client_workflow.py": [
+    {
+      "before": ",internal INTEGER NOT NULL,created INTEGER NOT NULL);\n",
+      "after": ",internal INTEGER NOT NULL,created INTEGER NOT NULL);\n    CREATE TABLE IF NOT EXISTS client_proposal_feedback(ticket TEXT PRIMARY KEY,proposal TEXT NOT NULL,kind TEXT NOT NULL,\n      request_id TEXT NOT NULL,request_digest TEXT NOT NULL,UNIQUE(proposal,request_id));\n"
+    },
+    {
+      "before": "etail(db,row,staff):\n",
+      "after": "etail(db,row,staff,ticket_id=''):\n"
+    },
+    {
+      "before": "et in db.execute('SELECT * FROM client_tickets WHERE reference=? ORDER BY created DESC LIMIT 100',(ref,)):\n        t=dict(ticket)\n",
+      "after": "et in db.execute('''SELECT t.*,f.proposal,f.kind,p.revision FROM client_tickets t\n        LEFT JOIN client_proposal_feedback f ON f.ticket=t.id LEFT JOIN client_proposals p ON p.id=f.proposal\n        WHERE t.reference=? ORDER BY (t.id=?) DESC,t.created DESC,t.id LIMIT 100''',(ref,ticket_id)):\n        t=dict(ticket);proposal=t.pop('proposal');kind=t.pop('kind');revision=t.pop('revision')\n        if proposal:\n            t['proposalFeedback']={'proposalId':proposal,'kind':kind,'revision':revision}\n            if staff:t['owner']=sales_owner(db,ref)\n"
+    },
+    {
+      "before": "action=='project':handler.respond(200,detail(db,project(db,query.get('reference',[''])[0],identity,staff),staff));return True\n",
+      "after": "action=='project':\n            row=project(db,query.get('reference',[''])[0],identity,staff)\n            ticket_id=query.get('ticket',[''])[0] if staff else ''\n            handler.respond(200,detail(db,row,staff,ticket_id));return True\n"
+    },
+    {
+      "before": "ntity,data,False)\n",
+      "after": "ntity,data,False)\n    elif action=='proposal-feedback':result['ticketId']=create_proposal_feedback(db,row,identity,data,now)\n"
+    },
+    {
+      "before": "def ticket_change(db,row,identity,data,staff):\n",
+      "after": "PROPOSAL_FEEDBACK_LABELS = {'question':'Proposal question','change':'Proposal change request'}\n\n\ndef sales_owner(db, reference):\n    from dashboard import USER\n    owner = db.execute('SELECT owner FROM enquiry_workflow WHERE id=?',(reference,)).fetchone()\n    return owner[0] if owner and active_owner(db,owner[0]) else USER\n\n\ndef create_proposal_feedback(db, row, identity, data, now):\n    pid = value(data,'id',30)\n    kind = data.get('kind')\n    if not isinstance(kind,str) or kind not in PROPOSAL_FEEDBACK_LABELS:\n        raise Problem(400,'Choose a proposal question or change request.')\n    body = value(data,'body',2500)\n    request_id = value(data,'requestId',36)\n    if not re.fullmatch(r'[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}',request_id):\n        raise Problem(400,'Refresh before submitting proposal feedback.')\n    proposal = db.execute('SELECT revision,status,published,expires FROM client_proposals WHERE id=? AND reference=?',\n                          (pid,row['reference'])).fetchone()\n    if not proposal or not proposal['published']:\n        raise Problem(404,'Proposal not found.')\n    request_digest = digest(kind+'\\n'+body)\n    prior = db.execute('SELECT ticket,request_digest FROM client_proposal_feedback WHERE proposal=? AND request_id=?',\n                       (pid,request_id)).fetchone()\n    if prior:\n        if prior['request_digest'] != request_digest:\n            raise Problem(409,'Feedback was already saved. Refresh to see the request.')\n        return prior['ticket']\n    if proposal['status'] != 'published' or proposal['expires'] <= now:\n        raise Problem(409,'This proposal revision is no longer open for feedback. Refresh to see the current proposal.')\n    subject = f'{PROPOSAL_FEEDBACK_LABELS[kind]} · revision {proposal[\"revision\"]}'\n    ticket = ticket_change(db,row,identity,{'subject':subject,'body':body},False,proposal_feedback=True)\n    db.execute('INSERT INTO client_proposal_feedback VALUES(?,?,?,?,?)',(ticket,pid,kind,request_id,request_digest))\n    return ticket\n\n\ndef ticket_change(db,row,identity,data,staff,proposal_feedback=False):\n"
+    },
+    {
+      "before": "        owner=db.execute('SELECT owner FROM enquiry_workflow WHERE id=?',(ref,)).fetchone();owner=owner[0] if owner and active_owner(db,owner[0]) else USER\n",
+      "after": "        owner=sales_owner(db,ref)\n"
+    },
+    {
+      "before": "        operations.enqueue(db,'ticket-created:'+tid,owner,'Bandevi support request','Project '+ref+' has a new support request. Review the priva",
+      "after": "        subject='Bandevi proposal feedback' if proposal_feedback else 'Bandevi support request'\n        request_type='proposal feedback' if proposal_feedback else 'a new support request'\n        operations.enqueue(db,'ticket-created:'+tid,owner,subject,'Project '+ref+' has '+request_type+'. Review the priva"
+    },
+    {
+      "before": "e ticket['owner']\n",
+      "after": "e ticket['owner']\n        if db.execute('SELECT 1 FROM client_proposal_feedback WHERE ticket=?',(tid,)).fetchone():owner=sales_owner(db,ref)\n"
+    },
+    {
+      "before": "ssage',actor,tid)\n",
+      "after": "ssage',actor,tid)\n    return tid\n"
+    }
+  ],
+  "server/dashboard/acquisition.js": [
+    {
+      "before": "pleted','proposal'].map(key=>{const ",
+      "after": "pleted','proposal','feedback'].map(key=>{const "
+    },
+    {
+      "before": "   const actions=text('div','','growth-card-actions');for(const [label,target] of [['Open enquiry',''],['Record demo outcome','journey-outcome'],['Assign / follow-up','owner']]){if(target==='owner'&&viewerRole==='agent')continue;const b=text('button',label);b.type='button';b.addEventListener('click',()=>recoveryOpen(item,target));actions.append(b);}const draft=text('button',item.postDemo?'Open demo recap':'Prepare follow-up draft');draft.type='button';draft.addEventListener('click',()=>item.postDemo?recoveryOpen(item,'demo-recap-body'):recoveryDraft(item));actions.append(dra",
+      "after": "   if(item.proposalFeedback){\n    const feedback=item.proposalFeedback;\n    body.append(text('p','Proposal feedback owner: '+feedback.owner,feedback.overdue?'growth-queue-alert':''));\n    for(const request of feedback.requests){\n     const link=text('a',(request.kind==='change'?'Change request':'Question')+' · revision '+request.revision);\n     link.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference,ticket:request.id})+'#support';\n     const row=text('p','');row.append(link,' · '+request.status+' · Target '+postDemoTime(request.due));body.append(row);\n    }\n   }\n   const actions=text('div','','growth-card-actions');for(const [label,target] of [['Open enquiry',''],['Record demo outcome','journey-outcome'],['Assign / follow-up','owner']]){if(target==='owner'&&viewerRole==='agent')continue;const b=text('button',label);b.type='button';b.addEventListener('click',()=>recoveryOpen(item,target));actions.append(b);}const draft=text('button',item.postDemo?'Open demo recap':'Prepare follow-up draft');draft.type='button';draft.addEventListener('click',()=>item.postDemo?recoveryOpen(item,'demo-recap-body'):recoveryDraft(item));if(!item.proposalFeedback||item.postDemo)actions.append(dra"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "on.js?v=20261107-post-demo\"></script><script",
+      "after": "on.js?v=20261107-proposal-feedback\"></script><script"
+    },
+    {
+      "before": "decision</option></select></div><div",
+      "after": "decision</option><option value=\"feedback\">Proposal feedback</option></select></div><div"
+    }
+  ],
+  "server/demo_recovery.py": [
+    {
+      "before": "parse_qs,urlsplit\n",
+      "after": "parse_qs,urlsplit\nimport client_workflow\n"
+    },
+    {
+      "before": "eed follow-up.'),\n",
+      "after": "eed follow-up.'),\n    'feedback':('Proposal feedback','Reply to the customer or prepare the requested revision.'),\n"
+    },
+    {
+      "before": "day().isoformat();args=[now-days*86400]\n",
+      "after": "day().isoformat();since=now-days*86400;args=[since]\n"
+    },
+    {
+      "before": " rows=db.execute(\"SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') stage,COALESCE(w.owner,'') owner,COALESCE(w.next_action,'') next_action,COALESCE(w.follow_up_date,'') follow_up_date FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified' AND e.created>=? AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')\"+access,args)\n",
+      "after": " rows=db.execute(\"\"\"SELECT e.id,e.created,e.payload,COALESCE(w.stage,'New') stage,COALESCE(w.owner,'') owner,\n        COALESCE(w.next_action,'') next_action,COALESCE(w.follow_up_date,'') follow_up_date\n        FROM enquiries e LEFT JOIN enquiry_workflow w ON w.id=e.id WHERE e.email_status!='qa-verified'\n        AND ((e.created>=? AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')) OR EXISTS (\n          SELECT 1 FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id\n          WHERE t.reference=e.id AND t.status IN ('Open','In progress')))\"\"\"+access,args)\n"
+    },
+    {
+      "before": "reasons=[];due=[]\n",
+      "after": "reasons=[];due=[]\n        feedback = [dict(ticket) for ticket in db.execute('''SELECT t.id,t.status,t.due,f.kind,p.revision\n            FROM client_tickets t JOIN client_proposal_feedback f ON f.ticket=t.id JOIN client_proposals p ON p.id=f.proposal\n            WHERE t.reference=? AND t.status IN ('Open','In progress') ORDER BY t.due,t.id''',(ref,))]\n        if feedback:\n            reasons.append('feedback');due.append(feedback[0]['due'])\n        in_cohort = row['created']>=since and row['stage'] not in ('Won','Lost')\n"
+    },
+    {
+      "before": "        if not accepted:\n",
+      "after": "        if in_cohort and not accepted:\n"
+    },
+    {
+      "before": "        proposal=db.execute(\"SELECT",
+      "after": "        proposal=in_cohort and db.execute(\"SELECT"
+    },
+    {
+      "before": "    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue')),item['due'],item['reference']))\n    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Active, accessible ",
+      "after": "        if feedback:\n            items[-1]['proposalFeedback']={'owner':client_workflow.sales_owner(db,ref),'overdue':feedback[0]['due']<=now,'requests':feedback}\n    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue')),item['due'],item['reference']))\n    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Other recovery work uses active, accessible "
+    }
+  ],
+  "server/test_client_workflow.py": [
+    {
+      "before": "status'],'Open')\n\n",
+      "after": "status'],'Open')\n\n    def test_proposal_feedback_follows_exact_revision_and_current_sales_owner(self):\n        ref,_ = self.create()\n        other,_ = self.create()\n        cookie,csrf,_ = self.client(ref)\n        agent = uuid.uuid4().hex+'@example.test'\n        password = 'Synthetic-sales-owner-password'\n        with enquiries.connect() as db:\n            db.execute('INSERT INTO team_users VALUES(?,?,?,?,1)', (agent,'Synthetic agent','agent',dashboard.password_hash(password)))\n            db.execute(\"INSERT INTO enquiry_workflow(id,owner,stage) VALUES(?,?,'Qualified')\", (ref,agent))\n            db.execute('UPDATE enquiries SET created=? WHERE id=?',(int(time.time())-400*86400,ref))\n        _,_,headers = self.request('/api/admin/login', {'email':agent,'password':password})\n        agent_cookie = headers['Set-Cookie'].split(';')[0]\n        pid = self.proposal(ref)\n        foreign = self.proposal(other)\n        self.assertEqual(self.change(other,'publish',id=foreign)[0],200)\n        route = '/api/client/proposal-feedback'\n        data = {'reference':ref,'id':pid,'requestId':str(uuid.uuid4()),'kind':'change','body':'Can we include spreadsheet imports?'}\n        self.assertEqual(self.request(route,dict(data,id=foreign),cookie,csrf)[0],404)\n        self.assertEqual(self.request(route,data,cookie,csrf)[0],404)\n        self.assertEqual(self.change(ref,'publish',id=pid)[0],200)\n        self.assertEqual(self.request(route,data,cookie,'wrong')[0],403)\n        status,result,_ = self.request(route,data,cookie,csrf)\n        self.assertEqual(status,200)\n        ticket = result['ticketId']\n        self.assertEqual(self.request(route,data,cookie,csrf)[1]['ticketId'],ticket)\n        self.assertEqual(self.request(route,dict(data,body='Different message'),cookie,csrf)[0],409)\n        client = self.request('/api/client/project?reference='+ref,cookie=cookie)[1]\n        self.assertEqual(client['tickets'][0]['proposalFeedback'], {'proposalId':pid,'kind':'change','revision':1})\n        self.assertNotIn('owner',client['tickets'][0])\n        self.assertEqual(client['proposals'][0]['status'],'published')\n        with enquiries.connect() as db:\n            self.assertEqual(db.execute('SELECT recipient FROM notification_outbox WHERE dedupe=?',('ticket-created:'+ticket,)).fetchone()[0],agent)\n        queue = '/api/admin/demo-recovery?bucket=feedback'\n        self.assertEqual(self.request(queue,cookie=cookie)[0],401)\n        owned = self.request(queue,cookie=agent_cookie)[1]['items']\n        self.assertEqual([(item['reference'],item['proposalFeedback']['owner']) for item in owned],[(ref,agent)])\n        newer = self.proposal(ref)\n        self.assertEqual(self.change(ref,'publish',id=newer)[0],200)\n        self.assertEqual(self.request(route,dict(data,requestId=str(uuid.uuid4())),cookie,csrf)[0],409)\n        self.assertEqual(self.request(route,data,cookie,csrf)[1]['ticketId'],ticket)\n        self.assertEqual(self.change(ref,'ticket',id=ticket,ticketVersion=0,body='We can discuss imports.',status='Waiting for client')[0],200)\n        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])\n        self.assertEqual(self.request('/api/client/ticket',dict(reference=ref,id=ticket,ticketVersion=1,body='Please send revised scope.'),cookie,csrf)[0],200)\n        with enquiries.connect() as db:\n            db.execute(\"UPDATE enquiry_workflow SET owner='',stage='Lost' WHERE id=?\", (ref,))\n        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])\n        item = next(item for item in self.request(queue,cookie=self.admin)[1]['items'] if item['reference']==ref)\n        self.assertEqual(item['proposalFeedback']['owner'],dashboard.USER)\n        self.assertEqual(item['proposalFeedback']['requests'][0]['revision'],1)\n\n"
+    }
+  ]
+}

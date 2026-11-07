@@ -33,6 +33,8 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_documents(id TEXT PRIMARY KEY,reference TEXT NOT NULL,name TEXT NOT NULL,mime TEXT NOT NULL,data BLOB NOT NULL,created INTEGER NOT NULL,actor TEXT NOT NULL,deleted INTEGER NOT NULL DEFAULT 0);
     CREATE TABLE IF NOT EXISTS client_tickets(id TEXT PRIMARY KEY,reference TEXT NOT NULL,subject TEXT NOT NULL,priority TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'Open',owner TEXT NOT NULL,created INTEGER NOT NULL,due INTEGER NOT NULL,first_response INTEGER,version INTEGER NOT NULL DEFAULT 0);
     CREATE TABLE IF NOT EXISTS client_ticket_messages(id INTEGER PRIMARY KEY,ticket TEXT NOT NULL,body TEXT NOT NULL,actor TEXT NOT NULL,internal INTEGER NOT NULL,created INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS client_proposal_feedback(ticket TEXT PRIMARY KEY,proposal TEXT NOT NULL,kind TEXT NOT NULL,
+      request_id TEXT NOT NULL,request_digest TEXT NOT NULL,UNIQUE(proposal,request_id));
     CREATE TABLE IF NOT EXISTS client_audit(id INTEGER PRIMARY KEY,reference TEXT NOT NULL,action TEXT NOT NULL,actor TEXT NOT NULL,detail TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS demo_meetings(reference TEXT PRIMARY KEY,url TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_loss_reasons(reference TEXT PRIMARY KEY,reason TEXT NOT NULL);
@@ -107,7 +109,7 @@ def proposal_queue(handler,db,identity,query):
     return True
 
 
-def detail(db,row,staff):
+def detail(db,row,staff,ticket_id=''):
     ref=row['reference'];result=dict(row)
     if staff:
         import sales_journey
@@ -129,8 +131,13 @@ def detail(db,row,staff):
     result['milestones']=[dict(r) for r in db.execute('SELECT * FROM client_milestones WHERE reference=? ORDER BY due,id',(ref,))]
     result['documents']=[dict(r) for r in db.execute('SELECT id,name,mime,length(data) size,created FROM client_documents WHERE reference=? AND deleted=0 ORDER BY created DESC',(ref,))]
     result['tickets']=[]
-    for ticket in db.execute('SELECT * FROM client_tickets WHERE reference=? ORDER BY created DESC LIMIT 100',(ref,)):
-        t=dict(ticket)
+    for ticket in db.execute('''SELECT t.*,f.proposal,f.kind,p.revision FROM client_tickets t
+        LEFT JOIN client_proposal_feedback f ON f.ticket=t.id LEFT JOIN client_proposals p ON p.id=f.proposal
+        WHERE t.reference=? ORDER BY (t.id=?) DESC,t.created DESC,t.id LIMIT 100''',(ref,ticket_id)):
+        t=dict(ticket);proposal=t.pop('proposal');kind=t.pop('kind');revision=t.pop('revision')
+        if proposal:
+            t['proposalFeedback']={'proposalId':proposal,'kind':kind,'revision':revision}
+            if staff:t['owner']=sales_owner(db,ref)
         if not staff:t.pop('owner',None)
         t['messages']=[dict(r) for r in db.execute('SELECT body,actor,internal,created FROM client_ticket_messages WHERE ticket=?'+('' if staff else ' AND internal=0')+' ORDER BY id',(t['id'],))]
         if not staff:
@@ -221,7 +228,10 @@ def get(handler,connect):
             except ImportError:raise Problem(503,'PDF export is temporarily unavailable. The recorded proposal remains in your workspace.')
             filename='Bandevi-'+re.sub(r'[^a-zA-Z0-9_-]','_',row['reference'])+'-revision-'+str(proposal['revision'])+'.pdf'
             send_file(handler,content,'application/pdf',filename);return True
-        if action=='project':handler.respond(200,detail(db,project(db,query.get('reference',[''])[0],identity,staff),staff));return True
+        if action=='project':
+            row=project(db,query.get('reference',[''])[0],identity,staff)
+            ticket_id=query.get('ticket',[''])[0] if staff else ''
+            handler.respond(200,detail(db,row,staff,ticket_id));return True
         if action=='document':
             doc=db.execute('SELECT * FROM client_documents WHERE id=? AND deleted=0',(query.get('id',[''])[0],)).fetchone()
             if not doc:raise Problem(404,'Document not found.')
@@ -400,9 +410,47 @@ def client_change(db,row,identity,action,data,result):
         if not db.execute("UPDATE client_milestones SET status='Approved' WHERE id=? AND reference=? AND status='Ready for review'",(mid,ref)).rowcount:raise Problem(409,'This milestone is not awaiting approval.')
         db.execute('UPDATE client_projects SET version=version+1 WHERE reference=?',(ref,));audit(db,ref,'milestone-approved',actor,mid)
     elif action=='ticket':ticket_change(db,row,identity,data,False)
+    elif action=='proposal-feedback':result['ticketId']=create_proposal_feedback(db,row,identity,data,now)
     else:raise Problem(404,'Not found.')
 
-def ticket_change(db,row,identity,data,staff):
+PROPOSAL_FEEDBACK_LABELS = {'question':'Proposal question','change':'Proposal change request'}
+
+
+def sales_owner(db, reference):
+    from dashboard import USER
+    owner = db.execute('SELECT owner FROM enquiry_workflow WHERE id=?',(reference,)).fetchone()
+    return owner[0] if owner and active_owner(db,owner[0]) else USER
+
+
+def create_proposal_feedback(db, row, identity, data, now):
+    pid = value(data,'id',30)
+    kind = data.get('kind')
+    if not isinstance(kind,str) or kind not in PROPOSAL_FEEDBACK_LABELS:
+        raise Problem(400,'Choose a proposal question or change request.')
+    body = value(data,'body',2500)
+    request_id = value(data,'requestId',36)
+    if not re.fullmatch(r'[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}',request_id):
+        raise Problem(400,'Refresh before submitting proposal feedback.')
+    proposal = db.execute('SELECT revision,status,published,expires FROM client_proposals WHERE id=? AND reference=?',
+                          (pid,row['reference'])).fetchone()
+    if not proposal or not proposal['published']:
+        raise Problem(404,'Proposal not found.')
+    request_digest = digest(kind+'\n'+body)
+    prior = db.execute('SELECT ticket,request_digest FROM client_proposal_feedback WHERE proposal=? AND request_id=?',
+                       (pid,request_id)).fetchone()
+    if prior:
+        if prior['request_digest'] != request_digest:
+            raise Problem(409,'Feedback was already saved. Refresh to see the request.')
+        return prior['ticket']
+    if proposal['status'] != 'published' or proposal['expires'] <= now:
+        raise Problem(409,'This proposal revision is no longer open for feedback. Refresh to see the current proposal.')
+    subject = f'{PROPOSAL_FEEDBACK_LABELS[kind]} · revision {proposal["revision"]}'
+    ticket = ticket_change(db,row,identity,{'subject':subject,'body':body},False,proposal_feedback=True)
+    db.execute('INSERT INTO client_proposal_feedback VALUES(?,?,?,?,?)',(ticket,pid,kind,request_id,request_digest))
+    return ticket
+
+
+def ticket_change(db,row,identity,data,staff,proposal_feedback=False):
     now=int(time.time());ref=row['reference'];actor=identity['actor'] if staff else identity['email'];tid=data.get('id')
     body=value(data,'body',2500);internal=data.get('internal',False)
     if type(internal)!=bool or internal and not staff:raise Problem(403,'Internal notes are for staff only.')
@@ -412,15 +460,18 @@ def ticket_change(db,row,identity,data,staff):
         if db.execute('SELECT COUNT(*) FROM client_tickets WHERE reference=? AND created>?',(ref,now-3600)).fetchone()[0]>=5:raise Problem(429,'Please wait before creating more tickets.')
         tid=secrets.token_hex(12);priority=data.get('priority','Normal')
         if priority not in ('Normal','Urgent'):raise Problem(400,'Choose a ticket priority.')
-        owner=db.execute('SELECT owner FROM enquiry_workflow WHERE id=?',(ref,)).fetchone();owner=owner[0] if owner and active_owner(db,owner[0]) else USER
+        owner=sales_owner(db,ref)
         due=now+(4 if priority=='Urgent' else 48)*3600
         db.execute('INSERT INTO client_tickets(id,reference,subject,priority,owner,created,due) VALUES(?,?,?,?,?,?,?)',(tid,ref,value(data,'subject',160),priority,owner,now,due))
-        operations.enqueue(db,'ticket-created:'+tid,owner,'Bandevi support request','Project '+ref+' has a new support request. Review the private team workspace.')
+        subject='Bandevi proposal feedback' if proposal_feedback else 'Bandevi support request'
+        request_type='proposal feedback' if proposal_feedback else 'a new support request'
+        operations.enqueue(db,'ticket-created:'+tid,owner,subject,'Project '+ref+' has '+request_type+'. Review the private team workspace.')
     else:
         ticket=db.execute('SELECT * FROM client_tickets WHERE id=? AND reference=?',(tid,ref)).fetchone()
         if not ticket:raise Problem(404,'Ticket not found.')
         if type(data.get('ticketVersion'))!=int or data['ticketVersion']!=ticket['version']:raise Problem(409,'Ticket changed. Refresh before replying.')
         status=data.get('status','Open') if staff else 'Open';owner=data.get('owner',ticket['owner']) if staff else ticket['owner']
+        if db.execute('SELECT 1 FROM client_proposal_feedback WHERE ticket=?',(tid,)).fetchone():owner=sales_owner(db,ref)
         if not staff and not active_owner(db,owner):owner=USER
         if status not in ('Open','In progress','Waiting for client','Closed') or not active_owner(db,owner):raise Problem(400,'Choose a valid ticket status and active owner.')
         due=ticket['due'] if staff else now+(4 if ticket['priority']=='Urgent' else 48)*3600
@@ -429,6 +480,7 @@ def ticket_change(db,row,identity,data,staff):
         recipient=row['email'] if staff else owner
         if not internal:operations.enqueue(db,'ticket-reply:'+tid+':'+str(ticket['version']+1),recipient,'Bandevi support update','An update is available for project '+ref+'.\n'+('https://bandeviglobalgroup.com/client-workspace/' if staff else 'https://bandeviglobalgroup.com/team-inbox/workspace/'))
     db.execute('INSERT INTO client_ticket_messages(ticket,body,actor,internal,created) VALUES(?,?,?,?,?)',(tid,body,actor,int(internal),now));audit(db,ref,'ticket-note' if internal else 'ticket-message',actor,tid)
+    return tid
 
 def calendar(db,reference):
     b=db.execute('SELECT b.*,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?',(reference,)).fetchone()

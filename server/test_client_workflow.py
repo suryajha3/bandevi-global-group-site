@@ -229,6 +229,56 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(self.request('/api/client/ticket',{'reference':ref,'id':tid,'ticketVersion':2,'body':'Customer reply'},cookie,csrf)[0],200)
         self.assertEqual(self.p(ref)['tickets'][0]['status'],'Open')
 
+    def test_proposal_feedback_follows_exact_revision_and_current_sales_owner(self):
+        ref,_ = self.create()
+        other,_ = self.create()
+        cookie,csrf,_ = self.client(ref)
+        agent = uuid.uuid4().hex+'@example.test'
+        password = 'Synthetic-sales-owner-password'
+        with enquiries.connect() as db:
+            db.execute('INSERT INTO team_users VALUES(?,?,?,?,1)', (agent,'Synthetic agent','agent',dashboard.password_hash(password)))
+            db.execute("INSERT INTO enquiry_workflow(id,owner,stage) VALUES(?,?,'Qualified')", (ref,agent))
+            db.execute('UPDATE enquiries SET created=? WHERE id=?',(int(time.time())-400*86400,ref))
+        _,_,headers = self.request('/api/admin/login', {'email':agent,'password':password})
+        agent_cookie = headers['Set-Cookie'].split(';')[0]
+        pid = self.proposal(ref)
+        foreign = self.proposal(other)
+        self.assertEqual(self.change(other,'publish',id=foreign)[0],200)
+        route = '/api/client/proposal-feedback'
+        data = {'reference':ref,'id':pid,'requestId':str(uuid.uuid4()),'kind':'change','body':'Can we include spreadsheet imports?'}
+        self.assertEqual(self.request(route,dict(data,id=foreign),cookie,csrf)[0],404)
+        self.assertEqual(self.request(route,data,cookie,csrf)[0],404)
+        self.assertEqual(self.change(ref,'publish',id=pid)[0],200)
+        self.assertEqual(self.request(route,data,cookie,'wrong')[0],403)
+        status,result,_ = self.request(route,data,cookie,csrf)
+        self.assertEqual(status,200)
+        ticket = result['ticketId']
+        self.assertEqual(self.request(route,data,cookie,csrf)[1]['ticketId'],ticket)
+        self.assertEqual(self.request(route,dict(data,body='Different message'),cookie,csrf)[0],409)
+        client = self.request('/api/client/project?reference='+ref,cookie=cookie)[1]
+        self.assertEqual(client['tickets'][0]['proposalFeedback'], {'proposalId':pid,'kind':'change','revision':1})
+        self.assertNotIn('owner',client['tickets'][0])
+        self.assertEqual(client['proposals'][0]['status'],'published')
+        with enquiries.connect() as db:
+            self.assertEqual(db.execute('SELECT recipient FROM notification_outbox WHERE dedupe=?',('ticket-created:'+ticket,)).fetchone()[0],agent)
+        queue = '/api/admin/demo-recovery?bucket=feedback'
+        self.assertEqual(self.request(queue,cookie=cookie)[0],401)
+        owned = self.request(queue,cookie=agent_cookie)[1]['items']
+        self.assertEqual([(item['reference'],item['proposalFeedback']['owner']) for item in owned],[(ref,agent)])
+        newer = self.proposal(ref)
+        self.assertEqual(self.change(ref,'publish',id=newer)[0],200)
+        self.assertEqual(self.request(route,dict(data,requestId=str(uuid.uuid4())),cookie,csrf)[0],409)
+        self.assertEqual(self.request(route,data,cookie,csrf)[1]['ticketId'],ticket)
+        self.assertEqual(self.change(ref,'ticket',id=ticket,ticketVersion=0,body='We can discuss imports.',status='Waiting for client')[0],200)
+        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])
+        self.assertEqual(self.request('/api/client/ticket',dict(reference=ref,id=ticket,ticketVersion=1,body='Please send revised scope.'),cookie,csrf)[0],200)
+        with enquiries.connect() as db:
+            db.execute("UPDATE enquiry_workflow SET owner='',stage='Lost' WHERE id=?", (ref,))
+        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])
+        item = next(item for item in self.request(queue,cookie=self.admin)[1]['items'] if item['reference']==ref)
+        self.assertEqual(item['proposalFeedback']['owner'],dashboard.USER)
+        self.assertEqual(item['proposalFeedback']['requests'][0]['revision'],1)
+
     def test_agent_project_scope_and_invite_restriction(self):
         ref,email=self.create();other,_=self.create();agent=uuid.uuid4().hex+'@example.com';password='Synthetic-agent-password'
         self.assertEqual(self.request('/api/admin/team',{'email':agent,'name':'Test agent','role':'agent','password':password,'active':True},self.admin,self.admin_csrf)[0],200)
