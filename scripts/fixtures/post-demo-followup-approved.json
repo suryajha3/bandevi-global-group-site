@@ -1,0 +1,136 @@
+{
+  "server/client/app.js": [
+    {
+      "before": "xLength=2500;if(p.salesJourney?.requ",
+      "after": "xLength=2500;if(p.postDemo){if([...currency.options].some(option=>option.value===p.postDemo.currency))currency.value=p.postDemo.currency;if(p.postDemo.body){const recap=el('details');recap.append(el('summary','Review saved customer recap'),el('p',p.postDemo.body,'copy'));const use=el('button','Use recap as draft scope');use.type='button';use.addEventListener('click',()=>{if(scope.value.trim()){message.textContent='The scope already has text. Clear it before copying the recap.';return;}scope.value=p.postDemo.body;scope.focus();message.textContent='Recap copied into the unsaved draft. Review the scope and enter the commercial terms before saving.';});recap.append(use);f.append(recap);}}if(p.salesJourney?.requ"
+    }
+  ],
+  "server/client/staff.html": [
+    {
+      "before": "ace/app.js?v=20261012-demo-sale\"></script></head>",
+      "after": "ace/app.js?v=20261107-post-demo\"></script></head>"
+    }
+  ],
+  "server/client_workflow.py": [
+    {
+      "before": "ey.record(db,ref)\n",
+      "after": "ey.record(db,ref)\n        enquiry = db.execute(\"SELECT payload FROM enquiries WHERE id=? AND email_status!='qa-verified'\", (ref,)).fetchone()\n        if enquiry and result['salesJourney']['outcome']=='Completed':\n            booking = db.execute('SELECT b.state,s.starts FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?', (ref,)).fetchone()\n            followup = sales_journey.post_demo(db,ref,result['salesJourney'],booking,json.loads(enquiry['payload']),int(time.time()))\n            if followup:\n                result['postDemo'] = {'body':followup['body'],'currency':followup['currency']}\n"
+    }
+  ],
+  "server/dashboard/acquisition.js": [
+    {
+      "before": "le','attendance','proposal'].map(key=>{const b=text('button','','count');b.type='button';b.append(text('span',key==='all'?'All recovery':r.labels[key]),text('strong',String(r.counts[key])));b.addEventListener('click',()=>{$('recovery-bucket').value=key;recoveryOffset=0;refreshRecovery();});return b;}));\n  $('recovery-entries').replaceChildren();for(const item of r.items){const card=text('article','','entry');card.dataset.recoveryReference=item.reference;const body=text('div','');body.append(text('h3',item.name),text('p',item.reference+' · '+item.countryLabel+' · '+item.stage),text('p','Service: '+item.interest),text('p',item.reasons.map(key=>r.labels[key]).join(' · '),'recovery-reasons'),text('p','Owner: '+(item.owner||'Unassigned')+' · Follow-up: '+(item.followUpDate||'Not scheduled')),text('p','Next action: '+(item.nextAction||'Not recorded')),text('p',item.suggestedAction));if(item.overdue)body.append(text('p','Recorded follow-up is overdue.','growth-queue-alert'));if(item.proposalExpired)body.append(text('p','The proposal has expired. Review terms before inviting acceptance.','growth-queue-alert'));\n   const actions=text('div','','growth-card-actions');for(const [label,target] of [['Open enquiry',''],['Record demo outcome','journey-outcome'],['Assign / follow-up','owner']]){if(target==='owner'&&viewerRole==='agent')continue;const b=text('button',label);b.type='button';b.addEventListener('click',()=>recoveryOpen(item,target));actions.append(b);}const draft=text('button','Prepare follow-up draft');draft.type='button';draft.addEventListener('click',()=>recoveryDraft(item",
+      "after": "le','attendance','completed','proposal'].map(key=>{const b=text('button','','count');b.type='button';b.append(text('span',key==='all'?'All recovery':r.labels[key]),text('strong',String(r.counts[key])));b.addEventListener('click',()=>{$('recovery-bucket').value=key;recoveryOffset=0;refreshRecovery();});return b;}));\n  $('recovery-entries').replaceChildren();for(const item of r.items){const card=text('article','','entry');card.dataset.recoveryReference=item.reference;const body=text('div','');body.append(text('h3',item.name),text('p',item.reference+' · '+item.countryLabel+' · '+item.stage),text('p','Service: '+item.interest),text('p',item.reasons.map(key=>r.labels[key]).join(' · '),'recovery-reasons'),text('p','Owner: '+(item.owner||'Unassigned')+' · Follow-up: '+(item.followUpDate||'Not scheduled')),text('p','Next action: '+(item.nextAction||'Not recorded')),text('p',item.suggestedAction));if(item.overdue)body.append(text('p','Recorded follow-up is overdue.','growth-queue-alert'));if(item.postDemo){const followup=item.postDemo;body.append(text('p','Post-demo target: '+postDemoTime(followup.due)+(followup.overdue?' · Overdue':'')+' · '+(followup.recapDelivery==='sent'?'Recap sent':followup.recapDelivery==='pending'?'Recap queued':followup.recapSaved?'Recap draft saved':'Recap needed')+' · '+(followup.proposalPublished?'Proposal published':'Proposal needed'),followup.overdue?'growth-queue-alert':''));}if(item.proposalExpired)body.append(text('p','The proposal has expired. Review terms before inviting acceptance.','growth-queue-alert'));\n   const actions=text('div','','growth-card-actions');for(const [label,target] of [['Open enquiry',''],['Record demo outcome','journey-outcome'],['Assign / follow-up','owner']]){if(target==='owner'&&viewerRole==='agent')continue;const b=text('button',label);b.type='button';b.addEventListener('click',()=>recoveryOpen(item,target));actions.append(b);}const draft=text('button',item.postDemo?'Open demo recap':'Prepare follow-up draft');draft.type='button';draft.addEventListener('click',()=>item.postDemo?recoveryOpen(item,'demo-recap-body'):recoveryDraft(item"
+    }
+  ],
+  "server/dashboard/app.js": [
+    {
+      "before": "rney-panel').open=target==='journey-requirements';loadSalesJourney(entry);if(typeof loadAd",
+      "after": "rney-panel').open=['journey-requirements','journey-outcome','demo-recap-body'].includes(target);loadSalesJourney(entry,target);if(typeof loadAd"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "box/app.js?v=20261017-markets\"></script><script defer src=\"/team-inbox/operations.js?v=20261107-demo-reminders\"></script><script defer src=\"/team-inbox/sales-journey.js?v=20261107-demo-reminders\"></script><script defer src=\"/team-inbox/growth.js?v=20261017-costs\"></script><script defer src=\"/team-inbox/acquisition.js?v=20261021\"></script><script",
+      "after": "box/app.js?v=20261107-post-demo\"></script><script defer src=\"/team-inbox/operations.js?v=20261107-demo-reminders\"></script><script defer src=\"/team-inbox/sales-journey.js?v=20261107-post-demo\"></script><script defer src=\"/team-inbox/growth.js?v=20261017-costs\"></script><script defer src=\"/team-inbox/acquisition.js?v=20261107-post-demo\"></script><script"
+    },
+    {
+      "before": "come missing</option><option value=\"proposal\">Proposal awaiting decision",
+      "after": "come missing</option><option value=\"completed\">Completed demo follow-up</option><option value=\"proposal\">Proposal awaiting decision"
+    },
+    {
+      "before": "uling.</p></form><p><a id=\"journey-p",
+      "after": "uling.</p></form><form id=\"demo-recap-form\" hidden><h3>Post-demo recap</h3><p id=\"demo-recap-due\" class=\"small\"></p><label for=\"demo-recap-body\">Customer-facing recap</label><textarea id=\"demo-recap-body\" rows=\"7\" maxlength=\"2000\" required aria-describedby=\"demo-recap-help\"></textarea><p id=\"demo-recap-help\" class=\"small\">Summarise the problem, scope discussed, open questions and next step. Use only details the customer can see. Private demo notes stay separate.</p><button type=\"submit\" id=\"demo-recap-save\">Save recap draft</button><p><label><input type=\"checkbox\" id=\"demo-recap-reviewed\"> I reviewed the saved recap and confirmed the recorded recipient.</label></p><button type=\"button\" id=\"demo-recap-send\">Queue reviewed recap</button><p id=\"demo-recap-status\" role=\"status\"></p></form><p><a id=\"journey-p"
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": "nnelGeneration=0;\n",
+      "after": "nnelGeneration=0;\nfunction postDemoTime(epoch){return new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'}).format(epoch*1000)+' IST';}\nfunction updateRecapControls(){\n const recap=salesJourneyState?.postDemo, body=$('demo-recap-body');\n const editable=!!recap&&!['pending','sent'].includes(recap.delivery);\n body.readOnly=!editable;\n $('demo-recap-save').disabled=!editable||!body.value.trim()||body.value.trim()===recap?.body;\n const canReview=editable&&!!recap.body&&body.value.trim()===recap.body&&!!recap.recipient;\n $('demo-recap-reviewed').disabled=!canReview;\n if(!canReview)$('demo-recap-reviewed').checked=false;\n $('demo-recap-send').disabled=!canReview||!$('demo-recap-reviewed').checked;\n}\nfunction renderRecap(state){\n const recap=state?.postDemo;\n $('demo-recap-form').hidden=!recap||['Won','Lost'].includes(state?.workflow?.stage);\n $('demo-recap-body').value=recap?.body||'';\n $('demo-recap-reviewed').checked=false;\n $('demo-recap-due').textContent=recap?'Internal follow-up target: '+postDemoTime(recap.due)+(recap.currency?' · Quote preference: '+recap.currency:''):'';\n $('demo-recap-status').textContent=recap?.delivery==='sent'?'Recap sent by the mail service.':recap?.delivery==='pending'?'Reviewed recap queued for delivery.':recap?.delivery==='cancelled'?'Previous delivery was cancelled. Review again before queueing for '+recap.recipient+'.':recap?.recipient?'Recorded recipient: '+recap.recipient:recap?'No customer email is recorded. You can still save a recap for the proposal.':'';\n updateRecapControls();\n}\n"
+    },
+    {
+      "before": "de.disabled=true;\n",
+      "after": "de.disabled=true;\n renderRecap(null);\n"
+    },
+    {
+      "before": "SalesJourney(entry){\n",
+      "after": "SalesJourney(entry,target=''){\n"
+    },
+    {
+      "before": " draft proposal';\n",
+      "after": " draft proposal';\n  renderRecap(state);\n  if(target==='demo-recap-body'&&!$('demo-recap-form').hidden)$('demo-recap-body').focus();\n"
+    },
+    {
+      "before": "error.message;}\n}\n",
+      "after": "error.message;}\n}\nasync function changeDemoRecap(event, action){\n event.preventDefault();\n const entry=current, state=salesJourneyState, identity=csrf, generation=salesJourneyGeneration;\n if(!entry||!state?.postDemo||!identity)return;\n const body=$('demo-recap-body').value.trim(), reviewed=$('demo-recap-reviewed').checked;\n if(action==='recap-send'&&(!reviewed||body!==state.postDemo.body))return;\n $('demo-recap-save').disabled=$('demo-recap-send').disabled=true;\n try{\n  await post('/api/admin/sales-journey',{reference:entry.reference,version:state.record.version,scheduleEvent:state.record.scheduleEvent,recapVersion:state.postDemo.version,action,body,reviewed});\n  if(csrf!==identity||current!==entry||generation!==salesJourneyGeneration||!$('editor').open)return;\n  await loadSalesJourney(entry);\n  if(csrf===identity&&current===entry&&$('editor').open&&action==='recap-save')$('demo-recap-status').textContent='Recap draft saved. Review it before queueing the email.';\n }catch(error){if(csrf===identity&&current===entry&&generation===salesJourneyGeneration){$('demo-recap-status').textContent=error.message;updateRecapControls();}}\n}\n$('demo-recap-form').addEventListener('submit',event=>changeDemoRecap(event,'recap-save'));\n$('demo-recap-body').addEventListener('input',updateRecapControls);\n$('demo-recap-reviewed').addEventListener('change',updateRecapControls);\n$('demo-recap-send').addEventListener('click',event=>changeDemoRecap(event,'recap-send'));\n"
+    }
+  ],
+  "server/demo_recovery.py": [
+    {
+      "before": "ume a no-show.'),\n",
+      "after": "ume a no-show.'),\n    'completed':('Completed demo follow-up','Review the customer recap and prepare the proposal in the existing workspace.'),\n"
+    },
+    {
+      "before": "us='published'\",(ref,)).fetchone())\n",
+      "after": "us='published'\",(ref,)).fetchone())\n        followup=None\n"
+    },
+    {
+      "before": "            if record['outcome",
+      "after": "            followup=sales_journey.post_demo(db,ref,record,booking,payload,now)\n            published_after_demo=followup and db.execute(\"SELECT 1 FROM client_proposals WHERE reference=? AND status='published' AND published>=? AND expires>?\",(ref,followup['completed'],now)).fetchone()\n            if followup and (not followup['body'] or not published_after_demo):\n                reasons.append('completed');due.append(followup['due'])\n            elif record['outcome"
+    },
+    {
+      "before": "    items.sort(key=lambda item:(not item['overdue'],item['due'],item['reference']))\n    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Active, accessible enquiries received in the selected period. Unbooked means ",
+      "after": "        if 'completed' in reasons:\n            items[-1]['postDemo']={'due':followup['due'],'overdue':followup['due']<=now,'recapSaved':bool(followup['body']),\n                                  'recapDelivery':followup['delivery'],'proposalPublished':bool(published_after_demo)}\n    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue')),item['due'],item['reference']))\n    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means "
+    }
+  ],
+  "server/enquiries.py": [
+    {
+      "before": "ows:\n        try:\n",
+      "after": "ows:\n        try:\n            if row['dedupe'].startswith('demo-recap:'):\n                from sales_journey import recap_current\n                with connect() as db:\n                    if not recap_current(db,row):\n                        db.execute(\"UPDATE notification_outbox SET status='cancelled' WHERE id=?\", (row['id'],))\n                        continue\n"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "scovery notes.\"\"\"\n",
+      "after": "scovery notes.\"\"\"\nimport datetime\n"
+    },
+    {
+      "before": "ed TEXT NOT NULL);''')\n",
+      "after": "ed TEXT NOT NULL);\n        CREATE TABLE IF NOT EXISTS sales_demo_recaps(reference TEXT NOT NULL,schedule_event INTEGER NOT NULL,\n        body TEXT NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL,actor TEXT NOT NULL,\n        PRIMARY KEY(reference,schedule_event));''')\n"
+    },
+    {
+      "before": "   return result\n\n",
+      "after": "   return result\n\n\ndef post_demo(db, reference, record, booking, payload, now):\n    \"\"\"Return staff-only follow-up for the current completed appointment.\"\"\"\n    event = record['scheduleEvent']\n    if (not event or record['outcome'] != 'Completed' or not booking or booking['state'] != 'confirmed'\n            or booking['starts'] is None or booking['starts'] > now):\n        return None\n    completed = db.execute(\"\"\"SELECT MIN(created) FROM sales_demo_audit WHERE reference=?\n        AND json_extract(changed,'$.outcome')='Completed' AND json_extract(changed,'$.schedule_event')=?\"\"\",\n                           (reference,event)).fetchone()[0] or record['updated']\n    due = datetime.datetime.fromtimestamp(completed, operations.INDIA) + datetime.timedelta(days=1)\n    while due.weekday() >= 5:\n        due += datetime.timedelta(days=1)\n    recap = db.execute('SELECT body,version FROM sales_demo_recaps WHERE reference=? AND schedule_event=?',\n                       (reference,event)).fetchone()\n    delivery = db.execute('SELECT status FROM notification_outbox WHERE dedupe=?', (f'demo-recap:{reference}:{event}',)).fetchone()\n    qualification = payload.get('qualification') or {}\n    currency = qualification.get('currency')\n    if currency not in ('USD','GBP','INR','EUR','AED'):\n        currency = {'US':'USD','GB':'GBP','IN':'INR'}.get(qualification.get('country'), '')\n    return {'completed':completed,'due':int(due.timestamp()),'body':recap['body'] if recap else '',\n            'version':recap['version'] if recap else 0,'delivery':delivery['status'] if delivery else '',\n            'recipient':payload.get('email',''),'currency':currency}\n\n\ndef recap_current(db, notification):\n    _, reference, event = notification['dedupe'].split(':')\n    booking = db.execute('SELECT state FROM demo_bookings WHERE enquiry_id=?', (reference,)).fetchone()\n    enquiry = db.execute(\"SELECT payload FROM enquiries WHERE id=? AND email_status!='qa-verified'\", (reference,)).fetchone()\n    demo = record(db,reference)\n    return bool(booking and booking['state']=='confirmed' and enquiry and demo['outcome']=='Completed'\n                and str(demo['scheduleEvent'])==event and json.loads(enquiry['payload']).get('email')==notification['recipient'])\n\n"
+    },
+    {
+      "before": "        handler.respond(200,{'record':record(db,ref),'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],\n",
+      "after": "        demo=record(db,ref)\n        handler.respond(200,{'record':demo,'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],\n            'postDemo':post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now),\n"
+    },
+    {
+      "before": "n ('record','book'):\n",
+      "after": "n ('record','book','recap-save','recap-send'):\n"
+    },
+    {
+      "before": "on':version+1};now=int(time.time())\n",
+      "after": "on':version+1};now=int(time.time())\n        if action in ('recap-save','recap-send'):\n            return change_recap(handler,db,identity,ref,old,booking,enquiry,data,action,now)\n"
+    },
+    {
+      "before": "ult);return True\n\n",
+      "after": "ult);return True\n\n\ndef change_recap(handler, db, identity, ref, demo, booking, enquiry, data, action, now):\n    workflow = db.execute('SELECT stage FROM enquiry_workflow WHERE id=?', (ref,)).fetchone()\n    recap = post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now)\n    event = demo['scheduleEvent']\n    if (not recap or workflow and workflow['stage'] in ('Won','Lost')\n            or type(data.get('scheduleEvent')) is not int or data['scheduleEvent'] != event\n            or type(data.get('recapVersion')) is not int or data['recapVersion'] != recap['version']):\n        handler.respond(409,{'error':'The completed demo or recap changed. Reload before continuing.'});return True\n    if recap['delivery'] in ('pending','sent'):\n        if action=='recap-send':handler.respond(200,{'ok':True,'delivery':recap['delivery']})\n        else:handler.respond(409,{'error':'The recap is already queued or sent.'})\n        return True\n    if action=='recap-save':\n        body = data.get('body')\n        if not isinstance(body,str) or not 1<=len(body.strip())<=2000 or any(ord(char)<32 and char not in '\\r\\n\\t' for char in body):\n            handler.respond(400,{'error':'Enter a recap of up to 2,000 characters.'});return True\n        db.execute('''INSERT INTO sales_demo_recaps VALUES(?,?,?,?,?,?) ON CONFLICT(reference,schedule_event)\n            DO UPDATE SET body=excluded.body,version=excluded.version,updated=excluded.updated,actor=excluded.actor''',\n                   (ref,event,body.strip(),recap['version']+1,now,identity['actor']))\n        result={'ok':True,'recapVersion':recap['version']+1}\n    else:\n        if data.get('reviewed') is not True or not recap['body'] or not recap['recipient']:\n            handler.respond(400,{'error':'Save and review the recap and confirm the recorded email before queueing.'});return True\n        key = f'demo-recap:{ref}:{event}'\n        body = recap['body']+'\\n\\nReference: '+ref+'\\nBANDEVI GLOBAL GROUP'\n        if recap['delivery']=='cancelled':\n            db.execute(\"UPDATE notification_outbox SET recipient=?,body=?,status='pending',attempts=0,next_attempt=0,created=? WHERE dedupe=?\",\n                       (recap['recipient'],body,now,key))\n        else:\n            operations.enqueue(db,key,recap['recipient'],'Your BANDEVI demo recap',body)\n        result={'ok':True,'delivery':'pending'}\n    db.execute('INSERT INTO sales_demo_audit(reference,created,actor,previous,changed) VALUES(?,?,?,?,?)',\n               (ref,now,identity['actor'],'{}',json.dumps({'action':action,'schedule_event':event,'recap_version':recap['version']})))\n    db.commit()\n    handler.respond(200,result);return True\n\n"
+    }
+  ],
+  "server/test_demo_recovery.py": [
+    {
+      "before": " records only.\"\"\"\n",
+      "after": " records only.\"\"\"\nimport datetime\n"
+    },
+    {
+      "before": "ort demo_recovery\n",
+      "after": "ort demo_recovery\nimport client_workflow\nimport operations\nimport sales_journey\n"
+    },
+    {
+      "before": "65)['items']),1)\n\n",
+      "after": "65)['items']),1)\n\n    def test_completed_demo_recap_review_handoff_and_stale_delivery(self):\n        ref = self.lead('GB')\n        current = datetime.datetime.fromtimestamp(self.now, operations.INDIA)\n        friday = current - datetime.timedelta(days=(current.weekday()-4)%7)\n        self.book(ref,starts=int(friday.timestamp())-7200,outcome='Completed')\n        with isolated.enquiries.connect() as db:\n            db.execute('UPDATE sales_demo_records SET updated=? WHERE reference=?', (int(friday.timestamp()),ref))\n        initial = self.queue(bucket='completed',country='GB')['items'][0]\n        self.assertEqual(initial['reference'],ref)\n        self.assertEqual(initial['postDemo']['due'],int((friday+datetime.timedelta(days=3)).timestamp()))\n        cookie, csrf = self.login()\n        route = '/api/admin/sales-journey'\n        state = self.request(route+'?reference='+ref,cookie=cookie)[1]\n        self.assertEqual(state['postDemo']['currency'],'GBP')\n        self.assertEqual(state['postDemo']['body'],'')\n        request = dict(reference=ref,version=0,scheduleEvent=state['record']['scheduleEvent'],recapVersion=0)\n        body = 'Keep travel enquiries together. Confirm import scope and agree the next review date.'\n        self.assertEqual(self.request(route,dict(request,action='recap-save',body=body),cookie)[0],403)\n        self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],400)\n        self.assertEqual(self.request(route,dict(request,action='recap-save',body=body),cookie,csrf)[0],200)\n        self.assertEqual(self.request(route,dict(request,action='recap-save',body='Stale edit'),cookie,csrf)[0],409)\n        request['recapVersion'] = 1\n        self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=False),cookie,csrf)[0],400)\n        for _ in range(2):\n            self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],200)\n        with isolated.enquiries.connect() as db:\n            rows=db.execute('SELECT * FROM notification_outbox WHERE dedupe LIKE ?', (f'demo-recap:{ref}:%',)).fetchall()\n            self.assertEqual(len(rows),1)\n            self.assertIn(body,rows[0]['body'])\n            self.assertNotIn('Synthetic requirements',rows[0]['body'])\n            self.assertTrue(sales_journey.recap_current(db,rows[0]))\n            db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',(ref,'qa@example.test','Synthetic recap project',self.now))\n            project = db.execute('SELECT * FROM client_projects WHERE reference=?',(ref,)).fetchone()\n            self.assertEqual(client_workflow.detail(db,project,True)['postDemo'],{'body':body,'currency':'GBP'})\n            self.assertNotIn('postDemo',client_workflow.detail(db,project,False))\n        self.proposal(ref,status='draft',age=0)\n        self.assertEqual(self.queue(bucket='completed')['total'],1)\n        self.proposal(ref,age=0,revision=2)\n        self.assertEqual(self.queue(bucket='completed')['total'],0)\n        with isolated.enquiries.connect() as db:\n            db.execute(\"UPDATE demo_bookings SET state='cancelled' WHERE enquiry_id=?\", (ref,))\n            self.assertFalse(sales_journey.recap_current(db,rows[0]))\n\n"
+    }
+  ]
+}

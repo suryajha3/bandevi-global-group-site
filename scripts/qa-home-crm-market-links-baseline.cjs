@@ -98,5 +98,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original demo reminder and attendance marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const postDemo = require('./fixtures/post-demo-followup-approved.json');
+  for (const { before, after } of postDemo[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original post-demo follow-up marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

@@ -1,12 +1,33 @@
 'use strict';
 let salesJourneyGeneration=0,salesJourneyState=null,salesFunnelGeneration=0;
+function postDemoTime(epoch){return new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'}).format(epoch*1000)+' IST';}
+function updateRecapControls(){
+ const recap=salesJourneyState?.postDemo, body=$('demo-recap-body');
+ const editable=!!recap&&!['pending','sent'].includes(recap.delivery);
+ body.readOnly=!editable;
+ $('demo-recap-save').disabled=!editable||!body.value.trim()||body.value.trim()===recap?.body;
+ const canReview=editable&&!!recap.body&&body.value.trim()===recap.body&&!!recap.recipient;
+ $('demo-recap-reviewed').disabled=!canReview;
+ if(!canReview)$('demo-recap-reviewed').checked=false;
+ $('demo-recap-send').disabled=!canReview||!$('demo-recap-reviewed').checked;
+}
+function renderRecap(state){
+ const recap=state?.postDemo;
+ $('demo-recap-form').hidden=!recap||['Won','Lost'].includes(state?.workflow?.stage);
+ $('demo-recap-body').value=recap?.body||'';
+ $('demo-recap-reviewed').checked=false;
+ $('demo-recap-due').textContent=recap?'Internal follow-up target: '+postDemoTime(recap.due)+(recap.currency?' · Quote preference: '+recap.currency:''):'';
+ $('demo-recap-status').textContent=recap?.delivery==='sent'?'Recap sent by the mail service.':recap?.delivery==='pending'?'Reviewed recap queued for delivery.':recap?.delivery==='cancelled'?'Previous delivery was cancelled. Review again before queueing for '+recap.recipient+'.':recap?.recipient?'Recorded recipient: '+recap.recipient:recap?'No customer email is recorded. You can still save a recap for the proposal.':'';
+ updateRecapControls();
+}
 function clearSalesJourney(){
  salesJourneyGeneration++;salesJourneyState=null;
  $('journey-requirements').value='';$('journey-outcome').value='Not recorded';$('journey-slot').replaceChildren();$('journey-agreed').checked=false;
  $('journey-status').textContent='';$('sales-journey-message').textContent='';$('journey-proposal').removeAttribute('href');
  $('journey-booking').hidden=true;for(const node of $('journey-record-form').elements)node.disabled=true;
+ renderRecap(null);
 }
-async function loadSalesJourney(entry){
+async function loadSalesJourney(entry,target=''){
  clearSalesJourney();const generation=salesJourneyGeneration,identity=csrf;
  $('journey-status').textContent='Loading demo record…';
  try{const state=await api('/api/admin/sales-journey?'+new URLSearchParams({reference:entry.reference}));
@@ -21,8 +42,28 @@ async function loadSalesJourney(entry){
   $('journey-booking').hidden=!!a||['Won','Lost'].includes(state.workflow?.stage);$('journey-book-button').disabled=!state.slots.length;
   $('journey-proposal').href='/team-inbox/workspace/?'+new URLSearchParams({reference:entry.reference,title:(entry.details.interest+' project').slice(0,160)})+'#proposals';
   $('journey-proposal').textContent=state.projectExists?'Open project & draft proposal':'Create project & draft proposal';
+  renderRecap(state);
+  if(target==='demo-recap-body'&&!$('demo-recap-form').hidden)$('demo-recap-body').focus();
  }catch(error){if(csrf===identity&&current===entry&&generation===salesJourneyGeneration)$('journey-status').textContent=error.message;}
 }
+async function changeDemoRecap(event, action){
+ event.preventDefault();
+ const entry=current, state=salesJourneyState, identity=csrf, generation=salesJourneyGeneration;
+ if(!entry||!state?.postDemo||!identity)return;
+ const body=$('demo-recap-body').value.trim(), reviewed=$('demo-recap-reviewed').checked;
+ if(action==='recap-send'&&(!reviewed||body!==state.postDemo.body))return;
+ $('demo-recap-save').disabled=$('demo-recap-send').disabled=true;
+ try{
+  await post('/api/admin/sales-journey',{reference:entry.reference,version:state.record.version,scheduleEvent:state.record.scheduleEvent,recapVersion:state.postDemo.version,action,body,reviewed});
+  if(csrf!==identity||current!==entry||generation!==salesJourneyGeneration||!$('editor').open)return;
+  await loadSalesJourney(entry);
+  if(csrf===identity&&current===entry&&$('editor').open&&action==='recap-save')$('demo-recap-status').textContent='Recap draft saved. Review it before queueing the email.';
+ }catch(error){if(csrf===identity&&current===entry&&generation===salesJourneyGeneration){$('demo-recap-status').textContent=error.message;updateRecapControls();}}
+}
+$('demo-recap-form').addEventListener('submit',event=>changeDemoRecap(event,'recap-save'));
+$('demo-recap-body').addEventListener('input',updateRecapControls);
+$('demo-recap-reviewed').addEventListener('change',updateRecapControls);
+$('demo-recap-send').addEventListener('click',event=>changeDemoRecap(event,'recap-send'));
 async function saveSalesJourney(event,action){
  event.preventDefault();if(!current||!salesJourneyState||!csrf)return;
  const entry=current,identity=csrf,generation=salesJourneyGeneration,version=salesJourneyState.record.version;

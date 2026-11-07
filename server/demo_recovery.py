@@ -9,6 +9,7 @@ REASONS={
     'no_show':('Recorded no-show','Review the missed demo and agree a new time with the customer.'),
     'reschedule':('Reschedule needed','Review the existing appointment and agree a replacement time.'),
     'attendance':('Demo outcome missing','Record what happened after the scheduled demo; do not assume a no-show.'),
+    'completed':('Completed demo follow-up','Review the customer recap and prepare the proposal in the existing workspace.'),
     'unbooked':('Enquiry without a demo','Review the requirements and invite the customer to arrange a demo.'),
     'proposal':('Proposal awaiting decision','Review the current proposal and record the next agreed follow-up.'),
 }
@@ -35,8 +36,13 @@ def queue(db,identity,query,now=None):
         record=sales_journey.record(db,ref)
         accepted=bool(db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND status='accepted'",(ref,)).fetchone())
         proposed=bool(db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND published>0 AND status='published'",(ref,)).fetchone())
+        followup=None
         if not accepted:
-            if record['outcome']=='Reschedule needed' or booking and booking['state']=='cancelled':reasons.append('reschedule');due.append(record.get('updated') or row['created'])
+            followup=sales_journey.post_demo(db,ref,record,booking,payload,now)
+            published_after_demo=followup and db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND status='published' AND published>=? AND expires>?",(ref,followup['completed'],now)).fetchone()
+            if followup and (not followup['body'] or not published_after_demo):
+                reasons.append('completed');due.append(followup['due'])
+            elif record['outcome']=='Reschedule needed' or booking and booking['state']=='cancelled':reasons.append('reschedule');due.append(record.get('updated') or row['created'])
             elif record['outcome']=='No show':reasons.append('no_show');due.append((booking['starts'] if booking else None) or record.get('updated') or row['created'])
             elif booking and booking['state']=='confirmed' and booking['starts'] is not None and booking['starts']+booking['duration']*60<=now and record['outcome']=='Not recorded':
                 reasons.append('attendance');due.append(booking['starts']+booking['duration']*60)
@@ -50,8 +56,11 @@ def queue(db,identity,query,now=None):
         for reason in reasons:counts[reason]+=1
         if bucket!='all' and bucket not in reasons:continue
         items.append(dict(reference=ref,name=payload['name'],interest=payload['interest'],created=row['created'],country=country,countryLabel=growth_workbench.COUNTRIES[country],stage=row['stage'],owner=row['owner'],nextAction=row['next_action'],followUpDate=row['follow_up_date'],overdue=bool(row['follow_up_date'] and row['follow_up_date']<today),reasons=reasons,due=min(due),proposalExpired=bool(proposal and proposal['expires']<=now),suggestedAction=REASONS[reasons[0]][1]))
-    items.sort(key=lambda item:(not item['overdue'],item['due'],item['reference']))
-    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Active, accessible enquiries received in the selected period. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. Closed, hidden QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
+        if 'completed' in reasons:
+            items[-1]['postDemo']={'due':followup['due'],'overdue':followup['due']<=now,'recapSaved':bool(followup['body']),
+                                  'recapDelivery':followup['delivery'],'proposalPublished':bool(published_after_demo)}
+    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue')),item['due'],item['reference']))
+    return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. Closed, hidden QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
 
 
 def get(handler,connect,identity):

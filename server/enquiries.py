@@ -212,6 +212,12 @@ def process_outbox():
         rows=db.execute("SELECT * FROM notification_outbox WHERE status='pending' AND next_attempt<=? ORDER BY id LIMIT 20",(int(time.time()),)).fetchall()
     for row in rows:
         try:
+            if row['dedupe'].startswith('demo-recap:'):
+                from sales_journey import recap_current
+                with connect() as db:
+                    if not recap_current(db,row):
+                        db.execute("UPDATE notification_outbox SET status='cancelled' WHERE id=?", (row['id'],))
+                        continue
             if row['dedupe'].startswith('response:'):
                 with connect() as db:
                     if not operations.response_alert_current(db,row):

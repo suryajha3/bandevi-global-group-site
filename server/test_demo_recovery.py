@@ -1,10 +1,14 @@
 """Recovery boundaries and access rules against temporary records only."""
+import datetime
 import json
 import secrets
 import time
 import unittest
 import test_dashboard as isolated
 import demo_recovery
+import client_workflow
+import operations
+import sales_journey
 
 
 class RecoveryTests(unittest.TestCase):
@@ -60,6 +64,49 @@ class RecoveryTests(unittest.TestCase):
         with isolated.enquiries.connect() as db:db.execute("INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,'new-slot','rescheduled',?,30,'Synthetic',?)",(stale,self.now+7200,self.now))
         self.assertEqual(self.queue()['items'],[])
         self.assertEqual(len(self.queue(days=365)['items']),1)
+
+    def test_completed_demo_recap_review_handoff_and_stale_delivery(self):
+        ref = self.lead('GB')
+        current = datetime.datetime.fromtimestamp(self.now, operations.INDIA)
+        friday = current - datetime.timedelta(days=(current.weekday()-4)%7)
+        self.book(ref,starts=int(friday.timestamp())-7200,outcome='Completed')
+        with isolated.enquiries.connect() as db:
+            db.execute('UPDATE sales_demo_records SET updated=? WHERE reference=?', (int(friday.timestamp()),ref))
+        initial = self.queue(bucket='completed',country='GB')['items'][0]
+        self.assertEqual(initial['reference'],ref)
+        self.assertEqual(initial['postDemo']['due'],int((friday+datetime.timedelta(days=3)).timestamp()))
+        cookie, csrf = self.login()
+        route = '/api/admin/sales-journey'
+        state = self.request(route+'?reference='+ref,cookie=cookie)[1]
+        self.assertEqual(state['postDemo']['currency'],'GBP')
+        self.assertEqual(state['postDemo']['body'],'')
+        request = dict(reference=ref,version=0,scheduleEvent=state['record']['scheduleEvent'],recapVersion=0)
+        body = 'Keep travel enquiries together. Confirm import scope and agree the next review date.'
+        self.assertEqual(self.request(route,dict(request,action='recap-save',body=body),cookie)[0],403)
+        self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],400)
+        self.assertEqual(self.request(route,dict(request,action='recap-save',body=body),cookie,csrf)[0],200)
+        self.assertEqual(self.request(route,dict(request,action='recap-save',body='Stale edit'),cookie,csrf)[0],409)
+        request['recapVersion'] = 1
+        self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=False),cookie,csrf)[0],400)
+        for _ in range(2):
+            self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],200)
+        with isolated.enquiries.connect() as db:
+            rows=db.execute('SELECT * FROM notification_outbox WHERE dedupe LIKE ?', (f'demo-recap:{ref}:%',)).fetchall()
+            self.assertEqual(len(rows),1)
+            self.assertIn(body,rows[0]['body'])
+            self.assertNotIn('Synthetic requirements',rows[0]['body'])
+            self.assertTrue(sales_journey.recap_current(db,rows[0]))
+            db.execute('INSERT INTO client_projects(reference,email,title,created) VALUES(?,?,?,?)',(ref,'qa@example.test','Synthetic recap project',self.now))
+            project = db.execute('SELECT * FROM client_projects WHERE reference=?',(ref,)).fetchone()
+            self.assertEqual(client_workflow.detail(db,project,True)['postDemo'],{'body':body,'currency':'GBP'})
+            self.assertNotIn('postDemo',client_workflow.detail(db,project,False))
+        self.proposal(ref,status='draft',age=0)
+        self.assertEqual(self.queue(bucket='completed')['total'],1)
+        self.proposal(ref,age=0,revision=2)
+        self.assertEqual(self.queue(bucket='completed')['total'],0)
+        with isolated.enquiries.connect() as db:
+            db.execute("UPDATE demo_bookings SET state='cancelled' WHERE enquiry_id=?", (ref,))
+            self.assertFalse(sales_journey.recap_current(db,rows[0]))
 
     def test_unique_counts_pagination_and_access_guards(self):
         refs=[self.lead() for _ in range(27)];self.book(refs[0],outcome='No show');self.proposal(refs[0])
