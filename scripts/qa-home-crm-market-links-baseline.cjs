@@ -118,5 +118,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original client kickoff marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const champagne = require('./fixtures/home-champagne-approved.json');
+  for (const { before, after } of champagne[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage champagne palette marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
