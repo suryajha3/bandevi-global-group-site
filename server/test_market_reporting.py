@@ -107,6 +107,11 @@ class MarketReportingTests(unittest.TestCase):
             seed(qa,1,'accepted','attended')
             for pid,shared in [(us_first,now-150),(us_second,now-150),(uk_first,now-140)]:
                 db.execute("INSERT INTO client_proposal_decisions(proposal,recap,published,version) VALUES(?,'Reviewed recap',?,1)",(pid,shared))
+            for pid,reason in [(us_first,'approval'),(uk_first,'billing')]:
+                db.execute("""INSERT INTO client_proposal_blockers(proposal,reason,note,expected,due,created,version)
+                    VALUES(?,?,'','','2026-11-09',?,1)""",(pid,reason,now-120))
+            db.execute("INSERT INTO client_kickoffs VALUES(?,?,'','','Synthetic contact',1,?,1,?,1,?)",
+                       (us,us_first,now-90,now-80,now-80))
             for ref,created in [(us,now-50),(uk,now-50),(india,now-500)]:
                 db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id=?",(ref,))
                 db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won',?,?)",(ref,self.owner,created))
@@ -115,6 +120,9 @@ class MarketReportingTests(unittest.TestCase):
                              [('US',2,2,2,1),('GB',1,1,0,0),('IN',1,0,1,0)])
             self.assertEqual([(r['cardsShared'],r['acceptedAfterCard'],r['wonAfterCard']) for r in groups],
                              [(2,2,1),(1,0,0),(0,0,0)])
+            self.assertEqual([(r['blockerReasons'],r['acceptedAfterBlocker'],r['kickoffsAfterCard']) for r in groups],
+                             [({'Internal approval':1},1,1),({'Billing details':1},0,0),({},0,0)])
+            self.assertEqual((groups[0]['medianCardToAcceptanceSeconds'],groups[0]['medianAcceptanceToKickoffSeconds']),(50,20))
             scoped=sales_journey.proposal_review_conversion(db,{'role':'agent','actor':'other@example.test'},now-7*day,now)
             self.assertTrue(all(not r['booked'] for r in scoped))
 

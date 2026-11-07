@@ -85,6 +85,16 @@ class ClientTests(unittest.TestCase):
         shown=self.request(client_route,cookie=client)[1]['proposals'][0]['decision']
         self.assertEqual(shown['recap'],card['recap'])
         self.assertNotIn('version',shown)
+        blocker_route='/api/client/proposal-blocker'
+        blocker={'reference':ref,'id':first,'blockerVersion':0,'reason':'approval',
+                 'expected':due,'note':'Our director reviews proposals today.'}
+        self.assertEqual(self.request(blocker_route,blocker,client)[0],403)
+        self.assertEqual(self.request(blocker_route,dict(blocker,reason='unrecognized'),client,csrf)[0],400)
+        self.assertEqual(self.request(blocker_route,blocker,client,csrf)[0],200)
+        self.assertEqual(self.request(blocker_route,blocker,client,csrf)[0],409)
+        recorded=self.request(client_route,cookie=client)[1]['proposals'][0]['blocker']
+        self.assertEqual(recorded['expected'],due)
+        self.assertNotIn('owner',recorded)
         status,response,_=self.request('/api/client/proposal-feedback',{'reference':ref,'id':first,
             'kind':'question','body':'Can we include two branches?','requestId':str(uuid.uuid4())},client,csrf)
         self.assertEqual(status,200);ticket=response['ticketId']
@@ -94,6 +104,14 @@ class ClientTests(unittest.TestCase):
             return next((item['proposalDecisions'] for item in items if item['reference']==ref),None)
         self.assertEqual(flags()['dates'][0]['proposalId'],first)
         self.assertTrue(flags()['dates'][0]['dueToday'])
+        self.assertEqual(flags()['blockers'][0]['proposalId'],first)
+        self.assertEqual(flags()['blockers'][0]['due'],due)
+        self.assertEqual(flags()['blockerOwner'],dashboard.USER)
+        resolution={'reference':ref,'id':first,'blockerVersion':1}
+        self.assertEqual(self.request('/api/admin/workspace/proposal-blocker',resolution,self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(flags()['blockers'],[])
+        self.assertEqual(self.request(blocker_route,dict(blocker,blockerVersion=2,reason='billing',expected=''),client,csrf)[0],200)
+        self.assertEqual(flags()['blockers'][0]['reason'],'Billing details')
         self.assertEqual(flags()['questions'][0]['id'],ticket)
         owner=dashboard.USER
         self.assertEqual(self.change(ref,'ticket',id=ticket,ticketVersion=0,status='Waiting for client',owner=owner,
@@ -114,7 +132,11 @@ class ClientTests(unittest.TestCase):
         proposals=self.request(client_route,cookie=client)[1]['proposals']
         self.assertEqual(proposals[0]['decision'],{'changes':'Added the second branch.'})
         self.assertEqual(proposals[1]['decision']['recap'],card['recap'])
+        self.assertEqual(proposals[1]['blocker']['reason'],'billing')
+        self.assertFalse(proposals[1]['blockerEditable'])
+        self.assertEqual(self.request(blocker_route,dict(blocker,blockerVersion=3),client,csrf)[0],409)
         self.assertEqual(flags()['dates'],[])
+        self.assertEqual(flags()['blockers'],[])
         self.assertEqual(flags()['questions'][0]['id'],ticket)
 
     def test_proposal_review_preserves_revision_and_shares_slot_inventory(self):
@@ -408,6 +430,8 @@ class ClientTests(unittest.TestCase):
         pid=self.proposal(ref)
         self.assertEqual(self.change(ref,'publish',id=pid)[0],200)
         self.assertEqual(self.request('/api/client/accept',dict(reference=ref,id=pid,name='Synthetic approver',agree=True),cookie,csrf)[0],200)
+        kickoff=self.request('/api/client/project?reference='+ref,cookie=cookie)[1]['kickoff']
+        self.assertEqual((kickoff['proposal'],kickoff['contact']),(pid,'Synthetic approver'))
         agent=uuid.uuid4().hex+'@example.test';password='Synthetic-delivery-owner-password'
         with enquiries.connect() as db:
             db.execute('INSERT INTO team_users VALUES(?,?,?,?,1)',(agent,'Synthetic delivery owner','agent',dashboard.password_hash(password)))

@@ -40,6 +40,13 @@ async function refreshRecovery(){
     const row=text('p','');row.append(link,' · '+review.status+' · '+postDemoTime(review.starts)+' · Host '+review.host);body.append(row);
    }
    if(item.proposalDecisions){
+    for(const blocker of item.proposalDecisions.blockers||[]){
+     const link=text('a','Open decision blocker · revision '+blocker.revision);
+     link.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference})+'#proposal-'+blocker.proposalId;
+     const row=text('p','',blocker.overdue?'growth-queue-alert':'');
+     row.append(link,' · '+blocker.reason+' · '+(blocker.overdue?'Overdue since ':'Follow-up ')+blocker.due+' · Sales owner '+item.proposalDecisions.blockerOwner);
+     body.append(row);
+    }
     for(const flag of item.proposalDecisions.dates){
      const link=text('a','Open decision card · revision '+flag.revision);
      link.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference})+'#proposal-'+flag.proposalId;

@@ -143,5 +143,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original proposal decision card marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const blockerKickoff = require('./fixtures/proposal-blocker-kickoff-approved.json');
+  for (const { before, after } of blockerKickoff[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original proposal blocker and kickoff marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

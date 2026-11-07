@@ -17,6 +17,13 @@ import operations
 
 COOKIE = 'bg_client_session'
 ASSETS = Path(__file__).parent / 'client'
+BLOCKER_LABELS = {
+    'approval': 'Internal approval',
+    'purchase_order': 'Purchase order',
+    'billing': 'Billing details',
+    'scope': 'Scope clarification',
+    'other': 'Something else',
+}
 
 class Problem(Exception):
     def __init__(self, status, message): self.status, self.message = status, message
@@ -48,6 +55,9 @@ def initialize(db):
       proposal TEXT PRIMARY KEY,changes TEXT NOT NULL DEFAULT '',recap TEXT NOT NULL DEFAULT '',
       milestone TEXT NOT NULL DEFAULT '',open_question TEXT NOT NULL DEFAULT '',due TEXT NOT NULL DEFAULT '',
       published INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL DEFAULT 0);
+    CREATE TABLE IF NOT EXISTS client_proposal_blockers(
+      proposal TEXT PRIMARY KEY,reason TEXT NOT NULL,note TEXT NOT NULL,expected TEXT NOT NULL,
+      due TEXT NOT NULL,created INTEGER NOT NULL,resolved INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_kickoffs(reference TEXT PRIMARY KEY,proposal TEXT NOT NULL,owner TEXT NOT NULL,
       materials TEXT NOT NULL,contact TEXT NOT NULL,materials_ready INTEGER NOT NULL,scheduled INTEGER NOT NULL,
       confirmed INTEGER NOT NULL,started INTEGER NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL);
@@ -152,6 +162,15 @@ def detail(db,row,staff,ticket_id=''):
         if decision:
             keys=('changes','recap','milestone','open_question','due','published') if decision['published'] else ('changes',)
             p['decision']={key:decision[key] for key in (keys if not staff else (*keys,'version'))}
+        if decision and decision['published']:
+            active_decision=not closed and p['status']=='published' and p['expires']>now
+            p['blockerEditable']=not staff and active_decision
+            blocker=db.execute('SELECT * FROM client_proposal_blockers WHERE proposal=?',(p['id'],)).fetchone()
+            if blocker:
+                p['blocker']={key:blocker[key] for key in ('reason','note','expected','resolved','version')}
+                if staff:
+                    p['blocker'].update(due=blocker['due'],owner=sales_owner(db,ref),
+                                        actionable=not closed and p['status']=='published' and not blocker['resolved'])
         if staff:
             p['decisionEditable']=not closed and p['status']=='published' and p['expires']>now and decision_review_exists(db,p['id'])
         if not staff:p.pop('actor',None)
@@ -342,6 +361,9 @@ def post(handler,connect,origins,salt):
             elif action=='proposal-decision' and staff:
                 ref=value(data,'reference',30);project(db,ref,identity,True)
                 save_proposal_decision(db,ref,actor,data)
+            elif action=='proposal-blocker' and staff:
+                ref=value(data,'reference',30);project(db,ref,identity,True)
+                change_proposal_blocker(db,ref,actor,data,True)
             elif action=='create' and staff:
                 ref=value(data,'reference',30);enquiry=db.execute('SELECT payload FROM enquiries WHERE id=?',(ref,)).fetchone()
                 if not enquiry:raise Problem(404,'Enquiry not found.')
@@ -468,12 +490,60 @@ def client_change(db,row,identity,action,data,result):
         db.execute('UPDATE client_projects SET version=version+1 WHERE reference=?',(ref,));audit(db,ref,'milestone-approved',actor,mid)
     elif action=='ticket':ticket_change(db,row,identity,data,False)
     elif action=='proposal-feedback':result['ticketId']=create_proposal_feedback(db,row,identity,data,now)
+    elif action=='proposal-blocker':change_proposal_blocker(db,ref,actor,data,False)
     elif action=='proposal-review':change_proposal_review(db,ref,identity,data,False)
     elif action=='kickoff':result.update(change_kickoff(db,ref,identity,data,False))
     else:raise Problem(404,'Not found.')
 
 def decision_review_exists(db,pid):
     return bool(db.execute("SELECT 1 FROM client_proposal_reviews WHERE proposal=? AND state='attended'",(pid,)).fetchone())
+
+
+def change_proposal_blocker(db,ref,actor,data,staff):
+    pid=value(data,'id',30)
+    now=int(time.time())
+    proposal=db.execute("""SELECT p.status,p.expires FROM client_proposals p
+        JOIN client_proposal_decisions d ON d.proposal=p.id AND d.published>0
+        WHERE p.id=? AND p.reference=?""",(pid,ref)).fetchone()
+    if not proposal:raise Problem(404,'Decision card not found.')
+    if (proposal['status']!='published' or (not staff and proposal['expires']<=now)
+            or db.execute("SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')",(ref,)).fetchone()):
+        raise Problem(409,'This decision card is no longer active.')
+    prior=db.execute('SELECT * FROM client_proposal_blockers WHERE proposal=?',(pid,)).fetchone()
+    version=prior['version'] if prior else 0
+    if type(data.get('blockerVersion')) is not int or data['blockerVersion']!=version:
+        raise Problem(409,'The blocker changed. Refresh before saving.')
+    if staff:
+        if not prior or prior['resolved']:raise Problem(409,'There is no open blocker to resolve.')
+        db.execute('UPDATE client_proposal_blockers SET resolved=?,version=version+1 WHERE proposal=?',(now,pid))
+        audit(db,ref,'proposal-blocker-resolved',actor,pid)
+        return
+    reason=value(data,'reason',30)
+    if reason not in BLOCKER_LABELS:raise Problem(400,'Choose what is holding up your decision.')
+    note=value(data,'note',600,False)
+    expected=value(data,'expected',10,False)
+    if prior and not prior['resolved'] and (reason,note,expected)==(prior['reason'],prior['note'],prior['expected']):
+        return
+    today=datetime.datetime.fromtimestamp(now,operations.INDIA).date()
+    if expected:
+        try:
+            date=datetime.date.fromisoformat(expected)
+            if date.isoformat()!=expected or (not prior or expected!=prior['expected']) and not today<=date<=today+datetime.timedelta(days=365):
+                raise ValueError()
+        except ValueError:raise Problem(400,'Choose an expected decision date from today through the next year.')
+        due=expected
+    elif prior and not prior['resolved'] and not prior['expected']:
+        due=prior['due']
+    else:
+        date=today+datetime.timedelta(days=1)
+        while date.weekday()>=5:
+            date+=datetime.timedelta(days=1)
+        due=date.isoformat()
+    db.execute("""INSERT INTO client_proposal_blockers(proposal,reason,note,expected,due,created,version)
+        VALUES(?,?,?,?,?,?,?) ON CONFLICT(proposal) DO UPDATE SET reason=excluded.reason,note=excluded.note,
+        expected=excluded.expected,due=excluded.due,resolved=0,version=excluded.version""",
+        (pid,reason,note,expected,due,now,version+1))
+    audit(db,ref,'proposal-blocker-saved',actor,pid)
 
 
 def save_proposal_decision(db,ref,actor,data):
@@ -576,8 +646,8 @@ def change_proposal_review(db,ref,identity,data,staff):
 
 
 KICKOFF_ROWS = """SELECT project.reference,project.title,proposal.id AS proposal,proposal.revision,
-    proposal.currency,proposal.accepted,e.payload,COALESCE(w.owner,'') AS sales_owner,
-    COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,COALESCE(k.contact,'') AS contact,
+    proposal.currency,proposal.accepted,proposal.accepted_by,e.payload,COALESCE(w.owner,'') AS sales_owner,
+    COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,k.contact AS contact,
     COALESCE(k.materials_ready,0) AS materials_ready,COALESCE(k.scheduled,0) AS scheduled,
     COALESCE(k.confirmed,0) AS confirmed,COALESCE(k.started,0) AS started,COALESCE(k.version,0) AS version
     FROM client_projects project JOIN enquiries e ON e.id=project.reference
@@ -589,7 +659,15 @@ KICKOFF_ROWS = """SELECT project.reference,project.title,proposal.id AS proposal
 
 def kickoff_state(db, reference):
     row=db.execute(KICKOFF_ROWS+' AND project.reference=?',(reference,)).fetchone()
-    return dict(row) if row else None
+    return kickoff_record(row) if row else None
+
+
+def kickoff_record(row):
+    state=dict(row)
+    accepted_by=state.pop('accepted_by') or ''
+    if state['contact'] is None:
+        state['contact']=accepted_by.rsplit(' <',1)[0][:160]
+    return state
 
 
 def kickoff_access(db, state, identity):
@@ -607,7 +685,7 @@ def kickoff_queue(db, identity, query):
         raise Problem(400,'Choose a valid country or queue page.')
     items=[]
     for record in db.execute(KICKOFF_ROWS+' AND COALESCE(k.started,0)=0'):
-        state=dict(record)
+        state=kickoff_record(record)
         code=country(json.loads(state.pop('payload')))
         if (market and code!=market) or not kickoff_access(db,state,identity):
             continue
