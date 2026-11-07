@@ -105,7 +105,9 @@ const crmPromotionLabels = {
  'hero-demo': 'Main demo button',
  'lead-ownership': 'Lead ownership',
  'quote-follow-up': 'Quotation follow-up',
- 'operations-handover': 'Operations handover'
+ 'operations-handover': 'Operations handover',
+ 'availability-slot': 'CRM page · slot selected',
+ 'availability-request': 'CRM page · preferred time'
 };
 function renderCampaignSalesRows(){
  if(!csrf||!campaignSalesState||campaignSalesState.identity!==csrf)return;

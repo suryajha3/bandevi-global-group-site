@@ -1,0 +1,142 @@
+{
+  "demo-request/index.html": [
+    {
+      "before": "ent.js?v=20261106-industry-enquiry\" defer></script><script defer src=\"/assets/demo-time.js?v=20261012-hours\"></script><script defer src=\"/assets/appointments.js?v=20261012-local\"></script><scri",
+      "after": "ent.js?v=20261107-availability\" defer></script><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/appointments.js?v=20261107-availability\"></script><scri"
+    }
+  ],
+  "us/travel-agency-crm/index.html": [
+    {
+      "before": "gn.css?v=20261106-promotions\"><script defer src=\"/assets/travel-crm-campaign.js?v=20261106-promotions\"></script>\n",
+      "after": "gn.css?v=20261107-availability\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261107-availability\"></script>\n"
+    },
+    {
+      "before": " time zone.</p></div><aside clas",
+      "after": " time zone.</p><details class=\"crm-availability\" data-crm-availability=\"US\"><summary>See available demo times</summary><div data-availability-controls hidden><form id=\"crm-availability-form\" action=\"/demo-request/#demo-form\" method=\"get\" hidden><input type=\"hidden\" name=\"solution\" value=\"Travel CRM Package\"><input type=\"hidden\" name=\"market\" value=\"US\"><input type=\"hidden\" name=\"focus\" value=\"crm-enquiries\"><input type=\"hidden\" name=\"crm_promo\" value=\"availability-slot\"><label for=\"crm-availability-slot\">Available demo times</label><select id=\"crm-availability-slot\" name=\"crm_slot\" required></select><button type=\"submit\" class=\"button dark\">Continue to booking</button></form><p data-availability-status role=\"status\"></p><button type=\"button\" class=\"text-link\" data-availability-refresh>Refresh times</button></div><a class=\"text-link\" data-availability-request href=\"/demo-request/?solution=Travel%20CRM%20Package&amp;market=US&amp;focus=crm-enquiries&amp;crm_promo=availability-request#demo-form\">Request a preferred time</a></details></div><aside clas"
+    },
+    {
+      "before": "ent.js?v=20261106-crm-promotions\" defer></script",
+      "after": "ent.js?v=20261107-availability\" defer></script"
+    }
+  ],
+  "uk/travel-agency-crm/index.html": [
+    {
+      "before": "gn.css?v=20261106-promotions\"><script defer src=\"/assets/travel-crm-campaign.js?v=20261106-promotions\"></script>\n",
+      "after": "gn.css?v=20261107-availability\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261107-availability\"></script>\n"
+    },
+    {
+      "before": " time zone.</p></div><aside clas",
+      "after": " time zone.</p><details class=\"crm-availability\" data-crm-availability=\"GB\"><summary>See available demo times</summary><div data-availability-controls hidden><form id=\"crm-availability-form\" action=\"/demo-request/#demo-form\" method=\"get\" hidden><input type=\"hidden\" name=\"solution\" value=\"Travel CRM Package\"><input type=\"hidden\" name=\"market\" value=\"GB\"><input type=\"hidden\" name=\"focus\" value=\"crm-quotes\"><input type=\"hidden\" name=\"crm_promo\" value=\"availability-slot\"><label for=\"crm-availability-slot\">Available demo times</label><select id=\"crm-availability-slot\" name=\"crm_slot\" required></select><button type=\"submit\" class=\"button dark\">Continue to booking</button></form><p data-availability-status role=\"status\"></p><button type=\"button\" class=\"text-link\" data-availability-refresh>Refresh times</button></div><a class=\"text-link\" data-availability-request href=\"/demo-request/?solution=Travel%20CRM%20Package&amp;market=GB&amp;focus=crm-quotes&amp;crm_promo=availability-request#demo-form\">Request a preferred time</a></details></div><aside clas"
+    },
+    {
+      "before": "ent.js?v=20261106-crm-promotions\" defer></script",
+      "after": "ent.js?v=20261107-availability\" defer></script"
+    }
+  ],
+  "india/travel-agency-crm/index.html": [
+    {
+      "before": "gn.css?v=20261106-promotions\"><script defer src=\"/assets/travel-crm-campaign.js?v=20261106-promotions\"></script>\n",
+      "after": "gn.css?v=20261107-availability\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261107-availability\"></script>\n"
+    },
+    {
+      "before": " time zone.</p></div><aside clas",
+      "after": " time zone.</p><details class=\"crm-availability\" data-crm-availability=\"IN\"><summary>See available demo times</summary><div data-availability-controls hidden><form id=\"crm-availability-form\" action=\"/demo-request/#demo-form\" method=\"get\" hidden><input type=\"hidden\" name=\"solution\" value=\"Travel CRM Package\"><input type=\"hidden\" name=\"market\" value=\"IN\"><input type=\"hidden\" name=\"focus\" value=\"crm-handover\"><input type=\"hidden\" name=\"crm_promo\" value=\"availability-slot\"><label for=\"crm-availability-slot\">Available demo times</label><select id=\"crm-availability-slot\" name=\"crm_slot\" required></select><button type=\"submit\" class=\"button dark\">Continue to booking</button></form><p data-availability-status role=\"status\"></p><button type=\"button\" class=\"text-link\" data-availability-refresh>Refresh times</button></div><a class=\"text-link\" data-availability-request href=\"/demo-request/?solution=Travel%20CRM%20Package&amp;market=IN&amp;focus=crm-handover&amp;crm_promo=availability-request#demo-form\">Request a preferred time</a></details></div><aside clas"
+    },
+    {
+      "before": "ent.js?v=20261106-crm-promotions\" defer></script",
+      "after": "ent.js?v=20261107-availability\" defer></script"
+    }
+  ],
+  "assets/client.js": [
+    {
+      "before": "ations-handover'];\n",
+      "after": "ations-handover', 'availability-slot', 'availability-request'];\n"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "ations-handover'];\n",
+      "after": "ations-handover', 'availability-slot', 'availability-request'];\n"
+    },
+    {
+      "before": "areServices']];\n",
+      "after": "areServices']];\nfunction crmAvailabilityMarkup(code, focus) {\n  return `<details class=\"crm-availability\" data-crm-availability=\"${code}\"><summary>See available demo times</summary>\n    <div data-availability-controls hidden><form id=\"crm-availability-form\" action=\"/demo-request/#demo-form\" method=\"get\" hidden><input type=\"hidden\" name=\"solution\" value=\"Travel CRM Package\"><input type=\"hidden\" name=\"market\" value=\"${code}\"><input type=\"hidden\" name=\"focus\" value=\"${focus}\"><input type=\"hidden\" name=\"crm_promo\" value=\"availability-slot\"><label for=\"crm-availability-slot\">Available demo times</label><select id=\"crm-availability-slot\" name=\"crm_slot\" required></select><button type=\"submit\" class=\"button dark\">Continue to booking</button></form><p data-availability-status role=\"status\"></p><button type=\"button\" class=\"text-link\" data-availability-refresh>Refresh times</button></div>\n    <a class=\"text-link\" data-availability-request href=\"/demo-request/?solution=Travel%20CRM%20Package&amp;market=${code}&amp;focus=${focus}&amp;crm_promo=availability-request#demo-form\">Request a preferred time</a></details>`;\n}\n"
+    },
+    {
+      "before": "mpaignMarkets){\n",
+      "after": "mpaignMarkets){\n const demoFocus={US:'crm-enquiries',GB:'crm-quotes',IN:'crm-handover'}[code];\n"
+    },
+    {
+      "before": "e+\"&amp;focus=\"+({US:\"crm-enquiries\",GB:\"crm-quotes\",IN:\"crm-handover\"})[code]+\"&amp;crm_promo=hero-demo#demo-form\"}\">Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"${crmCampaignWorkflowMessages[code]}\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>${currency} quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p></div>${crmCampa",
+      "after": "e+\"&amp;focus=\"+demoFocus+\"&amp;crm_promo=hero-demo#demo-form\"}\">Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"${crmCampaignWorkflowMessages[code]}\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>${currency} quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p>${crmAvailabilityMarkup(code,demoFocus)}</div>${crmCampa"
+    },
+    {
+      "before": "render();\n\n",
+      "after": "render();\n\nif (document.querySelector(\"[data-crm-availability]\") && !document.querySelector('script[src^=\"/assets/travel-crm-campaign.js\"]')) {\n  const style = document.createElement(\"link\");\n  style.rel = \"stylesheet\";\n  style.href = \"/assets/travel-crm-campaign.css?v=20261107-availability\";\n  const time = document.createElement(\"script\");\n  time.src = \"/assets/demo-time.js?v=20261107-availability\";\n  time.onload = () => {\n    const script = document.createElement(\"script\");\n    script.src = \"/assets/travel-crm-campaign.js?v=20261107-availability\";\n    document.head.append(script);\n  };\n  document.head.append(style, time);\n}\n\n"
+    },
+    {
+      "before": "-time.js?v=20261012-hours\";time.onload=()=>{const appointments=document.createElement(\"script\");appointments.src=\"/assets/appointments.js?v=20261012-local\";document.head.",
+      "after": "-time.js?v=20261107-availability\";time.onload=()=>{const appointments=document.createElement(\"script\");appointments.src=\"/assets/appointments.js?v=20261107-availability\";document.head."
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "ney.js?v=20261106-home-service-paths\"></script><scri",
+      "after": "ney.js?v=20261107-availability\"></script><scri"
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": "ations handover'\n",
+      "after": "ations handover',\n 'availability-slot': 'CRM page · slot selected',\n 'availability-request': 'CRM page · preferred time'\n"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "ations-handover')\n",
+      "after": "ations-handover','availability-slot','availability-request')\n"
+    }
+  ],
+  "server/test_crm_review_campaigns.py": [
+    {
+      "before": "requested'),1)\n\n",
+      "after": "requested'),1)\n\n    def test_regional_availability_distinguishes_reservations_and_time_requests(self):\n        now = int(time.time())\n        for index, (country, slug) in enumerate((('US', 'us'), ('GB', 'uk'), ('IN', 'india'))):\n            data = self.data(country, review=False)\n            data.update(type='demo', interest='Travel CRM Package', source=f'/{slug}/travel-agency-crm/')\n            data['attribution'].update(landing_page=data['source'], crm_promotion='availability-request')\n            request_ref = self.lead(data)\n            slot = uuid.uuid4().hex[:24]\n            with isolated.enquiries.connect() as db:\n                db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',\n                           (slot, now + 3600 + index * 1800, self.owner))\n            data['attribution']['crm_promotion'] = 'availability-slot'\n            reservation_ref = self.lead(dict(data, slotId=slot))\n            with isolated.enquiries.connect() as db:\n                self.assertIsNone(db.execute('SELECT 1 FROM demo_bookings WHERE enquiry_id=?', (request_ref,)).fetchone())\n                db.execute('INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,?,?,?)',\n                           (reservation_ref, 'Qualified', self.owner, int(time.time())))\n                schedule = sales_journey.schedule_event(db, reservation_ref)\n                self.assertGreater(schedule, 0)\n                db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',\n                           (reservation_ref, 'Synthetic workflow', 'Completed', schedule, 1, now, self.owner))\n        groups = self.report()['campaigns']\n        self.assertEqual(len(groups), 6)\n        for group in groups:\n            with self.subTest(country=group['country'], promotion=group['promotion']):\n                counts = group['counts']\n                expected = int(group['promotion'] == 'availability-slot')\n                self.assertEqual(counts['enquiries'], 1)\n                for milestone in ('qualified', 'demoBooked', 'demoCompleted'):\n                    self.assertEqual(counts[milestone], expected)\n\n"
+    }
+  ],
+  "assets/appointments.js": [
+    {
+      "before": " const zone=window.BandeviDemoTime?.zoneChoice(form.querySelector('.form-grid'),fieldset);if(zone)BandeviDemoTime.preferred(form,zone);let slots=[];\n",
+      "after": " const time=window.BandeviDemoTime;\n const campaign=['availability-slot','availability-request'].includes(form.dataset.crmPromotion);\n const params=new URLSearchParams(location.search);\n const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign?{initial:time.campaignZone(params.get('market'))}:undefined);\n if(zone){\n  const preferredZone=params.get('crm_zone');\n  if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;\n  time.preferred(form,zone);\n }\n const requestedSlot=params.get('crm_slot');\n let pendingSlot=form.dataset.crmPromotion==='availability-slot'&&/^[a-f0-9]{24}$/.test(requestedSlot||'')?requestedSlot:'';\n let slots=[];\n"
+    },
+    {
+      "before": " async function load(){refresh.disabled=true;try{const data=await request('/api/demo/slots');slots=data.slots;const old=select.value;select.replaceChildren(new Option('Ask the team to arrange a time',''),...data.slots.map(s=>new Option(label(s),s.id)));if(data.slots.some(s=>s.id===old))select.value=old;select.dispatchEvent(new Event('change'));note.textContent=data.slots.length?'Choosing a published slot reserves your appointment when this form is successfully submitted. Joining details follow separately.':'No demo slots are published right now. Send your request and the team will arrange a time.';}catch(e){slots=[];select.replaceChildren(new Option('Ask the team to arrange a time',''));select.dispatchEvent(new Event('change'));note.textContent='Available times could not be loaded. You can still request a demo.';}finally{refresh.disabled=false;}}\n",
+      "after": " async function load(){\n  refresh.disabled=true;\n  try{\n   const data=await request('/api/demo/slots');\n   slots=data.slots;\n   const selected=select.value||pendingSlot;\n   pendingSlot='';\n   select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(slot=>new Option(label(slot),slot.id)));\n   if(slots.some(slot=>slot.id===selected))select.value=selected;\n   select.dispatchEvent(new Event('change'));\n   note.textContent=selected&&!select.value\n    ?'Your selected time is no longer available. Choose another time or request a preferred time.'\n    :slots.length?'Choosing a published slot reserves your appointment when this form is successfully submitted. Joining details follow separately.'\n     :'No demo slots are published right now. Send your request and the team will arrange a time.';\n  }catch(e){\n   pendingSlot='';slots=[];select.replaceChildren(new Option('Ask the team to arrange a time',''));select.dispatchEvent(new Event('change'));\n   note.textContent='Available times could not be loaded. You can still request a demo.';\n  }finally{refresh.disabled=false;}\n }\n form.addEventListener('submit',event=>{\n  if(!pendingSlot)return;\n  event.preventDefault();event.stopImmediatePropagation();\n  note.textContent='Please wait while we check your selected time.';\n },{capture:true});\n"
+    }
+  ],
+  "assets/demo-time.js": [
+    {
+      "before": " function zoneChoice(container,before){let detected=india;try{detected=Intl.DateTimeFormat().resolvedOptions().timeZone||india;}catch(_){}const box=node('div');box.className='demo-zone';const label=node('label','Your time zone'),select=node('select');select.id='demo-timezone';label.htmlFor=select.id;for(const zone of new Set([detected,india,'Europe/London','America/New_York','America/Chicago','America/Denver','America/Los_Angeles','Europe/Paris','Asia/Dubai','Asia/Singapore','Australia/Sydney','UTC'])){try{new Intl.DateTimeFormat('en',{timeZone:zone});select.add(new Option(zone.replaceAll('_',' '),zone));}catch(_) {}}select.value=detected;box.append(label,select,node('p','Available times use this time zone, with daylight-saving changes applied for the meeting date. India reference times are also shown. Team consultation hours: Monday–Saturday, 10:30 am–7:30 pm IST. Only a successful slot reservation confirms a meeting.'));container.insertBefore(box,before||container.firstChild);return select;}\n function label(slot){const zone=document.getElementById('demo-timezone')?.value||india;return new Intl.DateTimeFormat(undefined,{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(slot.starts*1000))+' · '+zone.replaceAll('_',' ')+(zone===india?' (IST)':' · '+new Intl.DateTimeFormat('en-GB',{timeZone:india,dateStyle:'medium',timeStyle:'short'}).format(new Date(slot.starts*1000))+' IST')+' · '+slot.duration+' minutes';}\n",
+      "after": " const usZones = ['America/New_York','America/Chicago','America/Denver','America/Los_Angeles','America/Phoenix','America/Anchorage','Pacific/Honolulu'];\n function browserZone(){return Intl.DateTimeFormat().resolvedOptions().timeZone || india;}\n function campaignZone(market){\n  if(market==='GB')return 'Europe/London';\n  if(market==='IN')return india;\n  const detected=browserZone();\n  const regionalUS=/^(America\\/(Adak|Boise|Detroit|Indiana\\/.+|Indianapolis|Juneau|Kentucky\\/.+|Louisville|Menominee|Metlakatla|Nome|North_Dakota\\/.+|Sitka|Yakutat)|US\\/.+)$/;\n  return usZones.includes(detected)||regionalUS.test(detected)?detected:usZones[0];\n }\n function zoneChoice(container,before,{id='demo-timezone',initial=browserZone(),compact=false}={}){\n  const box=node('div');box.className='demo-zone';\n  const label=node('label','Your time zone'),select=node('select');select.id=id;label.htmlFor=id;\n  for(const zone of new Set([initial,browserZone(),india,'Europe/London',...usZones,'Europe/Paris','Asia/Dubai','Asia/Singapore','Australia/Sydney','UTC'])){\n   select.add(new Option(zone.replaceAll('_',' '),zone));\n  }\n  select.value=initial;box.append(label,select);\n  if(!compact)box.append(node('p','Available times use this time zone, with daylight-saving changes applied for the meeting date. India reference times are also shown. Team consultation hours: Monday–Saturday, 10:30 am–7:30 pm IST. Only a successful slot reservation confirms a meeting.'));\n  container.insertBefore(box,before||container.firstChild);return select;\n }\n function label(slot,zone=document.getElementById('demo-timezone')?.value||india,compact=false){\n  const date = new Date(slot.starts*1000);\n  const local = new Intl.DateTimeFormat(undefined,{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(date);\n  const duration = ' · '+slot.duration+' minutes';\n  if(compact)return local+duration;\n  const reference = zone===india?' (IST)':' · '+new Intl.DateTimeFormat('en-GB',{timeZone:india,dateStyle:'medium',timeStyle:'short'}).format(date)+' IST';\n  return local+' · '+zone.replaceAll('_',' ')+reference+duration;\n }\n"
+    },
+    {
+      "before": " window.BandeviDemoTime={zoneChoice,label,preferred};\n",
+      "after": " window.BandeviDemoTime={campaignZone,zoneChoice,label,preferred};\n"
+    }
+  ],
+  "assets/travel-crm-campaign.css": [
+    {
+      "before": "  min-height: 44px;\n}\n",
+      "after": "  min-height: 44px;\n}\n\n.crm-availability {\n  max-width: 32rem;\n  margin-block-start: 1rem;\n  padding-inline: 1rem;\n  border: 1px solid #d4c7ae;\n  border-radius: 8px;\n}\n.crm-availability summary {\n  padding-block: 0.75rem;\n  min-height: 44px;\n  cursor: pointer;\n  font-weight: 700;\n}\n.crm-availability form,\n.crm-availability .demo-zone {\n  display: grid;\n  gap: 0.5rem;\n}\n.crm-availability form[hidden] { display: none; }\n.crm-availability select { width: 100%; min-width: 0; min-height: 44px; font: inherit; }\n.crm-availability [data-availability-status] { margin-block: 0.5rem 0; }\n.crm-availability [data-availability-refresh] {\n  border: 0;\n  padding: 0;\n  color: inherit;\n  background: transparent;\n  font: inherit;\n  text-decoration: underline;\n  cursor: pointer;\n}\n.crm-availability [data-availability-refresh],\n.crm-availability [data-availability-request] {\n  display: inline-flex;\n  align-items: center;\n  min-height: 44px;\n}\n"
+    }
+  ],
+  "assets/travel-crm-campaign.js": [
+    {
+      "before": "  controls.hidden = false;\n }\n\n",
+      "after": "  controls.hidden = false;\n }\n\n function bindAvailability(panel) {\n  const time = window.BandeviDemoTime;\n  if (!time) return;\n  const market = panel.dataset.crmAvailability;\n  const controls = panel.querySelector('[data-availability-controls]');\n  const status = panel.querySelector('[data-availability-status]');\n  const request = panel.querySelector('[data-availability-request]');\n  const form = panel.querySelector('form');\n  const select = form.elements.crm_slot;\n  const refresh = panel.querySelector('[data-availability-refresh]');\n  const zone = time.zoneChoice(controls, form, {\n   id: 'crm-availability-zone', initial: time.campaignZone(market), compact: true\n  });\n  zone.name = 'crm_zone';\n  zone.setAttribute('form', form.id);\n  const fallback = new URL(request.href);\n  let slots = [];\n\n  function showTimes() {\n   const selected = select.value;\n   select.replaceChildren(new Option('Choose an available time', ''),\n    ...slots.map(slot => new Option(time.label(slot, zone.value, true), slot.id)));\n   if (slots.some(slot => slot.id === selected)) select.value = selected;\n   fallback.searchParams.set('crm_zone', zone.value);\n   request.href = fallback.href;\n  }\n\n  async function load() {\n   if (refresh.disabled) return;\n   controls.hidden = false;\n   form.hidden = true;\n   refresh.disabled = true;\n   status.textContent = 'Checking published demo times…';\n   const controller = new AbortController();\n   const timer = setTimeout(() => controller.abort(), 12000);\n   try {\n    const response = await fetch('/api/demo/slots', { cache: 'no-store', signal: controller.signal });\n    if (!response.ok) throw new Error('Availability unavailable');\n    const data = await response.json();\n    slots = data.slots;\n    showTimes();\n    form.hidden = !slots.length;\n    status.textContent = slots.length\n     ? 'Choose a time to continue. Your demo is confirmed when your booking is saved.'\n     : 'No demo times are available right now. Request a time that works for you.';\n   } catch (_) {\n    slots = [];\n    showTimes();\n    status.textContent = 'Demo times could not be loaded. Try again or request a preferred time.';\n   } finally {\n    clearTimeout(timer);\n    refresh.disabled = false;\n   }\n  }\n\n  showTimes();\n  zone.addEventListener('change', showTimes);\n  refresh.addEventListener('click', load);\n  if (panel.open) load();\n  else panel.addEventListener('toggle', () => { if (panel.open) load(); });\n }\n\n"
+    },
+    {
+      "before": "  document.querySelectorAll('[data-crm-promotions]').forEach(bindPromotions);\n",
+      "after": "  document.querySelectorAll('[data-crm-promotions]').forEach(bindPromotions);\n  document.querySelectorAll('[data-crm-availability]').forEach(bindAvailability);\n"
+    }
+  ]
+}
