@@ -5,12 +5,12 @@
  let demoStarted=false,walkthroughMeasured=false;
  function measure(name,extra={}){try{if(typeof trackAnalyticsEvent==='function')trackAnalyticsEvent(name,{demo_id:'crm_pipeline',page_location:location.origin+'/sample-crm/',...extra});}catch(_){/* Measurement must not interrupt the sample workflow. */}}
  function startDemo(){if(demoStarted)return;demoStarted=true;measure('sample_demo_start');}
- function completeDemo(){if(walkthroughMeasured)return;walkthroughMeasured=true;measure('sample_walkthrough_complete');}
+ function completeDemo(){window.BandeviSampleBooking?.update('crm-pipeline',true);if(walkthroughMeasured)return;walkthroughMeasured=true;measure('sample_walkthrough_complete');}
  document.querySelectorAll('[data-sample-enquiry]').forEach(link=>link.addEventListener('click',()=>{measure('sample_enquiry_click',{cta_placement:link.dataset.sampleEnquiry});}));
 
  let guideStep=1,movedLead=null;
  const review=document.getElementById('guide-review'),progress=document.getElementById('guide-progress');
- function guide(step){guideStep=step;document.querySelectorAll('[data-guide-step]').forEach(el=>{const n=Number(el.dataset.guideStep);el.classList.toggle('guide-done',n<step);if(n===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});progress.textContent=step===1?'Step 1 of 3: choose a sample enquiry.':step===2?'Step 2 of 3: choose a different stage and update it.':step===3?'Step 3 of 3: review the updated card and next action.':'Walkthrough complete: you have tried all three steps.';document.getElementById('guide-complete').hidden=step!==4;}
+ function guide(step){guideStep=step;document.querySelectorAll('[data-guide-step]').forEach(el=>{const n=Number(el.dataset.guideStep);el.classList.toggle('guide-done',n<step);if(n===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});progress.textContent=step===1?'Step 1 of 3: choose a sample enquiry.':step===2?'Step 2 of 3: choose a different stage and update it.':step===3?'Step 3 of 3: review the updated card and next action.':'Walkthrough complete: you have tried all three steps.';document.getElementById('guide-complete').hidden=step!==4;if(step!==4)window.BandeviSampleBooking?.update('crm-pipeline',false);}
  function clearHighlight(){board.querySelectorAll('.guide-highlight').forEach(el=>el.classList.remove('guide-highlight'));}
  document.getElementById('guide-choose').addEventListener('click',()=>{startDemo();guide(2);document.getElementById('sample-update').scrollIntoView({block:'start'});lead.focus({preventScroll:true});});
  stage.addEventListener('change',()=>{startDemo();if(guideStep<3)guide(2);});

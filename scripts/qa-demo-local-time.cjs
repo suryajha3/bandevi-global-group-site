@@ -87,6 +87,77 @@ async function checkRegionalAvailability(browser,base,source,slug,market,expecte
   }
  }finally{await context.close();}
 }
+async function checkSampleBooking(browser,base,market,zone,workflow){
+ const context=await browser.newContext({viewport:{width:390,height:900},locale:'en-GB',timezoneId:'America/Los_Angeles'});
+ try{
+  const page=await context.newPage(),completions=[];
+  let submitted;
+  const slot={id:'c'.repeat(24),starts:Date.parse('2026-11-12T16:00:00Z')/1000,duration:30};
+  await page.clock.setFixedTime(new Date('2026-11-07T10:00:00Z'));
+  await context.route('**/*',route=>{
+   const url=new URL(route.request().url());
+   if(url.origin!==base)return route.abort();
+   if(url.pathname==='/api/measurement'){
+    const event=route.request().postDataJSON();
+    if(event.event==='sample_complete')completions.push(event);
+    return route.fulfill({json:{ok:true}});
+   }
+   if(url.pathname==='/api/demo/slots')return route.fulfill({json:{slots:market==='GB'?[]:[slot]}});
+   if(url.pathname==='/api/enquiries'){
+    submitted=route.request().postDataJSON();
+    return route.fulfill({status:201,json:{ok:true,reference:'BG-1234567890ABCDEF',appointment:submitted.slotId?{confirmed:true,...slot}:null}});
+   }
+   return url.pathname.startsWith('/api/')?route.abort():route.continue();
+  });
+  await page.goto(base+'/sample-crm/');
+  const book=page.getByRole('button',{name:'Book a demo for my agency'});
+  assert.equal(await book.count(),0);
+  if(workflow==='crm-pipeline'){
+   await page.locator('#sample-stage').selectOption('Contacted');
+   await page.locator('#sample-move').click();
+   await page.locator('#guide-review').click();
+  }else{
+   await page.locator('#travel-demo-quote').click();
+   await page.locator('#travel-demo-approved').check();
+   await page.locator('#travel-demo-handover').press('Enter');
+   await page.locator('#finance-deposit').click();
+  }
+  await page.getByLabel('Business market',{exact:true}).selectOption(market);
+  await book.click();
+  await page.waitForURL(url=>url.pathname==='/demo-request/');
+  const url=new URL(page.url());
+  assert.equal(url.searchParams.get('sample_workflow'),workflow);
+  assert.equal(url.searchParams.get('market'),market);
+  assert(!url.search.includes(completions[0]?.journey));
+  if(market==='IN'){
+   url.searchParams.set('source','1');
+   await page.goto(url.href);
+  }
+  await page.locator('#confirmed-slot').waitFor();
+  assert.equal(await page.locator('#demo-timezone').inputValue(),zone);
+  assert.equal(await page.locator('[name=projectCountry]').inputValue(),market);
+  assert.equal(await page.locator('[name=demoFocus]').inputValue(),workflow==='crm-pipeline'?'business-leads':'crm-handover');
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  if(market==='GB'){
+   await page.getByText('No demo slots are published right now.',{exact:false}).waitFor();
+   assert(await page.locator('#demo-local-date').isVisible());
+  }else{
+   await page.locator('#confirmed-slot').selectOption(slot.id);
+   assert(await page.locator('.demo-schedule').isHidden());
+  }
+  await page.locator('#demo-name').fill('Synthetic CRM walkthrough');
+  await page.locator('#demo-email').fill('qa@example.invalid');
+  const form=page.locator('form[data-form="demo"]');
+  await form.locator('button[type=submit]').click();
+  await page.locator('.form-note').filter({hasText:'BG-1234567890ABCDEF'}).waitFor();
+  assert.equal(submitted.slotId,market==='GB'?undefined:slot.id);
+  assert.equal(submitted.qualification.country,market);
+  assert.match(submitted.message,/Requested walkthrough:/);
+  assert.equal(submitted.sampleJourney.workflow,workflow);
+  assert(completions.some(event=>event.market===market&&event.journey===submitted.sampleJourney.journey));
+ }finally{await context.close();}
+}
+
 (async()=>{const checks=[];try{
  fs.mkdirSync(out,{recursive:true});server=http.createServer((req,res)=>{const u=new URL(req.url,'http://local');let file=path.join(root,u.pathname);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');if(!file.startsWith(root+path.sep)||!fs.existsSync(file)){res.writeHead(404);return res.end();}res.setHeader('Content-Type',({'.html':'text/html','.js':'application/javascript','.css':'text/css','.png':'image/png'})[path.extname(file)]||'application/octet-stream');let data=fs.readFileSync(file);if(u.searchParams.has('source'))data=Buffer.from(data.toString().replace(/<body([^>]*)>[\s\S]*?<\/body>/,'<body$1><div id="site"></div><script src="/assets/site.js" defer></script></body>'));res.end(data);});await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
  browser=await chromium.launch(process.env.QA_CHROME?{executablePath:process.env.QA_CHROME}:{});
@@ -108,5 +179,9 @@ async function checkRegionalAvailability(browser,base,source,slug,market,expecte
  }
  await checkRegionalAvailability(browser,base,true,'uk','GB','Europe/London',1440);
  checks.push({regionalAvailabilitySource:true});
+ for(const [market,zone,workflow] of [['US','America/Los_Angeles','crm-pipeline'],['GB','Europe/London','travel-handover'],['IN','Asia/Kolkata','crm-pipeline']]){
+  await checkSampleBooking(browser,base,market,zone,workflow);
+  checks.push({market,workflow,sampleBooking:true});
+ }
  const c=await browser.newContext({javaScriptEnabled:false}),p=await c.newPage();await p.goto(base+'/demo-request/');assert(await p.locator('#demo-date').isVisible());assert.match(await p.locator('#demo-time-help').innerText(),/India Standard Time/);await p.goto(base+'/sample-crm/');const link=p.getByRole('link',{name:'Request a CRM walkthrough',exact:false});assert.equal(new URL(await link.getAttribute('href'),base).searchParams.get('solution'),'CRM & ERP Package');await c.close();checks.push({noScriptISTFallback:true,crmWalkthroughPrefill:true});fs.writeFileSync(path.join(out,'checks.json'),JSON.stringify(checks,null,2));console.log('PASS '+checks.length+' international demo booking cases (mocked requests only).');
 }catch(error){console.error(error);throw error;}finally{if(browser)await browser.close();if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}}})().catch(e=>{console.error(e);process.exitCode=1;});

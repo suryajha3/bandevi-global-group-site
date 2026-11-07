@@ -10,11 +10,29 @@ if(form){
  const time=window.BandeviDemoTime;
  const campaign=['availability-slot','availability-request'].includes(form.dataset.crmPromotion);
  const params=new URLSearchParams(location.search);
- const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign?{initial:time.campaignZone(params.get('market'))}:undefined);
+ const sample=!!form.dataset.sampleWorkflow;
+ const country=form.elements.projectCountry;
+ const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign||sample?{initial:time.campaignZone(params.get('market')),compact:sample}:undefined);
  if(zone){
   const preferredZone=params.get('crm_zone');
   if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;
   time.preferred(form,zone);
+  if(sample){
+   function syncContactZone(){
+    const contact=form.elements.contactTimezone;
+    if(contact&&[...contact.options].some(option=>option.value===zone.value)){
+     contact.value=zone.value;
+     contact.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+   }
+   zone.addEventListener('change',syncContactZone);
+   country?.addEventListener('change',()=>{
+    if(!['US','GB','IN'].includes(country.value))return;
+    zone.value=time.campaignZone(country.value);
+    zone.dispatchEvent(new Event('change',{bubbles:true}));
+   });
+   syncContactZone();
+  }
  }
  const requestedSlot=params.get('crm_slot');
  let pendingSlot=form.dataset.crmPromotion==='availability-slot'&&/^[a-f0-9]{24}$/.test(requestedSlot||'')?requestedSlot:'';

@@ -123,5 +123,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage champagne palette marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const sampleBooking = require('./fixtures/crm-sample-booking-approved.json');
+  for (const { before, after } of sampleBooking[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original CRM sample booking marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

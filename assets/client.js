@@ -657,8 +657,10 @@ function bindForms() {
       if (leadSource) leadSource.value = sourcePath || currentUrl.searchParams.get("source") || "Direct demo request";
       const market = currentUrl.searchParams.get('market');
       const promotion = currentUrl.searchParams.get('crm_promo');
-      if (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion)) {
-        form.dataset.crmPromotion = promotion;
+      const sample = window.BandeviSampleBooking?.booking(currentUrl.searchParams, interest.value, currentUrl.searchParams.get('focus'));
+      if (sample) form.dataset.sampleWorkflow = sample.workflow;
+      if (sample || (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion))) {
+        if (!sample) form.dataset.crmPromotion = promotion;
         form.elements.projectCountry.value = market;
         form.elements.projectCountry.dispatchEvent(new Event('change', { bubbles: true }));
         if (market === 'US') {
@@ -691,7 +693,9 @@ function bindForms() {
       }
       updateDemoFocus(focus);interest.addEventListener('change',()=>updateDemoFocus(''));form.addEventListener('reset',()=>queueMicrotask(()=>updateDemoFocus('')));
       const matches=focus && ((selectedSolution==='Travel CRM Package' && focus.startsWith('crm-')) || (selectedSolution==='Travel ERP Package' && focus.startsWith('erp-')));
-      if (matches && focusLabels[focus] && !form.elements.message.value) {
+      if (sample && !form.elements.message.value) {
+        form.elements.message.value = 'Please show this workflow using an example relevant to my agency.';
+      } else if (matches && focusLabels[focus] && !form.elements.message.value) {
         form.elements.message.value='Demo focus: '+focusLabels[focus]+(team?'\nExpected users: '+team:'')+'\nPlease show the workflow, role permissions and available modules, and discuss implementation scope and support.';
       }
 
@@ -749,6 +753,7 @@ function bindForms() {
           ...enquiryQualification(form,data),
           ...crmWorkflowReviewPayload(form),
           ...adsMeasurementPayload(form),
+          ...(type==='demo' ? window.BandeviSampleBooking?.measurement(form,data.projectCountry) : {}),
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),

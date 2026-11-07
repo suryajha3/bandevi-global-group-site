@@ -32,6 +32,7 @@
   if(stage>=2&&!travelStarted){travelStarted=true;measureTravel('sample_demo_start');}
   const reached=[stage>=2,stage===3,stage===3&&gross>0];reached.forEach((done,i)=>{if(done&&!measuredTravelSteps.has(i+1)){measuredTravelSteps.add(i+1);measureTravel('sample_demo_step',{step_number:i+1,demo_step:['quotation','handover','payment_record'][i]});}});
   if(current===4&&!travelCompleted){travelCompleted=true;measureTravel('sample_walkthrough_complete');}
+  window.BandeviSampleBooking?.update('travel-handover',current===4);
  }
  const briefFocus=root.querySelector('#travel-demo-focus'),briefLink=root.querySelector('#travel-demo-brief-link');
  const briefWorkflows=new Set(['travel-crm','travel-handover','travel-finance']);

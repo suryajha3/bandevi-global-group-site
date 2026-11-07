@@ -17,4 +17,12 @@ For a sequential funnel, use Explore > Funnel exploration with sample_demo_start
 
 These are interaction events, not verified sales or revenue. No fake visits or production test enquiries were created. Do not mark starts, stage changes or completion as lead conversions. Use accumulated real traffic to find where visitors stop before changing the demo.
 
+## Sample to live booking
+
+Completing either the pipeline or travel handover sample enables **Book a demo for my agency**. The existing demo request form opens with the relevant topic and selected business market. Available times use the visitor’s US time zone where recognised, London for the UK or Kolkata for India. Visitors can change the display zone or request a preferred time.
+
+In Team Inbox, **Reports → CRM sample to live demo** uses the selected 7, 30 or 90-day completion cohort. One anonymous journey per workflow and browser tab can be associated with a saved demo enquiry within 24 hours. Market starts from the regional entry or explicit selection, with a separate unselected bucket. A saved enquiry supplies the final business market. Bookings count a reservation once, including later cancellations. Attendance comes from staff recording Completed for the current, confirmed appointment. Reports are available to managers and administrators.
+
+The event accepts an opaque identifier, workflow key and market only. Sample names, quotations, payment examples and contact information are excluded. The identifier stays in session storage and the private measurement table. It is not added to the booking URL, stored enquiry payload, notifications or report response. Do Not Track and Global Privacy Control skip measurement, and missing telemetry can reduce coverage. The existing 90-day measurement retention also applies here.
+
 Reporting reference: [Google Analytics funnel exploration](https://support.google.com/analytics/answer/9327974?hl=en).
