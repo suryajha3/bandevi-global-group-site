@@ -22,6 +22,49 @@ class MarketReportingTests(unittest.TestCase):
     def report(self):
         with isolated.enquiries.connect() as db:return sales_journey.funnel(db,{'role':'agent','actor':self.owner},30)
 
+    def test_proposal_decisions_use_publication_dates_revisions_and_current_owner(self):
+        now=int(time.time());day=86400
+        us=self.lead('US',created=now-100*day)
+        gb=self.lead('GB',created=now-15*day)
+        qa=self.lead('IN',email_status='qa-verified')
+        reassigned=self.lead('IN');unknown=self.lead()
+        def revision(db,ref,number,age,status,accepted=None):
+            pid=uuid.uuid4().hex
+            published=0 if age is None else now-age*day
+            db.execute('''INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,status,created,actor,accepted,published)
+                VALUES(?,?,?,'Synthetic title','Test scope','Test terms',100,'USD',?,?,?,?,?,?)''',
+                       (pid,ref,number,now+day,status,published or now,self.owner,accepted,published))
+            return pid
+        with isolated.enquiries.connect() as db:
+            first=revision(db,us,1,10,'superseded')
+            revision(db,us,2,8,'accepted',now-6*day)
+            revision(db,us,3,None,'draft')
+            revision(db,gb,1,10,'superseded')
+            revision(db,gb,2,8,'withdrawn')
+            revision(db,gb,3,1,'published')
+            db.execute("UPDATE enquiry_workflow SET stage='Lost' WHERE id=?",(gb,))
+            db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Lost',?,?)",(gb,self.owner,now-3*day))
+            revision(db,qa,1,3,'accepted',now-day)
+            revision(db,reassigned,1,3,'published')
+            revision(db,reassigned,2,31,'withdrawn')
+            db.execute("UPDATE enquiry_workflow SET owner='someone-else@example.test' WHERE id=?",(reassigned,))
+            revision(db,unknown,1,2,'published')
+            for index,(kind,age) in enumerate([('change',9),('change',8),('question',8),('change',11),('change',-1)]):
+                ticket=uuid.uuid4().hex
+                db.execute("INSERT INTO client_tickets(id,reference,subject,priority,owner,created,due) VALUES(?,?,'Synthetic feedback','Normal',?,?,?)",
+                           (ticket,us,self.owner,now-age*day,now+day))
+                db.execute('INSERT INTO client_proposal_feedback VALUES(?,?,?,?,?)',(ticket,first,kind,str(index),'test'))
+        groups={group['country']:group for group in self.report()['proposalDecisions']}
+        metrics=('published','accepted','lost','withoutDecision','acceptanceRate','changeRequests','revisionsWithChanges','medianDecisionSeconds')
+        self.assertEqual(tuple(groups['US'][key] for key in metrics),(2,1,0,1,50.0,2,1,2*day))
+        self.assertEqual(tuple(groups['GB'][key] for key in metrics),(3,0,1,2,0.0,0,0,5*day))
+        self.assertEqual(tuple(groups['IN'][key] for key in metrics),(0,0,0,0,None,0,0,None))
+        with isolated.enquiries.connect() as db:
+            db.execute("UPDATE enquiry_workflow SET stage='Proposal' WHERE id=?",(gb,))
+            short=sales_journey.proposal_decisions(db,{'role':'agent','actor':self.owner},now-7*day,now)
+            self.assertEqual([(group['country'],group['published'],group['decided']) for group in short], [('US',0,0),('GB',1,0),('IN',0,0)])
+        self.assertNotIn(us,json.dumps(groups))
+
     def test_attendance_by_business_country_uses_current_booking_and_schedule(self):
         cases = [('US','confirmed','No show'),('GB','cancelled','Completed'),('IN','confirmed','Completed')]
         for country, state, outcome in cases:

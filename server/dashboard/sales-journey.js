@@ -87,6 +87,8 @@ $('editor').addEventListener('close',()=>{if(!$('editor').open)clearSalesJourney
 $('editor').addEventListener('cancel',clearSalesJourney);
 async function refreshSalesFunnel(identity){
  const generation=++salesFunnelGeneration,days=$('report-days').value;
+ $('proposal-decision-report').replaceChildren();
+ $('proposal-decision-basis').textContent='Loading proposal decisions…';
  campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('home-service-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
  try{const r=await api('/api/admin/sales-funnel?days='+days);if(!csrf||csrf!==identity||generation!==salesFunnelGeneration||days!==$('report-days').value)return;
   const labels={enquiries:'Enquiries',demoBooked:'Demo booked',demoCompleted:'Demo completed',publishedProposals:'All published proposals',proposalAfterDemo:'Proposal after demo booking',wonAfterDemoProposal:'Won after demo & proposal',currentlyWon:'All currently Won'};
@@ -99,11 +101,36 @@ async function refreshSalesFunnel(identity){
   const body=document.createElement('tbody'),percent=value=>value===null?'—':value+'%';
   for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.demoCancelled??0,c.demoNoShow??0,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
+  renderProposalDecisions(r);
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);
   renderOutcomeRows('home-service-sales-report','Homepage service','serviceLabel',r.homeServices || []);
   renderCampaignSalesReport(r);
- }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;}}
+ }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;$('proposal-decision-basis').textContent='Proposal decisions could not be loaded.';}}
+}
+
+function renderProposalDecisions(result){
+ const groups=result.proposalDecisions;
+ if(!groups){$('proposal-decision-basis').textContent='Proposal decisions are unavailable.';return;}
+ const table=document.createElement('table');
+ table.append(text('caption','Proposal decisions by business country · last '+result.days+' days by publication'));
+ const header=table.createTHead().insertRow();
+ for(const title of ['Business country','Published revisions','Accepted','Recorded lost','Without recorded decision','Acceptance rate','Change requests','Revisions with changes','Median time to decision']){
+  const cell=text('th',title);cell.scope='col';header.append(cell);
+ }
+ const formatDuration=(seconds,count)=>{
+  if(seconds===null)return '—';
+  const elapsed=seconds<60?'<1 min':seconds<3600?Math.round(seconds/60)+' min':seconds<86400?(seconds/3600).toFixed(1)+' h':(seconds/86400).toFixed(1)+' days';
+  return elapsed+' ('+count+(count===1?' decision)':' decisions)');
+ };
+ const body=table.createTBody();
+ for(const group of groups){
+  const row=body.insertRow(), heading=text('th',group.label);heading.scope='row';row.append(heading);
+  const rate=group.acceptanceRate===null?'—':group.acceptanceRate+'%';
+  for(const value of [group.published,group.accepted,group.lost,group.withoutDecision,rate,group.changeRequests,group.revisionsWithChanges,formatDuration(group.medianDecisionSeconds,group.decided)])row.append(text('td',String(value)));
+ }
+ $('proposal-decision-report').replaceChildren(table);
+ $('proposal-decision-basis').textContent=result.proposalDecisionBasis;
 }
 
 function renderOutcomeRows(id,label,labelKey,groups){
@@ -138,6 +165,7 @@ function clearCampaignSales(){
  campaignSalesState=null;
  for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report','industry-sales-report','home-service-sales-report'])$(id).replaceChildren();
  $('campaign-sales-country').value='all';$('campaign-sales-search').value='';
+ $('proposal-decision-report').replaceChildren();$('proposal-decision-basis').textContent='';
 }
 function renderCampaignSalesReport(result){
  campaignSalesState={identity:csrf,groups:result.campaigns||[]};$('campaign-sales-basis').textContent=result.campaignBasis||'';renderCampaignSalesRows();

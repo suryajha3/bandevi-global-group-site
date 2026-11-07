@@ -25,4 +25,10 @@ The inbox Reports view uses a received-date cohort of 7, 30 or 90 days, excludin
 - Completed demos use the current recorded outcome for the current schedule. All published proposals and all current Won enquiries also appear separately, so steps skipped outside this route are visible without inflating its conversion rates.
 - Empty denominators display no rate. Proposal acceptance is separate from Won. This report does not combine currencies, infer revenue, or attribute causation to a campaign.
 
+### Proposal decisions by market
+
+The Proposal decisions table compares the US, UK and India using proposal revisions published in the selected 7, 30 or 90 days, including revisions for older enquiries. The acceptance rate divides recorded acceptances by published revisions. A replacement revision gets its own row in the underlying counts. Drafts are excluded, and expired, withdrawn and superseded revisions still count if they were published.
+
+Median time to decision uses elapsed time from publication to a recorded acceptance or to a staff-recorded Lost event. For an enquiry still marked Lost, its latest Lost event is matched to the most recent revision already published at that time, unless that revision has a recorded acceptance. Revisions without either outcome are excluded from the median. Change requests count on their original revision, independently of whether the revision was later replaced or accepted. Country and staff access use the saved business country and current enquiry ownership. QA records are excluded.
+
 Demo records have independent optimistic versions, an append-only audit, and a schedule-event check. Staff/session and CSRF checks apply to mutations. Requirements never appear in customer project API responses; the customer sees only an explicitly published proposal scope.
