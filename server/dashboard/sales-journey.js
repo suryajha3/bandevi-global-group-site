@@ -87,6 +87,8 @@ $('editor').addEventListener('close',()=>{if(!$('editor').open)clearSalesJourney
 $('editor').addEventListener('cancel',clearSalesJourney);
 async function refreshSalesFunnel(identity){
  const generation=++salesFunnelGeneration,days=$('report-days').value;
+ $('sample-demo-report').hidden=true;
+ $('sample-demo-table').replaceChildren();
  $('proposal-decision-report').replaceChildren();
  $('proposal-decision-basis').textContent='Loading proposal decisions…';
  campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('home-service-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
@@ -101,12 +103,32 @@ async function refreshSalesFunnel(identity){
   const body=document.createElement('tbody'),percent=value=>value===null?'—':value+'%';
   for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.demoCancelled??0,c.demoNoShow??0,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
+  renderSampleDemoFunnel(r);
   renderProposalDecisions(r);
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);
   renderOutcomeRows('home-service-sales-report','Homepage service','serviceLabel',r.homeServices || []);
   renderCampaignSalesReport(r);
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;$('proposal-decision-basis').textContent='Proposal decisions could not be loaded.';}}
+}
+
+function renderSampleDemoFunnel(result){
+ const groups=result.sampleDemoFunnel;
+ if(!groups)return;
+ const table=document.createElement('table');
+ table.append(text('caption','Sample CRM to live demo · last '+result.days+' days by sample completion'));
+ const headers=table.createTHead().insertRow();
+ for(const label of ['Business market','Sample completions','Demo bookings','Attended demos']){
+  const cell=text('th',label);cell.scope='col';headers.append(cell);
+ }
+ const body=table.createTBody();
+ for(const group of groups){
+  const row=body.insertRow(),label=text('th',group.country==='unknown'?'Market not selected':group.label);
+  label.scope='row';row.append(label);
+  for(const count of [group.completions,group.bookings,group.attended])row.append(text('td',String(count)));
+ }
+ $('sample-demo-table').replaceChildren(table);
+ $('sample-demo-report').hidden=false;
 }
 
 function renderProposalDecisions(result){
@@ -166,6 +188,7 @@ function clearCampaignSales(){
  for(const id of ['campaign-sales-summary','campaign-sales-report','campaign-sales-basis','portfolio-sales-report','industry-sales-report','home-service-sales-report'])$(id).replaceChildren();
  $('campaign-sales-country').value='all';$('campaign-sales-search').value='';
  $('proposal-decision-report').replaceChildren();$('proposal-decision-basis').textContent='';
+ $('sample-demo-report').hidden=true;$('sample-demo-table').replaceChildren();
 }
 function renderCampaignSalesReport(result){
  campaignSalesState={identity:csrf,groups:result.campaigns||[]};$('campaign-sales-basis').textContent=result.campaignBasis||'';renderCampaignSalesRows();

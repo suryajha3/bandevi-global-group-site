@@ -16,6 +16,9 @@ await page.getByLabel('Title',{exact:true}).first().fill('CRM first release');aw
 await page.goto(base+'/team-inbox/');await page.locator('#entries .entry').first().waitFor();assert.equal(await page.locator('#entries .entry').count(),3);await page.getByRole('button',{name:'Reports',exact:true}).click();await page.locator('#sales-funnel-counts .count').first().waitFor();assert((await page.locator('#sales-funnel-rates').textContent()).includes('Demo booking → published proposal: 0%'));assert((await page.locator('#sales-funnel-basis').textContent()).includes('Acceptance and Won remain separate'));for(const country of ['United States','United Kingdom','India']){const row=page.locator('#market-sales-report tbody tr').filter({has:page.getByRole('rowheader',{name:country,exact:true})});await row.waitFor();assert.equal(await row.locator('td').first().textContent(),'1');}checks.push('Demo funnel counts a draft separately from a published proposal');
 for(const name of ['Demo cancelled','Demo no-show'])assert(await page.locator('#market-sales-report').getByRole('columnheader',{name,exact:true}).isVisible());
 const decisions=page.locator('#proposal-decision-report');
+const sampleFunnel=page.locator('#sample-demo-report');
+await sampleFunnel.getByRole('columnheader',{name:'Attended demos',exact:true}).waitFor();
+assert.deepEqual(await sampleFunnel.getByRole('rowheader').allTextContents(),['United States','United Kingdom','India','Market not selected']);
 await decisions.getByRole('columnheader',{name:'Median time to decision',exact:true}).waitFor();
 assert.equal(await decisions.locator('tbody tr').count(),3);
 const usDecisions=decisions.locator('tbody tr').filter({has:page.getByRole('rowheader',{name:'United States',exact:true})});

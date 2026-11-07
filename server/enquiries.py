@@ -156,6 +156,9 @@ def validate(data):
         if len(result['message']) > FIELDS['message']:
             raise ValueError('Please shorten your description or workflow details to fit the enquiry limit.')
     if 'adsMeasurement' in data:result['adsMeasurement']=ads_measurement.validate(data['adsMeasurement'],result)
+    if 'sampleJourney' in data:
+        if result['type']!='demo':raise ValueError('Invalid sample demo request.')
+        result['sampleJourney']=journey_measurement.sample_context(data['sampleJourney'])
     if data.get('slotId') is not None:
         if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
         result['slotId']=data['slotId']
@@ -337,7 +340,8 @@ class Handler(BaseHTTPRequestHandler):
         # Click identifiers have their own retention and withdrawal controls.
         # Never include them in the enquiry payload, acknowledgements or reports.
         ads_data=data.get('adsMeasurement')
-        payload = json.dumps({key:value for key,value in data.items() if key!='adsMeasurement'},sort_keys=True)
+        sample_context=data.get('sampleJourney')
+        payload = json.dumps({key:value for key,value in data.items() if key not in ('adsMeasurement','sampleJourney')},sort_keys=True)
         # Nginx overwrites this header; the server listens only on loopback.
         ip = self.headers.get('X-Real-IP', self.client_address[0])
         fingerprint = hashlib.sha256((SALT + ip).encode()).hexdigest()
@@ -365,7 +369,9 @@ class Handler(BaseHTTPRequestHandler):
                     return self.respond(429, {'error': 'Too many enquiries. Please try later or contact us directly.'})
                 reference = 'BG-' + uuid.uuid4().hex[:16].upper()
                 db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)', (reference, now, payload))
-                ads_measurement.capture(db,reference,ads_data,data,self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1',now)
+                measurement_allowed=self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1'
+                ads_measurement.capture(db,reference,ads_data,data,measurement_allowed,now)
+                journey_measurement.link_sample(db,reference,data,sample_context,measurement_allowed,now)
                 appointment=None
                 booking_url=demo_handoff.offer(db,reference,SALT)
                 if data.get('slotId'):

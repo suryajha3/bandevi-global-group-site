@@ -1,0 +1,164 @@
+{
+  "assets/appointments.js": [
+    {
+      "before": "ch);\n const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign?{initial:time.campaignZone(params.get('market'))}:undefined);\n if(zone){\n  const preferredZone=params.get('crm_zone');\n  if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;\n  time.preferred(form,zone);\n }\n const r",
+      "after": "ch);\n const sample=!!form.dataset.sampleWorkflow;\n const country=form.elements.projectCountry;\n const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign||sample?{initial:time.campaignZone(params.get('market')),compact:sample}:undefined);\n if(zone){\n  const preferredZone=params.get('crm_zone');\n  if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;\n  time.preferred(form,zone);\n  if(sample){\n   function syncContactZone(){\n    const contact=form.elements.contactTimezone;\n    if(contact&&[...contact.options].some(option=>option.value===zone.value)){\n     contact.value=zone.value;\n     contact.dispatchEvent(new Event('change',{bubbles:true}));\n    }\n   }\n   zone.addEventListener('change',syncContactZone);\n   country?.addEventListener('change',()=>{\n    if(!['US','GB','IN'].includes(country.value))return;\n    zone.value=time.campaignZone(country.value);\n    zone.dispatchEvent(new Event('change',{bubbles:true}));\n   });\n   syncContactZone();\n  }\n }\n const r"
+    }
+  ],
+  "assets/client.js": [
+    {
+      "before": "mo');\n      if (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion)) {\n        form.datase",
+      "after": "mo');\n      const sample = window.BandeviSampleBooking?.booking(currentUrl.searchParams, interest.value, currentUrl.searchParams.get('focus'));\n      if (sample) form.dataset.sampleWorkflow = sample.workflow;\n      if (sample || (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion))) {\n        if (!sample) form.datase"
+    },
+    {
+      "before": ";\n      if (matches && f",
+      "after": ";\n      if (sample && !form.elements.message.value) {\n        form.elements.message.value = 'Please show this workflow using an example relevant to my agency.';\n      } else if (matches && f"
+    },
+    {
+      "before": ",\n          source: wind",
+      "after": ",\n          ...(type==='demo' ? window.BandeviSampleBooking?.measurement(form,data.projectCountry) : {}),\n          source: wind"
+    }
+  ],
+  "assets/sample-crm.js": [
+    {
+      "before": "pleteDemo(){if(walkthroughMeasured)return;walkthroughMeasured=true;measure('sample_walkthrough_complete');}\n document.querySelectorAll('[data-sample-enquiry]').forEach(link=>link.addEventListener('click',()=>{measure('sample_enquiry_click',{cta_placement:link.dataset.sampleEnquiry});}));\n\n let guideStep=1,movedLead=null;\n const review=document.getElementById('guide-review'),progress=document.getElementById('guide-progress');\n function guide(step){guideStep=step;document.querySelectorAll('[data-guide-step]').forEach(el=>{const n=Number(el.dataset.guideStep);el.classList.toggle('guide-done',n<step);if(n===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});progress.textContent=step===1?'Step 1 of 3: choose a sample enquiry.':step===2?'Step 2 of 3: choose a different stage and update it.':step===3?'Step 3 of 3: review the updated card and next action.':'Walkthrough complete: you have tried all three steps.';document.getElementById('guide-complete').hidden=step!==4;}\n function",
+      "after": "pleteDemo(){window.BandeviSampleBooking?.update('crm-pipeline',true);if(walkthroughMeasured)return;walkthroughMeasured=true;measure('sample_walkthrough_complete');}\n document.querySelectorAll('[data-sample-enquiry]').forEach(link=>link.addEventListener('click',()=>{measure('sample_enquiry_click',{cta_placement:link.dataset.sampleEnquiry});}));\n\n let guideStep=1,movedLead=null;\n const review=document.getElementById('guide-review'),progress=document.getElementById('guide-progress');\n function guide(step){guideStep=step;document.querySelectorAll('[data-guide-step]').forEach(el=>{const n=Number(el.dataset.guideStep);el.classList.toggle('guide-done',n<step);if(n===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});progress.textContent=step===1?'Step 1 of 3: choose a sample enquiry.':step===2?'Step 2 of 3: choose a different stage and update it.':step===3?'Step 3 of 3: review the updated card and next action.':'Walkthrough complete: you have tried all three steps.';document.getElementById('guide-complete').hidden=step!==4;if(step!==4)window.BandeviSampleBooking?.update('crm-pipeline',false);}\n function"
+    },
+    {
+      "before": "age();\n})();",
+      "after": "age();\n})();"
+    },
+    {
+      "before": "})();",
+      "after": "})();\n"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "mo');\n      if (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion)) {\n        form.datase",
+      "after": "mo');\n      const sample = window.BandeviSampleBooking?.booking(currentUrl.searchParams, interest.value, currentUrl.searchParams.get('focus'));\n      if (sample) form.dataset.sampleWorkflow = sample.workflow;\n      if (sample || (interest.value === 'Travel CRM Package' && ['US', 'GB', 'IN'].includes(market) && crmPromotions.includes(promotion))) {\n        if (!sample) form.datase"
+    },
+    {
+      "before": ";\n      if (matches && f",
+      "after": ";\n      if (sample && !form.elements.message.value) {\n        form.elements.message.value = 'Please show this workflow using an example relevant to my agency.';\n      } else if (matches && f"
+    },
+    {
+      "before": ",\n          source: wind",
+      "after": ",\n          ...(type==='demo' ? window.BandeviSampleBooking?.measurement(form,data.projectCountry) : {}),\n          source: wind"
+    },
+    {
+      "before": "?v=20261107-availability\";document.h",
+      "after": "?v=20261107-crm-sample-booking\";document.h"
+    }
+  ],
+  "assets/travel-handover-demo.js": [
+    {
+      "before": "mplete');}\n }\n const bri",
+      "after": "mplete');}\n  window.BandeviSampleBooking?.update('travel-handover',current===4);\n }\n const bri"
+    }
+  ],
+  "demo-request/index.html": [
+    {
+      "before": "r></script></head>\n<body",
+      "after": "r></script><script src=\"/assets/sample-booking.js?v=20261107-crm-sample-booking\" defer></script></head>\n<body"
+    },
+    {
+      "before": "?v=20261107-demo-reminders\" defer></script><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/appointments.js?v=20261107-availability\"></script><",
+      "after": "?v=20261107-crm-sample-booking\" defer></script><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/appointments.js?v=20261107-crm-sample-booking\"></script><"
+    }
+  ],
+  "sample-crm/index.html": [
+    {
+      "before": "sets/sample-crm.js?v=3\" defer></script><script src=\"/assets/travel-handover-demo.js?v=4\" defer></sc",
+      "after": "sets/sample-booking.js?v=20261107-crm-sample-booking\" defer></script><script src=\"/assets/sample-crm.js?v=20261107-crm-sample-booking\" defer></script><script src=\"/assets/travel-handover-demo.js?v=20261107-crm-sample-booking\" defer></sc"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "?v=20261107-proposal-decisions\"></script><",
+      "after": "?v=20261107-crm-sample-booking\"></script><"
+    },
+    {
+      "before": "\"seo-report\"><h2>Tagged ",
+      "after": "\"seo-report\" id=\"sample-demo-report\" hidden><h2>CRM sample to live demo</h2><p class=\"small\">Each completed sample journey counts once. Market comes from the visitor’s market selection or regional page, then from their saved business country if they continue. Bookings are saved reservations, including later cancellations. Attendance uses the current appointment’s staff-recorded Completed outcome. Privacy signals and blocked measurement can reduce coverage.</p><div class=\"pipeline-table\" id=\"sample-demo-table\"></div></section><section class=\"seo-report\"><h2>Tagged "
+    }
+  ],
+  "server/dashboard/sales-journey.js": [
+    {
+      "before": ".value;\n $('proposal-dec",
+      "after": ".value;\n $('sample-demo-report').hidden=true;\n $('sample-demo-table').replaceChildren();\n $('proposal-dec"
+    },
+    {
+      "before": "is;\n  renderProposalDeci",
+      "after": "is;\n  renderSampleDemoFunnel(r);\n  renderProposalDeci"
+    },
+    {
+      "before": "ction renderProposalDeci",
+      "after": "ction renderSampleDemoFunnel(result){\n const groups=result.sampleDemoFunnel;\n if(!groups)return;\n const table=document.createElement('table');\n table.append(text('caption','Sample CRM to live demo · last '+result.days+' days by sample completion'));\n const headers=table.createTHead().insertRow();\n for(const label of ['Business market','Sample completions','Demo bookings','Attended demos']){\n  const cell=text('th',label);cell.scope='col';headers.append(cell);\n }\n const body=table.createTBody();\n for(const group of groups){\n  const row=body.insertRow(),label=text('th',group.country==='unknown'?'Market not selected':group.label);\n  label.scope='row';row.append(label);\n  for(const count of [group.completions,group.bookings,group.attended])row.append(text('td',String(count)));\n }\n $('sample-demo-table').replaceChildren(table);\n $('sample-demo-report').hidden=false;\n}\n\nfunction renderProposalDeci"
+    },
+    {
+      "before": "Content='';\n}\nfunction r",
+      "after": "Content='';\n $('sample-demo-report').hidden=true;$('sample-demo-table').replaceChildren();\n}\nfunction r"
+    }
+  ],
+  "server/enquiries.py": [
+    {
+      "before": "ult)\n    if data.get('sl",
+      "after": "ult)\n    if 'sampleJourney' in data:\n        if result['type']!='demo':raise ValueError('Invalid sample demo request.')\n        result['sampleJourney']=journey_measurement.sample_context(data['sampleJourney'])\n    if data.get('sl"
+    },
+    {
+      "before": "t')\n        payload = json.dumps({key:value for key,value in data.items() if key!='adsMeasurement'},sort_keys=",
+      "after": "t')\n        sample_context=data.get('sampleJourney')\n        payload = json.dumps({key:value for key,value in data.items() if key not in ('adsMeasurement','sampleJourney')},sort_keys="
+    },
+    {
+      "before": "            ads_measurement.capture(db,reference,ads_data,data,self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1',now)\n      ",
+      "after": "            measurement_allowed=self.headers.get('DNT')!='1' and self.headers.get('Sec-GPC')!='1'\n                ads_measurement.capture(db,reference,ads_data,data,measurement_allowed,now)\n                journey_measurement.link_sample(db,reference,data,sample_context,measurement_allowed,now)\n      "
+    }
+  ],
+  "server/journey_measurement.py": [
+    {
+      "before": ",'unknown')\n\ndef initial",
+      "after": ",'unknown')\nSAMPLE_MARKETS = ('US', 'GB', 'IN')\nSAMPLE_WORKFLOWS = ('crm-pipeline', 'travel-handover')\n\n\ndef sample_context(data):\n    if not isinstance(data, dict) or set(data) != {'journey', 'workflow'}:\n        raise ValueError('Invalid sample journey.')\n    journey, workflow = data['journey'], data['workflow']\n    if (not isinstance(journey, str)\n            or not re.fullmatch(r'[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}', journey)\n            or workflow not in SAMPLE_WORKFLOWS):\n        raise ValueError('Invalid sample journey.')\n    return journey, workflow\n\ndef initial"
+    },
+    {
+      "before": "eated);\n    ''')\n\ndef prune(db, now):\n    db.execute('DELETE FROM journey_events WHERE crea",
+      "after": "eated);\n    CREATE TABLE IF NOT EXISTS sample_demo_journeys(\n      journey TEXT PRIMARY KEY, workflow TEXT NOT NULL, market TEXT NOT NULL,\n      created INTEGER NOT NULL, reference TEXT UNIQUE);\n    CREATE INDEX IF NOT EXISTS sample_demo_created ON sample_demo_journeys(created);\n    ''')\n\ndef prune(db, now):\n    db.execute('DELETE FROM journey_events WHERE created<?',(now-90*86400,))\n    db.execute('DELETE FROM sample_demo_journeys WHERE crea"
+    },
+    {
+      "before": "eturn data\n\ndef post(han",
+      "after": "eturn data\n\n\ndef validate_sample(data):\n    if set(data) != {'event', 'journey', 'workflow', 'market'} or data['market'] not in (*SAMPLE_MARKETS, 'unknown'):\n        raise ValueError('Invalid sample measurement.')\n    sample_context({key: data[key] for key in ('journey', 'workflow')})\n    return data\n\n\ndef link_sample(db, reference, data, context, allowed, now):\n    if not allowed or not context:\n        return\n    journey, workflow = context\n    country = (data.get('qualification') or {}).get('country')\n    if country not in SAMPLE_MARKETS:\n        return\n    db.execute('''INSERT INTO sample_demo_journeys VALUES(?,?,?,?,?)\n        ON CONFLICT(journey) DO UPDATE SET market=excluded.market,reference=excluded.reference\n        WHERE sample_demo_journeys.reference IS NULL AND sample_demo_journeys.workflow=excluded.workflow\n          AND sample_demo_journeys.created>=?''', (journey,workflow,country,now,reference,now-86400))\n\ndef post(han"
+    },
+    {
+      "before": "rue\n        data=validate(json.loads(handler.rfile.read(size)))\n    except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Invalid measurement.'});return Tr",
+      "after": "rue\n        raw=json.loads(handler.rfile.read(size))\n        sample=isinstance(raw,dict) and raw.get('event')=='sample_complete'\n        data=validate_sample(raw) if sample else validate(raw)\n    except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Invalid measurement.'});return True\n    if sample and handler.headers.get('Sec-GPC')=='1':handler.respond(200,{'ok':True,'ignored':True});return Tr"
+    },
+    {
+      "before": "w))\n        prior=db.execute('SELECT page,form,channel FROM journey_events WHERE journey=? LIMIT 1',(data['journey'],)).fetchone()\n        if prior and tuple(prior)!=(data['page'],data['form'],data['channel']):handler.respond(409,{'error':'Measurement context changed.'});return True\n        db.e",
+      "after": "w))\n        if sample:\n            db.execute('''INSERT INTO sample_demo_journeys VALUES(?,?,?,?,NULL)\n                ON CONFLICT(journey) DO UPDATE SET market=excluded.market\n                WHERE sample_demo_journeys.reference IS NULL AND sample_demo_journeys.workflow=excluded.workflow\n                  AND excluded.market!='unknown' AND sample_demo_journeys.created>=?''',\n                (data['journey'],data['workflow'],data['market'],now,now-86400))\n        else:\n            prior=db.execute('SELECT page,form,channel FROM journey_events WHERE journey=? LIMIT 1',(data['journey'],)).fetchone()\n            if prior and tuple(prior)!=(data['page'],data['form'],data['channel']):handler.respond(409,{'error':'Measurement context changed.'});return True\n            db.e"
+    }
+  ],
+  "server/sales_journey.py": [
+    {
+      "before": "ench\nimport operations\n",
+      "after": "ench\nimport journey_measurement\nimport operations\n"
+    },
+    {
+      "before": "\n\ndef funnel(db,id",
+      "after": "\n\ndef sample_demo_funnel(db, identity, since, now):\n    if identity['role']=='agent':\n        return None\n    groups = {code: {'country':code,'label':growth_workbench.COUNTRIES[code],\n                     'completions':0,'bookings':0,'attended':0}\n              for code in (*journey_measurement.SAMPLE_MARKETS, 'unknown')}\n    rows = db.execute(\"\"\"SELECT j.market, COUNT(*) AS completions,\n        SUM(EXISTS(SELECT 1 FROM appointment_events a WHERE a.enquiry_id=e.id\n            AND a.event IN ('confirmed','rescheduled') AND a.created BETWEEN j.created AND ?)) AS bookings,\n        SUM(CASE WHEN d.outcome='Completed' AND b.state='confirmed' AND slot.starts<=?\n            AND d.updated<=? AND d.schedule_event>0\n            AND d.schedule_event=(SELECT MAX(a.id) FROM appointment_events a\n                WHERE a.enquiry_id=e.id AND a.event IN ('confirmed','rescheduled')\n                  AND a.created BETWEEN j.created AND ?)\n            THEN 1 ELSE 0 END) AS attended\n        FROM sample_demo_journeys j LEFT JOIN enquiries e ON e.id=j.reference\n        LEFT JOIN demo_bookings b ON b.enquiry_id=e.id LEFT JOIN demo_slots slot ON slot.id=b.slot_id\n        LEFT JOIN sales_demo_records d ON d.reference=e.id\n        WHERE j.created BETWEEN ? AND ? AND (j.reference IS NULL OR e.email_status!='qa-verified')\n        GROUP BY j.market\"\"\", (now,now,now,now,since,now))\n    for row in rows:\n        group = groups[row['market']]\n        group.update(completions=row['completions'],bookings=row['bookings'],attended=row['attended'])\n    return list(groups.values())\n\n\ndef funnel(db,id"
+    },
+    {
+      "before": "ntryLabel'])),\n        'proposalDecisions':propo",
+      "after": "ntryLabel'])),\n        'sampleDemoFunnel':sample_demo_funnel(db,identity,args[0],now),\n        'proposalDecisions':propo"
+    }
+  ],
+  "server/test_journey_measurement.py": [
+    {
+      "before": "imits')\n    def payload(",
+      "after": "imits')\n            db.execute('DELETE FROM sample_demo_journeys')\n    def payload("
+    },
+    {
+      "before": "ne()[0],0)\n\nif __name__=",
+      "after": "ne()[0],0)\n\n    def test_sample_completion_booking_and_current_attendance_share_one_market_cohort(self):\n        import sales_journey\n        import urllib.request\n        now=int(time.time())\n        event={'journey':str(uuid.uuid4()),'event':'sample_complete','workflow':'travel-handover','market':'unknown'}\n        for market in ('unknown','GB','unknown','GB'):\n            self.assertEqual(self.request('/api/measurement',dict(event,market=market))[0],200)\n        self.assertEqual(self.request('/api/measurement',dict(event,email='forbidden@example.invalid'))[0],400)\n        self.assertEqual(self.request('/api/measurement',dict(event,market='AU'))[0],400)\n        blocked=dict(event,journey=str(uuid.uuid4()),market='IN')\n        req=urllib.request.Request(fixture.base+'/api/measurement',data=json.dumps(blocked).encode(),\n            headers={'Origin':'http://127.0.0.1:8765','Content-Type':'application/json','Sec-GPC':'1'})\n        with urllib.request.urlopen(req) as response:self.assertTrue(json.load(response)['ignored'])\n        slot=uuid.uuid4().hex[:24]\n        with enquiries.connect() as db:\n            db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',(slot,now+4000,'sales@bandeviglobalgroup.com'))\n        data={'type':'demo','name':'Synthetic traveller','email':'sample@example.invalid','interest':'Travel CRM Package',\n              'message':'Walkthrough: sales-to-booking handover','slotId':slot,'sampleJourney':{k:event[k] for k in ('journey','workflow')},\n              'qualification':{'version':1,'country':'US','currency':'USD','budget':'','contact':{'channel':'Email','date':'','time':'','timezone':'America/New_York'}}}\n        key=str(uuid.uuid4())\n        status, response, _=self.request('/api/enquiries',data,key=key)\n        self.assertEqual(status,201)\n        self.assertTrue(response['appointment']['confirmed'])\n        reference=response['reference']\n        self.assertEqual(self.request('/api/enquiries',data,key=key)[1]['reference'],reference)\n        self.assertEqual(self.request('/api/measurement',dict(event,market='IN'))[0],200)\n        with enquiries.connect() as db:\n            self.assertNotIn(event['journey'],db.execute('SELECT payload FROM enquiries WHERE id=?',(reference,)).fetchone()[0])\n            self.assertEqual(db.execute('SELECT COUNT(*) FROM sample_demo_journeys').fetchone()[0],1)\n            appointment=sales_journey.schedule_event(db,reference)\n            db.execute('UPDATE demo_slots SET starts=? WHERE id=?',(now-60,slot))\n            db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',(reference,'Test workflow','Completed',appointment,1,now,'test'))\n        self.assertEqual(self.request('/api/admin/sales-funnel?days=30')[0],401)\n        cookie,_=self.login()\n        def metrics():\n            report=self.request('/api/admin/sales-funnel?days=30',cookie=cookie)[1]['sampleDemoFunnel']\n            return {row['country']:(row['completions'],row['bookings'],row['attended']) for row in report}\n        self.assertEqual(metrics(),{'US':(1,1,1),'GB':(0,0,0),'IN':(0,0,0),'unknown':(0,0,0)})\n        with enquiries.connect() as db:\n            db.execute(\"UPDATE demo_bookings SET state='cancelled' WHERE enquiry_id=?\",(reference,))\n            self.assertIsNone(sales_journey.sample_demo_funnel(db,{'role':'agent'},now-86400,now+10))\n        self.assertEqual(metrics()['US'],(1,1,0))\n\nif __name__="
+    }
+  ]
+}

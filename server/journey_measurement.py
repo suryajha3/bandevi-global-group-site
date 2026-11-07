@@ -14,6 +14,19 @@ PAGES |= {'/' + p.name for p in ROOT.glob('*.html')}
 EVENTS = ('start','invalid','failed','saved','phone_click','email_click','whatsapp_click','demo_click')
 REASONS = ('','required','format','length','other','network','server','rate_limit','conflict')
 CHANNELS = ('organic_search','paid','campaign','referral','direct_unknown','unknown')
+SAMPLE_MARKETS = ('US', 'GB', 'IN')
+SAMPLE_WORKFLOWS = ('crm-pipeline', 'travel-handover')
+
+
+def sample_context(data):
+    if not isinstance(data, dict) or set(data) != {'journey', 'workflow'}:
+        raise ValueError('Invalid sample journey.')
+    journey, workflow = data['journey'], data['workflow']
+    if (not isinstance(journey, str)
+            or not re.fullmatch(r'[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}', journey)
+            or workflow not in SAMPLE_WORKFLOWS):
+        raise ValueError('Invalid sample journey.')
+    return journey, workflow
 
 def initialize(db):
     db.executescript('''
@@ -23,10 +36,15 @@ def initialize(db):
     CREATE INDEX IF NOT EXISTS journey_created ON journey_events(created);
     CREATE TABLE IF NOT EXISTS journey_limits(fingerprint TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE INDEX IF NOT EXISTS journey_limits_created ON journey_limits(created);
+    CREATE TABLE IF NOT EXISTS sample_demo_journeys(
+      journey TEXT PRIMARY KEY, workflow TEXT NOT NULL, market TEXT NOT NULL,
+      created INTEGER NOT NULL, reference TEXT UNIQUE);
+    CREATE INDEX IF NOT EXISTS sample_demo_created ON sample_demo_journeys(created);
     ''')
 
 def prune(db, now):
     db.execute('DELETE FROM journey_events WHERE created<?',(now-90*86400,))
+    db.execute('DELETE FROM sample_demo_journeys WHERE created<?',(now-90*86400,))
     db.execute('DELETE FROM journey_limits WHERE created<?',(now-3600,))
 
 def validate(data):
@@ -41,6 +59,26 @@ def validate(data):
     if click != (data['form']=='none') or (data['event'] not in ('invalid','failed') and data['reason']) or (data['event'] in ('invalid','failed') and not data['reason']):raise ValueError('Invalid measurement.')
     return data
 
+
+def validate_sample(data):
+    if set(data) != {'event', 'journey', 'workflow', 'market'} or data['market'] not in (*SAMPLE_MARKETS, 'unknown'):
+        raise ValueError('Invalid sample measurement.')
+    sample_context({key: data[key] for key in ('journey', 'workflow')})
+    return data
+
+
+def link_sample(db, reference, data, context, allowed, now):
+    if not allowed or not context:
+        return
+    journey, workflow = context
+    country = (data.get('qualification') or {}).get('country')
+    if country not in SAMPLE_MARKETS:
+        return
+    db.execute('''INSERT INTO sample_demo_journeys VALUES(?,?,?,?,?)
+        ON CONFLICT(journey) DO UPDATE SET market=excluded.market,reference=excluded.reference
+        WHERE sample_demo_journeys.reference IS NULL AND sample_demo_journeys.workflow=excluded.workflow
+          AND sample_demo_journeys.created>=?''', (journey,workflow,country,now,reference,now-86400))
+
 def post(handler,connect,origins,salt):
     if handler.path!='/api/measurement':return False
     if handler.headers.get('Origin') not in origins:handler.respond(403,{'error':'Use the website.'});return True
@@ -49,17 +87,27 @@ def post(handler,connect,origins,salt):
     try:
         size=int(handler.headers.get('Content-Length','0'))
         if not 0<size<=2048:handler.respond(413,{'error':'Measurement too large.'});return True
-        data=validate(json.loads(handler.rfile.read(size)))
+        raw=json.loads(handler.rfile.read(size))
+        sample=isinstance(raw,dict) and raw.get('event')=='sample_complete'
+        data=validate_sample(raw) if sample else validate(raw)
     except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Invalid measurement.'});return True
+    if sample and handler.headers.get('Sec-GPC')=='1':handler.respond(200,{'ok':True,'ignored':True});return True
     now=int(time.time());fingerprint=hashlib.sha256((salt+handler.headers.get('X-Real-IP',handler.client_address[0])).encode()).hexdigest()
     with connect() as db:
         db.execute('BEGIN IMMEDIATE');prune(db,now)
         if db.execute('SELECT COUNT(*) FROM journey_limits WHERE fingerprint=?',(fingerprint,)).fetchone()[0]>=120 or db.execute('SELECT COUNT(*) FROM journey_limits').fetchone()[0]>=20000:
             handler.respond(429,{'error':'Measurement limit reached.'});return True
         db.execute('INSERT INTO journey_limits VALUES(?,?)',(fingerprint,now))
-        prior=db.execute('SELECT page,form,channel FROM journey_events WHERE journey=? LIMIT 1',(data['journey'],)).fetchone()
-        if prior and tuple(prior)!=(data['page'],data['form'],data['channel']):handler.respond(409,{'error':'Measurement context changed.'});return True
-        db.execute('INSERT OR IGNORE INTO journey_events VALUES(?,?,?,?,?,?,?)',(data['journey'],data['event'],data['reason'],now,data['page'],data['form'],data['channel']))
+        if sample:
+            db.execute('''INSERT INTO sample_demo_journeys VALUES(?,?,?,?,NULL)
+                ON CONFLICT(journey) DO UPDATE SET market=excluded.market
+                WHERE sample_demo_journeys.reference IS NULL AND sample_demo_journeys.workflow=excluded.workflow
+                  AND excluded.market!='unknown' AND sample_demo_journeys.created>=?''',
+                (data['journey'],data['workflow'],data['market'],now,now-86400))
+        else:
+            prior=db.execute('SELECT page,form,channel FROM journey_events WHERE journey=? LIMIT 1',(data['journey'],)).fetchone()
+            if prior and tuple(prior)!=(data['page'],data['form'],data['channel']):handler.respond(409,{'error':'Measurement context changed.'});return True
+            db.execute('INSERT OR IGNORE INTO journey_events VALUES(?,?,?,?,?,?,?)',(data['journey'],data['event'],data['reason'],now,data['page'],data['form'],data['channel']))
     handler.respond(200,{'ok':True});return True
 
 def get(handler,connect,identity):

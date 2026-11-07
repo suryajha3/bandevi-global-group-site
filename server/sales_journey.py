@@ -7,6 +7,7 @@ import statistics
 import time
 from urllib.parse import parse_qs, urlsplit
 import growth_workbench
+import journey_measurement
 import operations
 
 OUTCOMES=('Not recorded','Completed','No show','Reschedule needed','Not suitable')
@@ -237,6 +238,32 @@ def proposal_decisions(db, identity, since, now):
     return list(markets.values())
 
 
+def sample_demo_funnel(db, identity, since, now):
+    if identity['role']=='agent':
+        return None
+    groups = {code: {'country':code,'label':growth_workbench.COUNTRIES[code],
+                     'completions':0,'bookings':0,'attended':0}
+              for code in (*journey_measurement.SAMPLE_MARKETS, 'unknown')}
+    rows = db.execute("""SELECT j.market, COUNT(*) AS completions,
+        SUM(EXISTS(SELECT 1 FROM appointment_events a WHERE a.enquiry_id=e.id
+            AND a.event IN ('confirmed','rescheduled') AND a.created BETWEEN j.created AND ?)) AS bookings,
+        SUM(CASE WHEN d.outcome='Completed' AND b.state='confirmed' AND slot.starts<=?
+            AND d.updated<=? AND d.schedule_event>0
+            AND d.schedule_event=(SELECT MAX(a.id) FROM appointment_events a
+                WHERE a.enquiry_id=e.id AND a.event IN ('confirmed','rescheduled')
+                  AND a.created BETWEEN j.created AND ?)
+            THEN 1 ELSE 0 END) AS attended
+        FROM sample_demo_journeys j LEFT JOIN enquiries e ON e.id=j.reference
+        LEFT JOIN demo_bookings b ON b.enquiry_id=e.id LEFT JOIN demo_slots slot ON slot.id=b.slot_id
+        LEFT JOIN sales_demo_records d ON d.reference=e.id
+        WHERE j.created BETWEEN ? AND ? AND (j.reference IS NULL OR e.email_status!='qa-verified')
+        GROUP BY j.market""", (now,now,now,now,since,now))
+    for row in rows:
+        group = groups[row['market']]
+        group.update(completions=row['completions'],bookings=row['bookings'],attended=row['attended'])
+    return list(groups.values())
+
+
 def funnel(db,identity,days):
     now=int(time.time());args=[now-days*86400]
     access=' AND w.owner=?' if identity['role']=='agent' else ''
@@ -341,6 +368,7 @@ def funnel(db,identity,days):
         'portfolio':sorted(portfolio.values(), key=lambda group: (group['projectLabel'], group['countryLabel'])),
         'industries':sorted(industries.values(), key=lambda group: (group['industryLabel'], group['countryLabel'])),
         'homeServices':sorted(home_services.values(), key=lambda group: (group['serviceLabel'], group['countryLabel'])),
+        'sampleDemoFunnel':sample_demo_funnel(db,identity,args[0],now),
         'proposalDecisions':proposal_decisions(db,identity,args[0],now),
         'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. Missing decisions are excluded from the median. Uses saved business country and staff access, with QA records excluded.',
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',

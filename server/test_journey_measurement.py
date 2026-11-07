@@ -9,6 +9,7 @@ class JourneyTests(unittest.TestCase):
     def setUp(self):
         with enquiries.connect() as db:
             db.execute('DELETE FROM journey_events');db.execute('DELETE FROM journey_limits')
+            db.execute('DELETE FROM sample_demo_journeys')
     def payload(self,**kw):
         return dict(journey=str(uuid.uuid4()),event='start',reason='',page='/contact-us/',form='contact',channel='direct_unknown',**kw)
     def test_exact_nginx_route_preserves_existing_config(self):
@@ -89,6 +90,49 @@ class JourneyTests(unittest.TestCase):
         p=self.payload();req=urllib.request.Request(fixture.base+'/api/measurement',data=json.dumps(p).encode(),headers={'Origin':'http://127.0.0.1:8765','Content-Type':'application/json','DNT':'1'})
         with urllib.request.urlopen(req) as response:self.assertTrue(json.load(response)['ignored'])
         with enquiries.connect() as db:self.assertEqual(db.execute('SELECT COUNT(*) FROM journey_events').fetchone()[0],0)
+
+    def test_sample_completion_booking_and_current_attendance_share_one_market_cohort(self):
+        import sales_journey
+        import urllib.request
+        now=int(time.time())
+        event={'journey':str(uuid.uuid4()),'event':'sample_complete','workflow':'travel-handover','market':'unknown'}
+        for market in ('unknown','GB','unknown','GB'):
+            self.assertEqual(self.request('/api/measurement',dict(event,market=market))[0],200)
+        self.assertEqual(self.request('/api/measurement',dict(event,email='forbidden@example.invalid'))[0],400)
+        self.assertEqual(self.request('/api/measurement',dict(event,market='AU'))[0],400)
+        blocked=dict(event,journey=str(uuid.uuid4()),market='IN')
+        req=urllib.request.Request(fixture.base+'/api/measurement',data=json.dumps(blocked).encode(),
+            headers={'Origin':'http://127.0.0.1:8765','Content-Type':'application/json','Sec-GPC':'1'})
+        with urllib.request.urlopen(req) as response:self.assertTrue(json.load(response)['ignored'])
+        slot=uuid.uuid4().hex[:24]
+        with enquiries.connect() as db:
+            db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',(slot,now+4000,'sales@bandeviglobalgroup.com'))
+        data={'type':'demo','name':'Synthetic traveller','email':'sample@example.invalid','interest':'Travel CRM Package',
+              'message':'Walkthrough: sales-to-booking handover','slotId':slot,'sampleJourney':{k:event[k] for k in ('journey','workflow')},
+              'qualification':{'version':1,'country':'US','currency':'USD','budget':'','contact':{'channel':'Email','date':'','time':'','timezone':'America/New_York'}}}
+        key=str(uuid.uuid4())
+        status, response, _=self.request('/api/enquiries',data,key=key)
+        self.assertEqual(status,201)
+        self.assertTrue(response['appointment']['confirmed'])
+        reference=response['reference']
+        self.assertEqual(self.request('/api/enquiries',data,key=key)[1]['reference'],reference)
+        self.assertEqual(self.request('/api/measurement',dict(event,market='IN'))[0],200)
+        with enquiries.connect() as db:
+            self.assertNotIn(event['journey'],db.execute('SELECT payload FROM enquiries WHERE id=?',(reference,)).fetchone()[0])
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM sample_demo_journeys').fetchone()[0],1)
+            appointment=sales_journey.schedule_event(db,reference)
+            db.execute('UPDATE demo_slots SET starts=? WHERE id=?',(now-60,slot))
+            db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',(reference,'Test workflow','Completed',appointment,1,now,'test'))
+        self.assertEqual(self.request('/api/admin/sales-funnel?days=30')[0],401)
+        cookie,_=self.login()
+        def metrics():
+            report=self.request('/api/admin/sales-funnel?days=30',cookie=cookie)[1]['sampleDemoFunnel']
+            return {row['country']:(row['completions'],row['bookings'],row['attended']) for row in report}
+        self.assertEqual(metrics(),{'US':(1,1,1),'GB':(0,0,0),'IN':(0,0,0),'unknown':(0,0,0)})
+        with enquiries.connect() as db:
+            db.execute("UPDATE demo_bookings SET state='cancelled' WHERE enquiry_id=?",(reference,))
+            self.assertIsNone(sales_journey.sample_demo_funnel(db,{'role':'agent'},now-86400,now+10))
+        self.assertEqual(metrics()['US'],(1,1,0))
 
 if __name__=='__main__':
     try:result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(JourneyTests))
