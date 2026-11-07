@@ -1,4 +1,80 @@
 'use strict';
+let kickoffGeneration=0,kickoffOffset=0;
+
+function clearKickoffQueue(){
+  kickoffGeneration++;kickoffOffset=0;
+  $('kickoff-items').replaceChildren();$('kickoff-message').textContent='';$('kickoff-page').textContent='';
+  $('kickoff-country').value='';$('kickoff-previous').disabled=$('kickoff-next').disabled=true;
+}
+
+function kickoffField(form,label,input){
+  const field=text('label',label);field.append(input);form.append(field);return input;
+}
+
+function renderKickoffCard(item, result, identity, generation){
+  const card=text('article','','entry');card.dataset.kickoffReference=item.reference;
+  const details=text('div','');
+  details.append(text('h3',item.title),text('p',item.reference+' · '+item.countryLabel+' · Accepted revision '+item.revision+' · '+item.currency),
+    text('p','Delivery owner: '+(item.owner||'Unassigned')),
+    text('p','Project contact: '+(item.contact||'Awaiting client')+' · Materials: '+(item.materials_ready?'Shared by client':'Awaiting client')),
+    text('p',item.scheduled?(item.confirmed?'Confirmed kickoff: ':'Waiting for time confirmation: ')+postDemoTime(item.scheduled):'Kickoff time needed'));
+  const form=document.createElement('form');
+  let owner;
+  if(result.canAssign){
+    owner=kickoffField(form,'Delivery owner',document.createElement('select'));
+    owner.add(new Option('Unassigned',''));
+    for(const person of result.owners)owner.add(new Option(person.name+' · '+person.email,person.email));
+    owner.value=item.owner;
+  }
+  const materials=kickoffField(form,'Materials to request',document.createElement('textarea'));
+  materials.maxLength=1500;materials.value=item.materials;
+  const dateInput=kickoffField(form,'Proposed kickoff time (IST)',document.createElement('input'));
+  dateInput.type='datetime-local';
+  if(item.scheduled)dateInput.value=new Date(item.scheduled*1000+330*60000).toISOString().slice(0,16);
+  const save=text('button','Save kickoff plan');save.type='submit';
+  const start=text('button','Record kickoff started');start.type='button';
+  const canStart=!!(item.owner&&item.contact&&item.materials_ready&&item.confirmed&&item.scheduled<=Date.now()/1000);
+  start.disabled=!canStart;
+  const status=text('p','');status.role='status';
+  async function update(action, data){
+    if(csrf!==identity||generation!==kickoffGeneration)return;
+    save.disabled=start.disabled=true;
+    try{
+      await post('/api/admin/workspace/kickoff',{reference:item.reference,version:item.version,action,...data});
+      if(csrf===identity&&generation===kickoffGeneration)await refreshKickoffQueue(action==='start'?'Kickoff recorded.':'Kickoff plan saved.');
+    }catch(error){if(csrf===identity&&generation===kickoffGeneration){status.textContent=error.message;save.disabled=false;start.disabled=!canStart;}}
+  }
+  form.addEventListener('submit',event=>{
+    event.preventDefault();if(save.disabled)return;
+    const scheduled=dateInput.value?Date.parse(dateInput.value+':00+05:30')/1000:0;
+    if(!Number.isFinite(scheduled)){status.textContent='Choose a valid kickoff time in IST.';return;}
+    update('plan',{materials:materials.value,scheduled,...(owner?{owner:owner.value}:{})});
+  });
+  start.addEventListener('click',()=>{if(confirm('Record that kickoff has started for '+item.reference+'?'))update('start',{});});
+  form.append(save,start,status);details.append(form);card.append(details);return card;
+}
+
+async function refreshKickoffQueue(message=''){
+  if(!csrf)return;
+  const identity=csrf,generation=++kickoffGeneration;
+  const items=$('kickoff-items');items.replaceChildren();
+  $('kickoff-message').textContent='Loading delivery kickoffs…';
+  try{
+    const result=await api('/api/admin/workspace/kickoff-queue?'+new URLSearchParams({country:$('kickoff-country').value,offset:String(kickoffOffset)}));
+    if(csrf!==identity||generation!==kickoffGeneration)return;
+    if(kickoffOffset&&!result.items.length){kickoffOffset=Math.max(0,kickoffOffset-result.limit);return refreshKickoffQueue(message);}
+    items.replaceChildren(...result.items.map(item=>renderKickoffCard(item,result,identity,generation)));
+    $('kickoff-previous').disabled=kickoffOffset===0;
+    $('kickoff-next').disabled=kickoffOffset+result.limit>=result.total;
+    $('kickoff-page').textContent=result.total?`${kickoffOffset+1}–${kickoffOffset+result.items.length} of ${result.total}`:'0 projects';
+    $('kickoff-message').textContent=message||(!result.total?'No accepted projects awaiting kickoff match these filters.':'');
+  }catch(error){if(csrf===identity&&generation===kickoffGeneration)$('kickoff-message').textContent=error.message;}
+}
+$('kickoff-country').addEventListener('change',()=>{kickoffOffset=0;refreshKickoffQueue();});
+$('kickoff-refresh').addEventListener('click',()=>refreshKickoffQueue());
+$('kickoff-previous').addEventListener('click',()=>{kickoffOffset=Math.max(0,kickoffOffset-25);refreshKickoffQueue();});
+$('kickoff-next').addEventListener('click',()=>{kickoffOffset+=25;refreshKickoffQueue();});
+
 let teamRole='agent',teamUser='',demoSlots=[];
 async function refreshOperations(){
   const requestIdentity=csrf;

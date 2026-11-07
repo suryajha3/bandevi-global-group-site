@@ -35,6 +35,9 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_ticket_messages(id INTEGER PRIMARY KEY,ticket TEXT NOT NULL,body TEXT NOT NULL,actor TEXT NOT NULL,internal INTEGER NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_proposal_feedback(ticket TEXT PRIMARY KEY,proposal TEXT NOT NULL,kind TEXT NOT NULL,
       request_id TEXT NOT NULL,request_digest TEXT NOT NULL,UNIQUE(proposal,request_id));
+    CREATE TABLE IF NOT EXISTS client_kickoffs(reference TEXT PRIMARY KEY,proposal TEXT NOT NULL,owner TEXT NOT NULL,
+      materials TEXT NOT NULL,contact TEXT NOT NULL,materials_ready INTEGER NOT NULL,scheduled INTEGER NOT NULL,
+      confirmed INTEGER NOT NULL,started INTEGER NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_audit(id INTEGER PRIMARY KEY,reference TEXT NOT NULL,action TEXT NOT NULL,actor TEXT NOT NULL,detail TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS demo_meetings(reference TEXT PRIMARY KEY,url TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_loss_reasons(reference TEXT PRIMARY KEY,reason TEXT NOT NULL);
@@ -128,6 +131,13 @@ def detail(db,row,staff,ticket_id=''):
         if not staff:p.pop('actor',None)
         proposals.append(p)
     result['proposals']=proposals
+    if not staff:
+        kickoff=kickoff_state(db,ref)
+        if kickoff:
+            result['kickoff']={key:kickoff[key] for key in ('proposal','revision','currency','materials','contact','materials_ready','scheduled','confirmed','started','version')}
+            from dashboard import USER
+            owner=db.execute('SELECT name FROM team_users WHERE email=? AND active=1',(kickoff['owner'],)).fetchone()
+            result['kickoff']['ownerName']=owner['name'] if owner else 'BANDEVI delivery team' if kickoff['owner']==USER else ''
     result['milestones']=[dict(r) for r in db.execute('SELECT * FROM client_milestones WHERE reference=? ORDER BY due,id',(ref,))]
     result['documents']=[dict(r) for r in db.execute('SELECT id,name,mime,length(data) size,created FROM client_documents WHERE reference=? AND deleted=0 ORDER BY created DESC',(ref,))]
     result['tickets']=[]
@@ -215,6 +225,9 @@ def get(handler,connect):
                     stats['openTickets']+=1;stats['overdueTickets']+=t[0]<now
             handler.respond(200,{'days':days,'counts':stats,'lostReasons':losses,'basis':'Received-date enquiry cohort. Demo reservations and published/accepted proposals require recorded events. Support counts are limited to this cohort.'});return True
         if action=='proposal-queue' and staff:return proposal_queue(handler,db,identity,query)
+        if action=='kickoff-queue' and staff:
+            db.execute('BEGIN')
+            handler.respond(200,kickoff_queue(db,identity,query));return True
         if action=='proposal-pdf':
             db.execute('BEGIN')
             proposal=db.execute('SELECT * FROM client_proposals WHERE id=?',(query.get('id',[''])[0],)).fetchone()
@@ -287,6 +300,8 @@ def post(handler,connect,origins,salt):
             actor=identity['actor'] if staff else identity['email']
             if action=='logout' and not staff:
                 db.execute('DELETE FROM client_sessions WHERE digest=?',(identity['digest'],));headers={'Set-Cookie':cookie('',True)}
+            elif action=='kickoff' and staff:
+                result.update(change_kickoff(db,value(data,'reference',30),identity,data,True))
             elif action=='create' and staff:
                 ref=value(data,'reference',30);enquiry=db.execute('SELECT payload FROM enquiries WHERE id=?',(ref,)).fetchone()
                 if not enquiry:raise Problem(404,'Enquiry not found.')
@@ -411,7 +426,105 @@ def client_change(db,row,identity,action,data,result):
         db.execute('UPDATE client_projects SET version=version+1 WHERE reference=?',(ref,));audit(db,ref,'milestone-approved',actor,mid)
     elif action=='ticket':ticket_change(db,row,identity,data,False)
     elif action=='proposal-feedback':result['ticketId']=create_proposal_feedback(db,row,identity,data,now)
+    elif action=='kickoff':result.update(change_kickoff(db,ref,identity,data,False))
     else:raise Problem(404,'Not found.')
+
+KICKOFF_ROWS = """SELECT project.reference,project.title,proposal.id AS proposal,proposal.revision,
+    proposal.currency,proposal.accepted,e.payload,COALESCE(w.owner,'') AS sales_owner,
+    COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,COALESCE(k.contact,'') AS contact,
+    COALESCE(k.materials_ready,0) AS materials_ready,COALESCE(k.scheduled,0) AS scheduled,
+    COALESCE(k.confirmed,0) AS confirmed,COALESCE(k.started,0) AS started,COALESCE(k.version,0) AS version
+    FROM client_projects project JOIN enquiries e ON e.id=project.reference
+    LEFT JOIN enquiry_workflow w ON w.id=project.reference LEFT JOIN client_kickoffs k ON k.reference=project.reference
+    JOIN client_proposals proposal ON proposal.id=COALESCE(k.proposal,(SELECT id FROM client_proposals
+        WHERE reference=project.reference AND status='accepted' AND accepted>0 ORDER BY accepted,revision LIMIT 1))
+    WHERE e.email_status!='qa-verified' AND proposal.status='accepted'"""
+
+
+def kickoff_state(db, reference):
+    row=db.execute(KICKOFF_ROWS+' AND project.reference=?',(reference,)).fetchone()
+    return dict(row) if row else None
+
+
+def kickoff_access(db, state, identity):
+    owner=state['owner'] if state['owner'] and active_owner(db,state['owner']) else ''
+    return identity['role']!='agent' or identity['actor']==(owner or state['sales_owner'])
+
+
+def kickoff_queue(db, identity, query):
+    from dashboard import USER
+    from growth_workbench import COUNTRIES,country
+    market=query.get('country',[''])[0]
+    try:offset=int(query.get('offset',['0'])[0])
+    except ValueError:raise Problem(400,'Choose a valid queue page.')
+    if market not in ('',*COUNTRIES) or not 0<=offset<=1000000:
+        raise Problem(400,'Choose a valid country or queue page.')
+    items=[]
+    for record in db.execute(KICKOFF_ROWS+' AND COALESCE(k.started,0)=0'):
+        state=dict(record)
+        code=country(json.loads(state.pop('payload')))
+        if (market and code!=market) or not kickoff_access(db,state,identity):
+            continue
+        state.pop('sales_owner')
+        if state['owner'] and not active_owner(db,state['owner']):state['owner']=''
+        items.append({**state,'country':code,'countryLabel':COUNTRIES[code]})
+    items.sort(key=lambda item:(bool(item['owner']),item['scheduled'] or 2**63-1,item['accepted'],item['reference']))
+    owners=[]
+    if identity['role']!='agent':
+        owners=[{'email':USER,'name':'Site administrator'}]+[dict(row) for row in db.execute('SELECT email,name FROM team_users WHERE active=1 ORDER BY name')]
+    return {'items':items[offset:offset+25],'total':len(items),'offset':offset,'limit':25,'owners':owners,
+            'canAssign':identity['role']!='agent'}
+
+
+def change_kickoff(db, reference, identity, data, staff):
+    state=kickoff_state(db,reference)
+    if not state or staff and not kickoff_access(db,state,identity):
+        raise Problem(404,'Kickoff is not available.')
+    if type(data.get('version')) is not int or data['version']!=state['version'] or state['started']:
+        raise Problem(409,'The kickoff changed. Refresh to review the current checklist.')
+    now=int(time.time())
+    actor=identity['actor'] if staff else identity['email']
+    if staff and data.get('action')=='start':
+        if not (state['owner'] and active_owner(db,state['owner']) and state['contact'] and state['materials_ready']
+                and state['confirmed'] and 0<state['scheduled']<=now):
+            raise Problem(409,'Assign an active owner, complete the checklist and confirm a kickoff time that has arrived.')
+        state['started']=now
+        action='kickoff-started'
+    elif staff:
+        if data.get('action')!='plan':raise Problem(400,'Choose a valid kickoff action.')
+        if 'owner' in data:
+            if identity['role']=='agent':raise Problem(403,'A manager must assign the delivery owner.')
+            owner=value(data,'owner',254,False).lower()
+            if owner and not active_owner(db,owner):raise Problem(400,'Choose an active delivery owner.')
+            state['owner']=owner
+        materials=value(data,'materials',1500,False)
+        scheduled=data.get('scheduled')
+        if type(scheduled) is not int or (scheduled!=state['scheduled'] and scheduled!=0 and not now<scheduled<=now+365*86400):
+            raise Problem(400,'Choose a future kickoff time within one year, or leave it blank.')
+        if materials!=state['materials']:state['materials_ready']=0
+        if scheduled!=state['scheduled']:state['confirmed']=0
+        state['materials']=materials
+        state['scheduled']=scheduled
+        action='kickoff-plan'
+    else:
+        contact=value(data,'contact',160,False)
+        ready=data.get('materialsReady');confirmed=data.get('confirmed')
+        if type(ready) is not bool or type(confirmed) is not bool or confirmed and not state['scheduled']:
+            raise Problem(400,'Check the materials and proposed time selections.')
+        if confirmed and not state['confirmed'] and state['scheduled']<=now:
+            raise Problem(409,'The proposed time has passed. Ask the team to suggest a new time.')
+        state.update(contact=contact,materials_ready=int(ready),confirmed=int(confirmed))
+        action='kickoff-checklist'
+    state['version']+=1
+    state['updated']=now
+    db.execute('''INSERT INTO client_kickoffs VALUES(:reference,:proposal,:owner,:materials,:contact,:materials_ready,
+        :scheduled,:confirmed,:started,:version,:updated) ON CONFLICT(reference) DO UPDATE SET owner=excluded.owner,
+        materials=excluded.materials,contact=excluded.contact,materials_ready=excluded.materials_ready,
+        scheduled=excluded.scheduled,confirmed=excluded.confirmed,started=excluded.started,
+        version=excluded.version,updated=excluded.updated''',state)
+    audit(db,reference,action,actor,json.dumps({'version':state['version'],'proposal':state['proposal'],'scheduled':state['scheduled']}))
+    return {'kickoffVersion':state['version']}
+
 
 PROPOSAL_FEEDBACK_LABELS = {'question':'Proposal question','change':'Proposal change request'}
 

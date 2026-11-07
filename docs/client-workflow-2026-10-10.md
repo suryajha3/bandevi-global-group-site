@@ -18,6 +18,12 @@ Customers can also ask a question or request changes on a current, unexpired pub
 
 The report uses enquiries received in the selected 7/30/90-day cohort. It counts recorded demo reservations, projects with actually published proposals, accepted proposals, current overdue follow-ups and ticket targets. Rejected draft proposals do not count as published. Loss reasons appear only for enquiries currently marked Lost; missing reasons stay explicitly Not recorded. Accepted proposal totals are not revenue or payment totals.
 
+## Client kickoff
+
+Accepting a proposal makes the project’s kickoff checklist available in Client Workspace. The checklist links to the accepted revision. The customer supplies the primary project contact, confirms when requested materials have been shared through private Support, and confirms the proposed kickoff time in their local time zone.
+
+In Team Inbox, open **Kickoff** to see pending handoffs and filter them by market. Managers and administrators can assign an active delivery owner separately from the sales owner. Staff enter proposed times in IST. A time change asks the client to confirm again. A change to requested materials asks the client to mark them shared again. When the agreed time has arrived and the checklist is complete, staff can select **Record kickoff started**. This closes the queue item and preserves the client checklist as a record.
+
 ## Demo calendar support
 
 Staff record an existing HTTPS meeting link against a confirmed demo. The customer receives a queued update and a downloadable `.ics` event; the private demo management page shows the joining link and calendar download. Calendar events use a stable UID and booking sequence, include UTC start/end times, and preserve cancellation status. Rescheduling clears the previous meeting link so staff can supply a suitable link for the new host/time. Notifications carry calendar attachments and reminders are deduplicated for the booking version at roughly 24 hours and 1 hour before the appointment. Late bookings avoid sending both reminders at once.
