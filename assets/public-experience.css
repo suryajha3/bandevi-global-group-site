@@ -177,3 +177,66 @@ body[data-page] main .enquiry-error-summary ul{margin:0;padding-left:20px}
 body[data-page] main .enquiry-error-summary a{display:inline-block;padding:8px 0;min-height:44px;box-sizing:border-box;font-size:14px;line-height:1.6;text-decoration:underline;text-underline-offset:3px;color:inherit}
 body[data-page] main .enquiry-error-summary a:focus-visible{outline:3px solid var(--brand-text-gold);outline-offset:3px}
 body[data-page="home"] .home-project-proof{display:inline-block;max-width:100%;font-size:12px;line-height:1.6;padding:4px 9px;margin:10px 0 0;border:1px solid var(--brand-border);border-radius:5px;background:var(--brand-ivory);color:var(--brand-ink)}
+
+/* Shared header finishes, using the existing navigation and breakpoints. */
+body[data-page] .topbar {
+  --header-navy: #151b25;
+  --header-panel: #202935;
+  --header-gold: #eddbb6;
+  --header-edge: #887557;
+  background-color: var(--header-navy);
+  background-image: linear-gradient(110deg, #121822, #242c3a 76%, #1a222e);
+  border-bottom-color: var(--header-edge);
+  box-shadow: 0 5px 22px #10151d38;
+}
+
+body[data-page] .topbar .brand-mark {
+  box-shadow: 0 0 0 1px #eddbb61a, 0 4px 12px #080d1566;
+}
+
+body[data-page] .topbar :is(.brand-line, .nav-service-description) {
+  color: #cdc9c1;
+}
+
+body[data-page] .topbar .solutions-menu {
+  background-color: var(--header-panel);
+  border-color: var(--header-edge);
+}
+
+body[data-page] .topbar :is(.nav-menu-label, .nav-dropdown > summary > span) {
+  color: var(--header-gold);
+}
+
+body[data-page] .topbar :is(.nav-actions > .secondary, [data-nav-toggle]) {
+  background-color: #ffffff06;
+  border-color: var(--header-edge);
+  color: var(--header-gold);
+}
+
+body[data-page] .topbar :is(.nav-actions > .secondary, [data-nav-toggle]):is(:hover, [aria-expanded="true"]) {
+  background-color: #eddbb614;
+  border-color: var(--header-gold);
+}
+
+body[data-page] .topbar :is(.nav-actions > .primary, .mobile-demo) {
+  background: #dfc38c linear-gradient(115deg, #f4e3be, #dfc38c);
+  border-color: #e8d2a3;
+  color: #181c23;
+  box-shadow: inset 0 1px #fff6dfb3, 0 4px 14px #0b101a60;
+}
+
+body[data-page] .topbar :is(.nav-actions > .primary, .mobile-demo):hover {
+  background: #ead0a0 linear-gradient(115deg, #fbefd5, #ead0a0);
+  border-color: #f2dfb8;
+}
+
+body[data-page] .topbar :is(a, summary, button, .button):focus-visible {
+  outline-color: var(--header-gold);
+}
+
+@media (max-width: 1180px) {
+  body[data-page] .topbar .primary-nav {
+    background-color: var(--header-navy);
+    border-color: var(--header-edge);
+  }
+}

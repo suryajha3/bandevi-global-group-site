@@ -14,7 +14,7 @@ let server, browser;
         let file = path.join(root, url.pathname);
         if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
         if (!file.startsWith(root + path.sep) || !fs.existsSync(file)) { res.writeHead(404); return res.end(); }
-        res.setHeader('Content-Type', ({ '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.jpg': 'image/jpeg', '.webp': 'image/webp' })[path.extname(file)] || 'application/octet-stream');
+        res.setHeader('Content-Type', ({ '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml' })[path.extname(file)] || 'application/octet-stream');
         let content = fs.readFileSync(file);
         if (url.searchParams.has('source') && url.pathname === '/') content = Buffer.from(content.toString().replace(/<body[\s\S]*?<\/body>/, '<body data-page="home"><div id="site"></div><script src="/assets/site.js" defer></script></body>'));
         res.end(content);
