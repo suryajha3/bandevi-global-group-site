@@ -116,6 +116,8 @@ function renderProposalBlocker(card,proposal){
 const reviewTopics={scope:'Scope',budget:'Budget',timing:'Timing',integrations:'Integrations',other:'Other'};
 const reviewStates={booked:'Booked',attended:'Attended',no_show:'No-show',cancelled:'Cancelled'};
 const detectedReviewZone=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+const appointmentZones=[...new Set([detectedReviewZone,'America/New_York','America/Chicago',
+ 'America/Denver','America/Los_Angeles','America/Phoenix','America/Anchorage','Pacific/Honolulu','Europe/London','Asia/Kolkata','UTC'])];
 let reviewZone=detectedReviewZone;
 
 function reviewTime(starts,zone){
@@ -160,8 +162,7 @@ function renderProposalReview(parent,proposal,reference){
   const box=el('details'),form=el('form'),status=el('p');status.setAttribute('role','status');
   box.append(el('summary','Book a proposal review'),form);
   form.append(el('p','Choose a time before this proposal expires. Your review stays with revision '+proposal.revision+'.'));
-  const zone=field(form,'Display time zone','zone','text',[...new Set([detectedReviewZone,'America/New_York','America/Chicago',
-   'America/Denver','America/Los_Angeles','America/Phoenix','America/Anchorage','Pacific/Honolulu','Europe/London','Asia/Kolkata','UTC'])]);
+  const zone=field(form,'Display time zone','zone','text',appointmentZones);
   zone.value=reviewZone;
   const slot=field(form,'Available review times','slot','text',[]);slot.required=true;
   const topic=field(form,'What would you like to discuss? (optional)','topic','text',['',...Object.keys(reviewTopics)]);
@@ -201,6 +202,60 @@ function renderProposalReview(parent,proposal,reference){
  parent.append(section);
 }
 
+function renderKickoffBooking(section,project,kickoff){
+ const box=el('details'),form=el('form'),status=el('p','');
+ status.role='status';
+ box.append(el('summary','Book your kickoff'),form);
+ form.append(el('p','Choose a 30-minute time with your delivery owner.'));
+ const zone=field(form,'Display time zone','zone','text',appointmentZones);
+ const slot=field(form,'Available kickoff times','slot','text',[]);
+ slot.required=true;
+ const reserve=el('button','Confirm kickoff booking');reserve.type='submit';
+ const refresh=el('button','Refresh times');refresh.type='button';refresh.className='secondary';
+ form.append(reserve,refresh,status);
+ section.append(box);
+ let slots=[],version=kickoff.version,loading=false,booking=false;
+ function showTimes(){
+  const selected=slot.value;
+  slot.replaceChildren(new Option('Choose a time',''),...slots.map(time=>new Option(reviewTime(time.starts,zone.value),time.id)));
+  if(slots.some(time=>time.id===selected))slot.value=selected;
+  reserve.disabled=loading||booking||!slots.length;
+ }
+ async function loadTimes(){
+  if(loading||booking)return;
+  loading=true;refresh.disabled=true;reserve.disabled=true;status.textContent='Checking kickoff availability…';
+  try{
+   const params=new URLSearchParams({reference:project.reference,id:kickoff.proposal});
+   const result=await api(prefix+'kickoff-slots?'+params);
+   slots=result.slots;
+   version=result.version;
+   status.textContent=slots.length?'Times shown in '+zone.value+'.':'No kickoff times are open. Contact your team through Support to arrange one.';
+  }catch(error){slots=[];status.textContent=error.message;}
+  finally{loading=false;refresh.disabled=false;showTimes();}
+ }
+ box.addEventListener('toggle',()=>{if(box.open)loadTimes();});
+ refresh.addEventListener('click',loadTimes);
+ zone.addEventListener('change',()=>{showTimes();if(!loading&&!booking&&slots.length)status.textContent='Times shown in '+zone.value+'.';});
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  if(loading||booking||!slot.value)return;
+  booking=true;reserve.disabled=refresh.disabled=true;
+  status.textContent='Booking your kickoff…';
+  act(async()=>{
+   try{
+    await api(prefix+'kickoff',{reference:project.reference,id:kickoff.proposal,version,
+     action:'book',slotId:slot.value,zone:zone.value});
+    if(current?.reference===project.reference){
+     await loadProject();
+     $('client-kickoff')?.focus();
+    }
+   }catch(error){status.textContent='Refresh times before trying again.';throw error;}
+   finally{booking=false;refresh.disabled=false;showTimes();}
+  },'Your kickoff is booked.');
+ });
+ showTimes();
+}
+
 function renderClientKickoff(project, root){
  const kickoff=project.kickoff;
  if(staff||!kickoff)return;
@@ -211,15 +266,20 @@ function renderClientKickoff(project, root){
  const support=el('a','Contact the team through Support');support.href='#support';section.append(support);
  section.append(el('h3','Requested materials'),el('p',kickoff.materials||'Check with the team for the project materials to share.','copy'));
  section.append(el('p','Use the agreed secure channel to share materials. Keep passwords and access keys out of the workspace.','muted'));
- section.append(el('p',kickoff.scheduled?(kickoff.confirmed?'Confirmed kickoff: ':'Proposed kickoff: ')+stamp(kickoff.scheduled)+' (your local time)':'The team will propose a kickoff time.'));
+ section.append(el('p',kickoff.scheduled?(kickoff.confirmed?'Confirmed kickoff: ':'Proposed kickoff: ')+
+  reviewTime(kickoff.scheduled,kickoff.booking_zone||detectedReviewZone):'Kickoff time to be arranged.'));
  if(kickoff.started){
   section.append(el('p','Kickoff recorded on '+stamp(kickoff.started)+'. Project contact: '+kickoff.contact));
  }else{
+  if(!kickoff.confirmed)renderKickoffBooking(section,project,kickoff);
   const form=formBox(section,'Update kickoff checklist',async()=>change('kickoff',{version:kickoff.version,contact:contact.value,materialsReady:ready.checked,confirmed:confirmed.checked}));
   const contact=field(form,'Primary project contact','contact');contact.value=kickoff.contact;contact.maxLength=160;
   const ready=field(form,'I’ve shared the requested materials','materialsReady','checkbox');ready.checked=!!kickoff.materials_ready;
-  const confirmed=field(form,'I confirm the proposed kickoff time','confirmed','checkbox');confirmed.checked=!!kickoff.confirmed;
-  confirmed.disabled=!kickoff.scheduled||!kickoff.confirmed&&kickoff.scheduled<=Date.now()/1000;
+  const confirmed=kickoff.booking_zone?{checked:true}:field(form,'I confirm the proposed kickoff time','confirmed','checkbox');
+  if(!kickoff.booking_zone){
+   confirmed.checked=!!kickoff.confirmed;
+   confirmed.disabled=!kickoff.scheduled||!kickoff.confirmed&&kickoff.scheduled<=Date.now()/1000;
+  }
  }
  root.append(section);
 }

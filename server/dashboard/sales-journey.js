@@ -134,6 +134,7 @@ async function refreshSalesFunnel(identity){
  $('proposal-review-conversion').hidden=true;
  $('proposal-review-conversion-table').replaceChildren();
  $('proposal-blocker-conversion-table').replaceChildren();
+ $('kickoff-conversion-table').replaceChildren();
  $('proposal-decision-report').replaceChildren();
  $('proposal-decision-basis').textContent='Loading proposal decisions…';
  campaignSalesState=null;$('portfolio-sales-report').replaceChildren();$('industry-sales-report').replaceChildren();$('home-service-sales-report').replaceChildren();$('campaign-sales-report').replaceChildren();$('campaign-sales-basis').textContent='';$('campaign-sales-summary').textContent='Loading campaign sales…';
@@ -151,6 +152,7 @@ async function refreshSalesFunnel(identity){
   renderSampleDemoFunnel(r);
   renderCrmDemoConversion(r);
   renderProposalReviewConversion(r);
+  renderKickoffConversion(r);
   renderProposalDecisions(r);
   renderOutcomeRows('portfolio-sales-report','Project example','projectLabel',r.portfolio || []);
   renderOutcomeRows('industry-sales-report','Industry','industryLabel',r.industries || []);
@@ -199,6 +201,22 @@ function renderProposalReviewConversion(result){
  }
  $('proposal-blocker-conversion-table').replaceChildren(decisions);
  $('proposal-review-conversion').hidden=false;
+}
+
+function renderKickoffConversion(result){
+ if(!result.kickoffConversion)return;
+ const table=document.createElement('table');
+ table.append(text('caption','Project kickoff by business country · last '+result.days+' days by acceptance'));
+ const header=table.createTHead().insertRow();
+ for(const label of ['Business country','Accepted projects','Kickoff booked','Kickoff started']){
+  const cell=text('th',label);cell.scope='col';header.append(cell);
+ }
+ const body=table.createTBody();
+ for(const group of result.kickoffConversion){
+  const row=body.insertRow(),label=text('th',group.label);label.scope='row';row.append(label);
+  for(const value of [group.accepted,group.booked,group.started])row.append(text('td',String(value)));
+ }
+ $('kickoff-conversion-table').replaceChildren(table);
 }
 
 function renderCrmDemoConversion(result){
@@ -301,6 +319,7 @@ function clearCampaignSales(){
  $('crm-demo-conversion').hidden=true;$('crm-demo-conversion-table').replaceChildren();
  $('proposal-review-conversion').hidden=true;$('proposal-review-conversion-table').replaceChildren();
  $('proposal-blocker-conversion-table').replaceChildren();
+ $('kickoff-conversion-table').replaceChildren();
 }
 function renderCampaignSalesReport(result){
  campaignSalesState={identity:csrf,groups:result.campaigns||[]};$('campaign-sales-basis').textContent=result.campaignBasis||'';renderCampaignSalesRows();

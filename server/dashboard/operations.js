@@ -5,6 +5,8 @@ function clearKickoffQueue(){
   kickoffGeneration++;kickoffOffset=0;
   $('kickoff-items').replaceChildren();$('kickoff-message').textContent='';$('kickoff-page').textContent='';
   $('kickoff-country').value='';$('kickoff-previous').disabled=$('kickoff-next').disabled=true;
+  $('kickoff-status').value='all';$('kickoff-needs-booking').textContent='';
+  $('kickoff-availability').replaceChildren();
 }
 
 function kickoffField(form,label,input){
@@ -17,7 +19,9 @@ function renderKickoffCard(item, result, identity, generation){
   details.append(text('h3',item.title),text('p',item.reference+' · '+item.countryLabel+' · Accepted revision '+item.revision+' · '+item.currency),
     text('p','Delivery owner: '+(item.owner||'Unassigned')),
     text('p','Project contact: '+(item.contact||'Awaiting client')+' · Materials: '+(item.materials_ready?'Shared by client':'Awaiting client')),
-    text('p',item.scheduled?(item.confirmed?'Confirmed kickoff: ':'Waiting for time confirmation: ')+postDemoTime(item.scheduled):'Kickoff time needed'));
+    text('p',item.confirmed?'Kickoff booked · '+postDemoTime(item.scheduled):
+      'Needs kickoff booking · Follow-up owner '+item.followUpOwner,'recovery-reasons'));
+  if(item.scheduled&&!item.confirmed)details.append(text('p','Proposed time awaiting confirmation · '+postDemoTime(item.scheduled)));
   const form=document.createElement('form');
   let owner;
   if(result.canAssign){
@@ -28,7 +32,7 @@ function renderKickoffCard(item, result, identity, generation){
   }
   const materials=kickoffField(form,'Materials to request',document.createElement('textarea'));
   materials.maxLength=1500;materials.value=item.materials;
-  const dateInput=kickoffField(form,'Proposed kickoff time (IST)',document.createElement('input'));
+  const dateInput=kickoffField(form,item.booking_zone?'Booked kickoff time (IST)':'Proposed kickoff time (IST)',document.createElement('input'));
   dateInput.type='datetime-local';
   if(item.scheduled)dateInput.value=new Date(item.scheduled*1000+330*60000).toISOString().slice(0,16);
   const save=text('button','Save kickoff plan');save.type='submit';
@@ -48,22 +52,71 @@ function renderKickoffCard(item, result, identity, generation){
     event.preventDefault();if(save.disabled)return;
     const scheduled=dateInput.value?Date.parse(dateInput.value+':00+05:30')/1000:0;
     if(!Number.isFinite(scheduled)){status.textContent='Choose a valid kickoff time in IST.';return;}
+    if(item.booking_zone&&(scheduled!==item.scheduled||owner&&owner.value!==item.owner)&&
+       !confirm('Release the client’s booking and update the kickoff plan?'))return;
     update('plan',{materials:materials.value,scheduled,...(owner?{owner:owner.value}:{})});
   });
   start.addEventListener('click',()=>{if(confirm('Record that kickoff has started for '+item.reference+'?'))update('start',{});});
   form.append(save,start,status);details.append(form);card.append(details);return card;
 }
 
-async function refreshKickoffQueue(message=''){
+function renderKickoffAvailability(result, identity, generation){
+  const container=$('kickoff-availability');
+  container.replaceChildren();
+  if(!result.canAssign)return;
+  const panel=document.createElement('details');
+  panel.append(text('summary','Manage kickoff availability'),
+    text('p','Publish 30-minute times for delivery owners in India time (IST). Clients see times for their assigned owner in their chosen time zone.'));
+  const form=document.createElement('form'),status=text('p','');status.role='status';
+  const host=kickoffField(form,'Slot host',document.createElement('select'));
+  for(const person of result.owners)host.add(new Option(person.name+' · '+person.email,person.email));
+  const start=kickoffField(form,'Slot start (IST)',document.createElement('input'));
+  start.type='datetime-local';start.step='900';start.required=true;
+  const publish=text('button','Publish kickoff slot');publish.type='submit';
+  async function changeSlot(data,control){
+    if(csrf!==identity||generation!==kickoffGeneration||control.disabled)return;
+    control.disabled=true;
+    try{
+      await post('/api/admin/workspace/kickoff-slots',data);
+      if(csrf===identity&&generation===kickoffGeneration)await refreshKickoffQueue(
+        data.action==='close'?'Kickoff slot closed.':'Kickoff slot published.',true);
+    }catch(error){if(csrf===identity&&generation===kickoffGeneration)status.textContent=error.message;}
+    finally{control.disabled=false;}
+  }
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    changeSlot({action:'publish',host:host.value,starts:Date.parse(start.value+':00+05:30')/1000},publish);
+  });
+  form.append(publish,status);panel.append(form);
+  const list=document.createElement('ul');
+  for(const slot of result.slots){
+    const row=text('li',postDemoTime(slot.starts)+' · '+slot.host+(slot.booked?' · Booked':' · Open'));
+    if(!slot.booked){
+      const close=text('button','Close slot');close.type='button';
+      close.setAttribute('aria-label','Close slot '+postDemoTime(slot.starts)+' for '+slot.host);
+      close.addEventListener('click',()=>changeSlot({action:'close',slotId:slot.id},close));
+      row.append(' ',close);
+    }
+    list.append(row);
+  }
+  panel.append(result.slots.length?list:text('p','No upcoming kickoff slots.'));
+  container.append(panel);
+}
+
+async function refreshKickoffQueue(message='',openAvailability=false){
   if(!csrf)return;
   const identity=csrf,generation=++kickoffGeneration;
   const items=$('kickoff-items');items.replaceChildren();
   $('kickoff-message').textContent='Loading delivery kickoffs…';
   try{
-    const result=await api('/api/admin/workspace/kickoff-queue?'+new URLSearchParams({country:$('kickoff-country').value,offset:String(kickoffOffset)}));
+    const result=await api('/api/admin/workspace/kickoff-queue?'+new URLSearchParams({
+      country:$('kickoff-country').value,status:$('kickoff-status').value,offset:String(kickoffOffset)}));
     if(csrf!==identity||generation!==kickoffGeneration)return;
     if(kickoffOffset&&!result.items.length){kickoffOffset=Math.max(0,kickoffOffset-result.limit);return refreshKickoffQueue(message);}
     items.replaceChildren(...result.items.map(item=>renderKickoffCard(item,result,identity,generation)));
+    $('kickoff-needs-booking').textContent=result.needsBooking+' accepted '+(result.needsBooking===1?'project needs':'projects need')+' a kickoff booking.';
+    renderKickoffAvailability(result,identity,generation);
+    if(openAvailability&&$('kickoff-availability').firstElementChild)$('kickoff-availability').firstElementChild.open=true;
     $('kickoff-previous').disabled=kickoffOffset===0;
     $('kickoff-next').disabled=kickoffOffset+result.limit>=result.total;
     $('kickoff-page').textContent=result.total?`${kickoffOffset+1}–${kickoffOffset+result.items.length} of ${result.total}`:'0 projects';
@@ -71,6 +124,7 @@ async function refreshKickoffQueue(message=''){
   }catch(error){if(csrf===identity&&generation===kickoffGeneration)$('kickoff-message').textContent=error.message;}
 }
 $('kickoff-country').addEventListener('change',()=>{kickoffOffset=0;refreshKickoffQueue();});
+$('kickoff-status').addEventListener('change',()=>{kickoffOffset=0;refreshKickoffQueue();});
 $('kickoff-refresh').addEventListener('click',()=>refreshKickoffQueue());
 $('kickoff-previous').addEventListener('click',()=>{kickoffOffset=Math.max(0,kickoffOffset-25);refreshKickoffQueue();});
 $('kickoff-next').addEventListener('click',()=>{kickoffOffset+=25;refreshKickoffQueue();});
