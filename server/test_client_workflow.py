@@ -9,6 +9,7 @@ import urllib.error
 import urllib.request
 import uuid
 from unittest.mock import patch
+from concurrent.futures import ThreadPoolExecutor
 import test_dashboard as isolated
 import enquiries
 import dashboard
@@ -466,6 +467,66 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])
         self.assertGreater(self.request('/api/client/project?reference='+ref,cookie=cookie)[1]['kickoff']['started'],0)
         self.assertEqual(self.request(client_route,dict(checklist,version=5),cookie,csrf)[0],409)
+
+    def test_kickoff_slots_reserve_one_project_and_leave_demo_inventory_separate(self):
+        host=dashboard.USER
+        starts=(int(time.time())//900+9600)*900
+        staff_slots='/api/admin/workspace/kickoff-slots'
+        staff_plan='/api/admin/workspace/kickoff'
+        kickoff='/api/client/kickoff'
+        manage={'action':'publish','starts':starts,'host':host}
+        self.assertEqual(self.request(staff_slots,manage,self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(self.request(staff_slots,dict(manage,starts=starts+900),self.admin,self.admin_csrf)[0],409)
+        self.assertEqual(self.request('/api/admin/slots',dict(manage,duration=30),self.admin,self.admin_csrf)[0],400)
+        demo_slot=self.demo_slot(starts+7200)
+        self.assertEqual(self.request(staff_slots,dict(manage,starts=starts+7200),self.admin,self.admin_csrf)[0],409)
+        self.assertIn(demo_slot,[slot['id'] for slot in self.request('/api/demo/slots')[1]['slots']])
+        credentials=[]
+        for zone in ('America/Los_Angeles','Europe/London'):
+            ref,_=self.create()
+            client,csrf,_=self.client(ref)
+            pid=self.proposal(ref)
+            self.assertEqual(self.change(ref,'publish',id=pid)[0],200)
+            self.assertEqual(self.request('/api/client/accept',dict(reference=ref,id=pid,name='Client',agree=True),client,csrf)[0],200)
+            route=f'/api/client/kickoff-slots?reference={ref}&id={pid}'
+            self.assertEqual(self.request(route)[0],401)
+            self.assertEqual(self.request(route,cookie=client)[1]['slots'],[])
+            self.assertEqual(self.request(staff_plan,dict(reference=ref,version=0,action='plan',owner=host,
+                materials='Sample file',scheduled=0),self.admin,self.admin_csrf)[0],200)
+            available=self.request(route,cookie=client)[1]
+            slot=next(slot for slot in available['slots'] if slot['starts']==starts)
+            self.assertEqual(set(slot),{'id','starts','duration'})
+            payload=dict(reference=ref,id=pid,action='book',slotId=slot['id'],zone=zone,version=available['version'])
+            self.assertEqual(self.request(kickoff,dict(payload,zone='Mars/Olympus'),client,csrf)[0],400)
+            credentials.append((route,payload,client,csrf))
+        self.assertEqual(self.request(credentials[0][0],cookie=credentials[1][2])[0],404)
+        queue='/api/admin/workspace/kickoff-queue?status=unbooked'
+        self.assertTrue({row['reference'] for row in self.request(queue,cookie=self.admin)[1]['items']}.
+                        issuperset(payload['reference'] for _,payload,_,_ in credentials))
+
+        def book(record):
+            _,payload,client,csrf=record
+            return self.request(kickoff,payload,client,csrf)[0]
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            results=list(executor.map(book,credentials))
+        self.assertEqual(sorted(results),[200,409])
+        route,winner,client,csrf=credentials[results.index(200)]
+        self.assertEqual(book(credentials[results.index(200)]),200)
+        self.assertEqual(self.request(staff_slots,dict(action='close',slotId=winner['slotId']),self.admin,self.admin_csrf)[0],409)
+        ref=winner['reference']
+        detail='/api/client/project?reference='+ref
+        saved=self.request(detail,cookie=client)[1]['kickoff']
+        self.assertEqual((saved['proposal'],saved['scheduled'],saved['booking_zone'],saved['confirmed']),
+                         (winner['id'],starts,winner['zone'],1))
+        self.assertNotIn(ref,[row['reference'] for row in self.request(queue,cookie=self.admin)[1]['items']])
+        self.assertEqual(self.request(kickoff,dict(reference=ref,version=saved['version'],contact='New contact',
+            materialsReady=True,confirmed=False),client,csrf)[0],200)
+        saved=self.request(detail,cookie=client)[1]['kickoff']
+        self.assertEqual(saved['confirmed'],1)
+        self.assertEqual(self.request(staff_plan,dict(reference=ref,version=saved['version'],action='plan',
+            materials='Sample file',scheduled=0),self.admin,self.admin_csrf)[0],200)
+        self.assertIn(winner['slotId'],[slot['id'] for slot in self.request(route,cookie=client)[1]['slots']])
 
     def test_agent_project_scope_and_invite_restriction(self):
         ref,email=self.create();other,_=self.create();agent=uuid.uuid4().hex+'@example.com';password='Synthetic-agent-password'

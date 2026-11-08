@@ -153,5 +153,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original shared header marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const selfServiceKickoff = require('./fixtures/self-service-kickoff-approved.json');
+  for (const { before, after } of selfServiceKickoff[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original self-service kickoff marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

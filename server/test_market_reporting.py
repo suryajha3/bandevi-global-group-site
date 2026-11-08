@@ -126,6 +126,40 @@ class MarketReportingTests(unittest.TestCase):
             scoped=sales_journey.proposal_review_conversion(db,{'role':'agent','actor':'other@example.test'},now-7*day,now)
             self.assertTrue(all(not r['booked'] for r in scoped))
 
+    def test_kickoff_conversion_uses_accepted_projects_and_current_confirmations(self):
+        now=int(time.time());day=86400
+        us=self.lead('US',created=now-80*day)
+        uk=self.lead('GB')
+        india=self.lead('IN')
+        old=self.lead('US')
+        qa=self.lead('IN',email_status='qa-verified')
+        with isolated.enquiries.connect() as db:
+            def accept(ref,revision,when):
+                pid=uuid.uuid4().hex
+                db.execute("""INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,
+                    expires,status,created,actor,accepted) VALUES(?,?,?,'Proposal','Scope','Terms',100,'USD',
+                    ?,'accepted',?,?,?)""",(pid,ref,revision,now+day,when-day,self.owner,when))
+                return pid
+            for ref in (us,uk,india,old,qa):
+                db.execute("INSERT INTO client_projects(reference,email,title,created) VALUES(?,'qa@example.test','Project',?)",
+                           (ref,now-80*day))
+            accepted_us=accept(us,1,now-day)
+            accept(us,2,now-100)
+            accepted_uk=accept(uk,1,now-day)
+            accepted_india=accept(india,1,now-day)
+            accept(old,1,now-80*day)
+            accept(old,2,now-100)
+            accept(qa,1,now-day)
+            for ref,pid,confirmed,started in [(us,accepted_us,0,0),(uk,accepted_uk,1,0),
+                                              (india,accepted_india,1,now-30)]:
+                db.execute("INSERT INTO client_kickoffs VALUES(?,?,'','','Client',1,?,?,?,1,?)",
+                           (ref,pid,now+day if not started else started,confirmed,started,now))
+            groups=sales_journey.kickoff_conversion(db,{'role':'agent','actor':self.owner},now-7*day,now)
+            self.assertEqual([(row['country'],row['accepted'],row['booked'],row['started']) for row in groups],
+                             [('US',1,0,0),('GB',1,1,0),('IN',1,1,1)])
+            outside=sales_journey.kickoff_conversion(db,{'role':'agent','actor':'other@example.test'},now-7*day,now)
+            self.assertTrue(all(row['accepted']==0 for row in outside))
+
     def test_crm_demo_conversion_uses_demo_date_and_post_demo_sales_outcomes(self):
         now=int(time.time());day=86400
         us=self.lead('US',created=now-60*day)

@@ -24,6 +24,7 @@ BLOCKER_LABELS = {
     'scope': 'Scope clarification',
     'other': 'Something else',
 }
+KICKOFF_MINUTES = 30
 
 class Problem(Exception):
     def __init__(self, status, message): self.status, self.message = status, message
@@ -61,6 +62,10 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_kickoffs(reference TEXT PRIMARY KEY,proposal TEXT NOT NULL,owner TEXT NOT NULL,
       materials TEXT NOT NULL,contact TEXT NOT NULL,materials_ready INTEGER NOT NULL,scheduled INTEGER NOT NULL,
       confirmed INTEGER NOT NULL,started INTEGER NOT NULL,version INTEGER NOT NULL,updated INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS client_kickoff_slots(
+      id TEXT PRIMARY KEY, host TEXT NOT NULL, starts INTEGER NOT NULL, active INTEGER NOT NULL DEFAULT 1,
+      reference TEXT UNIQUE, zone TEXT NOT NULL DEFAULT '');
+    CREATE INDEX IF NOT EXISTS client_kickoff_slot_host ON client_kickoff_slots(host,starts);
     CREATE TABLE IF NOT EXISTS client_audit(id INTEGER PRIMARY KEY,reference TEXT NOT NULL,action TEXT NOT NULL,actor TEXT NOT NULL,detail TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS demo_meetings(reference TEXT PRIMARY KEY,url TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_loss_reasons(reference TEXT PRIMARY KEY,reason TEXT NOT NULL);
@@ -179,7 +184,7 @@ def detail(db,row,staff,ticket_id=''):
     if not staff:
         kickoff=kickoff_state(db,ref)
         if kickoff:
-            result['kickoff']={key:kickoff[key] for key in ('proposal','revision','currency','materials','contact','materials_ready','scheduled','confirmed','started','version')}
+            result['kickoff']={key:kickoff[key] for key in ('proposal','revision','currency','materials','contact','materials_ready','scheduled','confirmed','started','version','booking_zone')}
             from dashboard import USER
             owner=db.execute('SELECT name FROM team_users WHERE email=? AND active=1',(kickoff['owner'],)).fetchone()
             result['kickoff']['ownerName']=owner['name'] if owner else 'BANDEVI delivery team' if kickoff['owner']==USER else ''
@@ -281,6 +286,15 @@ def get(handler,connect):
         if action=='kickoff-queue' and staff:
             db.execute('BEGIN')
             handler.respond(200,kickoff_queue(db,identity,query));return True
+        if action=='kickoff-slots' and not staff:
+            db.execute('BEGIN')
+            ref=query.get('reference',[''])[0]
+            project(db,ref,identity)
+            state=kickoff_state(db,ref)
+            if not state or state['proposal']!=query.get('id',[''])[0]:
+                raise Problem(404,'Kickoff is not available.')
+            handler.respond(200,{'slots':available_kickoff_slots(db,state,int(time.time())),
+                                 'version':state['version']});return True
         if action=='proposal-pdf':
             db.execute('BEGIN')
             proposal=db.execute('SELECT * FROM client_proposals WHERE id=?',(query.get('id',[''])[0],)).fetchone()
@@ -355,6 +369,8 @@ def post(handler,connect,origins,salt):
                 db.execute('DELETE FROM client_sessions WHERE digest=?',(identity['digest'],));headers={'Set-Cookie':cookie('',True)}
             elif action=='kickoff' and staff:
                 result.update(change_kickoff(db,value(data,'reference',30),identity,data,True))
+            elif action=='kickoff-slots' and staff:
+                change_kickoff_slot(db,identity,data)
             elif action=='proposal-review' and staff:
                 ref=value(data,'reference',30);project(db,ref,identity,True)
                 change_proposal_review(db,ref,identity,data,True)
@@ -649,9 +665,11 @@ KICKOFF_ROWS = """SELECT project.reference,project.title,proposal.id AS proposal
     proposal.currency,proposal.accepted,proposal.accepted_by,e.payload,COALESCE(w.owner,'') AS sales_owner,
     COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,k.contact AS contact,
     COALESCE(k.materials_ready,0) AS materials_ready,COALESCE(k.scheduled,0) AS scheduled,
-    COALESCE(k.confirmed,0) AS confirmed,COALESCE(k.started,0) AS started,COALESCE(k.version,0) AS version
+    COALESCE(k.confirmed,0) AS confirmed,COALESCE(k.started,0) AS started,COALESCE(k.version,0) AS version,
+    COALESCE(s.zone,'') AS booking_zone
     FROM client_projects project JOIN enquiries e ON e.id=project.reference
     LEFT JOIN enquiry_workflow w ON w.id=project.reference LEFT JOIN client_kickoffs k ON k.reference=project.reference
+    LEFT JOIN client_kickoff_slots s ON s.reference=project.reference
     JOIN client_proposals proposal ON proposal.id=COALESCE(k.proposal,(SELECT id FROM client_proposals
         WHERE reference=project.reference AND status='accepted' AND accepted>0 ORDER BY accepted,revision LIMIT 1))
     WHERE e.email_status!='qa-verified' AND proposal.status='accepted'"""
@@ -675,15 +693,66 @@ def kickoff_access(db, state, identity):
     return identity['role']!='agent' or identity['actor']==(owner or state['sales_owner'])
 
 
+def kickoff_conflict(db, host, starts, duration, reference=''):
+    end=starts+duration*60
+    return db.execute("""SELECT 1 FROM client_kickoff_slots
+        WHERE host=? AND starts<? AND starts+? > ? AND (active=1 OR reference IS NOT NULL)
+        AND (reference IS NULL OR reference!=?)
+        UNION ALL SELECT 1 FROM client_kickoffs
+        WHERE owner=? AND scheduled>0 AND scheduled<? AND scheduled+? > ? AND reference!=?
+        LIMIT 1""",(host,end,KICKOFF_MINUTES*60,starts,reference,
+                     host,end,KICKOFF_MINUTES*60,starts,reference)).fetchone()
+
+
+def kickoff_demo_conflict(db, host, starts):
+    return db.execute("""SELECT 1 FROM demo_slots s WHERE s.host=? AND s.starts<?
+        AND s.starts+s.duration*60>? AND (s.active=1 OR NOT ("""+operations.SLOT_FREE+'))',
+        (host,starts+KICKOFF_MINUTES*60,starts)).fetchone()
+
+
+def available_kickoff_slots(db, state, now):
+    if state['started'] or state['confirmed'] or not active_owner(db,state['owner']):
+        return []
+    rows=db.execute("""SELECT id,starts FROM client_kickoff_slots
+        WHERE host=? AND active=1 AND reference IS NULL AND starts>? ORDER BY starts LIMIT 30""",
+        (state['owner'],now))
+    return [{**dict(slot),'duration':KICKOFF_MINUTES} for slot in rows]
+
+
+def change_kickoff_slot(db, identity, data):
+    if identity['role']=='agent':raise Problem(403,'A manager must manage kickoff availability.')
+    if data.get('action')=='close':
+        slot_id=value(data,'slotId',30)
+        if not db.execute('UPDATE client_kickoff_slots SET active=0 WHERE id=? AND active=1 AND reference IS NULL',
+                          (slot_id,)).rowcount:
+            raise Problem(409,'That slot is booked or no longer open.')
+        audit(db,'KICKOFF-SLOTS','kickoff-slot-closed',identity['actor'],slot_id)
+        return
+    if data.get('action')!='publish':raise Problem(400,'Choose a kickoff availability action.')
+    starts=data.get('starts')
+    now=int(time.time())
+    if type(starts) is not int or not now+3600<=starts<=now+180*86400 or starts%900:
+        raise Problem(400,'Choose a 15-minute boundary at least one hour ahead and within 180 days.')
+    host=value(data,'host',254).lower()
+    if not active_owner(db,host):raise Problem(400,'Choose an active delivery owner.')
+    if kickoff_conflict(db,host,starts,KICKOFF_MINUTES) or kickoff_demo_conflict(db,host,starts):
+        raise Problem(409,'This owner already has an overlapping slot or appointment.')
+    slot_id=secrets.token_hex(12)
+    db.execute('INSERT INTO client_kickoff_slots(id,host,starts) VALUES(?,?,?)',(slot_id,host,starts))
+    audit(db,'KICKOFF-SLOTS','kickoff-slot-published',identity['actor'],slot_id)
+
+
 def kickoff_queue(db, identity, query):
     from dashboard import USER
     from growth_workbench import COUNTRIES,country
     market=query.get('country',[''])[0]
+    status=query.get('status',['all'])[0]
     try:offset=int(query.get('offset',['0'])[0])
     except ValueError:raise Problem(400,'Choose a valid queue page.')
-    if market not in ('',*COUNTRIES) or not 0<=offset<=1000000:
-        raise Problem(400,'Choose a valid country or queue page.')
+    if market not in ('',*COUNTRIES) or status not in ('all','unbooked','booked') or not 0<=offset<=1000000:
+        raise Problem(400,'Choose a valid country, booking status or queue page.')
     items=[]
+    needs_booking=0
     for record in db.execute(KICKOFF_ROWS+' AND COALESCE(k.started,0)=0'):
         state=kickoff_record(record)
         code=country(json.loads(state.pop('payload')))
@@ -691,19 +760,32 @@ def kickoff_queue(db, identity, query):
             continue
         state.pop('sales_owner')
         if state['owner'] and not active_owner(db,state['owner']):state['owner']=''
-        items.append({**state,'country':code,'countryLabel':COUNTRIES[code]})
-    items.sort(key=lambda item:(bool(item['owner']),item['scheduled'] or 2**63-1,item['accepted'],item['reference']))
+        needs_booking+=not state['confirmed']
+        if status!='all' and state['confirmed']!=(status=='booked'):continue
+        items.append({**state,'country':code,'countryLabel':COUNTRIES[code],
+                      'followUpOwner':state['owner'] or sales_owner(db,state['reference'])})
+    items.sort(key=lambda item:(bool(item['confirmed']),bool(item['owner']),item['scheduled'] or 2**63-1,
+                                item['accepted'],item['reference']))
     owners=[]
+    slots=[]
     if identity['role']!='agent':
         owners=[{'email':USER,'name':'Site administrator'}]+[dict(row) for row in db.execute('SELECT email,name FROM team_users WHERE active=1 ORDER BY name')]
+        slots=[dict(row) for row in db.execute("""SELECT id,host,starts,reference IS NOT NULL AS booked
+            FROM client_kickoff_slots WHERE starts>? AND active=1 ORDER BY starts LIMIT 100""",(int(time.time()),))]
     return {'items':items[offset:offset+25],'total':len(items),'offset':offset,'limit':25,'owners':owners,
-            'canAssign':identity['role']!='agent'}
+            'needsBooking':needs_booking,'slots':slots,'canAssign':identity['role']!='agent'}
 
 
 def change_kickoff(db, reference, identity, data, staff):
     state=kickoff_state(db,reference)
     if not state or staff and not kickoff_access(db,state,identity):
         raise Problem(404,'Kickoff is not available.')
+    booking=not staff and data.get('action')=='book'
+    if booking:
+        if value(data,'id',30)!=state['proposal']:raise Problem(404,'Kickoff is not available on this revision.')
+        slot_id=value(data,'slotId',30)
+        if db.execute('SELECT 1 FROM client_kickoff_slots WHERE id=? AND reference=?',(slot_id,reference)).fetchone():
+            return {'kickoffVersion':state['version']}
     if type(data.get('version')) is not int or data['version']!=state['version'] or state['started']:
         raise Problem(409,'The kickoff changed. Refresh to review the current checklist.')
     now=int(time.time())
@@ -716,6 +798,7 @@ def change_kickoff(db, reference, identity, data, staff):
         action='kickoff-started'
     elif staff:
         if data.get('action')!='plan':raise Problem(400,'Choose a valid kickoff action.')
+        prior_owner=state['owner']
         if 'owner' in data:
             if identity['role']=='agent':raise Problem(403,'A manager must assign the delivery owner.')
             owner=value(data,'owner',254,False).lower()
@@ -726,10 +809,31 @@ def change_kickoff(db, reference, identity, data, staff):
         if type(scheduled) is not int or (scheduled!=state['scheduled'] and scheduled!=0 and not now<scheduled<=now+365*86400):
             raise Problem(400,'Choose a future kickoff time within one year, or leave it blank.')
         if materials!=state['materials']:state['materials_ready']=0
-        if scheduled!=state['scheduled']:state['confirmed']=0
+        time_changed=scheduled!=state['scheduled']
+        owner_changed=state['owner']!=prior_owner
+        if scheduled>now and state['owner'] and (time_changed or owner_changed) and (
+            kickoff_conflict(db,state['owner'],scheduled,KICKOFF_MINUTES,reference)
+            or kickoff_demo_conflict(db,state['owner'],scheduled)
+        ):
+            raise Problem(409,'This delivery owner already has an overlapping slot or appointment.')
+        if time_changed or owner_changed and state['booking_zone']:
+            db.execute("UPDATE client_kickoff_slots SET reference=NULL,zone='' WHERE reference=?",(reference,))
+            state['confirmed']=0
         state['materials']=materials
         state['scheduled']=scheduled
         action='kickoff-plan'
+    elif booking:
+        zone=value(data,'zone',80)
+        if not valid_demo_timezone(zone):raise Problem(400,'Choose a valid time zone.')
+        if state['confirmed'] or not active_owner(db,state['owner']):
+            raise Problem(409,'This project is not available for a new kickoff booking.')
+        slot=db.execute("""SELECT starts FROM client_kickoff_slots
+            WHERE id=? AND host=? AND active=1 AND reference IS NULL AND starts>?""",
+            (slot_id,state['owner'],now)).fetchone()
+        if not slot:raise Problem(409,'That kickoff time is no longer available. Choose another time.')
+        db.execute('UPDATE client_kickoff_slots SET reference=?,zone=? WHERE id=?',(reference,zone,slot_id))
+        state.update(scheduled=slot['starts'],confirmed=1)
+        action='kickoff-booked'
     else:
         contact=value(data,'contact',160,False)
         ready=data.get('materialsReady');confirmed=data.get('confirmed')
@@ -737,7 +841,7 @@ def change_kickoff(db, reference, identity, data, staff):
             raise Problem(400,'Check the materials and proposed time selections.')
         if confirmed and not state['confirmed'] and state['scheduled']<=now:
             raise Problem(409,'The proposed time has passed. Ask the team to suggest a new time.')
-        state.update(contact=contact,materials_ready=int(ready),confirmed=int(confirmed))
+        state.update(contact=contact,materials_ready=int(ready),confirmed=1 if state['booking_zone'] else int(confirmed))
         action='kickoff-checklist'
     state['version']+=1
     state['updated']=now

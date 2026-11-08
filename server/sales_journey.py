@@ -445,6 +445,23 @@ def crm_demo_conversion(db, identity, since, now):
     return list(markets.values())
 
 
+def kickoff_conversion(db,identity,since,now):
+    groups={code:{'country':code,'label':growth_workbench.COUNTRIES[code],'accepted':0,'booked':0,'started':0}
+            for code in ('US','GB','IN')}
+    access=' AND w.owner=?' if identity['role']=='agent' else ''
+    args=[since,now]+([identity['actor']] if access else [])
+    rows=db.execute(client_workflow.KICKOFF_ROWS+' AND proposal.accepted BETWEEN ? AND ?'+access,args)
+    for row in rows:
+        country=growth_workbench.country(json.loads(row['payload']))
+        if country not in groups:continue
+        group=groups[country]
+        started=row['accepted']<=row['started']<=now
+        group['accepted']+=1
+        group['booked']+=started or bool(row['confirmed'] and row['scheduled'])
+        group['started']+=started
+    return list(groups.values())
+
+
 def funnel(db,identity,days):
     now=int(time.time());args=[now-days*86400]
     access=' AND w.owner=?' if identity['role']=='agent' else ''
@@ -552,6 +569,7 @@ def funnel(db,identity,days):
         'sampleDemoFunnel':sample_demo_funnel(db,identity,args[0],now),
         'crmDemoConversion':crm_demo_conversion(db,identity,args[0],now),
         'proposalReviewConversion':proposal_review_conversion(db,identity,args[0],now),
+        'kickoffConversion':kickoff_conversion(db,identity,args[0],now),
         'proposalDecisions':proposal_decisions(db,identity,args[0],now),
         'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. Missing decisions are excluded from the median. Uses saved business country and staff access, with QA records excluded.',
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',

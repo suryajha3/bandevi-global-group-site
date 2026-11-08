@@ -170,6 +170,7 @@ def post_admin(handler, connect, authenticated, data):
                 db.execute('DELETE FROM inbox_sessions WHERE actor=?',(email,))
                 if not active:
                     db.execute('UPDATE demo_slots AS s SET active=0 WHERE host=? AND '+SLOT_FREE,(email,))
+                    db.execute('UPDATE client_kickoff_slots SET active=0 WHERE host=? AND reference IS NULL',(email,))
                 db.execute('INSERT INTO inbox_audit(enquiry_id,created,actor,previous,changed) VALUES(?,?,?,?,?)',('TEAM',int(time.time()),authenticated['actor'],'{}',json.dumps({'email':email,'role':role,'active':active})))
             elif route=='/api/admin/slots':
                 if data.get('action')=='close':
@@ -180,6 +181,8 @@ def post_admin(handler, connect, authenticated, data):
                     if type(starts)!=int or not int(time.time())+3600<=starts<=int(time.time())+180*86400 or starts%900 or duration not in (15,30,45,60):raise ValueError('Choose a 15-minute boundary at least one hour ahead, within 180 days.')
                     if host!=USER and not db.execute('SELECT 1 FROM team_users WHERE email=? AND active=1',(host,)).fetchone():raise ValueError('Choose an active team member.')
                     if db.execute('SELECT 1 FROM demo_slots WHERE active=1 AND host=? AND starts<? AND starts+duration*60>?',(host,starts+duration*60,starts)).fetchone():raise ValueError('This host already has an overlapping slot.')
+                    from client_workflow import kickoff_conflict
+                    if kickoff_conflict(db,host,starts,duration):raise ValueError('This host already has an overlapping kickoff.')
                     db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,?,?)',(secrets.token_hex(12),starts,duration,host))
             else:
                 reference=data.get('reference');version=data.get('version')
