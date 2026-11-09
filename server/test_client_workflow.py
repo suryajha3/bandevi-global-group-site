@@ -526,6 +526,23 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(saved['confirmed'],1)
         missing='/api/admin/workspace/kickoff-queue?status=missing-link'
         self.assertIn(ref,[row['reference'] for row in self.request(missing,cookie=self.admin)[1]['items']])
+        def reminders():
+            with enquiries.connect() as db:
+                return db.execute('SELECT * FROM notification_outbox WHERE dedupe GLOB ? ORDER BY id',
+                                  (f'kickoff-reminder:{ref}:s*',)).fetchall()
+        workflow.reminders(enquiries.connect,starts-86401)
+        self.assertEqual(reminders(),[])
+        workflow.reminders(enquiries.connect,starts-86400)
+        workflow.reminders(enquiries.connect,starts-86399)
+        first_reminder,=reminders()
+        self.assertEqual(first_reminder['dedupe'].rsplit(':',1)[1],'24')
+        with enquiries.connect() as db:
+            notice=workflow.kickoff_reminder_message(db,first_reminder,starts-86399)
+            self.assertIn('joining link is pending',notice)
+        with patch.object(time,'time',return_value=starts-3600):
+            with enquiries.connect() as db:
+                flags=workflow.kickoff_queue(db,{'role':'admin'},{'status':['missing-link']})['items']
+                self.assertEqual(next(row['missingLinkHours'] for row in flags if row['reference']==ref),1)
         calendar=f"/api/client/kickoff-calendar?reference={ref}&id={winner['id']}"
         self.assertEqual(self.request(calendar)[0],401)
         self.assertEqual(self.request(calendar,cookie=credentials[results.index(409)][2])[0],404)
@@ -544,7 +561,16 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(saved['meeting'],meeting)
         self.assertNotIn(meeting,event())
         self.assertNotIn(ref,[row['reference'] for row in self.request(missing,cookie=self.admin)[1]['items']])
-        new_start=starts+3600
+        workflow.reminders(enquiries.connect,starts-86399)
+        self.assertEqual(len(reminders()),1)
+        with enquiries.connect() as db:
+            notice=workflow.kickoff_reminder_message(db,first_reminder,starts-86399)
+            self.assertIn('joining link is available',notice)
+            self.assertNotIn(meeting,notice)
+        workflow.reminders(enquiries.connect,starts-3600)
+        old_notices=reminders()
+        self.assertEqual([row['dedupe'].rsplit(':',1)[1] for row in old_notices],['24','1'])
+        new_start=starts+3*86400
         self.assertEqual(self.request(staff_slots,dict(manage,starts=new_start),self.admin,self.admin_csrf)[0],200)
         second=next(slot for slot in self.request(route,cookie=client)[1]['slots'] if slot['starts']==new_start)
         move=dict(winner,slotId=second['id'],version=saved['version'],action='reschedule')
@@ -552,6 +578,19 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(self.request(detail,cookie=client)[1]['kickoff']['meeting'],meeting)
         self.assertEqual(self.request(kickoff,move,client,csrf)[0],200)
         self.assertEqual(self.request(kickoff,move,client,csrf)[0],200)
+        self.assertTrue(all(row['status']=='cancelled' for row in reminders()))
+        with enquiries.connect() as db:
+            self.assertIsNone(workflow.kickoff_reminder_message(db,old_notices[-1],starts-3600))
+        workflow.reminders(enquiries.connect,new_start-86400)
+        workflow.reminders(enquiries.connect,new_start-3600)
+        fresh=reminders()[2:]
+        self.assertEqual([row['dedupe'].rsplit(':',1)[1] for row in fresh],['24','1'])
+        self.assertNotEqual(fresh[0]['dedupe'],first_reminder['dedupe'])
+        with enquiries.connect() as db:
+            notice=workflow.kickoff_reminder_message(db,fresh[-1],new_start-3600)
+            self.assertIn('joining link is pending',notice)
+            self.assertIn('https://bandeviglobalgroup.com/client-workspace/',notice)
+            self.assertIsNone(workflow.kickoff_reminder_message(db,fresh[-1],new_start))
         saved=self.request(detail,cookie=client)[1]['kickoff']
         self.assertEqual((saved['scheduled'],saved['confirmed'],saved['meeting'],saved['materials_ready']),(new_start,1,'',1))
         self.assertIn(winner['slotId'],[slot['id'] for slot in self.request(route,cookie=client)[1]['slots']])

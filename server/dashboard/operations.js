@@ -23,7 +23,11 @@ function renderKickoffCard(item, result, identity, generation){
     text('p',item.confirmed?'Kickoff booked · '+postDemoTime(item.scheduled):
       'Needs kickoff booking · Follow-up owner '+item.followUpOwner,'recovery-reasons'));
   if(item.scheduled&&!item.confirmed)details.append(text('p','Proposed time awaiting confirmation · '+postDemoTime(item.scheduled)));
-  if(item.missingLink)details.append(text('p','Missing joining link','recovery-reasons'));
+  if(item.missingLink){
+    const urgency=item.missingLinkHours===1?' · Starts within 1 hour':item.missingLinkHours===24?' · Starts within 24 hours':'';
+    details.append(text('p','Missing joining link'+urgency+' · Follow-up owner '+item.followUpOwner,
+      urgency?'growth-queue-alert':'recovery-reasons'));
+  }
   const form=document.createElement('form');
   let owner;
   if(result.canAssign){
