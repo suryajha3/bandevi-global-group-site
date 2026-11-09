@@ -6,6 +6,7 @@ function clearKickoffQueue(){
   $('kickoff-items').replaceChildren();$('kickoff-message').textContent='';$('kickoff-page').textContent='';
   $('kickoff-country').value='';$('kickoff-previous').disabled=$('kickoff-next').disabled=true;
   $('kickoff-status').value='all';$('kickoff-needs-booking').textContent='';
+  $('kickoff-missing-links').textContent='';
   $('kickoff-availability').replaceChildren();
 }
 
@@ -22,6 +23,7 @@ function renderKickoffCard(item, result, identity, generation){
     text('p',item.confirmed?'Kickoff booked · '+postDemoTime(item.scheduled):
       'Needs kickoff booking · Follow-up owner '+item.followUpOwner,'recovery-reasons'));
   if(item.scheduled&&!item.confirmed)details.append(text('p','Proposed time awaiting confirmation · '+postDemoTime(item.scheduled)));
+  if(item.missingLink)details.append(text('p','Missing joining link','recovery-reasons'));
   const form=document.createElement('form');
   let owner;
   if(result.canAssign){
@@ -40,13 +42,14 @@ function renderKickoffCard(item, result, identity, generation){
   const canStart=!!(item.owner&&item.contact&&item.materials_ready&&item.confirmed&&item.scheduled<=Date.now()/1000);
   start.disabled=!canStart;
   const status=text('p','');status.role='status';
-  async function update(action, data){
+  async function update(action, data, feedback=status){
     if(csrf!==identity||generation!==kickoffGeneration)return;
     save.disabled=start.disabled=true;
     try{
       await post('/api/admin/workspace/kickoff',{reference:item.reference,version:item.version,action,...data});
-      if(csrf===identity&&generation===kickoffGeneration)await refreshKickoffQueue(action==='start'?'Kickoff recorded.':'Kickoff plan saved.');
-    }catch(error){if(csrf===identity&&generation===kickoffGeneration){status.textContent=error.message;save.disabled=false;start.disabled=!canStart;}}
+      if(csrf===identity&&generation===kickoffGeneration)await refreshKickoffQueue(
+        action==='start'?'Kickoff recorded.':action==='meeting'?'Joining link updated.':'Kickoff plan saved.');
+    }catch(error){if(csrf===identity&&generation===kickoffGeneration){feedback.textContent=error.message;save.disabled=false;start.disabled=!canStart;}}
   }
   form.addEventListener('submit',event=>{
     event.preventDefault();if(save.disabled)return;
@@ -57,7 +60,22 @@ function renderKickoffCard(item, result, identity, generation){
     update('plan',{materials:materials.value,scheduled,...(owner?{owner:owner.value}:{})});
   });
   start.addEventListener('click',()=>{if(confirm('Record that kickoff has started for '+item.reference+'?'))update('start',{});});
-  form.append(save,start,status);details.append(form);card.append(details);return card;
+  form.append(save,start,status);details.append(form);
+  if(item.confirmed&&item.scheduled>Date.now()/1000){
+    const meeting=document.createElement('form');
+    const link=kickoffField(meeting,'Kickoff joining link',document.createElement('input'));
+    link.type='url';link.maxLength=500;link.value=item.meeting;
+    const saveLink=text('button','Save joining link');saveLink.type='submit';
+    const linkStatus=text('p','');linkStatus.role='status';
+    meeting.addEventListener('submit',async event=>{
+      event.preventDefault();
+      if(save.disabled||saveLink.disabled)return;
+      saveLink.disabled=true;
+      try{await update('meeting',{url:link.value},linkStatus);}finally{saveLink.disabled=false;}
+    });
+    meeting.append(saveLink,linkStatus);details.append(meeting);
+  }
+  card.append(details);return card;
 }
 
 function renderKickoffAvailability(result, identity, generation){
@@ -115,6 +133,7 @@ async function refreshKickoffQueue(message='',openAvailability=false){
     if(kickoffOffset&&!result.items.length){kickoffOffset=Math.max(0,kickoffOffset-result.limit);return refreshKickoffQueue(message);}
     items.replaceChildren(...result.items.map(item=>renderKickoffCard(item,result,identity,generation)));
     $('kickoff-needs-booking').textContent=result.needsBooking+' accepted '+(result.needsBooking===1?'project needs':'projects need')+' a kickoff booking.';
+    $('kickoff-missing-links').textContent=result.missingLinks+' confirmed '+(result.missingLinks===1?'kickoff needs':'kickoffs need')+' a joining link.';
     renderKickoffAvailability(result,identity,generation);
     if(openAvailability&&$('kickoff-availability').firstElementChild)$('kickoff-availability').firstElementChild.open=true;
     $('kickoff-previous').disabled=kickoffOffset===0;

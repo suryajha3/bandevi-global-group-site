@@ -524,9 +524,47 @@ class ClientTests(unittest.TestCase):
             materialsReady=True,confirmed=False),client,csrf)[0],200)
         saved=self.request(detail,cookie=client)[1]['kickoff']
         self.assertEqual(saved['confirmed'],1)
+        missing='/api/admin/workspace/kickoff-queue?status=missing-link'
+        self.assertIn(ref,[row['reference'] for row in self.request(missing,cookie=self.admin)[1]['items']])
+        calendar=f"/api/client/kickoff-calendar?reference={ref}&id={winner['id']}"
+        self.assertEqual(self.request(calendar)[0],401)
+        self.assertEqual(self.request(calendar,cookie=credentials[results.index(409)][2])[0],404)
+        def event():
+            req=urllib.request.Request(isolated.base+calendar,headers={'Cookie':client})
+            with urllib.request.urlopen(req) as response:
+                self.assertEqual(response.headers.get_content_type(),'text/calendar')
+                self.assertEqual(response.headers['Cache-Control'],'no-store')
+                return response.read().decode()
+        original_event=event()
+        meeting='https://meet.example.test/private-kickoff'
+        link_data=dict(reference=ref,version=saved['version'],action='meeting',url=meeting)
+        self.assertEqual(self.request(staff_plan,dict(link_data,url='https://user@host.example.test/'),self.admin,self.admin_csrf)[0],400)
+        self.assertEqual(self.request(staff_plan,link_data,self.admin,self.admin_csrf)[0],200)
+        saved=self.request(detail,cookie=client)[1]['kickoff']
+        self.assertEqual(saved['meeting'],meeting)
+        self.assertNotIn(meeting,event())
+        self.assertNotIn(ref,[row['reference'] for row in self.request(missing,cookie=self.admin)[1]['items']])
+        new_start=starts+3600
+        self.assertEqual(self.request(staff_slots,dict(manage,starts=new_start),self.admin,self.admin_csrf)[0],200)
+        second=next(slot for slot in self.request(route,cookie=client)[1]['slots'] if slot['starts']==new_start)
+        move=dict(winner,slotId=second['id'],version=saved['version'],action='reschedule')
+        self.assertEqual(self.request(kickoff,dict(move,slotId='invalid'),client,csrf)[0],409)
+        self.assertEqual(self.request(detail,cookie=client)[1]['kickoff']['meeting'],meeting)
+        self.assertEqual(self.request(kickoff,move,client,csrf)[0],200)
+        self.assertEqual(self.request(kickoff,move,client,csrf)[0],200)
+        saved=self.request(detail,cookie=client)[1]['kickoff']
+        self.assertEqual((saved['scheduled'],saved['confirmed'],saved['meeting'],saved['materials_ready']),(new_start,1,'',1))
+        self.assertIn(winner['slotId'],[slot['id'] for slot in self.request(route,cookie=client)[1]['slots']])
+        updated_event=event()
+        def property_value(data,name):
+            return next(line.split(':',1)[1] for line in data.splitlines() if line.startswith(name+':'))
+        self.assertEqual(property_value(original_event,'UID'),property_value(updated_event,'UID'))
+        self.assertNotEqual(property_value(original_event,'DTSTART'),property_value(updated_event,'DTSTART'))
+        self.assertGreater(int(property_value(updated_event,'SEQUENCE')),int(property_value(original_event,'SEQUENCE')))
+        self.assertIn(ref,[row['reference'] for row in self.request(missing,cookie=self.admin)[1]['items']])
         self.assertEqual(self.request(staff_plan,dict(reference=ref,version=saved['version'],action='plan',
             materials='Sample file',scheduled=0),self.admin,self.admin_csrf)[0],200)
-        self.assertIn(winner['slotId'],[slot['id'] for slot in self.request(route,cookie=client)[1]['slots']])
+        self.assertIn(second['id'],[slot['id'] for slot in self.request(route,cookie=client)[1]['slots']])
 
     def test_agent_project_scope_and_invite_restriction(self):
         ref,email=self.create();other,_=self.create();agent=uuid.uuid4().hex+'@example.com';password='Synthetic-agent-password'
