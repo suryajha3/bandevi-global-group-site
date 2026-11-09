@@ -107,7 +107,7 @@ await kickoffItem.waitFor({state:'detached'});
 await page.locator('#kickoff-status').selectOption('booked');
 await kickoffItem.getByText(/Kickoff booked/).waitFor();
 await page.locator('#kickoff-status').selectOption('missing-link');
-await kickoffItem.getByText('Missing joining link',{exact:true}).waitFor();
+await kickoffItem.getByText(/Missing joining link.*Follow-up owner agent@qa.example/).waitFor();
 await kickoffItem.getByLabel('Kickoff joining link',{exact:true}).fill('https://meet.example.test/private-kickoff');
 await kickoffItem.getByRole('button',{name:'Save joining link',exact:true}).click();
 await page.locator('#kickoff-message').getByText('Joining link updated.',{exact:true}).waitFor();

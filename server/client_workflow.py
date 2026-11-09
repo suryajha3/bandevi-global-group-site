@@ -67,6 +67,8 @@ def initialize(db):
       reference TEXT UNIQUE, zone TEXT NOT NULL DEFAULT '');
     CREATE INDEX IF NOT EXISTS client_kickoff_slot_host ON client_kickoff_slots(host,starts);
     CREATE TABLE IF NOT EXISTS client_kickoff_meetings(reference TEXT PRIMARY KEY, url TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS client_kickoff_reminder_schedules(
+      id INTEGER PRIMARY KEY AUTOINCREMENT, reference TEXT NOT NULL UNIQUE, booked_at INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_audit(id INTEGER PRIMARY KEY,reference TEXT NOT NULL,action TEXT NOT NULL,actor TEXT NOT NULL,detail TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS demo_meetings(reference TEXT PRIMARY KEY,url TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_loss_reasons(reference TEXT PRIMARY KEY,reason TEXT NOT NULL);
@@ -76,6 +78,9 @@ def initialize(db):
     ''')
     if 'sender' not in {row[1] for row in db.execute('PRAGMA table_info(client_ticket_messages)')}:
         db.execute("ALTER TABLE client_ticket_messages ADD COLUMN sender TEXT NOT NULL DEFAULT ''")
+    db.execute("""INSERT OR IGNORE INTO client_kickoff_reminder_schedules(reference,booked_at)
+        SELECT reference,updated FROM client_kickoffs
+        WHERE confirmed=1 AND started=0 AND scheduled>?""",(int(time.time()),))
 
 def value(data, key, limit, required=True):
     item=data.get(key,'')
@@ -778,12 +783,15 @@ def kickoff_queue(db, identity, query):
         if state['owner'] and not active_owner(db,state['owner']):state['owner']=''
         needs_booking+=not state['confirmed']
         missing_link=bool(state['confirmed'] and state['scheduled']>now and not state['meeting'])
+        seconds_until=state['scheduled']-now
+        link_window=(1 if seconds_until<=3600 else 24 if seconds_until<=86400 else None) if missing_link else None
         missing_links+=missing_link
         if status!='all' and not {'unbooked':not state['confirmed'],'booked':state['confirmed'],'missing-link':missing_link}[status]:
             continue
         items.append({**state,'country':code,'countryLabel':COUNTRIES[code],
-                      'followUpOwner':state['owner'] or sales_owner(db,state['reference']),'missingLink':missing_link})
-    items.sort(key=lambda item:(bool(item['confirmed']),bool(item['owner']),item['scheduled'] or 2**63-1,
+                      'followUpOwner':state['owner'] or sales_owner(db,state['reference']),
+                      'missingLink':missing_link,'missingLinkHours':link_window})
+    items.sort(key=lambda item:(item['missingLinkHours'] or 25,bool(item['confirmed']),bool(item['owner']),item['scheduled'] or 2**63-1,
                                 item['accepted'],item['reference']))
     owners=[]
     slots=[]
@@ -809,6 +817,7 @@ def change_kickoff(db, reference, identity, data, staff):
         raise Problem(409,'The kickoff changed. Refresh to review the current checklist.')
     now=int(time.time())
     actor=identity['actor'] if staff else identity['email']
+    original_schedule=(state['scheduled'],state['confirmed'],state['owner'],state['started'])
     if staff and data.get('action')=='meeting':
         if not state['confirmed'] or state['scheduled']<=now:
             raise Problem(409,'A future confirmed kickoff is required.')
@@ -894,8 +903,19 @@ def change_kickoff(db, reference, identity, data, staff):
         materials=excluded.materials,contact=excluded.contact,materials_ready=excluded.materials_ready,
         scheduled=excluded.scheduled,confirmed=excluded.confirmed,started=excluded.started,
         version=excluded.version,updated=excluded.updated''',state)
+    if original_schedule!=(state['scheduled'],state['confirmed'],state['owner'],state['started']):
+        reset_kickoff_reminders(db,state,now)
     audit(db,reference,action,actor,json.dumps({'version':state['version'],'proposal':state['proposal'],'scheduled':state['scheduled']}))
     return {'kickoffVersion':state['version']}
+
+
+def reset_kickoff_reminders(db, state, now):
+    reference=state['reference']
+    db.execute('DELETE FROM client_kickoff_reminder_schedules WHERE reference=?',(reference,))
+    db.execute("UPDATE notification_outbox SET status='cancelled' WHERE status='pending' AND dedupe GLOB ?",
+               (f'kickoff-reminder:{reference}:s*',))
+    if state['confirmed'] and not state['started'] and state['scheduled']>now:
+        db.execute('INSERT INTO client_kickoff_reminder_schedules(reference,booked_at) VALUES(?,?)',(reference,now))
 
 
 PROPOSAL_FEEDBACK_LABELS = {'question':'Proposal question','change':'Proposal change request'}
@@ -1011,6 +1031,18 @@ DEMO_SCHEDULE = """SELECT b.enquiry_id,b.token_digest,s.starts,e.payload,a.id AS
     LEFT JOIN notification_outbox confirmation ON confirmation.dedupe='booking:'||b.enquiry_id||':0'
     WHERE b.state='confirmed' AND e.email_status!='qa-verified'"""
 
+KICKOFF_REMINDER = re.compile(r'kickoff-reminder:([A-Za-z0-9-]+):s(\d+):(24|1)')
+KICKOFF_SCHEDULE = """SELECT k.reference,k.scheduled AS starts,r.id AS schedule_event,r.booked_at,
+    project.email,e.payload,COALESCE(s.zone,'') AS booking_zone,COALESCE(m.url,'') AS meeting
+    FROM client_kickoff_reminder_schedules r JOIN client_kickoffs k ON k.reference=r.reference
+    JOIN client_projects project ON project.reference=k.reference
+    JOIN client_accounts account ON account.email=project.email AND account.active=1
+    JOIN enquiries e ON e.id=k.reference
+    JOIN client_proposals p ON p.id=k.proposal AND p.reference=k.reference AND p.status='accepted'
+    LEFT JOIN client_kickoff_slots s ON s.reference=k.reference
+    LEFT JOIN client_kickoff_meetings m ON m.reference=k.reference
+    WHERE k.confirmed=1 AND k.started=0 AND e.email_status!='qa-verified'"""
+
 
 def valid_demo_timezone(zone):
     if not isinstance(zone, str) or not re.fullmatch(r'[A-Za-z0-9_+/-]{1,80}', zone):
@@ -1059,6 +1091,27 @@ def reminder_message(db, notification, now=None):
     return '\n'.join(lines)
 
 
+def kickoff_reminder_message(db, notification, now=None):
+    match=KICKOFF_REMINDER.fullmatch(notification['dedupe'])
+    if not match:return None
+    reference,schedule_event,hours=match.groups()
+    booking=db.execute(KICKOFF_SCHEDULE+' AND k.reference=? AND r.id=?',(reference,int(schedule_event))).fetchone()
+    now=int(time.time()) if now is None else now
+    if not booking or booking['email']!=notification['recipient'] or not reminder_due(booking,int(hours),now):
+        return None
+    payload=json.loads(booking['payload'])
+    qualification=payload.get('qualification') or {}
+    zone=booking['booking_zone'] or payload.get('demoTimezone') or (qualification.get('contact') or {}).get('timezone')
+    if not valid_demo_timezone(zone) or (zone=='UTC' and not booking['booking_zone'] and not payload.get('demoTimezone')):
+        zone={'US':'America/New_York','GB':'Europe/London'}.get(qualification.get('country'),'Asia/Kolkata')
+    timezone=ZoneInfo(zone) if valid_demo_timezone(zone) else operations.INDIA
+    when=datetime.datetime.fromtimestamp(booking['starts'],timezone).strftime('%d %B %Y at %H:%M %Z (%z)')
+    details=('Your joining link is available in Client Workspace.' if booking['meeting'] else
+             'Your joining link is pending. Check Client Workspace before the kickoff.')
+    return '\n'.join([f'Your Bandevi kickoff is scheduled for {when}.',f'Reference: {reference}',details,
+                      'View or reschedule your kickoff: https://bandeviglobalgroup.com/client-workspace/'])
+
+
 def reminders(connect, now=None):
     now = int(time.time()) if now is None else now
     with connect() as db:
@@ -1078,6 +1131,11 @@ def reminders(connect, now=None):
                     continue
                 key = f'demo-reminder:{reference}:s{booking["schedule_event"]}:{hours}'
                 operations.enqueue(db, key, email, 'Your Bandevi demo reminder', '')
+        for kickoff in db.execute(KICKOFF_SCHEDULE+' AND k.scheduled>? AND k.scheduled<=?',(now,now+86400)):
+            for hours in (24,1):
+                if reminder_due(kickoff,hours,now):
+                    key=f'kickoff-reminder:{kickoff["reference"]}:s{kickoff["schedule_event"]}:{hours}'
+                    operations.enqueue(db,key,kickoff['email'],'Your Bandevi kickoff reminder','')
 
 def handle_get(handler,connect):
     try:return get(handler,connect)

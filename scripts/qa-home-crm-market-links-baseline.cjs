@@ -163,5 +163,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original kickoff confirmation marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const kickoffReminders = require('./fixtures/kickoff-reminders-approved.json');
+  for (const { before, after } of kickoffReminders[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original kickoff reminders marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

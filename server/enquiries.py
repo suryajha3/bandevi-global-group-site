@@ -228,6 +228,12 @@ def process_outbox():
                         continue
             body = row['body']
             calendar = None
+            if row['dedupe'].startswith('kickoff-reminder:'):
+                with connect() as db:
+                    body=client_workflow.kickoff_reminder_message(db,row)
+                    if body is None:
+                        db.execute("UPDATE notification_outbox SET status='cancelled' WHERE id=?",(row['id'],))
+                        continue
             if row['dedupe'].startswith(('booking:','appointment:','demo-reminder:')):
                 with connect() as db:
                     db.execute('BEGIN')
