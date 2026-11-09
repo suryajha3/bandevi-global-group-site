@@ -66,6 +66,7 @@ def initialize(db):
       id TEXT PRIMARY KEY, host TEXT NOT NULL, starts INTEGER NOT NULL, active INTEGER NOT NULL DEFAULT 1,
       reference TEXT UNIQUE, zone TEXT NOT NULL DEFAULT '');
     CREATE INDEX IF NOT EXISTS client_kickoff_slot_host ON client_kickoff_slots(host,starts);
+    CREATE TABLE IF NOT EXISTS client_kickoff_meetings(reference TEXT PRIMARY KEY, url TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_audit(id INTEGER PRIMARY KEY,reference TEXT NOT NULL,action TEXT NOT NULL,actor TEXT NOT NULL,detail TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS demo_meetings(reference TEXT PRIMARY KEY,url TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_loss_reasons(reference TEXT PRIMARY KEY,reason TEXT NOT NULL);
@@ -185,6 +186,8 @@ def detail(db,row,staff,ticket_id=''):
         kickoff=kickoff_state(db,ref)
         if kickoff:
             result['kickoff']={key:kickoff[key] for key in ('proposal','revision','currency','materials','contact','materials_ready','scheduled','confirmed','started','version','booking_zone')}
+            result['kickoff']['meeting']=kickoff['meeting'] if kickoff['confirmed'] and not kickoff['started'] else ''
+            result['kickoff']['canReschedule']=kickoff['confirmed'] and kickoff_can_choose_slot(db,kickoff,now)
             from dashboard import USER
             owner=db.execute('SELECT name FROM team_users WHERE email=? AND active=1',(kickoff['owner'],)).fetchone()
             result['kickoff']['ownerName']=owner['name'] if owner else 'BANDEVI delivery team' if kickoff['owner']==USER else ''
@@ -286,13 +289,19 @@ def get(handler,connect):
         if action=='kickoff-queue' and staff:
             db.execute('BEGIN')
             handler.respond(200,kickoff_queue(db,identity,query));return True
-        if action=='kickoff-slots' and not staff:
+        if action in ('kickoff-slots','kickoff-calendar') and not staff:
             db.execute('BEGIN')
             ref=query.get('reference',[''])[0]
             project(db,ref,identity)
             state=kickoff_state(db,ref)
             if not state or state['proposal']!=query.get('id',[''])[0]:
                 raise Problem(404,'Kickoff is not available.')
+            if action=='kickoff-calendar':
+                if not state['confirmed'] or not state['scheduled']:
+                    raise Problem(409,'Confirm a kickoff time before downloading a calendar event.')
+                event=appointment_calendar('kickoff',ref,state['scheduled'],KICKOFF_MINUTES,state['version'],False,
+                    'Open Client Workspace for the current joining details.','https://bandeviglobalgroup.com/client-workspace/')
+                send_file(handler,event.encode(),'text/calendar; charset=utf-8','Bandevi-kickoff.ics');return True
             handler.respond(200,{'slots':available_kickoff_slots(db,state,int(time.time())),
                                  'version':state['version']});return True
         if action=='proposal-pdf':
@@ -666,10 +675,11 @@ KICKOFF_ROWS = """SELECT project.reference,project.title,proposal.id AS proposal
     COALESCE(k.owner,'') AS owner,COALESCE(k.materials,'') AS materials,k.contact AS contact,
     COALESCE(k.materials_ready,0) AS materials_ready,COALESCE(k.scheduled,0) AS scheduled,
     COALESCE(k.confirmed,0) AS confirmed,COALESCE(k.started,0) AS started,COALESCE(k.version,0) AS version,
-    COALESCE(s.zone,'') AS booking_zone
+    COALESCE(s.zone,'') AS booking_zone,COALESCE(m.url,'') AS meeting
     FROM client_projects project JOIN enquiries e ON e.id=project.reference
     LEFT JOIN enquiry_workflow w ON w.id=project.reference LEFT JOIN client_kickoffs k ON k.reference=project.reference
     LEFT JOIN client_kickoff_slots s ON s.reference=project.reference
+    LEFT JOIN client_kickoff_meetings m ON m.reference=project.reference
     JOIN client_proposals proposal ON proposal.id=COALESCE(k.proposal,(SELECT id FROM client_proposals
         WHERE reference=project.reference AND status='accepted' AND accepted>0 ORDER BY accepted,revision LIMIT 1))
     WHERE e.email_status!='qa-verified' AND proposal.status='accepted'"""
@@ -710,8 +720,13 @@ def kickoff_demo_conflict(db, host, starts):
         (host,starts+KICKOFF_MINUTES*60,starts)).fetchone()
 
 
+def kickoff_can_choose_slot(db, state, now):
+    return (not state['started'] and (not state['confirmed'] or state['scheduled']>now)
+            and active_owner(db,state['owner']))
+
+
 def available_kickoff_slots(db, state, now):
-    if state['started'] or state['confirmed'] or not active_owner(db,state['owner']):
+    if not kickoff_can_choose_slot(db,state,now):
         return []
     rows=db.execute("""SELECT id,starts FROM client_kickoff_slots
         WHERE host=? AND active=1 AND reference IS NULL AND starts>? ORDER BY starts LIMIT 30""",
@@ -749,10 +764,11 @@ def kickoff_queue(db, identity, query):
     status=query.get('status',['all'])[0]
     try:offset=int(query.get('offset',['0'])[0])
     except ValueError:raise Problem(400,'Choose a valid queue page.')
-    if market not in ('',*COUNTRIES) or status not in ('all','unbooked','booked') or not 0<=offset<=1000000:
+    if market not in ('',*COUNTRIES) or status not in ('all','unbooked','booked','missing-link') or not 0<=offset<=1000000:
         raise Problem(400,'Choose a valid country, booking status or queue page.')
     items=[]
-    needs_booking=0
+    needs_booking=missing_links=0
+    now=int(time.time())
     for record in db.execute(KICKOFF_ROWS+' AND COALESCE(k.started,0)=0'):
         state=kickoff_record(record)
         code=country(json.loads(state.pop('payload')))
@@ -761,9 +777,12 @@ def kickoff_queue(db, identity, query):
         state.pop('sales_owner')
         if state['owner'] and not active_owner(db,state['owner']):state['owner']=''
         needs_booking+=not state['confirmed']
-        if status!='all' and state['confirmed']!=(status=='booked'):continue
+        missing_link=bool(state['confirmed'] and state['scheduled']>now and not state['meeting'])
+        missing_links+=missing_link
+        if status!='all' and not {'unbooked':not state['confirmed'],'booked':state['confirmed'],'missing-link':missing_link}[status]:
+            continue
         items.append({**state,'country':code,'countryLabel':COUNTRIES[code],
-                      'followUpOwner':state['owner'] or sales_owner(db,state['reference'])})
+                      'followUpOwner':state['owner'] or sales_owner(db,state['reference']),'missingLink':missing_link})
     items.sort(key=lambda item:(bool(item['confirmed']),bool(item['owner']),item['scheduled'] or 2**63-1,
                                 item['accepted'],item['reference']))
     owners=[]
@@ -771,16 +790,16 @@ def kickoff_queue(db, identity, query):
     if identity['role']!='agent':
         owners=[{'email':USER,'name':'Site administrator'}]+[dict(row) for row in db.execute('SELECT email,name FROM team_users WHERE active=1 ORDER BY name')]
         slots=[dict(row) for row in db.execute("""SELECT id,host,starts,reference IS NOT NULL AS booked
-            FROM client_kickoff_slots WHERE starts>? AND active=1 ORDER BY starts LIMIT 100""",(int(time.time()),))]
+            FROM client_kickoff_slots WHERE starts>? AND active=1 ORDER BY starts LIMIT 100""",(now,))]
     return {'items':items[offset:offset+25],'total':len(items),'offset':offset,'limit':25,'owners':owners,
-            'needsBooking':needs_booking,'slots':slots,'canAssign':identity['role']!='agent'}
+            'needsBooking':needs_booking,'missingLinks':missing_links,'slots':slots,'canAssign':identity['role']!='agent'}
 
 
 def change_kickoff(db, reference, identity, data, staff):
     state=kickoff_state(db,reference)
     if not state or staff and not kickoff_access(db,state,identity):
         raise Problem(404,'Kickoff is not available.')
-    booking=not staff and data.get('action')=='book'
+    booking=not staff and data.get('action') in ('book','reschedule')
     if booking:
         if value(data,'id',30)!=state['proposal']:raise Problem(404,'Kickoff is not available on this revision.')
         slot_id=value(data,'slotId',30)
@@ -790,7 +809,24 @@ def change_kickoff(db, reference, identity, data, staff):
         raise Problem(409,'The kickoff changed. Refresh to review the current checklist.')
     now=int(time.time())
     actor=identity['actor'] if staff else identity['email']
-    if staff and data.get('action')=='start':
+    if staff and data.get('action')=='meeting':
+        if not state['confirmed'] or state['scheduled']<=now:
+            raise Problem(409,'A future confirmed kickoff is required.')
+        url=value(data,'url',500,False)
+        if url:
+            try:
+                parsed=urlsplit(url)
+                if (parsed.scheme!='https' or not parsed.hostname or parsed.username is not None
+                        or parsed.password is not None or '\\' in url or any(char.isspace() for char in url)):
+                    raise ValueError()
+                parsed.port  # Reject invalid ports.
+            except ValueError:raise Problem(400,'Use a valid HTTPS joining link.')
+            db.execute('INSERT INTO client_kickoff_meetings VALUES(?,?) ON CONFLICT(reference) DO UPDATE SET url=excluded.url',
+                       (reference,url))
+        else:
+            db.execute('DELETE FROM client_kickoff_meetings WHERE reference=?',(reference,))
+        action='kickoff-meeting'
+    elif staff and data.get('action')=='start':
         if not (state['owner'] and active_owner(db,state['owner']) and state['contact'] and state['materials_ready']
                 and state['confirmed'] and 0<state['scheduled']<=now):
             raise Problem(409,'Assign an active owner, complete the checklist and confirm a kickoff time that has arrived.')
@@ -819,21 +855,27 @@ def change_kickoff(db, reference, identity, data, staff):
         if time_changed or owner_changed and state['booking_zone']:
             db.execute("UPDATE client_kickoff_slots SET reference=NULL,zone='' WHERE reference=?",(reference,))
             state['confirmed']=0
+        if time_changed or owner_changed:
+            db.execute('DELETE FROM client_kickoff_meetings WHERE reference=?',(reference,))
         state['materials']=materials
         state['scheduled']=scheduled
         action='kickoff-plan'
     elif booking:
         zone=value(data,'zone',80)
         if not valid_demo_timezone(zone):raise Problem(400,'Choose a valid time zone.')
-        if state['confirmed'] or not active_owner(db,state['owner']):
-            raise Problem(409,'This project is not available for a new kickoff booking.')
+        reschedule=data['action']=='reschedule'
+        if bool(state['confirmed'])!=reschedule or not kickoff_can_choose_slot(db,state,now):
+            raise Problem(409,'This kickoff cannot be booked or rescheduled right now.')
         slot=db.execute("""SELECT starts FROM client_kickoff_slots
             WHERE id=? AND host=? AND active=1 AND reference IS NULL AND starts>?""",
             (slot_id,state['owner'],now)).fetchone()
         if not slot:raise Problem(409,'That kickoff time is no longer available. Choose another time.')
+        if reschedule:
+            db.execute("UPDATE client_kickoff_slots SET reference=NULL,zone='' WHERE reference=?",(reference,))
+            db.execute('DELETE FROM client_kickoff_meetings WHERE reference=?',(reference,))
         db.execute('UPDATE client_kickoff_slots SET reference=?,zone=? WHERE id=?',(reference,zone,slot_id))
         state.update(scheduled=slot['starts'],confirmed=1)
-        action='kickoff-booked'
+        action='kickoff-rescheduled' if reschedule else 'kickoff-booked'
     else:
         contact=value(data,'contact',160,False)
         ready=data.get('materialsReady');confirmed=data.get('confirmed')
@@ -842,6 +884,8 @@ def change_kickoff(db, reference, identity, data, staff):
         if confirmed and not state['confirmed'] and state['scheduled']<=now:
             raise Problem(409,'The proposed time has passed. Ask the team to suggest a new time.')
         state.update(contact=contact,materials_ready=int(ready),confirmed=1 if state['booking_zone'] else int(confirmed))
+        if state['meeting'] and not state['confirmed']:
+            db.execute('DELETE FROM client_kickoff_meetings WHERE reference=?',(reference,))
         action='kickoff-checklist'
     state['version']+=1
     state['updated']=now
@@ -932,10 +976,20 @@ def calendar(db,reference):
         old=db.execute('SELECT starts,duration FROM appointment_events WHERE enquiry_id=? AND starts IS NOT NULL ORDER BY id DESC LIMIT 1',(reference,)).fetchone()
         if not old:return None
         starts,duration=old
+    meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(reference,)).fetchone();url=meeting[0] if meeting else ''
+    details='Join: '+url if url else 'Joining details will be supplied by the team.'
+    return appointment_calendar('demo',reference,starts,duration,b['version'],b['state']=='cancelled',details,url)
+
+
+def appointment_calendar(kind,reference,starts,duration,version,cancelled,details,url):
     def stamp(n):return datetime.datetime.fromtimestamp(n,datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     def escape(s):return s.replace('\\','\\\\').replace('\n','\\n').replace(';','\\;').replace(',','\\,').replace('\r','')
-    meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(reference,)).fetchone();url=meeting[0] if meeting else ''
-    lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bandevi//Demo appointments//EN','METHOD:'+('CANCEL' if b['state']=='cancelled' else 'PUBLISH'),'BEGIN:VEVENT','UID:demo-'+reference+'@bandeviglobalgroup.com','DTSTAMP:'+stamp(int(time.time())),'DTSTART:'+stamp(starts),'DTEND:'+stamp(starts+duration*60),'SEQUENCE:'+str(b['version']),'STATUS:'+('CANCELLED' if b['state']=='cancelled' else 'CONFIRMED'),'SUMMARY:Bandevi demo','DESCRIPTION:'+escape('Reference: '+reference+'\n'+('Join: '+url if url else 'Joining details will be supplied by the team.'))]
+    lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bandevi//'+kind.title()+' appointments//EN',
+           'METHOD:'+('CANCEL' if cancelled else 'PUBLISH'),'BEGIN:VEVENT',
+           'UID:'+kind+'-'+reference+'@bandeviglobalgroup.com','DTSTAMP:'+stamp(int(time.time())),
+           'DTSTART:'+stamp(starts),'DTEND:'+stamp(starts+duration*60),'SEQUENCE:'+str(version),
+           'STATUS:'+('CANCELLED' if cancelled else 'CONFIRMED'),'SUMMARY:Bandevi '+kind,
+           'DESCRIPTION:'+escape('Reference: '+reference+'\n'+details)]
     if url:lines.append('URL:'+escape(url))
     lines+=['END:VEVENT','END:VCALENDAR'];folded=[]
     for line in lines:

@@ -158,5 +158,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original self-service kickoff marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const kickoffConfirmation = require('./fixtures/kickoff-confirmation-approved.json');
+  for (const { before, after } of kickoffConfirmation[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original kickoff confirmation marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

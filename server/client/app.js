@@ -204,13 +204,15 @@ function renderProposalReview(parent,proposal,reference){
 
 function renderKickoffBooking(section,project,kickoff){
  const box=el('details'),form=el('form'),status=el('p','');
+ const reschedule=kickoff.confirmed;
  status.role='status';
- box.append(el('summary','Book your kickoff'),form);
+ box.append(el('summary',reschedule?'Reschedule kickoff':'Book your kickoff'),form);
  form.append(el('p','Choose a 30-minute time with your delivery owner.'));
  const zone=field(form,'Display time zone','zone','text',appointmentZones);
+ zone.value=appointmentZones.includes(kickoff.booking_zone)?kickoff.booking_zone:detectedReviewZone;
  const slot=field(form,'Available kickoff times','slot','text',[]);
  slot.required=true;
- const reserve=el('button','Confirm kickoff booking');reserve.type='submit';
+ const reserve=el('button',reschedule?'Confirm new kickoff time':'Confirm kickoff booking');reserve.type='submit';
  const refresh=el('button','Refresh times');refresh.type='button';refresh.className='secondary';
  form.append(reserve,refresh,status);
  section.append(box);
@@ -244,14 +246,14 @@ function renderKickoffBooking(section,project,kickoff){
   act(async()=>{
    try{
     await api(prefix+'kickoff',{reference:project.reference,id:kickoff.proposal,version,
-     action:'book',slotId:slot.value,zone:zone.value});
+     action:reschedule?'reschedule':'book',slotId:slot.value,zone:zone.value});
     if(current?.reference===project.reference){
      await loadProject();
      $('client-kickoff')?.focus();
     }
    }catch(error){status.textContent='Refresh times before trying again.';throw error;}
    finally{booking=false;refresh.disabled=false;showTimes();}
-  },'Your kickoff is booked.');
+  },reschedule?'Your kickoff has been rescheduled. Download the updated calendar event.':'Your kickoff is booked.');
  });
  showTimes();
 }
@@ -268,10 +270,24 @@ function renderClientKickoff(project, root){
  section.append(el('p','Use the agreed secure channel to share materials. Keep passwords and access keys out of the workspace.','muted'));
  section.append(el('p',kickoff.scheduled?(kickoff.confirmed?'Confirmed kickoff: ':'Proposed kickoff: ')+
   reviewTime(kickoff.scheduled,kickoff.booking_zone||detectedReviewZone):'Kickoff time to be arranged.'));
+ if(kickoff.confirmed&&kickoff.scheduled&&!kickoff.started){
+  const actions=el('p',undefined,'row');
+  const calendar=el('a','Add to calendar');
+  calendar.href=prefix+'kickoff-calendar?'+new URLSearchParams({reference:project.reference,id:kickoff.proposal});
+  calendar.download='Bandevi-kickoff.ics';
+  actions.append(calendar);
+  if(kickoff.meeting){
+   const join=el('a','Join kickoff');join.href=kickoff.meeting;join.target='_blank';join.rel='noopener noreferrer';
+   actions.append(join);
+  }else if(kickoff.scheduled>Date.now()/1000){
+   actions.append(el('span','Joining link pending. Check back before your kickoff.','muted'));
+  }
+  section.append(actions);
+ }
  if(kickoff.started){
   section.append(el('p','Kickoff recorded on '+stamp(kickoff.started)+'. Project contact: '+kickoff.contact));
  }else{
-  if(!kickoff.confirmed)renderKickoffBooking(section,project,kickoff);
+  if(!kickoff.confirmed||kickoff.canReschedule)renderKickoffBooking(section,project,kickoff);
   const form=formBox(section,'Update kickoff checklist',async()=>change('kickoff',{version:kickoff.version,contact:contact.value,materialsReady:ready.checked,confirmed:confirmed.checked}));
   const contact=field(form,'Primary project contact','contact');contact.value=kickoff.contact;contact.maxLength=160;
   const ready=field(form,'I’ve shared the requested materials','materialsReady','checkbox');ready.checked=!!kickoff.materials_ready;
