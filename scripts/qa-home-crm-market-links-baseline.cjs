@@ -183,5 +183,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original CRM booking conversion marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const demoAttendance = require('./fixtures/demo-attendance-approved.json');
+  for (const { before, after } of demoAttendance[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original demo attendance marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

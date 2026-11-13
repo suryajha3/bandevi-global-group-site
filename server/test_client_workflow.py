@@ -628,6 +628,12 @@ class ClientTests(unittest.TestCase):
         with enquiries.connect() as db:
             self.assertEqual(db.execute("SELECT COUNT(*) FROM notification_outbox WHERE dedupe LIKE ?",('demo-reminder:'+ref+':%',)).fetchone()[0],0)
         workflow.reminders(enquiries.connect, starts-86400)
+        before_rsvp=self.request('/api/demo/manage',{'token':token})[1]
+        self.assertTrue(before_rsvp['canRsvp'])
+        self.assertFalse(before_rsvp['rsvpConfirmed'])
+        self.assertEqual(before_rsvp['timezone'],'America/Los_Angeles')
+        self.assertEqual(self.request('/api/demo/manage',{'token':'a'*64,'action':'rsvp',
+            'version':0,'scheduleEvent':before_rsvp['scheduleEvent']})[0],404)
         self.assertEqual(self.request('/api/admin/workspace/meeting',{'reference':ref,'version':0,'url':'http://unsafe.example/'},self.admin,self.admin_csrf)[0],400)
         self.assertEqual(self.request('/api/admin/workspace/meeting',{'reference':ref,'version':0,'url':'https://meet.example.com/synthetic'},self.admin,self.admin_csrf)[0],200)
         self.assertEqual(flag(), 0)
@@ -641,16 +647,31 @@ class ClientTests(unittest.TestCase):
             self.assertRegex(reminder, r'P[DS]T \(-0[78]00\)')
             self.assertIn('Join: https://meet.example.com/synthetic', reminder)
             self.assertIn('/demo-booking/#'+token, reminder)
+            self.assertIn('RSVP or choose another time:',reminder)
+        self.assertEqual(self.request('/api/admin/demo-attention')[0],401)
+        rsvp={'token':token,'action':'rsvp','version':1,'scheduleEvent':before_rsvp['scheduleEvent']}
+        for _ in range(2):
+            self.assertTrue(self.request('/api/demo/manage',rsvp)[1]['rsvpConfirmed'])
+        with enquiries.connect() as db:
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM demo_rsvps WHERE schedule_event=?',
+                (before_rsvp['scheduleEvent'],)).fetchone()[0],1)
+            self.assertIn('RSVP confirmed. View appointment:',workflow.reminder_message(db,rows[0],starts-86300))
+            from operations import upcoming_demo_actions
+            self.assertFalse(any(item['reference']==ref for item in upcoming_demo_actions(db,{'role':'admin'},starts-3600)))
         workflow.reminders(enquiries.connect, starts-3600)
         workflow.reminders(enquiries.connect, starts-3599)
         with enquiries.connect() as db:
             rows=db.execute("SELECT * FROM notification_outbox WHERE dedupe LIKE ? ORDER BY id",('demo-reminder:'+ref+':%',)).fetchall()
             self.assertEqual([row['dedupe'].split(':')[-1] for row in rows], ['24','1'])
             self.assertIsNone(workflow.reminder_message(db, rows[0], starts-3600))
-            self.assertIsNotNone(workflow.reminder_message(db, rows[1], starts-3600))
+            self.assertTrue(workflow.reminder_message(db,rows[1],starts-3600).startswith('Join: https://meet.example.com/synthetic'))
             replacement=uuid.uuid4().hex[:24]
             db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,?,?)',(replacement,starts+3*86400,30,dashboard.USER))
-        self.assertEqual(self.request('/api/demo/manage',{'token':token,'action':'reschedule','version':1,'slotId':replacement})[0],200)
+        status,new_time,_=self.request('/api/demo/manage',{'token':token,'action':'reschedule','version':1,'slotId':replacement})
+        self.assertEqual(status,200)
+        self.assertFalse(new_time['rsvpConfirmed'])
+        self.assertNotEqual(new_time['scheduleEvent'],before_rsvp['scheduleEvent'])
+        self.assertEqual(self.request('/api/demo/manage',dict(rsvp,version=2))[0],409)
         with enquiries.connect() as db:
             self.assertIsNone(workflow.reminder_message(db, rows[1], starts-3600))
         workflow.reminders(enquiries.connect, starts+2*86400)
@@ -671,6 +692,47 @@ class ClientTests(unittest.TestCase):
         report=self.request('/api/admin/workspace/report?days=30',cookie=self.admin)[1]
         self.assertGreaterEqual(report['lostReasons']['Budget'],1)
         with enquiries.connect() as db:self.assertEqual(db.execute('SELECT published FROM client_proposals WHERE id=?',(pid,)).fetchone()[0],0)
+
+    def test_demo_attendance_cohort_and_host_attention_scope(self):
+        import operations
+        import sales_journey
+        now=int(time.time())
+        host='host@example.com'
+        with enquiries.connect() as db:
+            for offset,market,outcome,rsvp,kind,state in [
+                (-4000,'US','Completed',True,'confirmed','confirmed'),
+                (-4100,'US','No show',False,'rescheduled','confirmed'),
+                (-4200,'GB',None,False,'confirmed','confirmed'),
+                (-4300,'GB','Completed',True,'confirmed','cancelled'),
+                (-4400,'IN',None,True,'rescheduled','confirmed'),
+                (1200,'IN',None,False,'confirmed','confirmed'),
+            ]:
+                ref='BG-'+uuid.uuid4().hex[:16].upper()
+                slot=uuid.uuid4().hex[:24]
+                payload={'interest':'Travel CRM Package','qualification':{'country':market}}
+                db.execute('INSERT INTO enquiries(id,created,payload) VALUES(?,?,?)',(ref,now-7200,json.dumps(payload)))
+                db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',(slot,now+offset,host))
+                db.execute('INSERT INTO demo_bookings(enquiry_id,slot_id,token_digest,state) VALUES(?,?,?,?)',
+                    (ref,slot,ref,state))
+                event=db.execute('INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,?,?,30,?,?)',
+                    (ref,slot,kind,now+offset,'customer',now-7200)).lastrowid
+                if rsvp:
+                    db.execute('INSERT INTO demo_rsvps VALUES(?,?)',(event,now-7000))
+                if outcome:
+                    db.execute('INSERT INTO sales_demo_records VALUES(?,?,?,?,?,?,?)',(ref,'Test',outcome,event,1,now,host))
+                if offset>0:
+                    upcoming=ref
+            host_identity={'role':'agent','actor':host}
+            unrelated={'role':'agent','actor':'other@example.com'}
+            attention=operations.upcoming_demo_actions(db,host_identity,now)
+            self.assertEqual([item['reference'] for item in attention],[upcoming])
+            self.assertTrue(attention[0]['awaitingRsvp'] and attention[0]['missingLink'])
+            self.assertEqual(operations.upcoming_demo_actions(db,unrelated,now),[])
+            report={row['market']:row for row in sales_journey.demo_attendance(db,host_identity,now-86400,now)}
+            self.assertEqual([report['US'][key] for key in ('booked','rsvp','attended','rescheduled','noShow','attendanceRate')],[2,1,1,1,1,50.0])
+            self.assertEqual([report['GB'][key] for key in ('booked','attended','missingOutcome','attendanceRate')],[2,0,1,None])
+            self.assertEqual([report['IN'][key] for key in ('booked','rsvp','rescheduled','missingOutcome')],[1,1,1,1])
+            self.assertFalse(any(row['booked'] for row in sales_journey.demo_attendance(db,unrelated,now-86400,now)))
 
 if __name__=='__main__':
     try:

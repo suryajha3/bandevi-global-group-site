@@ -129,6 +129,8 @@ async function refreshSalesFunnel(identity){
  const generation=++salesFunnelGeneration,days=$('report-days').value;
  $('sample-demo-report').hidden=true;
  $('sample-demo-table').replaceChildren();
+ $('demo-attendance-report').hidden=true;
+ $('demo-attendance-table').replaceChildren();
  $('crm-demo-conversion').hidden=true;
  $('crm-demo-conversion-table').replaceChildren();
  $('proposal-review-conversion').hidden=true;
@@ -150,6 +152,7 @@ async function refreshSalesFunnel(identity){
   for(const market of r.markets||[]){const row=document.createElement('tr'),label=text('th',market.label);label.scope='row';row.append(label);const c=market.counts,rates=market.rates;for(const value of [c.enquiries,c.qualified,c.demoBooked,c.demoCompleted,c.demoCancelled??0,c.demoNoShow??0,c.publishedProposals,c.proposalAfterDemo,c.currentlyWon,percent(rates.enquiryToDemo),percent(rates.demoToProposal),percent(rates.proposalToWon),percent(rates.enquiryToWon)])row.append(text('td',String(value)));body.append(row);}table.append(body);
   $('market-sales-report').replaceChildren(table);$('market-sales-basis').textContent=r.marketBasis;
   renderSampleDemoFunnel(r);
+  renderDemoAttendance(r.demoAttendance);
   renderCrmDemoConversion(r);
   renderProposalReviewConversion(r);
   renderKickoffConversion(r);
@@ -159,6 +162,24 @@ async function refreshSalesFunnel(identity){
   renderOutcomeRows('home-service-sales-report','Homepage service','serviceLabel',r.homeServices || []);
   renderCampaignSalesReport(r);
  }catch(error){if(csrf===identity&&generation===salesFunnelGeneration&&days===$('report-days').value){$('sales-funnel-basis').textContent=error.message;$('campaign-sales-summary').textContent=error.message;$('proposal-decision-basis').textContent='Proposal decisions could not be loaded.';}}
+}
+
+function renderDemoAttendance(markets){
+ if(!markets)return;
+ const table=document.createElement('table');
+ table.append(text('caption','Recorded CRM demo outcomes'));
+ const header=table.createTHead().insertRow();
+ for(const label of ['Market','Booked','RSVP confirmed','Attended','Rescheduled','No-show','Missing outcome','Attendance rate']){
+  const cell=text('th',label);cell.scope='col';header.append(cell);
+ }
+ const body=table.createTBody();
+ for(const market of markets){
+  const row=body.insertRow(),heading=text('th',market.label);heading.scope='row';row.append(heading);
+  for(const value of [market.booked,market.rsvp,market.attended,market.rescheduled,market.noShow,market.missingOutcome,
+   market.attendanceRate===null?'—':market.attendanceRate+'%'])row.append(text('td',String(value)));
+ }
+ $('demo-attendance-table').replaceChildren(table);
+ $('demo-attendance-report').hidden=false;
 }
 
 function renderProposalReviewConversion(result){
@@ -316,6 +337,7 @@ function clearCampaignSales(){
  $('campaign-sales-country').value='all';$('campaign-sales-search').value='';
  $('proposal-decision-report').replaceChildren();$('proposal-decision-basis').textContent='';
  $('sample-demo-report').hidden=true;$('sample-demo-table').replaceChildren();
+ $('demo-attendance-report').hidden=true;$('demo-attendance-table').replaceChildren();
  $('crm-demo-conversion').hidden=true;$('crm-demo-conversion-table').replaceChildren();
  $('proposal-review-conversion').hidden=true;$('proposal-review-conversion-table').replaceChildren();
  $('proposal-blocker-conversion-table').replaceChildren();

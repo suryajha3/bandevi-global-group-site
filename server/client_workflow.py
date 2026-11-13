@@ -406,7 +406,10 @@ def post(handler,connect,origins,salt):
             elif action=='meeting' and staff:
                 ref=value(data,'reference',30);b=db.execute('SELECT * FROM demo_bookings WHERE enquiry_id=?',(ref,)).fetchone()
                 if not b:raise Problem(404,'Appointment not found.')
-                if identity['role']=='agent' and not db.execute('SELECT 1 FROM enquiry_workflow WHERE id=? AND owner=?',(ref,actor)).fetchone():raise Problem(404,'Appointment not found.')
+                if identity['role']=='agent' and not db.execute("""SELECT 1 FROM demo_slots s
+                    WHERE s.id=? AND ((s.host=? AND s.starts>?) OR EXISTS
+                        (SELECT 1 FROM enquiry_workflow w WHERE w.id=? AND w.owner=?))""",
+                        (b['slot_id'],actor,int(time.time()),ref,actor)).fetchone():raise Problem(404,'Appointment not found.')
                 if b['state']!='confirmed':raise Problem(409,'Appointment is cancelled.')
                 if type(data.get('version'))!=int or b['version']!=data['version']:raise Problem(409,'Appointment changed. Refresh before saving.')
                 url=value(data,'url',500);u=urlsplit(url)
@@ -1054,6 +1057,14 @@ def valid_demo_timezone(zone):
     return True
 
 
+def demo_timezone(payload):
+    qualification = payload.get('qualification') or {}
+    zone = payload.get('demoTimezone') or (qualification.get('contact') or {}).get('timezone')
+    if not zone or zone == 'UTC' and 'demoTimezone' not in payload:
+        zone = {'US': 'America/New_York', 'GB': 'Europe/London'}.get(qualification.get('country'), 'Asia/Kolkata')
+    return ZoneInfo(zone if valid_demo_timezone(zone) else 'Asia/Kolkata')
+
+
 def reminder_due(booking, hours, now):
     due = booking['starts'] - hours * 3600
     cutoff = booking['starts'] - (3600 if hours == 24 else 0)
@@ -1072,22 +1083,29 @@ def reminder_message(db, notification, now=None):
     payload = json.loads(booking['payload'])
     if payload.get('email') != notification['recipient']:
         return None
-    qualification = payload.get('qualification') or {}
-    zone = payload.get('demoTimezone') or (qualification.get('contact') or {}).get('timezone')
-    if not zone or zone == 'UTC' and 'demoTimezone' not in payload:
-        zone = {'US': 'America/New_York', 'GB': 'Europe/London'}.get(qualification.get('country'), 'Asia/Kolkata')
-    try:
-        timezone = ZoneInfo(zone)
-    except (ZoneInfoNotFoundError, ValueError, TypeError):
-        timezone = operations.INDIA
+    timezone = demo_timezone(payload)
     when = datetime.datetime.fromtimestamp(booking['starts'], timezone).strftime('%d %B %Y at %H:%M %Z (%z)')
     lines = [f'Your Bandevi demo is scheduled for {when}.', f'Reference: {reference}']
-    lines.append('Join: ' + booking['url'] if booking['url'] else 'The team will send joining details separately.')
     token = re.search(r'/demo-booking/#([A-Za-z0-9_-]{40,100})(?:\s|$)', booking['confirmation'] or '')
     if token and hmac.compare_digest(hashlib.sha256(token[1].encode()).hexdigest(), booking['token_digest']):
-        lines.append('Manage or reschedule: https://bandeviglobalgroup.com/demo-booking/#' + token[1])
+        manage = 'https://bandeviglobalgroup.com/demo-booking/#' + token[1]
+        if hours == '24':
+            confirmed = db.execute('SELECT 1 FROM demo_rsvps WHERE schedule_event=?',(booking['schedule_event'],)).fetchone()
+            lines.append(('RSVP confirmed. View appointment: ' if confirmed else 'RSVP or choose another time: ') + manage)
+        elif not booking['url']:
+            lines.append('Check joining details: ' + manage)
+        else:
+            lines.append('Manage or reschedule: ' + manage)
     else:
         lines.append('To reschedule, reply to this email or contact sales@bandeviglobalgroup.com.')
+    if booking['url']:
+        join = 'Join: ' + booking['url']
+        if hours == '1':
+            lines.insert(0,join)
+        else:
+            lines.append(join)
+    else:
+        lines.append('The team will send joining details separately.')
     return '\n'.join(lines)
 
 
@@ -1130,7 +1148,8 @@ def reminders(connect, now=None):
                               (f'demo-reminder:{reference}:[0-9]*:{hours}', booking['booked_at'])).fetchone():
                     continue
                 key = f'demo-reminder:{reference}:s{booking["schedule_event"]}:{hours}'
-                operations.enqueue(db, key, email, 'Your Bandevi demo reminder', '')
+                subject = 'Join your upcoming Bandevi demo' if hours == 1 else 'Your upcoming Bandevi demo'
+                operations.enqueue(db, key, email, subject, '')
         for kickoff in db.execute(KICKOFF_SCHEDULE+' AND k.scheduled>? AND k.scheduled<=?',(now,now+86400)):
             for hours in (24,1):
                 if reminder_due(kickoff,hours,now):
