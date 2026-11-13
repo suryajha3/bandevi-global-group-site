@@ -168,5 +168,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original kickoff reminders marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const homepageClarity = require('./fixtures/homepage-clarity-approved.json');
+  for (const { before, after } of homepageClarity[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original homepage clarity marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };
