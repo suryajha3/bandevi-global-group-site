@@ -29,6 +29,7 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS appointment_events(id INTEGER PRIMARY KEY, enquiry_id TEXT NOT NULL,
       slot_id TEXT NOT NULL, event TEXT NOT NULL, starts INTEGER, duration INTEGER,
       actor TEXT NOT NULL, created INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS demo_rsvps(schedule_event INTEGER PRIMARY KEY, confirmed_at INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS deal_values(enquiry_id TEXT PRIMARY KEY, minor_units INTEGER NOT NULL,
       currency TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS recovery_checks(id INTEGER PRIMARY KEY, created INTEGER NOT NULL,
@@ -65,6 +66,7 @@ def available_slot(db, slot_id, now):
 
 
 def create_booking(db, reference, slot_id, token):
+    from client_workflow import demo_timezone
     slot = available_slot(db,slot_id,int(time.time()))
     if not slot:
         raise ValueError('That demo slot is no longer available. Choose another slot.')
@@ -73,10 +75,10 @@ def create_booking(db, reference, slot_id, token):
     db.execute('INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,?,?,?,?,?)',
                (reference,slot_id,'confirmed',slot['starts'],slot['duration'],'customer',int(time.time())))
     data=json.loads(db.execute('SELECT payload FROM enquiries WHERE id=?',(reference,)).fetchone()[0])
-    when=datetime.datetime.fromtimestamp(slot['starts'],INDIA).strftime('%d %B %Y at %H:%M IST')
+    when=datetime.datetime.fromtimestamp(slot['starts'],demo_timezone(data)).strftime('%d %B %Y at %H:%M %Z (%z)')
     enqueue(db,'booking:'+reference+':0',data['email'],'Your Bandevi demo is confirmed',
             f'Your demo is confirmed for {when} ({slot["duration"]} minutes).\nReference: {reference}\n'
-            'The team will send joining details separately.\nManage your appointment: https://bandeviglobalgroup.com/demo-booking/#'+token)
+            'The team will send joining details separately.\nRSVP or manage your appointment: https://bandeviglobalgroup.com/demo-booking/#'+token)
     return {'confirmed':True,'starts':slot['starts'],'duration':slot['duration'],
             'manageUrl':'/demo-booking/#'+token}
 
@@ -87,6 +89,21 @@ def receipt(db, reference, token=None):
     if token:result['manageUrl']='/demo-booking/#'+token
     return result
 
+
+def upcoming_demo_actions(db, identity, now):
+    host_scope = ' AND s.host=?' if identity['role']=='agent' else ''
+    params = [now, now+86400] + ([identity['actor']] if host_scope else [])
+    return [dict(row) for row in db.execute("""SELECT b.enquiry_id AS reference,s.starts,s.host,b.version,
+        json_extract(e.payload,'$.qualification.country') AS market,
+        COALESCE(m.url,'')='' AS missingLink, r.schedule_event IS NULL AS awaitingRsvp
+        FROM demo_bookings b JOIN demo_slots s ON s.id=b.slot_id JOIN enquiries e ON e.id=b.enquiry_id
+        JOIN appointment_events a ON a.id=(SELECT MAX(id) FROM appointment_events
+            WHERE enquiry_id=b.enquiry_id AND event IN ('confirmed','rescheduled')) AND a.slot_id=b.slot_id
+        LEFT JOIN demo_rsvps r ON r.schedule_event=a.id
+        LEFT JOIN demo_meetings m ON m.reference=b.enquiry_id
+        WHERE b.state='confirmed' AND e.email_status!='qa-verified' AND s.starts>? AND s.starts<=?
+          AND (COALESCE(m.url,'')='' OR r.schedule_event IS NULL)"""+host_scope+' ORDER BY s.starts',params)]
+
 def get(handler, connect, authenticated):
     parsed=urlsplit(handler.path);route=parsed.path
     if route=='/api/demo/slots':
@@ -94,14 +111,16 @@ def get(handler, connect, authenticated):
         with connect() as db:
             rows=available_slots(db,now)
         handler.respond(200,{'timezone':'Asia/Kolkata','slots':[dict(r) for r in rows]});return True
-    if route not in ('/api/admin/team','/api/admin/slots','/api/admin/operations','/api/admin/conversion'):
+    if route not in ('/api/admin/team','/api/admin/slots','/api/admin/operations','/api/admin/conversion','/api/admin/demo-attention'):
         return False
     if not authenticated:handler.respond(401,{'error':'Sign in to continue.'});return True
     role=authenticated['role'];actor=authenticated['actor']
     if role=='agent' and route in ('/api/admin/team','/api/admin/operations'):
         handler.respond(403,{'error':'Manager access required.'});return True
     with connect() as db:
-        if route=='/api/admin/team':
+        if route=='/api/admin/demo-attention':
+            result={'items':upcoming_demo_actions(db,authenticated,int(time.time()))}
+        elif route=='/api/admin/team':
             from dashboard import USER
             rows=[{'email':USER,'name':'Site administrator','role':'admin','active':1}]+[dict(r) for r in db.execute('SELECT email,name,role,active FROM team_users ORDER BY name')]
             result={'users':rows}
@@ -208,7 +227,8 @@ def post_public(handler, connect, origins):
     if urlsplit(handler.path).path!='/api/demo/manage':return False
     if handler.headers.get('Origin') not in origins:handler.respond(403,{'error':'Use the website to manage your appointment.'});return True
     from dashboard import read_json
-    from sales_journey import prep_brief, save_prep_brief
+    from sales_journey import prep_brief, save_prep_brief, schedule_event
+    from client_workflow import demo_timezone
     try:
         data=read_json(handler);token=data.get('token','')
         if not isinstance(token,str) or not 40<=len(token)<=100:raise ValueError('Invalid appointment link.')
@@ -220,10 +240,17 @@ def post_public(handler, connect, origins):
             if action=='calendar':
                 from client_workflow import calendar
                 handler.respond(200,{'calendar':calendar(db,booking['enquiry_id'])});return True
-            if action not in ('view','cancel','reschedule','save-prep'):raise ValueError('Invalid action.')
+            if action not in ('view','cancel','reschedule','save-prep','rsvp'):raise ValueError('Invalid action.')
+            current_event=schedule_event(db,booking['enquiry_id'])
             if action!='view':
                 if type(data.get('version'))!=int or data['version']!=booking['version']:handler.respond(409,{'error':'Appointment changed. Reload before trying again.'});return True
-                if action=='save-prep':
+                if action=='rsvp':
+                    slot=db.execute('SELECT starts FROM demo_slots WHERE id=?',(booking['slot_id'],)).fetchone()
+                    if (booking['state']!='confirmed' or not slot or slot['starts']<=int(time.time())
+                            or not current_event or type(data.get('scheduleEvent'))!=int or data['scheduleEvent']!=current_event):
+                        handler.respond(409,{'error':'The RSVP is available only for the current upcoming demo. Refresh and check the time.'});return True
+                    db.execute('INSERT OR IGNORE INTO demo_rsvps VALUES(?,?)',(current_event,int(time.time())))
+                elif action=='save-prep':
                     slot=db.execute('SELECT starts FROM demo_slots WHERE id=?',(booking['slot_id'],)).fetchone()
                     if booking['state']!='confirmed' or not slot or slot['starts']<=int(time.time()):
                         handler.respond(409,{'error':'The prep brief is open only before a confirmed demo.'});return True
@@ -238,13 +265,19 @@ def post_public(handler, connect, origins):
                     db.execute('DELETE FROM demo_meetings WHERE reference=?',(booking['enquiry_id'],))
                     db.execute('INSERT INTO appointment_events(enquiry_id,slot_id,event,starts,duration,actor,created) VALUES(?,?,?,?,?,?,?)',
                                (booking['enquiry_id'],slot_id,'rescheduled',slot['starts'],slot['duration'],'customer',int(time.time())))
+                    current_event=schedule_event(db,booking['enquiry_id'])
                     payload=json.loads(db.execute('SELECT payload FROM enquiries WHERE id=?',(booking['enquiry_id'],)).fetchone()[0])
-                    when=datetime.datetime.fromtimestamp(slot['starts'],INDIA).strftime('%d %B %Y %H:%M IST')
-                    enqueue(db,'appointment:'+booking['enquiry_id']+':'+str(booking['version']+1),payload['email'],'Bandevi demo rescheduled',f'Your new demo time: {when}.\nManage: https://bandeviglobalgroup.com/demo-booking/#'+token)
+                    when=datetime.datetime.fromtimestamp(slot['starts'],demo_timezone(payload)).strftime('%d %B %Y at %H:%M %Z (%z)')
+                    enqueue(db,'appointment:'+booking['enquiry_id']+':'+str(booking['version']+1),payload['email'],'Bandevi demo rescheduled',f'Your new demo time: {when}.\nRSVP or manage: https://bandeviglobalgroup.com/demo-booking/#'+token)
             row=db.execute('SELECT b.state,b.version,b.enquiry_id,s.starts,s.duration FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE token_digest=?',(hashlib.sha256(token.encode()).hexdigest(),)).fetchone()
             meeting=db.execute('SELECT url FROM demo_meetings WHERE reference=?',(booking['enquiry_id'],)).fetchone()
-            prep=prep_brief(db,booking['enquiry_id']) if row['state']=='confirmed' and row['starts'] and row['starts']>int(time.time()) else None
-        handler.respond(200,{**dict(row),'meetingUrl':meeting[0] if meeting else None,'prepBrief':prep})
+            upcoming=bool(row['state']=='confirmed' and row['starts'] and row['starts']>int(time.time()))
+            prep=prep_brief(db,booking['enquiry_id']) if upcoming else None
+            rsvp=row['state']=='confirmed' and bool(db.execute('SELECT 1 FROM demo_rsvps WHERE schedule_event=?',(current_event,)).fetchone())
+            payload=json.loads(db.execute('SELECT payload FROM enquiries WHERE id=?',(booking['enquiry_id'],)).fetchone()[0])
+        handler.respond(200,{**dict(row),'meetingUrl':meeting[0] if meeting and row['state']=='confirmed' else None,
+            'prepBrief':prep,'scheduleEvent':current_event,'canRsvp':upcoming and bool(current_event),
+            'rsvpConfirmed':rsvp,'timezone':demo_timezone(payload).key})
     except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Check your appointment link and details.'})
     return True
 

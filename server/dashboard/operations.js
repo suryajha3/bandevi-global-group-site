@@ -1,5 +1,50 @@
 'use strict';
 let kickoffGeneration=0,kickoffOffset=0;
+let demoAttentionGeneration=0;
+
+function clearDemoAttention(){
+  demoAttentionGeneration++;
+  $('demo-attention-items').replaceChildren();
+  $('demo-attention-status').textContent='';
+}
+
+async function refreshDemoAttention(){
+  if(!csrf)return;
+  const identity=csrf,generation=++demoAttentionGeneration;
+  const status=$('demo-attention-status');
+  status.textContent='Checking upcoming demos…';
+  try{
+    const result=await api('/api/admin/demo-attention');
+    if(csrf!==identity||generation!==demoAttentionGeneration)return;
+    const markets={US:'United States',GB:'United Kingdom',IN:'India'};
+    $('demo-attention-items').replaceChildren(...result.items.map(item=>{
+      const card=text('article','','entry'),details=text('div','');
+      details.append(text('h3',item.reference),text('p',(markets[item.market]||'Other market')+' · '+date(item.starts)),
+        text('p','Host: '+item.host),
+        text('p',[item.missingLink?'Joining link needed':'',item.awaitingRsvp?'Awaiting RSVP':''].filter(Boolean).join(' · '),'attention-reasons'));
+      if(item.missingLink){
+        const form=document.createElement('form'),url=document.createElement('input');
+        kickoffField(form,'Demo joining link',url);url.type='url';url.required=true;url.maxLength=500;
+        const save=text('button','Save and send joining link'),feedback=text('p','');
+        save.type='submit';feedback.role='status';form.append(save,feedback);
+        form.addEventListener('submit',async event=>{
+          event.preventDefault();
+          if(csrf!==identity||generation!==demoAttentionGeneration)return;
+          save.disabled=true;
+          try{
+            await post('/api/admin/workspace/meeting',{reference:item.reference,version:item.version,url:url.value});
+            if(csrf===identity&&generation===demoAttentionGeneration)await refreshDemoAttention();
+          }catch(error){
+            if(csrf===identity&&generation===demoAttentionGeneration){feedback.textContent=error.message;save.disabled=false;}
+          }
+        });
+        details.append(form);
+      }
+      card.append(details);return card;
+    }));
+    status.textContent=result.items.length?'':'No demos need attention in the next 24 hours.';
+  }catch(error){if(csrf===identity&&generation===demoAttentionGeneration)status.textContent=error.message;}
+}
 
 function clearKickoffQueue(){
   kickoffGeneration++;kickoffOffset=0;
@@ -167,6 +212,7 @@ async function refreshOperations(){
     for(const [channel,c]of Object.entries(conversion.channels)){const row=document.createElement('tr');for(const value of [channelLabels[channel]||channel,c.enquiries,c.qualified,c.proposal,c.won,c.lost,c.enquiries?(100*c.won/c.enquiries).toFixed(1)+'%':'—'])row.append(text('td',String(value)));table.append(row);}
     $('conversion-table').replaceChildren(table);$('won-value').textContent=Object.entries(conversion.wonValueMinorUnits).map(([currency,value])=>new Intl.NumberFormat(undefined,{style:'currency',currency}).format(value/100)).join(' · ')||'No won deal values recorded.';
     await refreshSalesFunnel(requestIdentity);await refreshJourneyReport(requestIdentity);
+    if(view==='response'&&csrf===requestIdentity)await refreshDemoAttention();
     if(typeof refreshGrowthCosts==='function')await refreshGrowthCosts();
     if(teamRole==='agent')return;
     const [users,status,slots]=await Promise.all([api('/api/admin/team'),api('/api/admin/operations'),api('/api/admin/slots')]);if(csrf!==requestIdentity)return;demoSlots=slots.slots;

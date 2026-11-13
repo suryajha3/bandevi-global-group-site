@@ -352,6 +352,44 @@ def sample_demo_funnel(db, identity, since, now):
     return list(groups.values())
 
 
+def demo_attendance(db, identity, since, now):
+    groups={code:{'market':code,'label':growth_workbench.COUNTRIES[code],
+                  'booked':0,'rsvp':0,'attended':0,'rescheduled':0,'noShow':0,'missingOutcome':0}
+            for code in ('US','GB','IN')}
+    access=' AND (w.owner=? OR s.host=?)' if identity['role']=='agent' else ''
+    params=[since,now,*CRM_INTERESTS]
+    if access:
+        params.extend([identity['actor'],identity['actor']])
+    markers=','.join('?' for _ in CRM_INTERESTS)
+    rows=db.execute("""SELECT a.starts,a.duration,a.event,b.state,
+        json_extract(e.payload,'$.qualification.country') AS market,
+        r.schedule_event IS NOT NULL AS rsvp,d.outcome
+        FROM demo_bookings b JOIN enquiries e ON e.id=b.enquiry_id
+        JOIN appointment_events a ON a.id=(SELECT MAX(id) FROM appointment_events
+            WHERE enquiry_id=b.enquiry_id AND event IN ('confirmed','rescheduled'))
+        LEFT JOIN demo_slots s ON s.id=a.slot_id
+        LEFT JOIN demo_rsvps r ON r.schedule_event=a.id
+        LEFT JOIN sales_demo_records d ON d.reference=b.enquiry_id AND d.schedule_event=a.id
+        LEFT JOIN enquiry_workflow w ON w.id=b.enquiry_id
+        WHERE a.starts BETWEEN ? AND ? AND e.email_status!='qa-verified'
+          AND json_extract(e.payload,'$.interest') IN ("""+markers+')'+access,params)
+    for row in rows:
+        group=groups.get(row['market'])
+        if not group:
+            continue
+        group['booked']+=1
+        group['rsvp']+=row['rsvp']
+        group['rescheduled']+=row['event']=='rescheduled'
+        if row['state']=='confirmed' and row['starts']+row['duration']*60<=now:
+            group['attended']+=row['outcome']=='Completed'
+            group['noShow']+=row['outcome']=='No show'
+            group['missingOutcome']+=row['outcome'] not in ('Completed','No show')
+    for group in groups.values():
+        recorded=group['attended']+group['noShow']
+        group['attendanceRate']=round(100*group['attended']/recorded,1) if recorded else None
+    return list(groups.values())
+
+
 def proposal_review_conversion(db, identity, since, now):
     markets={code:{'country':code,'label':growth_workbench.COUNTRIES[code],
                    'booked':0,'attended':0,'accepted':0,'won':0,
@@ -567,6 +605,7 @@ def funnel(db,identity,days):
         'industries':sorted(industries.values(), key=lambda group: (group['industryLabel'], group['countryLabel'])),
         'homeServices':sorted(home_services.values(), key=lambda group: (group['serviceLabel'], group['countryLabel'])),
         'sampleDemoFunnel':sample_demo_funnel(db,identity,args[0],now),
+        'demoAttendance':demo_attendance(db,identity,args[0],now),
         'crmDemoConversion':crm_demo_conversion(db,identity,args[0],now),
         'proposalReviewConversion':proposal_review_conversion(db,identity,args[0],now),
         'kickoffConversion':kickoff_conversion(db,identity,args[0],now),

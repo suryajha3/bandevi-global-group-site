@@ -18,6 +18,14 @@ for(const name of ['Demo cancelled','Demo no-show'])assert(await page.locator('#
 const decisions=page.locator('#proposal-decision-report');
 const sampleFunnel=page.locator('#sample-demo-report');
 const crmConversion=page.locator('#crm-demo-conversion');
+const attendance=page.locator('#demo-attendance-report');
+await attendance.getByRole('columnheader',{name:'RSVP confirmed',exact:true}).waitFor();
+assert.deepEqual(await attendance.getByRole('rowheader').allTextContents(),['United States','United Kingdom','India']);
+await page.getByRole('button',{name:'Response & coverage',exact:true}).click();
+const attention=page.locator('#demo-attention-items article').filter({hasText:'BG-QA-NEW'});
+await attention.getByText('Joining link needed · Awaiting RSVP',{exact:true}).waitFor();
+assert(await attention.getByRole('button',{name:'Save and send joining link'}).isVisible());
+await page.getByRole('button',{name:'Reports',exact:true}).click();
 await crmConversion.getByRole('columnheader',{name:'Attended to Won',exact:true}).waitFor();
 assert.deepEqual(await crmConversion.getByRole('rowheader').allTextContents(),['United States','United Kingdom','India']);
 await sampleFunnel.getByRole('columnheader',{name:'Attended demos',exact:true}).waitFor();
