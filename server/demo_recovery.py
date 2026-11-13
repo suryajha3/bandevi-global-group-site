@@ -107,11 +107,13 @@ def queue(db,identity,query,now=None):
         accepted=bool(db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND status='accepted'",(ref,)).fetchone())
         proposed=bool(db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND published>0 AND status='published'",(ref,)).fetchone())
         followup=None
+        preparation=None
         if in_cohort and not accepted:
             followup=sales_journey.post_demo(db,ref,record,booking,payload,now)
             published_after_demo=followup and db.execute("SELECT 1 FROM client_proposals WHERE reference=? AND status='published' AND published>=? AND expires>?",(ref,followup['completed'],now)).fetchone()
             if followup and (not followup['body'] or not published_after_demo):
-                reasons.append('completed');due.append(followup['due'])
+                preparation=sales_journey.proposal_preparation(db,ref,record['scheduleEvent'],booking['starts'],followup,payload,now)
+                reasons.append('completed');due.append(preparation['due'])
             elif record['outcome']=='Reschedule needed' or booking and booking['state']=='cancelled':reasons.append('reschedule');due.append(record.get('updated') or row['created'])
             elif record['outcome']=='No show':reasons.append('no_show');due.append((booking['starts'] if booking else None) or record.get('updated') or row['created'])
             elif booking and booking['state']=='confirmed' and booking['starts'] is not None and booking['starts']+booking['duration']*60<=now and record['outcome']=='Not recorded':
@@ -129,6 +131,7 @@ def queue(db,identity,query,now=None):
         if 'completed' in reasons:
             items[-1]['postDemo']={'due':followup['due'],'overdue':followup['due']<=now,'recapSaved':bool(followup['body']),
                                   'recapDelivery':followup['delivery'],'proposalPublished':bool(published_after_demo)}
+            items[-1]['proposalPreparation']=preparation
         if feedback:
             items[-1]['proposalFeedback']={'owner':client_workflow.sales_owner(db,ref),'overdue':feedback[0]['due']<=now,'requests':feedback}
         if reviews:items[-1]['proposalReviews']=reviews
@@ -136,7 +139,9 @@ def queue(db,identity,query,now=None):
             items[-1]['proposalDecisions']={'dates':decisions,'questions':questions,'blockers':blockers,
                 'blockerOwner':client_workflow.sales_owner(db,ref) if blockers else '',
                 'overdue':any(decision['overdue'] for decision in decisions+blockers) or any(question['due']<=now for question in questions)}
-    items.sort(key=lambda item:(not (item['overdue'] or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue') or item.get('proposalDecisions',{}).get('overdue')),item['due'],item['reference']))
+    items.sort(key=lambda item:(not (item['overdue'] or item.get('proposalPreparation',{}).get('overdue')
+        or item.get('postDemo',{}).get('overdue') or item.get('proposalFeedback',{}).get('overdue')
+             or item.get('proposalDecisions',{}).get('overdue')),item['due'],item['reference']))
     return dict(items=items[offset:offset+25],counts=counts,total=len(items),offset=offset,limit=25,days=days,today=today,labels={key:value[0] for key,value in REASONS.items()},basis='Open proposal feedback is shown for its current sales owner even when the enquiry predates the selected period or has closed. Unassigned feedback goes to the site administrator. Booked proposal reviews stay in the queue even for older or closed enquiries. Attended and missed reviews stay in follow-up while the deal remains open and the revision is unaccepted. Proposal decisions flags dates due within seven days or overdue, open questions on current cards, and proposal questions whose latest visible message is from the client. Active blockers stay with the current sales owner until resolved or the proposal leaves the decision stage. Other recovery work uses active, accessible enquiries received in the selected period. Completed demos stay in follow-up until a recap is saved and a current proposal is published after completion, or a proposal is accepted. The internal target is the next weekday at the same India time after completion was recorded. Unbooked means a New, Contacted or Qualified enquiry at least 24 hours old, without an appointment or published proposal. Accepted proposals suppress demo-chasing reasons. No-show requires a recorded outcome; a past demo with no outcome is listed separately. Current published proposals enter the decision queue after 72 hours, including expired proposals that need review. A published status means acceptance is not recorded; it does not prove that no offline reply occurred. A lead can have several reasons; All counts each lead once. Rescheduling resets old attendance outcomes. QA and inaccessible leads are excluded. This queue does not send messages, confirm availability or change sales stages.')
 
 

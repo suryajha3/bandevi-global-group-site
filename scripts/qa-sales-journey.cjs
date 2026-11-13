@@ -27,6 +27,9 @@ await attention.getByText('Joining link needed · Awaiting RSVP',{exact:true}).w
 assert(await attention.getByRole('button',{name:'Save and send joining link'}).isVisible());
 await page.getByRole('button',{name:'Reports',exact:true}).click();
 await crmConversion.getByRole('columnheader',{name:'Attended to Won',exact:true}).waitFor();
+for(const name of ['Attended to published','Median time to first proposal','Accepted proposals','Wins after proposal']){
+ assert(await crmConversion.getByRole('columnheader',{name,exact:true}).isVisible());
+}
 assert.deepEqual(await crmConversion.getByRole('rowheader').allTextContents(),['United States','United Kingdom','India']);
 await sampleFunnel.getByRole('columnheader',{name:'Attended demos',exact:true}).waitFor();
 assert.deepEqual(await sampleFunnel.getByRole('rowheader').allTextContents(),['United States','United Kingdom','India','Market not selected']);
@@ -50,24 +53,27 @@ const recap='Review lead ownership and confirm which enquiry fields should be im
 assert.equal(await page.locator('#demo-recap-body').inputValue(),'');
 const nextDate=new Date(Date.now()+3*86400000).toISOString().slice(0,10);
 await page.locator('#demo-recap-body').fill(recap);
-await page.locator('#demo-next-kind').selectOption('decision-call');
+await page.locator('#demo-next-kind').selectOption('proposal');
 await page.locator('#demo-next-date').fill(nextDate);
 await page.locator('#demo-next-note').fill('Review access permissions together.');
 await page.getByRole('button',{name:'Save agreed next step',exact:true}).click();
 await page.locator('#demo-next-status').filter({hasText:'Agreed next step saved.'}).waitFor();
-assert.match(await page.locator('#demo-recap-next-step').textContent(),/Meet with the decision-maker/);
+assert.match(await page.locator('#demo-recap-next-step').textContent(),/Review a scoped proposal/);
 assert.match(await page.locator('#demo-recap-next-step').textContent(),/Review access permissions together/);
 assert.equal(await page.locator('#demo-recap-body').inputValue(),recap);
 await page.locator('#demo-recap-save').click();
 await page.locator('#demo-recap-status').filter({hasText:'Recap draft saved'}).waitFor();
 assert(await page.locator('#demo-recap-send').isDisabled());
+assert.match(await page.locator('#journey-status').textContent(),/Ready to draft.*Agreed proposal date/);
+assert.equal(await page.locator('#journey-proposal').textContent(),'Prepare proposal');
 await page.locator('#journey-proposal').click();
 await page.getByRole('heading',{name:'Correct enquiry project',exact:true}).waitFor();
 const draftForm=page.locator('#proposals');
-await page.waitForLoadState('networkidle');const reviewDraft=draftForm.getByText('Create an immutable proposal revision',{exact:true});if(!(await reviewDraft.evaluate(summary=>summary.parentElement.open)))await reviewDraft.click();
-await draftForm.getByText('Review saved customer recap',{exact:true}).click();
-await draftForm.getByRole('button',{name:'Use recap as draft scope'}).click();
-assert.equal(await draftForm.getByLabel('Scope and deliverables',{exact:true}).inputValue(),recap);
+const scope=draftForm.getByLabel('Scope and deliverables',{exact:true});
+await scope.waitFor();
+assert.match(await scope.inputValue(),new RegExp('^'+recap.replaceAll('.','\\.')+'\\s+Agreed next step: Review a scoped proposal'));
+assert.match(await scope.inputValue(),/Review access permissions together/);
+assert.doesNotMatch(await scope.inputValue(),/Agent demo requirements/);
 assert.equal(await draftForm.getByLabel('Currency',{exact:true}).inputValue(),'INR');
 checks.push('Completed demo queue opens the private recap and copies reviewed text into an unsaved regional proposal');
 assert.deepEqual(errors,[]);fs.writeFileSync(path.join(output,'sales-journey-results.json'),JSON.stringify({checks,errors},null,2));console.log('PASS: '+checks.length+' demo-to-sale browser scenarios');

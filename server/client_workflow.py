@@ -156,10 +156,15 @@ def detail(db,row,staff,ticket_id=''):
         result['salesJourney']=sales_journey.record(db,ref)
         enquiry = db.execute("SELECT payload FROM enquiries WHERE id=? AND email_status!='qa-verified'", (ref,)).fetchone()
         if enquiry and result['salesJourney']['outcome']=='Completed':
+            payload = json.loads(enquiry['payload'])
+            now = int(time.time())
             booking = db.execute('SELECT b.state,s.starts FROM demo_bookings b LEFT JOIN demo_slots s ON s.id=b.slot_id WHERE b.enquiry_id=?', (ref,)).fetchone()
-            followup = sales_journey.post_demo(db,ref,result['salesJourney'],booking,json.loads(enquiry['payload']),int(time.time()))
+            followup = sales_journey.post_demo(db,ref,result['salesJourney'],booking,payload,now)
             if followup:
                 result['postDemo'] = {'body':followup['body'],'currency':followup['currency']}
+                result['proposalPreparation'] = sales_journey.proposal_preparation(
+                    db,ref,result['salesJourney']['scheduleEvent'],booking['starts'],followup,
+                    payload,now)
     proposals=[];now=int(time.time())
     closed=db.execute("SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')",(ref,)).fetchone()
     for item in db.execute('SELECT * FROM client_proposals WHERE reference=? ORDER BY revision DESC',(ref,)):
@@ -457,10 +462,18 @@ def staff_change(db,row,identity,action,data,result):
         changes=value(data,'changes',800,False)
         db.execute('INSERT INTO client_proposals(id,reference,revision,title,scope,terms,minor_units,currency,expires,created,actor) VALUES(?,?,?,?,?,?,?,?,?,?,?)',(pid,ref,revision,title,scope,terms,minor,currency,expires,now,actor));result['proposalId']=pid
         if revision>1 and changes:db.execute('INSERT INTO client_proposal_decisions(proposal,changes) VALUES(?,?)',(pid,changes))
-    elif action in ('publish','withdraw'):
+    elif action in ('publish','withdraw','proposal-ready'):
         pid=value(data,'id',30);p=db.execute('SELECT * FROM client_proposals WHERE id=? AND reference=?',(pid,ref)).fetchone()
         if not p:raise Problem(404,'Proposal not found.')
-        if action=='publish':
+        if action=='proposal-ready':
+            if p['status']!='draft' or p['expires']<=now or p['revision']!=db.execute(
+                    'SELECT MAX(revision) FROM client_proposals WHERE reference=?',(ref,)).fetchone()[0]:
+                raise Problem(409,'Only the latest unexpired draft can be marked ready.')
+            if data.get('reviewed') is not True:
+                raise Problem(400,'Confirm the proposal review checklist.')
+            if db.execute("SELECT 1 FROM client_audit WHERE reference=? AND action='proposal-ready' AND detail=?",(ref,pid)).fetchone():
+                return
+        elif action=='publish':
             if p['status']!='draft' or p['expires']<=now:raise Problem(409,'Only unexpired drafts can be published.')
             if p['revision']!=db.execute('SELECT MAX(revision) FROM client_proposals WHERE reference=?',(ref,)).fetchone()[0]:raise Problem(409,'Publish the latest revision.')
             db.execute("UPDATE client_proposals SET status='superseded' WHERE reference=? AND status='published'",(ref,));db.execute("UPDATE client_proposals SET status='published',published=? WHERE id=?",(now,pid))

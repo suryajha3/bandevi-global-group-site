@@ -1,6 +1,17 @@
 'use strict';
 let salesJourneyGeneration=0,salesJourneyState=null,salesFunnelGeneration=0;
 function postDemoTime(epoch){return new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'}).format(epoch*1000)+' IST';}
+function proposalDueText(preparation){
+ return preparation.dueDate
+  ?'Agreed proposal date: '+new Intl.DateTimeFormat('en-GB',{timeZone:preparation.timezone,dateStyle:'medium'}).format(preparation.due*1000)
+   +' · '+preparation.timezone.replaceAll('_',' ')
+  :'Proposal target: '+postDemoTime(preparation.due);
+}
+function prepareProposalUrl(reference,interest,preparation){
+ const params=new URLSearchParams({reference,title:(interest+' project').slice(0,160),prepare:'proposal'});
+ const revision=['Draft ready for review','Ready to publish','Published','Accepted'].includes(preparation.status)&&preparation.id;
+ return '/team-inbox/workspace/?'+params+(revision?'#proposal-'+revision:'#proposals');
+}
 function updateRecapControls(){
  const recap=salesJourneyState?.postDemo, body=$('demo-recap-body');
  const editable=!!recap&&!['pending','sent'].includes(recap.delivery);
@@ -60,6 +71,13 @@ async function loadSalesJourney(entry,target=''){
   $('journey-booking').hidden=!!a||['Won','Lost'].includes(state.workflow?.stage);$('journey-book-button').disabled=!state.slots.length;
   $('journey-proposal').href='/team-inbox/workspace/?'+new URLSearchParams({reference:entry.reference,title:(entry.details.interest+' project').slice(0,160)})+'#proposals';
   $('journey-proposal').textContent=state.projectExists?'Open project & draft proposal':'Create project & draft proposal';
+  const preparation=state.proposalPreparation;
+  if(preparation&&!['Won','Lost'].includes(state.workflow?.stage)){
+   const prepare=$('journey-proposal');
+   prepare.href=prepareProposalUrl(entry.reference,entry.details.interest,preparation);
+   prepare.textContent=preparation.id?'Review proposal':'Prepare proposal';
+   $('journey-status').append(' · '+preparation.status+' · '+proposalDueText(preparation));
+  }
   renderRecap(state);
   renderDemoPrepAndStep(state);
   if(target==='demo-recap-body'&&!$('demo-recap-form').hidden)$('demo-recap-body').focus();
@@ -245,14 +263,18 @@ function renderCrmDemoConversion(result){
  const table=document.createElement('table');
  table.append(text('caption','CRM demo conversion by business country · last '+result.days+' days by demo date'));
  const header=table.createTHead().insertRow();
- for(const label of ['Business country','Attended CRM demos','Agreed next steps','Proposals published','Recorded Won','Attended to Won']){
+ for(const label of ['Business country','Attended CRM demos','Agreed next steps','Proposals published','Attended to published',
+  'Median time to first proposal','Accepted proposals','Wins after proposal','Recorded Won','Attended to Won']){
   const cell=text('th',label);cell.scope='col';header.append(cell);
  }
  const body=table.createTBody();
  for(const group of result.crmDemoConversion){
   const row=body.insertRow(),label=text('th',group.label);
   label.scope='row';row.append(label);
-  for(const value of [group.attended,group.nextSteps,group.proposals,group.won,group.conversionRate===null?'—':group.conversionRate+'%']){
+  const seconds=group.medianSecondsToProposal;
+  const turnaround=seconds==null?'—':seconds<3600?Math.round(seconds/60)+' min':seconds<86400?(seconds/3600).toFixed(1)+' hr':(seconds/86400).toFixed(1)+' days';
+  for(const value of [group.attended,group.nextSteps,group.proposals,group.publicationRate==null?'—':group.publicationRate+'%',
+   turnaround,group.accepted??0,group.proposalWins??0,group.won,group.conversionRate===null?'—':group.conversionRate+'%']){
    row.append(text('td',String(value)));
   }
  }

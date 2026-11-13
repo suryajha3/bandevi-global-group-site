@@ -121,6 +121,39 @@ def post_demo(db, reference, record, booking, payload, now):
             'recipient':payload.get('email',''),'currency':currency}
 
 
+def proposal_preparation(db, reference, event, starts, followup, payload, now):
+    step=next_step(db,reference,event)
+    agreed_date=step['due'] if step['kind']=='proposal' else ''
+    due=followup['due']
+    zone='Asia/Kolkata'
+    if agreed_date:
+        local=client_workflow.demo_timezone(payload)
+        due=int(datetime.datetime.combine(datetime.date.fromisoformat(agreed_date),datetime.time.max,local).timestamp())
+        zone=local.key
+    revision=db.execute("""SELECT p.id,p.revision,p.status,p.created,p.expires,
+        EXISTS(SELECT 1 FROM client_audit a WHERE a.reference=p.reference
+            AND a.action='proposal-ready' AND a.detail=p.id) AS reviewed
+        FROM client_proposals p WHERE p.reference=? ORDER BY p.revision DESC LIMIT 1""",(reference,)).fetchone()
+    published=db.execute("""SELECT id,revision,status FROM client_proposals WHERE reference=?
+        AND published>=? AND published>0 AND (status='accepted' OR (status='published' AND expires>?))
+        ORDER BY revision DESC LIMIT 1""",(reference,followup['completed'],now)).fetchone()
+    if published:
+        status='Accepted' if published['status']=='accepted' else 'Published'
+        revision=published
+    elif revision and revision['status']=='draft' and revision['created']>=starts and revision['expires']>now:
+        status='Ready to publish' if revision['reviewed'] else 'Draft ready for review'
+    elif revision and revision['created']>=starts and revision['status'] in ('draft','published') and revision['expires']<=now:
+        status='Expired draft' if revision['status']=='draft' else 'Expired proposal'
+        revision=None
+    else:
+        status='Ready to draft' if followup['body'] else 'Needs scope'
+        revision=None
+    return {'status':status,'due':due,'dueDate':agreed_date,'timezone':zone,
+            'overdue':not published and now>due,'revision':revision['revision'] if revision else None,
+            'id':revision['id'] if revision else None,
+            'nextStep':next_step_text(step)}
+
+
 def recap_current(db, notification):
     _, reference, event = notification['dedupe'].split(':')
     booking = db.execute('SELECT state FROM demo_bookings WHERE enquiry_id=?', (reference,)).fetchone()
@@ -155,9 +188,12 @@ def get(handler,connect,identity):
         demo=record(db,ref)
         followup=post_demo(db,ref,demo,booking,json.loads(enquiry['payload']),now)
         step=next_step(db,ref,demo['scheduleEvent']) if followup else None
+        preparation=proposal_preparation(db,ref,demo['scheduleEvent'],booking['starts'],followup,
+                                         json.loads(enquiry['payload']),now) if followup else None
         handler.respond(200,{'record':demo,'appointment':dict(booking) if booking else None,'slots':[dict(s) for s in slots],
             'prepBrief':prep_brief(db,ref) if booking else None,'postDemo':followup,
             'nextStep':{**step,'preview':next_step_text(step)} if step else None,
+            'proposalPreparation':preparation,
             'workflow':dict(workflow) if workflow else None,'projectExists':bool(db.execute('SELECT 1 FROM client_projects WHERE reference=?',(ref,)).fetchone())})
     return True
 
@@ -450,15 +486,21 @@ def proposal_review_conversion(db, identity, since, now):
 
 def crm_demo_conversion(db, identity, since, now):
     markets={code:{'country':code,'label':growth_workbench.COUNTRIES[code],
-                   'attended':0,'nextSteps':0,'proposals':0,'won':0}
+                   'attended':0,'nextSteps':0,'proposals':0,'accepted':0,'proposalWins':0,'won':0}
              for code in ('US','GB','IN')}
+    turnaround={code:[] for code in markets}
     access=' AND w.owner=?' if identity['role']=='agent' else ''
-    args=[now,now,now,since,now,now]+([identity['actor']] if access else [])
-    rows=db.execute("""SELECT e.payload,
+    args=[now,now,now,now,now,since,now,now]+([identity['actor']] if access else [])
+    rows=db.execute("""SELECT e.payload,s.starts,
         EXISTS(SELECT 1 FROM sales_demo_next_steps n WHERE n.reference=e.id
           AND n.schedule_event=r.schedule_event AND n.updated<=?) AS next_step,
+        (SELECT MIN(p.published) FROM client_proposals p WHERE p.reference=e.id
+          AND p.published>0 AND p.published BETWEEN s.starts AND ?) AS first_proposal,
         EXISTS(SELECT 1 FROM client_proposals p WHERE p.reference=e.id
-          AND p.published>0 AND p.status!='draft' AND p.published BETWEEN s.starts AND ?) AS proposed,
+          AND p.published>0 AND p.published>=s.starts AND p.accepted BETWEEN p.published AND ?) AS accepted,
+        CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events v WHERE v.enquiry_id=e.id
+          AND v.stage='Won' AND v.created<=? AND EXISTS(SELECT 1 FROM client_proposals p WHERE p.reference=e.id
+            AND p.published>0 AND p.published BETWEEN s.starts AND v.created)) ELSE 0 END AS proposal_win,
         CASE WHEN w.stage='Won' THEN EXISTS(SELECT 1 FROM sales_events v WHERE v.enquiry_id=e.id
           AND v.stage='Won' AND v.created BETWEEN s.starts AND ?) ELSE 0 END AS won
         FROM sales_demo_records r JOIN enquiries e ON e.id=r.reference
@@ -476,10 +518,16 @@ def crm_demo_conversion(db, identity, since, now):
         market=markets[country]
         market['attended']+=1
         market['nextSteps']+=row['next_step']
-        market['proposals']+=row['proposed']
+        if row['first_proposal'] is not None:
+            market['proposals']+=1
+            turnaround[country].append(row['first_proposal']-row['starts'])
+        market['accepted']+=row['accepted']
+        market['proposalWins']+=row['proposal_win']
         market['won']+=row['won']
-    for market in markets.values():
+    for country,market in markets.items():
         market['conversionRate']=round(100*market['won']/market['attended'],1) if market['attended'] else None
+        market['publicationRate']=round(100*market['proposals']/market['attended'],1) if market['attended'] else None
+        market['medianSecondsToProposal']=round(statistics.median(turnaround[country])) if turnaround[country] else None
     return list(markets.values())
 
 
