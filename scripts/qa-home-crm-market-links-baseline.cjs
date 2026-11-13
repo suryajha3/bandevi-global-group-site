@@ -178,5 +178,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original regional next demo slot marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const crmBookingConversion = require('./fixtures/crm-booking-conversion-approved.json');
+  for (const { before, after } of crmBookingConversion[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original CRM booking conversion marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

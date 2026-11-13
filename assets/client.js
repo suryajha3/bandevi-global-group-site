@@ -746,6 +746,8 @@ function bindForms() {
       if (type === "contact" || type === "demo" || type === "home") {
         const button = form.querySelector('button[type="submit"]');
         if (form.dataset.sending === 'true') return;
+        const crmSlotJourney = type==='demo' && data.slotId && form.dataset.crmPromotion==='availability-slot'
+          ? window.BandeviDemoTime?.slotJourney(new URLSearchParams(location.search).get('market')) : null;
         const payload = {
           type: type === "home" ? "contact" : type, name: data.name, email: data.email, phone: data.phone || '',
           interest: data.interest || (['contact','home'].includes(type)?'Need guidance':''), message: enquiryMessage(form, data), website: data.website || '',
@@ -757,6 +759,7 @@ function bindForms() {
           source: window.location.pathname,
           campaign: [enquiryAttribution.utm_source,enquiryAttribution.utm_medium,enquiryAttribution.utm_campaign].join(' / '),
           ...(type==='demo'&&data.slotId?{slotId:data.slotId}:{}),
+          ...(crmSlotJourney?{crmSlotJourney:{journey:crmSlotJourney,market:new URLSearchParams(location.search).get('market')}}:{}),
           ...(type==='demo'&&form.querySelector('#demo-timezone')?.value?{demoTimezone:form.querySelector('#demo-timezone').value}:{}),
           ...(type==='demo'&&data.demoDate&&data.demoTime?{demoSchedule:{date:data.demoDate,time:data.demoTime,timezone:'Asia/Kolkata'}}:{}),
           attribution: {
@@ -787,7 +790,7 @@ function bindForms() {
           const result = await response.json();
           if (!response.ok || result.ok !== true || !/^BG-[A-F0-9]{16}$/.test(result.reference || '')) {
             if (response.status === 409) delete form.dataset.payload;
-            const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';throw failure;
+            const failure = new Error(result.error || 'Unable to confirm your enquiry.');failure.measurementReason=response.status===429?'rate_limit':response.status===409?'conflict':response.status>=500?'server':'format';failure.code=result.code;throw failure;
           }
           savedEnquiryReceipt(note, result.reference, type, payload);
           if(type!=='demo'&&/^\/demo-booking\/#review\.BG-[A-F0-9]{16}\.[a-f0-9]{64}$/.test(result.demoBookingUrl||'')){const book=document.createElement('a');book.className='button dark receipt-book-review';book.href=result.demoBookingUrl;book.textContent='Book your demo review';note.append(book);const help=document.createElement('p');help.textContent='Your enquiry is already saved. Choose an available slot without entering your details again. This private link is valid for 7 days; a meeting is confirmed only after reservation.';note.append(help);}
@@ -803,7 +806,7 @@ function bindForms() {
           delete form.dataset.payload;
           delete form.dataset.requestId;
         } catch (error) {
-          form.dispatchEvent(new CustomEvent('enquiry-failed',{detail:{reason:error.measurementReason||'network'}}));
+          form.dispatchEvent(new CustomEvent('enquiry-failed',{detail:{reason:error.measurementReason||'network',code:error.code}}));
           note.textContent = (error.name === 'AbortError' ? 'We could not confirm receipt. Retry this form to check safely.' : error.message) + ' Your draft is retained. You can also ';
           const email = document.createElement('a'); email.href = 'mailto:' + contactInfo.email; email.textContent = 'email the team';
           const whatsapp = document.createElement('a'); whatsapp.href = contactInfo.whatsapp; whatsapp.target = '_blank'; whatsapp.rel = 'noopener noreferrer'; whatsapp.textContent = 'use WhatsApp';

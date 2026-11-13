@@ -87,11 +87,39 @@ def crm_slot_report(db, since):
         WHERE created>=? AND event IN (?,?) GROUP BY page,event""",
         (since, *CRM_SLOT_EVENTS)).fetchall()
     totals = {(row['page'], row['event']): row['total'] for row in rows}
+    converted = dict(db.execute("""SELECT s.page, COUNT(*) FROM journey_events s
+        JOIN journey_events b ON b.journey=s.journey AND b.page=s.page AND b.event='crm_slot_confirm'
+        WHERE s.created>=? AND s.event='crm_slot_select'
+          AND b.created BETWEEN s.created-60 AND s.created+86400 GROUP BY s.page""", (since,)))
+    confirmed = dict(db.execute("""SELECT json_extract(e.payload,'$.qualification.country'), COUNT(DISTINCT e.id)
+        FROM appointment_events a JOIN enquiries e ON e.id=a.enquiry_id
+        WHERE a.created>=? AND a.event='confirmed' AND e.email_status!='qa-verified'
+          AND json_extract(e.payload,'$.interest')='Travel CRM Package'
+          AND json_extract(e.payload,'$.attribution.crm_promotion') IN ('availability-slot','availability-request')
+        GROUP BY 1""", (since,)))
     return [
         {'market': market, 'views': totals.get((page, 'crm_slot_view'), 0),
-         'selections': totals.get((page, 'crm_slot_select'), 0)}
+         'selections': totals.get((page, 'crm_slot_select'), 0),
+         'confirmed': confirmed.get(market, 0), 'converted': converted.get(page, 0)}
         for market, page in CRM_SLOT_PAGES.items()
     ]
+
+
+def crm_slot_context(data):
+    if not isinstance(data, dict) or set(data) != {'journey', 'market'}:
+        raise ValueError('Invalid CRM slot journey.')
+    event = validate_slot_event({**data, 'event': 'crm_slot_select'})
+    return event['journey'], event['page']
+
+
+def confirm_crm_slot(db, context, allowed, now):
+    if not allowed or not context:
+        return
+    journey, page = context
+    db.execute("""INSERT OR IGNORE INTO journey_events
+        SELECT ?,'crm_slot_confirm','',?,?,'none','unknown'
+        WHERE NOT EXISTS(SELECT 1 FROM journey_events WHERE journey=? AND page!=?)""",
+        (journey, now, page, journey, page))
 
 
 def link_sample(db, reference, data, context, allowed, now):

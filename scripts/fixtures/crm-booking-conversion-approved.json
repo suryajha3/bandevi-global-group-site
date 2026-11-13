@@ -1,0 +1,166 @@
+{
+  "assets/appointments.js": [
+    {
+      "before": "try;\n const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign||sample?{initial:time.campaignZone(params.get('market')),compact:sample}:undefined);\n if(zone){\n  const preferredZone=params.get('crm_zone');\n  if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;\n  time.preferred(form,zone);\n  if(sample){\n   function syncContactZone(){\n    const contact=form.elements.contactTimezone;\n    if(contact&&[...contact.options].some(option=>option.value===zone.value)){\n     contact.value=zone.value;\n     contac",
+      "after": "try;\n const fields=form.querySelector('.form-grid');\n const zone=time?.zoneChoice(fields,fieldset,campaign||sample?{initial:time.campaignZone(params.get('market')),compact:sample||campaign}:undefined);\n if(zone){\n  const preferredZone=params.get('crm_zone');\n  if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;\n  time.preferred(form,zone);\n  if(sample||campaign){\n   function syncContactZone(){\n    const contact=form.elements.contactTimezone;\n    if(contact){\n     const choices=[...contact.options].map(option=>option.value);\n     if(choices.includes(zone.value))contact.value=zone.value;\n     else if(campaign&&!contact.value){\n      const regional=time.campaignZone(country.value);\n      contact.value=choices.includes(regional)?regional:'UTC';\n     }\n     contac"
+    },
+    {
+      "before": "return;\n    zone.value=time.campaignZone(country.value);\n    zone.dispatchEvent(new Event('change',{bubbles:true}));\n   });\n  ",
+      "after": "return;\n    if(sample){\n     zone.value=time.campaignZone(country.value);\n     zone.dispatchEvent(new Event('change',{bubbles:true}));\n    }else syncContactZone();\n   });\n  "
+    },
+    {
+      "before": "fore(box);\n async function load(){\n  refresh.disabled=true;\n  try{\n   const data=await request('/api/demo/slots');\n   slots=data.slots;\n   const selected=select.value||pendingSlot;\n   pendingSlot='';\n   select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(slot=>new Option(label(slot),slot.id)));\n   if(slots.some(slot=>slot.id===selected))select.value=selected;\n   select.",
+      "after": "fore(box);\n const submit=form.querySelector('button[type=\"submit\"]');\n const summary=document.createElement('p');\n if(campaign){\n  const options=document.createElement('details');\n  options.className='field full';\n  const heading=document.createElement('summary');\n  heading.textContent='Optional details and booking preferences';\n  options.append(heading);\n  fields.append(options);\n  const essentials=new Set([form.elements.name.closest('.field'),form.elements.email.closest('.field'),fieldset,box,options]);\n  for(const field of [...fields.children])if(!essentials.has(field))options.append(field);\n  summary.className='field full';\n  summary.setAttribute('role','status');\n  fields.prepend(summary,box);\n  form.elements.message.required=false;\n  submit.textContent='Request a time';\n  form.addEventListener('invalid',event=>{\n   if(options.contains(event.target))options.open=true;\n  },true);\n }\n function showSlots(selected){\n  select.replaceChildren(new Option('Ask the team to arrange a time',''));\n  const sorted=[...slots].sort((first,second)=>first.starts-second.starts);\n  const working=campaign&&zone ? sorted.filter(slot=>time.workingHours(slot,zone.value)) : [];\n  if(campaign&&zone){\n   for(const [heading,group] of [['Local working hours',working],['Other available times',sorted.filter(slot=>!working.includes(slot))]]){\n    if(!group.length)continue;\n    const list=document.createElement('optgroup');\n    list.label=heading;\n    list.append(...group.map(slot=>new Option(label(slot),slot.id)));\n    select.append(list);\n   }\n  }else select.append(...sorted.map(slot=>new Option(label(slot),slot.id)));\n  if(sorted.some(slot=>slot.id===selected))select.value=selected;\n }\n async function load(takenSlot=''){\n  if(refresh.disabled)return;\n  refresh.disabled=true;\n  try{\n   const data=await request('/api/demo/slots');\n   slots=data.slots.filter(slot=>slot.id!==takenSlot);\n   const selected=takenSlot||select.value||pendingSlot;\n   pendingSlot='';\n   showSlots(selected);\n   select."
+    },
+    {
+      "before": "\n  }finally{refresh.disabled=false;}\n }\n form.addEventListener('submit',event=>{\n  if(!pendingSlot)return;\n  event.preventDefault();event.stopImmediatePropagation();\n  note.textContent='Please wait while we check your selected time.';\n },{capture:true});\n select.addEventListener('change',()=>{fieldset.hidden=!!select.value;for(const input of fieldset.querySelectorAll('input')){input.disabled=!!select.value;if(select.value){input.value='';input.setCustomValidity('');input.required=false;}}});form.addEventListener('reset',()=>queueMicrotask(()=>{select.dispatchEvent(new Event('change'));load();}));refresh.addEventListener('click',load);if(zone)zone.addEventListener('change',()=>{const old=select.value;select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(s=>new Option(label(s),s.id)));select.value=old;});load();\n for",
+      "after": "\n  }finally{\n   refresh.disabled=false;\n   if(takenSlot)select.focus();\n  }\n }\n form.addEventListener('submit',event=>{\n  if(!pendingSlot&&!(campaign&&refresh.disabled))return;\n  event.preventDefault();event.stopImmediatePropagation();\n  note.textContent='Please wait while we check your selected time.';\n },{capture:true});\n function updateSelection(){\n  fieldset.hidden=!!select.value;\n  for(const input of fieldset.querySelectorAll('input')){input.disabled=!!select.value;if(select.value){input.value='';input.setCustomValidity('');input.required=false;}}\n  if(campaign){\n   const slot=slots.find(item=>item.id===select.value);\n   const workflow=form.elements.demoFocus.selectedOptions[0]?.text;\n   summary.textContent=slot?'Selected demo · '+label(slot):'Travel Agency CRM demo';\n   if(workflow&&form.elements.demoFocus.value)summary.append(' · '+workflow);\n   submit.textContent=slot?'Confirm CRM demo':'Request a time';\n  }\n }\n select.addEventListener('change',updateSelection);\n if(campaign){\n  form.elements.demoFocus.addEventListener('change',updateSelection);\n  form.addEventListener('enquiry-failed',event=>{\n   if(event.detail.code==='demo_slot_unavailable'&&select.value)load(select.value);\n  });\n  form.addEventListener('enquiry-saved',()=>time?.clearSlotJourney());\n }\n form.addEventListener('reset',()=>queueMicrotask(()=>{\n  updateSelection();\n  if(campaign&&country&&['US','GB','IN'].includes(params.get('market'))){\n   country.value=params.get('market');\n   country.dispatchEvent(new Event('change',{bubbles:true}));\n   form.elements.interest.value='Travel CRM Package';\n   form.elements.interest.dispatchEvent(new Event('change',{bubbles:true}));\n  }\n  load();\n }));\n refresh.addEventListener('click',()=>{\n  if(form.dataset.sending!=='true')load();\n });\n if(zone)zone.addEventListener('change',()=>{showSlots(select.value);updateSelection();});\n load();\n for"
+    }
+  ],
+  "assets/client.js": [
+    {
+      "before": "      const payload = {\n",
+      "after": "      const crmSlotJourney = type==='demo' && data.slotId && form.dataset.crmPromotion==='availability-slot'\n          ? window.BandeviDemoTime?.slotJourney(new URLSearchParams(location.search).get('market')) : null;\n        const payload = {\n"
+    },
+    {
+      "before": "tId:data.slotId}:{}),\n          ...(type==='demo'&&form.querySelector('#",
+      "after": "tId:data.slotId}:{}),\n          ...(crmSlotJourney?{crmSlotJourney:{journey:crmSlotJourney,market:new URLSearchParams(location.search).get('market')}}:{}),\n          ...(type==='demo'&&form.querySelector('#"
+    },
+    {
+      "before": "r':'format';throw failur",
+      "after": "r':'format';failure.code=result.code;throw failur"
+    },
+    {
+      "before": "n||'network'}}));\n      ",
+      "after": "n||'network',code:error.code}}));\n      "
+    }
+  ],
+  "assets/demo-time.js": [
+    {
+      "before": "}\n function zoneChoice(c",
+      "after": "}\n function workingHours(slot,zone){\n  const start=new Date(slot.starts*1000), end=new Date((slot.starts+slot.duration*60)*1000);\n  const clock=new Intl.DateTimeFormat('en-GB',{\n   timeZone:zone,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',\n   hour:'2-digit',minute:'2-digit',hourCycle:'h23'\n  });\n  const parts=date=>Object.fromEntries(clock.formatToParts(date).map(part=>[part.type,part.value]));\n  const first=parts(start), last=parts(end);\n  const minutes=value=>Number(value.hour)*60+Number(value.minute);\n  return !['Sat','Sun'].includes(first.weekday) &&\n   ['year','month','day'].every(key=>first[key]===last[key]) &&\n   minutes(first)>=9*60 && minutes(last)<=17*60;\n }\n function allowsSlotMeasurement(){\n  return Boolean(window.bgAnalyticsConsent?.allowed() && navigator.doNotTrack!=='1' &&\n   window.doNotTrack!=='1' && !navigator.globalPrivacyControl);\n }\n function storeSlotJourney(journey,market){\n  try { sessionStorage.setItem('bg_crm_slot_journey',JSON.stringify({journey,market,at:Date.now()})); } catch (_) {}\n }\n function slotJourney(market){\n  if(!allowsSlotMeasurement())return;\n  try {\n   const value=JSON.parse(sessionStorage.getItem('bg_crm_slot_journey'));\n   if(value?.market===market && Date.now()-value.at>=0 && Date.now()-value.at<86400000)return value.journey;\n  } catch (_) {}\n }\n function clearSlotJourney(){\n  try { sessionStorage.removeItem('bg_crm_slot_journey'); } catch (_) {}\n }\n document.addEventListener('bg-analytics-consent-change',()=>{\n  if(!allowsSlotMeasurement())clearSlotJourney();\n });\n function zoneChoice(c"
+    },
+    {
+      "before": "ampaignZone,zoneChoice,l",
+      "after": "ampaignZone,workingHours,allowsSlotMeasurement,storeSlotJourney,slotJourney,clearSlotJourney,zoneChoice,l"
+    }
+  ],
+  "assets/site.js": [
+    {
+      "before": "      const payload = {\n",
+      "after": "      const crmSlotJourney = type==='demo' && data.slotId && form.dataset.crmPromotion==='availability-slot'\n          ? window.BandeviDemoTime?.slotJourney(new URLSearchParams(location.search).get('market')) : null;\n        const payload = {\n"
+    },
+    {
+      "before": "tId:data.slotId}:{}),\n          ...(type==='demo'&&form.querySelector('#",
+      "after": "tId:data.slotId}:{}),\n          ...(crmSlotJourney?{crmSlotJourney:{journey:crmSlotJourney,market:new URLSearchParams(location.search).get('market')}}:{}),\n          ...(type==='demo'&&form.querySelector('#"
+    },
+    {
+      "before": "r':'format';throw failur",
+      "after": "r':'format';failure.code=result.code;throw failur"
+    },
+    {
+      "before": "n||'network'}}));\n      ",
+      "after": "n||'network',code:error.code}}));\n      "
+    },
+    {
+      "before": ".js?v=20261107-availability\";\n  time.onload = () => {\n    const script = document.createElement(\"script\");\n    script.src = \"/assets/travel-crm-campaign.js?v=20261113-next-slot\";\n    docum",
+      "after": ".js?v=20261113-crm-booking\";\n  time.onload = () => {\n    const script = document.createElement(\"script\");\n    script.src = \"/assets/travel-crm-campaign.js?v=20261113-crm-booking\";\n    docum"
+    },
+    {
+      "before": ".js?v=20261107-availability\";time.onload=()=>{const appointments=document.createElement(\"script\");appointments.src=\"/assets/appointments.js?v=20261107-crm-sample-booking\";do",
+      "after": ".js?v=20261113-crm-booking\";time.onload=()=>{const appointments=document.createElement(\"script\");appointments.src=\"/assets/appointments.js?v=20261113-crm-booking\";do"
+    }
+  ],
+  "assets/travel-crm-campaign.js": [
+    {
+      "before": "= [];\n  let loaded = fal",
+      "after": "= [];\n  let featured;\n  let loaded = fal"
+    },
+    {
+      "before": "(event) || !window.bgAnalyticsConsent?.allowed() ||\n       navigator.doNotTrack === '1' || window.doNotTrack === '1' ||\n       navigator.globalPrivacyControl || !window.",
+      "after": "(event) || !time.allowsSlotMeasurement() || !window."
+    },
+    {
+      "before": "select');\n  }\n\n  function updatePrimary() {\n   const slot = slots[0];\n   const url = new URL(slot || !loaded ? originalPrimary : fallback);\n   if (slot) {\n    url.searchParams.set('crm_promo', 'availability-slot');\n    url.searchParams.set('crm_zone', zone.value);\n    url.searchParams.set('crm_slot', slot.id);\n   }\n   primary.href = url.href;\n   primary.textContent = slot ? 'Book next CRM demo' : loaded ? 'Request a time' : 'Request a CRM Demo';\n  }\n\n  function showTimes() {\n   const selected = select.value;\n   select.replaceChildren(new Option('Choose an available time', ''),\n    ...slots.map(slot => new Option(time.label(slot, zone.value, true), slot.id)));\n   if (slots.some(slot => slot.id === selected)) select.value = selected;\n   fallback.searchParams.set('crm_zone', zone.value);\n   request.href = fallback.href;\n   const slot = slots[0];\n   nextTime.textContent = slot\n    ? 'Next available · ' + new Intl.DateTimeFormat(undefined, {\n     timeZone: zone.value, weekday: 'short', month: 'short', day: 'numeric',\n     hour: 'numeric', minute: '2-digit', timeZoneName: 'short'\n    }).format(new Date(slot.starts * 1000))\n    : loaded ? 'No slots currently available' : '';\n   up",
+      "after": "select');\n   if (journey && time.allowsSlotMeasurement()) time.storeSlotJourney(journey, market);\n  }\n\n  function updatePrimary() {\n   const url = new URL(featured || !loaded ? originalPrimary : fallback);\n   if (featured) {\n    url.searchParams.set('crm_promo', 'availability-slot');\n    url.searchParams.set('crm_zone', zone.value);\n    url.searchParams.set('crm_slot', featured.id);\n   }\n   primary.href = url.href;\n   primary.textContent = featured ? 'Book next CRM demo' : loaded ? 'Request a time' : 'Request a CRM Demo';\n  }\n\n  function showTimes() {\n   const selected = select.value;\n   const working = slots.filter(slot => time.workingHours(slot, zone.value));\n   const other = slots.filter(slot => !working.includes(slot));\n   featured = working[0];\n   select.replaceChildren(new Option('Choose an available time', ''));\n   for (const [label, group] of [['Local working hours', working], ['Other available times', other]]) {\n    if (!group.length) continue;\n    const options = document.createElement('optgroup');\n    options.label = label;\n    options.append(...group.map(slot => new Option(time.label(slot, zone.value, true), slot.id)));\n    select.append(options);\n   }\n   if (slots.some(slot => slot.id === selected)) select.value = selected;\n   fallback.searchParams.set('crm_zone', zone.value);\n   request.href = fallback.href;\n   nextTime.textContent = featured\n    ? 'Next in local working hours · ' + new Intl.DateTimeFormat(undefined, {\n     timeZone: zone.value, weekday: 'short', month: 'short', day: 'numeric',\n     hour: 'numeric', minute: '2-digit', timeZoneName: 'short'\n    }).format(new Date(featured.starts * 1000))\n    : loaded ? (slots.length ? 'No slots in local working hours. Other times are available.' : 'No slots currently available') : '';\n   up"
+    },
+    {
+      "before": "er('click', selectTime);\n  select.",
+      "after": "er('click', () => {\n   if (featured) selectTime();\n   else time.clearSlotJourney();\n  });\n  request.addEventListener('click', time.clearSlotJourney);\n  select."
+    }
+  ],
+  "demo-request/index.html": [
+    {
+      "before": ".js?v=20261107-crm-sample-booking\" defer></script><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/appointments.js?v=20261107-crm-sample-booking\"></",
+      "after": ".js?v=20261113-crm-booking\" defer></script><script defer src=\"/assets/demo-time.js?v=20261113-crm-booking\"></script><script defer src=\"/assets/appointments.js?v=20261113-crm-booking\"></"
+    }
+  ],
+  "india/travel-agency-crm/index.html": [
+    {
+      "before": ".js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-next-slot\"></script>\n",
+      "after": ".js?v=20261113-crm-booking\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-crm-booking\"></script>\n"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": "team-inbox/operations.js?v=20261113-next-slot\"></script><script defer src=\"/team-",
+      "after": "team-inbox/operations.js?v=20261113-crm-booking\"></script><script defer src=\"/team-"
+    },
+    {
+      "before": "ass=\"small\">Views count when a published time is visible. Selections count once per page visit and include the next-slot button. Market comes from the regional CRM page. Counts include visitors who allow analytics.</p><div id",
+      "after": "ass=\"small\">Confirmed bookings are saved reservations from regional availability, grouped by business country. The conversion rate uses tracked slot selections and linked confirmations within 24 hours, grouped by regional page. Only visitors who allow analytics are included in the conversion rate.</p><div id"
+    }
+  ],
+  "server/dashboard/operations.js": [
+    {
+      "before": " selections']){\n        ",
+      "after": " selections','Confirmed bookings','Selections converted','Booking conversion']){\n        "
+    },
+    {
+      "before": "w';\n        row.append(name,text('td',String(market.views)),text('td',String(market.selections)));\n       ",
+      "after": "w';\n        const rate=market.selections?(100*market.converted/market.selections).toFixed(1)+'%':'—';\n        row.append(name,...[market.views,market.selections,market.confirmed,market.converted,rate].map(value=>text('td',String(value))));\n       "
+    }
+  ],
+  "server/enquiries.py": [
+    {
+      "before": "d']\n    if 'demoTimezone",
+      "after": "d']\n    if 'crmSlotJourney' in data and result.get('slotId') and result['interest']=='Travel CRM Package':\n        if (result.get('attribution') or {}).get('crm_promotion')=='availability-slot':\n            result['crmSlotJourney']=journey_measurement.crm_slot_context(data['crmSlotJourney'])\n    if 'demoTimezone"
+    },
+    {
+      "before": "'})\n        digest = has",
+      "after": "'})\n        crm_slot_context=data.pop('crmSlotJourney',None)\n        digest = has"
+    },
+    {
+      "before": "other slot.'})\n          ",
+      "after": "other slot.','code':'demo_slot_unavailable'})\n                    journey_measurement.confirm_crm_slot(db,crm_slot_context,measurement_allowed,now)\n          "
+    }
+  ],
+  "server/journey_measurement.py": [
+    {
+      "before": "n rows}\n    return [\n        {'market': market, 'views': totals.get((page, 'crm_slot_view'), 0),\n         'selections': totals.get((page, 'crm_slot_select'), 0)}\n        for market, page in CRM_SLOT_PAGES.items()\n    ]\n\n\ndef link_",
+      "after": "n rows}\n    converted = dict(db.execute(\"\"\"SELECT s.page, COUNT(*) FROM journey_events s\n        JOIN journey_events b ON b.journey=s.journey AND b.page=s.page AND b.event='crm_slot_confirm'\n        WHERE s.created>=? AND s.event='crm_slot_select'\n          AND b.created BETWEEN s.created-60 AND s.created+86400 GROUP BY s.page\"\"\", (since,)))\n    confirmed = dict(db.execute(\"\"\"SELECT json_extract(e.payload,'$.qualification.country'), COUNT(DISTINCT e.id)\n        FROM appointment_events a JOIN enquiries e ON e.id=a.enquiry_id\n        WHERE a.created>=? AND a.event='confirmed' AND e.email_status!='qa-verified'\n          AND json_extract(e.payload,'$.interest')='Travel CRM Package'\n          AND json_extract(e.payload,'$.attribution.crm_promotion') IN ('availability-slot','availability-request')\n        GROUP BY 1\"\"\", (since,)))\n    return [\n        {'market': market, 'views': totals.get((page, 'crm_slot_view'), 0),\n         'selections': totals.get((page, 'crm_slot_select'), 0),\n         'confirmed': confirmed.get(market, 0), 'converted': converted.get(page, 0)}\n        for market, page in CRM_SLOT_PAGES.items()\n    ]\n\n\ndef crm_slot_context(data):\n    if not isinstance(data, dict) or set(data) != {'journey', 'market'}:\n        raise ValueError('Invalid CRM slot journey.')\n    event = validate_slot_event({**data, 'event': 'crm_slot_select'})\n    return event['journey'], event['page']\n\n\ndef confirm_crm_slot(db, context, allowed, now):\n    if not allowed or not context:\n        return\n    journey, page = context\n    db.execute(\"\"\"INSERT OR IGNORE INTO journey_events\n        SELECT ?,'crm_slot_confirm','',?,?,'none','unknown'\n        WHERE NOT EXISTS(SELECT 1 FROM journey_events WHERE journey=? AND page!=?)\"\"\",\n        (journey, now, page, journey, page))\n\n\ndef link_"
+    }
+  ],
+  "server/test_journey_measurement.py": [
+    {
+      "before": "))[0], 400)\n\n        for",
+      "after": "))[0], 400)\n        now=int(time.time())\n        available=uuid.uuid4().hex[:24]\n        with enquiries.connect() as db:\n            db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',\n                (available,now+5500,'sales@bandeviglobalgroup.com'))\n        booking={\n            'type':'demo','name':'Synthetic CRM traveller','email':'crm@example.invalid',\n            'interest':'Travel CRM Package','message':'Regional CRM demo',\n            'qualification':{'version':1,'country':'GB','currency':'GBP','budget':'',\n                             'contact':{'channel':'Email','date':'','time':'','timezone':'Europe/London'}},\n            'attribution':{'channel':'direct_unknown','crm_promotion':'availability-slot'},\n            'crmSlotJourney':{key:selection[key] for key in ('journey','market')}\n        }\n        status, failed, _ = self.request('/api/enquiries', dict(booking,slotId=uuid.uuid4().hex[:24]),key=str(uuid.uuid4()))\n        self.assertEqual(status,409)\n        self.assertEqual(failed['code'],'demo_slot_unavailable')\n        key=str(uuid.uuid4())\n        status, saved, _ = self.request('/api/enquiries',dict(booking,slotId=available),key=key)\n        self.assertEqual(status,201)\n        self.assertTrue(saved['appointment']['confirmed'])\n        retry={name:value for name,value in booking.items() if name!='crmSlotJourney'}\n        self.assertEqual(self.request('/api/enquiries',dict(retry,slotId=available),key=key)[1]['reference'],saved['reference'])\n        with enquiries.connect() as db:\n            saved_payload=db.execute('SELECT payload FROM enquiries WHERE id=?',(saved['reference'],)).fetchone()[0]\n            self.assertNotIn(selection['journey'],saved_payload)\n\n        for"
+    },
+    {
+      "before": "elections':0},\n            {'market':'GB','views':1,'selections':1},\n            {'market':'IN','views':1,'selections':0},\n      ",
+      "after": "elections':0,'confirmed':0,'converted':0},\n            {'market':'GB','views':1,'selections':1,'confirmed':1,'converted':1},\n            {'market':'IN','views':1,'selections':0,'confirmed':0,'converted':0},\n      "
+    }
+  ],
+  "uk/travel-agency-crm/index.html": [
+    {
+      "before": ".js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-next-slot\"></script>\n",
+      "after": ".js?v=20261113-crm-booking\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-crm-booking\"></script>\n"
+    }
+  ],
+  "us/travel-agency-crm/index.html": [
+    {
+      "before": ".js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-next-slot\"></script>\n",
+      "after": ".js?v=20261113-crm-booking\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-crm-booking\"></script>\n"
+    }
+  ]
+}
