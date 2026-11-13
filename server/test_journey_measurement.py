@@ -91,6 +91,48 @@ class JourneyTests(unittest.TestCase):
         with urllib.request.urlopen(req) as response:self.assertTrue(json.load(response)['ignored'])
         with enquiries.connect() as db:self.assertEqual(db.execute('SELECT COUNT(*) FROM journey_events').fetchone()[0],0)
 
+    def test_crm_slot_report_counts_anonymous_events_once_by_regional_page(self):
+        import urllib.request
+
+        events = [
+            {'journey': str(uuid.uuid4()), 'event': 'crm_slot_view', 'market': market}
+            for market in ('US', 'GB', 'IN')
+        ]
+        for event in events:
+            self.assertEqual(self.request('/api/measurement', event)[0], 200)
+            self.assertEqual(self.request('/api/measurement', event)[0], 200)
+        selection = dict(events[1], event='crm_slot_select')
+        self.assertEqual(self.request('/api/measurement', selection)[0], 200)
+        self.assertEqual(self.request('/api/measurement', selection)[0], 200)
+        self.assertEqual(self.request('/api/measurement', dict(selection, market='IN'))[0], 409)
+        self.assertEqual(self.request('/api/measurement', dict(selection, market='AU'))[0], 400)
+        self.assertEqual(self.request('/api/measurement', dict(selection, journey=5))[0], 400)
+        self.assertEqual(self.request('/api/measurement', dict(selection, slot='a'*24))[0], 400)
+
+        for privacy in ('DNT', 'Sec-GPC'):
+            req = urllib.request.Request(fixture.base+'/api/measurement',
+                data=json.dumps(dict(selection, journey=str(uuid.uuid4()))).encode(),
+                headers={'Origin':'http://127.0.0.1:8765', 'Content-Type':'application/json', privacy:'1'})
+            with urllib.request.urlopen(req) as response:
+                self.assertTrue(json.load(response)['ignored'])
+
+        self.assertEqual(self.request('/api/admin/journey-report')[0], 401)
+        cookie, csrf = self.login()
+        report = self.request('/api/admin/journey-report?days=7', cookie=cookie)[1]
+        self.assertEqual(report['crmSlots'], [
+            {'market':'US','views':1,'selections':0},
+            {'market':'GB','views':1,'selections':1},
+            {'market':'IN','views':1,'selections':0},
+        ])
+        self.assertNotIn(selection['journey'], json.dumps(report))
+        self.assertEqual(report['clicks']['demo_click'], 0)
+        self.request('/api/admin/team', dict(email='agent@example.test', name='Agent',
+            role='agent', password='Long-test-password-1234', active=True), cookie, csrf)
+        _, _, headers = self.request('/api/admin/login',
+            dict(email='agent@example.test', password='Long-test-password-1234'))
+        agent = headers['Set-Cookie'].split(';')[0]
+        self.assertEqual(self.request('/api/admin/journey-report', cookie=agent)[1]['crmSlots'], [])
+
     def test_sample_completion_booking_and_current_attendance_share_one_market_cohort(self):
         import sales_journey
         import urllib.request

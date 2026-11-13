@@ -173,5 +173,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original homepage clarity marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const regionalNextSlot = require('./fixtures/regional-next-slot-approved.json');
+  for (const { before, after } of regionalNextSlot[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original regional next demo slot marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

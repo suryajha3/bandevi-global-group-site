@@ -192,13 +192,27 @@ async function refreshJourneyReport(identity){
     $('response-queue').replaceChildren(r.waiting?.length?queue:text('p','No active enquiries awaiting action in this cohort.'));
     $('response-basis').textContent=r.basis;$('website-journeys').hidden=!r.websiteVisible;
     if(r.websiteVisible){
+      const slotTable=document.createElement('table');
+      slotTable.append(text('caption','Travel Agency CRM demo times by market'));
+      const slotHeader=document.createElement('tr');
+      for(const label of ['Market','Slot views','Slot selections']){
+        const cell=text('th',label);cell.scope='col';slotHeader.append(cell);
+      }
+      slotTable.append(slotHeader);
+      const marketLabels={US:'United States',GB:'United Kingdom',IN:'India'};
+      for(const market of r.crmSlots||[]){
+        const row=document.createElement('tr'),name=text('th',marketLabels[market.market]);name.scope='row';
+        row.append(name,text('td',String(market.views)),text('td',String(market.selections)));
+        slotTable.append(row);
+      }
+      $('crm-slot-report').replaceChildren(slotTable);
       const table=document.createElement('table');table.append(text('caption','Measured form journeys by starting page, form and source'));const header=document.createElement('tr');for(const label of ['Page','Form','Source','Started','Saved','No measured save yet','Validation issue','Submission failed','Saved / started'])header.append(text('th',label));table.append(header);
       for(const row of r.pages){const tr=document.createElement('tr');for(const value of [row.page,row.form,channelLabels[row.channel]||row.channel,row.started,row.saved,row.notSaved,row.validation,row.failed,row.started?(100*row.saved/row.started).toFixed(1)+'%':'—'])tr.append(text('td',String(value)));table.append(tr);}
       $('journey-pages').replaceChildren(r.pages.length?table:text('p','No measured form starts in this period yet.'));
       const labels={phone_click:'Call clicks',email_click:'Email clicks',whatsapp_click:'WhatsApp clicks',demo_click:'Demo button clicks'};
       $('journey-clicks').replaceChildren(...Object.entries(r.clicks).map(([key,value])=>{const card=text('div',labels[key]||key,'count');card.append(text('strong',String(value)));return card;}));
       $('journey-errors').replaceChildren(...(r.errors.length?r.errors.map(x=>text('p',(x.event==='invalid'?'Validation':'Submission')+' · '+x.reason+': '+x.count)):[text('p','No measured issues in this period.')]));
-    }else for(const id of ['journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();
+    }else for(const id of ['crm-slot-report','journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();
     $('journey-message').textContent='';
-  }catch(error){if(csrf&&csrf===identity){$('journey-message').textContent='Journey report unavailable. Refresh to try again.';for(const id of ['response-counts','response-basis','response-action-counts','response-queue','journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();$('website-journeys').hidden=true;}}
+  }catch(error){if(csrf&&csrf===identity){$('journey-message').textContent='Journey report unavailable. Refresh to try again.';for(const id of ['response-counts','response-basis','response-action-counts','response-queue','crm-slot-report','journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();$('website-journeys').hidden=true;}}
 }

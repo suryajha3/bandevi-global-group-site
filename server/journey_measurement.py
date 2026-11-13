@@ -16,6 +16,9 @@ REASONS = ('','required','format','length','other','network','server','rate_limi
 CHANNELS = ('organic_search','paid','campaign','referral','direct_unknown','unknown')
 SAMPLE_MARKETS = ('US', 'GB', 'IN')
 SAMPLE_WORKFLOWS = ('crm-pipeline', 'travel-handover')
+CRM_SLOT_EVENTS = ('crm_slot_view', 'crm_slot_select')
+CRM_SLOT_PAGES = dict(zip(SAMPLE_MARKETS, (
+    '/us/travel-agency-crm/', '/uk/travel-agency-crm/', '/india/travel-agency-crm/')))
 
 
 def sample_context(data):
@@ -67,6 +70,30 @@ def validate_sample(data):
     return data
 
 
+def validate_slot_event(data):
+    if (set(data) != {'event', 'journey', 'market'}
+            or any(not isinstance(value, str) for value in data.values())
+            or data['market'] not in CRM_SLOT_PAGES):
+        raise ValueError('Invalid CRM slot measurement.')
+    journey = uuid.UUID(data['journey'])
+    if journey.version != 4 or str(journey) != data['journey']:
+        raise ValueError('Invalid CRM slot measurement.')
+    return {'journey': data['journey'], 'event': data['event'], 'reason': '',
+            'page': CRM_SLOT_PAGES[data['market']], 'form': 'none', 'channel': 'unknown'}
+
+
+def crm_slot_report(db, since):
+    rows = db.execute("""SELECT page,event,COUNT(*) AS total FROM journey_events
+        WHERE created>=? AND event IN (?,?) GROUP BY page,event""",
+        (since, *CRM_SLOT_EVENTS)).fetchall()
+    totals = {(row['page'], row['event']): row['total'] for row in rows}
+    return [
+        {'market': market, 'views': totals.get((page, 'crm_slot_view'), 0),
+         'selections': totals.get((page, 'crm_slot_select'), 0)}
+        for market, page in CRM_SLOT_PAGES.items()
+    ]
+
+
 def link_sample(db, reference, data, context, allowed, now):
     if not allowed or not context:
         return
@@ -88,10 +115,12 @@ def post(handler,connect,origins,salt):
         size=int(handler.headers.get('Content-Length','0'))
         if not 0<size<=2048:handler.respond(413,{'error':'Measurement too large.'});return True
         raw=json.loads(handler.rfile.read(size))
-        sample=isinstance(raw,dict) and raw.get('event')=='sample_complete'
-        data=validate_sample(raw) if sample else validate(raw)
+        event=raw.get('event') if isinstance(raw,dict) else None
+        sample=event=='sample_complete'
+        slot=event in CRM_SLOT_EVENTS
+        data=validate_sample(raw) if sample else validate_slot_event(raw) if slot else validate(raw)
     except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Invalid measurement.'});return True
-    if sample and handler.headers.get('Sec-GPC')=='1':handler.respond(200,{'ok':True,'ignored':True});return True
+    if (sample or slot) and handler.headers.get('Sec-GPC')=='1':handler.respond(200,{'ok':True,'ignored':True});return True
     now=int(time.time());fingerprint=hashlib.sha256((salt+handler.headers.get('X-Real-IP',handler.client_address[0])).encode()).hexdigest()
     with connect() as db:
         db.execute('BEGIN IMMEDIATE');prune(db,now)
@@ -134,11 +163,12 @@ def get(handler,connect,identity):
         waiting=[r for r in active if r['first_contact'] is None]
         response.update(activeUnassigned=sum(not r['owner'].strip() for r in active),activeWaiting=len(waiting),waitingOver24Hours=sum(now-r['created']>=86400 for r in waiting))
         queue=[{'reference':r['id'],'created':r['created'],'ageSeconds':max(0,now-r['created']),'owner':r['owner'],'stage':r['stage'],'noRecordedContact':r['first_contact'] is None} for r in sorted(active,key=lambda r:r['created']) if r['first_contact'] is None or not r['owner'].strip()][:20]
-        pages=[];clicks={e:0 for e in EVENTS if e.endswith('_click')};errors=[]
+        pages=[];clicks={e:0 for e in EVENTS if e.endswith('_click')};errors=[];crm_slots=[]
         if identity['role']!='agent':
             starts=db.execute("SELECT s.page,s.form,s.channel,COUNT(*) AS started,SUM(EXISTS(SELECT 1 FROM journey_events x WHERE x.journey=s.journey AND x.event='saved')) AS saved,SUM(EXISTS(SELECT 1 FROM journey_events x WHERE x.journey=s.journey AND x.event='invalid')) AS validation,SUM(EXISTS(SELECT 1 FROM journey_events x WHERE x.journey=s.journey AND x.event='failed')) AS failed FROM journey_events s WHERE s.event='start' AND s.created>=? GROUP BY s.page,s.form,s.channel ORDER BY started DESC,s.page,s.form,s.channel LIMIT 100",(since,)).fetchall()
             pages=[dict(r,notSaved=r['started']-r['saved']) for r in starts]
             clicks.update({r['event']:r['count'] for r in db.execute("SELECT event,COUNT(*) AS count FROM journey_events WHERE created>=? AND event LIKE '%_click' GROUP BY event",(since,))})
             errors=[dict(r) for r in db.execute("SELECT event,reason,COUNT(*) AS count FROM journey_events WHERE created>=? AND event IN ('invalid','failed') GROUP BY event,reason ORDER BY count DESC",(since,))]
-    handler.respond(200,{'days':days,'websiteVisible':identity['role']!='agent','pages':pages,'clicks':clicks,'errors':errors,'response':response,'waiting':queue,'basis':'Anonymous form journeys started during this period, not unique customers. Not saved means no measured success yet; journeys may still be in progress. Blockers, Do Not Track, offline requests and lost telemetry affect counts. Clicks are not enquiries. Response times use the earliest recorded connected call, staff-reported sent email, or Contacted/Qualified/Proposal/Won stage change; they do not prove email delivery or a customer reply. Agents see assigned-lead response times only.'})
+            crm_slots=crm_slot_report(db,since)
+    handler.respond(200,{'days':days,'websiteVisible':identity['role']!='agent','pages':pages,'clicks':clicks,'errors':errors,'crmSlots':crm_slots,'response':response,'waiting':queue,'basis':'Anonymous form journeys started during this period, not unique customers. Not saved means no measured success yet; journeys may still be in progress. Blockers, Do Not Track, offline requests and lost telemetry affect counts. Clicks are not enquiries. Response times use the earliest recorded connected call, staff-reported sent email, or Contacted/Qualified/Proposal/Won stage change; they do not prove email delivery or a customer reply. Agents see assigned-lead response times only.'})
     return True

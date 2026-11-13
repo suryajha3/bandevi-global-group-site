@@ -62,6 +62,8 @@
   const time = window.BandeviDemoTime;
   if (!time) return;
   const market = panel.dataset.crmAvailability;
+  const nextTime = panel.querySelector('[data-availability-next]');
+  const primary = panel.closest('.crm-campaign-hero').querySelector('[data-crm-hero-demo]');
   const controls = panel.querySelector('[data-availability-controls]');
   const status = panel.querySelector('[data-availability-status]');
   const request = panel.querySelector('[data-availability-request]');
@@ -74,7 +76,47 @@
   zone.name = 'crm_zone';
   zone.setAttribute('form', form.id);
   const fallback = new URL(request.href);
+  const originalPrimary = new URL(primary.href);
   let slots = [];
+  let loaded = false;
+  let visible = false;
+  let journey;
+  const measured = new Set();
+
+  function measure(event) {
+   if (measured.has(event) || !window.bgAnalyticsConsent?.allowed() ||
+       navigator.doNotTrack === '1' || window.doNotTrack === '1' ||
+       navigator.globalPrivacyControl || !window.crypto?.randomUUID) return;
+   journey ||= window.crypto.randomUUID();
+   measured.add(event);
+   fetch('/api/measurement', {
+    method: 'POST', credentials: 'omit', keepalive: true, referrerPolicy: 'no-referrer',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ journey, event, market })
+   }).catch(() => {});
+  }
+
+  function measureView() {
+   if (visible && !document.hidden && slots.length) measure('crm_slot_view');
+  }
+
+  function selectTime() {
+   if (!slots.length) return;
+   measure('crm_slot_view');
+   measure('crm_slot_select');
+  }
+
+  function updatePrimary() {
+   const slot = slots[0];
+   const url = new URL(slot || !loaded ? originalPrimary : fallback);
+   if (slot) {
+    url.searchParams.set('crm_promo', 'availability-slot');
+    url.searchParams.set('crm_zone', zone.value);
+    url.searchParams.set('crm_slot', slot.id);
+   }
+   primary.href = url.href;
+   primary.textContent = slot ? 'Book next CRM demo' : loaded ? 'Request a time' : 'Request a CRM Demo';
+  }
 
   function showTimes() {
    const selected = select.value;
@@ -83,6 +125,15 @@
    if (slots.some(slot => slot.id === selected)) select.value = selected;
    fallback.searchParams.set('crm_zone', zone.value);
    request.href = fallback.href;
+   const slot = slots[0];
+   nextTime.textContent = slot
+    ? 'Next available · ' + new Intl.DateTimeFormat(undefined, {
+     timeZone: zone.value, weekday: 'short', month: 'short', day: 'numeric',
+     hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+    }).format(new Date(slot.starts * 1000))
+    : loaded ? 'No slots currently available' : '';
+   updatePrimary();
+   measureView();
   }
 
   async function load() {
@@ -97,7 +148,8 @@
     const response = await fetch('/api/demo/slots', { cache: 'no-store', signal: controller.signal });
     if (!response.ok) throw new Error('Availability unavailable');
     const data = await response.json();
-    slots = data.slots;
+    slots = [...data.slots].sort((first, second) => first.starts - second.starts);
+    loaded = true;
     showTimes();
     form.hidden = !slots.length;
     status.textContent = slots.length
@@ -105,7 +157,11 @@
      : 'No demo times are available right now. Request a time that works for you.';
    } catch (_) {
     slots = [];
+    loaded = false;
     showTimes();
+    nextTime.textContent = 'Demo times unavailable';
+    primary.href = fallback.href;
+    primary.textContent = 'Request a time';
     status.textContent = 'Demo times could not be loaded. Try again or request a preferred time.';
    } finally {
     clearTimeout(timer);
@@ -116,8 +172,18 @@
   showTimes();
   zone.addEventListener('change', showTimes);
   refresh.addEventListener('click', load);
-  if (panel.open) load();
-  else panel.addEventListener('toggle', () => { if (panel.open) load(); });
+  primary.addEventListener('click', selectTime);
+  select.addEventListener('change', () => { if (select.value) selectTime(); });
+  form.addEventListener('submit', () => { if (select.value) selectTime(); });
+  if ('IntersectionObserver' in window) {
+   new IntersectionObserver(([entry]) => {
+    visible = entry.intersectionRatio >= 0.5 && entry.boundingClientRect.height > 0;
+    measureView();
+   }, { threshold: 0.5 }).observe(nextTime);
+  }
+  document.addEventListener('visibilitychange', measureView);
+  document.addEventListener('bg-analytics-consent-change', measureView);
+  load();
  }
 
  function init(){
