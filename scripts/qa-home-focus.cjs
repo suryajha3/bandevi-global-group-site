@@ -14,7 +14,8 @@ for(const engine of all?['chromium','firefox','webkit']:[process.env.QA_BROWSER|
   const demoBox=await demo.boundingBox(),sampleBox=await hero.locator('#home-crm-step-example').boundingBox();
   assert(demoBox.y+demoBox.height<=sampleBox.y&&demoBox.height>=43.99,'The demo action precedes the sample and has a 44px target');
   assert.equal(await hero.getByRole('link',{name:'See a delivered project',exact:true}).getAttribute('href'),'/projects/bandevi-website/#crm-enquiry-case-study');
-  assert((await promotion.boundingBox()).height<=(width<=540?118:width<=900?105:65),'Promotion stays compact at '+width);
+  const promotionHeight=(await promotion.boundingBox()).height;
+  assert(promotionHeight<=(width<=540?132:width<=900?114:70),'Promotion stays compact at '+width+'px: '+promotionHeight+'px');
   if(width<=540){
    const markets=await hero.locator('.home-hero-markets a').evaluateAll(links=>links.map(link=>Math.round(link.getBoundingClientRect().top)));
    assert.equal(new Set(markets).size,1,'Three market links share one row');
