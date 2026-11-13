@@ -36,7 +36,7 @@ assert.deepEqual(await sampleFunnel.getByRole('rowheader').allTextContents(),['U
 await decisions.getByRole('columnheader',{name:'Median time to decision',exact:true}).waitFor();
 assert.equal(await decisions.locator('tbody tr').count(),3);
 const usDecisions=decisions.locator('tbody tr').filter({has:page.getByRole('rowheader',{name:'United States',exact:true})});
-assert.deepEqual(await usDecisions.locator('td').allTextContents(),['0','0','0','0','—','0','0','—']);
+assert.deepEqual(await usDecisions.locator('td').allTextContents(),['0','0','0','0','—','0','0','—','0','—','—','0','0']);
 await page.locator('#report-days').selectOption('7');
 await decisions.locator('caption').filter({hasText:'last 7 days by publication'}).waitFor();
 await page.locator('#report-days').selectOption('30');

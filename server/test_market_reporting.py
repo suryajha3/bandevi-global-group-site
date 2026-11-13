@@ -37,7 +37,7 @@ class MarketReportingTests(unittest.TestCase):
             return pid
         with isolated.enquiries.connect() as db:
             first=revision(db,us,1,10,'superseded')
-            revision(db,us,2,8,'accepted',now-6*day)
+            accepted=revision(db,us,2,8,'accepted',now-6*day)
             revision(db,us,3,None,'draft')
             revision(db,gb,1,10,'superseded')
             revision(db,gb,2,8,'withdrawn')
@@ -46,6 +46,13 @@ class MarketReportingTests(unittest.TestCase):
             db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Lost',?,?)",(gb,self.owner,now-3*day))
             revision(db,qa,1,3,'accepted',now-day)
             revision(db,reassigned,1,3,'published')
+            db.execute('INSERT INTO client_proposal_views VALUES(?,?)',(first,now-9*day))
+            db.execute('INSERT INTO client_proposal_views VALUES(?,?)',(accepted,now-6*day))
+            db.execute('INSERT INTO client_kickoffs VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+                       (us,accepted,self.owner,'','',0,now+day,1,0,1,now))
+            db.execute("UPDATE enquiry_workflow SET stage='Won' WHERE id=?",(us,))
+            db.execute("INSERT INTO sales_events(enquiry_id,stage,actor,created) VALUES(?,'Won',?,?)",
+                       (us,self.owner,now-4*day))
             revision(db,reassigned,2,31,'withdrawn')
             db.execute("UPDATE enquiry_workflow SET owner='someone-else@example.test' WHERE id=?",(reassigned,))
             revision(db,unknown,1,2,'published')
@@ -59,6 +66,10 @@ class MarketReportingTests(unittest.TestCase):
         self.assertEqual(tuple(groups['US'][key] for key in metrics),(2,1,0,1,50.0,2,1,2*day))
         self.assertEqual(tuple(groups['GB'][key] for key in metrics),(3,0,1,2,0.0,0,0,5*day))
         self.assertEqual(tuple(groups['IN'][key] for key in metrics),(0,0,0,0,None,0,0,None))
+        engagement=('viewed','medianFirstViewSeconds','medianAcceptanceSeconds','kickoffBooked','won')
+        self.assertEqual(tuple(groups['US'][key] for key in engagement),(2,round(1.5*day),2*day,1,1))
+        for country in ('GB','IN'):
+            self.assertEqual(tuple(groups[country][key] for key in engagement),(0,None,None,0,0))
         with isolated.enquiries.connect() as db:
             db.execute("UPDATE enquiry_workflow SET stage='Proposal' WHERE id=?",(gb,))
             short=sales_journey.proposal_decisions(db,{'role':'agent','actor':self.owner},now-7*day,now)

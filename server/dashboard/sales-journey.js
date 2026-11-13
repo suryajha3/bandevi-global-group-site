@@ -307,19 +307,21 @@ function renderProposalDecisions(result){
  const table=document.createElement('table');
  table.append(text('caption','Proposal decisions by business country · last '+result.days+' days by publication'));
  const header=table.createTHead().insertRow();
- for(const title of ['Business country','Published revisions','Accepted','Recorded lost','Without recorded decision','Acceptance rate','Change requests','Revisions with changes','Median time to decision']){
+ for(const title of ['Business country','Published revisions','Accepted','Recorded lost','Without recorded decision','Acceptance rate','Change requests','Revisions with changes','Median time to decision','Viewed','Median time to first view','Median time to acceptance','Kickoff booked','Recorded won']){
   const cell=text('th',title);cell.scope='col';header.append(cell);
  }
- const formatDuration=(seconds,count)=>{
+ const formatDuration=(seconds,count,label)=>{
   if(seconds===null)return '—';
   const elapsed=seconds<60?'<1 min':seconds<3600?Math.round(seconds/60)+' min':seconds<86400?(seconds/3600).toFixed(1)+' h':(seconds/86400).toFixed(1)+' days';
-  return elapsed+' ('+count+(count===1?' decision)':' decisions)');
+  return elapsed+' ('+count+' '+label+(count===1?')':'s)');
  };
  const body=table.createTBody();
  for(const group of groups){
   const row=body.insertRow(), heading=text('th',group.label);heading.scope='row';row.append(heading);
   const rate=group.acceptanceRate===null?'—':group.acceptanceRate+'%';
-  for(const value of [group.published,group.accepted,group.lost,group.withoutDecision,rate,group.changeRequests,group.revisionsWithChanges,formatDuration(group.medianDecisionSeconds,group.decided)])row.append(text('td',String(value)));
+  for(const value of [group.published,group.accepted,group.lost,group.withoutDecision,rate,group.changeRequests,group.revisionsWithChanges,formatDuration(group.medianDecisionSeconds,group.decided,'decision'),
+  group.viewed,formatDuration(group.medianFirstViewSeconds,group.viewed,'view'),
+  formatDuration(group.medianAcceptanceSeconds,group.accepted,'acceptance'),group.kickoffBooked,group.won])row.append(text('td',String(value)));
  }
  $('proposal-decision-report').replaceChildren(table);
  $('proposal-decision-basis').textContent=result.proposalDecisionBasis;
