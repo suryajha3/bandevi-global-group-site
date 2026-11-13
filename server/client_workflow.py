@@ -38,6 +38,10 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_projects(reference TEXT PRIMARY KEY,email TEXT NOT NULL,title TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'Planning',version INTEGER NOT NULL DEFAULT 0,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_proposals(id TEXT PRIMARY KEY,reference TEXT NOT NULL,revision INTEGER NOT NULL,title TEXT NOT NULL,scope TEXT NOT NULL,terms TEXT NOT NULL,minor_units INTEGER NOT NULL,currency TEXT NOT NULL,expires INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'draft',created INTEGER NOT NULL,actor TEXT NOT NULL,accepted INTEGER,accepted_by TEXT,published INTEGER NOT NULL DEFAULT 0,UNIQUE(reference,revision));
     CREATE TABLE IF NOT EXISTS client_proposal_views(proposal TEXT PRIMARY KEY,first_view INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS client_proposal_followups(
+      proposal TEXT PRIMARY KEY, requested_date TEXT NOT NULL DEFAULT '', note TEXT NOT NULL DEFAULT '',
+      request_pending INTEGER NOT NULL DEFAULT 0, followed_at INTEGER NOT NULL DEFAULT 0,
+      followed_by TEXT NOT NULL DEFAULT '', next_date TEXT NOT NULL DEFAULT '', version INTEGER NOT NULL DEFAULT 0);
     CREATE TABLE IF NOT EXISTS client_milestones(id TEXT PRIMARY KEY,reference TEXT NOT NULL,title TEXT NOT NULL,due TEXT NOT NULL,status TEXT NOT NULL,notes TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_documents(id TEXT PRIMARY KEY,reference TEXT NOT NULL,name TEXT NOT NULL,mime TEXT NOT NULL,data BLOB NOT NULL,created INTEGER NOT NULL,actor TEXT NOT NULL,deleted INTEGER NOT NULL DEFAULT 0);
     CREATE TABLE IF NOT EXISTS client_tickets(id TEXT PRIMARY KEY,reference TEXT NOT NULL,subject TEXT NOT NULL,priority TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'Open',owner TEXT NOT NULL,created INTEGER NOT NULL,due INTEGER NOT NULL,first_response INTEGER,version INTEGER NOT NULL DEFAULT 0);
@@ -156,41 +160,110 @@ def pending_proposal_email(db, notification, now):
     return None
 
 
+def proposal_business_date(timestamp):
+    return datetime.datetime.fromtimestamp(timestamp,operations.INDIA).date()
+
+
+def proposal_followup_target(first_view):
+    date=proposal_business_date(first_view)
+    for _ in range(2):
+        date+=datetime.timedelta(days=1)
+        while date.weekday()>=5:
+            date+=datetime.timedelta(days=1)
+    return date.isoformat()
+
+
+def decision_followup(db,item,now):
+    """Resolve the next action for a viewed revision using its exact records."""
+    follow=db.execute('SELECT * FROM client_proposal_followups WHERE proposal=?',(item['id'],)).fetchone()
+    result={'owner':sales_owner(db,item['reference']),'version':follow['version'] if follow else 0}
+    request_pending=bool(follow and follow['request_pending'])
+    today=proposal_business_date(now).isoformat()
+    decision=db.execute('SELECT due FROM client_proposal_decisions WHERE proposal=? AND published>0',(item['id'],)).fetchone()
+    due=decision['due'] if decision and decision['due'] else proposal_followup_target(item['firstView'])
+    if follow:
+        result.update(followedAt=follow['followed_at'],followedBy=follow['followed_by'])
+        if follow['requested_date']:
+            result['request']={'date':follow['requested_date'],'note':follow['note'],'pending':request_pending}
+        if follow['followed_at']:
+            due=follow['next_date']
+    if request_pending:
+        due=today
+    elif due:
+        due=min(due,proposal_business_date(item['expires']).isoformat())
+    from demo_recovery import UNANSWERED_QUESTION
+    question=db.execute("""SELECT t.id FROM client_proposal_feedback f JOIN client_tickets t ON t.id=f.ticket
+        JOIN client_projects project ON project.reference=t.reference
+        WHERE f.proposal=? AND """+UNANSWERED_QUESTION+' ORDER BY t.due,t.id LIMIT 1',(item['id'],)).fetchone()
+    review=proposal_review(db,item['id'])
+    booked=bool(review and review['state']=='booked')
+    expiring=not follow and item['expires']<=now+7*86400
+    result.update(due=due,canFollowUp=request_pending or (not (question or booked)
+        and bool(expiring or due and due<=today)))
+    if question:
+        result['question']=question['id']
+    if booked:
+        result['reviewStarts']=review['starts']
+    return result
+
+
 def proposal_queue(handler,db,identity,query):
     buckets={'drafts':"cp.status='draft'",'awaiting':"cp.status='published' AND cp.expires>?",'expiring':"cp.status='published' AND cp.expires>? AND cp.expires<=?",'expired':"cp.status='published' AND cp.expires<=?",'accepted':"cp.status='accepted'",'withdrawn':"cp.status='withdrawn'",'superseded':"cp.status='superseded'",'all':'1=1'}
     bucket=query.get('bucket',['awaiting'])[0];search=query.get('q',[''])[0][:120]
     try:offset=int(query.get('offset',['0'])[0])
     except ValueError:raise Problem(400,'Invalid page.')
     now=int(time.time());week=now+7*86400
-    actionable="cp.status='published' AND cp.expires>? AND cp.published>0 AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"
-    buckets['unopened']=actionable+' AND v.first_view IS NULL'
+    awaiting="cp.status='published' AND cp.published>0 AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"
+    buckets['unopened']=awaiting+' AND cp.expires>? AND v.first_view IS NULL'
+    buckets['viewed']=awaiting+""" AND (cp.expires>? OR pf.request_pending=1)
+        AND v.first_view BETWEEN cp.published AND ?"""
     if bucket not in buckets or not 0<=offset<=1000000:raise Problem(400,'Choose a valid proposal filter.')
     join=""" FROM client_proposals cp JOIN client_projects p ON p.reference=cp.reference
         JOIN enquiries e ON e.id=p.reference LEFT JOIN enquiry_workflow w ON w.id=p.reference
         LEFT JOIN client_proposal_views v ON v.proposal=cp.id
-        LEFT JOIN notification_outbox n ON n.dedupe='proposal-published:'||cp.id """
+        LEFT JOIN notification_outbox n ON n.dedupe='proposal-published:'||cp.id
+        LEFT JOIN client_proposal_followups pf ON pf.proposal=cp.id
+        LEFT JOIN client_proposal_decisions pd ON pd.proposal=cp.id AND pd.published>0 """
     base="e.email_status!='qa-verified'";args=[]
     if identity['role']=='agent':base+=' AND w.owner=?';args=[identity['actor']]
-    def params(key):return [now,week] if key=='expiring' else [now] if key in ('awaiting','expired','unopened') else []
+    def params(key):
+        if key=='viewed':return [now,now]
+        if key=='expiring':return [now,week]
+        return [now] if key in ('awaiting','expired','unopened') else []
     db.execute('BEGIN')
     counts={key:db.execute('SELECT COUNT(*)'+join+'WHERE '+base+' AND ('+condition+')',args+params(key)).fetchone()[0] for key,condition in buckets.items()}
     where=base+' AND ('+buckets[bucket]+')';filters=args+params(bucket)
     if search:where+=' AND (cp.title LIKE ? OR p.title LIKE ? OR p.reference LIKE ? OR p.email LIKE ?)';filters+=['%'+search+'%']*4
     total=db.execute('SELECT COUNT(*)'+join+'WHERE '+where,filters).fetchone()[0]
+    order=''
+    if bucket=='viewed':
+        order="""COALESCE(pf.request_pending,0) DESC,
+            CASE WHEN pf.followed_at>0 AND pf.next_date='' THEN 1 ELSE 0 END,
+            COALESCE(NULLIF(pf.next_date,''),NULLIF(pd.due,''),date(cp.expires,'unixepoch')),
+            v.first_view,"""
+    elif bucket in ('awaiting','expiring','expired','unopened'):
+        order='cp.expires ASC,'
     rows=db.execute("""SELECT cp.id,cp.reference,cp.revision,cp.title,cp.status,cp.minor_units,cp.currency,
         cp.created,cp.expires,cp.accepted,cp.published,p.title AS projectTitle,p.email AS clientEmail,
         COALESCE(w.owner,'') AS owner,COALESCE(w.stage,'New') AS stage,v.first_view AS firstView,
-        n.status AS emailStatus"""+join+'WHERE '+where+' ORDER BY '+
-        ('cp.expires ASC,' if bucket in ('awaiting','expiring','expired','unopened') else '')+
+        COALESCE(pf.request_pending,0) AS pendingTimeRequest,n.status AS emailStatus"""+join+'WHERE '+where+' ORDER BY '+order+
         'cp.created DESC,cp.id DESC LIMIT 25 OFFSET ?',filters+[offset]).fetchall()
     items=[]
     for row in rows:
         item=dict(row)
         item['displayStatus']=proposal_status(item,now)
         item['expiresSoon']=item['status']=='published' and now<item['expires']<=week
-        if (item['status']=='published' and item['published'] and item['expires']>now
-                and item['stage'] not in ('Won','Lost') and (item['expiresSoon'] or item['firstView'] is None)):
-            item['followUpLink']=proposal_link(item['reference'],item['id'])
+        pending_time_request=item.pop('pendingTimeRequest')
+        if (item['status']=='published' and item['published'] and item['stage'] not in ('Won','Lost')
+                and (item['expires']>now or pending_time_request)):
+            first_view=item['firstView']
+            if first_view is not None and item['published']<=first_view<=now:
+                followup=decision_followup(db,item,now)
+                item['decisionFollowUp']=followup
+                if followup['canFollowUp']:
+                    item['followUpLink']=proposal_link(item['reference'],item['id'])
+            elif first_view is None:
+                item['followUpLink']=proposal_link(item['reference'],item['id'])
         items.append(item)
     handler.respond(200,{'items':items,'counts':counts,'total':total,'offset':offset,'limit':25,'now':now,'timezone':'Asia/Kolkata'})
     return True
@@ -234,6 +307,12 @@ def detail(db,row,staff,ticket_id=''):
                 if staff:
                     p['blocker'].update(due=blocker['due'],owner=sales_owner(db,ref),
                                         actionable=not closed and p['status']=='published' and not blocker['resolved'])
+        if not staff:
+            follow=db.execute("""SELECT requested_date AS date,note,request_pending AS pending,version
+                FROM client_proposal_followups WHERE proposal=?""",(p['id'],)).fetchone()
+            p['timeRequest']=dict(follow) if follow and follow['date'] else None
+            p['timeRequestEditable']=not closed and p['status']=='published' and p['published']>0 and p['expires']>now
+            p['timeRequestVersion']=follow['version'] if follow else 0
         if staff:
             p['decisionEditable']=not closed and p['status']=='published' and p['expires']>now and decision_review_exists(db,p['id'])
         if not staff:p.pop('actor',None)
@@ -447,6 +526,9 @@ def post(handler,connect,origins,salt):
             elif action=='proposal-decision' and staff:
                 ref=value(data,'reference',30);project(db,ref,identity,True)
                 save_proposal_decision(db,ref,actor,data)
+            elif action=='proposal-follow-up' and staff:
+                ref=value(data,'reference',30);project(db,ref,identity,True)
+                change_proposal_followup(db,ref,actor,data,True)
             elif action=='proposal-blocker' and staff:
                 ref=value(data,'reference',30);project(db,ref,identity,True)
                 change_proposal_blocker(db,ref,actor,data,True)
@@ -594,9 +676,65 @@ def client_change(db,row,identity,action,data,result):
     elif action=='ticket':ticket_change(db,row,identity,data,False)
     elif action=='proposal-feedback':result['ticketId']=create_proposal_feedback(db,row,identity,data,now)
     elif action=='proposal-blocker':change_proposal_blocker(db,ref,actor,data,False)
+    elif action=='proposal-more-time':change_proposal_followup(db,ref,actor,data,False)
     elif action=='proposal-review':change_proposal_review(db,ref,identity,data,False)
     elif action=='kickoff':result.update(change_kickoff(db,ref,identity,data,False))
     else:raise Problem(404,'Not found.')
+
+def proposal_followup_date(data,key,now,required=True):
+    date=value(data,key,10,required)
+    if date:
+        today=proposal_business_date(now)
+        try:
+            parsed=datetime.date.fromisoformat(date)
+            if parsed.isoformat()!=date or not today<=parsed<=today+datetime.timedelta(days=365):
+                raise ValueError()
+        except ValueError:raise Problem(400,'Choose a date from today through the next year.')
+    return date
+
+
+def change_proposal_followup(db,ref,actor,data,staff):
+    pid=value(data,'id',30)
+    now=int(time.time())
+    proposal=db.execute("""SELECT p.id,p.reference,p.status,p.published,p.expires,v.first_view AS firstView
+        FROM client_proposals p LEFT JOIN client_proposal_views v ON v.proposal=p.id
+        WHERE p.id=? AND p.reference=? AND p.published>0""",(pid,ref)).fetchone()
+    if not proposal:raise Problem(404,'Proposal not found.')
+    prior=db.execute('SELECT * FROM client_proposal_followups WHERE proposal=?',(pid,)).fetchone()
+    expired=proposal['expires']<=now
+    if (proposal['status']!='published' or (expired and not (staff and prior and prior['request_pending']))
+            or db.execute("SELECT 1 FROM enquiry_workflow WHERE id=? AND stage IN ('Won','Lost')",(ref,)).fetchone()):
+        raise Problem(409,'This proposal revision is no longer open for a decision.')
+    version=prior['version'] if prior else 0
+    if not staff:
+        date=proposal_followup_date(data,'suggestedDate',now)
+        note=value(data,'note',500,False)
+        if prior and (date,note)==(prior['requested_date'],prior['note']):
+            return
+    if type(data.get('followUpVersion')) is not int or data['followUpVersion']!=version:
+        raise Problem(409,'This follow-up changed. Refresh before saving.')
+    if staff:
+        if proposal['firstView'] is None or not proposal['published']<=proposal['firstView']<=now:
+            raise Problem(409,'A recorded view is required for this follow-up.')
+        followup=decision_followup(db,proposal,now)
+        if not followup['canFollowUp']:
+            raise Problem(409,'No follow-up is due for this revision. Refresh for the current next action.')
+        next_date=proposal_followup_date(data,'nextDate',now,False)
+        if next_date and (expired or not proposal_business_date(now).isoformat()<next_date<=proposal_business_date(proposal['expires']).isoformat()):
+            raise Problem(400,'Choose a later follow-up date within the current proposal validity.')
+        db.execute("""INSERT INTO client_proposal_followups(proposal,followed_at,followed_by,next_date,version)
+            VALUES(?,?,?,?,?) ON CONFLICT(proposal) DO UPDATE SET followed_at=excluded.followed_at,
+            followed_by=excluded.followed_by,next_date=excluded.next_date,request_pending=0,version=excluded.version""",
+            (pid,now,actor,next_date,version+1))
+        audit(db,ref,'proposal-followup-recorded',actor,pid)
+        return
+    # A submitted decision request itself establishes that the client reached this revision.
+    db.execute('INSERT OR IGNORE INTO client_proposal_views VALUES(?,?)',(pid,now))
+    db.execute("""INSERT INTO client_proposal_followups(proposal,requested_date,note,request_pending,version)
+        VALUES(?,?,?,1,?) ON CONFLICT(proposal) DO UPDATE SET requested_date=excluded.requested_date,
+        note=excluded.note,request_pending=1,version=excluded.version""",(pid,date,note,version+1))
+    audit(db,ref,'proposal-more-time-requested',actor,pid)
+
 
 def decision_review_exists(db,pid):
     return bool(db.execute("SELECT 1 FROM client_proposal_reviews WHERE proposal=? AND state='attended'",(pid,)).fetchone())

@@ -75,6 +75,17 @@ class MarketReportingTests(unittest.TestCase):
             short=sales_journey.proposal_decisions(db,{'role':'agent','actor':self.owner},now-7*day,now)
             self.assertEqual([(group['country'],group['published'],group['decided']) for group in short], [('US',0,0),('GB',1,0),('IN',0,0)])
         self.assertNotIn(us,json.dumps(groups))
+        crm=('crmViewed','crmAcceptedAfterView','crmViewAcceptanceRate','crmMedianViewToAcceptanceSeconds',
+             'crmKickoffAfterView','crmWonAfterView')
+        self.assertEqual(tuple(groups['US'][key] for key in crm),(2,1,50.0,0,1,1))
+        self.assertEqual(tuple(groups['GB'][key] for key in crm),(0,0,None,None,0,0))
+        with isolated.enquiries.connect() as db:
+            db.execute('UPDATE client_proposal_views SET first_view=? WHERE proposal=?',(now-5*day,accepted))
+            self.assertEqual(tuple(sales_journey.proposal_decisions(db,{'role':'agent','actor':self.owner},now-30*day,now)[0][key]
+                                   for key in crm),(2,0,0.0,None,0,0))
+            db.execute("UPDATE enquiries SET payload=json_set(payload,'$.interest','Website development') WHERE id=?",(us,))
+            self.assertEqual(tuple(sales_journey.proposal_decisions(db,{'role':'agent','actor':self.owner},now-30*day,now)[0][key]
+                                   for key in crm),(0,0,None,None,0,0))
 
     def test_attendance_by_business_country_uses_current_booking_and_schedule(self):
         cases = [('US','confirmed','No show'),('GB','cancelled','Completed'),('IN','confirmed','Completed')]
