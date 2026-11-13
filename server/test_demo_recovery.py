@@ -75,6 +75,7 @@ class RecoveryTests(unittest.TestCase):
         initial = self.queue(bucket='completed',country='GB')['items'][0]
         self.assertEqual(initial['reference'],ref)
         self.assertEqual(initial['postDemo']['due'],int((friday+datetime.timedelta(days=3)).timestamp()))
+        self.assertEqual(initial['proposalPreparation']['status'],'Needs scope')
         cookie, csrf = self.login()
         route = '/api/admin/sales-journey'
         state = self.request(route+'?reference='+ref,cookie=cookie)[1]
@@ -97,11 +98,21 @@ class RecoveryTests(unittest.TestCase):
         preview=self.request(route+'?reference='+ref,cookie=cookie)[1]['nextStep']['preview']
         self.assertIn('Meet with the decision-maker',preview)
         self.assertIn('Review the import together.',preview)
+        prepared=self.request(route+'?reference='+ref,cookie=cookie)[1]['proposalPreparation']
+        self.assertEqual(prepared['status'],'Ready to draft')
+        self.assertEqual(prepared['nextStep'],preview)
+        self.assertEqual(prepared['dueDate'],'')
+        self.assertEqual(self.request(route,dict(agreed,kind='proposal',nextStepVersion=1),cookie,csrf)[0],200)
+        prepared=self.request(route+'?reference='+ref,cookie=cookie)[1]['proposalPreparation']
+        self.assertEqual(prepared['dueDate'],due)
+        self.assertEqual(prepared['timezone'],'Europe/London')
+        self.assertIn('Review a scoped proposal',prepared['nextStep'])
+        preview=prepared['nextStep']
         self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],409)
-        request['nextStepVersion'] = 1
+        request['nextStepVersion'] = 2
         for _ in range(2):
             self.assertEqual(self.request(route,dict(request,action='recap-send',reviewed=True),cookie,csrf)[0],200)
-        self.assertEqual(self.request(route,dict(agreed,nextStepVersion=1),cookie,csrf)[0],409)
+        self.assertEqual(self.request(route,dict(agreed,nextStepVersion=2),cookie,csrf)[0],409)
         with isolated.enquiries.connect() as db:
             rows=db.execute('SELECT * FROM notification_outbox WHERE dedupe LIKE ?', (f'demo-recap:{ref}:%',)).fetchall()
             self.assertEqual(len(rows),1)
@@ -113,8 +124,14 @@ class RecoveryTests(unittest.TestCase):
             project = db.execute('SELECT * FROM client_projects WHERE reference=?',(ref,)).fetchone()
             self.assertEqual(client_workflow.detail(db,project,True)['postDemo'],{'body':body,'currency':'GBP'})
             self.assertNotIn('postDemo',client_workflow.detail(db,project,False))
+            self.assertNotIn('proposalPreparation',client_workflow.detail(db,project,False))
         self.proposal(ref,status='draft',age=0)
         self.assertEqual(self.queue(bucket='completed')['total'],1)
+        prepared=self.queue(bucket='completed')['items'][0]['proposalPreparation']
+        self.assertEqual(prepared['status'],'Draft ready for review')
+        self.assertEqual(self.request('/api/admin/workspace/proposal-ready',
+            {'reference':ref,'id':prepared['id'],'version':0,'reviewed':True},cookie,csrf)[0],200)
+        self.assertEqual(self.queue(bucket='completed')['items'][0]['proposalPreparation']['status'],'Ready to publish')
         self.proposal(ref,age=0,revision=2)
         self.assertEqual(self.queue(bucket='completed')['total'],0)
         with isolated.enquiries.connect() as db:

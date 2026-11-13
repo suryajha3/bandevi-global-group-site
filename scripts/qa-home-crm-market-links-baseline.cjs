@@ -188,5 +188,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original demo attendance marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const proposalPreparation = require('./fixtures/proposal-preparation-approved.json');
+  for (const { before, after } of proposalPreparation[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original proposal preparation marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

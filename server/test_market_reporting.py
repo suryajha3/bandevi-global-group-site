@@ -194,9 +194,12 @@ class MarketReportingTests(unittest.TestCase):
                                   VALUES(?,?,1,'Synthetic proposal','Scope','Terms',100,'USD',?,'published',?,?,?)""",
                                (uuid.uuid4().hex,ref,now+day,starts-100,self.owner,starts+(60 if ref==us else -60)))
             db.execute("UPDATE enquiries SET payload=json_set(payload,'$.interest','Website') WHERE id=?",(other,))
+            db.execute("UPDATE client_proposals SET status='accepted',accepted=published+10 WHERE reference IN (?,?)",(us,uk))
             report=sales_journey.crm_demo_conversion(db,{'role':'agent','actor':self.owner},now-7*day,now)
             self.assertEqual([(row['country'],row['attended'],row['nextSteps'],row['proposals'],row['won'],row['conversionRate'])
                               for row in report],[('US',1,1,1,1,100.0),('GB',1,0,0,0,0.0),('IN',1,1,0,0,0.0)])
+            self.assertEqual([(row['accepted'],row['proposalWins'],row['publicationRate'],row['medianSecondsToProposal'])
+                              for row in report],[(1,1,100.0,60),(0,0,0.0,None),(0,0,0.0,None)])
             hidden=sales_journey.crm_demo_conversion(db,{'role':'agent','actor':'unassigned@example.test'},now-7*day,now)
             self.assertTrue(all(row['attended']==0 and row['conversionRate'] is None for row in hidden))
 
