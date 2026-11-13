@@ -59,6 +59,11 @@
   cursor: pointer;
   font-weight: 700;
 }
+.crm-next-time:not(:empty) {
+  display: block;
+  margin-block-start: 0.25rem;
+  font-weight: 500;
+}
 .crm-availability form,
 .crm-availability .demo-zone {
   display: grid;

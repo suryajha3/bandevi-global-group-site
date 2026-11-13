@@ -22,8 +22,10 @@ const root=path.resolve(__dirname,'..'),live=process.argv.includes('--live'),out
    const demoLink=slider.locator('[data-crm-promo-demo]');
    const initialUrl=new URL(await demoLink.getAttribute('href'),base);
    assert.equal(initialUrl.searchParams.get('crm_promo'),initial);
-   const heroDemo=page.locator('.crm-campaign-hero .inline-actions').first().getByRole('link',{name:'Request a CRM Demo'});
-   assert.equal(new URL(await heroDemo.getAttribute('href'),base).searchParams.get('crm_promo'),'hero-demo');
+   const heroDemo=page.locator('[data-crm-hero-demo]');
+   const heroUrl=new URL(await heroDemo.getAttribute('href'),base);
+   assert(['hero-demo','availability-slot','availability-request'].includes(heroUrl.searchParams.get('crm_promo')));
+   assert.equal(heroUrl.searchParams.get('market'),country);
    await slider.evaluate(target=>{
     const start=new Touch({identifier:1,target,clientX:250,clientY:160});
     const end=new Touch({identifier:1,target,clientX:155,clientY:165});

@@ -2,16 +2,28 @@ const completeRouting=require('./qa-qualification-fields.cjs');
 const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),http=require('http'),assert=require('assert/strict');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'qa-results/demo-local-time');let server,browser;
 async function checkRegionalAvailability(browser,base,source,slug,market,expectedZone,width){
- const context=await browser.newContext({viewport:{width,height:850},locale:'en-GB',timezoneId:'America/Los_Angeles',extraHTTPHeaders:{DNT:'1'}});
+ const context=await browser.newContext({viewport:{width,height:850},locale:'en-GB',timezoneId:'America/Los_Angeles'});
  try {
   const page=await context.newPage();
   await page.clock.setFixedTime(new Date('2026-10-28T06:00:00Z'));
   const slot={id:'a'.repeat(24),starts:Date.parse('2026-11-02T15:00:00Z')/1000,duration:30};
-  let mode='available',payload;
+  const later={...slot,id:'e'.repeat(24),starts:slot.starts+86400};
+  const slotEvents=[];
+  let mode='available',payload,recordView;
+  const viewRecorded=new Promise(resolve=>{recordView=resolve;});
+  await page.addInitScript(enabled=>localStorage.setItem('bg_analytics_consent_v1',JSON.stringify({
+   choice:enabled?'granted':'denied',expires:Date.now()+86400000
+  })),market!=='IN');
   await context.route('**/*',route=>{
    const url=new URL(route.request().url());
    if(url.origin!==base)return route.abort();
-   if(url.pathname==='/api/demo/slots')return route.fulfill({status:mode==='error'?503:200,json:{slots:mode==='available'?[slot]:[]}});
+   if(url.pathname==='/api/demo/slots')return route.fulfill({status:mode==='error'?503:200,json:{slots:mode==='available'?[later,slot]:[]}});
+   if(url.pathname==='/api/measurement'){
+    const event=route.request().postDataJSON();
+    if(event.event.startsWith('crm_slot_'))slotEvents.push(event);
+    if(event.event==='crm_slot_view')recordView();
+    return route.fulfill({json:{ok:true}});
+   }
    if(url.pathname==='/api/enquiries'){
     payload=route.request().postDataJSON();
     return route.fulfill({status:201,json:{ok:true,reference:'BG-1234567890ABCDEF',appointment:payload.slotId?{confirmed:true,...slot}:null}});
@@ -22,6 +34,19 @@ async function checkRegionalAvailability(browser,base,source,slug,market,expecte
   const start=base+path+'?utm_campaign=travel_crm_qa'+(source?'&source=1':'');
   await page.goto(start);
   const preview=page.locator('[data-crm-availability]');
+  const next=preview.locator('[data-availability-next]');
+  const primary=page.locator('[data-crm-hero-demo]');
+  await next.getByText('Next available',{exact:false}).waitFor();
+  assert.equal(await preview.getAttribute('open'),null);
+  assert.match(await next.innerText(),{US:/07:00/,GB:/15:00/,IN:/20:30/}[market]);
+  assert.equal(new URL(await primary.getAttribute('href')).searchParams.get('crm_slot'),slot.id);
+  await next.scrollIntoViewIfNeeded();
+  if(market!=='IN') {
+   const timeout=AbortSignal.timeout(5000);
+   await Promise.race([viewRecorded,new Promise((_,reject)=>{
+    timeout.addEventListener('abort',()=>reject(new Error('Visible next slot was not measured for '+market)),{once:true});
+   })]);
+  }
   await preview.locator('summary').click();
   const zone=preview.getByLabel('Your time zone');
   const choice=preview.getByLabel('Available demo times');
@@ -31,9 +56,15 @@ async function checkRegionalAvailability(browser,base,source,slug,market,expecte
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   await zone.selectOption('America/Chicago');
   assert.match(await choice.innerText(),/09:00/);
-  await choice.selectOption(slot.id);
+  assert.match(await next.innerText(),/09:00/);
+  if(!source){
+   await choice.selectOption(slot.id);
+   await choice.selectOption(later.id);
+   await choice.selectOption(slot.id);
+  }
   if(!source&&market==='GB')mode='empty';
-  await preview.getByRole('button',{name:'Continue to booking'}).click();
+  if(source)await primary.click();
+  else await preview.getByRole('button',{name:'Continue to booking'}).click();
   await page.waitForURL(url=>url.pathname==='/demo-request/');
   if(mode==='empty'){
    await page.getByText('Your selected time is no longer available.',{exact:false}).waitFor();
@@ -44,6 +75,15 @@ async function checkRegionalAvailability(browser,base,source,slug,market,expecte
   }
   assert.equal(await page.locator('#demo-timezone').inputValue(),'America/Chicago');
   assert.equal(await page.locator('[name=projectCountry]').inputValue(),market);
+  if(market==='IN')assert.deepEqual(slotEvents,[]);
+  else {
+   assert.deepEqual(slotEvents.map(e=>e.event).sort(),['crm_slot_select','crm_slot_view']);
+   assert.equal(new Set(slotEvents.map(e=>e.journey)).size,1);
+   for(const event of slotEvents){
+    assert.deepEqual(Object.keys(event).sort(),['event','journey','market']);
+    assert.equal(event.market,market);
+   }
+  }
   if(!source&&market==='US'){
    await page.locator('#demo-name').fill('Synthetic CRM demo');
    await page.locator('#demo-email').fill('qa@example.invalid');
@@ -67,8 +107,10 @@ async function checkRegionalAvailability(browser,base,source,slug,market,expecte
    await preview.getByRole('button',{name:'Refresh times'}).click();
    await preview.getByText('No demo times are available right now.',{exact:false}).waitFor();
    assert(await choice.isHidden());
+   assert.match(await primary.innerText(),/Request a time/);
+   assert.equal(new URL(await primary.getAttribute('href')).searchParams.get('crm_promo'),'availability-request');
    await zone.selectOption('Europe/London');
-   await preview.getByRole('link',{name:'Request a preferred time'}).click();
+   await primary.click();
    await page.waitForURL(url=>url.pathname==='/demo-request/');
    assert.equal(await page.locator('#demo-timezone').inputValue(),'Europe/London');
    await page.locator('#demo-local-date').fill('2026-11-02');

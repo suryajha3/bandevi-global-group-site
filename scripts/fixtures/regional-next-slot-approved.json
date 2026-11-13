@@ -1,0 +1,132 @@
+{
+  "assets/site.js": [
+    {
+      "before": " demo times</summary>\n  ",
+      "after": " demo times<span class=\"crm-next-time\" data-availability-next role=\"status\"></span></summary>\n  "
+    },
+    {
+      "before": "utton dark\" href=\"${\"/de",
+      "after": "utton dark\" data-crm-hero-demo href=\"${\"/de"
+    },
+    {
+      "before": "css?v=20261107-availability\";\n  const time = document.createElement(\"script\");\n  time.src = \"/assets/demo-time.js?v=20261107-availability\";\n  time.onload = () => {\n    const script = document.createElement(\"script\");\n    script.src = \"/assets/travel-crm-campaign.js?v=20261107-availability\";\n    docum",
+      "after": "css?v=20261113-next-slot\";\n  const time = document.createElement(\"script\");\n  time.src = \"/assets/demo-time.js?v=20261107-availability\";\n  time.onload = () => {\n    const script = document.createElement(\"script\");\n    script.src = \"/assets/travel-crm-campaign.js?v=20261113-next-slot\";\n    docum"
+    }
+  ],
+  "assets/travel-crm-campaign.css": [
+    {
+      "before": "700;\n}\n.crm-availability",
+      "after": "700;\n}\n.crm-next-time:not(:empty) {\n  display: block;\n  margin-block-start: 0.25rem;\n  font-weight: 500;\n}\n.crm-availability"
+    }
+  ],
+  "assets/travel-crm-campaign.js": [
+    {
+      "before": "ty;\n  const controls = p",
+      "after": "ty;\n  const nextTime = panel.querySelector('[data-availability-next]');\n  const primary = panel.closest('.crm-campaign-hero').querySelector('[data-crm-hero-demo]');\n  const controls = p"
+    },
+    {
+      "before": "st.href);\n  let slots = [];\n\n  function",
+      "after": "st.href);\n  const originalPrimary = new URL(primary.href);\n  let slots = [];\n  let loaded = false;\n  let visible = false;\n  let journey;\n  const measured = new Set();\n\n  function measure(event) {\n   if (measured.has(event) || !window.bgAnalyticsConsent?.allowed() ||\n       navigator.doNotTrack === '1' || window.doNotTrack === '1' ||\n       navigator.globalPrivacyControl || !window.crypto?.randomUUID) return;\n   journey ||= window.crypto.randomUUID();\n   measured.add(event);\n   fetch('/api/measurement', {\n    method: 'POST', credentials: 'omit', keepalive: true, referrerPolicy: 'no-referrer',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify({ journey, event, market })\n   }).catch(() => {});\n  }\n\n  function measureView() {\n   if (visible && !document.hidden && slots.length) measure('crm_slot_view');\n  }\n\n  function selectTime() {\n   if (!slots.length) return;\n   measure('crm_slot_view');\n   measure('crm_slot_select');\n  }\n\n  function updatePrimary() {\n   const slot = slots[0];\n   const url = new URL(slot || !loaded ? originalPrimary : fallback);\n   if (slot) {\n    url.searchParams.set('crm_promo', 'availability-slot');\n    url.searchParams.set('crm_zone', zone.value);\n    url.searchParams.set('crm_slot', slot.id);\n   }\n   primary.href = url.href;\n   primary.textContent = slot ? 'Book next CRM demo' : loaded ? 'Request a time' : 'Request a CRM Demo';\n  }\n\n  function"
+    },
+    {
+      "before": "ack.href;\n  }\n",
+      "after": "ack.href;\n   const slot = slots[0];\n   nextTime.textContent = slot\n    ? 'Next available · ' + new Intl.DateTimeFormat(undefined, {\n     timeZone: zone.value, weekday: 'short', month: 'short', day: 'numeric',\n     hour: 'numeric', minute: '2-digit', timeZoneName: 'short'\n    }).format(new Date(slot.starts * 1000))\n    : loaded ? 'No slots currently available' : '';\n   updatePrimary();\n   measureView();\n  }\n"
+    },
+    {
+      "before": "    slots = data.slots;\n    showTi",
+      "after": "    slots = [...data.slots].sort((first, second) => first.starts - second.starts);\n    loaded = true;\n    showTi"
+    },
+    {
+      "before": "s = [];\n    showTimes();\n    status",
+      "after": "s = [];\n    loaded = false;\n    showTimes();\n    nextTime.textContent = 'Demo times unavailable';\n    primary.href = fallback.href;\n    primary.textContent = 'Request a time';\n    status"
+    },
+    {
+      "before": "', load);\n  if (panel.open) load();\n  else panel.addEventListener('toggle', () => { if (panel.open) load(); });\n }\n",
+      "after": "', load);\n  primary.addEventListener('click', selectTime);\n  select.addEventListener('change', () => { if (select.value) selectTime(); });\n  form.addEventListener('submit', () => { if (select.value) selectTime(); });\n  if ('IntersectionObserver' in window) {\n   new IntersectionObserver(([entry]) => {\n    visible = entry.intersectionRatio >= 0.5 && entry.boundingClientRect.height > 0;\n    measureView();\n   }, { threshold: 0.5 }).observe(nextTime);\n  }\n  document.addEventListener('visibilitychange', measureView);\n  document.addEventListener('bg-analytics-consent-change', measureView);\n  load();\n }\n"
+    }
+  ],
+  "india/travel-agency-crm/index.html": [
+    {
+      "before": "css?v=20261107-availability\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261107-availability\"></script>\n",
+      "after": "css?v=20261113-next-slot\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-next-slot\"></script>\n"
+    },
+    {
+      "before": "o#demo-form\">Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for handing accepted quotations from sales to operations and tracking outstanding checks.\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>INR quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p><details class=\"crm-availability\" data-crm-availability=\"IN\"><summary>See available demo times</summary><d",
+      "after": "o#demo-form\" data-crm-hero-demo>Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for handing accepted quotations from sales to operations and tracking outstanding checks.\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>INR quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p><details class=\"crm-availability\" data-crm-availability=\"IN\"><summary>See available demo times<span class=\"crm-next-time\" data-availability-next role=\"status\"></span></summary><d"
+    }
+  ],
+  "server/dashboard/app.js": [
+    {
+      "before": "nse-queue','journey-page",
+      "after": "nse-queue','crm-slot-report','journey-page"
+    }
+  ],
+  "server/dashboard/index.html": [
+    {
+      "before": ".js?v=20261107-client-kickoff\"></script><script defer src=\"/team-inbox/operations.js?v=20261109-kickoff-reminders\"></script><",
+      "after": ".js?v=20261113-next-slot\"></script><script defer src=\"/team-inbox/operations.js?v=20261113-next-slot\"></script><"
+    },
+    {
+      "before": " hidden><h3>Where visito",
+      "after": " hidden><h3>CRM demo availability</h3><p class=\"small\">Views count when a published time is visible. Selections count once per page visit and include the next-slot button. Market comes from the regional CRM page. Counts include visitors who allow analytics.</p><div id=\"crm-slot-report\" class=\"pipeline-table\" tabindex=\"0\" role=\"region\" aria-label=\"CRM demo slot activity by market\"></div><h3>Where visito"
+    }
+  ],
+  "server/dashboard/operations.js": [
+    {
+      "before": "      const table=docume",
+      "after": "      const slotTable=document.createElement('table');\n      slotTable.append(text('caption','Travel Agency CRM demo times by market'));\n      const slotHeader=document.createElement('tr');\n      for(const label of ['Market','Slot views','Slot selections']){\n        const cell=text('th',label);cell.scope='col';slotHeader.append(cell);\n      }\n      slotTable.append(slotHeader);\n      const marketLabels={US:'United States',GB:'United Kingdom',IN:'India'};\n      for(const market of r.crmSlots||[]){\n        const row=document.createElement('tr'),name=text('th',marketLabels[market.market]);name.scope='row';\n        row.append(name,text('td',String(market.views)),text('td',String(market.selections)));\n        slotTable.append(row);\n      }\n      $('crm-slot-report').replaceChildren(slotTable);\n      const table=docume"
+    },
+    {
+      "before": "nst id of ['journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();\n    $('journey-message').textContent='';\n  }catch(error){if(csrf&&csrf===identity){$('journey-message').textContent='Journey report unavailable. Refresh to try again.';for(const id of ['response-counts','response-basis','response-action-counts','response-queue','journey-p",
+      "after": "nst id of ['crm-slot-report','journey-pages','journey-clicks','journey-errors'])$(id).replaceChildren();\n    $('journey-message').textContent='';\n  }catch(error){if(csrf&&csrf===identity){$('journey-message').textContent='Journey report unavailable. Refresh to try again.';for(const id of ['response-counts','response-basis','response-action-counts','response-queue','crm-slot-report','journey-p"
+    }
+  ],
+  "server/journey_measurement.py": [
+    {
+      "before": "-handover')\n\n",
+      "after": "-handover')\nCRM_SLOT_EVENTS = ('crm_slot_view', 'crm_slot_select')\nCRM_SLOT_PAGES = dict(zip(SAMPLE_MARKETS, (\n    '/us/travel-agency-crm/', '/uk/travel-agency-crm/', '/india/travel-agency-crm/')))\n\n"
+    },
+    {
+      "before": "\n\ndef link_sample(",
+      "after": "\n\ndef validate_slot_event(data):\n    if (set(data) != {'event', 'journey', 'market'}\n            or any(not isinstance(value, str) for value in data.values())\n            or data['market'] not in CRM_SLOT_PAGES):\n        raise ValueError('Invalid CRM slot measurement.')\n    journey = uuid.UUID(data['journey'])\n    if journey.version != 4 or str(journey) != data['journey']:\n        raise ValueError('Invalid CRM slot measurement.')\n    return {'journey': data['journey'], 'event': data['event'], 'reason': '',\n            'page': CRM_SLOT_PAGES[data['market']], 'form': 'none', 'channel': 'unknown'}\n\n\ndef crm_slot_report(db, since):\n    rows = db.execute(\"\"\"SELECT page,event,COUNT(*) AS total FROM journey_events\n        WHERE created>=? AND event IN (?,?) GROUP BY page,event\"\"\",\n        (since, *CRM_SLOT_EVENTS)).fetchall()\n    totals = {(row['page'], row['event']): row['total'] for row in rows}\n    return [\n        {'market': market, 'views': totals.get((page, 'crm_slot_view'), 0),\n         'selections': totals.get((page, 'crm_slot_select'), 0)}\n        for market, page in CRM_SLOT_PAGES.items()\n    ]\n\n\ndef link_sample("
+    },
+    {
+      "before": "e))\n        sample=isinstance(raw,dict) and raw.get('event')=='sample_complete'\n        data=validate_sample(raw) if sample else validate(raw)\n    except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Invalid measurement.'});return True\n    if sample and handler",
+      "after": "e))\n        event=raw.get('event') if isinstance(raw,dict) else None\n        sample=event=='sample_complete'\n        slot=event in CRM_SLOT_EVENTS\n        data=validate_sample(raw) if sample else validate_slot_event(raw) if slot else validate(raw)\n    except (ValueError,TypeError,UnicodeError):handler.respond(400,{'error':'Invalid measurement.'});return True\n    if (sample or slot) and handler"
+    },
+    {
+      "before": ")};errors=[]\n        if ",
+      "after": ")};errors=[];crm_slots=[]\n        if "
+    },
+    {
+      "before": "nce,))]\n    handler.respond(200,{'days':days,'websiteVisible':identity['role']!='agent','pages':pages,'clicks':clicks,'errors':errors,'response'",
+      "after": "nce,))]\n            crm_slots=crm_slot_report(db,since)\n    handler.respond(200,{'days':days,'websiteVisible':identity['role']!='agent','pages':pages,'clicks':clicks,'errors':errors,'crmSlots':crm_slots,'response'"
+    }
+  ],
+  "server/test_journey_measurement.py": [
+    {
+      "before": "   def test_sample_compl",
+      "after": "   def test_crm_slot_report_counts_anonymous_events_once_by_regional_page(self):\n        import urllib.request\n\n        events = [\n            {'journey': str(uuid.uuid4()), 'event': 'crm_slot_view', 'market': market}\n            for market in ('US', 'GB', 'IN')\n        ]\n        for event in events:\n            self.assertEqual(self.request('/api/measurement', event)[0], 200)\n            self.assertEqual(self.request('/api/measurement', event)[0], 200)\n        selection = dict(events[1], event='crm_slot_select')\n        self.assertEqual(self.request('/api/measurement', selection)[0], 200)\n        self.assertEqual(self.request('/api/measurement', selection)[0], 200)\n        self.assertEqual(self.request('/api/measurement', dict(selection, market='IN'))[0], 409)\n        self.assertEqual(self.request('/api/measurement', dict(selection, market='AU'))[0], 400)\n        self.assertEqual(self.request('/api/measurement', dict(selection, journey=5))[0], 400)\n        self.assertEqual(self.request('/api/measurement', dict(selection, slot='a'*24))[0], 400)\n\n        for privacy in ('DNT', 'Sec-GPC'):\n            req = urllib.request.Request(fixture.base+'/api/measurement',\n                data=json.dumps(dict(selection, journey=str(uuid.uuid4()))).encode(),\n                headers={'Origin':'http://127.0.0.1:8765', 'Content-Type':'application/json', privacy:'1'})\n            with urllib.request.urlopen(req) as response:\n                self.assertTrue(json.load(response)['ignored'])\n\n        self.assertEqual(self.request('/api/admin/journey-report')[0], 401)\n        cookie, csrf = self.login()\n        report = self.request('/api/admin/journey-report?days=7', cookie=cookie)[1]\n        self.assertEqual(report['crmSlots'], [\n            {'market':'US','views':1,'selections':0},\n            {'market':'GB','views':1,'selections':1},\n            {'market':'IN','views':1,'selections':0},\n        ])\n        self.assertNotIn(selection['journey'], json.dumps(report))\n        self.assertEqual(report['clicks']['demo_click'], 0)\n        self.request('/api/admin/team', dict(email='agent@example.test', name='Agent',\n            role='agent', password='Long-test-password-1234', active=True), cookie, csrf)\n        _, _, headers = self.request('/api/admin/login',\n            dict(email='agent@example.test', password='Long-test-password-1234'))\n        agent = headers['Set-Cookie'].split(';')[0]\n        self.assertEqual(self.request('/api/admin/journey-report', cookie=agent)[1]['crmSlots'], [])\n\n    def test_sample_compl"
+    }
+  ],
+  "uk/travel-agency-crm/index.html": [
+    {
+      "before": "css?v=20261107-availability\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261107-availability\"></script>\n",
+      "after": "css?v=20261113-next-slot\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-next-slot\"></script>\n"
+    },
+    {
+      "before": "o#demo-form\">Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for recording quotation versions, scheduling follow-ups and tracking customer replies.\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>GBP quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p><details class=\"crm-availability\" data-crm-availability=\"GB\"><summary>See available demo times</summary><d",
+      "after": "o#demo-form\" data-crm-hero-demo>Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for recording quotation versions, scheduling follow-ups and tracking customer replies.\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>GBP quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p><details class=\"crm-availability\" data-crm-availability=\"GB\"><summary>See available demo times<span class=\"crm-next-time\" data-availability-next role=\"status\"></span></summary><d"
+    }
+  ],
+  "us/travel-agency-crm/index.html": [
+    {
+      "before": "css?v=20261107-availability\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261107-availability\"></script>\n",
+      "after": "css?v=20261113-next-slot\"><script defer src=\"/assets/demo-time.js?v=20261107-availability\"></script><script defer src=\"/assets/travel-crm-campaign.js?v=20261113-next-slot\"></script>\n"
+    },
+    {
+      "before": "o#demo-form\">Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for capturing inquiries, assigning a consultant and tracking the next follow-up.\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>USD quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p><details class=\"crm-availability\" data-crm-availability=\"US\"><summary>See available demo times</summary><d",
+      "after": "o#demo-form\" data-crm-hero-demo>Request a CRM Demo</a><a class=\"text-link\" href=\"#regional-enquiry\" data-crm-example=\"We would like to discuss a travel agency CRM for capturing inquiries, assigning a consultant and tracking the next follow-up.\">Discuss this CRM workflow ↗</a><a class=\"text-link\" href=\"#crm-packages\">Compare CRM scopes</a><a class=\"text-link\" href=\"#crm-interactive-demo\">Try the interactive demo</a></div><p>USD quote preference · Remote delivery from Gurugram, India · Choose your own meeting time zone.</p><details class=\"crm-availability\" data-crm-availability=\"US\"><summary>See available demo times<span class=\"crm-next-time\" data-availability-next role=\"status\"></span></summary><d"
+    }
+  ]
+}
