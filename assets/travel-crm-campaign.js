@@ -78,15 +78,14 @@
   const fallback = new URL(request.href);
   const originalPrimary = new URL(primary.href);
   let slots = [];
+  let featured;
   let loaded = false;
   let visible = false;
   let journey;
   const measured = new Set();
 
   function measure(event) {
-   if (measured.has(event) || !window.bgAnalyticsConsent?.allowed() ||
-       navigator.doNotTrack === '1' || window.doNotTrack === '1' ||
-       navigator.globalPrivacyControl || !window.crypto?.randomUUID) return;
+   if (measured.has(event) || !time.allowsSlotMeasurement() || !window.crypto?.randomUUID) return;
    journey ||= window.crypto.randomUUID();
    measured.add(event);
    fetch('/api/measurement', {
@@ -104,34 +103,42 @@
    if (!slots.length) return;
    measure('crm_slot_view');
    measure('crm_slot_select');
+   if (journey && time.allowsSlotMeasurement()) time.storeSlotJourney(journey, market);
   }
 
   function updatePrimary() {
-   const slot = slots[0];
-   const url = new URL(slot || !loaded ? originalPrimary : fallback);
-   if (slot) {
+   const url = new URL(featured || !loaded ? originalPrimary : fallback);
+   if (featured) {
     url.searchParams.set('crm_promo', 'availability-slot');
     url.searchParams.set('crm_zone', zone.value);
-    url.searchParams.set('crm_slot', slot.id);
+    url.searchParams.set('crm_slot', featured.id);
    }
    primary.href = url.href;
-   primary.textContent = slot ? 'Book next CRM demo' : loaded ? 'Request a time' : 'Request a CRM Demo';
+   primary.textContent = featured ? 'Book next CRM demo' : loaded ? 'Request a time' : 'Request a CRM Demo';
   }
 
   function showTimes() {
    const selected = select.value;
-   select.replaceChildren(new Option('Choose an available time', ''),
-    ...slots.map(slot => new Option(time.label(slot, zone.value, true), slot.id)));
+   const working = slots.filter(slot => time.workingHours(slot, zone.value));
+   const other = slots.filter(slot => !working.includes(slot));
+   featured = working[0];
+   select.replaceChildren(new Option('Choose an available time', ''));
+   for (const [label, group] of [['Local working hours', working], ['Other available times', other]]) {
+    if (!group.length) continue;
+    const options = document.createElement('optgroup');
+    options.label = label;
+    options.append(...group.map(slot => new Option(time.label(slot, zone.value, true), slot.id)));
+    select.append(options);
+   }
    if (slots.some(slot => slot.id === selected)) select.value = selected;
    fallback.searchParams.set('crm_zone', zone.value);
    request.href = fallback.href;
-   const slot = slots[0];
-   nextTime.textContent = slot
-    ? 'Next available · ' + new Intl.DateTimeFormat(undefined, {
+   nextTime.textContent = featured
+    ? 'Next in local working hours · ' + new Intl.DateTimeFormat(undefined, {
      timeZone: zone.value, weekday: 'short', month: 'short', day: 'numeric',
      hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
-    }).format(new Date(slot.starts * 1000))
-    : loaded ? 'No slots currently available' : '';
+    }).format(new Date(featured.starts * 1000))
+    : loaded ? (slots.length ? 'No slots in local working hours. Other times are available.' : 'No slots currently available') : '';
    updatePrimary();
    measureView();
   }
@@ -172,7 +179,11 @@
   showTimes();
   zone.addEventListener('change', showTimes);
   refresh.addEventListener('click', load);
-  primary.addEventListener('click', selectTime);
+  primary.addEventListener('click', () => {
+   if (featured) selectTime();
+   else time.clearSlotJourney();
+  });
+  request.addEventListener('click', time.clearSlotJourney);
   select.addEventListener('change', () => { if (select.value) selectTime(); });
   form.addEventListener('submit', () => { if (select.value) selectTime(); });
   if ('IntersectionObserver' in window) {

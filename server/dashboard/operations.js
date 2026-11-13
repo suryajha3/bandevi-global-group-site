@@ -195,14 +195,15 @@ async function refreshJourneyReport(identity){
       const slotTable=document.createElement('table');
       slotTable.append(text('caption','Travel Agency CRM demo times by market'));
       const slotHeader=document.createElement('tr');
-      for(const label of ['Market','Slot views','Slot selections']){
+      for(const label of ['Market','Slot views','Slot selections','Confirmed bookings','Selections converted','Booking conversion']){
         const cell=text('th',label);cell.scope='col';slotHeader.append(cell);
       }
       slotTable.append(slotHeader);
       const marketLabels={US:'United States',GB:'United Kingdom',IN:'India'};
       for(const market of r.crmSlots||[]){
         const row=document.createElement('tr'),name=text('th',marketLabels[market.market]);name.scope='row';
-        row.append(name,text('td',String(market.views)),text('td',String(market.selections)));
+        const rate=market.selections?(100*market.converted/market.selections).toFixed(1)+'%':'—';
+        row.append(name,...[market.views,market.selections,market.confirmed,market.converted,rate].map(value=>text('td',String(value))));
         slotTable.append(row);
       }
       $('crm-slot-report').replaceChildren(slotTable);

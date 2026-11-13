@@ -12,24 +12,32 @@ if(form){
  const params=new URLSearchParams(location.search);
  const sample=!!form.dataset.sampleWorkflow;
  const country=form.elements.projectCountry;
- const zone=time?.zoneChoice(form.querySelector('.form-grid'),fieldset,campaign||sample?{initial:time.campaignZone(params.get('market')),compact:sample}:undefined);
+ const fields=form.querySelector('.form-grid');
+ const zone=time?.zoneChoice(fields,fieldset,campaign||sample?{initial:time.campaignZone(params.get('market')),compact:sample||campaign}:undefined);
  if(zone){
   const preferredZone=params.get('crm_zone');
   if(campaign&&[...zone.options].some(option=>option.value===preferredZone))zone.value=preferredZone;
   time.preferred(form,zone);
-  if(sample){
+  if(sample||campaign){
    function syncContactZone(){
     const contact=form.elements.contactTimezone;
-    if(contact&&[...contact.options].some(option=>option.value===zone.value)){
-     contact.value=zone.value;
+    if(contact){
+     const choices=[...contact.options].map(option=>option.value);
+     if(choices.includes(zone.value))contact.value=zone.value;
+     else if(campaign&&!contact.value){
+      const regional=time.campaignZone(country.value);
+      contact.value=choices.includes(regional)?regional:'UTC';
+     }
      contact.dispatchEvent(new Event('change',{bubbles:true}));
     }
    }
    zone.addEventListener('change',syncContactZone);
    country?.addEventListener('change',()=>{
     if(!['US','GB','IN'].includes(country.value))return;
-    zone.value=time.campaignZone(country.value);
-    zone.dispatchEvent(new Event('change',{bubbles:true}));
+    if(sample){
+     zone.value=time.campaignZone(country.value);
+     zone.dispatchEvent(new Event('change',{bubbles:true}));
+    }else syncContactZone();
    });
    syncContactZone();
   }
@@ -41,15 +49,50 @@ if(form){
  const select=document.createElement('select');select.id='confirmed-slot';select.name='slotId';select.innerHTML='<option value="">Ask the team to arrange a time</option>';
  const note=document.createElement('p');note.role='status';note.textContent='Checking available demo times…';const refresh=document.createElement('button');refresh.type='button';refresh.textContent='Refresh available times';
  box.append(title,select,note,refresh);fieldset.before(box);
- async function load(){
+ const submit=form.querySelector('button[type="submit"]');
+ const summary=document.createElement('p');
+ if(campaign){
+  const options=document.createElement('details');
+  options.className='field full';
+  const heading=document.createElement('summary');
+  heading.textContent='Optional details and booking preferences';
+  options.append(heading);
+  fields.append(options);
+  const essentials=new Set([form.elements.name.closest('.field'),form.elements.email.closest('.field'),fieldset,box,options]);
+  for(const field of [...fields.children])if(!essentials.has(field))options.append(field);
+  summary.className='field full';
+  summary.setAttribute('role','status');
+  fields.prepend(summary,box);
+  form.elements.message.required=false;
+  submit.textContent='Request a time';
+  form.addEventListener('invalid',event=>{
+   if(options.contains(event.target))options.open=true;
+  },true);
+ }
+ function showSlots(selected){
+  select.replaceChildren(new Option('Ask the team to arrange a time',''));
+  const sorted=[...slots].sort((first,second)=>first.starts-second.starts);
+  const working=campaign&&zone ? sorted.filter(slot=>time.workingHours(slot,zone.value)) : [];
+  if(campaign&&zone){
+   for(const [heading,group] of [['Local working hours',working],['Other available times',sorted.filter(slot=>!working.includes(slot))]]){
+    if(!group.length)continue;
+    const list=document.createElement('optgroup');
+    list.label=heading;
+    list.append(...group.map(slot=>new Option(label(slot),slot.id)));
+    select.append(list);
+   }
+  }else select.append(...sorted.map(slot=>new Option(label(slot),slot.id)));
+  if(sorted.some(slot=>slot.id===selected))select.value=selected;
+ }
+ async function load(takenSlot=''){
+  if(refresh.disabled)return;
   refresh.disabled=true;
   try{
    const data=await request('/api/demo/slots');
-   slots=data.slots;
-   const selected=select.value||pendingSlot;
+   slots=data.slots.filter(slot=>slot.id!==takenSlot);
+   const selected=takenSlot||select.value||pendingSlot;
    pendingSlot='';
-   select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(slot=>new Option(label(slot),slot.id)));
-   if(slots.some(slot=>slot.id===selected))select.value=selected;
+   showSlots(selected);
    select.dispatchEvent(new Event('change'));
    note.textContent=selected&&!select.value
     ?'Your selected time is no longer available. Choose another time or request a preferred time.'
@@ -58,14 +101,50 @@ if(form){
   }catch(e){
    pendingSlot='';slots=[];select.replaceChildren(new Option('Ask the team to arrange a time',''));select.dispatchEvent(new Event('change'));
    note.textContent='Available times could not be loaded. You can still request a demo.';
-  }finally{refresh.disabled=false;}
+  }finally{
+   refresh.disabled=false;
+   if(takenSlot)select.focus();
+  }
  }
  form.addEventListener('submit',event=>{
-  if(!pendingSlot)return;
+  if(!pendingSlot&&!(campaign&&refresh.disabled))return;
   event.preventDefault();event.stopImmediatePropagation();
   note.textContent='Please wait while we check your selected time.';
  },{capture:true});
- select.addEventListener('change',()=>{fieldset.hidden=!!select.value;for(const input of fieldset.querySelectorAll('input')){input.disabled=!!select.value;if(select.value){input.value='';input.setCustomValidity('');input.required=false;}}});form.addEventListener('reset',()=>queueMicrotask(()=>{select.dispatchEvent(new Event('change'));load();}));refresh.addEventListener('click',load);if(zone)zone.addEventListener('change',()=>{const old=select.value;select.replaceChildren(new Option('Ask the team to arrange a time',''),...slots.map(s=>new Option(label(s),s.id)));select.value=old;});load();
+ function updateSelection(){
+  fieldset.hidden=!!select.value;
+  for(const input of fieldset.querySelectorAll('input')){input.disabled=!!select.value;if(select.value){input.value='';input.setCustomValidity('');input.required=false;}}
+  if(campaign){
+   const slot=slots.find(item=>item.id===select.value);
+   const workflow=form.elements.demoFocus.selectedOptions[0]?.text;
+   summary.textContent=slot?'Selected demo · '+label(slot):'Travel Agency CRM demo';
+   if(workflow&&form.elements.demoFocus.value)summary.append(' · '+workflow);
+   submit.textContent=slot?'Confirm CRM demo':'Request a time';
+  }
+ }
+ select.addEventListener('change',updateSelection);
+ if(campaign){
+  form.elements.demoFocus.addEventListener('change',updateSelection);
+  form.addEventListener('enquiry-failed',event=>{
+   if(event.detail.code==='demo_slot_unavailable'&&select.value)load(select.value);
+  });
+  form.addEventListener('enquiry-saved',()=>time?.clearSlotJourney());
+ }
+ form.addEventListener('reset',()=>queueMicrotask(()=>{
+  updateSelection();
+  if(campaign&&country&&['US','GB','IN'].includes(params.get('market'))){
+   country.value=params.get('market');
+   country.dispatchEvent(new Event('change',{bubbles:true}));
+   form.elements.interest.value='Travel CRM Package';
+   form.elements.interest.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  load();
+ }));
+ refresh.addEventListener('click',()=>{
+  if(form.dataset.sending!=='true')load();
+ });
+ if(zone)zone.addEventListener('change',()=>{showSlots(select.value);updateSelection();});
+ load();
  form.addEventListener('enquiry-saved',event=>{const a=event.detail.appointment,receipt=form.querySelector('.form-note');if(!a?.confirmed){const day=form.elements.demoDate.value,clock=form.elements.demoTime.value;if(day&&clock){const requested=document.createElement('p');requested.textContent='Requested in your time zone: '+label({starts:Date.parse(day+'T'+clock+':00+05:30')/1000,duration:30}).replace(/ · 30 minutes$/,'')+'. This time is not confirmed.';receipt.append(requested);}return;}const local=document.createElement('p');local.textContent='Confirmed in your time zone: '+label(a)+'. Joining details follow separately.';receipt.append(local);const token=a.manageUrl?.match(/^\/demo-booking\/#([a-f0-9]{64})$/)?.[1];if(!token)return;const button=document.createElement('button');button.type='button';button.textContent='Add confirmed demo to calendar (.ics)';button.addEventListener('click',async()=>{button.disabled=true;try{await downloadCalendar(token);}catch(e){const error=document.createElement('p');error.textContent=e.message;receipt.append(error);}finally{button.disabled=false;}});receipt.append(button);});
 }
 const panel=document.getElementById('booking-manager');if(!panel)return;

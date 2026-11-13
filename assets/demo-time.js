@@ -14,6 +14,39 @@
   const regionalUS=/^(America\/(Adak|Boise|Detroit|Indiana\/.+|Indianapolis|Juneau|Kentucky\/.+|Louisville|Menominee|Metlakatla|Nome|North_Dakota\/.+|Sitka|Yakutat)|US\/.+)$/;
   return usZones.includes(detected)||regionalUS.test(detected)?detected:usZones[0];
  }
+ function workingHours(slot,zone){
+  const start=new Date(slot.starts*1000), end=new Date((slot.starts+slot.duration*60)*1000);
+  const clock=new Intl.DateTimeFormat('en-GB',{
+   timeZone:zone,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',
+   hour:'2-digit',minute:'2-digit',hourCycle:'h23'
+  });
+  const parts=date=>Object.fromEntries(clock.formatToParts(date).map(part=>[part.type,part.value]));
+  const first=parts(start), last=parts(end);
+  const minutes=value=>Number(value.hour)*60+Number(value.minute);
+  return !['Sat','Sun'].includes(first.weekday) &&
+   ['year','month','day'].every(key=>first[key]===last[key]) &&
+   minutes(first)>=9*60 && minutes(last)<=17*60;
+ }
+ function allowsSlotMeasurement(){
+  return Boolean(window.bgAnalyticsConsent?.allowed() && navigator.doNotTrack!=='1' &&
+   window.doNotTrack!=='1' && !navigator.globalPrivacyControl);
+ }
+ function storeSlotJourney(journey,market){
+  try { sessionStorage.setItem('bg_crm_slot_journey',JSON.stringify({journey,market,at:Date.now()})); } catch (_) {}
+ }
+ function slotJourney(market){
+  if(!allowsSlotMeasurement())return;
+  try {
+   const value=JSON.parse(sessionStorage.getItem('bg_crm_slot_journey'));
+   if(value?.market===market && Date.now()-value.at>=0 && Date.now()-value.at<86400000)return value.journey;
+  } catch (_) {}
+ }
+ function clearSlotJourney(){
+  try { sessionStorage.removeItem('bg_crm_slot_journey'); } catch (_) {}
+ }
+ document.addEventListener('bg-analytics-consent-change',()=>{
+  if(!allowsSlotMeasurement())clearSlotJourney();
+ });
  function zoneChoice(container,before,{id='demo-timezone',initial=browserZone(),compact=false}={}){
   const box=node('div');box.className='demo-zone';
   const label=node('label','Your time zone'),select=node('select');select.id=id;label.htmlFor=id;
@@ -41,5 +74,5 @@
   for(const input of [localDay,localTime])input.addEventListener('input',sync);
   zone.addEventListener('change',()=>{if(instant!==null){const p=wall(instant,zone.value);localDay.value=p.date;localTime.value=p.time;}sync();});form.addEventListener('submit',sync,{capture:true});form.addEventListener('reset',()=>queueMicrotask(()=>{localDay.value=localTime.value='';sync();}));sync();
  }
- window.BandeviDemoTime={campaignZone,zoneChoice,label,preferred};
+ window.BandeviDemoTime={campaignZone,workingHours,allowsSlotMeasurement,storeSlotJourney,slotJourney,clearSlotJourney,zoneChoice,label,preferred};
 })();

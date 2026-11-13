@@ -162,6 +162,9 @@ def validate(data):
     if data.get('slotId') is not None:
         if result['type']!='demo' or not isinstance(data['slotId'],str) or not re.fullmatch('[a-f0-9]{24}',data['slotId']):raise ValueError('Invalid demo slot.')
         result['slotId']=data['slotId']
+    if 'crmSlotJourney' in data and result.get('slotId') and result['interest']=='Travel CRM Package':
+        if (result.get('attribution') or {}).get('crm_promotion')=='availability-slot':
+            result['crmSlotJourney']=journey_measurement.crm_slot_context(data['crmSlotJourney'])
     if 'demoTimezone' in data:
         zone = data['demoTimezone']
         if result['type'] != 'demo' or not client_workflow.valid_demo_timezone(zone):
@@ -342,6 +345,7 @@ class Handler(BaseHTTPRequestHandler):
             uuid.UUID(key)
         except (ValueError, TypeError, UnicodeError):
             return self.respond(400, {'error': 'Please check the required fields and try again.'})
+        crm_slot_context=data.pop('crmSlotJourney',None)
         digest = hashlib.sha256(json.dumps(data,sort_keys=True).encode()).hexdigest()
         # Click identifiers have their own retention and withdrawal controls.
         # Never include them in the enquiry payload, acknowledgements or reports.
@@ -383,7 +387,8 @@ class Handler(BaseHTTPRequestHandler):
                 if data.get('slotId'):
                     try:appointment=operations.create_booking(db,reference,data['slotId'],management_token)
                     except ValueError:
-                        db.rollback();return self.respond(409,{'error':'That demo time is no longer available. Choose another slot.'})
+                        db.rollback();return self.respond(409,{'error':'That demo time is no longer available. Choose another slot.','code':'demo_slot_unavailable'})
+                    journey_measurement.confirm_crm_slot(db,crm_slot_context,measurement_allowed,now)
                 elif data['email'] and os.environ.get('CUSTOMER_ACK_ENABLED','1')=='1':
                     operations.enqueue(db,'ack:'+reference,data['email'],'Your Bandevi enquiry was received',f'Your enquiry has been saved. Reference: {reference}.\nThe team will review your request and contact you. A preferred demo time is not a confirmed appointment.\nContact: sales@bandeviglobalgroup.com'+('\nBook a review within 7 days: https://bandeviglobalgroup.com'+booking_url+'\nOnly a successful available-slot reservation confirms a meeting. Keep this private link safe.' if booking_url else ''))
                 db.execute('INSERT INTO requests VALUES(?,?)', (fingerprint, now))

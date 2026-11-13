@@ -108,6 +108,31 @@ class JourneyTests(unittest.TestCase):
         self.assertEqual(self.request('/api/measurement', dict(selection, market='AU'))[0], 400)
         self.assertEqual(self.request('/api/measurement', dict(selection, journey=5))[0], 400)
         self.assertEqual(self.request('/api/measurement', dict(selection, slot='a'*24))[0], 400)
+        now=int(time.time())
+        available=uuid.uuid4().hex[:24]
+        with enquiries.connect() as db:
+            db.execute('INSERT INTO demo_slots(id,starts,duration,host) VALUES(?,?,30,?)',
+                (available,now+5500,'sales@bandeviglobalgroup.com'))
+        booking={
+            'type':'demo','name':'Synthetic CRM traveller','email':'crm@example.invalid',
+            'interest':'Travel CRM Package','message':'Regional CRM demo',
+            'qualification':{'version':1,'country':'GB','currency':'GBP','budget':'',
+                             'contact':{'channel':'Email','date':'','time':'','timezone':'Europe/London'}},
+            'attribution':{'channel':'direct_unknown','crm_promotion':'availability-slot'},
+            'crmSlotJourney':{key:selection[key] for key in ('journey','market')}
+        }
+        status, failed, _ = self.request('/api/enquiries', dict(booking,slotId=uuid.uuid4().hex[:24]),key=str(uuid.uuid4()))
+        self.assertEqual(status,409)
+        self.assertEqual(failed['code'],'demo_slot_unavailable')
+        key=str(uuid.uuid4())
+        status, saved, _ = self.request('/api/enquiries',dict(booking,slotId=available),key=key)
+        self.assertEqual(status,201)
+        self.assertTrue(saved['appointment']['confirmed'])
+        retry={name:value for name,value in booking.items() if name!='crmSlotJourney'}
+        self.assertEqual(self.request('/api/enquiries',dict(retry,slotId=available),key=key)[1]['reference'],saved['reference'])
+        with enquiries.connect() as db:
+            saved_payload=db.execute('SELECT payload FROM enquiries WHERE id=?',(saved['reference'],)).fetchone()[0]
+            self.assertNotIn(selection['journey'],saved_payload)
 
         for privacy in ('DNT', 'Sec-GPC'):
             req = urllib.request.Request(fixture.base+'/api/measurement',
@@ -120,9 +145,9 @@ class JourneyTests(unittest.TestCase):
         cookie, csrf = self.login()
         report = self.request('/api/admin/journey-report?days=7', cookie=cookie)[1]
         self.assertEqual(report['crmSlots'], [
-            {'market':'US','views':1,'selections':0},
-            {'market':'GB','views':1,'selections':1},
-            {'market':'IN','views':1,'selections':0},
+            {'market':'US','views':1,'selections':0,'confirmed':0,'converted':0},
+            {'market':'GB','views':1,'selections':1,'confirmed':1,'converted':1},
+            {'market':'IN','views':1,'selections':0,'confirmed':0,'converted':0},
         ])
         self.assertNotIn(selection['journey'], json.dumps(report))
         self.assertEqual(report['clicks']['demo_click'], 0)
