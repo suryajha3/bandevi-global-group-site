@@ -756,7 +756,7 @@ body[data-page="home"] .home-crm-markets {
 body[data-page="home"] #intl-crm-preview .intl-try-demo { color: var(--home-champagne); }
 body[data-page="home"] #intl-crm-preview .intl-workspace .intl-showcase-caption {
   padding: 0;
-  margin-block: 8px 12px;
+  margin-block: 4px 5px;
 }
 body[data-page="home"] #intl-crm-preview .intl-workspace .intl-try-demo {
   min-height: 44px;
