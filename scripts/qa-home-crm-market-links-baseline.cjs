@@ -198,5 +198,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original proposal engagement marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const viewedFollowups = require('./fixtures/viewed-proposal-followups-approved.json');
+  for (const { before, after } of viewedFollowups[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original viewed proposal follow-up marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

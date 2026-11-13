@@ -129,6 +129,29 @@ function proposalFeedbackForm(parent, proposal) {
  });
  actions.append(...buttons);parent.append(actions,form);
 }
+function dateLabel(date){
+ return new Intl.DateTimeFormat(undefined,{dateStyle:'long',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
+}
+
+function renderMoreTime(parent,proposal){
+ const request=proposal.timeRequest;
+ if(request){
+  const status=request.pending?'Requested decision date · with the sales team':'Requested decision date · follow-up recorded';
+  parent.append(el('p',status+' · '+dateLabel(request.date),'muted'));
+ }
+ if(!proposal.timeRequestEditable)return;
+ const form=formBox(parent,request?'Update request for more time':'Request more time',()=>change('proposal-more-time',{
+  id:proposal.id,followUpVersion:proposal.timeRequestVersion,suggestedDate:date.value,note:note.value
+ }),'Send time request',()=>$('proposal-time-request-'+proposal.id)?.focus());
+ const summary=form.closest('details').querySelector('summary');
+ summary.id='proposal-time-request-'+proposal.id;
+ const date=field(form,'Suggested decision date','suggestedDate','date');
+ date.required=true;date.value=request?.date||'';
+ const note=field(form,'Note for the sales team (optional)','note','textarea');
+ note.maxLength=500;note.value=request?.note||'';
+ form.append(el('p','Your sales owner will see your request. The current proposal expiry and terms still apply.','muted'));
+}
+
 function renderProposalDecision(parent,proposal){
  const decision=proposal.decision;
  if(decision?.changes){
@@ -428,6 +451,7 @@ function render(){const p=current,root=$('project');root.replaceChildren();const
   }
   if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000)proposalFeedbackForm(decisionActions,proposal);
   renderProposalReview(decisionActions,proposal,p.reference);
+  if(!staff)renderMoreTime(decisionActions,proposal);
   for(const request of p.tickets.filter(ticket=>ticket.proposalFeedback?.proposalId===proposal.id)){
    const link=el('a',request.subject+' · '+request.status);link.href='#ticket-'+request.id;
    const row=el('p');row.append(link);a.append(row);
@@ -474,9 +498,16 @@ function followUpDraft(item){
  subject.required=true;subject.value='Following up on your Bandevi proposal · revision '+item.revision;
  const body=field(form,'Email message','body','textarea');
  body.required=true;
- const timing=item.expiresSoon
-  ?'The proposal is valid until '+proposalStamp(item.expires)+'. Please let us know if you need more time.'
-  :'I’m following up to make sure you have the proposal for review.';
+ const request=item.decisionFollowUp?.request;
+ const timing=request?.pending
+  ?'Thank you for suggesting '+dateLabel(request.date)+' as your decision date. '
+   +(item.displayStatus==='Expired'?'The earlier proposal has expired. We can discuss an updated proposal and timing.'
+     :'The proposal is currently valid until '+proposalStamp(item.expires)+'. Please let us know if you would like to discuss timing or next steps.')
+  :item.expiresSoon
+   ?'The proposal is valid until '+proposalStamp(item.expires)+'. Please let us know if you need more time.'
+   :item.firstView
+    ?'Is there anything you need from us to make a decision on this proposal?'
+    :'I’m following up to make sure you have the proposal for review.';
  body.value=['Hello,',timing,'Sign in to review this exact proposal revision, ask a question or book a proposal review.',
   item.followUpLink,'Thank you,\nBandevi Global Group'].join('\n\n');
  form.append(el('p','Review the message before opening it in your email app. You can send it from there.','muted'));
@@ -498,6 +529,45 @@ function followUpDraft(item){
  return draft;
 }
 
+function renderDecisionFollowUp(row,item){
+ const followup=item.decisionFollowUp;
+ const request=followup.request;
+ row.append(el('p','Sales follow-up owner · '+followup.owner));
+ if(request){
+  row.append(el('p',(request.pending?'More time requested':'Previous time request')+' · '+dateLabel(request.date)));
+  if(request.note)row.append(el('p',request.note,'copy'));
+ }
+ if(followup.question){
+  const reply=el('a','Reply to the open proposal question');
+  reply.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference,ticket:followup.question})+'#support';
+  const paragraph=el('p');paragraph.append(reply);row.append(paragraph);
+ }
+ if(followup.reviewStarts)row.append(el('p','Review booked · '+proposalStamp(followup.reviewStarts)));
+ if(followup.followedAt)row.append(el('p','Follow-up recorded '+proposalStamp(followup.followedAt)+' · '+followup.followedBy,'muted'));
+ if(followup.due){
+  row.append(el('p','Follow-up target · '+dateLabel(followup.due)+' (India date)','muted'));
+ }
+ if(!followup.canFollowUp)return;
+ const log=el('details'),form=el('form');
+ log.append(el('summary','Record completed follow-up'),form);
+ const next=item.displayStatus==='Expired'?null:field(form,'Next follow-up date (optional, India date)','nextDate','date');
+ form.append(el('p',next?'Record this after contacting the client. Add a date only if another follow-up is needed.'
+  :'Record this after contacting the client about the expired proposal.','muted'));
+ const save=el('button','Save follow-up record');
+ save.type='submit';form.append(save);
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  save.disabled=true;
+  act(async()=>{
+   await api(prefix+'proposal-follow-up',{
+    reference:item.reference,id:item.id,followUpVersion:followup.version,nextDate:next?.value||''
+   });
+   await loadTracker();
+  },'Follow-up recorded.').finally(()=>save.disabled=false);
+ });
+ row.append(log);
+}
+
 function trackerRow(item){
  const row=el('article');
  row.dataset.proposal=item.id;
@@ -512,13 +582,14 @@ function trackerRow(item){
  const open=el('a','Open project & proposal');
  open.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference})+'#proposal-'+item.id;
  row.append(open,' ',button('Download proposal PDF',async()=>downloadProposal(item)));
+ if(item.decisionFollowUp)renderDecisionFollowUp(row,item);
  if(item.followUpLink)row.append(followUpDraft(item));
  return row;
 }
 async function loadTracker(){
  if(!staff||!csrf)return;const generation=++trackerGeneration,identity=csrf;$('proposal-message').textContent='Loading proposals…';
  try{const result=await api(prefix+'proposal-queue?'+new URLSearchParams({bucket:$('proposal-bucket').value,q:$('proposal-search').value.trim(),offset:String(trackerOffset)}));if(!csrf||csrf!==identity||generation!==trackerGeneration)return;
- const labels={drafts:'Drafts',awaiting:'Awaiting acceptance',expiring:'Expiring in 7 days',unopened:'No recorded view',expired:'Expired',accepted:'Accepted'};
+ const labels={drafts:'Drafts',awaiting:'Awaiting acceptance',expiring:'Expiring in 7 days',unopened:'No recorded view',viewed:'Viewed, awaiting decision',expired:'Expired',accepted:'Accepted'};
  $('proposal-counts').replaceChildren(...Object.entries(labels).map(([key,label])=>{const b=button(label+' · '+result.counts[key],async()=>{$('proposal-bucket').value=key;$('proposal-search').value='';trackerOffset=0;await loadTracker();});b.setAttribute('aria-pressed',String($('proposal-bucket').value===key));return b;}));
  $('proposal-rows').replaceChildren(...result.items.map(trackerRow));
  if(!result.items.length)$('proposal-rows').append(el('p','No proposals match this view.'));

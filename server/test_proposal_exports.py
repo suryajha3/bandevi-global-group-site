@@ -1,5 +1,6 @@
 """PDF privacy, revision snapshots and proposal tracking using synthetic data."""
 from io import BytesIO
+import datetime
 import json
 import secrets
 import time
@@ -97,17 +98,77 @@ class ExportTests(unittest.TestCase):
         for denied in ({'reference':other,'id':other_id},{'reference':ref,'id':other_id},{'reference':ref,'id':draft}):
             self.assertEqual(self.request(view,denied,cookie,csrf)[0],404)
         self.assertEqual(self.request(view,payload,cookie,csrf)[0],200)
+        first_view=now-10
         with isolated.enquiries.connect() as db:
-            db.execute('UPDATE client_proposal_views SET first_view=? WHERE proposal=?',(now-10,current))
+            db.execute('UPDATE client_proposals SET published=? WHERE id=?',(first_view,current))
+            db.execute('UPDATE client_proposal_views SET first_view=? WHERE proposal=?',(first_view,current))
         self.assertEqual(self.request(view,payload,cookie,csrf)[0],200)
         self.assertEqual(self.request(queue+'&bucket=unopened',cookie=self.admin)[1]['items'],[])
         expiring=self.request(queue+'&bucket=expiring',cookie=self.admin)[1]['items']
-        self.assertEqual([(item['firstView'],item['followUpLink']) for item in expiring],[(now-10,exact)])
+        self.assertEqual([(item['firstView'],item['followUpLink']) for item in expiring],[(first_view,exact)])
         self.assertEqual(self.request('/api/client/accept',{**payload,'name':'Synthetic client','agree':True},cookie,csrf)[0],200)
         with isolated.enquiries.connect() as db:
             receipt=db.execute('SELECT * FROM notification_outbox WHERE dedupe=?',('proposal-receipt:'+current,)).fetchone()
             self.assertIn(exact,receipt['body'])
             self.assertIn(exact,pending_proposal_email(db,receipt,now))
+
+    def test_viewed_queue_time_requests_and_owner_followups(self):
+        from client_workflow import proposal_business_date, proposal_followup_target
+        from operations import INDIA
+        friday=datetime.datetime(2026,11,13,18,tzinfo=INDIA)
+        self.assertEqual(proposal_followup_target(friday.timestamp()),'2026-11-17')
+        ref,_=self.create();other,_=self.create()
+        cookie,csrf,_=self.client(ref)
+        pid=self.proposal(ref);self.change(ref,'publish',id=pid)
+        other_pid=self.proposal(other);self.change(other,'publish',id=other_pid)
+        queue='/api/admin/workspace/proposal-queue?bucket=viewed&q='+ref
+        read_queue=lambda: self.request(queue,cookie=self.admin)[1]['items']
+        self.assertEqual(read_queue(),[])
+        now=int(time.time())
+        today=proposal_business_date(now)
+        date=(today+datetime.timedelta(days=7)).isoformat()
+        request={'reference':ref,'id':pid,'followUpVersion':0,'suggestedDate':date,'note':'Approval is next week.'}
+        client_route='/api/client/proposal-more-time'
+        staff_route='/api/admin/workspace/proposal-follow-up'
+        self.assertEqual(self.request(client_route,{**request,'id':other_pid},cookie,csrf)[0],404)
+        self.assertEqual(self.request(client_route,{**request,'suggestedDate':'2026-02-30'},cookie,csrf)[0],400)
+        self.assertEqual(self.request(client_route,request,cookie,csrf)[0],200)
+        self.assertEqual(self.request(client_route,request,cookie,csrf)[0],200)
+        follow=read_queue()[0]['decisionFollowUp']
+        self.assertEqual((follow['owner'],follow['due'],follow['version']),(isolated.dashboard.USER,today.isoformat(),1))
+        self.assertTrue(follow['request']['pending'])
+        self.assertTrue(follow['canFollowUp'])
+        log={'reference':ref,'id':pid,'followUpVersion':1,'nextDate':''}
+        self.assertEqual(self.request(staff_route,log,cookie,csrf)[0],401)
+        self.assertEqual(self.request(staff_route,{**log,'nextDate':date},self.admin,self.admin_csrf)[0],400)
+        self.assertEqual(self.request(staff_route,log,self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(self.request(staff_route,log,self.admin,self.admin_csrf)[0],409)
+        self.assertEqual(self.request(client_route,request,cookie,csrf)[0],200)
+        saved=read_queue()[0]
+        self.assertFalse(saved['decisionFollowUp']['request']['pending'])
+        self.assertFalse(saved['decisionFollowUp']['canFollowUp'])
+        self.assertNotIn('followUpLink',saved)
+        self.assertEqual(self.request(client_route,{**request,'note':'Updated approval meeting.'},cookie,csrf)[0],409)
+        self.assertEqual(self.request(client_route,{**request,'followUpVersion':2,'note':'Updated approval meeting.'},cookie,csrf)[0],200)
+        agent='viewed-proposal-agent@qa.example';password=secrets.token_urlsafe(24)
+        with isolated.enquiries.connect() as db:
+            db.execute('UPDATE client_proposals SET expires=? WHERE id=?',(now-1,pid))
+            db.execute('INSERT INTO team_users VALUES(?,?,?,?,1)',(agent,'QA agent','agent',isolated.dashboard.password_hash(password)))
+            db.execute('INSERT INTO enquiry_workflow(id,owner) VALUES(?,?)',(ref,agent))
+        expired=read_queue()[0]
+        self.assertEqual((expired['displayStatus'],expired['decisionFollowUp']['owner']),('Expired',agent))
+        _,_,headers=self.request('/api/admin/login',{'email':agent,'password':password})
+        agent_cookie=headers['Set-Cookie'].split(';')[0]
+        self.assertEqual(len(self.request(queue,cookie=agent_cookie)[1]['items']),1)
+        with isolated.enquiries.connect() as db:
+            db.execute('UPDATE enquiry_workflow SET owner=? WHERE id=?',(isolated.dashboard.USER,ref))
+        self.assertEqual(self.request(queue,cookie=agent_cookie)[1]['items'],[])
+        self.assertEqual(self.request(client_route,{**request,'followUpVersion':3,'note':'A late request.'},cookie,csrf)[0],409)
+        self.assertEqual(self.request(staff_route,{**log,'followUpVersion':3},self.admin,self.admin_csrf)[0],200)
+        self.assertEqual(read_queue(),[])
+        with isolated.enquiries.connect() as db:
+            self.assertEqual(db.execute('SELECT published FROM client_proposals WHERE id=?',(pid,)).fetchone()[0]>0,True)
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM notification_outbox WHERE dedupe LIKE 'proposal-followup:%'").fetchone()[0],0)
 
     def test_tracker_buckets_search_and_exact_time_boundaries(self):
         ref,email=self.create();ids=[];now=int(time.time())

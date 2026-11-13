@@ -349,21 +349,28 @@ def proposal_decisions(db, identity, since, now):
       FROM cohort""", [*args, now])
     markets = {code: {'country':code,'label':growth_workbench.COUNTRIES[code],
                       'published':0,'accepted':0,'lost':0,'changeRequests':0,'revisionsWithChanges':0,
-                      'viewed':0,'kickoffBooked':0,'won':0}
+                      'viewed':0,'kickoffBooked':0,'won':0,'crmViewed':0,'crmAcceptedAfterView':0,
+                      'crmKickoffAfterView':0,'crmWonAfterView':0}
                for code in ('US','GB','IN')}
     durations = {code: [] for code in markets}
     view_durations = {code: [] for code in markets}
     acceptance_durations = {code: [] for code in markets}
+    after_view_durations = {code: [] for code in markets}
     for row in rows:
-        code = growth_workbench.country(json.loads(row['payload']))
+        payload=json.loads(row['payload'])
+        code = growth_workbench.country(payload)
         if code not in markets:
             continue
         group = markets[code]
         group['published'] += 1
         group['won'] += row['recorded_win'] is not None
-        if row['first_view'] is not None and row['published']<=row['first_view']<=now:
+        viewed=row['first_view'] is not None and row['published']<=row['first_view']<=now
+        crm_viewed=viewed and payload.get('interest') in CRM_INTERESTS
+        if viewed:
             group['viewed'] += 1
             view_durations[code].append(row['first_view']-row['published'])
+        if crm_viewed:
+            group['crmViewed'] += 1
         group['changeRequests'] += row['changes']
         group['revisionsWithChanges'] += row['changes']>0
         accepted = row['status']=='accepted' and row['accepted'] is not None and row['published']<=row['accepted']<=now
@@ -373,7 +380,13 @@ def proposal_decisions(db, identity, since, now):
             durations[code].append(elapsed)
             acceptance_durations[code].append(elapsed)
             started=row['started'] is not None and row['accepted']<=row['started']<=now
-            group['kickoffBooked'] += started or bool(row['confirmed'] and row['scheduled'])
+            booked=started or bool(row['confirmed'] and row['scheduled'])
+            group['kickoffBooked'] += booked
+            if crm_viewed and row['first_view']<=row['accepted']:
+                group['crmAcceptedAfterView'] += 1
+                after_view_durations[code].append(row['accepted']-row['first_view'])
+                group['crmKickoffAfterView'] += booked
+                group['crmWonAfterView'] += row['recorded_win'] is not None and row['recorded_win']>=row['accepted']
         elif row['recorded_loss'] is not None:
             group['lost'] += 1
             durations[code].append(row['recorded_loss']-row['published'])
@@ -384,6 +397,9 @@ def proposal_decisions(db, identity, since, now):
         group['medianFirstViewSeconds'] = round(statistics.median(view_durations[code])) if view_durations[code] else None
         group['medianAcceptanceSeconds'] = round(statistics.median(acceptance_durations[code])) if acceptance_durations[code] else None
         group['acceptanceRate'] = round(100*group['accepted']/group['published'],1) if group['published'] else None
+        group['crmViewAcceptanceRate'] = round(100*group['crmAcceptedAfterView']/group['crmViewed'],1) if group['crmViewed'] else None
+        group['crmMedianViewToAcceptanceSeconds'] = (round(statistics.median(after_view_durations[code]))
+                                                      if after_view_durations[code] else None)
     return list(markets.values())
 
 

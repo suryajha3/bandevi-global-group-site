@@ -323,8 +323,23 @@ function renderProposalDecisions(result){
   group.viewed,formatDuration(group.medianFirstViewSeconds,group.viewed,'view'),
   formatDuration(group.medianAcceptanceSeconds,group.accepted,'acceptance'),group.kickoffBooked,group.won])row.append(text('td',String(value)));
  }
- $('proposal-decision-report').replaceChildren(table);
- $('proposal-decision-basis').textContent=result.proposalDecisionBasis;
+ const crm=text('table');
+ crm.append(text('caption','CRM view-to-acceptance by business country · last '+result.days+' days by publication'));
+ const crmHeader=crm.createTHead().insertRow();
+ for(const title of ['Business country','Viewed revisions','Accepted after view','View-to-acceptance rate','Median view to acceptance','Kickoff booked','Recorded won']){
+  const cell=text('th',title);cell.scope='col';crmHeader.append(cell);
+ }
+ const crmBody=crm.createTBody();
+ for(const group of groups){
+  const row=crmBody.insertRow(),heading=text('th',group.label);heading.scope='row';row.append(heading);
+  const rate=group.crmViewAcceptanceRate===null?'—':group.crmViewAcceptanceRate+'%';
+  for(const value of [group.crmViewed,group.crmAcceptedAfterView,rate,
+   formatDuration(group.crmMedianViewToAcceptanceSeconds,group.crmAcceptedAfterView,'acceptance'),
+   group.crmKickoffAfterView,group.crmWonAfterView])row.append(text('td',String(value)));
+ }
+ $('proposal-decision-report').replaceChildren(crm,table);
+ $('proposal-decision-basis').textContent=result.proposalDecisionBasis+
+  ' CRM conversion counts acceptance on the same revision at or after its first view. CRM kickoff and Won outcomes follow that acceptance.';
 }
 
 function renderOutcomeRows(id,label,labelKey,groups){
