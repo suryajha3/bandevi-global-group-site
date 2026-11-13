@@ -18,7 +18,10 @@ for(const source of [false,true])for(const width of [320,390,768,1024,1440,1920]
  await coverageToggle.press('Space');assert.equal(await coverage.getAttribute('open'),null);assert(await coverageToggle.evaluate(e=>e===document.activeElement));
  const duplicates=await p.evaluate(()=>{const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return ids.filter((id,i)=>ids.indexOf(id)!==i)});assert.deepEqual(duplicates,[]);
  for(const href of await p.locator('main a[href^="#"]').evaluateAll(es=>es.map(e=>e.getAttribute('href')))){assert(await p.locator(href).count(),'Missing target '+href)}
- const explore=p.locator('.home-primary-actions a[href="#home-project-references"]');await explore.click();const box=await p.locator('#home-reference-heading').boundingBox(),header=await p.locator('.topbar').boundingBox();assert(box.y>=header.y+header.height-1,'Reference heading hidden under sticky header');
+ const delivered=p.getByRole('link',{name:'See a delivered project'});
+ await Promise.all([p.waitForURL(u=>u.pathname==='/projects/bandevi-website/'&&u.hash==='#crm-enquiry-case-study'),delivered.click()]);
+ assert(await p.locator('#crm-enquiry-case-study').isVisible());
+ await p.goBack();
  if(!source&&[390,1440].includes(width)){await p.evaluate(()=>scrollTo(0,0));await p.screenshot({path:path.join(out,'home-'+width+'.png')});await p.screenshot({path:path.join(out,'full-'+width+'.png'),fullPage:true})}
  assert.deepEqual(errors,[]);checks.push({source,width,responsiveAndAnchors:true});await c.close();
 }
