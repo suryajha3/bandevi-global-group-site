@@ -193,5 +193,10 @@ module.exports = (name, source) => {
     assert.equal(result.split(before).length - 1, 1, 'Original proposal preparation marker: ' + name);
     result = result.replace(before, () => after);
   }
+  const proposalEngagement = require('./fixtures/proposal-revision-engagement-approved.json');
+  for (const { before, after } of proposalEngagement[name] || []) {
+    assert.equal(result.split(before).length - 1, 1, 'Original proposal engagement marker: ' + name);
+    result = result.replace(before, () => after);
+  }
   return result;
 };

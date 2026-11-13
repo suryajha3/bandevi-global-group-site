@@ -71,6 +71,44 @@ class ExportTests(unittest.TestCase):
         with isolated.enquiries.connect() as db:db.execute('UPDATE client_proposals SET expires=? WHERE id=?',(int(time.time()),expired))
         self.assertIn('Status at export: Expired',self.text(self.download(expired,cookie,False)[1]))
 
+    def test_revision_links_and_private_first_view(self):
+        ref,_=self.create()
+        cookie,csrf,_=self.client(ref)
+        old=self.proposal(ref);self.change(ref,'publish',id=old)
+        current=self.proposal(ref);self.change(ref,'publish',id=current)
+        draft=self.proposal(ref)
+        other,_=self.create();other_id=self.proposal(other);self.change(other,'publish',id=other_id)
+        now=int(time.time())
+        exact='https://bandeviglobalgroup.com/client-workspace/?reference='+ref+'#proposal-'+current
+        with isolated.enquiries.connect() as db:
+            from client_workflow import pending_proposal_email
+            published=db.execute('SELECT * FROM notification_outbox WHERE dedupe=?',('proposal-published:'+current,)).fetchone()
+            superseded=db.execute('SELECT * FROM notification_outbox WHERE dedupe=?',('proposal-published:'+old,)).fetchone()
+            self.assertIn(exact,published['body'])
+            self.assertIn(exact,pending_proposal_email(db,published,now))
+            self.assertIsNone(pending_proposal_email(db,superseded,now))
+        queue='/api/admin/workspace/proposal-queue?q='+ref
+        unopened=self.request(queue+'&bucket=unopened',cookie=self.admin)[1]['items']
+        self.assertEqual([(item['id'],item['followUpLink']) for item in unopened],[(current,exact)])
+        view='/api/client/proposal-view'
+        payload={'reference':ref,'id':current}
+        self.assertEqual(self.request(view,payload,cookie=self.admin,csrf=self.admin_csrf)[0],401)
+        self.assertEqual(self.request(view,payload,cookie=cookie)[0],403)
+        for denied in ({'reference':other,'id':other_id},{'reference':ref,'id':other_id},{'reference':ref,'id':draft}):
+            self.assertEqual(self.request(view,denied,cookie,csrf)[0],404)
+        self.assertEqual(self.request(view,payload,cookie,csrf)[0],200)
+        with isolated.enquiries.connect() as db:
+            db.execute('UPDATE client_proposal_views SET first_view=? WHERE proposal=?',(now-10,current))
+        self.assertEqual(self.request(view,payload,cookie,csrf)[0],200)
+        self.assertEqual(self.request(queue+'&bucket=unopened',cookie=self.admin)[1]['items'],[])
+        expiring=self.request(queue+'&bucket=expiring',cookie=self.admin)[1]['items']
+        self.assertEqual([(item['firstView'],item['followUpLink']) for item in expiring],[(now-10,exact)])
+        self.assertEqual(self.request('/api/client/accept',{**payload,'name':'Synthetic client','agree':True},cookie,csrf)[0],200)
+        with isolated.enquiries.connect() as db:
+            receipt=db.execute('SELECT * FROM notification_outbox WHERE dedupe=?',('proposal-receipt:'+current,)).fetchone()
+            self.assertIn(exact,receipt['body'])
+            self.assertIn(exact,pending_proposal_email(db,receipt,now))
+
     def test_tracker_buckets_search_and_exact_time_boundaries(self):
         ref,email=self.create();ids=[];now=int(time.time())
         with isolated.enquiries.connect() as db:

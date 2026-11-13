@@ -11,7 +11,7 @@ import secrets
 import sqlite3
 import time
 from http.cookies import SimpleCookie, CookieError
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, urlencode, urlsplit
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import operations
 
@@ -37,6 +37,7 @@ def initialize(db):
     CREATE TABLE IF NOT EXISTS client_logins(fingerprint TEXT NOT NULL,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_projects(reference TEXT PRIMARY KEY,email TEXT NOT NULL,title TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'Planning',version INTEGER NOT NULL DEFAULT 0,created INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_proposals(id TEXT PRIMARY KEY,reference TEXT NOT NULL,revision INTEGER NOT NULL,title TEXT NOT NULL,scope TEXT NOT NULL,terms TEXT NOT NULL,minor_units INTEGER NOT NULL,currency TEXT NOT NULL,expires INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'draft',created INTEGER NOT NULL,actor TEXT NOT NULL,accepted INTEGER,accepted_by TEXT,published INTEGER NOT NULL DEFAULT 0,UNIQUE(reference,revision));
+    CREATE TABLE IF NOT EXISTS client_proposal_views(proposal TEXT PRIMARY KEY,first_view INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS client_milestones(id TEXT PRIMARY KEY,reference TEXT NOT NULL,title TEXT NOT NULL,due TEXT NOT NULL,status TEXT NOT NULL,notes TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS client_documents(id TEXT PRIMARY KEY,reference TEXT NOT NULL,name TEXT NOT NULL,mime TEXT NOT NULL,data BLOB NOT NULL,created INTEGER NOT NULL,actor TEXT NOT NULL,deleted INTEGER NOT NULL DEFAULT 0);
     CREATE TABLE IF NOT EXISTS client_tickets(id TEXT PRIMARY KEY,reference TEXT NOT NULL,subject TEXT NOT NULL,priority TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'Open',owner TEXT NOT NULL,created INTEGER NOT NULL,due INTEGER NOT NULL,first_response INTEGER,version INTEGER NOT NULL DEFAULT 0);
@@ -125,26 +126,72 @@ def proposal_status(p,now):
     if p['status']=='draft':return 'Draft (expired)' if p['expires']<=now else 'Draft'
     return p['status'].capitalize()
 
+
+def proposal_link(reference, proposal):
+    return ('https://bandeviglobalgroup.com/client-workspace/?'+urlencode({'reference':reference})
+            +'#proposal-'+proposal)
+
+def proposal_email_body(reference, proposal):
+    return ('Review this proposal revision in your secure workspace:\n'
+            +proposal_link(reference,proposal)+'\nProject reference: '+reference)
+
+
+def pending_proposal_email(db, notification, now):
+    kind, proposal_id = notification['dedupe'].split(':',1)
+    proposal = db.execute("""SELECT p.*, c.email FROM client_proposals p
+        JOIN client_projects c ON c.reference=p.reference WHERE p.id=?""",(proposal_id,)).fetchone()
+    if not proposal or proposal['email']!=notification['recipient']:
+        return None
+    ref=proposal['reference']
+    if kind=='proposal-published':
+        if proposal['status'] not in ('published','accepted') or not proposal['published']:
+            return None
+        if proposal['status']=='published' and proposal['expires']<=now:
+            return None
+        return proposal_email_body(ref,proposal_id)
+    if proposal['status']=='accepted':
+        return ('Project '+ref+'\nProposal revision '+str(proposal['revision'])
+                +'\nAccepted by '+proposal['accepted_by']
+                +'\nReview the preserved scope and terms:\n'+proposal_link(ref,proposal_id))
+    return None
+
+
 def proposal_queue(handler,db,identity,query):
     buckets={'drafts':"cp.status='draft'",'awaiting':"cp.status='published' AND cp.expires>?",'expiring':"cp.status='published' AND cp.expires>? AND cp.expires<=?",'expired':"cp.status='published' AND cp.expires<=?",'accepted':"cp.status='accepted'",'withdrawn':"cp.status='withdrawn'",'superseded':"cp.status='superseded'",'all':'1=1'}
     bucket=query.get('bucket',['awaiting'])[0];search=query.get('q',[''])[0][:120]
     try:offset=int(query.get('offset',['0'])[0])
     except ValueError:raise Problem(400,'Invalid page.')
-    if bucket not in buckets or not 0<=offset<=1000000:raise Problem(400,'Choose a valid proposal filter.')
     now=int(time.time());week=now+7*86400
-    join=' FROM client_proposals cp JOIN client_projects p ON p.reference=cp.reference JOIN enquiries e ON e.id=p.reference LEFT JOIN enquiry_workflow w ON w.id=p.reference '
+    actionable="cp.status='published' AND cp.expires>? AND cp.published>0 AND COALESCE(w.stage,'New') NOT IN ('Won','Lost')"
+    buckets['unopened']=actionable+' AND v.first_view IS NULL'
+    if bucket not in buckets or not 0<=offset<=1000000:raise Problem(400,'Choose a valid proposal filter.')
+    join=""" FROM client_proposals cp JOIN client_projects p ON p.reference=cp.reference
+        JOIN enquiries e ON e.id=p.reference LEFT JOIN enquiry_workflow w ON w.id=p.reference
+        LEFT JOIN client_proposal_views v ON v.proposal=cp.id
+        LEFT JOIN notification_outbox n ON n.dedupe='proposal-published:'||cp.id """
     base="e.email_status!='qa-verified'";args=[]
     if identity['role']=='agent':base+=' AND w.owner=?';args=[identity['actor']]
-    def params(key):return [now,week] if key=='expiring' else [now] if key in ('awaiting','expired') else []
+    def params(key):return [now,week] if key=='expiring' else [now] if key in ('awaiting','expired','unopened') else []
     db.execute('BEGIN')
     counts={key:db.execute('SELECT COUNT(*)'+join+'WHERE '+base+' AND ('+condition+')',args+params(key)).fetchone()[0] for key,condition in buckets.items()}
     where=base+' AND ('+buckets[bucket]+')';filters=args+params(bucket)
     if search:where+=' AND (cp.title LIKE ? OR p.title LIKE ? OR p.reference LIKE ? OR p.email LIKE ?)';filters+=['%'+search+'%']*4
     total=db.execute('SELECT COUNT(*)'+join+'WHERE '+where,filters).fetchone()[0]
-    rows=db.execute("SELECT cp.id,cp.reference,cp.revision,cp.title,cp.status,cp.minor_units,cp.currency,cp.created,cp.expires,cp.accepted,p.title AS projectTitle,p.email AS clientEmail,COALESCE(w.owner,'') AS owner"+join+'WHERE '+where+' ORDER BY '+('cp.expires ASC,' if bucket in ('awaiting','expiring','expired') else '')+'cp.created DESC,cp.id DESC LIMIT 25 OFFSET ?',filters+[offset]).fetchall()
+    rows=db.execute("""SELECT cp.id,cp.reference,cp.revision,cp.title,cp.status,cp.minor_units,cp.currency,
+        cp.created,cp.expires,cp.accepted,cp.published,p.title AS projectTitle,p.email AS clientEmail,
+        COALESCE(w.owner,'') AS owner,COALESCE(w.stage,'New') AS stage,v.first_view AS firstView,
+        n.status AS emailStatus"""+join+'WHERE '+where+' ORDER BY '+
+        ('cp.expires ASC,' if bucket in ('awaiting','expiring','expired','unopened') else '')+
+        'cp.created DESC,cp.id DESC LIMIT 25 OFFSET ?',filters+[offset]).fetchall()
     items=[]
     for row in rows:
-        item=dict(row);item['displayStatus']=proposal_status(item,now);item['expiresSoon']=item['status']=='published' and now<item['expires']<=week;items.append(item)
+        item=dict(row)
+        item['displayStatus']=proposal_status(item,now)
+        item['expiresSoon']=item['status']=='published' and now<item['expires']<=week
+        if (item['status']=='published' and item['published'] and item['expires']>now
+                and item['stage'] not in ('Won','Lost') and (item['expiresSoon'] or item['firstView'] is None)):
+            item['followUpLink']=proposal_link(item['reference'],item['id'])
+        items.append(item)
     handler.respond(200,{'items':items,'counts':counts,'total':total,'offset':offset,'limit':25,'now':now,'timezone':'Asia/Kolkata'})
     return True
 
@@ -266,7 +313,11 @@ def get(handler,connect):
             sql='SELECT p.* FROM client_projects p';args=[]
             if staff and identity['role']=='agent':sql+=' JOIN enquiry_workflow w ON w.id=p.reference WHERE w.owner=?';args=[identity['actor']]
             elif not staff:sql+=' WHERE p.email=?';args=[identity['email']]
-            rows=db.execute(sql+' ORDER BY p.created DESC LIMIT 200',args).fetchall()
+            if not staff:
+                sql+=' ORDER BY (p.reference=?) DESC,p.created DESC LIMIT 200'
+                args.append(query.get('reference',[''])[0])
+            else:sql+=' ORDER BY p.created DESC LIMIT 200'
+            rows=db.execute(sql,args).fetchall()
             handler.respond(200,{'projects':[dict(r) for r in rows]});return True
         if action=='report' and staff:
             try:days=int(query.get('days',['30'])[0])
@@ -477,7 +528,8 @@ def staff_change(db,row,identity,action,data,result):
             if p['status']!='draft' or p['expires']<=now:raise Problem(409,'Only unexpired drafts can be published.')
             if p['revision']!=db.execute('SELECT MAX(revision) FROM client_proposals WHERE reference=?',(ref,)).fetchone()[0]:raise Problem(409,'Publish the latest revision.')
             db.execute("UPDATE client_proposals SET status='superseded' WHERE reference=? AND status='published'",(ref,));db.execute("UPDATE client_proposals SET status='published',published=? WHERE id=?",(now,pid))
-            operations.enqueue(db,'proposal-published:'+pid,row['email'],'Bandevi proposal ready for review','A proposal is ready in your secure workspace.\nhttps://bandeviglobalgroup.com/client-workspace/\nProject reference: '+ref)
+            operations.enqueue(db,'proposal-published:'+pid,row['email'],'Bandevi proposal revision '+str(p['revision'])+' ready for review',
+                proposal_email_body(ref,pid))
         else:
             if p['status'] not in ('draft','published'):raise Problem(409,'Accepted and historical proposals are preserved.')
             db.execute("UPDATE client_proposals SET status='withdrawn' WHERE id=?",(pid,))
@@ -517,7 +569,12 @@ def staff_change(db,row,identity,action,data,result):
 
 def client_change(db,row,identity,action,data,result):
     ref=row['reference'];actor=identity['email'];now=int(time.time())
-    if action=='accept':
+    if action=='proposal-view':
+        pid=value(data,'id',30)
+        if not db.execute("SELECT 1 FROM client_proposals WHERE id=? AND reference=? AND published>0 AND status!='draft'",(pid,ref)).fetchone():
+            raise Problem(404,'Proposal not found.')
+        db.execute('INSERT OR IGNORE INTO client_proposal_views VALUES(?,?)',(pid,now))
+    elif action=='accept':
         pid=value(data,'id',30);name=value(data,'name',120)
         if data.get('agree') is not True:raise Problem(400,'Confirm that you accept the displayed scope and commercial terms.')
         p=db.execute('SELECT * FROM client_proposals WHERE id=? AND reference=?',(pid,ref)).fetchone()
@@ -529,7 +586,7 @@ def client_change(db,row,identity,action,data,result):
         from dashboard import USER
         owner=db.execute('SELECT owner FROM enquiry_workflow WHERE id=?',(ref,)).fetchone();recipient=owner[0] if owner and active_owner(db,owner[0]) else USER
         operations.enqueue(db,'proposal-accepted:'+pid,recipient,'Bandevi proposal accepted','Project '+ref+' has an accepted proposal. Review the authenticated record in the team workspace.')
-        operations.enqueue(db,'proposal-receipt:'+pid,actor,'Your Bandevi proposal acceptance receipt','Project '+ref+'\nProposal revision '+str(p['revision'])+'\nAccepted by '+name+'\nReview the preserved scope and terms:\nhttps://bandeviglobalgroup.com/client-workspace/')
+        operations.enqueue(db,'proposal-receipt:'+pid,actor,'Your Bandevi proposal acceptance receipt','Project '+ref+'\nProposal revision '+str(p['revision'])+'\nAccepted by '+name+'\nReview the preserved scope and terms:\n'+proposal_link(ref,pid))
     elif action=='approve-milestone':
         mid=value(data,'id',30)
         if not db.execute("UPDATE client_milestones SET status='Approved' WHERE id=? AND reference=? AND status='Ready for review'",(mid,ref)).rowcount:raise Problem(409,'This milestone is not awaiting approval.')

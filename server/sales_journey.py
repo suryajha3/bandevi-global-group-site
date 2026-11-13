@@ -316,16 +316,21 @@ def change_recap(handler, db, identity, ref, demo, booking, enquiry, data, actio
 
 def proposal_decisions(db, identity, since, now):
     """Report on published revisions, independently of the enquiry received date."""
-    args = [now, since, now]
+    args = [now, now, since, now]
     access = ' AND w.owner=?' if identity['role']=='agent' else ''
     if access:
         args.append(identity['actor'])
     rows = db.execute("""WITH cohort AS (
-        SELECT p.id,p.reference,p.published,p.status,p.accepted,e.payload,
+        SELECT p.id,p.reference,p.published,p.status,p.accepted,e.payload,v.first_view,
+          k.confirmed,k.scheduled,k.started,
+          CASE WHEN w.stage='Won' THEN (SELECT MAX(created) FROM sales_events
+            WHERE enquiry_id=p.reference AND stage='Won' AND created<=?) END AS won,
           CASE WHEN w.stage='Lost' THEN (SELECT MAX(created) FROM sales_events
             WHERE enquiry_id=p.reference AND stage='Lost' AND created<=?) END AS lost
         FROM client_proposals p JOIN enquiries e ON e.id=p.reference
         LEFT JOIN enquiry_workflow w ON w.id=p.reference
+        LEFT JOIN client_proposal_views v ON v.proposal=p.id
+        LEFT JOIN client_kickoffs k ON k.reference=p.reference AND k.proposal=p.id
         WHERE p.published>0 AND p.published BETWEEN ? AND ? AND p.status!='draft'
           AND e.email_status!='qa-verified'"""+access+"""
       ) SELECT cohort.*,
@@ -333,24 +338,42 @@ def proposal_decisions(db, identity, since, now):
          WHERE f.proposal=cohort.id AND f.kind='change' AND t.created BETWEEN cohort.published AND ?) AS changes,
         CASE WHEN id=(SELECT p.id FROM client_proposals p WHERE p.reference=cohort.reference
           AND p.published>0 AND p.published<=cohort.lost AND p.status!='draft'
-          ORDER BY p.published DESC,p.revision DESC LIMIT 1) THEN lost END AS recorded_loss
+          ORDER BY p.published DESC,p.revision DESC LIMIT 1) THEN lost END AS recorded_loss,
+        CASE WHEN id=COALESCE(
+          (SELECT p.id FROM client_proposals p WHERE p.reference=cohort.reference
+           AND p.published>0 AND p.status='accepted' AND p.accepted BETWEEN p.published AND cohort.won
+           ORDER BY p.accepted DESC,p.revision DESC LIMIT 1),
+          (SELECT p.id FROM client_proposals p WHERE p.reference=cohort.reference
+           AND p.published>0 AND p.published<=cohort.won AND p.status!='draft'
+           ORDER BY p.published DESC,p.revision DESC LIMIT 1)) THEN won END AS recorded_win
       FROM cohort""", [*args, now])
     markets = {code: {'country':code,'label':growth_workbench.COUNTRIES[code],
-                      'published':0,'accepted':0,'lost':0,'changeRequests':0,'revisionsWithChanges':0}
+                      'published':0,'accepted':0,'lost':0,'changeRequests':0,'revisionsWithChanges':0,
+                      'viewed':0,'kickoffBooked':0,'won':0}
                for code in ('US','GB','IN')}
     durations = {code: [] for code in markets}
+    view_durations = {code: [] for code in markets}
+    acceptance_durations = {code: [] for code in markets}
     for row in rows:
         code = growth_workbench.country(json.loads(row['payload']))
         if code not in markets:
             continue
         group = markets[code]
         group['published'] += 1
+        group['won'] += row['recorded_win'] is not None
+        if row['first_view'] is not None and row['published']<=row['first_view']<=now:
+            group['viewed'] += 1
+            view_durations[code].append(row['first_view']-row['published'])
         group['changeRequests'] += row['changes']
         group['revisionsWithChanges'] += row['changes']>0
         accepted = row['status']=='accepted' and row['accepted'] is not None and row['published']<=row['accepted']<=now
         if accepted:
             group['accepted'] += 1
-            durations[code].append(row['accepted']-row['published'])
+            elapsed=row['accepted']-row['published']
+            durations[code].append(elapsed)
+            acceptance_durations[code].append(elapsed)
+            started=row['started'] is not None and row['accepted']<=row['started']<=now
+            group['kickoffBooked'] += started or bool(row['confirmed'] and row['scheduled'])
         elif row['recorded_loss'] is not None:
             group['lost'] += 1
             durations[code].append(row['recorded_loss']-row['published'])
@@ -358,6 +381,8 @@ def proposal_decisions(db, identity, since, now):
         group['decided'] = len(durations[code])
         group['withoutDecision'] = group['published']-group['decided']
         group['medianDecisionSeconds'] = round(statistics.median(durations[code])) if durations[code] else None
+        group['medianFirstViewSeconds'] = round(statistics.median(view_durations[code])) if view_durations[code] else None
+        group['medianAcceptanceSeconds'] = round(statistics.median(acceptance_durations[code])) if acceptance_durations[code] else None
         group['acceptanceRate'] = round(100*group['accepted']/group['published'],1) if group['published'] else None
     return list(markets.values())
 
@@ -658,7 +683,7 @@ def funnel(db,identity,days):
         'proposalReviewConversion':proposal_review_conversion(db,identity,args[0],now),
         'kickoffConversion':kickoff_conversion(db,identity,args[0],now),
         'proposalDecisions':proposal_decisions(db,identity,args[0],now),
-        'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. Missing decisions are excluded from the median. Uses saved business country and staff access, with QA records excluded.',
+        'proposalDecisionBasis':'Published-date cohort. Each published revision counts once, including later revisions, expired and withdrawn proposals. Acceptance rate is accepted revisions divided by published revisions. Time to decision is median elapsed time from publication to recorded acceptance or staff-recorded Lost. A loss is attributed to the most recent revision published by that event, only while the enquiry is currently Lost and the revision has no recorded acceptance. Change requests are counted against their original revision. First views are recorded when signed-in customers see the revision in Client Workspace. A kickoff booking requires a confirmed time or a recorded start on that revision. Each current Won deal is attributed once to the latest revision accepted by the recorded Won event, or the latest revision published by that event if no acceptance was recorded. Medians use recorded events. Uses saved business country and staff access, with QA records excluded.',
         'campaignBasis':'Received-date cohort, 7/30/90 days; sales milestones are evaluated through now. Each enquiry belongs to one saved business-country / campaign / source / medium / channel / landing-page / CRM promotion group. Blank campaign tags remain Unattributed, including direct and organic enquiries; country is never inferred from a campaign name. Review requests are not automatically Qualified. Reached Qualified requires an event; booked and completed demos are distinct; published proposals count once per enquiry. Currently Won is a staff sales outcome, not payment confirmation. Recorded won deal values use saved deal_values, never budgets or proposal amounts, and stay separate by currency with no FX conversion. Won without a recorded value is shown separately. Advertising spend is not combined with this rolling cohort. CPA and ROAS are not calculated here; completed-day manual cost comparisons appear separately. QA records and enquiries outside your staff access are excluded.',
         'marketBasis':'Country comes only from saved structured business-country preferences, not phone, currency, nationality or location tracking. Legacy enquiries without these preferences stay Country not recorded. Qualified requires a recorded Qualified event. Booked counts each enquiry once, including later cancellations. Cancelled counts current cancellations. Completed and no-show use the recorded outcome for the current schedule and exclude cancellations. Current Won includes paths outside the demo funnel. Rates use the labelled denominator; empty groups have no rate. QA records are excluded and staff ownership restrictions apply.',
         'basis':'Received-date cohort, one count per enquiry, restricted to your staff access. Demo bookings require recorded reservations; completed demos use the current recorded outcome for the current schedule. Proposal-after-demo requires publication after a reservation. Won-after-proposal requires current Won stage and a recorded Won event after publication. Acceptance and Won remain separate; no currency totals are combined.'}

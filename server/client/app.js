@@ -2,20 +2,104 @@
 const staff=document.body.dataset.staff==='true',prefix=staff?'/api/admin/workspace/':'/api/client/';
 const $=id=>document.getElementById(id);let csrf='',role='',current=null,trackerOffset=0,trackerTotal=0,trackerGeneration=0,projectGeneration=0;
 let invite=staff?null:new URLSearchParams(location.hash.slice(1)).get('invite');
+const proposalAnchor=/^#proposal-[a-f0-9]{24}$/;
+const projectReference=/^BG-[a-zA-Z0-9-]{1,27}$/;
+const recordedViews=new Set();
+let proposalObserver;
+const unavailableProposal='This proposal revision is unavailable in your workspace.';
+
+function linkedProject(){
+ const reference=new URLSearchParams(location.search).get('reference');
+ return !staff&&reference&&proposalAnchor.test(location.hash)&&projectReference.test(reference)?reference:'';
+}
+function stopProposalViews(){
+ proposalObserver?.disconnect();
+ proposalObserver=null;
+}
+function observeProposalViews(project,headings){
+ if(staff||!headings.length||!('IntersectionObserver' in window))return;
+ const observer=new IntersectionObserver(entries=>{
+  if(observer!==proposalObserver||document.hidden||current!==project)return;
+  for(const entry of entries){
+   if(!entry.isIntersecting||entry.intersectionRatio<0.5)continue;
+   const id=entry.target.dataset.proposalView;
+   if(recordedViews.has(id))continue;
+   recordedViews.add(id);
+   api(prefix+'proposal-view',{reference:project.reference,id}).then(()=>{
+    observer.unobserve(entry.target);
+   }).catch(()=>{
+    if(csrf&&current===project)recordedViews.delete(id);
+   });
+  }
+ },{threshold:0.5});
+ proposalObserver=observer;
+ headings.forEach(heading=>observer.observe(heading));
+}
+document.addEventListener('visibilitychange',()=>{
+ if(!document.hidden&&proposalObserver){
+  const headings=[...document.querySelectorAll('[data-proposal-view]')];
+  stopProposalViews();
+  observeProposalViews(current,headings);
+ }
+});
 if(invite){history.replaceState(null,'',location.pathname);$('login').hidden=true;$('activate').hidden=false;}
 function el(tag,content,cls){const node=document.createElement(tag);if(content!==undefined)node.textContent=content;if(cls)node.className=cls;return node;}
 function stamp(n){return n?new Date(n*1000).toLocaleString(): '—';}
 function money(p){return new Intl.NumberFormat(undefined,{style:'currency',currency:p.currency,currencyDisplay:'code'}).format(p.minor_units/100);}
 async function api(path,data){const requestIdentity=csrf;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try{const response=await fetch(path,{credentials:'same-origin',cache:'no-store',signal:controller.signal,...(data!==undefined?{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify(data)}:{})});const result=await response.json();if(!response.ok){if(response.status===401&&csrf&&csrf===requestIdentity)clear();throw Error(result.error||'Unable to complete the request.');}return result;}finally{clearTimeout(timer);}}
-function clear(){trackerGeneration++;projectGeneration++;csrf='';current=null;$('project').replaceChildren();$('project-list').replaceChildren();$('workspace').hidden=true;$('login').hidden=false;$('logout').hidden=true;if(staff){$('report').replaceChildren();$('loss-report').replaceChildren();$('proposal-rows').replaceChildren();$('proposal-counts').replaceChildren();$('proposal-total').textContent='';$('proposal-page').textContent='';$('proposal-message').textContent='';}}
+function clear(){stopProposalViews();recordedViews.clear();trackerGeneration++;projectGeneration++;csrf='';current=null;$('project').replaceChildren();$('project-list').replaceChildren();$('workspace').hidden=true;$('login').hidden=false;$('logout').hidden=true;if(staff){$('report').replaceChildren();$('loss-report').replaceChildren();$('proposal-rows').replaceChildren();$('proposal-counts').replaceChildren();$('proposal-total').textContent='';$('proposal-page').textContent='';$('proposal-message').textContent='';}}
 async function act(fn,success='Saved.'){try{await fn();$('message').textContent=success;}catch(e){$('message').textContent=e.name==='AbortError'?'The request timed out. Refresh to check whether it was saved before retrying.':e.message;}}
 function button(label,fn){const b=el('button',label);b.type='button';b.addEventListener('click',()=>{b.disabled=true;act(fn).finally(()=>b.disabled=false);});return b;}
 function field(form,label,key,type='text',choices=null){const id='f-'+Math.random().toString(36).slice(2);const l=el('label',label);l.htmlFor=id;const input=el(choices?'select':type==='textarea'?'textarea':'input');input.id=id;input.name=key;if(!choices&&type!=='textarea')input.type=type;if(choices)for(const v of choices){const o=el('option',v);o.value=v;input.append(o);}form.append(l,input);return input;}
 function formBox(parent,title,submit,label='Save',afterLoad){const box=el('details'),summary=el('summary',title),form=el('form');box.append(summary,form);parent.append(box);const save=el('button',label);save.type='submit';form.addEventListener('submit',e=>{e.preventDefault();save.disabled=true;act(async()=>{await submit(form);await loadProject();afterLoad?.();if(staff)await loadTracker();},'Saved.').finally(()=>save.disabled=false);});queueMicrotask(()=>form.append(save));return form;}
 async function change(action,data){if(!current)throw Error('Choose a project.');return api(prefix+action,{reference:current.reference,...(staff?{version:current.version}:{}),...data});}
-async function load(){const identity=csrf;const result=await api(prefix+'projects'),selected=$('project-list').value||(staff?new URLSearchParams(location.search).get('reference'):'');if(!csrf||identity!==csrf)return;$('project-list').replaceChildren(...result.projects.map(p=>{const o=el('option',p.title+' · '+p.reference);o.value=p.reference;return o;}));if(result.projects.some(p=>p.reference===selected))$('project-list').value=selected;else if(selected&&staff){const empty=el('option','Create a project for '+selected);empty.value='';$('project-list').prepend(empty);$('project-list').value='';$('create-form').closest('details').open=true;}await loadProject();if(staff)await Promise.all([report(),loadTracker()]);}
+async function load(){
+ const identity=csrf, linked=linkedProject(), list=$('project-list');
+ const selected=list.value||(staff?new URLSearchParams(location.search).get('reference'):linked);
+ const params=linked?'?'+new URLSearchParams({reference:linked}):'';
+ const result=await api(prefix+'projects'+params);
+ if(!csrf||identity!==csrf)return;
+ list.replaceChildren(...result.projects.map(p=>{const option=el('option',p.title+' · '+p.reference);option.value=p.reference;return option;}));
+ if(result.projects.some(p=>p.reference===selected))list.value=selected;
+ else if(selected&&staff){
+  const empty=el('option','Create a project for '+selected);empty.value='';
+  list.prepend(empty);list.value='';$('create-form').closest('details').open=true;
+ }else if(linked){
+  const empty=el('option','Choose another project');empty.value='';
+  list.prepend(empty);list.value='';
+ }
+ await loadProject();
+ if(staff)await Promise.all([report(),loadTracker()]);
+}
 async function report(){const identity=csrf;const r=await api(prefix+'report?days='+$('report-days').value);if(!csrf||identity!==csrf)return;const labels={enquiries:'Enquiries',demoReserved:'Reserved a demo',proposalProjects:'Published proposal',acceptedProjects:'Accepted proposal',overdueFollowups:'Overdue follow-ups',openTickets:'Active support tickets',overdueTickets:'Overdue support targets'};$('report').replaceChildren(...Object.entries(r.counts).map(([k,v])=>{const n=el('div',labels[k]||k);n.append(el('strong',String(v)));return n;}));const rate=r.counts.enquiries?(100*r.counts.demoReserved/r.counts.enquiries).toFixed(1)+'%':'—',accept=r.counts.proposalProjects?(100*r.counts.acceptedProjects/r.counts.proposalProjects).toFixed(1)+'%':'—';$('report-basis').textContent='Enquiry → demo: '+rate+'. Published proposal → acceptance: '+accept+'. '+r.basis;$('loss-report').replaceChildren(el('h3','Current lost-deal reasons'),...Object.entries(r.lostReasons).map(([k,v])=>el('p',k+': '+v)));}
-async function loadProject(){const generation=++projectGeneration,identity=csrf;const ref=$('project-list').value;if(!ref){current=null;$('project').replaceChildren(el('p','No projects are available.'));return;}const query=new URLSearchParams(location.search),ticket=staff&&query.get('reference')===ref?query.get('ticket'):null;const params=new URLSearchParams({reference:ref});if(ticket)params.set('ticket',ticket);const result=await api(prefix+'project?'+params);if(!csrf||csrf!==identity||generation!==projectGeneration||$('project-list').value!==ref)return;current=result;render();const target=['#proposals','#support','#proposal-tracker'].includes(location.hash)||/^#proposal-[a-f0-9]{24}$/.test(location.hash)?$(location.hash.slice(1)):null;const thread=ticket?$('ticket-'+ticket):null;(thread||target)?.scrollIntoView({block:'start'});}
+async function loadProject(){
+ stopProposalViews();
+ const generation=++projectGeneration,identity=csrf;
+ const ref=$('project-list').value,linked=linkedProject();
+ if(!ref){
+  current=null;
+  $('project').replaceChildren(el('p',linked?unavailableProposal:'No projects are available.'));
+  return;
+ }
+ const query=new URLSearchParams(location.search),ticket=staff&&query.get('reference')===ref?query.get('ticket'):null;
+ const params=new URLSearchParams({reference:ref});
+ if(ticket)params.set('ticket',ticket);
+ const result=await api(prefix+'project?'+params);
+ if(!csrf||csrf!==identity||generation!==projectGeneration||$('project-list').value!==ref)return;
+ current=result;
+ render();
+ const exact=proposalAnchor.test(location.hash);
+ const target=(exact&&(!linked||linked===ref))||['#proposals','#support','#proposal-tracker'].includes(location.hash)
+  ?$(location.hash.slice(1)):null;
+ if(linked===ref&&!target){
+  const warning=el('p',unavailableProposal,'muted');
+  warning.setAttribute('role','status');
+  $('proposals').prepend(warning);
+ }
+ const thread=ticket?$('ticket-'+ticket):null;
+ (thread||target)?.scrollIntoView({block:'start'});
+ if(exact&&target&&!thread)target.querySelector('h3')?.focus({preventScroll:true});
+}
 function proposalFeedbackForm(parent, proposal) {
  const form=el('form'), id='proposal-feedback-'+proposal.id, actions=el('div');
  form.id=id;form.hidden=true;
@@ -314,7 +398,16 @@ function render(){const p=current,root=$('project');root.replaceChildren();const
   }
   const recap=el('details');recap.append(el('summary','Review saved customer recap'),el('p',p.postDemo.body,'copy'));const use=el('button','Use recap as draft scope');use.type='button';use.addEventListener('click',()=>{if(scope.value.trim()){message.textContent='The scope already has text. Clear it before copying the recap.';return;}scope.value=proposalScope;scope.focus();message.textContent='Recap copied into the unsaved draft. Review the scope and enter the commercial terms before saving.';});recap.append(use);f.append(recap);}}if(p.salesJourney?.requirements){const discovery=el('details');discovery.append(el('summary','Review private demo requirements'),el('p',p.salesJourney.requirements,'copy'),el('p','Staff discovery notes are not an agreed scope. Review and edit the proposal before publishing.','muted'));const use=el('button','Use requirements as draft scope');use.type='button';use.addEventListener('click',()=>{scope.value=p.salesJourney.requirements;scope.focus();message.textContent='Requirements copied into the unsaved proposal scope. Review and edit before saving or publishing.';});discovery.append(use);f.append(discovery);}amount.min='0';amount.step='0.01';for(const v of [title,scope,terms,amount,expiry])v.required=true;}
  if(!p.proposals.length)proposals.append(el('p','No proposals yet.'));
- for(const proposal of p.proposals){const a=el('article');a.id='proposal-'+proposal.id;a.append(el('h3',proposal.title+' · revision '+proposal.revision),el('p',(proposal.displayStatus||proposal.status)+' · '+money(proposal)+' · Valid until '+proposalStamp(proposal.expires)),el('h4','Scope'),el('p',proposal.scope,'copy'),el('h4','Commercial terms'),el('p',proposal.terms,'copy'));a.append(button('Download proposal PDF',async()=>downloadProposal(proposal)));if(proposal.accepted)a.append(el('p','Accepted '+stamp(proposal.accepted)+' by '+proposal.accepted_by));
+ const viewHeadings=[];
+ for(const proposal of p.proposals){
+  const a=el('article'), heading=el('h3',proposal.title+' · revision '+proposal.revision);
+  a.id='proposal-'+proposal.id;
+  heading.tabIndex=-1;
+  if(!staff&&proposal.published>0){
+   heading.dataset.proposalView=proposal.id;
+   viewHeadings.push(heading);
+  }
+  a.append(heading,el('p',(proposal.displayStatus||proposal.status)+' · '+money(proposal)+' · Valid until '+proposalStamp(proposal.expires)),el('h4','Scope'),el('p',proposal.scope,'copy'),el('h4','Commercial terms'),el('p',proposal.terms,'copy'));a.append(button('Download proposal PDF',async()=>downloadProposal(proposal)));if(proposal.accepted)a.append(el('p','Accepted '+stamp(proposal.accepted)+' by '+proposal.accepted_by));
   if(staff&&proposal.status==='draft'&&proposal.expires>Date.now()/1000&&proposal.id===p.proposals[0]?.id&&p.proposalPreparation?.id===proposal.id){
    const reviewed=proposal.id===p.proposalPreparation.id&&p.proposalPreparation.status==='Ready to publish';
    if(reviewed)a.append(el('p','Scope and terms reviewed. Ready to publish.','small'));
@@ -334,12 +427,13 @@ function render(){const p=current,root=$('project');root.replaceChildren();const
    const next=el('p');next.append(link);decisionActions.append(next);
   }
   if(!staff&&proposal.status==='published'&&proposal.expires>Date.now()/1000)proposalFeedbackForm(decisionActions,proposal);
-  renderProposalReview(a,proposal,p.reference);
+  renderProposalReview(decisionActions,proposal,p.reference);
   for(const request of p.tickets.filter(ticket=>ticket.proposalFeedback?.proposalId===proposal.id)){
    const link=el('a',request.subject+' · '+request.status);link.href='#ticket-'+request.id;
    const row=el('p');row.append(link);a.append(row);
   }
   proposals.append(a);}
+ observeProposalViews(p,viewHeadings);
  renderClientKickoff(p,root);
  const milestones=el('section');milestones.append(el('h2','Project milestones'));root.append(milestones);
  if(staff){const f=formBox(milestones,'Add or update a milestone',async()=>change('milestone',{id:id.value||undefined,title:title.value,due:due.value,status:status.value,notes:notes.value}));const id=field(f,'Milestone ID (leave blank to add)','id'),title=field(f,'Title','title'),due=field(f,'Target date','due','date'),status=field(f,'Status','status','text',['Planned','In progress','Ready for review','Approved','Complete']),notes=field(f,'Client-visible update','notes','textarea');title.required=true;title.maxLength=160;notes.maxLength=1500;}
@@ -357,7 +451,15 @@ if(staff){const ref=new URLSearchParams(location.search).get('reference')||'';$(
 $('refresh').addEventListener('click',()=>act(load,''));$('project-list').addEventListener('change',()=>act(loadProject,''));$('logout').addEventListener('click',()=>act(async()=>{await api(staff?'/api/admin/logout':prefix+'logout',{});clear();},'Signed out.'));
 if(!invite)act(async()=>{const state=await api(staff?'/api/admin/session':prefix+'session');if(state.authenticated)await enter(state);},'');
 
-window.addEventListener('hashchange',()=>{if(['#proposals','#support','#proposal-tracker'].includes(location.hash))document.querySelector(location.hash)?.scrollIntoView({block:'start'});});
+window.addEventListener('hashchange',()=>{
+ if(['#proposals','#support','#proposal-tracker'].includes(location.hash)){
+  $(location.hash.slice(1))?.scrollIntoView({block:'start'});
+ }else if(proposalAnchor.test(location.hash)&&(!linkedProject()||linkedProject()===current?.reference)){
+  const target=$(location.hash.slice(1));
+  target?.scrollIntoView({block:'start'});
+  target?.querySelector('h3')?.focus({preventScroll:true});
+ }
+});
 
 function proposalStamp(n){return new Date(n*1000).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'})+' IST';}
 async function downloadProposal(proposal){
@@ -365,12 +467,60 @@ async function downloadProposal(proposal){
  try{const response=await fetch(prefix+'proposal-pdf?'+new URLSearchParams({id:proposal.id}),{credentials:'same-origin',cache:'no-store',signal:controller.signal});if(!response.ok){const error=await response.json();if(response.status===401&&csrf===identity)clear();throw Error(error.error||'PDF download failed.');}const blob=await response.blob();if(!csrf||csrf!==identity)return;const url=URL.createObjectURL(blob),link=el('a');link.href=url;link.download='Bandevi-'+proposal.reference.replace(/[^a-zA-Z0-9_-]/g,'_')+'-revision-'+proposal.revision+'.pdf';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
  }finally{clearTimeout(timer);}
 }
+function followUpDraft(item){
+ const draft=el('details'), form=el('form');
+ draft.append(el('summary','Prepare follow-up draft'),form);
+ const subject=field(form,'Subject','subject');
+ subject.required=true;subject.value='Following up on your Bandevi proposal · revision '+item.revision;
+ const body=field(form,'Email message','body','textarea');
+ body.required=true;
+ const timing=item.expiresSoon
+  ?'The proposal is valid until '+proposalStamp(item.expires)+'. Please let us know if you need more time.'
+  :'I’m following up to make sure you have the proposal for review.';
+ body.value=['Hello,',timing,'Sign in to review this exact proposal revision, ask a question or book a proposal review.',
+  item.followUpLink,'Thank you,\nBandevi Global Group'].join('\n\n');
+ form.append(el('p','Review the message before opening it in your email app. You can send it from there.','muted'));
+ const reviewed=field(form,'I’ve reviewed the message','reviewed','checkbox');
+ reviewed.required=true;
+ const open=el('button','Open reviewed email draft');
+ open.type='submit';
+ form.append(open);
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  if(reviewed.checked){
+   location.href='mailto:'+encodeURIComponent(item.clientEmail).replace('%40','@')
+    +'?subject='+encodeURIComponent(subject.value)+'&body='+encodeURIComponent(body.value);
+  }
+ });
+ form.addEventListener('input',event=>{
+  if(event.target===subject||event.target===body)reviewed.checked=false;
+ });
+ return draft;
+}
+
+function trackerRow(item){
+ const row=el('article');
+ row.dataset.proposal=item.id;
+ row.append(el('h3',item.title+' · revision '+item.revision),el('p',item.projectTitle+' · '+item.reference),
+  el('p',item.clientEmail+' · Owner: '+(item.owner||'Unassigned')),
+  el('p',item.displayStatus+(item.expiresSoon?' · Expiring soon':'')+' · '+money(item)+' · Valid until '+proposalStamp(item.expires)));
+ if(item.published){
+  const emailStatus={pending:'Publication email queued',sent:'Publication email sent',cancelled:'Publication email cancelled'};
+  row.append(el('p',(emailStatus[item.emailStatus]||'No publication email status recorded')+' · '
+   +(item.firstView?'First workspace view '+proposalStamp(item.firstView):'No recorded workspace view'),'muted'));
+ }
+ const open=el('a','Open project & proposal');
+ open.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference})+'#proposal-'+item.id;
+ row.append(open,' ',button('Download proposal PDF',async()=>downloadProposal(item)));
+ if(item.followUpLink)row.append(followUpDraft(item));
+ return row;
+}
 async function loadTracker(){
  if(!staff||!csrf)return;const generation=++trackerGeneration,identity=csrf;$('proposal-message').textContent='Loading proposals…';
  try{const result=await api(prefix+'proposal-queue?'+new URLSearchParams({bucket:$('proposal-bucket').value,q:$('proposal-search').value.trim(),offset:String(trackerOffset)}));if(!csrf||csrf!==identity||generation!==trackerGeneration)return;
- const labels={drafts:'Drafts',awaiting:'Awaiting acceptance',expiring:'Expiring in 7 days',expired:'Expired',accepted:'Accepted'};
+ const labels={drafts:'Drafts',awaiting:'Awaiting acceptance',expiring:'Expiring in 7 days',unopened:'No recorded view',expired:'Expired',accepted:'Accepted'};
  $('proposal-counts').replaceChildren(...Object.entries(labels).map(([key,label])=>{const b=button(label+' · '+result.counts[key],async()=>{$('proposal-bucket').value=key;$('proposal-search').value='';trackerOffset=0;await loadTracker();});b.setAttribute('aria-pressed',String($('proposal-bucket').value===key));return b;}));
- $('proposal-rows').replaceChildren(...result.items.map(item=>{const row=el('article');row.dataset.proposal=item.id;row.append(el('h3',item.title+' · revision '+item.revision),el('p',item.projectTitle+' · '+item.reference),el('p',item.clientEmail+' · Owner: '+(item.owner||'Unassigned')),el('p',item.displayStatus+(item.expiresSoon?' · Expiring soon':'')+' · '+money(item)+' · Valid until '+proposalStamp(item.expires)));const open=el('a','Open project & proposal');open.href='/team-inbox/workspace/?'+new URLSearchParams({reference:item.reference})+'#proposals';row.append(open,' ',button('Download proposal PDF',async()=>downloadProposal(item)));return row;}));
+ $('proposal-rows').replaceChildren(...result.items.map(trackerRow));
  if(!result.items.length)$('proposal-rows').append(el('p','No proposals match this view.'));
  trackerTotal=result.total;$('proposal-total').textContent=result.total+' matching proposal revisions';$('proposal-page').textContent=result.total?(result.offset+1)+'-'+Math.min(result.offset+result.limit,result.total)+' of '+result.total:'0 proposals';$('proposal-previous').disabled=trackerOffset===0;$('proposal-next').disabled=trackerOffset+result.limit>=result.total;$('proposal-message').textContent='';
  }catch(error){if(csrf===identity&&generation===trackerGeneration)$('proposal-message').textContent=error.message;}
