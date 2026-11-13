@@ -12,7 +12,7 @@ permissions:
   contents: read
 jobs:
   buyer-clarity:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
@@ -45,7 +45,7 @@ jobs:
           path: qa-results/buyer-clarity/
           retention-days: 3
   public-navigation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
@@ -71,7 +71,7 @@ jobs:
           path: qa-results/public-navigation/
           retention-days: 3
   public-cross-browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
@@ -142,7 +142,7 @@ jobs:
             qa-results/public-finish/
           retention-days: 3
   public-site-search:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
@@ -185,7 +185,7 @@ jobs:
           path: qa-results/site-search/
           retention-days: 3
   public-project-shortlist:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -228,7 +228,7 @@ jobs:
           path: qa-results/project-shortlist/
           retention-days: 3
   public-brief-preview:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -265,7 +265,7 @@ jobs:
           path: qa-results/project-brief-preview/
           retention-days: 3
   public-project-readiness:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -308,7 +308,7 @@ jobs:
           path: qa-results/project-readiness/
           retention-days: 3
   public-brief-drafts:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -351,7 +351,7 @@ jobs:
           path: qa-results/project-brief-draft/
           retention-days: 3
   public-project-comparison:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -394,7 +394,7 @@ jobs:
           path: qa-results/project-comparison/
           retention-days: 3
   public-comparison-preview:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -441,7 +441,7 @@ jobs:
           path: qa-results/project-comparison-preview/
           retention-days: 3
   public-brief-quick-edit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -499,7 +499,7 @@ jobs:
             python3 -B "$suite"
           done
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
@@ -582,7 +582,7 @@ jobs:
           path: qa-results/
           retention-days: 3
   public-company-profile-preview:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
